@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_actions.dart';
-import 'package:pass_emploi_app/features/tracking/tracking_event_action.dart';
+import 'package:pass_emploi_app/features/tracking/tracking_evenement_engagement_action.dart';
 import 'package:pass_emploi_app/models/chat/sender.dart';
-import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
 import 'package:pass_emploi_app/presentation/chat/piece_jointe_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 
@@ -105,9 +105,9 @@ void main() {
     expect((store.dispatchedActions.first as PieceJointeFromUrlRequestAction).url, "url");
     expect((store.dispatchedActions.first as PieceJointeFromUrlRequestAction).fileId, "id");
     expect((store.dispatchedActions.first as PieceJointeFromUrlRequestAction).fileName, "file.pdf");
-    expect(store.dispatchedActions.last, isA<TrackingEventAction>());
-    expect(
-        (store.dispatchedActions.last as TrackingEventAction).event, EventType.PIECE_JOINTE_BENEFICIAIRE_TELECHARGEE);
+    expect(store.dispatchedActions.last, isA<TrackingEvenementEngagementAction>());
+    expect((store.dispatchedActions.last as TrackingEvenementEngagementAction).event,
+        EvenementEngagement.PIECE_JOINTE_BENEFICIAIRE_TELECHARGEE);
   });
 
   test("onDownloadTypeUrl should trigger proper action AND propagate événement d'engagement for conseiller pj", () {
@@ -123,8 +123,9 @@ void main() {
     expect((store.dispatchedActions.first as PieceJointeFromUrlRequestAction).url, "url");
     expect((store.dispatchedActions.first as PieceJointeFromUrlRequestAction).fileId, "id");
     expect((store.dispatchedActions.first as PieceJointeFromUrlRequestAction).fileName, "file.pdf");
-    expect(store.dispatchedActions.last, isA<TrackingEventAction>());
-    expect((store.dispatchedActions.last as TrackingEventAction).event, EventType.PIECE_JOINTE_CONSEILLER_TELECHARGEE);
+    expect(store.dispatchedActions.last, isA<TrackingEvenementEngagementAction>());
+    expect((store.dispatchedActions.last as TrackingEvenementEngagementAction).event,
+        EvenementEngagement.PIECE_JOINTE_CONSEILLER_TELECHARGEE);
   });
 
   test("onDownloadTypeUrl should not trigger action if file source is image preview", () {
@@ -165,9 +166,9 @@ void main() {
     expect(store.dispatchedActions.first, isA<PieceJointeFromIdRequestAction>());
     expect((store.dispatchedActions.first as PieceJointeFromIdRequestAction).fileId, "id");
     expect((store.dispatchedActions.first as PieceJointeFromIdRequestAction).fileName, "file.pdf");
-    expect(store.dispatchedActions.last, isA<TrackingEventAction>());
-    expect(
-        (store.dispatchedActions.last as TrackingEventAction).event, EventType.PIECE_JOINTE_BENEFICIAIRE_TELECHARGEE);
+    expect(store.dispatchedActions.last, isA<TrackingEvenementEngagementAction>());
+    expect((store.dispatchedActions.last as TrackingEvenementEngagementAction).event,
+        EvenementEngagement.PIECE_JOINTE_BENEFICIAIRE_TELECHARGEE);
   });
 
   test("onDownloadTypeId should trigger proper action AND propagate événement d'engagement for conseiller pj", () {
@@ -182,8 +183,9 @@ void main() {
     expect(store.dispatchedActions.first, isA<PieceJointeFromIdRequestAction>());
     expect((store.dispatchedActions.first as PieceJointeFromIdRequestAction).fileId, "id");
     expect((store.dispatchedActions.first as PieceJointeFromIdRequestAction).fileName, "file.pdf");
-    expect(store.dispatchedActions.last, isA<TrackingEventAction>());
-    expect((store.dispatchedActions.last as TrackingEventAction).event, EventType.PIECE_JOINTE_CONSEILLER_TELECHARGEE);
+    expect(store.dispatchedActions.last, isA<TrackingEvenementEngagementAction>());
+    expect((store.dispatchedActions.last as TrackingEvenementEngagementAction).event,
+        EvenementEngagement.PIECE_JOINTE_CONSEILLER_TELECHARGEE);
   });
 }
 

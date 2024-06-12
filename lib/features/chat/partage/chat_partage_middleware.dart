@@ -4,12 +4,12 @@ import 'package:pass_emploi_app/features/chat/partage/chat_partage_actions.dart'
 import 'package:pass_emploi_app/features/cvm/cvm_state.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
-import 'package:pass_emploi_app/features/tracking/tracking_event_action.dart';
+import 'package:pass_emploi_app/features/tracking/tracking_evenement_engagement_action.dart';
 import 'package:pass_emploi_app/models/chat/offre_partagee.dart';
 import 'package:pass_emploi_app/models/evenement_emploi_partage.dart';
 import 'package:pass_emploi_app/models/event_partage.dart';
 import 'package:pass_emploi_app/models/session_milo_partage.dart';
-import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_bridge.dart';
@@ -50,7 +50,7 @@ class ChatPartageMiddleware extends MiddlewareClass<AppState> {
             ? _sendCvmMessage("${offre.message}\n\n${offre.titre}\n↗ ${offre.url}")
             : _chatRepository.sendOffrePartagee(userId, offre);
       },
-      eventType: EventType.MESSAGE_OFFRE_PARTAGEE,
+      eventType: EvenementEngagement.MESSAGE_OFFRE_PARTAGEE,
     );
   }
 
@@ -62,7 +62,7 @@ class ChatPartageMiddleware extends MiddlewareClass<AppState> {
             ? _sendCvmMessage("${evenementEmploi.message}\n\n${evenementEmploi.titre}\n↗ ${evenementEmploi.url}")
             : _chatRepository.sendEvenementEmploiPartage(userId, evenementEmploi);
       },
-      eventType: EventType.EVENEMENT_EXTERNE_PARTAGE,
+      eventType: EvenementEngagement.EVENEMENT_EXTERNE_PARTAGE,
     );
   }
 
@@ -74,7 +74,7 @@ class ChatPartageMiddleware extends MiddlewareClass<AppState> {
             ? _sendCvmMessage("${eventPartage.message}\n\n${eventPartage.titre} le ${eventPartage.date.toDayAndHour()}")
             : _chatRepository.sendEventPartage(userId, eventPartage);
       },
-      eventType: EventType.ANIMATION_COLLECTIVE_PARTAGEE,
+      eventType: EvenementEngagement.ANIMATION_COLLECTIVE_PARTAGEE,
     );
   }
 
@@ -82,19 +82,19 @@ class ChatPartageMiddleware extends MiddlewareClass<AppState> {
     _partager(
       store: store,
       onPartage: () => _chatRepository.sendSessionMiloPartage(userId, sessionMilo),
-      eventType: EventType.MESSAGE_SESSION_MILO_PARTAGE,
+      eventType: EvenementEngagement.MESSAGE_SESSION_MILO_PARTAGE,
     );
   }
 
   void _partager({
     required Store<AppState> store,
     required Future<bool> Function() onPartage,
-    required EventType eventType,
+    required EvenementEngagement eventType,
   }) async {
     store.dispatch(ChatPartageLoadingAction());
     final succeed = await onPartage();
     if (succeed) {
-      store.dispatch(TrackingEventAction(eventType));
+      store.dispatch(TrackingEvenementEngagementAction(eventType));
       store.dispatch(ChatPartageSuccessAction());
     } else {
       store.dispatch(ChatPartageFailureAction());

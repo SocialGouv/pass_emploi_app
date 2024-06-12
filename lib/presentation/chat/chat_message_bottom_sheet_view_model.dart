@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
-import 'package:pass_emploi_app/features/tracking/tracking_event_action.dart';
+import 'package:pass_emploi_app/features/tracking/tracking_evenement_engagement_action.dart';
 import 'package:pass_emploi_app/models/chat/message.dart';
 import 'package:pass_emploi_app/models/chat/sender.dart';
-import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
@@ -32,14 +32,14 @@ class ChatMessageBottomSheetViewModel extends Equatable {
       content: message.content,
       onDelete: () {
         store.dispatch(DeleteMessageAction(message));
-        store.dispatch(TrackingEventAction(EventType.MESSAGE_SUPPRIME));
+        store.dispatch(TrackingEvenementEngagementAction(EvenementEngagement.MESSAGE_SUPPRIME));
       },
       withEditOption: _canEditMessage(message),
       withDeleteOption: _canDeleteMessage(message),
       withCopyOption: _canCopyMessage(message),
       onEdit: (content) {
         store.dispatch(EditMessageAction(message, content));
-        store.dispatch(TrackingEventAction(EventType.MESSAGE_MODIFIE));
+        store.dispatch(TrackingEvenementEngagementAction(EvenementEngagement.MESSAGE_MODIFIE));
       },
     );
   }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
-import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -62,7 +62,7 @@ class _EventCard extends StatelessWidget {
           stateSource: type == AccueilEvenementsType.sessionMilo
               ? RendezvousStateSource.accueilLesEvenementsSession
               : RendezvousStateSource.accueilLesEvenements,
-          trackedEvent: EventType.RDV_DETAIL,
+          trackedEvent: EvenementEngagement.RDV_DETAIL,
         ),
         SizedBox(height: Margins.spacing_base),
       ],

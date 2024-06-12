@@ -9,10 +9,10 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:redux/redux.dart';
 
-class TrackingSetupMiddleware extends MiddlewareClass<AppState> {
+class TrackingMatomoSetupMiddleware extends MiddlewareClass<AppState> {
   final PassEmploiMatomoTracker _tracker;
 
-  TrackingSetupMiddleware(this._tracker);
+  TrackingMatomoSetupMiddleware(this._tracker);
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next) {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_details_page.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_card_view_model.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
@@ -69,7 +69,7 @@ extension RendezvousCardFromId on String {
   Widget rendezvousCard({
     required BuildContext context,
     required RendezvousStateSource stateSource,
-    required EventType trackedEvent,
+    required EvenementEngagement trackedEvent,
   }) {
     return RendezvousCard(
       converter: (store) => RendezvousCardViewModel.create(store, stateSource, this),

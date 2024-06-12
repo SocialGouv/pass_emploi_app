@@ -8,7 +8,7 @@ import 'package:pass_emploi_app/models/chat/offre_partagee.dart';
 import 'package:pass_emploi_app/models/evenement_emploi_partage.dart';
 import 'package:pass_emploi_app/models/event_partage.dart';
 import 'package:pass_emploi_app/models/session_milo_partage.dart';
-import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 
@@ -21,14 +21,14 @@ import '../../dsl/sut_redux.dart';
 void main() {
   group('Partage with Firebase chat', () {
     final sut = StoreSut();
-    late MockTrackingEventRepository trackingEventRepository;
+    late MockEvenementEngagementRepository evenementEngagementRepository;
     late _MockChatRepository mockChatRepository;
 
     setUp(() {
-      trackingEventRepository = MockTrackingEventRepository();
-      registerFallbackValue(EventType.ANIMATION_COLLECTIVE_PARTAGEE);
+      evenementEngagementRepository = MockEvenementEngagementRepository();
+      registerFallbackValue(EvenementEngagement.ANIMATION_COLLECTIVE_PARTAGEE);
       when(
-        () => trackingEventRepository.sendEvent(
+        () => evenementEngagementRepository.send(
           userId: 'id',
           event: any(named: "event"),
           loginMode: LoginMode.MILO,
@@ -42,7 +42,7 @@ void main() {
           .store(
             (f) => {
               f.chatRepository = mockChatRepository,
-              f.trackingEventRepository = trackingEventRepository,
+              f.evenementEngagementRepository = evenementEngagementRepository,
             },
           );
     });
@@ -79,9 +79,9 @@ void main() {
         // Then
         sut.then(
           () => verify(
-            () => trackingEventRepository.sendEvent(
+            () => evenementEngagementRepository.send(
               userId: 'id',
-              event: EventType.ANIMATION_COLLECTIVE_PARTAGEE,
+              event: EvenementEngagement.ANIMATION_COLLECTIVE_PARTAGEE,
               loginMode: LoginMode.MILO,
               brand: Brand.cej,
             ),
@@ -122,9 +122,9 @@ void main() {
         // Then
         sut.then(
           () => verify(
-            () => trackingEventRepository.sendEvent(
+            () => evenementEngagementRepository.send(
               userId: 'id',
-              event: EventType.MESSAGE_OFFRE_PARTAGEE,
+              event: EvenementEngagement.MESSAGE_OFFRE_PARTAGEE,
               loginMode: LoginMode.MILO,
               brand: Brand.cej,
             ),
@@ -165,9 +165,9 @@ void main() {
         // Then
         sut.then(
           () => verify(
-            () => trackingEventRepository.sendEvent(
+            () => evenementEngagementRepository.send(
               userId: 'id',
-              event: EventType.EVENEMENT_EXTERNE_PARTAGE,
+              event: EvenementEngagement.EVENEMENT_EXTERNE_PARTAGE,
               loginMode: LoginMode.MILO,
               brand: Brand.cej,
             ),
@@ -208,9 +208,9 @@ void main() {
         // Then
         sut.then(
           () => verify(
-            () => trackingEventRepository.sendEvent(
+            () => evenementEngagementRepository.send(
               userId: 'id',
-              event: EventType.MESSAGE_SESSION_MILO_PARTAGE,
+              event: EvenementEngagement.MESSAGE_SESSION_MILO_PARTAGE,
               loginMode: LoginMode.MILO,
               brand: Brand.cej,
             ),
@@ -222,14 +222,14 @@ void main() {
 
   group('Partage with CVM chat', () {
     final sut = StoreSut();
-    late MockTrackingEventRepository trackingEventRepository;
+    late MockEvenementEngagementRepository evenementEngagementRepository;
     late MockCvmBridge cvmBridge;
 
     setUp(() {
-      trackingEventRepository = MockTrackingEventRepository();
-      registerFallbackValue(EventType.ANIMATION_COLLECTIVE_PARTAGEE);
+      evenementEngagementRepository = MockEvenementEngagementRepository();
+      registerFallbackValue(EvenementEngagement.ANIMATION_COLLECTIVE_PARTAGEE);
       when(
-        () => trackingEventRepository.sendEvent(
+        () => evenementEngagementRepository.send(
           userId: 'id',
           event: any(named: "event"),
           loginMode: LoginMode.POLE_EMPLOI,
@@ -244,7 +244,7 @@ void main() {
           .store(
             (f) => {
               f.cvmBridge = cvmBridge,
-              f.trackingEventRepository = trackingEventRepository,
+              f.evenementEngagementRepository = evenementEngagementRepository,
             },
           );
     });
@@ -285,9 +285,9 @@ void main() {
         // Then
         sut.then(
           () => verify(
-            () => trackingEventRepository.sendEvent(
+            () => evenementEngagementRepository.send(
               userId: 'id',
-              event: EventType.ANIMATION_COLLECTIVE_PARTAGEE,
+              event: EvenementEngagement.ANIMATION_COLLECTIVE_PARTAGEE,
               loginMode: LoginMode.POLE_EMPLOI,
               brand: Brand.cej,
             ),
@@ -332,9 +332,9 @@ void main() {
         // Then
         sut.then(
           () => verify(
-            () => trackingEventRepository.sendEvent(
+            () => evenementEngagementRepository.send(
               userId: 'id',
-              event: EventType.MESSAGE_OFFRE_PARTAGEE,
+              event: EvenementEngagement.MESSAGE_OFFRE_PARTAGEE,
               loginMode: LoginMode.POLE_EMPLOI,
               brand: Brand.cej,
             ),
@@ -379,9 +379,9 @@ void main() {
         // Then
         sut.then(
           () => verify(
-            () => trackingEventRepository.sendEvent(
+            () => evenementEngagementRepository.send(
               userId: 'id',
-              event: EventType.EVENEMENT_EXTERNE_PARTAGE,
+              event: EvenementEngagement.EVENEMENT_EXTERNE_PARTAGE,
               loginMode: LoginMode.POLE_EMPLOI,
               brand: Brand.cej,
             ),

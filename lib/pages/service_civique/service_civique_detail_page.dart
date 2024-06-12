@@ -6,7 +6,7 @@ import 'package:pass_emploi_app/features/service_civique/detail/service_civique_
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/service_civique/domain.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
-import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/service_civique/service_civique_detail_view_model.dart';
@@ -50,7 +50,7 @@ class ServiceCiviqueDetailPage extends StatelessWidget {
       child: StoreConnector<AppState, ServiceCiviqueDetailViewModel>(
         onInit: (store) => store.dispatch(GetServiceCiviqueDetailAction(idOffre)),
         onInitialBuild: (_) {
-          context.trackEvent(EventType.OFFRE_SERVICE_CIVIQUE_AFFICHEE);
+          context.trackEvent(EvenementEngagement.OFFRE_SERVICE_CIVIQUE_AFFICHEE);
         },
         converter: (store) => ServiceCiviqueDetailViewModel.create(store),
         builder: (context, viewModel) {
@@ -270,9 +270,9 @@ class ServiceCiviqueDetailPage extends StatelessWidget {
 
   void _shareOffer(BuildContext context) => context.trackEvent(_partagerEvent());
 
-  EventType _partagerEvent() => EventType.OFFRE_SERVICE_CIVIQUE_PARTAGEE;
+  EvenementEngagement _partagerEvent() => EvenementEngagement.OFFRE_SERVICE_CIVIQUE_PARTAGEE;
 
-  EventType _postulerEvent() => EventType.OFFRE_SERVICE_CIVIQUE_POSTULEE;
+  EvenementEngagement _postulerEvent() => EvenementEngagement.OFFRE_SERVICE_CIVIQUE_POSTULEE;
 
   Padding _incompleteDataFooter() {
     return Padding(

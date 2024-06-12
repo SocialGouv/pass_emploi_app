@@ -69,8 +69,8 @@ import 'package:pass_emploi_app/features/tech/action_logging_middleware.dart';
 import 'package:pass_emploi_app/features/tech/crashlytics_middleware.dart';
 import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_middleware.dart';
 import 'package:pass_emploi_app/features/top_demarche/top_demarche_middleware.dart';
-import 'package:pass_emploi_app/features/tracking/tracking_event_middleware.dart';
-import 'package:pass_emploi_app/features/tracking/tracking_setup_middleware.dart';
+import 'package:pass_emploi_app/features/tracking/tracking_evenement_engagement_middleware.dart';
+import 'package:pass_emploi_app/features/tracking/tracking_matomo_setup_middleware.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/create/pending/user_action_create_pending_middleware.dart';
@@ -116,6 +116,7 @@ import 'package:pass_emploi_app/repositories/diagoriente_metiers_favoris_reposit
 import 'package:pass_emploi_app/repositories/diagoriente_urls_repository.dart';
 import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_repository.dart';
+import 'package:pass_emploi_app/repositories/evenement_engagement/evenement_engagement_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
@@ -144,7 +145,6 @@ import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.da
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/thematiques_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/top_demarche_repository.dart';
-import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_pending_creation_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
@@ -181,7 +181,7 @@ class StoreFactory {
   final ImmersionDetailsRepository immersionDetailsRepository;
   final ChatSecurityRepository chatSecurityRepository;
   final FirebaseAuthWrapper firebaseAuthWrapper;
-  final TrackingEventRepository trackingEventRepository;
+  final EvenementEngagementRepository evenementEngagementRepository;
   final OffreEmploiAlerteRepository offreEmploiAlerteRepository;
   final ImmersionAlerteRepository immersionAlerteRepository;
   final ServiceCiviqueAlerteRepository serviceCiviqueAlerteRepository;
@@ -256,7 +256,7 @@ class StoreFactory {
     this.immersionDetailsRepository,
     this.chatSecurityRepository,
     this.firebaseAuthWrapper,
-    this.trackingEventRepository,
+    this.evenementEngagementRepository,
     this.offreEmploiAlerteRepository,
     this.immersionAlerteRepository,
     this.serviceCiviqueAlerteRepository,
@@ -348,8 +348,8 @@ class StoreFactory {
         ).call,
         SearchLocationMiddleware(searchLocationRepository).call,
         SearchMetierMiddleware(metierRepository).call,
-        TrackingEventMiddleware(trackingEventRepository).call,
-        TrackingSetupMiddleware(matomoTracker).call,
+        TrackingEvenementEngagementMiddleware(evenementEngagementRepository).call,
+        TrackingMatomoSetupMiddleware(matomoTracker).call,
         ImmersionDetailsMiddleware(immersionDetailsRepository).call,
         OffreEmploiAlerteCreateMiddleware(offreEmploiAlerteRepository).call,
         ImmersionAlerteCreateMiddleware(immersionAlerteRepository).call,

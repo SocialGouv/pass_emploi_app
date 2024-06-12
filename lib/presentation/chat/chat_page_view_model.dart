@@ -5,10 +5,10 @@ import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
 import 'package:pass_emploi_app/features/message_important/message_important_state.dart';
-import 'package:pass_emploi_app/features/tracking/tracking_event_action.dart';
+import 'package:pass_emploi_app/features/tracking/tracking_evenement_engagement_action.dart';
 import 'package:pass_emploi_app/models/chat/message.dart';
 import 'package:pass_emploi_app/models/chat/sender.dart';
-import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
 import 'package:pass_emploi_app/presentation/chat/chat_item.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -66,12 +66,12 @@ class ChatPageViewModel extends Equatable {
 }
 
 void _sendImage(Store<AppState> store, String imagePath) {
-  store.dispatch(TrackingEventAction(EventType.MESSAGE_ENVOYE_PJ));
+  store.dispatch(TrackingEvenementEngagementAction(EvenementEngagement.MESSAGE_ENVOYE_PJ));
   store.dispatch(SendImageAction(imagePath));
 }
 
 void _sendFile(Store<AppState> store, String filePath) {
-  store.dispatch(TrackingEventAction(EventType.MESSAGE_ENVOYE_PJ));
+  store.dispatch(TrackingEvenementEngagementAction(EvenementEngagement.MESSAGE_ENVOYE_PJ));
   store.dispatch(SendFileAction(filePath));
 }
 

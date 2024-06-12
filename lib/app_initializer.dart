@@ -60,6 +60,7 @@ import 'package:pass_emploi_app/repositories/diagoriente_metiers_favoris_reposit
 import 'package:pass_emploi_app/repositories/diagoriente_urls_repository.dart';
 import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_repository.dart';
+import 'package:pass_emploi_app/repositories/evenement_engagement/evenement_engagement_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
@@ -88,7 +89,6 @@ import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.da
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/thematiques_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/top_demarche_repository.dart';
-import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_pending_creation_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
@@ -228,7 +228,7 @@ class AppInitializer {
       ImmersionDetailsRepository(dioClient, crashlytics),
       ChatSecurityRepository(dioClient, crashlytics),
       FirebaseAuthWrapper(),
-      TrackingEventRepository(dioClient, crashlytics),
+      EvenementEngagementRepository(dioClient, crashlytics),
       OffreEmploiAlerteRepository(dioClient, crashlytics),
       ImmersionAlerteRepository(dioClient, crashlytics),
       ServiceCiviqueAlerteRepository(dioClient, crashlytics),

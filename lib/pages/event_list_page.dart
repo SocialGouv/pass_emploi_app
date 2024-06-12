@@ -3,7 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_actions.dart';
-import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/events/event_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
@@ -100,12 +100,12 @@ class _Content extends StatelessWidget {
                     final AnimationCollectiveId a => a.id.rendezvousCard(
                         context: context,
                         stateSource: RendezvousStateSource.eventListAnimationsCollectives,
-                        trackedEvent: EventType.ANIMATION_COLLECTIVE_AFFICHEE,
+                        trackedEvent: EvenementEngagement.ANIMATION_COLLECTIVE_AFFICHEE,
                       ),
                     final SessionMiloId s => s.id.rendezvousCard(
                         context: context,
                         stateSource: RendezvousStateSource.eventListSessionsMilo,
-                        trackedEvent: EventType.ANIMATION_COLLECTIVE_AFFICHEE,
+                        trackedEvent: EvenementEngagement.ANIMATION_COLLECTIVE_AFFICHEE,
                       ),
                   };
                 },
