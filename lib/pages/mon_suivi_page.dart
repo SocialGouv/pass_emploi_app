@@ -560,7 +560,7 @@ class _SessionMiloMonSuiviItem extends StatelessWidget {
     return entry.id.rendezvousCard(
       context: context,
       stateSource: RendezvousStateSource.monSuiviSessionMilo,
-      evenementEngagement: EvenementEngagement.RDV_DETAIL,
+      evenementEngagement: EvenementEngagement.SESSION_MILO_DETAIL,
     );
   }
 }
