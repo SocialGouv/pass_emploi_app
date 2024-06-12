@@ -1,9 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/tracking/tracking_evenement_engagement_action.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_state.dart';
 import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_type.dart';
+import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
 import 'package:pass_emploi_app/presentation/user_action/duplicate_form/duplicate_user_action_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_create_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
@@ -72,7 +74,7 @@ void main() {
     expect(viewModel.displayState, isA<DismissWithFailure>());
   });
 
-  test('duplicate should dispatch CreateUserAction', () {
+  test('duplicate should dispatch CreateUserAction and evenement engagement', () {
     // Given
     final store = StoreSpy.withState(
       givenState()
@@ -99,7 +101,10 @@ void main() {
     );
 
     // Then
-    expect(store.dispatchedAction, isA<UserActionCreateRequestAction>());
-    expect((store.dispatchedAction as UserActionCreateRequestAction).request, request);
+    expect(store.dispatchedActions.first, isA<UserActionCreateRequestAction>());
+    expect((store.dispatchedActions.first as UserActionCreateRequestAction).request, request);
+    expect(store.dispatchedActions.last, isA<TrackingEvenementEngagementAction>());
+    expect((store.dispatchedActions.last as TrackingEvenementEngagementAction).event,
+        EvenementEngagement.ACTION_DUPLIQUEE);
   });
 }
