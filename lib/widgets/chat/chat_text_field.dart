@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
 import 'package:pass_emploi_app/pages/credentials_page.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -112,7 +112,7 @@ class _ChatTextFieldState extends State<ChatTextField> {
                     if (widget.controller.value.text.isNotEmpty == true) {
                       widget.onSendMessage(widget.controller.value.text);
                       widget.controller.clear();
-                      context.trackEvent(EventType.MESSAGE_ENVOYE);
+                      context.trackEvenementEngagement(EvenementEngagement.MESSAGE_ENVOYE);
                     }
                   },
                 ),

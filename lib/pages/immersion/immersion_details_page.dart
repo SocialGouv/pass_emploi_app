@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_actions.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
-import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
 import 'package:pass_emploi_app/pages/immersion/immersion_contact_bottom_sheet.dart';
 import 'package:pass_emploi_app/pages/immersion/immersion_contact_form_bottom_sheet.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
@@ -57,7 +57,7 @@ class ImmersionDetailsPage extends StatelessWidget {
       child: StoreConnector<AppState, ImmersionDetailsViewModel>(
         onInit: (store) => store.dispatch(ImmersionDetailsRequestAction(_immersionId)),
         onInitialBuild: (_) {
-          context.trackEvent(EventType.OFFRE_IMMERSION_AFFICHEE);
+          context.trackEvenementEngagement(EvenementEngagement.OFFRE_IMMERSION_AFFICHEE);
         },
         onDispose: (store) => store.dispatch(ImmersionDetailsResetAction()),
         converter: (store) => ImmersionDetailsViewModel.create(store, platform),
@@ -207,7 +207,7 @@ class ImmersionDetailsPage extends StatelessWidget {
             label: cta.label,
             icon: cta.icon,
             onPressed: () {
-              context.trackEvent(cta.eventType);
+              context.trackEvenementEngagement(cta.eventType);
               launchExternalUrl(cta.uri.toString());
             },
           ),

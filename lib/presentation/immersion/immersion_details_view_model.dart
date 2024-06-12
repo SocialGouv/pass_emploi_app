@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/features/immersion/details/immersion_details_sta
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_contact.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
-import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
 import 'package:pass_emploi_app/presentation/call_to_action.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
@@ -177,14 +177,14 @@ List<CallToAction> _secondaryCallToActions(ImmersionDetails immersion, Platform 
         CallToAction(
           Strings.immersionEmailButton,
           UriHandler().mailUri(to: mail, subject: Strings.immersionEmailSubject),
-          EventType.OFFRE_IMMERSION_ENVOI_EMAIL,
+          EvenementEngagement.OFFRE_IMMERSION_ENVOI_EMAIL,
           icon: AppIcons.outgoing_mail,
         ),
       if (phone != null && phone.isNotEmpty)
         CallToAction(
           Strings.immersionLocationButton,
           UriHandler().mapsUri(immersion.address, platform),
-          EventType.OFFRE_IMMERSION_LOCALISATION,
+          EvenementEngagement.OFFRE_IMMERSION_LOCALISATION,
         ),
     ];
   } else {

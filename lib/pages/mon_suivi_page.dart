@@ -4,7 +4,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_actions.dart';
-import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_step1_page.dart';
 import 'package:pass_emploi_app/pages/demarche/demarche_detail_page.dart';
 import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_page.dart';
@@ -505,7 +505,7 @@ class _UserActionMonSuiviItem extends StatelessWidget {
       userActionId: entry.id,
       source: UserActionStateSource.monSuivi,
       onTap: () {
-        context.trackEvent(EventType.ACTION_DETAIL);
+        context.trackEvenementEngagement(EvenementEngagement.ACTION_DETAIL);
         Navigator.push(
           context,
           UserActionDetailPage.materialPageRoute(entry.id, UserActionStateSource.monSuivi),
@@ -525,7 +525,7 @@ class _DemarcheMonSuiviItem extends StatelessWidget {
     return DemarcheCard(
       demarcheId: entry.id,
       onTap: () {
-        context.trackEvent(EventType.ACTION_DETAIL);
+        context.trackEvenementEngagement(EvenementEngagement.ACTION_DETAIL);
         Navigator.push(
           context,
           DemarcheDetailPage.materialPageRoute(entry.id),
@@ -545,7 +545,7 @@ class _RendezvousMonSuiviItem extends StatelessWidget {
     return entry.id.rendezvousCard(
       context: context,
       stateSource: RendezvousStateSource.monSuivi,
-      trackedEvent: EventType.RDV_DETAIL,
+      evenementEngagement: EvenementEngagement.RDV_DETAIL,
     );
   }
 }
@@ -560,7 +560,7 @@ class _SessionMiloMonSuiviItem extends StatelessWidget {
     return entry.id.rendezvousCard(
       context: context,
       stateSource: RendezvousStateSource.monSuiviSessionMilo,
-      trackedEvent: EventType.RDV_DETAIL,
+      evenementEngagement: EvenementEngagement.RDV_DETAIL,
     );
   }
 }

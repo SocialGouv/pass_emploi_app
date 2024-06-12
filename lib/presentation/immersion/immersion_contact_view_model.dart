@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_state.dart';
 import 'package:pass_emploi_app/models/immersion_contact.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
-import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
 import 'package:pass_emploi_app/presentation/call_to_action.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -50,13 +50,13 @@ CallToAction _callToAction(ImmersionDetails immersion, Platform platform) {
     return CallToAction(
       Strings.immersionPhoneButton,
       UriHandler().phoneUri(contact!.phone),
-      EventType.OFFRE_IMMERSION_APPEL,
+      EvenementEngagement.OFFRE_IMMERSION_APPEL,
     );
   } else {
     return CallToAction(
       Strings.immersionLocationButton,
       UriHandler().mapsUri(immersion.address, platform),
-      EventType.OFFRE_IMMERSION_LOCALISATION,
+      EvenementEngagement.OFFRE_IMMERSION_LOCALISATION,
     );
   }
 }

@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_actions.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_state.dart';
-import 'package:pass_emploi_app/features/tracking/tracking_event_action.dart';
+import 'package:pass_emploi_app/features/tracking/tracking_evenement_engagement_action.dart';
 import 'package:pass_emploi_app/models/chat/sender.dart';
-import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
@@ -74,8 +74,8 @@ void _onDownloadTypeUrl(String url, String fileId, String fileName, PieceJointeS
 
 void _trackPieceJointeDownload(PieceJointeSource source, Store<AppState> store) {
   if (source is PieceJointeDownloadButtonSource) {
-    store.dispatch(TrackingEventAction(source.sender.isJeune
-        ? EventType.PIECE_JOINTE_BENEFICIAIRE_TELECHARGEE
-        : EventType.PIECE_JOINTE_CONSEILLER_TELECHARGEE));
+    store.dispatch(TrackingEvenementEngagementAction(source.sender.isJeune
+        ? EvenementEngagement.PIECE_JOINTE_BENEFICIAIRE_TELECHARGEE
+        : EvenementEngagement.PIECE_JOINTE_CONSEILLER_TELECHARGEE));
   }
 }

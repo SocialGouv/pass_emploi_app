@@ -1,21 +1,21 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/models/brand.dart';
-import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
-import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
+import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
+import 'package:pass_emploi_app/repositories/evenement_engagement/evenement_engagement_repository.dart';
 
 import '../../dsl/sut_dio_repository.dart';
 
 void main() {
-  final sut = DioRepositorySut<TrackingEventRepository>();
-  sut.givenRepository((client) => TrackingEventRepository(client));
+  final sut = DioRepositorySut<EvenementEngagementRepository>();
+  sut.givenRepository((client) => EvenementEngagementRepository(client));
 
-  group("sendEvent", () {
+  group("send", () {
     group('For CEJ brand', () {
       sut.when(
-        (repository) => repository.sendEvent(
+        (repository) => repository.send(
           userId: "userId",
-          event: EventType.MESSAGE_ENVOYE,
+          event: EvenementEngagement.MESSAGE_ENVOYE,
           loginMode: LoginMode.MILO,
           brand: Brand.cej,
         ),
@@ -51,9 +51,9 @@ void main() {
 
     group('For BRSA brand', () {
       sut.when(
-        (repository) => repository.sendEvent(
+        (repository) => repository.send(
           userId: "userId",
-          event: EventType.MESSAGE_ENVOYE,
+          event: EvenementEngagement.MESSAGE_ENVOYE,
           loginMode: LoginMode.POLE_EMPLOI,
           brand: Brand.brsa,
         ),

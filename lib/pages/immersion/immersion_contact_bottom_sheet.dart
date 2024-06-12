@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
-import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
 import 'package:pass_emploi_app/presentation/call_to_action.dart';
 import 'package:pass_emploi_app/presentation/immersion/immersion_contact_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -30,7 +30,7 @@ class ImmersionContactBottomSheet extends StatelessWidget {
     return Tracker(
       tracking: AnalyticsScreenNames.immersionContact,
       child: StoreConnector<AppState, ImmersionContactViewModel>(
-        onInitialBuild: (_) => context.trackEvent(EventType.OFFRE_IMMERSION_CONTACT_AFFICHEE),
+        onInitialBuild: (_) => context.trackEvenementEngagement(EvenementEngagement.OFFRE_IMMERSION_CONTACT_AFFICHEE),
         converter: (store) => ImmersionContactViewModel.create(store: store, platform: platform),
         builder: (context, viewModel) => _Content(viewModel.callToAction),
         distinct: true,
@@ -177,7 +177,7 @@ class _ContactButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return PrimaryActionButton(
       onPressed: () {
-        context.trackEvent(callToAction.eventType);
+        context.trackEvenementEngagement(callToAction.eventType);
         launchExternalUrl(callToAction.uri.toString());
       },
       label: callToAction.label,

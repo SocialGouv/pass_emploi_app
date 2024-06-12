@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/cv/cv_actions.dart';
 import 'package:pass_emploi_app/models/cv_pole_emploi.dart';
-import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
 import 'package:pass_emploi_app/presentation/cv/cv_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -140,7 +140,7 @@ class _CvListView extends StatelessWidget {
 
   void _downloadCv(BuildContext context, CvPoleEmploi cv) {
     viewModel.onDownload(cv);
-    context.trackEvent(EventType.CV_PE_TELECHARGE);
+    context.trackEvenementEngagement(EvenementEngagement.CV_PE_TELECHARGE);
   }
 }
 

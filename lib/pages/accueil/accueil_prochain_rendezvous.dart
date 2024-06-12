@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -30,7 +30,7 @@ class AccueilProchainRendezVous extends StatelessWidget {
         id.rendezvousCard(
           context: context,
           stateSource: stateSource,
-          trackedEvent: EventType.RDV_DETAIL,
+          evenementEngagement: EvenementEngagement.RDV_DETAIL,
         ),
       ],
     );

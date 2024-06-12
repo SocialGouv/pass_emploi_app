@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/immersion_contact.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
-import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
 import 'package:pass_emploi_app/presentation/call_to_action.dart';
 import 'package:pass_emploi_app/presentation/immersion/immersion_contact_view_model.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
@@ -47,7 +47,7 @@ void main() {
             CallToAction(
               'Localiser l\'entreprise',
               Uri.parse("geo:0,0?q=Address%201"),
-              EventType.OFFRE_IMMERSION_LOCALISATION,
+              EvenementEngagement.OFFRE_IMMERSION_LOCALISATION,
             ),
           );
         });
@@ -67,7 +67,7 @@ void main() {
             CallToAction(
               'Localiser l\'entreprise',
               Uri.parse("https://maps.apple.com/maps?q=Address+1"),
-              EventType.OFFRE_IMMERSION_LOCALISATION,
+              EvenementEngagement.OFFRE_IMMERSION_LOCALISATION,
             ),
           );
         });
@@ -93,7 +93,7 @@ void main() {
             CallToAction(
               'Localiser l\'entreprise',
               Uri.parse("geo:0,0?q=Address%201"),
-              EventType.OFFRE_IMMERSION_LOCALISATION,
+              EvenementEngagement.OFFRE_IMMERSION_LOCALISATION,
             ),
           );
         });
@@ -117,7 +117,7 @@ void main() {
             CallToAction(
               'Localiser l\'entreprise',
               Uri.parse("geo:0,0?q=Address%201"),
-              EventType.OFFRE_IMMERSION_LOCALISATION,
+              EvenementEngagement.OFFRE_IMMERSION_LOCALISATION,
             ),
           );
         });
@@ -141,7 +141,7 @@ void main() {
             CallToAction(
               'Appeler',
               Uri.parse("tel:0701020304"),
-              EventType.OFFRE_IMMERSION_APPEL,
+              EvenementEngagement.OFFRE_IMMERSION_APPEL,
             ),
           );
         });
@@ -183,7 +183,7 @@ void main() {
             CallToAction(
               'Appeler',
               Uri.parse("tel:0701020304"),
-              EventType.OFFRE_IMMERSION_APPEL,
+              EvenementEngagement.OFFRE_IMMERSION_APPEL,
             ),
           );
         });
@@ -209,7 +209,7 @@ void main() {
             CallToAction(
               'Localiser l\'entreprise',
               Uri.parse("geo:0,0?q=Address%201"),
-              EventType.OFFRE_IMMERSION_LOCALISATION,
+              EvenementEngagement.OFFRE_IMMERSION_LOCALISATION,
             ),
           );
         });

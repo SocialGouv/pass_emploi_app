@@ -6,7 +6,7 @@ import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_detai
 import 'package:pass_emploi_app/models/chat/message.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
-import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
 import 'package:pass_emploi_app/pages/chat/chat_partage_bottom_sheet.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/presentation/chat/chat_partage_page_view_model.dart';
@@ -67,7 +67,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
       child: StoreConnector<AppState, OffreEmploiDetailsPageViewModel>(
         onInit: (store) => store.dispatch(OffreEmploiDetailsRequestAction(_offreId)),
         onInitialBuild: (_) {
-          context.trackEvent(_offreAfficheeEvent());
+          context.trackEvenementEngagement(_offreAfficheeEvent());
         },
         converter: (store) => OffreEmploiDetailsPageViewModel.create(store),
         builder: (context, viewModel) => FavorisStateContext<OffreEmploi>(
@@ -441,18 +441,20 @@ class OffreEmploiDetailsPage extends StatelessWidget {
 
   void _applyToOffer(BuildContext context, String url) {
     launchExternalUrl(url);
-    context.trackEvent(_postulerEvent());
+    context.trackEvenementEngagement(_postulerEvent());
   }
 
-  void _shareOffer(BuildContext context) => context.trackEvent(_partagerEvent());
+  void _shareOffer(BuildContext context) => context.trackEvenementEngagement(_partagerEvent());
 
-  EventType _offreAfficheeEvent() {
-    return _fromAlternance ? EventType.OFFRE_ALTERNANCE_AFFICHEE : EventType.OFFRE_EMPLOI_AFFICHEE;
+  EvenementEngagement _offreAfficheeEvent() {
+    return _fromAlternance ? EvenementEngagement.OFFRE_ALTERNANCE_AFFICHEE : EvenementEngagement.OFFRE_EMPLOI_AFFICHEE;
   }
 
-  EventType _postulerEvent() => _fromAlternance ? EventType.OFFRE_ALTERNANCE_POSTULEE : EventType.OFFRE_EMPLOI_POSTULEE;
+  EvenementEngagement _postulerEvent() =>
+      _fromAlternance ? EvenementEngagement.OFFRE_ALTERNANCE_POSTULEE : EvenementEngagement.OFFRE_EMPLOI_POSTULEE;
 
-  EventType _partagerEvent() => _fromAlternance ? EventType.OFFRE_ALTERNANCE_PARTAGEE : EventType.OFFRE_EMPLOI_PARTAGEE;
+  EvenementEngagement _partagerEvent() =>
+      _fromAlternance ? EvenementEngagement.OFFRE_ALTERNANCE_PARTAGEE : EvenementEngagement.OFFRE_EMPLOI_PARTAGEE;
 }
 
 class _PartageOffre extends StatelessWidget {
