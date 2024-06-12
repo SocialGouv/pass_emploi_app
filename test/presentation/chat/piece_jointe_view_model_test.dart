@@ -127,7 +127,20 @@ void main() {
     expect((store.dispatchedActions.last as TrackingEventAction).event, EventType.PIECE_JOINTE_CONSEILLER_TELECHARGEE);
   });
 
-  test("onDownloadTypeUrl should not trigger action if file is image", () {
+  test("onDownloadTypeUrl should not trigger action if file source is image preview", () {
+    // Given
+    final store = StoreSpy();
+    final viewModel = PieceJointeViewModel.create(store, PieceJointeImagePreviewSource());
+
+    // When
+    viewModel.onDownloadTypeUrl("url", "id", "file.png");
+
+    // Then
+    expect(store.dispatchedActions.first, isA<PieceJointeFromUrlRequestAction>());
+    expect(store.dispatchedActions.length, 1);
+  });
+
+  test("onDownloadTypeUrl should trigger action if file source is button", () {
     // Given
     final store = StoreSpy();
     final viewModel = PieceJointeViewModel.create(store, PieceJointeDownloadButtonSource(sender: Sender.conseiller));
@@ -137,7 +150,7 @@ void main() {
 
     // Then
     expect(store.dispatchedActions.first, isA<PieceJointeFromUrlRequestAction>());
-    expect(store.dispatchedActions.length, 1);
+    expect(store.dispatchedActions.length, 2);
   });
 
   test("onDownloadTypeId should trigger proper action AND propagate événement d'engagement for jeune pj", () {
@@ -171,19 +184,6 @@ void main() {
     expect((store.dispatchedActions.first as PieceJointeFromIdRequestAction).fileName, "file.pdf");
     expect(store.dispatchedActions.last, isA<TrackingEventAction>());
     expect((store.dispatchedActions.last as TrackingEventAction).event, EventType.PIECE_JOINTE_CONSEILLER_TELECHARGEE);
-  });
-
-  test("onDownloadTypeId should not trigger action if file is image", () {
-    // Given
-    final store = StoreSpy();
-    final viewModel = PieceJointeViewModel.create(store, PieceJointeDownloadButtonSource(sender: Sender.conseiller));
-
-    // When
-    viewModel.onDownloadTypeId("id", "file.png");
-
-    // Then
-    expect(store.dispatchedActions.first, isA<PieceJointeFromIdRequestAction>());
-    expect(store.dispatchedActions.length, 1);
   });
 }
 
