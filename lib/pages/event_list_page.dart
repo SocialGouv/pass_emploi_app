@@ -105,7 +105,7 @@ class _Content extends StatelessWidget {
                     final SessionMiloId s => s.id.rendezvousCard(
                         context: context,
                         stateSource: RendezvousStateSource.eventListSessionsMilo,
-                        evenementEngagement: EvenementEngagement.SESSION_MILO_DETAIL,
+                        evenementEngagement: EvenementEngagement.SESSION_AFFICHEE,
                       ),
                   };
                 },
