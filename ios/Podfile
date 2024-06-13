@@ -34,7 +34,7 @@ target 'Runner' do
   use_frameworks!
   use_modular_headers!
   
-  pod 'BenedicteSDK', :git => 'git@gitlab.com:nicolasbrouillet/BenedicteSDK.git', :tag => '1.0.44'
+  pod 'BenedicteSDK', :git => 'git@gitlab.com:nicolasbrouillet/BenedicteSDK.git', :tag => '1.0.45'
   # Required to fix extremely long iOS build time issues [https://github.com/invertase/firestore-ios-sdk-frameworks]
   pod 'FirebaseFirestore', :git => 'https://github.com/invertase/firestore-ios-sdk-frameworks.git', :tag => '10.22.0'
   
