@@ -161,29 +161,10 @@ void main() {
             ));
       });
 
-      test('should display pass emploi login mode', () {
-        // Given
-        final store = givenState()
-            .copyWith(preferredLoginModeState: PreferredLoginModeSuccessState(LoginMode.PASS_EMPLOI))
-            .loggedInUser()
-            .store();
-
-        // When
-        final viewModel = LoginPageViewModel.create(store);
-
-        // Then
-        expect(
-            viewModel.preferredLoginMode,
-            PreferredLoginModeViewModel(
-              title: 'Pass Emploi',
-              logo: Drawables.passEmploiLogo,
-            ));
-      });
-
       test('should not display preferred login mode when brand is brsa', () {
         // Given
         final store = givenBrsaState()
-            .copyWith(preferredLoginModeState: PreferredLoginModeSuccessState(LoginMode.PASS_EMPLOI))
+            .copyWith(preferredLoginModeState: PreferredLoginModeSuccessState(LoginMode.MILO))
             .loggedInUser()
             .store();
 

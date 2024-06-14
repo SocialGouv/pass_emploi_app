@@ -56,7 +56,6 @@ void Function()? _onLogin(Store<AppState> store) {
   return switch (state.loginMode) {
     LoginMode.POLE_EMPLOI => () => store.dispatch(RequestLoginAction(LoginMode.POLE_EMPLOI)),
     LoginMode.MILO => () => store.dispatch(RequestLoginAction(LoginMode.MILO)),
-    LoginMode.PASS_EMPLOI => () => store.dispatch(RequestLoginAction(LoginMode.PASS_EMPLOI)),
     _ => null,
   };
 }
@@ -82,10 +81,6 @@ class PreferredLoginModeViewModel extends Equatable {
       LoginMode.MILO => PreferredLoginModeViewModel(
           title: Strings.loginBottomSeetMissionLocaleButton,
           logo: Drawables.missionLocaleLogo,
-        ),
-      LoginMode.PASS_EMPLOI => PreferredLoginModeViewModel(
-          title: Strings.loginBottomSeetPassEmploiButton,
-          logo: Drawables.passEmploiLogo,
         ),
       _ => null,
     };

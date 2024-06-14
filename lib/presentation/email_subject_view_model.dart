@@ -43,7 +43,6 @@ String _emailObjectPrefix(LoginState loginState) {
       LoginMode.POLE_EMPLOI => Strings.poleEmploi,
       LoginMode.DEMO_MILO => Strings.demoMilo,
       LoginMode.DEMO_PE => Strings.demoPe,
-      LoginMode.PASS_EMPLOI => Strings.passEmploi,
     };
   }
   return '';

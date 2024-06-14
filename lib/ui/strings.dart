@@ -71,7 +71,6 @@ class Strings {
   static const String poleEmploi = "France Travail";
   static const String demoMilo = "Demo Mission Locale";
   static const String demoPe = "Demo France Travail";
-  static const String passEmploi = "Pass Emploi";
 
   // Menu
   static String menuAccueil = "Accueil";
@@ -230,7 +229,6 @@ class Strings {
   // Login bottom sheet
   static const String loginBottomSeetFranceTravailButton = "France travail";
   static const String loginBottomSeetMissionLocaleButton = "Mission Locale";
-  static const String loginBottomSeetPassEmploiButton = "Pass Emploi";
   static const String loginBottomSeetNoOrganism = "Je ne suis inscrit à aucun de ces organismes";
 
   static const String loginBottomSeetTitlePage1 = "Sélectionnez l’organisme dont dépend votre conseiller CEJ : ";

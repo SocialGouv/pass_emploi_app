@@ -35,6 +35,6 @@ class TutorialMiddleware extends MiddlewareClass<AppState> {
   }
 
   bool _requestMiloTutorial(LoginMode loginMode) {
-    return [LoginMode.PASS_EMPLOI, LoginMode.MILO, LoginMode.DEMO_MILO].contains(loginMode);
+    return [LoginMode.MILO, LoginMode.DEMO_MILO].contains(loginMode);
   }
 }

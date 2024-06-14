@@ -41,7 +41,6 @@ void main() {
         // Then
         expect(viewModel.loginButtons, [
           LoginButtonViewModelPoleEmploi(store),
-          LoginButtonViewModelPassEmploi(store),
         ]);
       });
 
@@ -60,7 +59,6 @@ void main() {
         expect(viewModel.loginButtons, [
           LoginButtonViewModelPoleEmploi(store),
           LoginButtonViewModelMissionLocale(store),
-          LoginButtonViewModelPassEmploi(store),
         ]);
       });
 
@@ -78,19 +76,6 @@ void main() {
           LoginButtonViewModelPoleEmploi(store),
           LoginButtonViewModelMissionLocale(store),
         ]);
-      });
-
-      test('View model triggers RequestLoginAction with PASS_EMPLOI mode when pass emploi login is performed', () {
-        // Given
-        final store = StoreSpy();
-        final viewModel = LoginBottomSheetViewModel.create(store);
-
-        // When
-        viewModel.loginButtons[2].action();
-
-        // Then
-        expect(store.dispatchedAction, isA<RequestLoginAction>());
-        expect((store.dispatchedAction as RequestLoginAction).mode, LoginMode.PASS_EMPLOI);
       });
 
       test('View model triggers RequestLoginAction with POLE_EMPLOI mode when Pole Emploi login is performed', () {

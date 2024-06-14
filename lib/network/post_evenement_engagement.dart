@@ -74,7 +74,6 @@ extension on LoginMode {
     return switch (this) {
       LoginMode.MILO => 'MILO',
       LoginMode.POLE_EMPLOI => 'POLE_EMPLOI',
-      LoginMode.PASS_EMPLOI => 'PASS_EMPLOI',
       LoginMode.DEMO_PE => 'DEMO',
       LoginMode.DEMO_MILO => 'DEMO',
     };

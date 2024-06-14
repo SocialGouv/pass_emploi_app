@@ -98,7 +98,6 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
 
   AuthenticationMode _getAuthenticationMode(LoginMode mode) {
     return switch (mode) {
-      LoginMode.PASS_EMPLOI => AuthenticationMode.GENERIC,
       LoginMode.MILO => AuthenticationMode.SIMILO,
       LoginMode.POLE_EMPLOI => AuthenticationMode.POLE_EMPLOI,
       LoginMode.DEMO_MILO => AuthenticationMode.DEMO,

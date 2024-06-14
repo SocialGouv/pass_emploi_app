@@ -53,6 +53,6 @@ class EventListMiddleware extends MiddlewareClass<AppState> {
   }
 
   bool _shouldFetchSessions(LoginMode loginMode) {
-    return loginMode.isMiLo() && loginMode != LoginMode.PASS_EMPLOI;
+    return loginMode.isMiLo();
   }
 }
