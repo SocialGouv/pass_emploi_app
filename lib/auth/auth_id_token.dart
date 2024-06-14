@@ -7,7 +7,6 @@ const int _additionalExpirationSecuritySeconds = 15;
 enum LoginMode {
   MILO("MILO"),
   POLE_EMPLOI("POLE_EMPLOI"),
-  PASS_EMPLOI("PASS_EMPLOI"),
   DEMO_PE("DEMO_PE"),
   DEMO_MILO("DEMO_MILO");
 
@@ -25,7 +24,7 @@ extension LoginModeExtension on LoginMode? {
 
   bool isPe() => this == LoginMode.DEMO_PE || this == LoginMode.POLE_EMPLOI;
 
-  bool isMiLo() => this == LoginMode.DEMO_MILO || this == LoginMode.MILO || this == LoginMode.PASS_EMPLOI;
+  bool isMiLo() => this == LoginMode.DEMO_MILO || this == LoginMode.MILO;
 }
 
 class AuthIdToken extends Equatable {
@@ -88,7 +87,7 @@ class AuthIdToken extends Equatable {
   LoginMode getLoginMode() {
     if (loginMode == "MILO") return LoginMode.MILO;
     if (loginMode.contains("POLE_EMPLOI")) return LoginMode.POLE_EMPLOI;
-    return LoginMode.PASS_EMPLOI;
+    throw Exception("Unknown login mode");
   }
 }
 

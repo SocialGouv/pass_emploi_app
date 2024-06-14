@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/presentation/email_subject_view_model.dart';
 
-import '../doubles/fixtures.dart';
 import '../dsl/app_state_dsl.dart';
 
 void main() {
@@ -31,17 +30,6 @@ void main() {
           expect(
               viewModel.contactEmailObject, "France Travail - Prise de contact avec l’équipe de l’application du CEJ");
         });
-
-        test('should return expected email subject for login mode PASS_EMPLOI', () {
-          // Given
-          final store = givenState().copyWith(loginState: successPassEmploiUserState()).store();
-
-          // When
-          final viewModel = EmailObjectViewModel.create(store);
-
-          // Then
-          expect(viewModel.contactEmailObject, "Pass Emploi - Prise de contact avec l’équipe de l’application du CEJ");
-        });
       });
 
       group('when brand is BRSA', () {
@@ -67,18 +55,6 @@ void main() {
           // Then
           expect(viewModel.contactEmailObject,
               "France Travail - Prise de contact avec l’équipe de l’application pass emploi");
-        });
-
-        test('should return expected email subject for login mode PASS_EMPLOI', () {
-          // Given
-          final store = givenBrsaState().copyWith(loginState: successPassEmploiUserState()).store();
-
-          // When
-          final viewModel = EmailObjectViewModel.create(store);
-
-          // Then
-          expect(viewModel.contactEmailObject,
-              "Pass Emploi - Prise de contact avec l’équipe de l’application pass emploi");
         });
       });
     });
@@ -106,17 +82,6 @@ void main() {
           // Then
           expect(viewModel.ratingEmailObject, "France Travail - Mon avis sur l’application du CEJ");
         });
-
-        test('should return expected email subject for login mode PASS_EMPLOI', () {
-          // Given
-          final store = givenState().copyWith(loginState: successPassEmploiUserState()).store();
-
-          // When
-          final viewModel = EmailObjectViewModel.create(store);
-
-          // Then
-          expect(viewModel.ratingEmailObject, "Pass Emploi - Mon avis sur l’application du CEJ");
-        });
       });
 
       group('when brand is BRSA', () {
@@ -140,17 +105,6 @@ void main() {
 
           // Then
           expect(viewModel.ratingEmailObject, "France Travail - Mon avis sur l’application pass emploi");
-        });
-
-        test('should return expected email subject for login mode PASS_EMPLOI', () {
-          // Given
-          final store = givenBrsaState().copyWith(loginState: successPassEmploiUserState()).store();
-
-          // When
-          final viewModel = EmailObjectViewModel.create(store);
-
-          // Then
-          expect(viewModel.ratingEmailObject, "Pass Emploi - Mon avis sur l’application pass emploi");
         });
       });
     });

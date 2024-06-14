@@ -42,7 +42,6 @@ class LoginBottomSheetPage1 extends StatelessWidget {
     return switch (button) {
       LoginButtonViewModelPoleEmploi() => _FranceTravailLoginButton(onSelected: onSelected),
       LoginButtonViewModelMissionLocale() => _MissionLocaleLoginButton(onSelected: onSelected),
-      LoginButtonViewModelPassEmploi() => _PassEmploiLoginButton(onSelected: onSelected),
     };
   }
 }
@@ -80,28 +79,6 @@ class _MissionLocaleLoginButton extends StatelessWidget {
       ),
       onPressed: onSelected,
       label: Strings.loginBottomSeetMissionLocaleButton,
-      suffix: Icon(AppIcons.chevron_right_rounded),
-    );
-  }
-}
-
-class _PassEmploiLoginButton extends StatelessWidget {
-  const _PassEmploiLoginButton({required this.onSelected});
-  final void Function() onSelected;
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButtonTile(
-      leading: SizedBox(
-        width: 40,
-        height: 40,
-        child: Image.asset(
-          Drawables.passEmploiLogo,
-          fit: BoxFit.cover,
-        ),
-      ),
-      onPressed: onSelected,
-      label: Strings.loginBottomSeetPassEmploiButton,
       suffix: Icon(AppIcons.chevron_right_rounded),
     );
   }

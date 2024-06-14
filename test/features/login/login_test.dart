@@ -62,28 +62,8 @@ void main() {
   });
 
   group('On request login…', () {
-    group('with mode PASS_EMPLOI', () {
-      sut.whenDispatchingAction(() => RequestLoginAction(LoginMode.PASS_EMPLOI));
-
-      test('user is properly logged in with GENERIC authentication mode', () async {
-        // Given
-        when(() => authenticator.login(AuthenticationMode.GENERIC))
-            .thenAnswer((_) async => SuccessAuthenticatorResponse());
-        when(() => authenticator.idToken()).thenAnswer((_) async => authIdToken('---'));
-        sut.givenStore = givenState().store((f) {
-          f.authenticator = authenticator;
-          f.matomoTracker = matomoTracker;
-          f.preferredLoginModeRepository = preferredLoginModeRepository;
-        });
-
-        // Then
-        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldBeLoggedInWithMode(LoginMode.PASS_EMPLOI)]);
-        preferredLoginModeRepository.verifySaveCalled();
-      });
-    });
-
     group('with mode SIMILO', () {
-      sut.whenDispatchingAction(() => RequestLoginAction(LoginMode.PASS_EMPLOI));
+      sut.whenDispatchingAction(() => RequestLoginAction(LoginMode.MILO));
 
       test('user is properly logged in with SIMILO authentication mode', () async {
         // Given
@@ -123,7 +103,7 @@ void main() {
     });
 
     group('with mode POLE_EMPLOI in BRSA application', () {
-      sut.whenDispatchingAction(() => RequestLoginAction(LoginMode.PASS_EMPLOI));
+      sut.whenDispatchingAction(() => RequestLoginAction(LoginMode.POLE_EMPLOI));
 
       test('user is properly logged in with POLE_EMPLOI authentication mode', () async {
         // Given

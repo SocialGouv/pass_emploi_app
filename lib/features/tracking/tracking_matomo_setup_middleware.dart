@@ -50,7 +50,6 @@ class TrackingMatomoSetupMiddleware extends MiddlewareClass<AppState> {
     return switch (loginMode) {
       LoginMode.MILO => "Mission Locale",
       LoginMode.POLE_EMPLOI => "Pôle emploi",
-      LoginMode.PASS_EMPLOI => "pass emploi",
       LoginMode.DEMO_PE => "Mode demo",
       LoginMode.DEMO_MILO => "Mode demo",
     };

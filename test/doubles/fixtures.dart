@@ -117,14 +117,6 @@ DetailsJeune mockDetailsJeune({String idConseiller = "id", StructureMilo? struct
   );
 }
 
-LoginState successPassEmploiUserState() => LoginSuccessState(User(
-      id: "id",
-      firstName: "F",
-      lastName: "L",
-      email: null,
-      loginMode: LoginMode.PASS_EMPLOI,
-    ));
-
 AppState loggedInState() => AppState.initialState().copyWith(loginState: successMiloUserState());
 
 AppState loggedInMiloState() => AppState.initialState().copyWith(loginState: successMiloUserState());
