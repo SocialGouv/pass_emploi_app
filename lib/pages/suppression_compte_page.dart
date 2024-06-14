@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/profil/suppression_compte_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -13,6 +15,7 @@ import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/dialogs/delete_user_dialog.dart';
+import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 class SuppressionComptePage extends StatelessWidget {
@@ -27,6 +30,14 @@ class SuppressionComptePage extends StatelessWidget {
       child: StoreConnector<AppState, SuppressionCompteViewModel>(
         converter: (store) => SuppressionCompteViewModel.create(store),
         builder: (context, viewModel) => _scaffold(context, viewModel),
+        onDidChange: (_, newVM) {
+          if (newVM.displayState == DisplayState.FAILURE) {
+            showSnackBarWithSystemError(context, Strings.alerteDeleteError);
+          } else if (newVM.displayState == DisplayState.CONTENT) {
+            showAdaptiveDialog(context: context, builder: (_) => _DeleteAccountSuccessDialog());
+          }
+        },
+        distinct: true,
       ),
     );
   }
@@ -34,6 +45,8 @@ class SuppressionComptePage extends StatelessWidget {
   Widget _scaffold(BuildContext context, SuppressionCompteViewModel viewModel) {
     return Scaffold(
       appBar: SecondaryAppBar(title: Strings.suppressionPageTitle),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: _DeleteAccountButton(),
       body: _body(viewModel),
     );
   }
@@ -60,18 +73,13 @@ class SuppressionComptePage extends StatelessWidget {
           ),
         ),
       ),
-      Align(
-        alignment: Alignment.bottomCenter,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: Margins.spacing_xl, horizontal: Margins.spacing_base),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Expanded(child: _DeleteAccountButton()),
-            ],
+      if (viewModel.displayState == DisplayState.LOADING)
+        Container(
+          color: Colors.white.withOpacity(0.5),
+          child: Center(
+            child: CircularProgressIndicator(),
           ),
         ),
-      ),
     ]);
   }
 }
@@ -102,32 +110,59 @@ class _ListedItems extends StatelessWidget {
 class _DeleteAccountButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return PrimaryActionButton(
-      onPressed: () => _showDeleteDialog(context),
-      label: Strings.suppressionButtonLabel,
-      textColor: AppColors.warning,
-      fontSize: FontSizes.normal,
-      backgroundColor: AppColors.warningLighten,
-      disabledBackgroundColor: AppColors.warningLighten,
-      rippleColor: AppColors.warningLighten,
-      withShadow: false,
+    return SizedBox(
+      width: double.infinity,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
+        child: PrimaryActionButton(
+          onPressed: () => _showDeleteDialog(context),
+          label: Strings.suppressionButtonLabel,
+          textColor: AppColors.warning,
+          fontSize: FontSizes.normal,
+          backgroundColor: AppColors.warningLighten,
+          disabledBackgroundColor: AppColors.warningLighten,
+          rippleColor: AppColors.warningLighten,
+          withShadow: false,
+        ),
+      ),
     );
   }
 
-  void _showDeleteDialog(BuildContext context) async {
-    await showDialog(
-      context: context,
-      builder: (_) {
-        PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.suppressionAccountConfirmation);
-        return DeleteAlertDialog();
-      },
-    ).then((result) {
-      if (result == true) {
-        showSnackBarWithSuccess(context, Strings.accountDeletionSuccess);
-        PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.suppressionAccountSucceded);
-      } else if (result == false) {
-        showSnackBarWithSystemError(context, Strings.alerteDeleteError);
-      }
-    });
+  void _showDeleteDialog(BuildContext context) => showDialog(
+        context: context,
+        builder: (_) {
+          PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.suppressionAccountConfirmation);
+          return DeleteAlertDialog();
+        },
+      );
+}
+
+class _DeleteAccountSuccessDialog extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      titlePadding: EdgeInsets.all(Margins.spacing_m),
+      backgroundColor: Colors.white,
+      title: Column(
+        children: [
+          SizedBox.square(
+            dimension: 100,
+            child: Illustration.green(AppIcons.check_rounded),
+          ),
+          SizedBox(height: Margins.spacing_m),
+          Text(Strings.accountDeletionSuccess, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
+          SizedBox(height: Margins.spacing_m),
+        ],
+      ),
+      actions: [
+        SizedBox(
+          width: double.infinity,
+          child: PrimaryActionButton(
+            label: Strings.close,
+            onPressed: () => Navigator.pop(context),
+          ),
+        ),
+      ],
+    );
   }
 }

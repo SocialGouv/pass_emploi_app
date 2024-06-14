@@ -28,14 +28,6 @@ class _DeleteAlertDialogState extends State<DeleteAlertDialog> {
     return StoreConnector<AppState, SuppressionCompteViewModel>(
       converter: (store) => SuppressionCompteViewModel.create(store),
       builder: (context, viewModel) => _build(context, viewModel),
-      onDidChange: (_, newVM) {
-        if (newVM.displayState == DisplayState.FAILURE) {
-          Navigator.pop(context, false);
-        } else if (newVM.displayState == DisplayState.CONTENT) {
-          Navigator.pop(context, true);
-        }
-      },
-      distinct: true,
     );
   }
 
@@ -78,31 +70,32 @@ class _DeleteAlertDialogState extends State<DeleteAlertDialog> {
       actions: [
         Padding(
           padding: const EdgeInsets.only(left: Margins.spacing_m, right: Margins.spacing_m, bottom: Margins.spacing_m),
-          child: Row(
+          child: Wrap(
+            spacing: Margins.spacing_base,
             children: [
-              Expanded(
-                child: SecondaryButton(
-                  label: Strings.cancelLabel,
-                  fontSize: FontSizes.medium,
-                  onPressed: () => Navigator.pop(context),
-                ),
+              SecondaryButton(
+                label: Strings.cancelLabel,
+                fontSize: FontSizes.medium,
+                onPressed: () => Navigator.pop(context),
               ),
-              SizedBox(width: Margins.spacing_base),
-              Expanded(
-                child: ValueListenableBuilder<TextEditingValue>(
-                    valueListenable: _inputController,
-                    builder: (context, value, child) {
-                      return PrimaryActionButton(
-                        label: Strings.suppressionLabel,
-                        textColor: AppColors.warning,
-                        backgroundColor: AppColors.warningLighten,
-                        disabledBackgroundColor: AppColors.warningLighten,
-                        rippleColor: AppColors.warningLighten,
-                        withShadow: true,
-                        onPressed: _shouldActivateButton(viewModel) ? () => viewModel.onDeleteUser() : null,
-                      );
-                    }),
-              )
+              ValueListenableBuilder<TextEditingValue>(
+                  valueListenable: _inputController,
+                  builder: (context, value, child) {
+                    return PrimaryActionButton(
+                      label: Strings.suppressionLabel,
+                      textColor: AppColors.warning,
+                      backgroundColor: AppColors.warningLighten,
+                      disabledBackgroundColor: AppColors.warningLighten,
+                      rippleColor: AppColors.warningLighten,
+                      withShadow: true,
+                      onPressed: _shouldActivateButton(viewModel)
+                          ? () {
+                              viewModel.onDeleteUser();
+                              Navigator.pop(context);
+                            }
+                          : null,
+                    );
+                  })
             ],
           ),
         ),
