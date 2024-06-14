@@ -20,7 +20,7 @@ class SuppressionCompteMiddleware extends MiddlewareClass<AppState> {
       if (result) {
         store.dispatch(SuppressionCompteSuccessAction());
         // Wait some delay to ensure suppression state call success snack bar
-        await Future.delayed(Duration(milliseconds: 5));
+        await Future.delayed(Duration(milliseconds: 50));
         store.dispatch(RequestLogoutAction(LogoutReason.accountSuppression));
       } else {
         store.dispatch(SuppressionCompteFailureAction());
