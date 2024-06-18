@@ -43,7 +43,7 @@ class CvmRepository {
         }
 
         MatrixManager.sharedInstance.startMessageListener(room: room) { [weak self] events in
-            self?.onMessages?(events.map { $0.toJson() })
+            self?.onMessages?(events.applyReadEvents().map { $0.toJson() })
         }
         completion(true)
     }
@@ -150,5 +150,28 @@ private extension EventType {
         case .MEMBER:
             return "member"
         }
+    }
+}
+
+private extension Array where Element == Event {
+    func applyReadEvents() -> [Event] {
+        var map : Dictionary<String, Event> = [:]
+        for event in self {
+            if (event.eventType != .READ){
+              map[event.eventId] = event
+            }
+        }
+
+        for event in self {
+            if (event.eventType == .READ){
+              guard var eventToUpdate = map[event.eventId] else {
+                continue
+              }
+              eventToUpdate.readBy += event.readBy
+              map[event.eventId] = eventToUpdate
+            }
+        }
+
+        return Array(map.values)
     }
 }
