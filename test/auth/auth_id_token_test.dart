@@ -25,7 +25,7 @@ void main() {
       email: "",
       issuedAt: issuedAtTime.millisecondsSinceEpoch ~/ 1000,
       expiresAt: expiredIn30Minutes.millisecondsSinceEpoch ~/ 1000,
-      loginMode: 'MILO',
+      structure: 'MILO',
     );
     final isValid = token.isValid(now: now, maxLivingTimeInSeconds: maxLivingTimeInSeconds);
     expect(isValid, expected);

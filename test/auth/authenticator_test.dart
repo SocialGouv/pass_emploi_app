@@ -276,7 +276,7 @@ void main() {
           email: null,
           issuedAt: 1638874111,
           expiresAt: 1638874410,
-          loginMode: 'PASS_EMPLOI',
+          structure: 'PASS_EMPLOI',
         ));
   });
 
@@ -303,7 +303,7 @@ void main() {
           email: "jeune.milo.passemploi@gmail.com",
           issuedAt: 1644420849,
           expiresAt: 1644422649,
-          loginMode: 'MILO',
+          structure: 'MILO',
         ));
   });
 

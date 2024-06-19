@@ -18,9 +18,9 @@ enum RefreshTokenStatus { SUCCESSFUL, GENERIC_ERROR, USER_NOT_LOGGED_IN, NETWORK
 
 enum AuthenticationMode { GENERIC, SIMILO, POLE_EMPLOI, DEMO }
 
-const Map<String, String> similoAdditionalParams = {"kc_idp_hint": "similo-jeune"};
-const Map<String, String> poleEmploiCejAdditionalParams = {"kc_idp_hint": "pe-jeune"};
-const Map<String, String> poleEmploiBrsaAdditionalParams = {"kc_idp_hint": "pe-brsa-jeune"};
+const Map<String, String> similoParams = {"kc_idp_hint": "similo-jeune"};
+const Map<String, String> poleEmploiCejParams = {"kc_idp_hint": "pe-jeune"};
+const Map<String, String> poleEmploiBrsaParams = {"kc_idp_hint": "pe-brsa-jeune"};
 
 sealed class AuthenticatorResponse {}
 
@@ -130,10 +130,9 @@ class Authenticator {
   }
 
   Map<String, String>? _additionalParams(AuthenticationMode mode) {
-    if (mode == AuthenticationMode.SIMILO) return similoAdditionalParams;
-    if (mode == AuthenticationMode.POLE_EMPLOI && _configuration.brand.isCej) return poleEmploiCejAdditionalParams;
-    if (mode == AuthenticationMode.POLE_EMPLOI && _configuration.brand.isPassEmploi)
-      return poleEmploiBrsaAdditionalParams;
+    if (mode == AuthenticationMode.SIMILO) return similoParams;
+    if (mode == AuthenticationMode.POLE_EMPLOI && _configuration.brand.isCej) return poleEmploiCejParams;
+    if (mode == AuthenticationMode.POLE_EMPLOI && _configuration.brand.isPassEmploi) return poleEmploiBrsaParams;
     return null;
   }
 }

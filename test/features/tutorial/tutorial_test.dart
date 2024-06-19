@@ -49,7 +49,7 @@ void main() {
     final successState = store.onChange.firstWhere((e) => e.tutorialState is ShowTutorialState);
 
     // When
-    store.dispatch(LoginSuccessAction(mockedPoleEmploiUser()));
+    store.dispatch(LoginSuccessAction(mockedPoleEmploiCejUser()));
 
     // Then
     final successAppState = await successState;

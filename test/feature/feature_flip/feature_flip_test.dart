@@ -19,7 +19,7 @@ void main() {
 
     group("useCvm", () {
       group("when user is PE", () {
-        sut.whenDispatchingAction(() => LoginSuccessAction(mockedPoleEmploiUser()));
+        sut.whenDispatchingAction(() => LoginSuccessAction(mockedPoleEmploiCejUser()));
         group("and CVM generally enabled", () {
           test('should set useCvm to true', () {
             when(() => remoteConfigRepository.useCvm()).thenReturn(true);
@@ -90,7 +90,7 @@ void main() {
 
     group('use pj', () {
       group('when user is PE', () {
-        sut.whenDispatchingAction(() => LoginSuccessAction(mockedPoleEmploiUser()));
+        sut.whenDispatchingAction(() => LoginSuccessAction(mockedPoleEmploiCejUser()));
         test('should never use pj', () {
           // Given
           when(() => remoteConfigRepository.usePj()).thenReturn(true);

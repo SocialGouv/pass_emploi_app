@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/features/recherche/immersion/immersion_criteres_
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_filtres_recherche.dart';
+import 'package:pass_emploi_app/models/accompagnement.dart';
 import 'package:pass_emploi_app/models/accueil/accueil.dart';
 import 'package:pass_emploi_app/models/alerte/alerte.dart';
 import 'package:pass_emploi_app/models/alerte/evenement_emploi_alerte.dart';
@@ -73,12 +74,18 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import '../features/campagne/campagne_test.dart';
 import '../utils/test_datetime.dart';
 
-User mockUser({String id = "", LoginMode loginMode = LoginMode.MILO}) => User(
+User mockUser({
+  String id = "",
+  LoginMode loginMode = LoginMode.MILO,
+  Accompagnement accompagnement = Accompagnement.cej,
+}) =>
+    User(
       id: id,
       firstName: "",
       lastName: "",
       email: "",
       loginMode: loginMode,
+      accompagnement: accompagnement,
     );
 
 LoginState successMiloUserState({User? user}) => LoginSuccessState(user ?? mockedMiloUser());
@@ -90,18 +97,20 @@ User mockedMiloUser() {
     lastName: "L",
     email: "first.last@milo.fr",
     loginMode: LoginMode.MILO,
+    accompagnement: Accompagnement.cej,
   );
 }
 
-LoginState successPoleEmploiUserState() => LoginSuccessState(mockedPoleEmploiUser());
+LoginState successPoleEmploiUserState() => LoginSuccessState(mockedPoleEmploiCejUser());
 
-User mockedPoleEmploiUser() {
+User mockedPoleEmploiCejUser() {
   return User(
     id: "id",
     firstName: "F",
     lastName: "L",
     email: "first.last@pole-emploi.fr",
     loginMode: LoginMode.POLE_EMPLOI,
+    accompagnement: Accompagnement.cej,
   );
 }
 

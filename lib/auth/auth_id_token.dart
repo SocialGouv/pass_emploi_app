@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/accompagnement.dart';
 import 'package:pass_emploi_app/models/login_mode.dart';
 
 const int _additionalExpirationSecuritySeconds = 15;
-
 
 class AuthIdToken extends Equatable {
   final String userId;
@@ -13,7 +13,7 @@ class AuthIdToken extends Equatable {
   final String? email;
   final int issuedAt;
   final int expiresAt;
-  final String loginMode;
+  final String structure;
 
   AuthIdToken({
     required this.userId,
@@ -22,7 +22,7 @@ class AuthIdToken extends Equatable {
     required this.email,
     required this.issuedAt,
     required this.expiresAt,
-    required this.loginMode,
+    required this.structure,
   });
 
   factory AuthIdToken.parse(String idToken) {
@@ -45,7 +45,7 @@ class AuthIdToken extends Equatable {
       email: json["email"] as String?,
       issuedAt: json["iat"] as int,
       expiresAt: json["exp"] as int,
-      loginMode: json["userStructure"] as String,
+      structure: json["userStructure"] as String,
     );
   }
 
@@ -64,9 +64,17 @@ class AuthIdToken extends Equatable {
   List<Object?> get props => [userId, firstName, lastName, issuedAt, expiresAt];
 
   LoginMode getLoginMode() {
-    if (loginMode == "MILO") return LoginMode.MILO;
-    if (loginMode.contains("POLE_EMPLOI")) return LoginMode.POLE_EMPLOI;
-    throw Exception("Unknown login mode");
+    if (structure == 'MILO') return LoginMode.MILO;
+    if (structure.contains('POLE_EMPLOI')) return LoginMode.POLE_EMPLOI;
+    throw Exception('Unknown login mode');
+  }
+
+  Accompagnement getAccompagnement() {
+    return switch (structure) {
+      'POLE_EMPLOI_BRSA' => Accompagnement.rsa,
+      'POLE_EMPLOI_AIJ' => Accompagnement.aij,
+      _ => Accompagnement.cej,
+    };
   }
 }
 

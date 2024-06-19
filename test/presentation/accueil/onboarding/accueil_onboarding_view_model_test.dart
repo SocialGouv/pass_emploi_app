@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/onboarding/onboarding_actions.dart';
+import 'package:pass_emploi_app/models/accompagnement.dart';
 import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/models/user.dart';
@@ -21,6 +22,7 @@ void main() {
               lastName: "Dupont",
               loginMode: LoginMode.POLE_EMPLOI,
               email: "kenji.dupont@pe.fr",
+              accompagnement: Accompagnement.cej,
             ),
           ),
         )
