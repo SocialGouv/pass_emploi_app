@@ -1234,12 +1234,53 @@ MonSuivi mockMonSuivi({
   );
 }
 
-CvmMessage mockCvmTextMessage({String? id, String? content, DateTime? date, Sender? sentBy}) {
+CvmMessage mockCvmTextMessage({
+  String? id,
+  String? content,
+  DateTime? date,
+  Sender? sentBy,
+  bool? readByJeune,
+  bool? readByConseiller,
+}) {
   return CvmTextMessage(
     id: id ?? "id",
-    content: content ?? "content",
     date: date ?? DateTime(2032),
+    readByJeune: readByJeune ?? false,
+    content: content ?? "content",
     sentBy: sentBy ?? Sender.jeune,
+    readByConseiller: readByConseiller ?? false,
+  );
+}
+
+CvmMessage mockCvmFileMessage({
+  String? id,
+  DateTime? date,
+  bool? readByJeune,
+  Sender? sentBy,
+  String? url,
+  String? fileName,
+  String? fileId,
+}) {
+  return CvmFileMessage(
+    id: id ?? "id",
+    date: date ?? DateTime(2032),
+    readByJeune: readByJeune ?? false,
+    sentBy: sentBy ?? Sender.conseiller,
+    url: url ?? 'url',
+    fileName: fileName ?? 'fileName',
+    fileId: fileId ?? 'fileId',
+  );
+}
+
+CvmMessage mockCvmUnknownMessage({
+  String? id,
+  DateTime? date,
+  bool? readByJeune,
+}) {
+  return CvmUnknownMessage(
+    id: id ?? "id",
+    date: date ?? DateTime(2032),
+    readByJeune: readByJeune ?? false,
   );
 }
 

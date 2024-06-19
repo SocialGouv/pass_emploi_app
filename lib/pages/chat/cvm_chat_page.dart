@@ -51,12 +51,15 @@ class CvmChatPageState extends State<CvmChatPage> {
     return Tracker(
       tracking: AnalyticsScreenNames.cvmChat,
       child: StoreConnector<AppState, CvmChatPageViewModel>(
-        onInit: (store) => store.dispatch(CvmLastReadingAction()),
+        onInit: (store) => store.dispatch(CvmLastJeuneReadingAction()),
         onDispose: _onDispose,
         converter: CvmChatPageViewModel.create,
         builder: _builder,
         onInitialBuild: _handleOnboarding,
-        onDidChange: (_, __) => _isLoadingMorePast = false,
+        onDidChange: (_, __) {
+          StoreProvider.of<AppState>(context).dispatch(CvmLastJeuneReadingAction());
+          _isLoadingMorePast = false;
+        },
         distinct: true,
       ),
     );

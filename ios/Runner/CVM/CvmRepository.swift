@@ -43,7 +43,7 @@ class CvmRepository {
         }
 
         MatrixManager.sharedInstance.startMessageListener(room: room) { [weak self] events in
-            self?.onMessages?(events.map { $0.toJson() })
+            self?.onMessages?(events.applyReadEvents().map { $0.toJson() })
         }
         completion(true)
     }
@@ -70,6 +70,15 @@ class CvmRepository {
         
         MatrixManager.sharedInstance.loadMoreMessage(room: room, withPaginationSize: limit, completion: completion)
     }
+    
+    func markAsRead(_ eventId: String, completion: @escaping SuccessCompletion) {
+        guard let room = self.room else {
+            completion(false)
+            return
+        }
+        
+        MatrixManager.sharedInstance.markAsRead(room.id, eventId: eventId, completion: completion)
+    }
 
     func startListenRoom() {
         MatrixManager.sharedInstance.startRoomListener { [weak self] rooms in
@@ -95,7 +104,9 @@ private extension Event {
             "isFromUser": senderID == SessionManager.sharedInstance.userId,
             "message": message,
             "date": timestamp,
-            "fileInfo": attachmentID
+            "fileInfo": attachmentID,
+            "readByConseiller": readByConseiller(),
+            "readByJeune": readByJeune()
         ]
     }
 
@@ -104,6 +115,20 @@ private extension Event {
             return nil
         }
         return Int64((date.timeIntervalSince1970) * 1000)
+    }
+    
+    private func readByConseiller() -> Bool{
+        print("🚀🚀🚀 CvmRepository.swift#readByConseiller#message -> ", message)
+        print("🚀🚀🚀 CvmRepository.swift#readByConseiller#readBy -> ", readBy)
+        print("🚀🚀🚀 ----------")
+        return !readBy.filter({ $0 != SessionManager.sharedInstance.userId }).isEmpty
+    }
+    
+    private func readByJeune() -> Bool{
+        print("🚀🚀🚀 CvmRepository.swift#readByJeune#message -> ", message)
+        print("🚀🚀🚀 CvmRepository.swift#readByJeune#readBy -> ", readBy)
+        print("🚀🚀🚀 ----------")
+        return !readBy.filter({ $0 == SessionManager.sharedInstance.userId }).isEmpty
     }
 }
 
@@ -125,5 +150,28 @@ private extension EventType {
         case .MEMBER:
             return "member"
         }
+    }
+}
+
+private extension Array where Element == Event {
+    func applyReadEvents() -> [Event] {
+        var map : Dictionary<String, Event> = [:]
+        for event in self {
+            if (event.eventType != .READ){
+              map[event.eventId] = event
+            }
+        }
+
+        for event in self {
+            if (event.eventType == .READ){
+              guard var eventToUpdate = map[event.eventId] else {
+                continue
+              }
+              eventToUpdate.readBy += event.readBy
+              map[event.eventId] = eventToUpdate
+            }
+        }
+
+        return Array(map.values)
     }
 }

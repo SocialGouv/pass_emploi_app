@@ -96,7 +96,22 @@ class CvmBridge {
           .toList();
       _aggregator.addEvents(cvmEvents);
       Log.d('--- CvmBridge.getMessages ✅');
-      return _aggregator.getSortedEvents();
+      final sortedEvents = _aggregator.getSortedEvents();
+      final eventsReadByJeune = sortedEvents.where((e) => e.readByJeune);
+      if (eventsReadByJeune.isEmpty) Log.d('😎😎😎 CvmBridge readByJeune EMPTY');
+      for (var e in eventsReadByJeune) {
+        if (e is CvmTextMessage) Log.d('😎😎😎 CvmBridge readByJeune TEXT: ${e.content}');
+        if (e is CvmFileMessage) Log.d('😎😎😎 CvmBridge readByJeune FILE: ${e.fileName}');
+        if (e is CvmUnknownMessage) Log.d('😎😎😎 CvmBridge readByJeune UNKNOWN: ${e.id}');
+      }
+
+      final eventsReadByConseiller = sortedEvents.whereType<CvmTextMessage>().where((e) => e.readByConseiller);
+      if (eventsReadByConseiller.isEmpty) Log.d('😎😎😎 CvmBridge readByConseiller EMPTY');
+      for (var e in eventsReadByConseiller) {
+        Log.d('😎😎😎 CvmBridge readByConseiller TEXT: ${e.content}');
+      }
+
+      return sortedEvents;
     });
   }
 
@@ -113,5 +128,14 @@ class CvmBridge {
     Log.d('--- CvmBridge.loadMore…');
     await MethodChannel(_cvmMethodChannel).invokeMethod('loadMore', {'limit': _pageLimit});
     Log.d('--- CvmBridge.loadMore ✅');
+  }
+
+  Future<bool> markAsRead(String messageId) async {
+    Log.d('--- CvmBridge.markAsRead…');
+    final success = await MethodChannel(_cvmMethodChannel) //
+            .invokeMethod<bool>('markAsRead', {'eventId': messageId}) ??
+        false;
+    Log.d('--- CvmBridge.markAsRead: ${success ? '✅' : '❌'}');
+    return success;
   }
 }

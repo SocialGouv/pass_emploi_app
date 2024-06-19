@@ -39,6 +39,8 @@ class CvmMethodChannel {
             sendMessage(args: args, result: result)
         case "loadMore":
             loadMore(args: args, result: result)
+        case "markAsRead":
+            markAsRead(args: args, result: result)
         case "logout":
             logout(result: result)
         default:
@@ -109,6 +111,16 @@ class CvmMethodChannel {
         }
         repository.loadMore(limit: Int(truncatingIfNeeded: limit)) {
             result(true)
+        }
+    }
+    
+    private func markAsRead(args: Dictionary<String, Any>?, result: @escaping FlutterResult) {
+        guard let eventId = args?["eventId"] as? String else {
+            result(FlutterMethodNotImplemented)
+            return
+        }
+        repository.markAsRead(eventId) { success in
+            result(success)
         }
     }
 
