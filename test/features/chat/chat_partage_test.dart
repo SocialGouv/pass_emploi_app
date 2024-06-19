@@ -1,12 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/chat/partage/chat_partage_state.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/models/chat/offre_partagee.dart';
 import 'package:pass_emploi_app/models/evenement_emploi_partage.dart';
 import 'package:pass_emploi_app/models/event_partage.dart';
+import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/session_milo_partage.dart';
 import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';

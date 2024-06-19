@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/preferred_login_mode/preferred_login_mode_state.dart';
+import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/presentation/login_page_view_model.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 

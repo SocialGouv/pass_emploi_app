@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
 import 'package:pass_emploi_app/features/alerte/create/alerte_create_state.dart';
@@ -67,6 +66,7 @@ import 'package:pass_emploi_app/models/alerte/offre_emploi_alerte.dart';
 import 'package:pass_emploi_app/models/alerte/service_civique_alerte.dart';
 import 'package:pass_emploi_app/models/feature_flip.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
+import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/user.dart';

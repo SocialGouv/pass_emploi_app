@@ -1,9 +1,9 @@
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
+import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/repositories/campagne_recrutement_repository.dart';

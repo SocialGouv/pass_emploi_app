@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_actions.dart';
 import 'package:pass_emploi_app/models/location.dart';
+import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_emploi_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_immersion_page.dart';

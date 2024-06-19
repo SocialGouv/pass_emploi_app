@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/brand.dart';
+import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/network/json_encoder.dart';
 import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
 

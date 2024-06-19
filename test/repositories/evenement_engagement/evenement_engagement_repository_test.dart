@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/models/brand.dart';
+import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
 import 'package:pass_emploi_app/repositories/evenement_engagement/evenement_engagement_repository.dart';
 

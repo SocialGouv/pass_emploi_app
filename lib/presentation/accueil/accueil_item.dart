@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/models/alerte/alerte.dart';
 import 'package:pass_emploi_app/models/favori.dart';
+import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/outil.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 

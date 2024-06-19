@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/bootstrap/bootstrap_action.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
+import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';

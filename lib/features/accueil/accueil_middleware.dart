@@ -1,4 +1,3 @@
-import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
 import 'package:pass_emploi_app/features/alerte/create/alerte_create_actions.dart';
 import 'package:pass_emploi_app/features/alerte/delete/alerte_delete_actions.dart';
@@ -13,6 +12,7 @@ import 'package:pass_emploi_app/features/user_action/create/user_action_create_a
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/models/accueil/accueil.dart';
+import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/accueil_repository.dart';

@@ -1,6 +1,5 @@
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
 import 'package:pass_emploi_app/features/campagne_recrutement/campagne_recrutement_actions.dart';
@@ -9,6 +8,7 @@ import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/rating/rating_state.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
+import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';

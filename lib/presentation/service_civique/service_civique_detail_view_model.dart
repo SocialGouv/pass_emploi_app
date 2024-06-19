@@ -1,6 +1,6 @@
-import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_state.dart';
+import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';

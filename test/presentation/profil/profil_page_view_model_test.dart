@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_state.dart';
 import 'package:pass_emploi_app/features/developer_option/activation/developer_options_action.dart';
 import 'package:pass_emploi_app/features/developer_option/activation/developer_options_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
+import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/presentation/profil/profil_page_view_model.dart';
 

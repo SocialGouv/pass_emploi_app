@@ -1,5 +1,5 @@
-import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_actions.dart';
+import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';

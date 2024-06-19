@@ -1,4 +1,4 @@
-import 'package:pass_emploi_app/auth/auth_id_token.dart';
+import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/user.dart';
 
 enum LogoutReason { userLogout, apiResponse401, expiredRefreshToken, accountSuppression }
