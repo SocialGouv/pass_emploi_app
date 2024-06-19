@@ -9,9 +9,9 @@ import '../dsl/app_state_dsl.dart';
 
 void main() {
   group('EntreePageViewModel', () {
-    test('entree page view model should not display demander un compte when brand is BRSA', () {
+    test('entree page view model should not display demander un compte when brand is pass emploi', () {
       // Given
-      final store = givenBrsaState().store();
+      final store = givenPassEmploiState().store();
 
       // When
       final viewModel = LoginPageViewModel.create(store);
@@ -161,9 +161,9 @@ void main() {
             ));
       });
 
-      test('should not display preferred login mode when brand is brsa', () {
+      test('should not display preferred login mode when brand is pass emploi', () {
         // Given
-        final store = givenBrsaState()
+        final store = givenPassEmploiState()
             .copyWith(preferredLoginModeState: PreferredLoginModeSuccessState(LoginMode.MILO))
             .loggedInUser()
             .store();

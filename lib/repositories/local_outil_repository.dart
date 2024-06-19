@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/ui/external_links.dart';
 
 class LocalOutilRepository {
   List<Outil> getOutils(Brand brand) {
-    return switch (brand) { Brand.cej => _getOutilsCej(), Brand.brsa => _getOutilsBrsa() };
+    return switch (brand) { Brand.cej => _getOutilsCej(), Brand.passEmploi => _getOutilsBrsa() };
   }
 
   List<Outil> _getOutilsCej() {

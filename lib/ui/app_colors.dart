@@ -5,7 +5,7 @@ class AppColors {
   AppColors._();
 
   // Primary colors
-  static final Color primary = Brand.isBrsa() ? primaryDarken : Color(0xFF3B69D1);
+  static final Color primary = Brand.isPassEmploi() ? primaryDarken : Color(0xFF3B69D1);
   static const Color primaryDarken = Color(0xFF274996);
   static const Color primaryDarkenStrong = Color(0xFF172B5A);
   static const Color primaryLighten = Color(0xFFEEF1F8);

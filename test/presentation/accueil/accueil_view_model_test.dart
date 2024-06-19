@@ -197,9 +197,9 @@ void main() {
       );
     });
 
-    test('on BRSA app should highlight Diagoriente and Aides', () {
+    test('on pass emploi app should highlight Diagoriente and Aides', () {
       // Given
-      final store = givenBrsaState().loggedInPoleEmploiUser().withAccueilPoleEmploiSuccess().store();
+      final store = givenPassEmploiState().loggedInPoleEmploiUser().withAccueilPoleEmploiSuccess().store();
       final viewModel = AccueilViewModel.create(store);
 
       // When

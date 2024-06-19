@@ -149,7 +149,7 @@ AccueilItem? _outilsItem(AccueilSuccessState successState, Brand brand) {
         Outils.diagoriente.withoutImage(),
         Outils.aides.withoutImage(),
       ]),
-    Brand.brsa => AccueilOutilsItem([
+    Brand.passEmploi => AccueilOutilsItem([
         Outils.benevolatBrsa.withoutImage(),
         Outils.emploiSolidaire.withoutImage(),
         Outils.emploiStore.withoutImage(),

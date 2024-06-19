@@ -5,9 +5,9 @@ import 'package:pass_emploi_app/repositories/local_outil_repository.dart';
 void main() {
   final repository = LocalOutilRepository();
 
-  test('should return a list of outils when brand is BRSA', () {
+  test('should return a list of outils when brand is pass emploi', () {
     // When
-    final outilsBrsa = repository.getOutils(Brand.brsa);
+    final outilsBrsa = repository.getOutils(Brand.passEmploi);
 
     // Then
     expect(outilsBrsa.length, 5);

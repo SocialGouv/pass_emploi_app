@@ -13,9 +13,9 @@ import '../dsl/app_state_dsl.dart';
 void main() {
   group('LoginBottomSheetViewModel', () {
     group('loginButtons', () {
-      test("view model when brand is BRSA and flavor is prod should only display pole emploi button", () {
+      test("view model when brand is pass emploi and flavor is prod should only display pole emploi button", () {
         // Given
-        final store = givenState(configuration(flavor: Flavor.PROD, brand: Brand.brsa))
+        final store = givenState(configuration(flavor: Flavor.PROD, brand: Brand.passEmploi))
             .copyWith(loginState: UserNotLoggedInState())
             .store();
 
@@ -28,10 +28,9 @@ void main() {
         ]);
       });
 
-      test("view model when brand is BRSA and flavor is staging should display pole emploi and pass emploi buttons",
-          () {
+      test("view model when brand is pass emploi and flavor is staging should display pole emploi button", () {
         // Given
-        final store = givenState(configuration(flavor: Flavor.STAGING, brand: Brand.brsa))
+        final store = givenState(configuration(flavor: Flavor.STAGING, brand: Brand.passEmploi))
             .copyWith(loginState: UserNotLoggedInState())
             .store();
 

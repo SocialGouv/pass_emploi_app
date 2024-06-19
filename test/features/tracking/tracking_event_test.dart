@@ -52,13 +52,13 @@ void main() {
   test("Tracking event action should call repository with proper brand", () async {
     // Given
     final store =
-        givenBrsaState().loggedInPoleEmploiUser().store((f) => {f.evenementEngagementRepository = repository});
+        givenPassEmploiState().loggedInPoleEmploiUser().store((f) => {f.evenementEngagementRepository = repository});
     when(
       () => repository.send(
         userId: "id",
         event: EvenementEngagement.MESSAGE_ENVOYE,
         loginMode: LoginMode.POLE_EMPLOI,
-        brand: Brand.brsa,
+        brand: Brand.passEmploi,
       ),
     ).thenAnswer((_) async => true);
 
@@ -71,7 +71,7 @@ void main() {
         userId: "id",
         event: EvenementEngagement.MESSAGE_ENVOYE,
         loginMode: LoginMode.POLE_EMPLOI,
-        brand: Brand.brsa,
+        brand: Brand.passEmploi,
       ),
     ).called(1);
   });

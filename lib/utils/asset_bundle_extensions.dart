@@ -3,7 +3,7 @@ import 'package:pass_emploi_app/models/brand.dart';
 
 const _modeDemoGenericFolder = "assets/mode_demo/";
 const _modeDemoCejFolder = "assets/mode_demo/cej/";
-const _modeDemoBrsaFolder = "assets/mode_demo/brsa/";
+const _modeDemoPassEmploiFolder = "assets/mode_demo/brsa/";
 const _jsonExtension = ".json";
 
 extension AssetBundleExtensions on AssetBundle {
@@ -22,12 +22,10 @@ extension AssetBundleExtensions on AssetBundle {
   }
 
   String _getSpecificPathForBrand(String stringUrl) {
-    switch (Brand.brand) {
-      case Brand.cej:
-        return _modeDemoCejFolder + stringUrl + _jsonExtension;
-      case Brand.brsa:
-        return _modeDemoBrsaFolder + stringUrl + _jsonExtension;
-    }
+    return switch (Brand.brand) {
+      Brand.cej => _modeDemoCejFolder + stringUrl + _jsonExtension,
+      Brand.passEmploi => _modeDemoPassEmploiFolder + stringUrl + _jsonExtension
+    };
   }
 
   String _getPath(String stringUrl) => _modeDemoGenericFolder + stringUrl + _jsonExtension;

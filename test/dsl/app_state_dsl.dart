@@ -83,8 +83,8 @@ import '../utils/test_setup.dart';
 
 AppState givenState([Configuration? configuration]) => AppState.initialState(configuration: configuration);
 
-AppState givenBrsaState({Configuration? baseConfiguration}) {
-  return AppState.initialState(configuration: baseConfiguration ?? brsaConfiguration()).loggedInPoleEmploiUser();
+AppState givenPassEmploiState({Configuration? baseConfiguration}) {
+  return AppState.initialState(configuration: baseConfiguration ?? passEmploiConfiguration()).loggedInPoleEmploiUser();
 }
 
 extension AppStateDSL on AppState {

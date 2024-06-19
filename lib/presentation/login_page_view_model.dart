@@ -50,7 +50,7 @@ class LoginPageViewModel extends Equatable {
 }
 
 void Function()? _onLogin(Store<AppState> store) {
-  if (Brand.isBrsa()) return () => store.dispatch(RequestLoginAction(LoginMode.POLE_EMPLOI));
+  if (Brand.isPassEmploi()) return () => store.dispatch(RequestLoginAction(LoginMode.POLE_EMPLOI));
   final state = store.state.preferredLoginModeState;
   if (state is! PreferredLoginModeSuccessState) return null;
   return switch (state.loginMode) {
@@ -70,7 +70,7 @@ class PreferredLoginModeViewModel extends Equatable {
   });
 
   static PreferredLoginModeViewModel? create(Store<AppState> store) {
-    if (store.state.configurationState.getBrand().isBrsa) return null;
+    if (store.state.configurationState.getBrand().isPassEmploi) return null;
     final state = store.state.preferredLoginModeState;
     if (state is! PreferredLoginModeSuccessState) return null;
     return switch (state.loginMode) {

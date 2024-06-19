@@ -64,7 +64,7 @@ class EvenementEngagementEmetteur extends JsonSerializable {
   @override
   Map<String, dynamic> toJson() => {
         "type": 'JEUNE',
-        "structure": brand.isBrsa ? 'POLE_EMPLOI_BRSA' : loginMode.serialized(),
+        "structure": brand.isPassEmploi ? 'POLE_EMPLOI_BRSA' : loginMode.serialized(),
         "id": userId,
       };
 }

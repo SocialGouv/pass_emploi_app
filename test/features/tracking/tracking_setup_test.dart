@@ -41,9 +41,9 @@ void main() {
       verify(() => tracker.setDimension('matomoDimensionProduitId', 'CEJ')).called(1);
     });
 
-    test('in BRSA app should properly set brand dimension', () async {
+    test('in pass emploi app should properly set brand dimension', () async {
       // Given
-      final store = givenState(configuration(brand: Brand.brsa)) //
+      final store = givenState(configuration(brand: Brand.passEmploi)) //
           .store((f) => f.matomoTracker = tracker);
 
       // When

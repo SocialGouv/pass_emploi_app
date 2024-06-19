@@ -219,7 +219,7 @@ Configuration configuration(
   );
 }
 
-Configuration brsaConfiguration() => configuration(brand: Brand.brsa);
+Configuration passEmploiConfiguration() => configuration(brand: Brand.passEmploi);
 
 Location mockLocationParis() => Location(
       libelle: "Paris",

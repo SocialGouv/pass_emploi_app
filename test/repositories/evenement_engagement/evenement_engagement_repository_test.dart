@@ -49,13 +49,13 @@ void main() {
       });
     });
 
-    group('For BRSA brand', () {
+    group('For pass emploi brand', () {
       sut.when(
         (repository) => repository.send(
           userId: "userId",
           event: EvenementEngagement.MESSAGE_ENVOYE,
           loginMode: LoginMode.POLE_EMPLOI,
-          brand: Brand.brsa,
+          brand: Brand.passEmploi,
         ),
       );
 

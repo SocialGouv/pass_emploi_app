@@ -10,8 +10,8 @@ void main() {
 
   const cejPlayStoreUrl = 'market://details?id=fr.fabrique.social.gouv.passemploi';
   const cejAppleStoreUrl = 'itms-apps://itunes.apple.com/app/apple-store/id1581603519';
-  const brsaPlayStoreUrl = 'market://details?id=fr.fabrique.social.gouv.passemploi.rsa';
-  const brsaAppleStoreUrl = 'itms-apps://itunes.apple.com/app/apple-store/id6448051621';
+  const passEmploiPlayStoreUrl = 'market://details?id=fr.fabrique.social.gouv.passemploi.rsa';
+  const passEmploiAppleStoreUrl = 'itms-apps://itunes.apple.com/app/apple-store/id6448051621';
 
   group('ForceUpdateViewModel', () {
     const testCases = [
@@ -48,7 +48,7 @@ void main() {
         'expectedMessage': prodLabel,
       },
       {
-        'brand': Brand.brsa,
+        'brand': Brand.passEmploi,
         'platform': Platform.ANDROID,
         'flavor': Flavor.STAGING,
         'withCallToAction': false,
@@ -56,7 +56,7 @@ void main() {
         'expectedMessage': stagingLabel,
       },
       {
-        'brand': Brand.brsa,
+        'brand': Brand.passEmploi,
         'platform': Platform.IOS,
         'flavor': Flavor.STAGING,
         'withCallToAction': false,
@@ -64,19 +64,19 @@ void main() {
         'expectedMessage': stagingLabel,
       },
       {
-        'brand': Brand.brsa,
+        'brand': Brand.passEmploi,
         'platform': Platform.ANDROID,
         'flavor': Flavor.PROD,
         'withCallToAction': true,
-        'expectedUrl': brsaPlayStoreUrl,
+        'expectedUrl': passEmploiPlayStoreUrl,
         'expectedMessage': prodLabel,
       },
       {
-        'brand': Brand.brsa,
+        'brand': Brand.passEmploi,
         'platform': Platform.IOS,
         'flavor': Flavor.PROD,
         'withCallToAction': true,
-        'expectedUrl': brsaAppleStoreUrl,
+        'expectedUrl': passEmploiAppleStoreUrl,
         'expectedMessage': prodLabel,
       },
     ];

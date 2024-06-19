@@ -76,9 +76,9 @@ void main() {
       );
     });
 
-    test('on BRSA brand should set RechercheType to offre emploi and alternance', () {
+    test('on pass emploi brand should set RechercheType to offre emploi and alternance', () {
       // Given
-      final store = StoreSpy.withState(AppState.initialState(configuration: brsaConfiguration()));
+      final store = StoreSpy.withState(AppState.initialState(configuration: passEmploiConfiguration()));
       final viewModel = CriteresRechercheEmploiContenuViewModel.create(store);
 
       // When

@@ -132,7 +132,8 @@ class Authenticator {
   Map<String, String>? _additionalParams(AuthenticationMode mode) {
     if (mode == AuthenticationMode.SIMILO) return similoAdditionalParams;
     if (mode == AuthenticationMode.POLE_EMPLOI && _configuration.brand.isCej) return poleEmploiCejAdditionalParams;
-    if (mode == AuthenticationMode.POLE_EMPLOI && _configuration.brand.isBrsa) return poleEmploiBrsaAdditionalParams;
+    if (mode == AuthenticationMode.POLE_EMPLOI && _configuration.brand.isPassEmploi)
+      return poleEmploiBrsaAdditionalParams;
     return null;
   }
 }

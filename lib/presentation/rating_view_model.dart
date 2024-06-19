@@ -18,9 +18,9 @@ class RatingViewModel extends Equatable {
   });
 
   factory RatingViewModel.create(Store<AppState> store, Platform platform) {
-    final isBrsa = store.state.configurationState.getBrand().isBrsa;
+    final isPassEmploi = store.state.configurationState.getBrand().isPassEmploi;
     return RatingViewModel._(
-      shouldSendEmailOnNegativeRating: !(isBrsa && platform.isIos),
+      shouldSendEmailOnNegativeRating: !(isPassEmploi && platform.isIos),
       ratingEmailObject: EmailObjectViewModel.create(store).ratingEmailObject,
       onDone: () => store.dispatch(RatingDoneAction()),
     );

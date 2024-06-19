@@ -103,7 +103,7 @@ void main() {
       });
     });
 
-    group('with mode POLE_EMPLOI in BRSA application', () {
+    group('with mode POLE_EMPLOI in pass emploi application', () {
       sut.whenDispatchingAction(() => RequestLoginAction(LoginMode.POLE_EMPLOI));
 
       test('user is properly logged in with POLE_EMPLOI authentication mode', () async {

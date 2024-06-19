@@ -75,9 +75,9 @@ void main() {
       expect(await prefs.read(key: "refreshToken"), authTokenResponse().refreshToken);
     });
 
-    test('token is saved and returned when login on brand BRSA with POLE_EMPLOI mode is successful', () async {
+    test('token is saved and returned when login on brand pass emploi with POLE_EMPLOI mode is successful', () async {
       // Given
-      authenticator = Authenticator(wrapper, logoutRepository, configuration(brand: Brand.brsa), prefs);
+      authenticator = Authenticator(wrapper, logoutRepository, configuration(brand: Brand.passEmploi), prefs);
       when(() => wrapper.login(_tokenRequest(additionalParameters: {"kc_idp_hint": "pe-brsa-jeune"})))
           .thenAnswer((_) async => authTokenResponse());
 
@@ -128,7 +128,7 @@ void main() {
     test('isLoggedIn is TRUE when login is successful', () async {
       // Given
       final wrapper = MockAuthWrapper();
-      final authenticator = Authenticator(wrapper, logoutRepository, configuration(brand: Brand.brsa), prefs);
+      final authenticator = Authenticator(wrapper, logoutRepository, configuration(brand: Brand.passEmploi), prefs);
       when(() => wrapper.login(_tokenRequest())).thenAnswer((_) async =>
           AuthTokenResponse(accessToken: 'accessToken', idToken: realPassEmploiIdToken, refreshToken: 'refreshToken'));
 

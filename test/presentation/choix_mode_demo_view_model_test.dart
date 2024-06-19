@@ -8,9 +8,9 @@ import '../dsl/app_state_dsl.dart';
 
 void main() {
   group('ChoixModeDemoViewModel', () {
-    test('should not display milo mode button when brand is BRSA', () {
+    test('should not display milo mode button when brand is pass emploi', () {
       // Given
-      final store = givenBrsaState().store();
+      final store = givenPassEmploiState().store();
 
       // When
       final viewModel = ChoixModeDemoViewModel.create(store);
