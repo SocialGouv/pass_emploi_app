@@ -10,7 +10,7 @@ import '../../dsl/app_state_dsl.dart';
 void main() {
   test("create when state is loading should set display state to loading", () {
     // Given
-    final store = givenState().loggedInUser().serviceCiviqueDetailsLoading().store();
+    final store = givenState().loggedIn().serviceCiviqueDetailsLoading().store();
 
     // When
     final viewModel = ServiceCiviqueDetailViewModel.create(store);
@@ -21,7 +21,7 @@ void main() {
 
   test("create when state is not initialized should set display state to loading", () {
     // Given
-    final store = givenState().loggedInUser().serviceCiviqueDetailsNotInitialized().store();
+    final store = givenState().loggedIn().serviceCiviqueDetailsNotInitialized().store();
 
     // When
     final viewModel = ServiceCiviqueDetailViewModel.create(store);
@@ -33,7 +33,7 @@ void main() {
   test("create when state is success should set display state to content", () {
     // Given
     final ServiceCiviqueDetail detail = mockServiceCiviqueDetail();
-    final store = givenState().loggedInUser().serviceCiviqueDetailsSuccess(serviceCiviqueDetail: detail).store();
+    final store = givenState().loggedIn().serviceCiviqueDetailsSuccess(serviceCiviqueDetail: detail).store();
 
     // When
     final viewModel = ServiceCiviqueDetailViewModel.create(store);
@@ -45,7 +45,7 @@ void main() {
 
   test("create when state is error should display un error", () {
     // Given
-    final store = givenState().loggedInUser().serviceCiviqueDetailsFailure().store();
+    final store = givenState().loggedIn().serviceCiviqueDetailsFailure().store();
 
     // When
     final viewModel = ServiceCiviqueDetailViewModel.create(store);

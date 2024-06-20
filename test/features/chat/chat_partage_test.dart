@@ -38,7 +38,7 @@ void main() {
 
       mockChatRepository = _MockChatRepository();
       sut.givenStore = givenState() //
-          .loggedInUser()
+          .loggedIn()
           .store(
             (f) => {
               f.chatRepository = mockChatRepository,

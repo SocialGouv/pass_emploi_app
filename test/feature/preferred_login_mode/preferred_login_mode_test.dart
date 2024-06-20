@@ -22,7 +22,7 @@ void main() {
         when(() => repository.getPreferredMode()).thenAnswer((_) async => loginMode);
 
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .store((f) => {f.preferredLoginModeRepository = repository});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldSucceed(loginMode)]);

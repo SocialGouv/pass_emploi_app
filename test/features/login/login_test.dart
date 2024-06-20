@@ -201,7 +201,7 @@ void main() {
     test('user is logged out from authenticator and state is fully reset except for configuration', () async {
       // Given
       when(() => authenticator.logout('id', LogoutReason.apiResponse401)).thenAnswer((_) async => true);
-      final Store<AppState> store = givenState(configuration(flavor: Flavor.PROD)).loggedInUser().store((f) {
+      final Store<AppState> store = givenState(configuration(flavor: Flavor.PROD)).loggedIn().store((f) {
         f.authenticator = authenticator;
         f.matomoTracker = matomoTracker;
       });

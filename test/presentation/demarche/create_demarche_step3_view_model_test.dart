@@ -17,7 +17,7 @@ void main() {
     test('create when search state is not successful returns blank view model', () {
       // Given
       final store = givenState() //
-          .loggedInUser() //
+          .loggedIn() //
           .copyWith(searchDemarcheState: SearchDemarcheNotInitializedState()) //
           .store();
 
@@ -32,7 +32,7 @@ void main() {
     test('create when search state is successful but no demarche matches id returns blank view model', () {
       // Given
       final store = givenState() //
-          .loggedInUser() //
+          .loggedIn() //
           .searchDemarchesSuccess([mockDemarcheDuReferentiel('id-0')]) //
           .store();
 
@@ -48,7 +48,7 @@ void main() {
       // Given
       final demarche = mockDemarcheDuReferentiel('id');
       final store = givenState() //
-          .loggedInUser() //
+          .loggedIn() //
           .searchDemarchesSuccess([demarche]) //
           .store();
 
@@ -67,7 +67,7 @@ void main() {
       final demarche = mockDemarcheDuReferentiel('id');
 
       final store = givenState() //
-          .loggedInUser() //
+          .loggedIn() //
           .withThematiqueDemarcheSuccessState(demarches: [demarche]) //
           .store();
 
@@ -86,7 +86,7 @@ void main() {
       final demarche = mockDemarcheDuReferentiel('id');
 
       final store = givenState() //
-          .loggedInUser() //
+          .loggedIn() //
           .withTopDemarcheSuccessState(demarches: [demarche]) //
           .store();
 
@@ -103,7 +103,7 @@ void main() {
     // Given
     final demarche = mockDemarcheDuReferentiel('id', []);
     final store = givenState() //
-        .loggedInUser() //
+        .loggedIn() //
         .searchDemarchesSuccess([demarche]) //
         .store();
 
@@ -120,7 +120,7 @@ void main() {
     // Given
     final demarche = mockDemarcheDuReferentiel('id', [Comment(label: 'label1', code: 'code1')]);
     final store = givenState() //
-        .loggedInUser() //
+        .loggedIn() //
         .searchDemarchesSuccess([demarche]) //
         .store();
 
@@ -141,7 +141,7 @@ void main() {
       [Comment(label: 'label1', code: 'code1'), Comment(label: 'label2', code: 'code2')],
     );
     final store = givenState() //
-        .loggedInUser() //
+        .loggedIn() //
         .searchDemarchesSuccess([demarche]) //
         .store();
 
@@ -161,7 +161,7 @@ void main() {
     // Given
     final demarche = mockDemarcheDuReferentiel('id');
     final store = givenState() //
-        .loggedInUser() //
+        .loggedIn() //
         .searchDemarchesSuccess([demarche]) //
         .store();
 
@@ -175,7 +175,7 @@ void main() {
   test('create when create demarche state is loading', () {
     // Given
     final store = givenState() //
-        .loggedInUser() //
+        .loggedIn() //
         .searchDemarchesSuccess([(mockDemarcheDuReferentiel('id'))]) //
         .copyWith(createDemarcheState: CreateDemarcheLoadingState())
         .store();
@@ -190,7 +190,7 @@ void main() {
   test('create when create demarche state is failure', () {
     // Given
     final store = givenState() //
-        .loggedInUser() //
+        .loggedIn() //
         .searchDemarchesSuccess([(mockDemarcheDuReferentiel('id'))]) //
         .copyWith(createDemarcheState: CreateDemarcheFailureState())
         .store();
@@ -205,7 +205,7 @@ void main() {
   test('create when create demarche state is success should go back to demarches list', () {
     // Given
     final store = givenState() //
-        .loggedInUser() //
+        .loggedIn() //
         .searchDemarchesSuccess([(mockDemarcheDuReferentiel('id'))]) //
         .copyWith(createDemarcheState: CreateDemarcheSuccessState('DEMARCHE-ID'))
         .store();
@@ -221,7 +221,7 @@ void main() {
   test('onSearchDemarche should trigger action', () {
     // Given
     final demarche = mockDemarcheDuReferentiel('id');
-    final store = StoreSpy.withState(givenState().loggedInUser().searchDemarchesSuccess([demarche]));
+    final store = StoreSpy.withState(givenState().loggedIn().searchDemarchesSuccess([demarche]));
     final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id', RechercheDemarcheSource());
     final now = DateTime.now();
 

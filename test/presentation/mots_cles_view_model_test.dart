@@ -8,7 +8,7 @@ void main() {
   test('create view model without recherches recentes and without metiers favoris', () {
     // Given
     final store = givenState() //
-        .loggedInUser() //
+        .loggedIn() //
         .withRecentsSearches([]) //
         .withDiagorientePreferencesMetierSuccessState(metiersFavoris: []) //
         .store();
@@ -23,7 +23,7 @@ void main() {
   test('create view model with metiers favoris in alphabetic order', () {
     // Given
     final store = givenState() //
-        .loggedInUser() //
+        .loggedIn() //
         .withRecentsSearches([]) //
         .withDiagorientePreferencesMetierSuccessState(metiersFavoris: mockAutocompleteMetiers()) //
         .store();
@@ -44,7 +44,7 @@ void main() {
   test('create view model with both metiers favoris and recherches recentes', () {
     // Given
     final store = givenState() //
-        .loggedInUser() //
+        .loggedIn() //
         .withRecentsSearches(getMockedAlerte()) //
         .withDiagorientePreferencesMetierSuccessState(metiersFavoris: mockAutocompleteMetiers()) //
         .store();
@@ -67,7 +67,7 @@ void main() {
 
   test('create view model with 1 recherche recente', () {
     // Given
-    final store = givenState().loggedInUser().withRecentsSearches([
+    final store = givenState().loggedIn().withRecentsSearches([
       mockOffreEmploiAlerte(keyword: "chevalier"),
     ]).store();
     // When
@@ -83,7 +83,7 @@ void main() {
 
   test('create view model with many recherche recente should only take 3', () {
     // Given
-    final store = givenState().loggedInUser().withRecentsSearches([
+    final store = givenState().loggedIn().withRecentsSearches([
       mockOffreEmploiAlerte(keyword: "1"),
       mockOffreEmploiAlerte(keyword: "2"),
       mockOffreEmploiAlerte(keyword: "3"),
@@ -102,7 +102,7 @@ void main() {
 
   test('create view model with duplicated keywords in dernières recherches should remove them', () {
     // Given
-    final store = givenState().loggedInUser().withRecentsSearches([
+    final store = givenState().loggedIn().withRecentsSearches([
       mockOffreEmploiAlerte(keyword: "1"),
       mockOffreEmploiAlerte(keyword: "2"),
       mockOffreEmploiAlerte(keyword: "1"),
@@ -119,7 +119,7 @@ void main() {
 
   test('create view model with null keyword in dernières recherches should remove them', () {
     // Given
-    final store = givenState().loggedInUser().withRecentsSearches([
+    final store = givenState().loggedIn().withRecentsSearches([
       mockOffreEmploiAlerte(keyword: "1"),
       mockOffreEmploiAlerte(keyword: null),
       mockOffreEmploiAlerte(keyword: "2"),

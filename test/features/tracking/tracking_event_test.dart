@@ -25,7 +25,7 @@ void main() {
 
   test("Tracking event action should call repository", () async {
     // Given
-    final store = givenState().loggedInUser().store((f) => {f.evenementEngagementRepository = repository});
+    final store = givenState().loggedIn().store((f) => {f.evenementEngagementRepository = repository});
     when(
       () => repository.send(
         userId: "id",
@@ -78,8 +78,7 @@ void main() {
 
   test("Tracking event action not should call repository on demo mode", () async {
     // Given
-    final store =
-        givenState().loggedInUser().withDemoMode().store((f) => {f.evenementEngagementRepository = repository});
+    final store = givenState().loggedIn().withDemoMode().store((f) => {f.evenementEngagementRepository = repository});
 
     // When
     store.dispatch(TrackingEvenementEngagementAction(EvenementEngagement.MESSAGE_ENVOYE));

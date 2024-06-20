@@ -11,7 +11,7 @@ void main() {
     test('create when search state is not successful returns blank view model', () {
       // Given
       final store = givenState() //
-          .loggedInUser() //
+          .loggedIn() //
           .copyWith(searchDemarcheState: SearchDemarcheNotInitializedState()) //
           .store();
 
@@ -26,7 +26,7 @@ void main() {
     test('create when search state is successful but no demarche matches id returns blank view model', () {
       // Given
       final store = givenState() //
-          .loggedInUser() //
+          .loggedIn() //
           .searchDemarchesSuccess([mockDemarcheDuReferentiel('id-0')]) //
           .store();
 
@@ -41,7 +41,7 @@ void main() {
     test('create when search state is successful and demarche matches id', () {
       // Given
       final store = givenState() //
-          .loggedInUser() //
+          .loggedIn() //
           .searchDemarchesSuccess([mockDemarcheDuReferentiel('id')]) //
           .store();
 
@@ -58,7 +58,7 @@ void main() {
     test('create when thematique state is successful and demarche matches id', () {
       // Given
       final store = givenState() //
-          .loggedInUser() //
+          .loggedIn() //
           .withThematiqueDemarcheSuccessState(demarches: [mockDemarcheDuReferentiel('id')]) //
           .store();
 

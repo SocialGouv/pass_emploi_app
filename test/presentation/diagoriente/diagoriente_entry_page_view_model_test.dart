@@ -25,7 +25,7 @@ void main() {
     test('should be true when success state has favoris', () {
       // Given
       final store = givenState() //
-          .loggedInUser()
+          .loggedIn()
           .withDiagorientePreferencesMetierSuccessState(metiersFavoris: mockAutocompleteMetiers())
           .store();
 
@@ -39,7 +39,7 @@ void main() {
     test('should be false when success state does not have favoris', () {
       // Given
       final store = givenState() //
-          .loggedInUser()
+          .loggedIn()
           .withDiagorientePreferencesMetierSuccessState(metiersFavoris: []).store();
 
       // When
@@ -53,7 +53,7 @@ void main() {
   group('displayState', () {
     test('when diagoriente preferences metier state is not initialized should return initial', () {
       // Given
-      final store = givenState().loggedInUser().store();
+      final store = givenState().loggedIn().store();
 
       // When
       final viewModel = DiagorienteEntryPageViewModel.create(store);
@@ -64,7 +64,7 @@ void main() {
 
     test('when diagoriente preferences metier state is loading should display loading', () {
       // Given
-      final store = givenState().loggedInUser().withDiagorientePreferencesMetierLoadingState().store();
+      final store = givenState().loggedIn().withDiagorientePreferencesMetierLoadingState().store();
 
       // When
       final viewModel = DiagorienteEntryPageViewModel.create(store);
@@ -75,7 +75,7 @@ void main() {
 
     test('when diagoriente preferences metier state is failure should display failure', () {
       // Given
-      final store = givenState().loggedInUser().withDiagorientePreferencesMetierFailureState().store();
+      final store = givenState().loggedIn().withDiagorientePreferencesMetierFailureState().store();
 
       // When
       final viewModel = DiagorienteEntryPageViewModel.create(store);
@@ -86,7 +86,7 @@ void main() {
 
     test('when diagoriente preferences metier state is success should display chat bot page', () {
       // Given
-      final store = givenState().loggedInUser().withDiagorientePreferencesMetierSuccessState().store();
+      final store = givenState().loggedIn().withDiagorientePreferencesMetierSuccessState().store();
 
       // When
       final viewModel = DiagorienteEntryPageViewModel.create(store);

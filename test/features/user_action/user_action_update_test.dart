@@ -36,7 +36,7 @@ void main() {
         when(() => repository.updateUserAction('id', mockUserActionUpdateRequest())).thenAnswer((_) async => false);
 
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .store((f) => {f.userActionRepository = repository});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);

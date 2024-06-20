@@ -85,7 +85,7 @@ void main() {
 
     test('View model displays content when login state is logged in', () {
       // Given
-      final store = givenState().loggedInUser().store();
+      final store = givenState().loggedIn().store();
 
       // When
       final viewModel = LoginPageViewModel.create(store);
@@ -100,9 +100,7 @@ void main() {
       test('should not display preferred login mode when state is not success', () {
         // Given
         final store = givenState()
-            .copyWith(preferredLoginModeState: PreferredLoginModeNotInitializedState())
-            .loggedInUser()
-            .store();
+            .copyWith(preferredLoginModeState: PreferredLoginModeNotInitializedState()).loggedIn().store();
 
         // When
         final viewModel = LoginPageViewModel.create(store);
@@ -114,7 +112,7 @@ void main() {
       test('should not display preferred login mode when state is success but login mode is null', () {
         // Given
         final store =
-            givenState().copyWith(preferredLoginModeState: PreferredLoginModeSuccessState(null)).loggedInUser().store();
+            givenState().copyWith(preferredLoginModeState: PreferredLoginModeSuccessState(null)).loggedIn().store();
 
         // When
         final viewModel = LoginPageViewModel.create(store);
@@ -127,7 +125,7 @@ void main() {
         // Given
         final store = givenState()
             .copyWith(preferredLoginModeState: PreferredLoginModeSuccessState(LoginMode.POLE_EMPLOI))
-            .loggedInUser()
+            .loggedIn()
             .store();
 
         // When
@@ -146,7 +144,7 @@ void main() {
         // Given
         final store = givenState()
             .copyWith(preferredLoginModeState: PreferredLoginModeSuccessState(LoginMode.MILO))
-            .loggedInUser()
+            .loggedIn()
             .store();
 
         // When
@@ -165,7 +163,7 @@ void main() {
         // Given
         final store = givenPassEmploiState()
             .copyWith(preferredLoginModeState: PreferredLoginModeSuccessState(LoginMode.MILO))
-            .loggedInUser()
+            .loggedIn()
             .store();
 
         // When

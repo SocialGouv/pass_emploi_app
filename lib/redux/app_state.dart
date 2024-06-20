@@ -61,6 +61,7 @@ import 'package:pass_emploi_app/features/user_action/create/user_action_create_s
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
 import 'package:pass_emploi_app/features/user_action/details/user_action_details_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
+import 'package:pass_emploi_app/models/accompagnement.dart';
 import 'package:pass_emploi_app/models/alerte/immersion_alerte.dart';
 import 'package:pass_emploi_app/models/alerte/offre_emploi_alerte.dart';
 import 'package:pass_emploi_app/models/alerte/service_civique_alerte.dart';
@@ -522,6 +523,8 @@ extension AppStateUser on AppState {
   bool isMiloLoginMode() => user()?.loginMode.isMiLo() ?? false;
 
   bool isPeLoginMode() => user()?.loginMode.isPe() ?? false;
+
+  Accompagnement accompagnement() => user()?.accompagnement ?? Accompagnement.cej;
 
   String? userId() => user()?.id;
 }

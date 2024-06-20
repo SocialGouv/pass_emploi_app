@@ -25,7 +25,7 @@ void main() {
             when(() => remoteConfigRepository.useCvm()).thenReturn(true);
 
             sut.givenStore = givenState() //
-                .loggedInUser()
+                .loggedIn()
                 .store((f) => {f.remoteConfigRepository = remoteConfigRepository});
 
             sut.thenExpectAtSomePoint(_shouldHaveUseCvmValue(true));
@@ -40,7 +40,7 @@ void main() {
                 .thenAnswer((_) async => mockDetailsJeune(idConseiller: "id-conseiller-ea"));
 
             sut.givenStore = givenState() //
-                .loggedInUser()
+                .loggedIn()
                 .store(
                   (f) => {
                     f.remoteConfigRepository = remoteConfigRepository,
@@ -60,7 +60,7 @@ void main() {
                 .thenAnswer((_) async => mockDetailsJeune(idConseiller: "id-conseiller"));
 
             sut.givenStore = givenState() //
-                .loggedInUser()
+                .loggedIn()
                 .store(
                   (f) => {
                     f.remoteConfigRepository = remoteConfigRepository,
@@ -80,7 +80,7 @@ void main() {
           when(() => remoteConfigRepository.useCvm()).thenReturn(true);
 
           sut.givenStore = givenState() //
-              .loggedInUser()
+              .loggedIn()
               .store((f) => {f.remoteConfigRepository = remoteConfigRepository});
 
           sut.thenExpectNever(_shouldHaveUseCvmValue(true));
@@ -97,7 +97,7 @@ void main() {
 
           // When
           sut.givenStore = givenState() //
-              .loggedInUser()
+              .loggedIn()
               .store((f) => {f.remoteConfigRepository = remoteConfigRepository});
 
           // Then
@@ -113,7 +113,7 @@ void main() {
 
           // When
           sut.givenStore = givenState() //
-              .loggedInUser()
+              .loggedIn()
               .store((f) => {f.remoteConfigRepository = remoteConfigRepository});
 
           // Then
@@ -129,7 +129,7 @@ void main() {
 
           // When
           sut.givenStore = givenState() //
-              .loggedInUser()
+              .loggedIn()
               .store(
                 (f) => {
                   f.remoteConfigRepository = remoteConfigRepository,
@@ -150,7 +150,7 @@ void main() {
 
           // When
           sut.givenStore = givenState() //
-              .loggedInUser()
+              .loggedIn()
               .store(
                 (f) => {
                   f.remoteConfigRepository = remoteConfigRepository,
@@ -171,7 +171,7 @@ void main() {
         when(() => remoteConfigRepository.useCvm()).thenReturn(true);
 
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .withFeatureFlip(useCvm: true)
             .store((f) => {f.remoteConfigRepository = remoteConfigRepository});
 

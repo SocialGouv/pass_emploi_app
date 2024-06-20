@@ -30,7 +30,7 @@ void main() {
   });
 
   test('…with login initialized and onboarding not initialized should display splash screen', () {
-    final store = givenState().loggedInUser().withFirstLaunchNotInitializedState().store();
+    final store = givenState().loggedIn().withFirstLaunchNotInitializedState().store();
 
     final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
@@ -108,7 +108,7 @@ void main() {
   group("RouterPageViewModel.create when user logged in…", () {
     test('…with first launch onboarding should not display onboarding page', () {
       final store = givenState() //
-          .loggedInUser()
+          .loggedIn()
           .withFirstLaunchOnboardingSuccessState(true)
           .store();
 
@@ -119,7 +119,7 @@ void main() {
 
     test('…and deep link not set should display main page with accueil display state', () {
       final store = givenState()
-          .loggedInUser()
+          .loggedIn()
           .withFirstLaunchOnboardingSuccessState(false)
           .withDeepLink(NotInitializedDeepLinkState())
           .store();
@@ -132,7 +132,7 @@ void main() {
 
     test('…and deep link is set to mon suivi should display main page with monSuivi display state', () {
       final store = givenState()
-          .loggedInUser()
+          .loggedIn()
           .withFirstLaunchOnboardingSuccessState(false)
           .withHandleDeepLink(MonSuiviDeepLink())
           .store();
@@ -145,7 +145,7 @@ void main() {
 
     test('…and deep link is set to rendezvous should display main page with accueil display state', () {
       final store = givenState() //
-          .loggedInUser()
+          .loggedIn()
           .withFirstLaunchOnboardingSuccessState(false)
           .withHandleDeepLink(RendezvousDeepLink('id'))
           .store();
@@ -171,7 +171,7 @@ void main() {
 
     test('…and deep link is set to action should display main page with accueil display state', () {
       final store = givenState() //
-          .loggedInUser()
+          .loggedIn()
           .withFirstLaunchOnboardingSuccessState(false)
           .withHandleDeepLink(ActionDeepLink('id'))
           .store();
@@ -184,7 +184,7 @@ void main() {
 
     test('…and deep link is set to favoris should display main page with accueil display state', () {
       final store = givenState() //
-          .loggedInUser()
+          .loggedIn()
           .withFirstLaunchOnboardingSuccessState(false)
           .withHandleDeepLink(FavorisDeepLink())
           .store();
@@ -197,7 +197,7 @@ void main() {
 
     test('…and deep link is set to alertes should display main page with accueil display state', () {
       final store = givenState() //
-          .loggedInUser()
+          .loggedIn()
           .withFirstLaunchOnboardingSuccessState(false)
           .withHandleDeepLink(AlertesDeepLink())
           .store();
@@ -211,7 +211,7 @@ void main() {
     test('…and deep link is set to actualisation pole emploi should display main page with actualisation pole emploi',
         () {
       final store = givenState() //
-          .loggedInUser()
+          .loggedIn()
           .withFirstLaunchOnboardingSuccessState(false)
           .withHandleDeepLink(ActualisationPeDeepLink())
           .store();
@@ -223,7 +223,7 @@ void main() {
 
     test('…and deep link is set to chat should display main page with chat display state', () {
       final store = givenState() //
-          .loggedInUser()
+          .loggedIn()
           .withFirstLaunchOnboardingSuccessState(false)
           .withHandleDeepLink(NouveauMessageDeepLink())
           .store();
@@ -236,7 +236,7 @@ void main() {
 
     test('…and deep link is set to recherche should display main page with recherche', () {
       final store = givenState() //
-          .loggedInUser()
+          .loggedIn()
           .withFirstLaunchOnboardingSuccessState(false)
           .withHandleDeepLink(RechercheDeepLink())
           .store();
@@ -248,7 +248,7 @@ void main() {
 
     test('…and deep link is set to outils should display main page with outils', () {
       final store = givenState() //
-          .loggedInUser()
+          .loggedIn()
           .withFirstLaunchOnboardingSuccessState(false)
           .withHandleDeepLink(OutilsDeepLink())
           .store();
@@ -260,7 +260,7 @@ void main() {
 
     test('…and deep link is set to event list should display main page with event list display state', () {
       final store = givenState() //
-          .loggedInUser()
+          .loggedIn()
           .withFirstLaunchOnboardingSuccessState(false)
           .withHandleDeepLink(EventListDeepLink())
           .store();
@@ -273,7 +273,7 @@ void main() {
 
     test('should show tutorial if user did not read it yet', () {
       final store = givenState() //
-          .loggedInUser()
+          .loggedIn()
           .withFirstLaunchOnboardingSuccessState(false)
           .copyWith(tutorialState: ShowTutorialState(Tutorial.milo))
           .store();

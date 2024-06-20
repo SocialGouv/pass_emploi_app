@@ -21,7 +21,7 @@ void main() {
         when(() => repository.getFavoris('id')).thenAnswer((_) async => [mockFavori()]);
 
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .store((f) => {f.getFavorisRepository = repository});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed()]);
@@ -31,7 +31,7 @@ void main() {
         when(() => repository.getFavoris('id')).thenAnswer((_) async => null);
 
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .store((f) => {f.getFavorisRepository = repository});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);

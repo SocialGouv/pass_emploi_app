@@ -17,9 +17,7 @@ void main() {
         mockSessionMilo(id: "id-1", dateDeDebut: DateTime(2021)),
         mockSessionMilo(id: "id-3", dateDeDebut: DateTime(2023)),
       ];
-      final store = givenState()
-          .loggedInUser()
-          .succeedEventList(animationsCollectives: rendezvous, sessionsMilo: sessions)
+      final store = givenState().loggedIn().succeedEventList(animationsCollectives: rendezvous, sessionsMilo: sessions)
           .store();
 
       // When
@@ -37,7 +35,7 @@ void main() {
   group('Display state', () {
     test('should display LOADING when not init', () {
       // Given
-      final store = givenState().loggedInUser().copyWith(eventListState: EventListNotInitializedState()).store();
+      final store = givenState().loggedIn().copyWith(eventListState: EventListNotInitializedState()).store();
 
       // When
       final viewModel = EventListPageViewModel.create(store);
@@ -48,7 +46,7 @@ void main() {
 
     test('should display LOADING when loading', () {
       // Given
-      final store = givenState().loggedInUser().copyWith(eventListState: EventListLoadingState()).store();
+      final store = givenState().loggedIn().copyWith(eventListState: EventListLoadingState()).store();
 
       // When
       final viewModel = EventListPageViewModel.create(store);
@@ -59,7 +57,7 @@ void main() {
 
     test('should display FAILURE when request failed', () {
       // Given
-      final store = givenState().loggedInUser().copyWith(eventListState: EventListFailureState()).store();
+      final store = givenState().loggedIn().copyWith(eventListState: EventListFailureState()).store();
 
       // When
       final viewModel = EventListPageViewModel.create(store);
@@ -70,7 +68,7 @@ void main() {
 
     test('should display EMPTY when request succeed but has no events', () {
       // Given
-      final store = givenState().loggedInUser().succeedEventList(animationsCollectives: [], sessionsMilo: []).store();
+      final store = givenState().loggedIn().succeedEventList(animationsCollectives: [], sessionsMilo: []).store();
 
       // When
       final viewModel = EventListPageViewModel.create(store);
@@ -81,7 +79,7 @@ void main() {
 
     test('should display CONTENT when request succeed with some animations collectives', () {
       // Given
-      final store = givenState().loggedInUser().succeedEventList(animationsCollectives: [mockRendezvous()]).store();
+      final store = givenState().loggedIn().succeedEventList(animationsCollectives: [mockRendezvous()]).store();
 
       // When
       final viewModel = EventListPageViewModel.create(store);
@@ -92,7 +90,7 @@ void main() {
 
     test('should display CONTENT when request succeed with some sessions milo', () {
       // Given
-      final store = givenState().loggedInUser().succeedEventList(sessionsMilo: [mockSessionMiloAtelierCv()]).store();
+      final store = givenState().loggedIn().succeedEventList(sessionsMilo: [mockSessionMiloAtelierCv()]).store();
 
       // When
       final viewModel = EventListPageViewModel.create(store);
@@ -103,7 +101,7 @@ void main() {
 
     test('should display CONTENT when request succeed with both sessions milo and animations collectives', () {
       // Given
-      final store = givenState().loggedInUser().succeedEventList(
+      final store = givenState().loggedIn().succeedEventList(
         animationsCollectives: [mockRendezvous()],
         sessionsMilo: [mockSessionMiloAtelierCv()],
       ).store();

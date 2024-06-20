@@ -12,7 +12,7 @@ import '../../dsl/app_state_dsl.dart';
 void main() {
   test('create when mon suivi state is not successful throws exception', () {
     // Given
-    final store = givenState().loggedInUser().copyWith(monSuiviState: MonSuiviFailureState()).store();
+    final store = givenState().loggedIn().copyWith(monSuiviState: MonSuiviFailureState()).store();
 
     // Then
     expect(() => RendezvousCardViewModel.create(store, RendezvousStateSource.monSuivi, '1'), throwsException);
@@ -197,7 +197,7 @@ void main() {
           source: RendezvousSource.passEmploi,
           estInscrit: true,
         );
-        final store = givenState().loggedInUser().succeedEventList(animationsCollectives: [rdv]).store();
+        final store = givenState().loggedIn().succeedEventList(animationsCollectives: [rdv]).store();
 
         // When
         final viewModel = RendezvousCardViewModel.create(
@@ -217,7 +217,7 @@ void main() {
           source: RendezvousSource.passEmploi,
           estInscrit: false,
         );
-        final store = givenState().loggedInUser().succeedEventList(animationsCollectives: [rdv]).store();
+        final store = givenState().loggedIn().succeedEventList(animationsCollectives: [rdv]).store();
 
         // When
         final viewModel = RendezvousCardViewModel.create(
@@ -237,7 +237,7 @@ void main() {
           source: RendezvousSource.passEmploi,
           estInscrit: false,
         );
-        final store = givenState().loggedInUser().succeedEventList(animationsCollectives: [rdv]).store();
+        final store = givenState().loggedIn().succeedEventList(animationsCollectives: [rdv]).store();
 
         // When
         final viewModel = RendezvousCardViewModel.create(
@@ -255,6 +255,6 @@ void main() {
 
 AppState givenRendezvous(Rendezvous rendezvous) {
   return givenState() //
-      .loggedInUser()
+      .loggedIn()
       .monSuivi(monSuivi: mockMonSuivi(rendezvous: [rendezvous]));
 }

@@ -7,7 +7,7 @@ import '../../dsl/app_state_dsl.dart';
 void main() {
   test("getDetails when state is loading should set display state properly", () {
     // Given
-    final store = givenState().loggedInUser().offreEmploiDetailsLoading().store();
+    final store = givenState().loggedIn().offreEmploiDetailsLoading().store();
 
     // When
     final viewModel = OffreEmploiDetailsPageViewModel.create(store);
@@ -18,7 +18,7 @@ void main() {
 
   test("getDetails when state is failure should set display state properly", () {
     // Given
-    final store = givenState().loggedInUser().offreEmploiDetailsFailure().store();
+    final store = givenState().loggedIn().offreEmploiDetailsFailure().store();
 
     // When
     final viewModel = OffreEmploiDetailsPageViewModel.create(store);

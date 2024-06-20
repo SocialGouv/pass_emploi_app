@@ -11,7 +11,7 @@ void main() {
     group('displayState', () {
       test('when thematiques demarche state is not initialized should return initial', () {
         // Given
-        final store = givenState().loggedInUser().store();
+        final store = givenState().loggedIn().store();
 
         // When
         final viewModel = ThematiqueDemarchePageViewModel.create(store);
@@ -22,7 +22,7 @@ void main() {
 
       test('when thematiques demarche state is loading should display loading', () {
         // Given
-        final store = givenState().loggedInUser().withThematiqueDemarcheLoadingState().store();
+        final store = givenState().loggedIn().withThematiqueDemarcheLoadingState().store();
 
         // When
         final viewModel = ThematiqueDemarchePageViewModel.create(store);
@@ -33,7 +33,7 @@ void main() {
 
       test('when thematiques demarche state is failure should display failure', () {
         // Given
-        final store = givenState().loggedInUser().withThematiqueDemarcheFailureState().store();
+        final store = givenState().loggedIn().withThematiqueDemarcheFailureState().store();
 
         // When
         final viewModel = ThematiqueDemarchePageViewModel.create(store);
@@ -44,7 +44,7 @@ void main() {
 
       test('when thematiques demarche state is success should display thematic list', () {
         // Given
-        final store = givenState().loggedInUser().withThematiqueDemarcheSuccessState().store();
+        final store = givenState().loggedIn().withThematiqueDemarcheSuccessState().store();
 
         // When
         final viewModel = ThematiqueDemarchePageViewModel.create(store);
@@ -57,7 +57,7 @@ void main() {
     group('thematiques', () {
       test('when thematiques demarche state is not success should return empty list', () {
         // Given
-        final store = givenState().loggedInUser().store();
+        final store = givenState().loggedIn().store();
 
         // When
         final viewModel = ThematiqueDemarchePageViewModel.create(store);
@@ -68,7 +68,7 @@ void main() {
 
       test('when thematiques demarche state is success should return thematic list', () {
         // Given
-        final store = givenState().loggedInUser().withThematiqueDemarcheSuccessState().store();
+        final store = givenState().loggedIn().withThematiqueDemarcheSuccessState().store();
 
         // When
         final viewModel = ThematiqueDemarchePageViewModel.create(store);

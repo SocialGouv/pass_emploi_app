@@ -19,7 +19,7 @@ void main() {
 
       test('should load then succeed when request succeed', () {
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .store((f) => {f.cvRepository = CvRepositorySuccessStub()});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed()]);
@@ -27,7 +27,7 @@ void main() {
 
       test('should load then fail when request fail', () {
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .store((f) => {f.cvRepository = CvRepositoryErrorStub()});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
@@ -40,7 +40,7 @@ void main() {
 
       test('status should load then succeed when request succeed', () {
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .withCvSuccess()
             .store((f) => {f.cvRepository = CvRepositorySuccessStub()});
 
@@ -49,7 +49,7 @@ void main() {
 
       test('status should load then fail when request fail', () {
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .withCvSuccess()
             .store((f) => {f.cvRepository = CvRepositoryErrorStub()});
 

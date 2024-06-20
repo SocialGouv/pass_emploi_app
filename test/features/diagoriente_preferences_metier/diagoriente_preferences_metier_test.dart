@@ -22,7 +22,7 @@ void main() {
 
       test('should load successfully only if both requests succeed', () {
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .store((f) {
           f.diagorienteMetiersFavorisRepository = DiagorienteMetiersFavorisRepositorySuccessStub();
           f.diagorienteUrlsRepository = DiagorientePreferencesMetierRepositorySuccessStub();
@@ -33,7 +33,7 @@ void main() {
 
       test('should load then fail when url request fail', () {
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .store((f) {
           f.diagorienteMetiersFavorisRepository = DiagorienteMetiersFavorisRepositorySuccessStub();
           f.diagorienteUrlsRepository = DiagorientePreferencesMetierRepositoryErrorStub();
@@ -44,7 +44,7 @@ void main() {
 
       test('should load then fail when metiers favoris request fail', () {
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .store((f) {
           f.diagorienteMetiersFavorisRepository = DiagorienteMetiersFavorisRepositoryErrorStub();
           f.diagorienteUrlsRepository = DiagorientePreferencesMetierRepositorySuccessStub();
@@ -55,7 +55,7 @@ void main() {
 
       test('should load then fail when both request fail', () {
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .store((f) {
           f.diagorienteMetiersFavorisRepository = DiagorienteMetiersFavorisRepositoryErrorStub();
           f.diagorienteUrlsRepository = DiagorientePreferencesMetierRepositoryErrorStub();

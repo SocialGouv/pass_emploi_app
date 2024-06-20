@@ -19,7 +19,7 @@ void main() {
 
       test('should load then succeed when request succeed', () {
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .store((f) => {f.thematiquesDemarcheRepository = ThematiqueDemarcheRepositorySuccessStub()});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed()]);
@@ -27,7 +27,7 @@ void main() {
 
       test('should load then fail when request fail', () {
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .store((f) => {f.thematiquesDemarcheRepository = ThematiqueDemarcheRepositoryErrorStub()});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);

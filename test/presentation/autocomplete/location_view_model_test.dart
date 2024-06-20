@@ -26,7 +26,7 @@ void main() {
   group('dernieres locations', () {
     test('with empty recherches recentes', () {
       // Given
-      final store = givenState().loggedInUser().withRecentsSearches([]).store();
+      final store = givenState().loggedIn().withRecentsSearches([]).store();
       // When
       final viewModel = LocationViewModel.create(store, villesOnly: false);
       // Then
@@ -35,7 +35,7 @@ void main() {
 
     test('with 1 recherche recente', () {
       // Given
-      final store = givenState().loggedInUser().withRecentsSearches([
+      final store = givenState().loggedIn().withRecentsSearches([
         mockOffreEmploiAlerte(location: mockLocation()),
       ]).store();
       // When
@@ -49,7 +49,7 @@ void main() {
 
     test('with many recherches recentes should only take 3', () {
       // Given
-      final store = givenState().loggedInUser().withRecentsSearches([
+      final store = givenState().loggedIn().withRecentsSearches([
         mockOffreEmploiAlerte(
           location: Location(libelle: '1', code: '1', codePostal: '1', type: LocationType.COMMUNE),
         ),
@@ -85,7 +85,7 @@ void main() {
 
     test('with null location in recherches recentes should remove them', () {
       // Given
-      final store = givenState().loggedInUser().withRecentsSearches([
+      final store = givenState().loggedIn().withRecentsSearches([
         mockOffreEmploiAlerte(
           location: Location(libelle: '1', code: '1', codePostal: '1', type: LocationType.COMMUNE),
         ),
@@ -112,7 +112,7 @@ void main() {
 
     test('with invalid location in recherches recentes should remove them - REQUIRED WHEN COMING FROM SUGGESTIONS', () {
       // Given
-      final store = givenState().loggedInUser().withRecentsSearches([
+      final store = givenState().loggedIn().withRecentsSearches([
         mockOffreEmploiAlerte(
           location: Location(libelle: '1', code: '', codePostal: '1', type: LocationType.COMMUNE),
         ),
@@ -137,7 +137,7 @@ void main() {
 
     test('with duplicated location in recherches recentes should remove them', () {
       // Given
-      final store = givenState().loggedInUser().withRecentsSearches([
+      final store = givenState().loggedIn().withRecentsSearches([
         mockOffreEmploiAlerte(
           location: Location(libelle: '1', code: '1', codePostal: '1', type: LocationType.COMMUNE),
         ),
@@ -166,7 +166,7 @@ void main() {
 
     test('with villesOnly should only return villes', () {
       // Given
-      final store = givenState().loggedInUser().withRecentsSearches([
+      final store = givenState().loggedIn().withRecentsSearches([
         mockOffreEmploiAlerte(
           location: Location(libelle: '1', code: '1', codePostal: '1', type: LocationType.COMMUNE),
         ),

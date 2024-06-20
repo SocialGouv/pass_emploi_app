@@ -123,7 +123,7 @@ void main() {
       sut.whenDispatchingAction(() => FetchAlerteResultsFromIdAction('id'));
 
       test('should retrieve results coming from same criteres and filtres', () {
-        sut.givenStore = givenState().loggedInUser().store((factory) {
+        sut.givenStore = givenState().loggedIn().store((factory) {
           factory.getAlerteRepository = AlerteRepositorySuccessStub();
           factory.offreEmploiRepository = OffreEmploiRepositorySuccessStub();
         });

@@ -25,7 +25,7 @@ void main() {
         when(() => repository.get()).thenAnswer((_) async => Onboarding());
 
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .store((f) => {f.onboardingRepository = repository});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldSucceed(Onboarding())]);
@@ -41,7 +41,7 @@ void main() {
         when(() => pushNotificationManager.requestPermission()).thenAnswer((_) async {});
 
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .store((f) => {f.onboardingRepository = repository, f.pushNotificationManager = pushNotificationManager});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldSucceed(Onboarding(showAccueilOnboarding: false))]);
@@ -57,7 +57,7 @@ void main() {
           when(() => repository.save(any())).thenAnswer((_) async {});
 
           sut.givenStore = givenState() //
-              .loggedInUser()
+              .loggedIn()
               .store((f) => {f.onboardingRepository = repository});
 
           sut.thenExpectChangingStatesThroughOrder([_shouldSucceed(Onboarding(showAccueilOnboarding: false))]);
@@ -71,7 +71,7 @@ void main() {
           when(() => repository.save(any())).thenAnswer((_) async {});
 
           sut.givenStore = givenState() //
-              .loggedInUser()
+              .loggedIn()
               .store((f) => {f.onboardingRepository = repository});
 
           sut.thenExpectChangingStatesThroughOrder([_shouldSucceed(Onboarding(showMonSuiviOnboarding: false))]);
@@ -85,7 +85,7 @@ void main() {
           when(() => repository.save(any())).thenAnswer((_) async {});
 
           sut.givenStore = givenState() //
-              .loggedInUser()
+              .loggedIn()
               .store((f) => {f.onboardingRepository = repository});
 
           sut.thenExpectChangingStatesThroughOrder([_shouldSucceed(Onboarding(showChatOnboarding: false))]);
@@ -99,7 +99,7 @@ void main() {
           when(() => repository.save(any())).thenAnswer((_) async {});
 
           sut.givenStore = givenState() //
-              .loggedInUser()
+              .loggedIn()
               .store((f) => {f.onboardingRepository = repository});
 
           sut.thenExpectChangingStatesThroughOrder([_shouldSucceed(Onboarding(showRechercheOnboarding: false))]);
@@ -113,7 +113,7 @@ void main() {
           when(() => repository.save(any())).thenAnswer((_) async {});
 
           sut.givenStore = givenState() //
-              .loggedInUser()
+              .loggedIn()
               .store((f) => {f.onboardingRepository = repository});
 
           sut.thenExpectChangingStatesThroughOrder([_shouldSucceed(Onboarding(showEvenementsOnboarding: false))]);

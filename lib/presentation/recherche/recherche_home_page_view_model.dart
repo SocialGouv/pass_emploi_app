@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/models/brand.dart';
+import 'package:pass_emploi_app/models/accompagnement.dart';
 import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
@@ -11,13 +11,13 @@ class RechercheHomePageViewModel extends Equatable {
   RechercheHomePageViewModel({required this.offreTypes, required this.shouldShowOnboarding});
 
   factory RechercheHomePageViewModel.create(Store<AppState> store) {
-    final isCej = store.state.configurationState.getBrand().isCej;
+    final accompagnement = store.state.accompagnement();
     return RechercheHomePageViewModel(
       offreTypes: [
         OffreType.emploi,
-        if (isCej) OffreType.alternance,
+        if ([Accompagnement.cej, Accompagnement.aij].contains(accompagnement)) OffreType.alternance,
         OffreType.immersion,
-        if (isCej) OffreType.serviceCivique,
+        if ([Accompagnement.cej, Accompagnement.aij].contains(accompagnement)) OffreType.serviceCivique,
       ],
       shouldShowOnboarding: _shouldShowOnboarding(store),
     );

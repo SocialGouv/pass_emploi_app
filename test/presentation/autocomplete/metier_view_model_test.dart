@@ -29,7 +29,7 @@ void main() {
     test('with both metiers favoris and recherches recentes', () {
       // Given
       final store = givenState() //
-          .loggedInUser() //
+          .loggedIn() //
           .withRecentsSearches(getMockedAlerte()) //
           .withDiagorientePreferencesMetierSuccessState(metiersFavoris: mockAutocompleteMetiers()) //
           .store();
@@ -63,7 +63,7 @@ void main() {
     test('with metiers favoris in alphabetic order', () {
       // Given
       final store = givenState() //
-          .loggedInUser() //
+          .loggedIn() //
           .withRecentsSearches([]) //
           .withDiagorientePreferencesMetierSuccessState(metiersFavoris: mockAutocompleteMetiers()) //
           .store();
@@ -91,7 +91,7 @@ void main() {
 
     test('with empty recherches recentes', () {
       // Given
-      final store = givenState().loggedInUser().withRecentsSearches([]).store();
+      final store = givenState().loggedIn().withRecentsSearches([]).store();
       // When
       final viewModel = MetierViewModel.create(store);
       // Then
@@ -102,7 +102,7 @@ void main() {
 
     test('with 1 recherche recente', () {
       // Given
-      final store = givenState().loggedInUser().withRecentsSearches([
+      final store = givenState().loggedIn().withRecentsSearches([
         mockImmersionAlerte(metier: "chevalier", codeRome: '1'),
       ]).store();
       // When
@@ -118,7 +118,7 @@ void main() {
 
     test('with many recherches recentes should only take 3', () {
       // Given
-      final store = givenState().loggedInUser().withRecentsSearches([
+      final store = givenState().loggedIn().withRecentsSearches([
         mockImmersionAlerte(metier: '1', codeRome: '1'),
         mockImmersionAlerte(metier: '2', codeRome: '2'),
         mockImmersionAlerte(metier: '3', codeRome: '3'),
@@ -137,7 +137,7 @@ void main() {
 
     test('with duplicated metiers in recherches recentes should remove them', () {
       // Given
-      final store = givenState().loggedInUser().withRecentsSearches([
+      final store = givenState().loggedIn().withRecentsSearches([
         mockImmersionAlerte(metier: '1', codeRome: '1'),
         mockImmersionAlerte(metier: '2', codeRome: '2'),
         mockImmersionAlerte(metier: '1', codeRome: '1'),

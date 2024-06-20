@@ -26,7 +26,7 @@ void main() {
 
       test('should load then succeed when both request succeed', () {
         sut.givenStore = givenState()
-            .loggedInUser() //
+            .loggedIn() //
             .store((f) {
           f.animationsCollectivesRepository = AnimationsCollectivesRepositorySuccessStub();
           f.sessionMiloRepository = sessionMiloRepository;
@@ -39,7 +39,7 @@ void main() {
       group('should load then succeed when one of the two request fail', () {
         test('animations KO session OK', () {
           sut.givenStore = givenState()
-              .loggedInUser() //
+              .loggedIn() //
               .store((f) {
             f.animationsCollectivesRepository = AnimationsCollectivesRepositoryErrorStub();
             f.sessionMiloRepository = sessionMiloRepository;
@@ -51,7 +51,7 @@ void main() {
 
         test('animations OK session KO', () {
           sut.givenStore = givenState()
-              .loggedInUser() //
+              .loggedIn() //
               .store((f) {
             f.animationsCollectivesRepository = AnimationsCollectivesRepositorySuccessStub();
             f.sessionMiloRepository = sessionMiloRepository;
@@ -64,7 +64,7 @@ void main() {
 
       test('should load then fail when request fail', () {
         sut.givenStore = givenState()
-            .loggedInUser() //
+            .loggedIn() //
             .store((f) {
           f.animationsCollectivesRepository = AnimationsCollectivesRepositoryErrorStub();
           f.sessionMiloRepository = sessionMiloRepository;

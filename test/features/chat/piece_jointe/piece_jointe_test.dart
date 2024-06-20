@@ -11,7 +11,7 @@ void main() {
   test("should be previewed after loading", () async {
     // Given
     final store = givenState()
-        .loggedInUser() //
+        .loggedIn() //
         .store((factory) => {factory.pieceJointeRepository = PieceJointeRepositorySuccessStub()});
 
     final displayedLoading = store.onChange.any((e) => e.piecesJointesState.status["id1"] == PieceJointeStatus.loading);
@@ -33,7 +33,7 @@ void main() {
   test("should display an error when fetching failed", () async {
     // Given
     final store = givenState()
-        .loggedInUser() //
+        .loggedIn() //
         .store((factory) => {factory.pieceJointeRepository = PieceJointeRepositoryFailureStub()});
 
     final displayedLoading = store.onChange.any((e) => e.piecesJointesState.status["id1"] == PieceJointeStatus.loading);
@@ -52,7 +52,7 @@ void main() {
   test("should only affect its own state", () async {
     // Given
     final store = givenState()
-        .loggedInUser()
+        .loggedIn()
         .piecesJointesWithIdOneSuccess() //
         .store((factory) => {factory.pieceJointeRepository = PieceJointeRepositoryFailureStub()});
 
@@ -71,7 +71,7 @@ void main() {
   test("should display a unavailable message when fetching return 410 error", () async {
     // Given
     final store = givenState()
-        .loggedInUser() //
+        .loggedIn() //
         .store((factory) => {factory.pieceJointeRepository = PieceJointeRepositoryUnavailableStub()});
 
     final displayedLoading = store.onChange.any((e) => e.piecesJointesState.status["id1"] == PieceJointeStatus.loading);
@@ -91,7 +91,7 @@ void main() {
     // Given
     final store = givenState()
         .piecesJointesWithIdOneSuccess()
-        .loggedInUser() //
+        .loggedIn() //
         .store();
 
     // When
@@ -105,7 +105,7 @@ void main() {
   test("should not be previewed when file is image", () async {
     // Given
     final store = givenState()
-        .loggedInUser() //
+        .loggedIn() //
         .store((factory) => {factory.pieceJointeRepository = PieceJointeRepositorySuccessStub()});
 
     final displayedLoading = store.onChange.any((e) => e.piecesJointesState.status["id1"] == PieceJointeStatus.loading);

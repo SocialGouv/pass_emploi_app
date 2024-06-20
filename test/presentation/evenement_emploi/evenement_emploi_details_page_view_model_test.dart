@@ -12,7 +12,7 @@ void main() {
   test("view model", () {
     // Given
     final store = givenState()
-        .loggedInUser() //
+        .loggedIn() //
         .copyWith(
             evenementEmploiDetailsState: EvenementEmploiDetailsSuccessState(mockEvenementEmploiDetails(
           dateDebut: DateTime.parse("2023-06-15T12:00:00"),
@@ -44,7 +44,7 @@ void main() {
     test('when state is loading', () {
       // Given
       final store = givenState()
-          .loggedInUser() //
+          .loggedIn() //
           .copyWith(evenementEmploiDetailsState: EvenementEmploiDetailsLoadingState())
           .store();
 
@@ -58,7 +58,7 @@ void main() {
     test('when state is success', () {
       // Given
       final store = givenState()
-          .loggedInUser() //
+          .loggedIn() //
           .copyWith(evenementEmploiDetailsState: EvenementEmploiDetailsSuccessState(mockEvenementEmploiDetails()))
           .store();
 
@@ -72,7 +72,7 @@ void main() {
     test('when state is failure', () {
       // Given
       final store = givenState()
-          .loggedInUser() //
+          .loggedIn() //
           .copyWith(evenementEmploiDetailsState: EvenementEmploiDetailsFailureState())
           .store();
 

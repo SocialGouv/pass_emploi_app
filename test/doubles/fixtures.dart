@@ -88,6 +88,10 @@ User mockUser({
       accompagnement: accompagnement,
     );
 
+LoginState successUserState({required LoginMode loginMode, required Accompagnement accompagnement}) {
+  return LoginSuccessState(mockUser(loginMode: loginMode, accompagnement: accompagnement));
+}
+
 LoginState successMiloUserState({User? user}) => LoginSuccessState(user ?? mockedMiloUser());
 
 User mockedMiloUser() {
@@ -101,7 +105,7 @@ User mockedMiloUser() {
   );
 }
 
-LoginState successPoleEmploiUserState() => LoginSuccessState(mockedPoleEmploiCejUser());
+LoginState successPoleEmploiCejUserState() => LoginSuccessState(mockedPoleEmploiCejUser());
 
 User mockedPoleEmploiCejUser() {
   return User(
@@ -130,7 +134,7 @@ AppState loggedInState() => AppState.initialState().copyWith(loginState: success
 
 AppState loggedInMiloState() => AppState.initialState().copyWith(loginState: successMiloUserState());
 
-AppState loggedInPoleEmploiState() => AppState.initialState().copyWith(loginState: successPoleEmploiUserState());
+AppState loggedInPoleEmploiState() => AppState.initialState().copyWith(loginState: successPoleEmploiCejUserState());
 
 OffreEmploiDetails mockOffreEmploiDetails() => OffreEmploiDetails(
       id: "123TZKB",

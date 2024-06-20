@@ -21,7 +21,7 @@ void main() {
         when(() => repository.createUserAction('id', mockUserActionCreateRequest())).thenAnswer((_) async => 'created');
 
         sut.givenStore = givenState()
-            .loggedInUser() //
+            .loggedIn() //
             .store((f) => {f.userActionRepository = repository});
         sut.thenExpectChangingStatesThroughOrder([_shouldLoadState(), _shouldSucceedState()]);
       });
@@ -30,7 +30,7 @@ void main() {
         when(() => repository.createUserAction('id', mockUserActionCreateRequest())).thenAnswer((_) async => null);
 
         sut.givenStore = givenState()
-            .loggedInUser() //
+            .loggedIn() //
             .store((f) => {f.userActionRepository = repository});
         sut.thenExpectChangingStatesThroughOrder([_shouldLoadState(), _shouldFailState()]);
       });

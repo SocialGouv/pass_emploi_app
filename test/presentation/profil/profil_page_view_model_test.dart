@@ -66,7 +66,7 @@ void main() {
   test("create when developer options are not activated MUST NOT display them", () {
     // Given
     final store = givenState() //
-        .loggedInUser()
+        .loggedIn()
         .copyWith(developerOptionsState: DeveloperOptionsNotInitializedState())
         .store();
 
@@ -80,7 +80,7 @@ void main() {
   test("create when developer options are activated should display them", () {
     // Given
     final store = givenState() //
-        .loggedInUser()
+        .loggedIn()
         .copyWith(developerOptionsState: DeveloperOptionsActivatedState())
         .store();
 

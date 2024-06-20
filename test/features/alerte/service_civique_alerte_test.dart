@@ -84,7 +84,7 @@ void main() {
   test("SaveSearchInitializeAction should update store with rights information", () async {
     // Given
     final initialState = givenState() //
-        .loggedInUser() //
+        .loggedIn() //
         .successRechercheServiceCiviqueStateWithRequest(
           criteres: ServiceCiviqueCriteresRecherche(location: mockLocation()),
           filtres: ServiceCiviqueFiltresRecherche(distance: 10, startDate: null, domain: null),
@@ -158,7 +158,7 @@ void main() {
     sut.whenDispatchingAction(() => FetchAlerteResultsFromIdAction('id'));
 
     test('should retrieve results coming from same criteres and filtres', () {
-      sut.givenStore = givenState().loggedInUser().store((factory) {
+      sut.givenStore = givenState().loggedIn().store((factory) {
         factory.getAlerteRepository = AlerteRepositorySuccessStub();
         factory.serviceCiviqueRepository = ServiceCiviqueRepositorySuccessStub();
       });
