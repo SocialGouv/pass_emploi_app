@@ -6,13 +6,13 @@ import 'package:pass_emploi_app/features/campagne_recrutement/campagne_recruteme
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/rating/rating_state.dart';
-import 'package:pass_emploi_app/models/brand.dart';
+import 'package:pass_emploi_app/models/accompagnement.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/models/login_mode.dart';
+import 'package:pass_emploi_app/models/outil.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/repositories/local_outil_repository.dart';
 import 'package:pass_emploi_app/utils/iterable_extensions.dart';
 import 'package:pass_emploi_app/utils/store_extensions.dart';
 import 'package:redux/redux.dart';
@@ -73,7 +73,6 @@ bool _shouldResetDeeplink(Store<AppState> store) {
 List<AccueilItem> _items(Store<AppState> store) {
   final accueilState = store.state.accueilState;
   final user = store.state.user();
-  final brand = store.state.configurationState.getBrand();
   if (accueilState is! AccueilSuccessState || user == null) return [];
 
   return [
@@ -85,7 +84,7 @@ List<AccueilItem> _items(Store<AppState> store) {
     _evenementsItem(accueilState),
     _alertesItem(accueilState),
     _favorisItem(accueilState),
-    _outilsItem(accueilState, brand),
+    _outilsItem(accueilState, user.accompagnement),
   ].whereNotNull().toList();
 }
 
@@ -142,17 +141,22 @@ AccueilItem? _favorisItem(AccueilSuccessState successState) {
   return favoris != null ? AccueilFavorisItem(favoris) : null;
 }
 
-AccueilItem? _outilsItem(AccueilSuccessState successState, Brand brand) {
-  return switch (brand) {
-    Brand.cej => AccueilOutilsItem([
-        Outils.benevolatCej.withoutImage(),
-        Outils.diagoriente.withoutImage(),
-        Outils.aides.withoutImage(),
+AccueilItem? _outilsItem(AccueilSuccessState successState, Accompagnement accompagnement) {
+  return switch (accompagnement) {
+    Accompagnement.cej => AccueilOutilsItem([
+        Outil.benevolatCej.withoutImage(),
+        Outil.diagoriente.withoutImage(),
+        Outil.aides.withoutImage(),
       ]),
-    Brand.passEmploi => AccueilOutilsItem([
-        Outils.benevolatBrsa.withoutImage(),
-        Outils.emploiSolidaire.withoutImage(),
-        Outils.emploiStore.withoutImage(),
+    Accompagnement.rsa => AccueilOutilsItem([
+        Outil.benevolatPassEmploi.withoutImage(),
+        Outil.emploiSolidaire.withoutImage(),
+        Outil.emploiStore.withoutImage(),
+      ]),
+    Accompagnement.aij => AccueilOutilsItem([
+        Outil.benevolatPassEmploi.withoutImage(),
+        Outil.diagoriente.withoutImage(),
+        Outil.aides.withoutImage(),
       ]),
   };
 }

@@ -1,12 +1,13 @@
 import 'package:collection/collection.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
+import 'package:pass_emploi_app/models/accompagnement.dart';
 import 'package:pass_emploi_app/models/accueil/accueil.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
+import 'package:pass_emploi_app/models/outil.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
-import 'package:pass_emploi_app/repositories/local_outil_repository.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../doubles/spies.dart';
@@ -82,9 +83,9 @@ void main() {
           AccueilAlertesItem(getMockedAlerte()),
           AccueilFavorisItem(mock3Favoris()),
           AccueilOutilsItem([
-            Outils.benevolatCej.withoutImage(),
-            Outils.diagoriente.withoutImage(),
-            Outils.aides.withoutImage(),
+            Outil.benevolatCej.withoutImage(),
+            Outil.diagoriente.withoutImage(),
+            Outil.aides.withoutImage(),
           ]),
         ],
       );
@@ -130,9 +131,9 @@ void main() {
           AccueilAlertesItem(getMockedAlerte()),
           AccueilFavorisItem(mock3Favoris()),
           AccueilOutilsItem([
-            Outils.benevolatCej.withoutImage(),
-            Outils.diagoriente.withoutImage(),
-            Outils.aides.withoutImage(),
+            Outil.benevolatCej.withoutImage(),
+            Outil.diagoriente.withoutImage(),
+            Outil.aides.withoutImage(),
           ]),
         ],
       );
@@ -167,9 +168,9 @@ void main() {
           AccueilAlertesItem(getMockedAlerte()),
           AccueilFavorisItem(mock3Favoris()),
           AccueilOutilsItem([
-            Outils.benevolatCej.withoutImage(),
-            Outils.diagoriente.withoutImage(),
-            Outils.aides.withoutImage(),
+            Outil.benevolatCej.withoutImage(),
+            Outil.diagoriente.withoutImage(),
+            Outil.aides.withoutImage(),
           ]),
         ],
       );
@@ -177,9 +178,12 @@ void main() {
   });
 
   group('outils items…', () {
-    test('on CEJ app should highlight Diagoriente and Aides', () {
+    test('on CEJ accompagnement should highlight Diagoriente and Aides', () {
       // Given
-      final store = givenState().loggedInPoleEmploiUser().withAccueilPoleEmploiSuccess().store();
+      final store = givenState() //
+          .loggedInUser(accompagnement: Accompagnement.cej)
+          .withAccueilPoleEmploiSuccess()
+          .store();
       final viewModel = AccueilViewModel.create(store);
 
       // When
@@ -190,16 +194,19 @@ void main() {
       expect(
         (outilsItem as AccueilOutilsItem).outils,
         [
-          Outils.benevolatCej.withoutImage(),
-          Outils.diagoriente.withoutImage(),
-          Outils.aides.withoutImage(),
+          Outil.benevolatCej.withoutImage(),
+          Outil.diagoriente.withoutImage(),
+          Outil.aides.withoutImage(),
         ],
       );
     });
 
-    test('on pass emploi app should highlight Diagoriente and Aides', () {
+    test('on AIJ accompagnement should highlight Diagoriente and Aides', () {
       // Given
-      final store = givenPassEmploiState().loggedInPoleEmploiUser().withAccueilPoleEmploiSuccess().store();
+      final store = givenState() //
+          .loggedInUser(accompagnement: Accompagnement.aij)
+          .withAccueilPoleEmploiSuccess()
+          .store();
       final viewModel = AccueilViewModel.create(store);
 
       // When
@@ -210,9 +217,32 @@ void main() {
       expect(
         (outilsItem as AccueilOutilsItem).outils,
         [
-          Outils.benevolatBrsa.withoutImage(),
-          Outils.emploiSolidaire.withoutImage(),
-          Outils.emploiStore.withoutImage(),
+          Outil.benevolatPassEmploi.withoutImage(),
+          Outil.diagoriente.withoutImage(),
+          Outil.aides.withoutImage(),
+        ],
+      );
+    });
+
+    test('on RSA accompagnement should highlight Diagoriente and Aides', () {
+      // Given
+      final store = givenState() //
+          .loggedInUser(accompagnement: Accompagnement.rsa)
+          .withAccueilPoleEmploiSuccess()
+          .store();
+      final viewModel = AccueilViewModel.create(store);
+
+      // When
+      final outilsItem = viewModel.items.firstWhereOrNull((item) => item is AccueilOutilsItem);
+
+      // Then
+      expect(outilsItem, isNotNull);
+      expect(
+        (outilsItem as AccueilOutilsItem).outils,
+        [
+          Outil.benevolatPassEmploi.withoutImage(),
+          Outil.emploiSolidaire.withoutImage(),
+          Outil.emploiStore.withoutImage(),
         ],
       );
     });
