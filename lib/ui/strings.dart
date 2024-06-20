@@ -69,8 +69,6 @@ class Strings {
   // Login mode
   static const String milo = "Mission Locale";
   static const String poleEmploi = "France Travail";
-  static const String demoMilo = "Demo Mission Locale";
-  static const String demoPe = "Demo France Travail";
 
   // Menu
   static String menuAccueil = "Accueil";

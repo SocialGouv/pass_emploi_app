@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/features/preferred_login_mode/preferred_login_mode_actions.dart';
 import 'package:pass_emploi_app/models/accompagnement.dart';
+import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -74,7 +75,7 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
       lastName: "Sevier",
       email: "mode@demo.com",
       loginMode: mode == LoginMode.DEMO_PE ? LoginMode.DEMO_PE : LoginMode.DEMO_MILO,
-      accompagnement: Accompagnement.cej,
+      accompagnement: Brand.isCej() ? Accompagnement.cej : Accompagnement.rsa,
     );
   }
 
