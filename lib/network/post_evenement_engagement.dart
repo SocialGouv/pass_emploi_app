@@ -1,5 +1,6 @@
-import 'package:pass_emploi_app/models/brand.dart';
+import 'package:pass_emploi_app/models/accompagnement.dart';
 import 'package:pass_emploi_app/models/login_mode.dart';
+import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/network/json_serializable.dart';
 
 enum EvenementEngagement {
@@ -40,40 +41,40 @@ enum EvenementEngagement {
 }
 
 class PostEvenementEngagement extends JsonSerializable {
+  final User user;
   final EvenementEngagement event;
-  final LoginMode loginMode;
-  final String userId;
-  final Brand brand;
 
-  PostEvenementEngagement({required this.event, required this.loginMode, required this.userId, required this.brand});
+  PostEvenementEngagement({required this.user, required this.event});
 
   @override
   Map<String, dynamic> toJson() => {
         "type": event.serialized(),
-        "emetteur": EvenementEngagementEmetteur(userId: userId, loginMode: loginMode, brand: brand).toJson(),
+        "emetteur": EvenementEngagementEmetteur(user).toJson(),
       };
 }
 
 class EvenementEngagementEmetteur extends JsonSerializable {
-  final String userId;
-  final LoginMode loginMode;
-  final Brand brand;
+  final User user;
 
-  EvenementEngagementEmetteur({required this.userId, required this.loginMode, required this.brand});
+  EvenementEngagementEmetteur(this.user);
 
   @override
   Map<String, dynamic> toJson() => {
         "type": 'JEUNE',
-        "structure": brand.isPassEmploi ? 'POLE_EMPLOI_BRSA' : loginMode.serialized(),
-        "id": userId,
+        "structure": user.structure(),
+        "id": user.id,
       };
 }
 
-extension on LoginMode {
-  String serialized() {
-    return switch (this) {
+extension on User {
+  String structure() {
+    return switch (loginMode) {
+      LoginMode.POLE_EMPLOI => switch (accompagnement) {
+          Accompagnement.cej => 'POLE_EMPLOI',
+          Accompagnement.rsa => 'POLE_EMPLOI_BRSA',
+          Accompagnement.aij => 'POLE_EMPLOI_AIJ',
+        },
       LoginMode.MILO => 'MILO',
-      LoginMode.POLE_EMPLOI => 'POLE_EMPLOI',
       LoginMode.DEMO_PE => 'DEMO',
       LoginMode.DEMO_MILO => 'DEMO',
     };

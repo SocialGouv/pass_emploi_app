@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
-import 'package:pass_emploi_app/models/brand.dart';
-import 'package:pass_emploi_app/models/login_mode.dart';
+import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/network/json_encoder.dart';
 import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
 
@@ -12,17 +11,14 @@ class EvenementEngagementRepository {
   EvenementEngagementRepository(this._httpClient, [this._crashlytics]);
 
   Future<bool> send({
-    required String userId,
+    required User user,
     required EvenementEngagement event,
-    required LoginMode loginMode,
-    required Brand brand,
   }) async {
     const url = "/evenements";
     try {
       await _httpClient.post(
         url,
-        data:
-            customJsonEncode(PostEvenementEngagement(event: event, loginMode: loginMode, userId: userId, brand: brand)),
+        data: customJsonEncode(PostEvenementEngagement(user: user, event: event)),
       );
       return true;
     } catch (e, stack) {
