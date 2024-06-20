@@ -146,6 +146,8 @@ class Strings {
 
   static String firstLaunchOnboardingCardTitle1 =
       Brand.isCej() ? firstLaunchOnboardingCardTitle1Cej : firstLaunchOnboardingCardTitle1PassEmploi;
+  static String firstLaunchOnboardingCardContent1 =
+      Brand.isCej() ? firstLaunchOnboardingCardContent1Cej : firstLaunchOnboardingCardContent1PassEmploi;
   static String firstLaunchOnboardingCardTitle2 =
       Brand.isCej() ? firstLaunchOnboardingCardTitle2Cej : firstLaunchOnboardingCardTitle2PassEmploi;
   static String firstLaunchOnboardingCardContent2 =
@@ -156,7 +158,7 @@ class Strings {
       Brand.isCej() ? firstLaunchOnboardingCardContent3Cej : firstLaunchOnboardingCardContent3PassEmploi;
 
   static String firstLaunchOnboardingCardTitle1Cej = "Le CEJ, un suivi personnalisé avec un conseiller dédié";
-  static String firstLaunchOnboardingCardContent1 =
+  static String firstLaunchOnboardingCardContent1Cej =
       'Vous suivez un programme de 15h à 20h par semaine, avec un conseiller dédié tout au long du parcours.';
   static String firstLaunchOnboardingCardTitle2Cej = "Une application pour suivre vos actions et rester en contact";
   static String firstLaunchOnboardingCardContent2Cej =
@@ -166,6 +168,8 @@ class Strings {
       "Connectez-vous pour bénéficier de toutes les fonctionnalités de l’application et profitez d’un environnement sécurisé pour échanger avec votre conseiller. ";
 
   static String firstLaunchOnboardingCardTitle1PassEmploi = "Un suivi personnalisé avec un conseiller dédié";
+  static String firstLaunchOnboardingCardContent1PassEmploi =
+      'Vous suivez un programme adapté, avec un conseiller dédié tout au long du parcours';
   static String firstLaunchOnboardingCardTitle2PassEmploi =
       "Une application pour suivre vos actions et rester en contact";
   static String firstLaunchOnboardingCardContent2PassEmploi =
@@ -1006,7 +1010,7 @@ class Strings {
   static String contactPageBody2 = "Contactez-nous pour :";
   static String contactPageBody3 = Brand.isCej()
       ? "Pour toutes les informations et les problèmes liés au Contrat d’Engagement Jeune, veuillez contacter votre conseiller."
-      : "Pour toutes les informations et les problèmes liés au RSA, veuillez contacter votre conseiller.";
+      : "Pour toutes les informations et les problèmes liés votre dispositif d'accompagnement, veuillez contacter votre conseiller.";
   static String contactPageBodyBullet1 = "Un problème sur l’application";
   static String contactPageBodyBullet2 = "Une suggestion d’évolution";
   static String contactPageBodyBullet3 = "Toute autre remarque";
