@@ -1,9 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_state.dart';
 import 'package:pass_emploi_app/features/developer_option/activation/developer_options_action.dart';
 import 'package:pass_emploi_app/features/developer_option/activation/developer_options_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
+import 'package:pass_emploi_app/models/accompagnement.dart';
+import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/presentation/profil/profil_page_view_model.dart';
 
@@ -23,6 +24,7 @@ void main() {
               lastName: "Dupont",
               loginMode: LoginMode.POLE_EMPLOI,
               email: "kenji.dupont@pe.fr",
+              accompagnement: Accompagnement.cej,
             ),
           ),
         )
@@ -47,6 +49,7 @@ void main() {
               lastName: "Dupont",
               loginMode: LoginMode.POLE_EMPLOI,
               email: null,
+              accompagnement: Accompagnement.cej,
             ),
           ),
         )
@@ -63,7 +66,7 @@ void main() {
   test("create when developer options are not activated MUST NOT display them", () {
     // Given
     final store = givenState() //
-        .loggedInUser()
+        .loggedIn()
         .copyWith(developerOptionsState: DeveloperOptionsNotInitializedState())
         .store();
 
@@ -77,7 +80,7 @@ void main() {
   test("create when developer options are activated should display them", () {
     // Given
     final store = givenState() //
-        .loggedInUser()
+        .loggedIn()
         .copyWith(developerOptionsState: DeveloperOptionsActivatedState())
         .store();
 

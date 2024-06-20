@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/models/brand.dart';
+import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/presentation/choix_mode_demo_view_model.dart';
 
 import '../doubles/fixtures.dart';
@@ -8,9 +8,9 @@ import '../dsl/app_state_dsl.dart';
 
 void main() {
   group('ChoixModeDemoViewModel', () {
-    test('should not display milo mode button when brand is BRSA', () {
+    test('should not display milo mode button when brand is pass emploi', () {
       // Given
-      final store = givenBrsaState().store();
+      final store = givenPassEmploiState().store();
 
       // When
       final viewModel = ChoixModeDemoViewModel.create(store);

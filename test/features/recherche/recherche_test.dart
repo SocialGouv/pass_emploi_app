@@ -25,7 +25,7 @@ void main() {
 
       test('should load then succeed when request succeed', () {
         sut.givenStore = givenState()
-            .loggedInUser() //
+            .loggedIn() //
             .store((f) => {f.offreEmploiRepository = repo});
 
         repo.givenRepositorySuccess();
@@ -35,7 +35,7 @@ void main() {
 
       test('should load then fail when request fail', () {
         sut.givenStore = givenState()
-            .loggedInUser() //
+            .loggedIn() //
             .store((f) => {f.offreEmploiRepository = repo});
 
         repo.givenRepositoryFailure();
@@ -49,7 +49,7 @@ void main() {
 
       test('should have initial state', () {
         sut.givenStore = givenState() //
-            .loggedInUser() //
+            .loggedIn() //
             .successRechercheEmploiState() //
             .store((f) => {f.offreEmploiRepository = repo});
 
@@ -62,7 +62,7 @@ void main() {
 
       test('should have new search status and previous data', () {
         sut.givenStore = givenState() //
-            .loggedInUser() //
+            .loggedIn() //
             .successRechercheEmploiState() //
             .store((f) => {f.offreEmploiRepository = repo});
 
@@ -75,7 +75,7 @@ void main() {
 
       test('and previously has result should have success status and previous data', () {
         sut.givenStore = givenState() //
-            .loggedInUser() //
+            .loggedIn() //
             .successRechercheEmploiState() //
             .store((f) => {f.offreEmploiRepository = repo});
 
@@ -84,7 +84,7 @@ void main() {
 
       test('and previously has no result should have new search status', () {
         sut.givenStore = givenState() //
-            .loggedInUser() //
+            .loggedIn() //
             .failureRechercheEmploiState() //
             .store((f) => {f.offreEmploiRepository = repo});
 
@@ -97,7 +97,7 @@ void main() {
 
       test('should load then succeed with concatenated data when request succeed', () {
         sut.givenStore = givenState()
-            .loggedInUser() //
+            .loggedIn() //
             .successRechercheEmploiState() //
             .store((f) => {f.offreEmploiRepository = repo});
 
@@ -108,7 +108,7 @@ void main() {
 
       test('should load then fail keeping previous data when request fail', () {
         sut.givenStore = givenState()
-            .loggedInUser() //
+            .loggedIn() //
             .successRechercheEmploiState() //
             .store((f) => {f.offreEmploiRepository = repo});
 
@@ -124,7 +124,7 @@ void main() {
 
       test('should load then succeed with new request when request succeed', () {
         sut.givenStore = givenState()
-            .loggedInUser() //
+            .loggedIn() //
             .successRechercheEmploiState() //
             .store((f) => {f.offreEmploiRepository = repo});
 
@@ -135,7 +135,7 @@ void main() {
 
       test('should load then fail with new request and previous data when request fail', () {
         sut.givenStore = givenState()
-            .loggedInUser() //
+            .loggedIn() //
             .successRechercheEmploiState() //
             .store((f) => {f.offreEmploiRepository = repo});
 

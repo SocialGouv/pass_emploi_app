@@ -90,7 +90,7 @@ void main() {
 
     setUp(() async {
       repository = ChatRepositoryMock();
-      store = givenState().loggedInUser().chatSuccess([]).store((f) => f.chatRepository = repository);
+      store = givenState().loggedIn().chatSuccess([]).store((f) => f.chatRepository = repository);
       await store.dispatch(SubscribeToChatAction());
     });
 
@@ -236,7 +236,7 @@ void main() {
     setUp(() {
       mockChatRepository = _MockChatRepository();
       sut.givenStore = givenState() //
-          .loggedInUser()
+          .loggedIn()
           .store(
             (f) => {
               f.chatRepository = mockChatRepository,
@@ -281,7 +281,7 @@ void main() {
       mockPieceJointeRepository = _MockPieceJointeRepository();
       mockPieceJointeUseCase = _MockPieceJointeUseCase();
       sut.givenStore = givenState() //
-          .loggedInUser()
+          .loggedIn()
           .store(
             (f) => {
               f.chatRepository = mockChatRepository,

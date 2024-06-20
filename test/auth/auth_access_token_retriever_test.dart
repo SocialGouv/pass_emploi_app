@@ -105,7 +105,7 @@ AuthIdToken validIdToken() => AuthIdToken(
       email: "email",
       issuedAt: (DateTime.now().millisecondsSinceEpoch ~/ 1000),
       expiresAt: (DateTime.now().millisecondsSinceEpoch ~/ 1000) + 1000,
-      loginMode: 'MILO',
+      structure: 'MILO',
     );
 
 AuthIdToken invalidIdToken() => AuthIdToken(
@@ -115,5 +115,5 @@ AuthIdToken invalidIdToken() => AuthIdToken(
       email: "email@email.com",
       issuedAt: 0,
       expiresAt: 0,
-      loginMode: 'MILO',
+      structure: 'MILO',
     );

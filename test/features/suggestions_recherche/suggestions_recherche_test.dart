@@ -19,7 +19,7 @@ void main() {
 
     test('should load then succeed when request succeeds', () {
       sut.givenStore = givenState()
-          .loggedInUser() //
+          .loggedIn() //
           .store((f) => {f.suggestionsRechercheRepository = SuggestionsRechercheRepositorySuccessStub()});
 
       sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed()]);

@@ -244,7 +244,7 @@ void main() {
               .thenAnswer((_) async => currentPeriodSuiviMilo);
 
           sut.givenStore = givenState() //
-              .loggedInUser()
+              .loggedIn()
               .monSuivi(interval: currentPeriodIntervalMilo, monSuivi: currentPeriodSuiviMilo)
               .store((f) => {f.monSuiviRepository = monSuiviRepository});
 

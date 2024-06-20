@@ -19,7 +19,7 @@ void main() {
 
       test('should load then succeed when request succeed', () {
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .store((f) => {f.contactImmersionRepository = ContactImmersionRepositorySuccessStub()});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed()]);
@@ -27,7 +27,7 @@ void main() {
 
       test('should load then fail when request was already done', () {
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .store((f) => {f.contactImmersionRepository = ContactImmersionRepositoryAlreadyDoneStub()});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFailAlreadyDone()]);
@@ -35,7 +35,7 @@ void main() {
 
       test('should load then fail when request fail', () {
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .store((f) => {f.contactImmersionRepository = ContactImmersionRepositoryErrorStub()});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);

@@ -67,7 +67,7 @@ void main() {
 
         test('should load then succeed when request succeed for milo', () {
           sut.givenStore = givenState() //
-              .loggedInUser()
+              .loggedIn()
               .store((f) => {f.accueilRepository = AccueilRepositorySuccessStub()});
 
           sut.thenExpectChangingStatesThroughOrder([_shouldLoad()]);
@@ -92,7 +92,7 @@ void main() {
       group("and request succeeds", () {
         test("should display loading and success", () {
           sut.givenStore = givenState()
-              .loggedInUser() //
+              .loggedIn() //
               .withPendingUserActions(1)
               .store((f) => {f.accueilRepository = AccueilRepositorySuccessStub()});
           sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceedMilo()]);

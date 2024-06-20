@@ -39,7 +39,7 @@ void main() {
 
       test('should add it in recent searches', () {
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .store();
 
         sut.thenExpectChangingStatesThroughOrder([_shouldAddRecentSearch()]);

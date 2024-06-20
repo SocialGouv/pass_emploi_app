@@ -23,7 +23,7 @@ void main() {
         // Given
         final controller = StreamController<List<ConnectivityResult>>();
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .store((f) => {f.connectivityWrapper = ConnectivityWrapper(controller.stream)});
 
         // When
@@ -42,7 +42,7 @@ void main() {
         // Given
         final wrapper = MockConnectivityWrapper();
         final store = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .store((f) => {f.connectivityWrapper = wrapper});
 
         // When

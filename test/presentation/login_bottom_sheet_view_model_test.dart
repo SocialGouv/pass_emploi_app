@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/models/brand.dart';
+import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/presentation/login_bottom_sheet_view_model.dart';
 
 import '../doubles/fixtures.dart';
@@ -13,9 +13,9 @@ import '../dsl/app_state_dsl.dart';
 void main() {
   group('LoginBottomSheetViewModel', () {
     group('loginButtons', () {
-      test("view model when brand is BRSA and flavor is prod should only display pole emploi button", () {
+      test("view model when brand is pass emploi and flavor is prod should only display pole emploi button", () {
         // Given
-        final store = givenState(configuration(flavor: Flavor.PROD, brand: Brand.brsa))
+        final store = givenState(configuration(flavor: Flavor.PROD, brand: Brand.passEmploi))
             .copyWith(loginState: UserNotLoggedInState())
             .store();
 
@@ -28,10 +28,9 @@ void main() {
         ]);
       });
 
-      test("view model when brand is BRSA and flavor is staging should display pole emploi and pass emploi buttons",
-          () {
+      test("view model when brand is pass emploi and flavor is staging should display pole emploi button", () {
         // Given
-        final store = givenState(configuration(flavor: Flavor.STAGING, brand: Brand.brsa))
+        final store = givenState(configuration(flavor: Flavor.STAGING, brand: Brand.passEmploi))
             .copyWith(loginState: UserNotLoggedInState())
             .store();
 

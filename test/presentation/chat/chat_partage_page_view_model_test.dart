@@ -82,7 +82,7 @@ void main() {
     test('should have corresponding titles', () {
       // Given
       final store = givenState()
-          .loggedInUser() //
+          .loggedIn() //
           .copyWith(evenementEmploiDetailsState: EvenementEmploiDetailsSuccessState(mockEvenementEmploiDetails()))
           .store();
 
@@ -111,7 +111,7 @@ void main() {
     test('should partager evenement emploi', () {
       // Given
       final store = givenState()
-          .loggedInUser() //
+          .loggedIn() //
           .copyWith(evenementEmploiDetailsState: EvenementEmploiDetailsSuccessState(mockEvenementEmploiDetails()))
           .spyStore();
       final viewModel = ChatPartagePageViewModel.fromSource(store, ChatPartageEvenementEmploiSource());

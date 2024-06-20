@@ -22,7 +22,7 @@ void main() {
         repository.onChatStatusStreamReturns(ConseillerMessageInfo(false, null));
 
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .store((f) => {f.chatRepository = repository});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldBeEmpty()]);
@@ -32,7 +32,7 @@ void main() {
         repository.onChatStatusStreamReturns(ConseillerMessageInfo(true, null));
 
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .store((f) => {f.chatRepository = repository});
 
         sut.thenExpectChangingStatesThroughOrder([
@@ -47,7 +47,7 @@ void main() {
         repository.onChatStatusStreamReturns(ConseillerMessageInfo(false, DateTime(2022)));
 
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .store((f) => {f.chatRepository = repository});
 
         sut.thenExpectChangingStatesThroughOrder([
@@ -62,7 +62,7 @@ void main() {
         repository.onChatStatusStreamReturns(ConseillerMessageInfo(true, DateTime(2022)));
 
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .store((f) => {f.chatRepository = repository});
 
         sut.thenExpectChangingStatesThroughOrder([

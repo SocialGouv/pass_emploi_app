@@ -672,7 +672,7 @@ void main() {
 
       test('display session leader when source is session milo details', () {
         // Given
-        final store = givenState().loggedInUser().withSuccessSessionMiloDetails().store();
+        final store = givenState().loggedIn().withSuccessSessionMiloDetails().store();
 
         // When
         final viewModel = RendezvousDetailsViewModel.create(
@@ -774,7 +774,7 @@ void main() {
 
           group('and user is not inscrit', () {
             setUp(() {
-              final store = givenState().loggedInUser().succeedEventList(animationsCollectives: [
+              final store = givenState().loggedIn().succeedEventList(animationsCollectives: [
                 mockRendezvous(
                   id: '1',
                   estInscrit: false,
@@ -817,7 +817,7 @@ void main() {
       test('should be shareable if vm created from session milo details', () {
         // Given
         final store = givenState()
-            .loggedInUser() //
+            .loggedIn() //
             .withSuccessSessionMiloDetails(estInscrit: false)
             .store();
 
@@ -916,7 +916,7 @@ void main() {
       test('should display session milo rendez vous', () {
         // Given
         final store = givenState()
-            .loggedInUser() //
+            .loggedIn() //
             .withSuccessSessionMiloDetails(
               dateDeDebut: DateTime(2022, 3, 1),
               dateDeFin: DateTime(2022, 3, 1),
@@ -967,7 +967,7 @@ void main() {
   test('when session state is loading', () {
     // Given
     final store = givenState()
-        .loggedInUser() //
+        .loggedIn() //
         .withLoadingSessionMiloDetails()
         .store();
 
@@ -987,7 +987,7 @@ void main() {
     test('when rendezvous state is loading', () {
       // Given
       final store = givenState()
-          .loggedInUser() //
+          .loggedIn() //
           .copyWith(rendezvousDetailsState: RendezvousDetailsLoadingState())
           .store();
 
@@ -1006,7 +1006,7 @@ void main() {
     test('when rendezvous state is content', () {
       // Given
       final store = givenState()
-          .loggedInUser() //
+          .loggedIn() //
           .copyWith(rendezvousDetailsState: RendezvousDetailsSuccessState(mockRendezvous()))
           .store();
 
@@ -1025,7 +1025,7 @@ void main() {
     test('when rendezvous state is failure', () {
       // Given
       final store = givenState()
-          .loggedInUser() //
+          .loggedIn() //
           .copyWith(rendezvousDetailsState: RendezvousDetailsFailureState())
           .store();
 
@@ -1064,7 +1064,7 @@ void main() {
   group("tracking when rendezvous…", () {
     test('source state is Session Milo Details should be track as a Session Milo', () {
       // Given
-      final store = givenState().loggedInUser().withSuccessSessionMiloDetails().store();
+      final store = givenState().loggedIn().withSuccessSessionMiloDetails().store();
 
       // When
       final viewModel = RendezvousDetailsViewModel.create(
@@ -1135,7 +1135,7 @@ Store<AppState> _store(Rendezvous rendezvous) => _storeNotUpToDate(rendezvous, n
 
 Store<AppState> _storeNotUpToDate(Rendezvous rendezvous, DateTime? dateDerniereMiseAJour) {
   return givenState()
-      .loggedInUser()
+      .loggedIn()
       .monSuivi(
         monSuivi: mockMonSuivi(
           rendezvous: [rendezvous],

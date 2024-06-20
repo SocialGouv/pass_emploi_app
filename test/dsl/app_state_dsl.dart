@@ -47,6 +47,7 @@ import 'package:pass_emploi_app/features/user_action/create/pending/user_action_
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
 import 'package:pass_emploi_app/features/user_action/details/user_action_details_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
+import 'package:pass_emploi_app/models/accompagnement.dart';
 import 'package:pass_emploi_app/models/accueil/accueil.dart';
 import 'package:pass_emploi_app/models/alerte/alerte.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
@@ -61,6 +62,7 @@ import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/feature_flip.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
+import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/models/mon_suivi.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -83,8 +85,8 @@ import '../utils/test_setup.dart';
 
 AppState givenState([Configuration? configuration]) => AppState.initialState(configuration: configuration);
 
-AppState givenBrsaState({Configuration? baseConfiguration}) {
-  return AppState.initialState(configuration: baseConfiguration ?? brsaConfiguration()).loggedInPoleEmploiUser();
+AppState givenPassEmploiState({Configuration? baseConfiguration}) {
+  return AppState.initialState(configuration: baseConfiguration ?? passEmploiConfiguration()).loggedInPoleEmploiUser();
 }
 
 extension AppStateDSL on AppState {
@@ -96,7 +98,15 @@ extension AppStateDSL on AppState {
 
   StoreSpy spyStore() => StoreSpy.withState(this);
 
-  AppState loggedInUser() => copyWith(loginState: successMiloUserState());
+  AppState loggedIn() => copyWith(loginState: successMiloUserState());
+
+  AppState loggedInUser({LoginMode loginMode = LoginMode.MILO, Accompagnement accompagnement = Accompagnement.cej}) {
+    return copyWith(loginState: successUserState(loginMode: loginMode, accompagnement: accompagnement));
+  }
+
+  AppState loggedInMiloUser() => copyWith(loginState: successMiloUserState());
+
+  AppState loggedInPoleEmploiUser() => copyWith(loginState: successPoleEmploiCejUserState());
 
   AppState withDeepLink(DeepLinkState deepLinkState) => copyWith(deepLinkState: deepLinkState);
 
@@ -104,10 +114,6 @@ extension AppStateDSL on AppState {
         deepLink,
         DeepLinkOrigin.inAppNavigation,
       ));
-
-  AppState loggedInMiloUser() => copyWith(loginState: successMiloUserState());
-
-  AppState loggedInPoleEmploiUser() => copyWith(loginState: successPoleEmploiUserState());
 
   AppState withDemoMode() => copyWith(demoState: true);
 

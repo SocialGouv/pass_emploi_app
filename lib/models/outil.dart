@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/ui/external_links.dart';
 
 class Outil extends Equatable {
   final String title;
@@ -14,6 +15,97 @@ class Outil extends Equatable {
     this.actionLabel,
     this.imagePath,
   });
+
+  static Outil diagoriente = Outil(
+    title: "Diagoriente",
+    description:
+        "Explorez vos expériences, analysez vos compétences transversales et identifiez vos intérêts personnels afin de faciliter votre orientation.",
+    actionLabel: "Créer mon compte Diagoriente",
+    redirectMode: OutilExternalRedirectMode(ExternalLinks.boiteAOutilsDiagoriente),
+    imagePath: "diagoriente.png",
+  );
+  static Outil aides = Outil(
+    title: "J'accède à mes aides",
+    description:
+        "Trouvez en quelques clics les aides auxquelles vous avez droit : logement, santé, mobilité, emploi, culture, etc.",
+    actionLabel: "Lancer ma simulation",
+    redirectMode: OutilExternalRedirectMode(ExternalLinks.boiteAOutilsAides),
+    imagePath: "aides.png",
+  );
+
+  static Outil mentor = Outil(
+    title: "Trouver un mentor avec 1 jeune, 1 mentor",
+    description:
+        "Expliquez nous votre situation et vos besoins. Nous vous mettrons en relation avec une association qui vous proposera un mentor.",
+    actionLabel: "Me faire accompagner",
+    redirectMode: OutilExternalRedirectMode(ExternalLinks.boiteAOutilsMentor),
+    imagePath: "mentor.png",
+  );
+
+  static Outil benevolatCej = Outil(
+    title: "Je m’engage bénévolement",
+    description:
+        "Trouvez une mission de bénévolat à distance ou en présentiel, comptabilisée dans vos heures d’activités CEJ, sur JeVeuxAider.gouv.fr",
+    redirectMode: OutilInternalRedirectMode(OutilInternalLink.benevolat),
+    imagePath: "boite_outil_benevolat.webp",
+  );
+
+  static Outil benevolatPassEmploi = Outil(
+    title: "Je m’engage bénévolement",
+    description: "Trouvez une mission de bénévolat à distance ou en présentiel sur JeVeuxAider.gouv.fr",
+    redirectMode: OutilInternalRedirectMode(OutilInternalLink.benevolat),
+    imagePath: "boite_outil_benevolat.webp",
+  );
+
+  static Outil formation = Outil(
+    title: "Trouver une formation",
+    description: "Trouvez la formation qui vous intéresse pour réaliser votre projet professionnel.",
+    actionLabel: "Je recherche une formation",
+    redirectMode: OutilExternalRedirectMode(ExternalLinks.boiteAOutilsFormation),
+    imagePath: null,
+  );
+
+  static Outil evenement = Outil(
+    title: "Événements de recrutement",
+    description: "Trouvez des centaines d’événements de recrutement pour tous les jeunes partout en France.",
+    actionLabel: "Je recherche un événement",
+    redirectMode: OutilExternalRedirectMode(ExternalLinks.boiteAOutilsEvenementRecrutement),
+    imagePath: null,
+  );
+
+  static Outil emploiStore = Outil(
+    title: "Emploi-Store",
+    description:
+        "Une plateforme pour trouver les sites et applications dédiés à la recherche d'emploi ainsi qu’à la formation et à la création d'entreprise en France et à l'international.",
+    actionLabel: "Me diriger vers l’Emploi-Store",
+    redirectMode: OutilExternalRedirectMode(ExternalLinks.boiteAOutilsEmploiStore),
+    imagePath: null,
+  );
+
+  static Outil emploiSolidaire = Outil(
+    title: "Je postule pour un job dans une entreprise solidaire",
+    description: "Prenez contact avec un employeur solidaire et postulez aux offres qui correspondent à vos attentes.",
+    actionLabel: "Trouver une entreprise solidaire",
+    redirectMode: OutilExternalRedirectMode(ExternalLinks.boiteAOutilsEmploiSolidaire),
+    imagePath: null,
+  );
+
+  static Outil laBonneBoite = Outil(
+    title: "La bonne boîte",
+    description:
+        "Envoyez votre CV à la bonne entreprise ! Découvrez en un clic les entreprises qui recrutent dans votre métier près de chez vous.",
+    actionLabel: "Trouver la bonne boîte",
+    redirectMode: OutilExternalRedirectMode(ExternalLinks.boiteAOutilsLaBonneBoite),
+    imagePath: null,
+  );
+
+  static Outil alternance = Outil(
+    title: "Alternance avec 1 jeune, 1 solution",
+    description: "Trouvez la formation et l’entreprise pour réaliser votre projet d’alternance.",
+    actionLabel: "Je recherche une altenance",
+    redirectMode: OutilExternalRedirectMode(ExternalLinks.boiteAOutilsAlternance),
+    imagePath: null,
+  );
 
   Outil withoutImage() {
     return Outil(

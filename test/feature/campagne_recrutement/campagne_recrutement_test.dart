@@ -20,7 +20,7 @@ void main() {
         when(() => repository.isFirstLaunch()).thenAnswer((_) async => true);
 
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .store((f) => {f.campagneRecrutementRepository = repository});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldHaveCampagneRecrutementValue(false)]);
@@ -31,7 +31,7 @@ void main() {
         when(() => repository.shouldShowCampagneRecrutement()).thenAnswer((_) async => true);
 
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .store((f) => {f.campagneRecrutementRepository = repository});
 
         sut.thenExpectAtSomePoint(_shouldHaveCampagneRecrutementValue(true));
@@ -45,7 +45,7 @@ void main() {
         when(() => repository.dismissCampagneRecrutement()).thenAnswer((_) async => true);
 
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .store((f) => {f.campagneRecrutementRepository = repository});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldHaveCampagneRecrutementValue(false)]);

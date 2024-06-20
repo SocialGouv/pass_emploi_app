@@ -12,7 +12,7 @@ void main() {
   test('Demarches du référentiel should be searched and displayed when screen loads', () async {
     // Given
     final store = givenState()
-        .loggedInUser()
+        .loggedIn()
         .store((factory) => {factory.searchDemarcheRepository = DemarcheDuReferentielSuccessStub()});
     final displayedLoading = store.onChange.any((e) => e.searchDemarcheState is SearchDemarcheLoadingState);
     final successAppState = store.onChange.firstWhere((e) => e.searchDemarcheState is SearchDemarcheSuccessState);
@@ -33,7 +33,7 @@ void main() {
   test('Search should display an error when fetching failed', () async {
     // Given
     final store = givenState()
-        .loggedInUser()
+        .loggedIn()
         .store((factory) => {factory.searchDemarcheRepository = DemarcheDuReferentielFailureStub()});
     final displayedLoading = store.onChange.any((e) => e.searchDemarcheState is SearchDemarcheLoadingState);
     final successAppState = store.onChange.firstWhere((e) => e.searchDemarcheState is SearchDemarcheFailureState);
@@ -50,7 +50,7 @@ void main() {
   test('Reset', () async {
     // Given
     final store = givenState() //
-        .loggedInUser() //
+        .loggedIn() //
         .searchDemarchesSuccess([mockDemarcheDuReferentiel()]) //
         .store();
 

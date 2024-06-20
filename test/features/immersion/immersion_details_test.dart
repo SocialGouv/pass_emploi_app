@@ -31,7 +31,7 @@ void main() {
         });
 
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .store((f) => {f.immersionDetailsRepository = repository});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed()]);
@@ -43,7 +43,7 @@ void main() {
         });
 
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .store((f) => {f.immersionDetailsRepository = repository});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
@@ -56,7 +56,7 @@ void main() {
 
         final f = Favori(id: 'id', type: OffreType.immersion, titre: 't', organisation: 'o', localisation: 'l');
         sut.givenStore = givenState() //
-            .loggedInUser() //
+            .loggedIn() //
             .favoriListSuccessState([f]) //
             .store((factory) => {factory.immersionDetailsRepository = repository});
 
@@ -69,7 +69,7 @@ void main() {
 
       test('should reset state', () {
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .copyWith(immersionDetailsState: ImmersionDetailsSuccessState(_MockImmersionDetails.instance))
             .store((f) => {f.immersionDetailsRepository = repository});
 

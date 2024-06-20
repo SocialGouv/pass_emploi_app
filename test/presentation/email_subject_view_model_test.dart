@@ -32,10 +32,10 @@ void main() {
         });
       });
 
-      group('when brand is BRSA', () {
+      group('when brand is pass emploi', () {
         test('should return expected email subject for login mode MILO', () {
           // Given
-          final store = givenBrsaState().loggedInMiloUser().store();
+          final store = givenPassEmploiState().loggedInMiloUser().store();
 
           // When
           final viewModel = EmailObjectViewModel.create(store);
@@ -47,7 +47,7 @@ void main() {
 
         test('should return expected email subject for login mode POLE_EMPLOI', () {
           // Given
-          final store = givenBrsaState().loggedInPoleEmploiUser().store();
+          final store = givenPassEmploiState().loggedInPoleEmploiUser().store();
 
           // When
           final viewModel = EmailObjectViewModel.create(store);
@@ -84,10 +84,10 @@ void main() {
         });
       });
 
-      group('when brand is BRSA', () {
+      group('when brand is pass emploi', () {
         test('should return expected email subject for login mode MILO', () {
           // Given
-          final store = givenBrsaState().loggedInMiloUser().store();
+          final store = givenPassEmploiState().loggedInMiloUser().store();
 
           // When
           final viewModel = EmailObjectViewModel.create(store);
@@ -98,7 +98,7 @@ void main() {
 
         test('should return expected email subject for login mode POLE_EMPLOI', () {
           // Given
-          final store = givenBrsaState().loggedInPoleEmploiUser().store();
+          final store = givenPassEmploiState().loggedInPoleEmploiUser().store();
 
           // When
           final viewModel = EmailObjectViewModel.create(store);

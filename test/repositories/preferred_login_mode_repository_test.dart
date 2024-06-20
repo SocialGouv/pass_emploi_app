@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pass_emploi_app/auth/auth_id_token.dart';
+import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/repositories/preferred_login_mode_repository.dart';
 
 import '../doubles/mocks.dart';

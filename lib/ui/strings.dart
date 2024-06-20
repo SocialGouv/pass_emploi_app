@@ -1,7 +1,7 @@
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/ui/immersion_contacts_strings.dart';
 
-class _BrsaStrings {
+class _PassEmploiStrings {
   static String appName = "pass emploi";
   static String logoDescription = "Pass emploi";
   static String shouldInformConseiller =
@@ -44,10 +44,10 @@ class Strings {
   Strings._();
 
   // Common
-  static String appName = Brand.isCej() ? _CejStrings.appName : _BrsaStrings.appName;
+  static String appName = Brand.isCej() ? _CejStrings.appName : _PassEmploiStrings.appName;
   static String error = "Une erreur s’est produite";
   static String retry = "Réessayer";
-  static String logoDescription = Brand.isCej() ? _CejStrings.logoDescription : _BrsaStrings.logoDescription;
+  static String logoDescription = Brand.isCej() ? _CejStrings.logoDescription : _PassEmploiStrings.logoDescription;
   static String close = "Fermer";
   static String yes = "Oui";
   static String no = "Non";
@@ -145,18 +145,20 @@ class Strings {
   static String start = "Démarrer";
 
   static String firstLaunchOnboardingCardTitle1 =
-      Brand.isCej() ? firstLaunchOnboardingCardTitle1Cej : firstLaunchOnboardingCardTitle1Brsa;
+      Brand.isCej() ? firstLaunchOnboardingCardTitle1Cej : firstLaunchOnboardingCardTitle1PassEmploi;
+  static String firstLaunchOnboardingCardContent1 =
+      Brand.isCej() ? firstLaunchOnboardingCardContent1Cej : firstLaunchOnboardingCardContent1PassEmploi;
   static String firstLaunchOnboardingCardTitle2 =
-      Brand.isCej() ? firstLaunchOnboardingCardTitle2Cej : firstLaunchOnboardingCardTitle2Brsa;
+      Brand.isCej() ? firstLaunchOnboardingCardTitle2Cej : firstLaunchOnboardingCardTitle2PassEmploi;
   static String firstLaunchOnboardingCardContent2 =
-      Brand.isCej() ? firstLaunchOnboardingCardContent2Cej : firstLaunchOnboardingCardContent2Brsa;
+      Brand.isCej() ? firstLaunchOnboardingCardContent2Cej : firstLaunchOnboardingCardContent2PassEmploi;
   static String firstLaunchOnboardingCardTitle3 =
-      Brand.isCej() ? firstLaunchOnboardingCardTitle3Cej : firstLaunchOnboardingCardTitle3Brsa;
+      Brand.isCej() ? firstLaunchOnboardingCardTitle3Cej : firstLaunchOnboardingCardTitle3PassEmploi;
   static String firstLaunchOnboardingCardContent3 =
-      Brand.isCej() ? firstLaunchOnboardingCardContent3Cej : firstLaunchOnboardingCardContent3Brsa;
+      Brand.isCej() ? firstLaunchOnboardingCardContent3Cej : firstLaunchOnboardingCardContent3PassEmploi;
 
   static String firstLaunchOnboardingCardTitle1Cej = "Le CEJ, un suivi personnalisé avec un conseiller dédié";
-  static String firstLaunchOnboardingCardContent1 =
+  static String firstLaunchOnboardingCardContent1Cej =
       'Vous suivez un programme de 15h à 20h par semaine, avec un conseiller dédié tout au long du parcours.';
   static String firstLaunchOnboardingCardTitle2Cej = "Une application pour suivre vos actions et rester en contact";
   static String firstLaunchOnboardingCardContent2Cej =
@@ -165,12 +167,15 @@ class Strings {
   static String firstLaunchOnboardingCardContent3Cej =
       "Connectez-vous pour bénéficier de toutes les fonctionnalités de l’application et profitez d’un environnement sécurisé pour échanger avec votre conseiller. ";
 
-  static String firstLaunchOnboardingCardTitle1Brsa = "Un suivi personnalisé avec un conseiller dédié";
-  static String firstLaunchOnboardingCardTitle2Brsa = "Une application pour suivre vos actions et rester en contact";
-  static String firstLaunchOnboardingCardContent2Brsa =
+  static String firstLaunchOnboardingCardTitle1PassEmploi = "Un suivi personnalisé avec un conseiller dédié";
+  static String firstLaunchOnboardingCardContent1PassEmploi =
+      'Vous suivez un programme adapté, avec un conseiller dédié tout au long du parcours';
+  static String firstLaunchOnboardingCardTitle2PassEmploi =
+      "Une application pour suivre vos actions et rester en contact";
+  static String firstLaunchOnboardingCardContent2PassEmploi =
       "Recherchez un emploi, suivez vos démarches et gardez contact avec votre conseiller grâce à une messagerie instantanée.";
-  static String firstLaunchOnboardingCardTitle3Brsa = "Des informations protégées";
-  static String firstLaunchOnboardingCardContent3Brsa =
+  static String firstLaunchOnboardingCardTitle3PassEmploi = "Des informations protégées";
+  static String firstLaunchOnboardingCardContent3PassEmploi =
       "Connectez-vous pour bénéficier de toutes les fonctionnalités de l’application et profitez d’un environnement sécurisé pour échanger avec votre conseiller. ";
 
   // Entree
@@ -180,9 +185,9 @@ class Strings {
       : "sur l'application dédiée à votre accompagnement.";
   static String noAccount = "Pas de compte ?";
   static String askAccount = "Demander un compte";
-  static String suiviParConseillerCEJ =
+  static String suiviParConseillerCej =
       "Dans le cadre de mon Contrat d'Engagement Jeune, je suis suivi par un conseiller :";
-  static String suiviParConseillerBRSA = "Je suis suivi par un conseiller :";
+  static String suiviParConseillerPassEmploi = "Je suis suivi par un conseiller :";
   static String dontHaveAccount = "Vous n’avez pas de compte sur cette application ?";
 
   static String alreadyHaveAccount = "Vous avez déjà un compte\n sur cette application ?";
@@ -352,9 +357,9 @@ class Strings {
   static String accueilOutilsSectionDescription = "Découvrez des outils pour vous aider dans vos projets";
   static String accueilVoirLesOutils = "Voir tous les outils";
   static String accueilCampagneRecrutementLabelCej = "Aidez-nous à améliorer l’application du CEJ\u{00A0}!";
-  static String accueilCampagneRecrutementLabelBrsa = "Aidez-nous à améliorer l’application pass emploi\u{00A0}!";
+  static String accueilCampagneRecrutementLabelPassEmploi = "Aidez-nous à améliorer l’application pass emploi\u{00A0}!";
   static String accueilCampagneRecrutementLabel =
-      Brand.isCej() ? accueilCampagneRecrutementLabelCej : accueilCampagneRecrutementLabelBrsa;
+      Brand.isCej() ? accueilCampagneRecrutementLabelCej : accueilCampagneRecrutementLabelPassEmploi;
   static String accueilCampagneRecrutementPressedTip = "Participer";
 
   // Mon Suivi
@@ -385,7 +390,7 @@ class Strings {
   static String rendezVousConseillerCommentLabel = "Commentaire de mon conseiller";
   static String cannotGoToRendezvous = "Vous ne pouvez pas vous rendre au rendez-vous ?";
   static String shouldInformConseiller =
-      Brand.isCej() ? _CejStrings.shouldInformConseiller : _BrsaStrings.shouldInformConseiller;
+      Brand.isCej() ? _CejStrings.shouldInformConseiller : _PassEmploiStrings.shouldInformConseiller;
 
   static String rendezVousDetailsError = "Erreur lors de la récupération de l'événement";
   static String conseillerIsPresent = "Votre conseiller sera présent";
@@ -950,16 +955,17 @@ class Strings {
   static String accessibilityLevelNonConforme = "Non conforme";
   static String termsOfServiceLabel = "Conditions d'utilisation";
 
-  static String legalNoticeUrl = Brand.isCej() ? _CejStrings.legalNoticeUrl : _BrsaStrings.legalNoticeUrl;
-  static String privacyPolicyUrl = Brand.isCej() ? _CejStrings.privacyPolicyUrl : _BrsaStrings.privacyPolicyUrl;
-  static String termsOfServiceUrl = Brand.isCej() ? _CejStrings.termsOfServiceUrl : _BrsaStrings.termsOfServiceUrl;
-  static String accessibilityUrl = Brand.isCej() ? _CejStrings.accessibilityUrl : _BrsaStrings.accessibilityUrl;
+  static String legalNoticeUrl = Brand.isCej() ? _CejStrings.legalNoticeUrl : _PassEmploiStrings.legalNoticeUrl;
+  static String privacyPolicyUrl = Brand.isCej() ? _CejStrings.privacyPolicyUrl : _PassEmploiStrings.privacyPolicyUrl;
+  static String termsOfServiceUrl =
+      Brand.isCej() ? _CejStrings.termsOfServiceUrl : _PassEmploiStrings.termsOfServiceUrl;
+  static String accessibilityUrl = Brand.isCej() ? _CejStrings.accessibilityUrl : _PassEmploiStrings.accessibilityUrl;
 
   // Profil: Settings & account suppression
   static String settingsLabel = "Paramètres application";
   static String suppressionPageTitle = "Suppression de compte";
   static String suppressionAccountLabel =
-      Brand.isCej() ? _CejStrings.suppressionAccountLabel : _BrsaStrings.suppressionAccountLabel;
+      Brand.isCej() ? _CejStrings.suppressionAccountLabel : _PassEmploiStrings.suppressionAccountLabel;
   static String activityShareLabel = "Partage de votre activité";
 
   static String partageFavorisEnabled(bool enabled) =>
@@ -969,9 +975,9 @@ class Strings {
   static String warning = "Attention";
   static String suppressionButtonLabel = "Supprimer mon compte";
   static String warningInformationParagraph1 =
-      Brand.isCej() ? _CejStrings.warningInformationParagraph1 : _BrsaStrings.warningInformationParagraph1;
+      Brand.isCej() ? _CejStrings.warningInformationParagraph1 : _PassEmploiStrings.warningInformationParagraph1;
   static String warningInformationParagraph2 =
-      Brand.isCej() ? _CejStrings.warningInformationParagraph2 : _BrsaStrings.warningInformationParagraph2;
+      Brand.isCej() ? _CejStrings.warningInformationParagraph2 : _PassEmploiStrings.warningInformationParagraph2;
   static String warningInformationPoleEmploi =
       "Vos démarches et rendez-vous seront toujours disponibles dans votre portail France Travail.";
   static List<String> warningPointsMilo = [
@@ -988,7 +994,7 @@ class Strings {
   static String lastWarningBeforeSuppression = "Tapez “supprimer” pour confirmer la suppression de votre compte.";
   static String mandatorySuppressionLabelError = "Vérifiez que vous avez bien tapé “supprimer”";
   static String accountDeletionSuccess =
-      Brand.isCej() ? _CejStrings.accountDeletionSuccess : _BrsaStrings.accountDeletionSuccess;
+      Brand.isCej() ? _CejStrings.accountDeletionSuccess : _PassEmploiStrings.accountDeletionSuccess;
 
   static String shareFavoriteLabel = "Partager mes favoris";
 
@@ -1004,7 +1010,7 @@ class Strings {
   static String contactPageBody2 = "Contactez-nous pour :";
   static String contactPageBody3 = Brand.isCej()
       ? "Pour toutes les informations et les problèmes liés au Contrat d’Engagement Jeune, veuillez contacter votre conseiller."
-      : "Pour toutes les informations et les problèmes liés au RSA, veuillez contacter votre conseiller.";
+      : "Pour toutes les informations et les problèmes liés votre dispositif d'accompagnement, veuillez contacter votre conseiller.";
   static String contactPageBodyBullet1 = "Un problème sur l’application";
   static String contactPageBodyBullet2 = "Une suggestion d’évolution";
   static String contactPageBodyBullet3 = "Toute autre remarque";
@@ -1054,8 +1060,9 @@ class Strings {
   static String modeDemoExplicationTitre = "Espace démo conseiller";
   static String modeDemoExplicationPremierPoint1 = "→ Cette version vous ";
   static String modeDemoExplicationPremierPoint2 = "permet d’explorer";
-  static String modeDemoExplicationPremierPoint3 =
-      Brand.isCej() ? _CejStrings.modeDemoExplicationPremierPoint3 : _BrsaStrings.modeDemoExplicationPremierPoint3;
+  static String modeDemoExplicationPremierPoint3 = Brand.isCej()
+      ? _CejStrings.modeDemoExplicationPremierPoint3
+      : _PassEmploiStrings.modeDemoExplicationPremierPoint3;
   static String modeDemoExplicationSecondPoint1 = "→ Les données présentées ";
   static String modeDemoExplicationSecondPoint2 = "sont factices.";
   static String modeDemoExplicationTroisiemePoint1 =

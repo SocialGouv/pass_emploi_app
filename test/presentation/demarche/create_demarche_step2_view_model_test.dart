@@ -17,7 +17,7 @@ void main() {
       test('create when state is not initialized should display loading', () {
         // Given
         final store = givenState() //
-            .loggedInUser() //
+            .loggedIn() //
             .copyWith(searchDemarcheState: SearchDemarcheNotInitializedState()) //
             .store();
 
@@ -31,7 +31,7 @@ void main() {
       test('create when state is loading should display loading', () {
         // Given
         final store = givenState() //
-            .loggedInUser() //
+            .loggedIn() //
             .copyWith(searchDemarcheState: SearchDemarcheLoadingState()) //
             .store();
 
@@ -45,7 +45,7 @@ void main() {
       test('create when state is failure should display failure', () {
         // Given
         final store = givenState() //
-            .loggedInUser() //
+            .loggedIn() //
             .copyWith(searchDemarcheState: SearchDemarcheFailureState()) //
             .store();
 
@@ -59,7 +59,7 @@ void main() {
       test('create when state is success should display content', () {
         // Given
         final store = givenState() //
-            .loggedInUser() //
+            .loggedIn() //
             .searchDemarchesSuccess([]) //
             .store();
 
@@ -75,7 +75,7 @@ void main() {
       test('create when state is not initialized should display loading', () {
         // Given
         final store = givenState() //
-            .loggedInUser() //
+            .loggedIn() //
             .copyWith(thematiquesDemarcheState: ThematiqueDemarcheNotInitializedState()) //
             .store();
 
@@ -89,7 +89,7 @@ void main() {
       test('create when state is loading should display loading', () {
         // Given
         final store = givenState() //
-            .loggedInUser() //
+            .loggedIn() //
             .copyWith(thematiquesDemarcheState: ThematiqueDemarcheLoadingState()) //
             .store();
 
@@ -103,7 +103,7 @@ void main() {
       test('create when state is failure should display failure', () {
         // Given
         final store = givenState() //
-            .loggedInUser() //
+            .loggedIn() //
             .copyWith(thematiquesDemarcheState: ThematiqueDemarcheFailureState()) //
             .store();
 
@@ -117,7 +117,7 @@ void main() {
       test('create when state is success should display content', () {
         // Given
         final store = givenState() //
-            .loggedInUser() //
+            .loggedIn() //
             .withThematiqueDemarcheSuccessState(demarches: []) //
             .store();
 
@@ -133,7 +133,7 @@ void main() {
       test('create when state is not initialized should display loading', () {
         // Given
         final store = givenState() //
-            .loggedInUser() //
+            .loggedIn() //
             .copyWith(topDemarcheState: TopDemarcheNotInitializedState()) //
             .store();
 
@@ -147,7 +147,7 @@ void main() {
       test('create when state is success should display loading', () {
         // Given
         final store = givenState() //
-            .loggedInUser() //
+            .loggedIn() //
             .withTopDemarcheSuccessState(demarches: []) //
             .store();
 
@@ -190,7 +190,7 @@ void main() {
     test('create when state is successful without result should display empty item and button', () {
       // Given
       final store = givenState() //
-          .loggedInUser() //
+          .loggedIn() //
           .searchDemarchesSuccess([]) //
           .store();
 
@@ -207,7 +207,7 @@ void main() {
     test('create when state is successful with result should display specific title, items and button', () {
       // Given
       final store = givenState() //
-          .loggedInUser() //
+          .loggedIn() //
           .searchDemarchesSuccess([mockDemarcheDuReferentiel('1'), mockDemarcheDuReferentiel('2')]) //
           .store();
 
@@ -237,7 +237,7 @@ void main() {
     test('should display demarches associated with given thematique', () {
       // Given
       final store = givenState() //
-          .loggedInUser() //
+          .loggedIn() //
           .withThematiqueDemarcheSuccessState() //
           .store();
 

@@ -15,14 +15,14 @@ trouvent dans les notes partagées Dashlane (`[APP MOBILE] .env.staging` ou `[AP
 ### Dans Visual Studio Code
 
 Le fichier `launch.json` est déjà bien configuré pour lancer l'application en mode `staging` sur les
-applications BRSA et CEJ. Pour lancer l'application en mode `prod`, il faut modifier la valeur de
+applications pass emploi et CEJ. Pour lancer l'application en mode `prod`, il faut modifier la valeur de
 `--flavor` dans le fichier `launch.json` par `prod`.
 
 ### Dans Android Studio
 
-Voici comment lancer l'application en mode `staging` sur les applications BRSA et CEJ. Pour lancer
+Voici comment lancer l'application en mode `staging` sur les applications pass emploi et CEJ. Pour lancer
 l'application en mode `prod`, il faut modifier la valeur de `--flavor` dans le
-fichier `Additional run arguments` par `cejProd` ou `brsaProd`.
+fichier `Additional run arguments` par `cejProd` ou `brsaProd`. (brsa est le flavor de l'app pass emploi)
 
 #### Pour le flavor staging de l'app CEJ
 
@@ -30,7 +30,7 @@ fichier `Additional run arguments` par `cejProd` ou `brsaProd`.
 2. `Dart entrypoint` > `lib/cej_main.dart`
 3. `Additional run arguments` > `--flavor cejStaging`
 
-#### Pour le flavor staging de l'app BRSA
+#### Pour le flavor staging de l'app pass emploi
 
 1. Dans `Run` > `Edit Configurations`, rajouter une configuration Flutter appelée `BRSA staging`
 2. `Dart entrypoint` > `lib/brsa_main.dart`
@@ -49,7 +49,7 @@ Pour rappel ces fichiers ne doivent pas être versionnés (le gitignore est déj
 ### Configuration Android
 
 1. Télécharger le fichier `google-services.json` depuis la console Firebase de staging. Ce fichier
-   est commun à CEJ et BRSA vous pouvez le télécharger depuis le panneau de configuration Android de
+   est commun à CEJ et pass emploi vous pouvez le télécharger depuis le panneau de configuration Android de
    l'une des deux
    applications [par exemple sur ce lien](https://console.firebase.google.com/u/0/project/pass-emploi-staging/settings/general/android:fr.fabrique.social.gouv.passemploi.rsa.staging)
 
@@ -60,10 +60,10 @@ Pour rappel ces fichiers ne doivent pas être versionnés (le gitignore est déj
 ### Configuration iOS
 
 1. Contrairement à Android, il va falloir télécharger les fichiers
-   spécifiques `GoogleService-Info.plist` pour chacune des applications CEJ et BRSA depuis la
+   spécifiques `GoogleService-Info.plist` pour chacune des applications CEJ et pass emploi depuis la
    console
    Firebase. [Ce lien pour CEJ](https://console.firebase.google.com/u/0/project/pass-emploi-staging/settings/general/ios:fr.fabrique.social.gouv.passemploi.staging)
-   et [ce lien pour BRSA](https://console.firebase.google.com/u/0/project/pass-emploi-staging/settings/general/ios:fr.fabrique.social.gouv.passemploi.rsa.staging)
+   et [ce lien pour pass emploi](https://console.firebase.google.com/u/0/project/pass-emploi-staging/settings/general/ios:fr.fabrique.social.gouv.passemploi.rsa.staging)
 
 2. Les déplacer respectivement dans les dossiers suivants (à créer):
 
@@ -75,7 +75,7 @@ Pour rappel ces fichiers ne doivent pas être versionnés (le gitignore est déj
 ### Configuration Android
 
 1. Télécharger le fichier `google-services.json` depuis la console Firebase de production. Ce
-   fichier est commun à CEJ et BRSA vous pouvez le télécharger depuis le panneau de configuration
+   fichier est commun à CEJ et pass emploi vous pouvez le télécharger depuis le panneau de configuration
    Android de l'une des deux
    applications [par exemple sur ce lien](https://console.firebase.google.com/u/0/project/pass-emploi/settings/general/android:fr.fabrique.social.gouv.passemploi.rsa)
 
@@ -86,10 +86,10 @@ Pour rappel ces fichiers ne doivent pas être versionnés (le gitignore est déj
 ### Configuration iOS
 
 1. Contrairement à Android, il va falloir télécharger les fichiers
-   spécifiques `GoogleService-Info.plist` pour chacune des applications CEJ et BRSA depuis la
+   spécifiques `GoogleService-Info.plist` pour chacune des applications CEJ et pass emploi depuis la
    console
    Firebase. [Ce lien pour CEJ](https://console.firebase.google.com/u/0/project/pass-emploi/settings/general/ios:fr.fabrique.social.gouv.passemploi)
-   et [ce lien pour BRSA](https://console.firebase.google.com/u/0/project/pass-emploi/settings/general/ios:fr.fabrique.social.gouv.passemploi.rsa)
+   et [ce lien pour pass emploi](https://console.firebase.google.com/u/0/project/pass-emploi/settings/general/ios:fr.fabrique.social.gouv.passemploi.rsa)
 
 2. Les déplacer respectivement dans les dossiers suivants (à créer):
 

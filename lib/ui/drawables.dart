@@ -24,7 +24,7 @@ class Drawables {
 
   static String campagneRecrutementBg = "${_assets}campagne_recrutement_bg.webp";
 
-  static String logoInProgress = Brand.isCej() ? cejLogoInProgress : brsaLogoInProgress;
+  static String logoInProgress = Brand.isCej() ? cejLogoInProgress : passEmploiLogoInProgress;
   static String cejLogoInProgress = "${_assets}cej_in_progress.webp";
-  static String brsaLogoInProgress = "${_assets}brsa_in_progress.webp";
+  static String passEmploiLogoInProgress = "${_assets}brsa_in_progress.webp";
 }

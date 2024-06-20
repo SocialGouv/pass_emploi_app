@@ -13,7 +13,7 @@ import '../dsl/app_state_dsl.dart';
 void main() {
   test("Show rating app when user didn't rate it and use app for a month", () async {
     // Given
-    final store = givenState().loggedInUser().store((factory) => {
+    final store = givenState().loggedIn().store((factory) => {
           factory.ratingRepository = RatingRepositorySuccessStub(),
           factory.detailsJeuneRepository = DetailsJeuneRepositorySinceOneMonthStub(),
         });
@@ -30,7 +30,7 @@ void main() {
 
   test("Returns not initialized rating state when user use app for less than a month", () async {
     // Given
-    final store = givenState().loggedInUser().store((factory) => {
+    final store = givenState().loggedIn().store((factory) => {
           factory.ratingRepository = RatingRepositoryAlreadyRatedStub(),
           factory.detailsJeuneRepository = DetailsJeuneRepositorySinceLessOneMonthStub(),
         });

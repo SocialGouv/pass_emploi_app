@@ -43,9 +43,9 @@ void main() {
     expect(viewModel.shouldSendEmailOnNegativeRating, isTrue);
   });
 
-  test('should not send email on negative rating when platform is iOS and brand is BRSA', () {
+  test('should not send email on negative rating when platform is iOS and brand is pass emploi', () {
     // Given
-    final store = givenBrsaState().showRating().store();
+    final store = givenPassEmploiState().showRating().store();
 
     // When
     final viewModel = RatingViewModel.create(store, Platform.IOS);
@@ -54,9 +54,9 @@ void main() {
     expect(viewModel.shouldSendEmailOnNegativeRating, isFalse);
   });
 
-  test('should not send email on negative rating when platform is iOS and brand is BRSA', () {
+  test('should not send email on negative rating when platform is iOS and brand is pass emploi', () {
     // Given
-    final store = givenBrsaState().showRating().store();
+    final store = givenPassEmploiState().showRating().store();
 
     // When
     final viewModel = RatingViewModel.create(store, Platform.IOS);
@@ -65,9 +65,11 @@ void main() {
     expect(viewModel.shouldSendEmailOnNegativeRating, isFalse);
   });
 
-  test('ratingEmailObject when brand is BRSA and user is from Pôle emploi should return object properly formatted', () {
+  test(
+      'ratingEmailObject when brand is pass emploi and user is from Pôle emploi should return object properly formatted',
+      () {
     // Given
-    final store = givenBrsaState().showRating().store();
+    final store = givenPassEmploiState().showRating().store();
 
     // When
     final viewModel = RatingViewModel.create(store, Platform.IOS);

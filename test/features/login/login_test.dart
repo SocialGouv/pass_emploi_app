@@ -6,6 +6,8 @@ import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/bootstrap/bootstrap_action.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
+import 'package:pass_emploi_app/models/accompagnement.dart';
+import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
@@ -33,7 +35,9 @@ void main() {
       sut.givenStore = givenState().store((f) => f.authenticator = authenticator);
 
       // Then
-      sut.thenExpectChangingStatesThroughOrder([_shouldBeLoggedInWithMode(LoginMode.MILO)]);
+      sut.thenExpectChangingStatesThroughOrder(
+        [_shouldBeLoggedInWith(mode: LoginMode.MILO, accompagnement: Accompagnement.cej)],
+      );
     });
 
     test('user is not logged in if she was not previously logged in', () async {
@@ -62,7 +66,7 @@ void main() {
   });
 
   group('On request login…', () {
-    group('with mode SIMILO', () {
+    group('with mode SIMILO in CEJ accompagnement', () {
       sut.whenDispatchingAction(() => RequestLoginAction(LoginMode.MILO));
 
       test('user is properly logged in with SIMILO authentication mode', () async {
@@ -77,12 +81,15 @@ void main() {
         });
 
         // Then
-        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldBeLoggedInWithMode(LoginMode.MILO)]);
+        sut.thenExpectChangingStatesThroughOrder([
+          _shouldLoad(),
+          _shouldBeLoggedInWith(mode: LoginMode.MILO, accompagnement: Accompagnement.cej),
+        ]);
         preferredLoginModeRepository.verifySaveCalled();
       });
     });
 
-    group('with mode POLE_EMPLOI in CEJ application', () {
+    group('with mode POLE_EMPLOI in CEJ accompagnement', () {
       sut.whenDispatchingAction(() => RequestLoginAction(LoginMode.POLE_EMPLOI));
 
       test('user is properly logged in with POLE_EMPLOI authentication mode', () async {
@@ -97,12 +104,15 @@ void main() {
         });
 
         // Then
-        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldBeLoggedInWithMode(LoginMode.POLE_EMPLOI)]);
+        sut.thenExpectChangingStatesThroughOrder([
+          _shouldLoad(),
+          _shouldBeLoggedInWith(mode: LoginMode.POLE_EMPLOI, accompagnement: Accompagnement.cej),
+        ]);
         preferredLoginModeRepository.verifySaveCalled();
       });
     });
 
-    group('with mode POLE_EMPLOI in BRSA application', () {
+    group('with mode POLE_EMPLOI in RSA accompagnement', () {
       sut.whenDispatchingAction(() => RequestLoginAction(LoginMode.POLE_EMPLOI));
 
       test('user is properly logged in with POLE_EMPLOI authentication mode', () async {
@@ -117,7 +127,33 @@ void main() {
         });
 
         // Then
-        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldBeLoggedInWithMode(LoginMode.POLE_EMPLOI)]);
+        sut.thenExpectChangingStatesThroughOrder([
+          _shouldLoad(),
+          _shouldBeLoggedInWith(mode: LoginMode.POLE_EMPLOI, accompagnement: Accompagnement.rsa),
+        ]);
+        preferredLoginModeRepository.verifySaveCalled();
+      });
+    });
+
+    group('with mode POLE_EMPLOI in AIJ accompagnement', () {
+      sut.whenDispatchingAction(() => RequestLoginAction(LoginMode.POLE_EMPLOI));
+
+      test('user is properly logged in with POLE_EMPLOI authentication mode', () async {
+        // Given
+        when(() => authenticator.login(AuthenticationMode.POLE_EMPLOI))
+            .thenAnswer((_) async => SuccessAuthenticatorResponse());
+        when(() => authenticator.idToken()).thenAnswer((_) async => authIdToken('POLE_EMPLOI_AIJ'));
+        sut.givenStore = givenState().store((f) {
+          f.authenticator = authenticator;
+          f.matomoTracker = matomoTracker;
+          f.preferredLoginModeRepository = preferredLoginModeRepository;
+        });
+
+        // Then
+        sut.thenExpectChangingStatesThroughOrder([
+          _shouldLoad(),
+          _shouldBeLoggedInWith(mode: LoginMode.POLE_EMPLOI, accompagnement: Accompagnement.aij),
+        ]);
         preferredLoginModeRepository.verifySaveCalled();
       });
     });
@@ -165,7 +201,7 @@ void main() {
     test('user is logged out from authenticator and state is fully reset except for configuration', () async {
       // Given
       when(() => authenticator.logout('id', LogoutReason.apiResponse401)).thenAnswer((_) async => true);
-      final Store<AppState> store = givenState(configuration(flavor: Flavor.PROD)).loggedInUser().store((f) {
+      final Store<AppState> store = givenState(configuration(flavor: Flavor.PROD)).loggedIn().store((f) {
         f.authenticator = authenticator;
         f.matomoTracker = matomoTracker;
       });
@@ -181,10 +217,10 @@ void main() {
   });
 }
 
-Matcher _shouldBeLoggedInWithMode(LoginMode loginMode) {
+Matcher _shouldBeLoggedInWith({required LoginMode mode, required Accompagnement accompagnement}) {
   return StateIs<LoginSuccessState>(
     (state) => state.loginState,
-    (state) => expect(state.user, user(loginMode)),
+    (state) => expect(state.user, user(mode, accompagnement)),
   );
 }
 
@@ -201,20 +237,21 @@ Matcher _shouldFailWithMessage() {
   );
 }
 
-AuthIdToken authIdToken(String loginMode) => AuthIdToken(
+AuthIdToken authIdToken(String structure) => AuthIdToken(
       userId: 'id',
       firstName: 'F',
       lastName: 'L',
       email: 'first.last@mail.fr',
       issuedAt: 90000000,
       expiresAt: 100000000,
-      loginMode: loginMode,
+      structure: structure,
     );
 
-User user(LoginMode loginMode) => User(
+User user(LoginMode loginMode, Accompagnement accompagnement) => User(
       id: "id",
       firstName: "F",
       lastName: "L",
       email: "first.last@mail.fr",
       loginMode: loginMode,
+      accompagnement: accompagnement,
     );

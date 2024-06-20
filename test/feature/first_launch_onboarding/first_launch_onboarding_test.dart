@@ -20,7 +20,7 @@ void main() {
         when(() => repository.showFirstLaunchOnboarding()).thenAnswer((_) async => true);
 
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .store((f) => {f.firstLaunchOnboardingRepository = repository});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldSucceed()]);

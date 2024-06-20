@@ -31,7 +31,7 @@ void main() {
         });
 
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .store((f) => {f.detailedOfferRepository = repository});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed()]);
@@ -43,7 +43,7 @@ void main() {
         });
 
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .store((f) => {f.detailedOfferRepository = repository});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
@@ -55,12 +55,12 @@ void main() {
         });
 
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .store((f) => {f.detailedOfferRepository = repository});
 
         final f = Favori(id: 'id', type: OffreType.immersion, titre: 't', organisation: 'o', localisation: 'l');
         sut.givenStore = givenState() //
-            .loggedInUser() //
+            .loggedIn() //
             .favoriListSuccessState([f]) //
             .store((factory) => {factory.detailedOfferRepository = repository});
 

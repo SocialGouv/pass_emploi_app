@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/auth/auth_id_token.dart';
+import 'package:pass_emploi_app/models/login_mode.dart';
 
 sealed class PreferredLoginModeState extends Equatable {
   @override

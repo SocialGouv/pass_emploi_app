@@ -21,9 +21,9 @@ void main() {
     );
   });
 
-  test('create when brand is BRSA should only return OffreEmploi and Alternance', () {
+  test('create when brand is pass emploi should only return OffreEmploi and Alternance', () {
     // Given
-    final store = givenState(configuration(brand: Brand.brsa)).store();
+    final store = givenState(configuration(brand: Brand.passEmploi)).store();
 
     // When
     final viewModel = OffreFiltersPageViewModel.create(store);

@@ -1,85 +1,39 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:pass_emploi_app/auth/auth_id_token.dart';
+import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/tracking/tracking_evenement_engagement_action.dart';
-import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
 
+import '../../doubles/fixtures.dart';
 import '../../doubles/mocks.dart';
 import '../../dsl/app_state_dsl.dart';
 
 void main() {
   late MockEvenementEngagementRepository repository;
+  final user = mockUser();
 
   setUp(() {
     repository = MockEvenementEngagementRepository();
-    when(
-      () => repository.send(
-        userId: "id",
-        event: EvenementEngagement.MESSAGE_ENVOYE,
-        loginMode: LoginMode.MILO,
-        brand: Brand.cej,
-      ),
-    ).thenAnswer((_) async => true);
+    registerFallbackValue(user);
   });
 
   test("Tracking event action should call repository", () async {
     // Given
-    final store = givenState().loggedInUser().store((f) => {f.evenementEngagementRepository = repository});
-    when(
-      () => repository.send(
-        userId: "id",
-        event: EvenementEngagement.MESSAGE_ENVOYE,
-        loginMode: LoginMode.MILO,
-        brand: Brand.cej,
-      ),
-    ).thenAnswer((_) async => true);
+    final store = givenState()
+        .copyWith(loginState: LoginSuccessState(user))
+        .store((f) => {f.evenementEngagementRepository = repository});
+    when(() => repository.send(user: user, event: EvenementEngagement.MESSAGE_ENVOYE)).thenAnswer((_) async => true);
 
     // When
     store.dispatch(TrackingEvenementEngagementAction(EvenementEngagement.MESSAGE_ENVOYE));
 
     // Then
-    verify(
-      () => repository.send(
-        userId: "id",
-        event: EvenementEngagement.MESSAGE_ENVOYE,
-        loginMode: LoginMode.MILO,
-        brand: Brand.cej,
-      ),
-    ).called(1);
-  });
-
-  test("Tracking event action should call repository with proper brand", () async {
-    // Given
-    final store =
-        givenBrsaState().loggedInPoleEmploiUser().store((f) => {f.evenementEngagementRepository = repository});
-    when(
-      () => repository.send(
-        userId: "id",
-        event: EvenementEngagement.MESSAGE_ENVOYE,
-        loginMode: LoginMode.POLE_EMPLOI,
-        brand: Brand.brsa,
-      ),
-    ).thenAnswer((_) async => true);
-
-    // When
-    store.dispatch(TrackingEvenementEngagementAction(EvenementEngagement.MESSAGE_ENVOYE));
-
-    // Then
-    verify(
-      () => repository.send(
-        userId: "id",
-        event: EvenementEngagement.MESSAGE_ENVOYE,
-        loginMode: LoginMode.POLE_EMPLOI,
-        brand: Brand.brsa,
-      ),
-    ).called(1);
+    verify(() => repository.send(user: user, event: EvenementEngagement.MESSAGE_ENVOYE)).called(1);
   });
 
   test("Tracking event action not should call repository on demo mode", () async {
     // Given
-    final store =
-        givenState().loggedInUser().withDemoMode().store((f) => {f.evenementEngagementRepository = repository});
+    final store = givenState().loggedIn().withDemoMode().store((f) => {f.evenementEngagementRepository = repository});
 
     // When
     store.dispatch(TrackingEvenementEngagementAction(EvenementEngagement.MESSAGE_ENVOYE));
@@ -87,10 +41,8 @@ void main() {
     // Then
     verifyNever(
       () => repository.send(
-        userId: "id",
+        user: any(named: 'user'),
         event: EvenementEngagement.MESSAGE_ENVOYE,
-        loginMode: LoginMode.MILO,
-        brand: Brand.cej,
       ),
     );
   });

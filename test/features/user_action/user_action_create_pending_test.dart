@@ -33,7 +33,7 @@ void main() {
       test('should init state with proper pending action count', () {
         when(() => repository.getPendingActionCount()).thenAnswer((_) async => 7);
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .store((f) => {f.userActionPendingCreationRepository = repository});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldHavePendingCreations(7)]);
@@ -46,7 +46,7 @@ void main() {
       test('should save request and update state', () {
         when(() => repository.save(request)).thenAnswer((_) async => 1);
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .store((f) => {f.userActionPendingCreationRepository = repository});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldHavePendingCreations(1)]);
@@ -72,7 +72,7 @@ void main() {
           when(() => pendingRepository.delete(request2)).thenAnswer((_) async {});
 
           sut.givenStore = givenState() //
-              .loggedInUser()
+              .loggedIn()
               .store(
                 (f) => {
                   f.userActionPendingCreationRepository = pendingRepository,
@@ -119,7 +119,7 @@ void main() {
           await pendingRepository.save(request2);
 
           sut.givenStore = givenState() //
-              .loggedInUser()
+              .loggedIn()
               .store(
                 (f) => {
                   f.userActionPendingCreationRepository = pendingRepository,

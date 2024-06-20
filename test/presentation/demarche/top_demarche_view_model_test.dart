@@ -10,7 +10,7 @@ void main() {
     test('when top demarche state is success should display demarche list', () {
       // Given
       final demarche = mockDemarcheDuReferentiel('id');
-      final store = givenState().loggedInUser().withTopDemarcheSuccessState(demarches: [demarche]).store();
+      final store = givenState().loggedIn().withTopDemarcheSuccessState(demarches: [demarche]).store();
 
       // When
       final viewModel = TopDemarchePageViewModel.create(store);
@@ -23,7 +23,7 @@ void main() {
 
     test('when top demarche state is not success should display empty list', () {
       // Given
-      final store = givenState().loggedInUser().store();
+      final store = givenState().loggedIn().store();
 
       // When
       final viewModel = TopDemarchePageViewModel.create(store);

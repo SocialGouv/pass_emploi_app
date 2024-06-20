@@ -1,5 +1,4 @@
 import 'package:clock/clock.dart';
-import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
@@ -11,6 +10,7 @@ import 'package:pass_emploi_app/features/recherche/immersion/immersion_criteres_
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_filtres_recherche.dart';
+import 'package:pass_emploi_app/models/accompagnement.dart';
 import 'package:pass_emploi_app/models/accueil/accueil.dart';
 import 'package:pass_emploi_app/models/alerte/alerte.dart';
 import 'package:pass_emploi_app/models/alerte/evenement_emploi_alerte.dart';
@@ -41,6 +41,7 @@ import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_contact.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/models/location.dart';
+import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/models/mon_suivi.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -73,13 +74,23 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import '../features/campagne/campagne_test.dart';
 import '../utils/test_datetime.dart';
 
-User mockUser({String id = "", LoginMode loginMode = LoginMode.MILO}) => User(
+User mockUser({
+  String id = "",
+  LoginMode loginMode = LoginMode.MILO,
+  Accompagnement accompagnement = Accompagnement.cej,
+}) =>
+    User(
       id: id,
       firstName: "",
       lastName: "",
       email: "",
       loginMode: loginMode,
+      accompagnement: accompagnement,
     );
+
+LoginState successUserState({required LoginMode loginMode, required Accompagnement accompagnement}) {
+  return LoginSuccessState(mockUser(loginMode: loginMode, accompagnement: accompagnement));
+}
 
 LoginState successMiloUserState({User? user}) => LoginSuccessState(user ?? mockedMiloUser());
 
@@ -90,18 +101,20 @@ User mockedMiloUser() {
     lastName: "L",
     email: "first.last@milo.fr",
     loginMode: LoginMode.MILO,
+    accompagnement: Accompagnement.cej,
   );
 }
 
-LoginState successPoleEmploiUserState() => LoginSuccessState(mockedPoleEmploiUser());
+LoginState successPoleEmploiCejUserState() => LoginSuccessState(mockedPoleEmploiCejUser());
 
-User mockedPoleEmploiUser() {
+User mockedPoleEmploiCejUser() {
   return User(
     id: "id",
     firstName: "F",
     lastName: "L",
     email: "first.last@pole-emploi.fr",
     loginMode: LoginMode.POLE_EMPLOI,
+    accompagnement: Accompagnement.cej,
   );
 }
 
@@ -121,7 +134,7 @@ AppState loggedInState() => AppState.initialState().copyWith(loginState: success
 
 AppState loggedInMiloState() => AppState.initialState().copyWith(loginState: successMiloUserState());
 
-AppState loggedInPoleEmploiState() => AppState.initialState().copyWith(loginState: successPoleEmploiUserState());
+AppState loggedInPoleEmploiState() => AppState.initialState().copyWith(loginState: successPoleEmploiCejUserState());
 
 OffreEmploiDetails mockOffreEmploiDetails() => OffreEmploiDetails(
       id: "123TZKB",
@@ -219,7 +232,7 @@ Configuration configuration(
   );
 }
 
-Configuration brsaConfiguration() => configuration(brand: Brand.brsa);
+Configuration passEmploiConfiguration() => configuration(brand: Brand.passEmploi);
 
 Location mockLocationParis() => Location(
       libelle: "Paris",

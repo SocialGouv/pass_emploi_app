@@ -19,13 +19,13 @@ void main() {
 
     group("useCvm", () {
       group("when user is PE", () {
-        sut.whenDispatchingAction(() => LoginSuccessAction(mockedPoleEmploiUser()));
+        sut.whenDispatchingAction(() => LoginSuccessAction(mockedPoleEmploiCejUser()));
         group("and CVM generally enabled", () {
           test('should set useCvm to true', () {
             when(() => remoteConfigRepository.useCvm()).thenReturn(true);
 
             sut.givenStore = givenState() //
-                .loggedInUser()
+                .loggedIn()
                 .store((f) => {f.remoteConfigRepository = remoteConfigRepository});
 
             sut.thenExpectAtSomePoint(_shouldHaveUseCvmValue(true));
@@ -40,7 +40,7 @@ void main() {
                 .thenAnswer((_) async => mockDetailsJeune(idConseiller: "id-conseiller-ea"));
 
             sut.givenStore = givenState() //
-                .loggedInUser()
+                .loggedIn()
                 .store(
                   (f) => {
                     f.remoteConfigRepository = remoteConfigRepository,
@@ -60,7 +60,7 @@ void main() {
                 .thenAnswer((_) async => mockDetailsJeune(idConseiller: "id-conseiller"));
 
             sut.givenStore = givenState() //
-                .loggedInUser()
+                .loggedIn()
                 .store(
                   (f) => {
                     f.remoteConfigRepository = remoteConfigRepository,
@@ -80,7 +80,7 @@ void main() {
           when(() => remoteConfigRepository.useCvm()).thenReturn(true);
 
           sut.givenStore = givenState() //
-              .loggedInUser()
+              .loggedIn()
               .store((f) => {f.remoteConfigRepository = remoteConfigRepository});
 
           sut.thenExpectNever(_shouldHaveUseCvmValue(true));
@@ -90,14 +90,14 @@ void main() {
 
     group('use pj', () {
       group('when user is PE', () {
-        sut.whenDispatchingAction(() => LoginSuccessAction(mockedPoleEmploiUser()));
+        sut.whenDispatchingAction(() => LoginSuccessAction(mockedPoleEmploiCejUser()));
         test('should never use pj', () {
           // Given
           when(() => remoteConfigRepository.usePj()).thenReturn(true);
 
           // When
           sut.givenStore = givenState() //
-              .loggedInUser()
+              .loggedIn()
               .store((f) => {f.remoteConfigRepository = remoteConfigRepository});
 
           // Then
@@ -113,7 +113,7 @@ void main() {
 
           // When
           sut.givenStore = givenState() //
-              .loggedInUser()
+              .loggedIn()
               .store((f) => {f.remoteConfigRepository = remoteConfigRepository});
 
           // Then
@@ -129,7 +129,7 @@ void main() {
 
           // When
           sut.givenStore = givenState() //
-              .loggedInUser()
+              .loggedIn()
               .store(
                 (f) => {
                   f.remoteConfigRepository = remoteConfigRepository,
@@ -150,7 +150,7 @@ void main() {
 
           // When
           sut.givenStore = givenState() //
-              .loggedInUser()
+              .loggedIn()
               .store(
                 (f) => {
                   f.remoteConfigRepository = remoteConfigRepository,
@@ -171,7 +171,7 @@ void main() {
         when(() => remoteConfigRepository.useCvm()).thenReturn(true);
 
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .withFeatureFlip(useCvm: true)
             .store((f) => {f.remoteConfigRepository = remoteConfigRepository});
 

@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/preferred_login_mode/preferred_login_mode_state.dart';
+import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/presentation/login_page_view_model.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 
@@ -9,9 +9,9 @@ import '../dsl/app_state_dsl.dart';
 
 void main() {
   group('EntreePageViewModel', () {
-    test('entree page view model should not display demander un compte when brand is BRSA', () {
+    test('entree page view model should not display demander un compte when brand is pass emploi', () {
       // Given
-      final store = givenBrsaState().store();
+      final store = givenPassEmploiState().store();
 
       // When
       final viewModel = LoginPageViewModel.create(store);
@@ -85,7 +85,7 @@ void main() {
 
     test('View model displays content when login state is logged in', () {
       // Given
-      final store = givenState().loggedInUser().store();
+      final store = givenState().loggedIn().store();
 
       // When
       final viewModel = LoginPageViewModel.create(store);
@@ -100,9 +100,7 @@ void main() {
       test('should not display preferred login mode when state is not success', () {
         // Given
         final store = givenState()
-            .copyWith(preferredLoginModeState: PreferredLoginModeNotInitializedState())
-            .loggedInUser()
-            .store();
+            .copyWith(preferredLoginModeState: PreferredLoginModeNotInitializedState()).loggedIn().store();
 
         // When
         final viewModel = LoginPageViewModel.create(store);
@@ -114,7 +112,7 @@ void main() {
       test('should not display preferred login mode when state is success but login mode is null', () {
         // Given
         final store =
-            givenState().copyWith(preferredLoginModeState: PreferredLoginModeSuccessState(null)).loggedInUser().store();
+            givenState().copyWith(preferredLoginModeState: PreferredLoginModeSuccessState(null)).loggedIn().store();
 
         // When
         final viewModel = LoginPageViewModel.create(store);
@@ -127,7 +125,7 @@ void main() {
         // Given
         final store = givenState()
             .copyWith(preferredLoginModeState: PreferredLoginModeSuccessState(LoginMode.POLE_EMPLOI))
-            .loggedInUser()
+            .loggedIn()
             .store();
 
         // When
@@ -146,7 +144,7 @@ void main() {
         // Given
         final store = givenState()
             .copyWith(preferredLoginModeState: PreferredLoginModeSuccessState(LoginMode.MILO))
-            .loggedInUser()
+            .loggedIn()
             .store();
 
         // When
@@ -161,11 +159,11 @@ void main() {
             ));
       });
 
-      test('should not display preferred login mode when brand is brsa', () {
+      test('should not display preferred login mode when brand is pass emploi', () {
         // Given
-        final store = givenBrsaState()
+        final store = givenPassEmploiState()
             .copyWith(preferredLoginModeState: PreferredLoginModeSuccessState(LoginMode.MILO))
-            .loggedInUser()
+            .loggedIn()
             .store();
 
         // When

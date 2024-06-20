@@ -19,7 +19,7 @@ void main() {
 
       test('should return a success with top demarches', () {
         sut.givenStore = givenState() //
-            .loggedInUser()
+            .loggedIn()
             .store((f) => {f.topDemarcheRepository = MockTopDemarcheRepository()..withTopDemarches()});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldSucceed()]);

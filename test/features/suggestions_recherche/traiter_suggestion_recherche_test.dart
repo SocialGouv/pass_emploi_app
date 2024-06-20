@@ -29,7 +29,7 @@ void main() {
 
     test('should load then succeed when request succeed', () {
       sut.givenStore = givenState()
-          .loggedInUser() //
+          .loggedIn() //
           .store((f) => {f.suggestionsRechercheRepository = SuggestionsRechercheRepositoryStub(accepterSucceed: true)});
 
       sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceedAccepter()]);
@@ -42,7 +42,7 @@ void main() {
 
     test('should load then succeed when request succeed', () {
       sut.givenStore = givenState()
-          .loggedInUser() //
+          .loggedIn() //
           .store((f) => {f.suggestionsRechercheRepository = SuggestionsRechercheRepositoryStub(accepterSucceed: true)});
 
       sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceedAccepter()]);
@@ -50,7 +50,7 @@ void main() {
 
     test('should remove suggestion when request succeed', () {
       sut.givenStore = givenState()
-          .loggedInUser() //
+          .loggedIn() //
           .withSuggestionsRecherche()
           .store((f) => {f.suggestionsRechercheRepository = SuggestionsRechercheRepositoryStub(accepterSucceed: true)});
 
@@ -59,7 +59,7 @@ void main() {
 
     test('should refresh alerte list when request succeed', () {
       sut.givenStore = givenState()
-          .loggedInUser() //
+          .loggedIn() //
           .withSuggestionsRecherche()
           .store((f) => {
                 f.suggestionsRechercheRepository = SuggestionsRechercheRepositoryStub(accepterSucceed: true),
@@ -71,7 +71,7 @@ void main() {
 
     test('should load then fail when request fail', () {
       sut.givenStore = givenState()
-          .loggedInUser() //
+          .loggedIn() //
           .store(
               (f) => {f.suggestionsRechercheRepository = SuggestionsRechercheRepositoryStub(accepterSucceed: false)});
 
@@ -85,7 +85,7 @@ void main() {
 
     test('should load then succeed when request succeed', () {
       sut.givenStore = givenState()
-          .loggedInUser() //
+          .loggedIn() //
           .store((f) => {f.suggestionsRechercheRepository = SuggestionsRechercheRepositoryStub(refuserSucceed: true)});
 
       sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceedRefuser()]);
@@ -93,7 +93,7 @@ void main() {
 
     test('should remove suggestion when request succeed', () {
       sut.givenStore = givenState()
-          .loggedInUser() //
+          .loggedIn() //
           .withSuggestionsRecherche()
           .store((f) => {f.suggestionsRechercheRepository = SuggestionsRechercheRepositoryStub(refuserSucceed: true)});
 
@@ -102,7 +102,7 @@ void main() {
 
     test('should load then fail when request fail', () {
       sut.givenStore = givenState()
-          .loggedInUser() //
+          .loggedIn() //
           .store((f) => {f.suggestionsRechercheRepository = SuggestionsRechercheRepositoryStub(refuserSucceed: false)});
 
       sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
