@@ -36,7 +36,7 @@ class Illustration extends StatelessWidget {
 
   factory Illustration.green(IconData icon) {
     return Illustration(
-      primaryColor: AppColors.success,
+      primaryColor: AppColors.successDarken,
       secondaryColor: AppColors.successLighten,
       icon: icon,
     );

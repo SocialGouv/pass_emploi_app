@@ -26,7 +26,7 @@ class PrimaryActionButton extends StatelessWidget {
   PrimaryActionButton({
     super.key,
     Color? backgroundColor,
-    this.disabledBackgroundColor = AppColors.primaryWithAlpha50,
+    this.disabledBackgroundColor = AppColors.disabled,
     this.textColor = Colors.white,
     this.rippleColor = AppColors.primaryDarken,
     this.iconColor = Colors.white,

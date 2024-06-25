@@ -10,8 +10,8 @@ void showSnackBarWithSuccess(BuildContext context, String label, [VoidCallback? 
   _showSnackBar(
     context: context,
     label: label,
-    backgroundColor: AppColors.secondaryLighten,
-    textColor: AppColors.secondary,
+    backgroundColor: AppColors.successLighten,
+    textColor: AppColors.success,
     onActionTap: onActionTap,
   );
 }
