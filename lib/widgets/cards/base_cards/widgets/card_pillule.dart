@@ -47,8 +47,8 @@ class CardPillule extends StatelessWidget {
 
   CardPillule.actionDone()
       : text = Strings.donePillule,
-        contentColor = AppColors.secondary,
-        backgroundColor = AppColors.secondaryLighten;
+        contentColor = AppColors.success,
+        backgroundColor = AppColors.successLighten;
 
   CardPillule.actionLate()
       : text = Strings.latePillule,
@@ -67,8 +67,8 @@ class CardPillule extends StatelessWidget {
 
   CardPillule.demarcheDone()
       : text = Strings.donePillule,
-        contentColor = AppColors.secondary,
-        backgroundColor = AppColors.secondaryLighten;
+        contentColor = AppColors.success,
+        backgroundColor = AppColors.successLighten;
 
   CardPillule.demarcheLate()
       : text = Strings.latePillule,

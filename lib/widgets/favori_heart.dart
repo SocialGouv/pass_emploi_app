@@ -55,7 +55,7 @@ class FavoriHeart<T> extends StatelessWidget {
       childBuilder: (onTapDebounced) => SecondaryIconButton(
         icon: viewModel.isFavori ? AppIcons.favorite_rounded : AppIcons.favorite_outline_rounded,
         tooltip: viewModel.isFavori ? Strings.favoriHeartRemove : Strings.favoriHeartAdd,
-        iconColor: AppColors.favoriteHeartColor,
+        iconColor: AppColors.favorite,
         borderColor: withBorder ? AppColors.primary : Colors.transparent,
         onTap: onTapDebounced,
       ),

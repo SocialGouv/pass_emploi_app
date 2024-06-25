@@ -17,7 +17,7 @@ class PassEmploiTheme {
       thumbColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) => Colors.white),
       trackColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
         if (states.contains(MaterialState.disabled)) return AppColors.grey700;
-        if (states.contains(MaterialState.selected)) return AppColors.switchColor;
+        if (states.contains(MaterialState.selected)) return AppColors.success;
         return null;
       }),
     ),

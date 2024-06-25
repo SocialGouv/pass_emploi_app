@@ -9,16 +9,12 @@ class AppColors {
   static const Color primaryDarken = Color(0xFF274996);
   static const Color primaryDarkenStrong = Color(0xFF172B5A);
   static const Color primaryLighten = Color(0xFFEEF1F8);
-  static const Color primaryWithAlpha50 = Color(0x7A3B69D1);
-
-  // Secondary colors
-  static const Color secondary = Color(0xFF0D7F50);
-  static const Color secondaryLighten = Color(0xFFE5F6EF);
 
   // Status colors
   static const Color warning = Color(0xFFD31140);
   static const Color warningLighten = Color(0xFFFDEAEF);
-  static const Color success = Color(0xFF033C24);
+  static const Color success = Color(0xFF0D7F50);
+  static const Color successDarken = Color(0xFF033C24);
   static const Color successLighten = Color(0xFFE5F6EF);
   static const Color alert = Color(0xFFFF975C);
   static const Color alertLighten = Color(0xFFFFC6A6);
@@ -36,7 +32,7 @@ class AppColors {
   static const Color disabled = Color(0xFF73758D);
 
   static const Color grey100 = Color(0xFFF1F1F1);
-  static const Color grey500 = Color(0xFFB2B2B2);
+  static const Color grey500 = Color(0xFFB3B3B3);
   static const Color grey700 = Color(0xFF878787);
   static const Color grey800 = Color(0xFF646464);
 
@@ -52,14 +48,5 @@ class AppColors {
   static const Color additional5Lighten = Color(0xFFCEF0F1);
   static const Color additional5 = Color(0xFF49BBBF);
 
-  static const Color favoriteHeartColor = Color(0xFFA44C66);
-  static const Color switchColor = Color(0xFF34C759);
-
-  // Brands
-  static const Color poleEmploi = Color(0xFF073A82);
-  static const Color missionLocale = Color(0xFF942258);
-
-  // Unreferenced colors
-  static const Color loadingGreyPlaceholder = Color(0xFFE7E7E7);
-  static const Color benevolat = Color(0xFF0A0E93);
+  static const Color favorite = Color(0xFFA44C66);
 }

@@ -15,7 +15,7 @@ class AnimatedListLoader extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimationLimiter(
       child: Shimmer.fromColors(
-        baseColor: AppColors.loadingGreyPlaceholder,
+        baseColor: AppColors.grey100,
         highlightColor: Colors.white,
         child: ListView.builder(
           shrinkWrap: nested,
@@ -47,7 +47,7 @@ class AnimatedListLoader extends StatelessWidget {
         width: width,
         height: height,
         decoration: ShapeDecoration(
-          color: AppColors.loadingGreyPlaceholder,
+          color: AppColors.grey100,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(Dimens.radius_base),
           ),

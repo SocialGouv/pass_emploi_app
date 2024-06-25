@@ -159,7 +159,7 @@ void main() {
 
         // Then
         expect(viewModel.conseillerPresenceLabel, 'Votre conseiller sera présent');
-        expect(viewModel.conseillerPresenceColor, AppColors.secondary);
+        expect(viewModel.conseillerPresenceColor, AppColors.success);
         expect(viewModel.withConseillerPresencePart, isTrue);
       });
 
@@ -873,7 +873,7 @@ void main() {
             date: '01 mars 2022',
             hourAndDuration: '00:00 (30min)',
             conseillerPresenceLabel: 'Votre conseiller sera présent',
-            conseillerPresenceColor: AppColors.secondary,
+            conseillerPresenceColor: AppColors.success,
             isInscrit: false,
             isAnnule: false,
             withConseillerPresencePart: true,

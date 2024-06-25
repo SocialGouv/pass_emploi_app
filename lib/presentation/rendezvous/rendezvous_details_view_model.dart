@@ -121,7 +121,7 @@ class RendezvousDetailsViewModel extends Equatable {
       conseiller: _conseiller(rdv),
       createur: _createur(source, rdv),
       conseillerPresenceLabel: isConseillerPresent ? Strings.conseillerIsPresent : Strings.conseillerIsNotPresent,
-      conseillerPresenceColor: isConseillerPresent ? AppColors.secondary : AppColors.warning,
+      conseillerPresenceColor: isConseillerPresent ? AppColors.success : AppColors.warning,
       isInscrit: isInscrit,
       isAnnule: rdv.isAnnule,
       withConseillerPresencePart: _shouldDisplayConseillerPresence(rdv),

@@ -162,7 +162,7 @@ class _BoutonPE extends StatelessWidget {
       padding: const EdgeInsets.all(24),
       child: PrimaryActionButton(
         label: Strings.loginPoleEmploi,
-        backgroundColor: AppColors.poleEmploi,
+        backgroundColor: Color(0xFF073A82),
         onPressed: () {
           StoreProvider.of<AppState>(context).dispatch(RequestLoginAction(LoginMode.DEMO_PE));
         },
@@ -178,7 +178,7 @@ class _BoutonMILO extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 30, left: 20, right: 20),
       child: PrimaryActionButton(
         label: Strings.loginMissionLocale,
-        backgroundColor: AppColors.missionLocale,
+        backgroundColor: Color(0xFF942258),
         onPressed: () {
           StoreProvider.of<AppState>(context).dispatch(RequestLoginAction(LoginMode.DEMO_MILO));
         },

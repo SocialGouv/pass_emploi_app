@@ -314,7 +314,7 @@ void _displaySuccessSnackbar(
     SnackBar(
       padding: const EdgeInsets.only(left: 24, bottom: 14),
       duration: Duration(days: 365),
-      backgroundColor: AppColors.secondaryLighten,
+      backgroundColor: AppColors.successLighten,
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
@@ -325,7 +325,7 @@ void _displaySuccessSnackbar(
             children: [
               DecoratedBox(
                 decoration: BoxDecoration(
-                  color: AppColors.secondary,
+                  color: AppColors.success,
                   shape: BoxShape.circle,
                 ),
                 child: Padding(
@@ -340,7 +340,7 @@ void _displaySuccessSnackbar(
               Expanded(
                 child: Text(
                   Strings.suggestionRechercheAjoutee,
-                  style: TextStyles.textBaseBoldWithColor(AppColors.secondary),
+                  style: TextStyles.textBaseBoldWithColor(AppColors.success),
                 ),
               ),
               _CloseSnackbar(newViewModel),
@@ -348,7 +348,7 @@ void _displaySuccessSnackbar(
           ),
           Text(
             Strings.suggestionRechercheAjouteeDescription,
-            style: TextStyles.textBaseRegularWithColor(AppColors.secondary),
+            style: TextStyles.textBaseRegularWithColor(AppColors.success),
           ),
           SizedBox(height: Margins.spacing_s),
           _SeeResults(newViewModel),
@@ -374,7 +374,7 @@ class _CloseSnackbar extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(16, 16, 24, 16),
         child: Icon(
           AppIcons.close_rounded,
-          color: AppColors.secondary,
+          color: AppColors.success,
         ),
       ),
     );
@@ -398,11 +398,11 @@ class _SeeResults extends StatelessWidget {
         children: [
           Text(
             Strings.voirResultatsSuggestion,
-            style: TextStyles.textBaseBoldWithColor(AppColors.secondary).copyWith(decoration: TextDecoration.underline),
+            style: TextStyles.textBaseBoldWithColor(AppColors.success).copyWith(decoration: TextDecoration.underline),
           ),
           Icon(
             AppIcons.chevron_right_rounded,
-            color: AppColors.secondary,
+            color: AppColors.success,
           ),
         ],
       ),

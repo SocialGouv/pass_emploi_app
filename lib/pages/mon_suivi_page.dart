@@ -604,7 +604,7 @@ class _PaginationLoader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: AppColors.loadingGreyPlaceholder,
+      baseColor: AppColors.grey100,
       highlightColor: Colors.white,
       child: _MonSuiviItemLoader(),
     );
