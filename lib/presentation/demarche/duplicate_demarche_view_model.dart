@@ -30,12 +30,26 @@ class DuplicateDemarcheViewModel extends Equatable {
   });
 
   factory DuplicateDemarcheViewModel.create(Store<AppState> store, String demarcheId) {
-    final demarche = store.getDemarche(demarcheId);
+    final demarche = store.getDemarcheOrNull(demarcheId);
+
+    if (demarche == null) {
+      return DuplicateDemarcheViewModel.empty();
+    }
+
     return DuplicateDemarcheViewModel(
       demarcheId: demarcheId,
       displayState: _displayStateFromStore(store),
       sourceViewModel: _sourceViewModel(store, demarche),
       onRetry: () => store.dispatch(ThematiqueDemarcheRequestAction()),
+    );
+  }
+
+  factory DuplicateDemarcheViewModel.empty() {
+    return DuplicateDemarcheViewModel(
+      demarcheId: "",
+      displayState: DisplayState.EMPTY,
+      sourceViewModel: DuplicateDemarcheNotInitializedViewModel(),
+      onRetry: () {},
     );
   }
 

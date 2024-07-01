@@ -64,8 +64,11 @@ class _DuplicateDemarcheDuReferentielState extends StatelessWidget {
     return CreateDemarcheDuReferentielForm(
       idDemarche: source.demarcheDuReferentielId,
       source: ThematiqueDemarcheSource(source.thematiqueCode),
-      onCreateDemarcheSuccess: (_) {},
+      onCreateDemarcheSuccess: (demarcheCreatedId) {
+        Navigator.pop(context, demarcheCreatedId);
+      },
       initialCodeComment: source.commentCode,
+      createDemarcheButtonLabel: Strings.duplicateDemarche,
     );
   }
 }
