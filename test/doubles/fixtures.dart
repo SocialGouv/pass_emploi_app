@@ -691,6 +691,8 @@ Demarche mockDemarche({
   DateTime? endDate,
   DateTime? deletionDate,
   List<DemarcheAttribut>? attributs,
+  String? titre,
+  String? sousTitre,
 }) {
   return Demarche(
     id: id,
@@ -703,8 +705,8 @@ Demarche mockDemarche({
     possibleStatus: [],
     creationDate: null,
     modifiedByAdvisor: false,
-    sousTitre: null,
-    titre: null,
+    sousTitre: sousTitre,
+    titre: titre,
     modificationDate: null,
     attributs: attributs ?? [],
   );

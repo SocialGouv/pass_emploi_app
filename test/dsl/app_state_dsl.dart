@@ -720,6 +720,10 @@ extension AppStateDSL on AppState {
     );
   }
 
+  AppState withThematiqueDemarcheNotInitializedState() {
+    return copyWith(thematiquesDemarcheState: ThematiqueDemarcheNotInitializedState());
+  }
+
   AppState withThematiqueDemarcheLoadingState() {
     return copyWith(thematiquesDemarcheState: ThematiqueDemarcheLoadingState());
   }
