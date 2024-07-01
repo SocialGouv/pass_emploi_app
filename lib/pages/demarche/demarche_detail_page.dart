@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
+import 'package:pass_emploi_app/pages/demarche/demarche_detail_bottom_sheet.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_detail_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_tag_view_model.dart';
@@ -38,7 +39,10 @@ class DemarcheDetailPage extends StatelessWidget {
       tracking: AnalyticsScreenNames.userActionDetails,
       child: ConfettiWrapper(builder: (context, conffetiController) {
         return Scaffold(
-          appBar: SecondaryAppBar(title: Strings.demarcheDetails),
+          appBar: SecondaryAppBar(
+            title: Strings.demarcheDetails,
+            actions: [_MoreButton(demarcheId: id)],
+          ),
           body: StoreConnector<AppState, DemarcheDetailViewModel>(
             converter: (store) => DemarcheDetailViewModel.create(store, id),
             onDidChange: (oldViewModel, newViewModel) async {
@@ -401,6 +405,19 @@ class _Historique extends StatelessWidget {
             ),
         ],
       ),
+    );
+  }
+}
+
+class _MoreButton extends StatelessWidget {
+  const _MoreButton({required this.demarcheId});
+  final String demarcheId;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: Icon(AppIcons.more_vert_rounded),
+      onPressed: () => DemarcheDetailsBottomSheet.show(context, demarcheId),
     );
   }
 }
