@@ -56,7 +56,7 @@ class _DuplicateButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomSheetButton(
       icon: AppIcons.content_copy_rounded,
-      text: Strings.userActionBottomSheetDuplicate,
+      text: Strings.duplicate,
       onPressed: () {
         if (context.mounted) {
           Navigator.pop(context);

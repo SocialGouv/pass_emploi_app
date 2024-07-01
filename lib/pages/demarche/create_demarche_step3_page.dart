@@ -22,7 +22,7 @@ import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/radio_list_tile.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 
-class CreateDemarcheStep3Page extends StatefulWidget {
+class CreateDemarcheStep3Page extends StatelessWidget {
   final String idDemarche;
   final DemarcheSource source;
 
@@ -33,77 +33,149 @@ class CreateDemarcheStep3Page extends StatefulWidget {
   }
 
   @override
-  State<CreateDemarcheStep3Page> createState() => _CreateDemarcheStep3PageState();
-}
-
-class _CreateDemarcheStep3PageState extends State<CreateDemarcheStep3Page> {
-  String? _codeComment;
-  DateTime? _endDate;
-
-  @override
   Widget build(BuildContext context) {
-    return Tracker(
-      tracking: AnalyticsScreenNames.searchDemarcheStep3,
-      child: StoreConnector<AppState, CreateDemarcheStep3ViewModel>(
-        builder: _buildBody,
-        converter: (store) => CreateDemarcheStep3ViewModel.create(store, widget.idDemarche, widget.source),
-        onDidChange: _onDidChange,
-        onDispose: (store) => store.dispatch(CreateDemarcheResetAction()),
-        distinct: true,
+    return Scaffold(
+      appBar: SecondaryAppBar(title: Strings.createDemarcheTitle),
+      body: Tracker(
+        tracking: AnalyticsScreenNames.searchDemarcheStep3,
+        child: CreateDemarcheDuReferentielForm(
+          idDemarche: idDemarche,
+          source: source,
+          onCreateDemarcheSuccess: (demarcheCreatedId) {
+            PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.searchDemarcheStep3Success);
+            Navigator.pop(context, demarcheCreatedId);
+          },
+        ),
       ),
     );
   }
+}
 
-  Widget _buildBody(BuildContext context, CreateDemarcheStep3ViewModel viewModel) {
-    return UnicTopDemarcheTrackingWrapper(
-      source: widget.source,
-      viewModel: viewModel,
-      child: Scaffold(
-        appBar: SecondaryAppBar(title: Strings.createDemarcheTitle),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(Margins.spacing_m),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(viewModel.quoi, style: TextStyles.textBaseBoldWithColor(AppColors.primary)),
-                if (viewModel.isCommentMandatory) _Mandatory(),
-                if (viewModel.comments.isNotEmpty) _Section(Strings.comment),
-                if (viewModel.isCommentMandatory) _SelectLabel(Strings.selectComment),
-                ..._buildComments(viewModel.comments),
-                _Section(Strings.quand),
-                _SelectLabel(Strings.selectQuand),
-                DatePicker(
-                  onDateSelected: (date) => setState(() => _endDate = date),
-                  initialDateValue: _endDate,
-                  isActiveDate: true,
-                ),
-                SizedBox(height: Margins.spacing_xl),
-                if (viewModel.displayState == DisplayState.FAILURE) ErrorText(Strings.genericCreationError),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    PrimaryActionButton(
-                      label: Strings.addALaDemarche,
-                      onPressed:
-                          _buttonIsActive(viewModel) ? () => viewModel.onCreateDemarche(_codeComment, _endDate!) : null,
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
+class _UnicTopDemarcheTrackingWrapper extends StatefulWidget {
+  const _UnicTopDemarcheTrackingWrapper({required this.source, required this.child, required this.viewModel});
+
+  final DemarcheSource source;
+  final Widget child;
+  final CreateDemarcheStep3ViewModel viewModel;
+
+  @override
+  State<_UnicTopDemarcheTrackingWrapper> createState() => _UnicTopDemarcheTrackingWrapperState();
+}
+
+class _UnicTopDemarcheTrackingWrapperState extends State<_UnicTopDemarcheTrackingWrapper> {
+  @override
+  void initState() {
+    super.initState();
+    if (widget.source is TopDemarcheSource) {
+      final quoi = widget.viewModel.quoi;
+      PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.topDemarcheDetails(quoi));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.child;
+  }
+}
+
+class CreateDemarcheDuReferentielForm extends StatelessWidget {
+  const CreateDemarcheDuReferentielForm({
+    required this.idDemarche,
+    required this.source,
+    required this.onCreateDemarcheSuccess,
+    this.initialCodeComment,
+  });
+
+  final String idDemarche;
+  final DemarcheSource source;
+  final String? initialCodeComment;
+  final void Function(String demarcheCreatedId) onCreateDemarcheSuccess;
+
+  @override
+  Widget build(BuildContext context) {
+    return StoreConnector<AppState, CreateDemarcheStep3ViewModel>(
+      builder: (_, viewModel) => _Form(viewModel, source, initialCodeComment: initialCodeComment),
+      converter: (store) => CreateDemarcheStep3ViewModel.create(store, idDemarche, source),
+      onDidChange: _onDidChange,
+      onDispose: (store) => store.dispatch(CreateDemarcheResetAction()),
+      distinct: true,
     );
   }
 
   void _onDidChange(CreateDemarcheStep3ViewModel? oldVm, CreateDemarcheStep3ViewModel newVm) {
     final creationState = newVm.demarcheCreationState;
     if (creationState is DemarcheCreationSuccessState) {
-      PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.searchDemarcheStep3Success);
-      Navigator.pop(context, creationState.demarcheCreatedId);
+      onCreateDemarcheSuccess(creationState.demarcheCreatedId);
     }
+  }
+}
+
+class _Form extends StatefulWidget {
+  const _Form(this.viewModel, this.source, {this.initialCodeComment});
+
+  final DemarcheSource source;
+  final String? initialCodeComment;
+  final CreateDemarcheStep3ViewModel viewModel;
+
+  @override
+  State<_Form> createState() => _FormState();
+}
+
+class _FormState extends State<_Form> {
+  String? _codeComment;
+  DateTime? _endDate;
+
+  @override
+  void initState() {
+    _codeComment = widget.initialCodeComment ?? widget.viewModel.comments.first.code;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _UnicTopDemarcheTrackingWrapper(
+      source: widget.source,
+      viewModel: widget.viewModel,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(Margins.spacing_m),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(widget.viewModel.quoi, style: TextStyles.textBaseBoldWithColor(AppColors.primary)),
+              if (widget.viewModel.isCommentMandatory) _Mandatory(),
+              if (widget.viewModel.comments.isNotEmpty) _Section(Strings.comment),
+              if (widget.viewModel.isCommentMandatory) _SelectLabel(Strings.selectComment),
+              _Comments(
+                widget.viewModel.comments,
+                _codeComment,
+                (codeComment) => setState(() => _codeComment = codeComment),
+              ),
+              _Section(Strings.quand),
+              _SelectLabel(Strings.selectQuand),
+              DatePicker(
+                onDateSelected: (date) => setState(() => _endDate = date),
+                initialDateValue: _endDate,
+                isActiveDate: true,
+              ),
+              SizedBox(height: Margins.spacing_xl),
+              if (widget.viewModel.displayState == DisplayState.FAILURE) ErrorText(Strings.genericCreationError),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  PrimaryActionButton(
+                    label: Strings.addALaDemarche,
+                    onPressed: _buttonIsActive(widget.viewModel)
+                        ? () => widget.viewModel.onCreateDemarche(_codeComment, _endDate!)
+                        : null,
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   bool _buttonIsActive(CreateDemarcheStep3ViewModel viewModel) {
@@ -111,23 +183,29 @@ class _CreateDemarcheStep3PageState extends State<CreateDemarcheStep3Page> {
         _endDate != null &&
         (_codeComment != null || !viewModel.isCommentMandatory);
   }
+}
 
-  List<Widget> _buildComments(List<CommentItem> comments) {
-    return comments.map((comment) {
+class _Comments extends StatelessWidget {
+  const _Comments(this.comments, this.codeComment, this.onCommentSelected);
+
+  final List<CommentItem> comments;
+  final String? codeComment;
+  final void Function(String? codeComment) onCommentSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+        children: comments.map((comment) {
       if (comment is CommentTextItem) {
-        _codeComment = comment.code;
         return Text(comment.label, style: TextStyles.textBaseBold);
       }
       return RadioGroup<String>(
-          title: comment.label,
-          value: comment.code,
-          groupValue: _codeComment,
-          onChanged: (value) {
-            setState(() {
-              _codeComment = value;
-            });
-          });
-    }).toList();
+        title: comment.label,
+        value: comment.code,
+        groupValue: codeComment,
+        onChanged: onCommentSelected,
+      );
+    }).toList());
   }
 }
 
@@ -183,32 +261,5 @@ class _Section extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-class UnicTopDemarcheTrackingWrapper extends StatefulWidget {
-  const UnicTopDemarcheTrackingWrapper({super.key, required this.source, required this.child, required this.viewModel});
-
-  final DemarcheSource source;
-  final Widget child;
-  final CreateDemarcheStep3ViewModel viewModel;
-
-  @override
-  State<UnicTopDemarcheTrackingWrapper> createState() => _UnicTopDemarcheTrackingWrapperState();
-}
-
-class _UnicTopDemarcheTrackingWrapperState extends State<UnicTopDemarcheTrackingWrapper> {
-  @override
-  void initState() {
-    super.initState();
-    if (widget.source is TopDemarcheSource) {
-      final quoi = widget.viewModel.quoi;
-      PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.topDemarcheDetails(quoi));
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return widget.child;
   }
 }
