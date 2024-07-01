@@ -10,12 +10,6 @@ import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
-// TODO: tests
-// TODO: On affiche un chargement pendant qu'on récupère le référentiel des démarches
-// TODO: On on récupère la démarche exact à dupliquer
-// TODO: Si elle existe alors on affiche le formulaire de création de démarche pré rempli
-// TODO: Si elle n'existe pas alors on affiche le formulaire de création de démarche personnalisée
-
 class DuplicateDemarcheViewModel extends Equatable {
   final String demarcheId;
   final DisplayState displayState;
@@ -54,7 +48,7 @@ class DuplicateDemarcheViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [demarcheId, displayState];
+  List<Object?> get props => [demarcheId, displayState, sourceViewModel];
 }
 
 sealed class DuplicateDemarcheSourceViewModel extends Equatable {}
