@@ -680,6 +680,7 @@ class Strings {
 
   // Duplicate demarche
   static String duplicateDemarchePageTitle = "Dupliquer la démarche";
+  static String duplicateDemarche = "Dupliquer la démarche";
 
   // Thematique de demarche
   static String demarcheThematiqueTitle = "Thématiques";

@@ -41,6 +41,7 @@ class CreateDemarcheStep3Page extends StatelessWidget {
         child: CreateDemarcheDuReferentielForm(
           idDemarche: idDemarche,
           source: source,
+          createDemarcheButtonLabel: Strings.addALaDemarche,
           onCreateDemarcheSuccess: (demarcheCreatedId) {
             PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.searchDemarcheStep3Success);
             Navigator.pop(context, demarcheCreatedId);
@@ -83,18 +84,25 @@ class CreateDemarcheDuReferentielForm extends StatelessWidget {
     required this.idDemarche,
     required this.source,
     required this.onCreateDemarcheSuccess,
+    required this.createDemarcheButtonLabel,
     this.initialCodeComment,
   });
 
   final String idDemarche;
   final DemarcheSource source;
   final String? initialCodeComment;
+  final String createDemarcheButtonLabel;
   final void Function(String demarcheCreatedId) onCreateDemarcheSuccess;
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, CreateDemarcheStep3ViewModel>(
-      builder: (_, viewModel) => _Form(viewModel, source, initialCodeComment: initialCodeComment),
+      builder: (_, viewModel) => _Form(
+        viewModel,
+        source,
+        initialCodeComment: initialCodeComment,
+        createDemarcheButtonLabel: createDemarcheButtonLabel,
+      ),
       converter: (store) => CreateDemarcheStep3ViewModel.create(store, idDemarche, source),
       onDidChange: _onDidChange,
       onDispose: (store) => store.dispatch(CreateDemarcheResetAction()),
@@ -111,10 +119,11 @@ class CreateDemarcheDuReferentielForm extends StatelessWidget {
 }
 
 class _Form extends StatefulWidget {
-  const _Form(this.viewModel, this.source, {this.initialCodeComment});
+  const _Form(this.viewModel, this.source, {this.initialCodeComment, required this.createDemarcheButtonLabel});
 
   final DemarcheSource source;
   final String? initialCodeComment;
+  final String createDemarcheButtonLabel;
   final CreateDemarcheStep3ViewModel viewModel;
 
   @override
@@ -127,7 +136,7 @@ class _FormState extends State<_Form> {
 
   @override
   void initState() {
-    _codeComment = widget.initialCodeComment ?? widget.viewModel.comments.first.code;
+    _codeComment = widget.initialCodeComment ?? widget.viewModel.comments.firstOrNull?.code;
     super.initState();
   }
 
@@ -164,7 +173,7 @@ class _FormState extends State<_Form> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   PrimaryActionButton(
-                    label: Strings.addALaDemarche,
+                    label: widget.createDemarcheButtonLabel,
                     onPressed: _buttonIsActive(widget.viewModel)
                         ? () => widget.viewModel.onCreateDemarche(_codeComment, _endDate!)
                         : null,
