@@ -75,6 +75,10 @@ class DuplicateDemarcheDuReferentielViewModel extends DuplicateDemarcheSourceVie
 }
 
 class DuplicateDemarchePersonnaliseeViewModel extends DuplicateDemarcheSourceViewModel {
+  final String? description;
+
+  DuplicateDemarchePersonnaliseeViewModel({this.description});
+
   @override
   List<Object?> get props => [];
 }
@@ -117,7 +121,9 @@ DuplicateDemarcheSourceViewModel _sourceViewModel(Store<AppState> store, Demarch
         commentCode: commentCode,
       );
     } else {
-      return DuplicateDemarchePersonnaliseeViewModel();
+      return DuplicateDemarchePersonnaliseeViewModel(
+        description: demarche.sousTitre,
+      );
     }
   }
 

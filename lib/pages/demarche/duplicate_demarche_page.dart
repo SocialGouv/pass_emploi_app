@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_actions.dart';
+import 'package:pass_emploi_app/pages/demarche/create_demarche_personnalisee_page.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_step3_page.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_source.dart';
 import 'package:pass_emploi_app/presentation/demarche/duplicate_demarche_view_model.dart';
@@ -47,7 +48,7 @@ class _Body extends StatelessWidget {
             DuplicateDemarcheNotInitializedViewModel() => SizedBox.shrink(),
             final DuplicateDemarcheDuReferentielViewModel source =>
               _DuplicateDemarcheDuReferentielState(viewModel, source),
-            DuplicateDemarchePersonnaliseeViewModel() => Placeholder(),
+            final DuplicateDemarchePersonnaliseeViewModel source => _DuplicateDemarchePersonnalisee(source),
           },
       },
     );
@@ -69,6 +70,21 @@ class _DuplicateDemarcheDuReferentielState extends StatelessWidget {
       },
       initialCodeComment: source.commentCode,
       createDemarcheButtonLabel: Strings.duplicateDemarche,
+    );
+  }
+}
+
+class _DuplicateDemarchePersonnalisee extends StatelessWidget {
+  final DuplicateDemarchePersonnaliseeViewModel source;
+  const _DuplicateDemarchePersonnalisee(this.source);
+
+  @override
+  Widget build(BuildContext context) {
+    return DemarchePersonnaliseeForm(
+      createDemarcheLabel: Strings.duplicateDemarche,
+      onCreateDemarcheSuccess: (demarcheCreatedId) {
+        Navigator.pop(context, demarcheCreatedId);
+      },
     );
   }
 }
