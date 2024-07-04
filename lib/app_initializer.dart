@@ -68,6 +68,7 @@ import 'package:pass_emploi_app/repositories/first_launch_onboarding_repository.
 import 'package:pass_emploi_app/repositories/immersion/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/installation_id_repository.dart';
+import 'package:pass_emploi_app/repositories/matching_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
 import 'package:pass_emploi_app/repositories/mon_suivi_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
@@ -200,6 +201,7 @@ class AppInitializer {
     final firebaseInstanceIdGetter = FirebaseInstanceIdGetter();
     final chatRepository = ChatRepository(chatCrypto, crashlytics, modeDemoRepository);
     final pieceJointeRepository = PieceJointeRepository(dioClient, PieceJointeFileSaver(), crashlytics);
+    final thematiqueDemarcheRepository = ThematiqueDemarcheRepository(dioClient, crashlytics);
     final reduxStore = StoreFactory(
       configuration,
       authenticator,
@@ -261,7 +263,7 @@ class AppInitializer {
       CvRepository(dioClient, crashlytics),
       EvenementEmploiRepository(dioClient, SecteurActiviteQueryMapper(), EvenementEmploiTypeQueryMapper(), crashlytics),
       EvenementEmploiDetailsRepository(dioClient, crashlytics),
-      ThematiqueDemarcheRepository(dioClient, crashlytics),
+      thematiqueDemarcheRepository,
       TopDemarcheRepository(),
       MonSuiviRepository(dioClient, crashlytics),
       CvmBridge(
@@ -278,6 +280,7 @@ class AppInitializer {
       OnboardingRepository(securedPreferences),
       FirstLaunchOnboardingRepository(securedPreferences),
       PieceJointeUseCase(chatRepository, pieceJointeRepository, ImageCompressor()),
+      MatchingDemarcheRepository(thematiqueDemarcheRepository),
       /*AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-CONSTRUCTOR*/
     ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);

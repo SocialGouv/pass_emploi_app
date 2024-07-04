@@ -33,6 +33,7 @@ import 'package:pass_emploi_app/features/immersion/details/immersion_details_red
 import 'package:pass_emploi_app/features/location/search_location_reducer.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_reducer.dart';
+import 'package:pass_emploi_app/features/matching_demarche/matching_demarche_reducer.dart';
 import 'package:pass_emploi_app/features/message_important/message_important_reducer.dart';
 import 'package:pass_emploi_app/features/metier/search_metier_reducer.dart';
 import 'package:pass_emploi_app/features/mode_demo/mode_demo_reducer.dart';
@@ -183,6 +184,7 @@ AppState reducer(AppState current, dynamic action) {
     onboardingState: onboardingReducer(current.onboardingState, action),
     firstLaunchOnboardingState: firstLaunchOnboardingReducer(current.firstLaunchOnboardingState, action),
     messageImportantState: messageImportantReducer(current.messageImportantState, action),
+    matchingDemarcheState: matchingDemarcheReducer(current.matchingDemarcheState, action),
     /*AUTOGENERATE-REDUX-APP-REDUCER-STATE*/
   );
 }

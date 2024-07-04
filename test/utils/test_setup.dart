@@ -45,6 +45,7 @@ import 'package:pass_emploi_app/repositories/first_launch_onboarding_repository.
 import 'package:pass_emploi_app/repositories/immersion/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/installation_id_repository.dart';
+import 'package:pass_emploi_app/repositories/matching_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
 import 'package:pass_emploi_app/repositories/mon_suivi_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
@@ -150,6 +151,7 @@ class TestStoreFactory {
   OnboardingRepository onboardingRepository = MockOnboardingRepository();
   FirstLaunchOnboardingRepository firstLaunchOnboardingRepository = MockFirstLaunchOnboardingRepository();
   PieceJointeUseCase pieceJointeUseCase = MockPieceJointeUseCase();
+  MatchingDemarcheRepository matchingDemarcheRepository = MockMatchingDemarcheRepository();
   /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-PROPERTY*/
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -225,6 +227,7 @@ class TestStoreFactory {
       onboardingRepository,
       firstLaunchOnboardingRepository,
       pieceJointeUseCase,
+      matchingDemarcheRepository,
       /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-CONSTRUCTOR*/
     ).initializeReduxStore(initialState: initialState);
   }

@@ -1,10 +1,7 @@
-import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/matching_demarche/matching_demarche_state.dart';
 import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_actions.dart';
-import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_state.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
-import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
-import 'package:pass_emploi_app/models/thematique_de_demarche.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_store_extension.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -83,42 +80,30 @@ class DuplicateDemarcheNotInitializedViewModel extends DuplicateDemarcheSourceVi
 }
 
 DisplayState _displayStateFromStore(Store<AppState> store) {
-  final thematiqueDemarcheState = store.state.thematiquesDemarcheState;
-  return switch (thematiqueDemarcheState) {
-    ThematiqueDemarcheNotInitializedState() => DisplayState.LOADING,
-    ThematiqueDemarcheLoadingState() => DisplayState.LOADING,
-    ThematiqueDemarcheFailureState() => DisplayState.FAILURE,
-    ThematiqueDemarcheSuccessState() => DisplayState.CONTENT,
+  final matchingDemarcheState = store.state.matchingDemarcheState;
+  return switch (matchingDemarcheState) {
+    MatchingDemarcheNotInitializedState() => DisplayState.LOADING,
+    MatchingDemarcheLoadingState() => DisplayState.LOADING,
+    MatchingDemarcheFailureState() => DisplayState.FAILURE,
+    MatchingDemarcheSuccessState() => DisplayState.CONTENT,
   };
 }
 
 DuplicateDemarcheSourceViewModel _sourceViewModel(Store<AppState> store, Demarche demarche) {
-  final thematiqueDemarcheState = store.state.thematiquesDemarcheState;
-  if (thematiqueDemarcheState is ThematiqueDemarcheSuccessState) {
-    DemarcheDuReferentiel? demarcheDuReferentiel;
-    ThematiqueDeDemarche? thematiqueDuReferentiel;
-    for (final thematique in thematiqueDemarcheState.thematiques) {
-      thematiqueDuReferentiel = thematique;
-      demarcheDuReferentiel = thematique.demarches
-          .firstWhereOrNull((demarcheDuReferentiel) => demarcheDuReferentiel.quoi == demarche.titre);
-      if (demarcheDuReferentiel != null) {
-        break;
-      }
-    }
+  final matchingDemarcheState = store.state.matchingDemarcheState;
 
-    if (thematiqueDuReferentiel != null && demarcheDuReferentiel != null) {
-      final commentCode =
-          demarcheDuReferentiel.comments.firstWhereOrNull((comment) => comment.label == demarche.sousTitre)?.code;
+  if (matchingDemarcheState is MatchingDemarcheSuccessState) {
+    final result = matchingDemarcheState.result;
+    if (result != null) {
       return DuplicateDemarcheDuReferentielViewModel(
-        thematiqueCode: thematiqueDuReferentiel.code,
-        demarcheDuReferentielId: demarcheDuReferentiel.id,
-        commentCode: commentCode,
-      );
-    } else {
-      return DuplicateDemarchePersonnaliseeViewModel(
-        description: demarche.sousTitre,
+        thematiqueCode: result.thematique.code,
+        demarcheDuReferentielId: result.demarcheDuReferentiel.id,
+        commentCode: result.comment?.code,
       );
     }
+    return DuplicateDemarchePersonnaliseeViewModel(
+      description: demarche.sousTitre,
+    );
   }
 
   return DuplicateDemarcheNotInitializedViewModel();

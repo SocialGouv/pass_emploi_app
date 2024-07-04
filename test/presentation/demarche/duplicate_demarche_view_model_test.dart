@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
+import 'package:pass_emploi_app/models/matching_demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/presentation/demarche/duplicate_demarche_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 
@@ -87,11 +88,11 @@ void main() {
     });
 
     group('source view model', () {
-      test('when thematique state is not success should display not initialized source', () {
+      test('when matching demarche state is not success should display not initialized source', () {
         // Given
         final store = givenState() //
             .withDemarches([mockDemarche(id: 'id')])
-            .withThematiqueDemarcheFailureState()
+            .withMatchingDemarcheFailureState()
             .store();
 
         // When
@@ -105,7 +106,7 @@ void main() {
         // Given
         final store = givenState() //
             .withDemarches([mockDemarche(id: 'id')])
-            .withThematiqueDemarcheSuccessState()
+            .withMatchingDemarcheSuccessState(null)
             .store();
 
         // When
@@ -121,12 +122,18 @@ void main() {
         final demarcheDuReferentiel = mockDemarcheDuReferentiel('id', [comment]);
         final store = givenState() //
             .withDemarches([
-          mockDemarche(
-            id: 'id',
-            titre: demarcheDuReferentiel.quoi,
-            sousTitre: comment.label,
-          )
-        ]).withThematiqueDemarcheSuccessState(demarches: [demarcheDuReferentiel]).store();
+              mockDemarche(
+                id: 'id',
+                titre: demarcheDuReferentiel.quoi,
+                sousTitre: comment.label,
+              )
+            ])
+            .withMatchingDemarcheSuccessState(MatchingDemarcheDuReferentiel(
+              thematique: dummyThematiqueDeDemarche(),
+              demarcheDuReferentiel: demarcheDuReferentiel,
+              comment: comment,
+            ))
+            .store();
 
         // When
         final viewModel = DuplicateDemarcheViewModel.create(store, 'id');

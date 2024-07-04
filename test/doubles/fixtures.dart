@@ -42,6 +42,7 @@ import 'package:pass_emploi_app/models/immersion_contact.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/login_mode.dart';
+import 'package:pass_emploi_app/models/matching_demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/models/mon_suivi.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -602,6 +603,13 @@ ThematiqueDeDemarche dummyThematiqueDeDemarche([List<DemarcheDuReferentiel>? dem
     code: "P03",
     libelle: "Mes candidatures",
     demarches: demarches ?? [mockDemarcheDuReferentiel()],
+  );
+}
+
+MatchingDemarcheDuReferentiel dummyDemarcheDurReferentiel() {
+  return MatchingDemarcheDuReferentiel(
+    demarcheDuReferentiel: mockDemarcheDuReferentiel(),
+    thematique: dummyThematiqueDeDemarche(),
   );
 }
 

@@ -35,6 +35,7 @@ import 'package:pass_emploi_app/features/first_launch_onboarding/first_launch_on
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_state.dart';
 import 'package:pass_emploi_app/features/location/search_location_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
+import 'package:pass_emploi_app/features/matching_demarche/matching_demarche_state.dart';
 import 'package:pass_emploi_app/features/message_important/message_important_state.dart';
 import 'package:pass_emploi_app/features/metier/search_metier_state.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
@@ -143,7 +144,7 @@ class AppState extends Equatable {
   final OnboardingState onboardingState;
   final FirstLaunchOnboardingState firstLaunchOnboardingState;
   final MessageImportantState messageImportantState;
-
+  final MatchingDemarcheState matchingDemarcheState;
   /*AUTOGENERATE-REDUX-APP-STATE-PROPERTY*/
 
   AppState({
@@ -216,6 +217,7 @@ class AppState extends Equatable {
     required this.onboardingState,
     required this.firstLaunchOnboardingState,
     required this.messageImportantState,
+    required this.matchingDemarcheState,
     /*AUTOGENERATE-REDUX-APP-STATE-CONSTRUCTOR*/
   });
 
@@ -289,6 +291,7 @@ class AppState extends Equatable {
     final OnboardingState? onboardingState,
     final FirstLaunchOnboardingState? firstLaunchOnboardingState,
     final MessageImportantState? messageImportantState,
+    final MatchingDemarcheState? matchingDemarcheState,
     /*AUTOGENERATE-REDUX-APP-STATE-COPYPARAM*/
   }) {
     return AppState(
@@ -361,6 +364,7 @@ class AppState extends Equatable {
       onboardingState: onboardingState ?? this.onboardingState,
       firstLaunchOnboardingState: firstLaunchOnboardingState ?? this.firstLaunchOnboardingState,
       messageImportantState: messageImportantState ?? this.messageImportantState,
+      matchingDemarcheState: matchingDemarcheState ?? this.matchingDemarcheState,
       /*AUTOGENERATE-REDUX-APP-STATE-COPYBODY*/
     );
   }
@@ -436,6 +440,7 @@ class AppState extends Equatable {
       onboardingState: OnboardingNotInitializedState(),
       firstLaunchOnboardingState: FirstLaunchOnboardingNotInitializedState(),
       messageImportantState: MessageImportantNotInitializedState(),
+      matchingDemarcheState: MatchingDemarcheNotInitializedState(),
       /*AUTOGENERATE-REDUX-APP-STATE-FACTORY*/
     );
   }
@@ -504,6 +509,7 @@ class AppState extends Equatable {
         onboardingState,
         firstLaunchOnboardingState,
         messageImportantState,
+        matchingDemarcheState,
         /*AUTOGENERATE-REDUX-APP-STATE-EQUATABLE*/
       ];
 

@@ -19,6 +19,7 @@ import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/feature_flip/feature_flip_state.dart';
 import 'package:pass_emploi_app/features/first_launch_onboarding/first_launch_onboarding_state.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_state.dart';
+import 'package:pass_emploi_app/features/matching_demarche/matching_demarche_state.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/features/onboarding/onboarding_state.dart';
@@ -63,6 +64,7 @@ import 'package:pass_emploi_app/models/feature_flip.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/models/login_mode.dart';
+import 'package:pass_emploi_app/models/matching_demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/models/mon_suivi.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -718,6 +720,14 @@ extension AppStateDSL on AppState {
         },
       ),
     );
+  }
+
+  AppState withMatchingDemarcheSuccessState(MatchingDemarcheDuReferentiel? result) {
+    return copyWith(matchingDemarcheState: MatchingDemarcheSuccessState(result));
+  }
+
+  AppState withMatchingDemarcheFailureState() {
+    return copyWith(matchingDemarcheState: MatchingDemarcheFailureState());
   }
 
   AppState withThematiqueDemarcheNotInitializedState() {

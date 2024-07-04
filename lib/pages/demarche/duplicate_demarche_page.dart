@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_actions.dart';
+import 'package:pass_emploi_app/features/matching_demarche/matching_demarche_actions.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_personnalisee_page.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_step3_page.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_source.dart';
@@ -24,7 +24,7 @@ class DuplicateDemarchePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, DuplicateDemarcheViewModel>(
-      onInit: (store) => store.dispatch(ThematiqueDemarcheRequestAction()),
+      onInit: (store) => store.dispatch(MatchingDemarcheRequestAction(demarcheId: demarcheId)),
       converter: (store) => DuplicateDemarcheViewModel.create(store, demarcheId),
       builder: (context, viewModel) => _Body(viewModel),
       distinct: true,
@@ -64,7 +64,7 @@ class _DuplicateDemarcheDuReferentielState extends StatelessWidget {
   Widget build(BuildContext context) {
     return CreateDemarcheDuReferentielForm(
       idDemarche: source.demarcheDuReferentielId,
-      source: ThematiqueDemarcheSource(source.thematiqueCode),
+      source: MatchingDemarcheSource(),
       onCreateDemarcheSuccess: (demarcheCreatedId) {
         Navigator.pop(context, demarcheCreatedId);
       },
