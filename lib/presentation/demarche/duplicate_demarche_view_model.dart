@@ -1,7 +1,9 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/demarche/create/create_demarche_state.dart';
 import 'package:pass_emploi_app/features/matching_demarche/matching_demarche_state.dart';
 import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_actions.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_creation_state.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_store_extension.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -10,12 +12,14 @@ import 'package:redux/redux.dart';
 class DuplicateDemarcheViewModel extends Equatable {
   final String demarcheId;
   final DisplayState displayState;
+  final DemarcheCreationState demarcheCreationState;
   final DuplicateDemarcheSourceViewModel sourceViewModel;
   final void Function() onRetry;
 
   DuplicateDemarcheViewModel({
     required this.demarcheId,
     required this.displayState,
+    required this.demarcheCreationState,
     required this.sourceViewModel,
     required this.onRetry,
   });
@@ -30,6 +34,7 @@ class DuplicateDemarcheViewModel extends Equatable {
     return DuplicateDemarcheViewModel(
       demarcheId: demarcheId,
       displayState: _displayStateFromStore(store),
+      demarcheCreationState: _demarcheCreationState(store),
       sourceViewModel: _sourceViewModel(store, demarche),
       onRetry: () => store.dispatch(ThematiqueDemarcheRequestAction()),
     );
@@ -39,6 +44,7 @@ class DuplicateDemarcheViewModel extends Equatable {
     return DuplicateDemarcheViewModel(
       demarcheId: "",
       displayState: DisplayState.EMPTY,
+      demarcheCreationState: DemarcheCreationPendingState(),
       sourceViewModel: DuplicateDemarcheNotInitializedViewModel(),
       onRetry: () {},
     );
@@ -101,10 +107,19 @@ DuplicateDemarcheSourceViewModel _sourceViewModel(Store<AppState> store, Demarch
         commentCode: result.comment?.code,
       );
     }
+
+    final description = demarche.attributs.firstOrNull?.value;
     return DuplicateDemarchePersonnaliseeViewModel(
-      description: demarche.sousTitre,
+      description: description,
     );
   }
 
   return DuplicateDemarcheNotInitializedViewModel();
+}
+
+DemarcheCreationState _demarcheCreationState(Store<AppState> store) {
+  final createState = store.state.createDemarcheState;
+  return createState is CreateDemarcheSuccessState
+      ? DemarcheCreationSuccessState(createState.demarcheCreatedId)
+      : DemarcheCreationPendingState();
 }

@@ -57,7 +57,12 @@ class DemarcheDetailViewModel extends Equatable {
   });
 
   factory DemarcheDetailViewModel.create(Store<AppState> store, String demarcheId) {
-    final demarche = store.getDemarche(demarcheId);
+    final demarche = store.getDemarcheOrNull(demarcheId);
+
+    if (demarche == null) {
+      return DemarcheDetailViewModel.empty();
+    }
+
     final dateDerniereMiseAJour = _getDateDerniereMiseAJour(store);
     demarche.possibleStatus.sort((a, b) => a.compareTo(b));
     final isLate = _isLate(demarche.status, demarche.endDate);
@@ -91,6 +96,29 @@ class DemarcheDetailViewModel extends Equatable {
       },
       resetUpdateStatus: () => store.dispatch(UpdateDemarcheResetAction()),
       updateDisplayState: _updateStateDisplayState(updateState),
+    );
+  }
+
+  factory DemarcheDetailViewModel.empty() {
+    return DemarcheDetailViewModel(
+      createdByAdvisor: false,
+      modifiedByAdvisor: false,
+      withOfflineBehavior: false,
+      dateFormattedTexts: [],
+      dateTextColor: Colors.black,
+      dateBackgroundColor: Colors.transparent,
+      dateIcons: [],
+      label: null,
+      titreDetail: null,
+      sousTitre: null,
+      attributs: [],
+      statutsPossibles: [],
+      modificationDate: null,
+      creationDate: null,
+      withDateDerniereMiseAJour: null,
+      onModifyStatus: (_) {},
+      resetUpdateStatus: () {},
+      updateDisplayState: DisplayState.EMPTY,
     );
   }
 

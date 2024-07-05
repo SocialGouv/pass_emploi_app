@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/features/matching_demarche/matching_demarche_actions.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_personnalisee_page.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_step3_page.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_creation_state.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_source.dart';
 import 'package:pass_emploi_app/presentation/demarche/duplicate_demarche_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -27,8 +29,21 @@ class DuplicateDemarchePage extends StatelessWidget {
       onInit: (store) => store.dispatch(MatchingDemarcheRequestAction(demarcheId: demarcheId)),
       converter: (store) => DuplicateDemarcheViewModel.create(store, demarcheId),
       builder: (context, viewModel) => _Body(viewModel),
+      onDidChange: (oldVm, newVm) => _onDidChange(context, oldVm, newVm),
+      onDispose: (store) => store.dispatch(CreateDemarcheResetAction()),
       distinct: true,
     );
+  }
+
+  void _onDidChange(
+    BuildContext context,
+    DuplicateDemarcheViewModel? oldVm,
+    DuplicateDemarcheViewModel newVm,
+  ) {
+    final creationState = newVm.demarcheCreationState;
+    if (creationState is DemarcheCreationSuccessState) {
+      Navigator.of(context).popUntil((route) => route.settings.name == Navigator.defaultRouteName);
+    }
   }
 }
 
@@ -65,9 +80,6 @@ class _DuplicateDemarcheDuReferentielState extends StatelessWidget {
     return CreateDemarcheDuReferentielForm(
       idDemarche: source.demarcheDuReferentielId,
       source: MatchingDemarcheSource(),
-      onCreateDemarcheSuccess: (demarcheCreatedId) {
-        Navigator.pop(context, demarcheCreatedId);
-      },
       initialCodeComment: source.commentCode,
       createDemarcheButtonLabel: Strings.duplicateDemarche,
     );
@@ -82,6 +94,7 @@ class _DuplicateDemarchePersonnalisee extends StatelessWidget {
   Widget build(BuildContext context) {
     return DemarchePersonnaliseeForm(
       createDemarcheLabel: Strings.duplicateDemarche,
+      initialCommentaire: source.description,
       onCreateDemarcheSuccess: (demarcheCreatedId) {
         Navigator.pop(context, demarcheCreatedId);
       },

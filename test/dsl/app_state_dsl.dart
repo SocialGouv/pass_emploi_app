@@ -722,6 +722,14 @@ extension AppStateDSL on AppState {
     );
   }
 
+  AppState withMatchingDemarcheNotInitializedState() {
+    return copyWith(matchingDemarcheState: MatchingDemarcheNotInitializedState());
+  }
+
+  AppState withMatchingDemarcheLoadingState() {
+    return copyWith(matchingDemarcheState: MatchingDemarcheLoadingState());
+  }
+
   AppState withMatchingDemarcheSuccessState(MatchingDemarcheDuReferentiel? result) {
     return copyWith(matchingDemarcheState: MatchingDemarcheSuccessState(result));
   }

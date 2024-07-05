@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/matching_demarche_du_referentiel.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_creation_state.dart';
 import 'package:pass_emploi_app/presentation/demarche/duplicate_demarche_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 
@@ -24,17 +25,18 @@ void main() {
           demarcheId: "",
           displayState: DisplayState.EMPTY,
           sourceViewModel: DuplicateDemarcheNotInitializedViewModel(),
+          demarcheCreationState: DemarcheCreationPendingState(),
           onRetry: () {},
         ),
       );
     });
 
     group('display state', () {
-      test("create thematique state is not initialized should display loading", () {
+      test("create matching state is not initialized should display loading", () {
         // Given
         final store = givenState() //
             .withDemarches([mockDemarche(id: 'id')])
-            .withThematiqueDemarcheNotInitializedState()
+            .withMatchingDemarcheNotInitializedState()
             .store();
 
         // When
@@ -44,11 +46,11 @@ void main() {
         expect(viewModel.displayState, DisplayState.LOADING);
       });
 
-      test("create thematique state is loading should display loading", () {
+      test("create matching state is loading should display loading", () {
         // Given
         final store = givenState() //
             .withDemarches([mockDemarche(id: 'id')])
-            .withThematiqueDemarcheLoadingState()
+            .withMatchingDemarcheLoadingState()
             .store();
 
         // When
@@ -58,11 +60,11 @@ void main() {
         expect(viewModel.displayState, DisplayState.LOADING);
       });
 
-      test("create thematique state is failure should display failure", () {
+      test("create matching state is failure should display failure", () {
         // Given
         final store = givenState() //
             .withDemarches([mockDemarche(id: 'id')])
-            .withThematiqueDemarcheFailureState()
+            .withMatchingDemarcheFailureState()
             .store();
 
         // When
@@ -72,11 +74,11 @@ void main() {
         expect(viewModel.displayState, DisplayState.FAILURE);
       });
 
-      test("create thematique state is success should display content", () {
+      test("create matching state is success should display content", () {
         // Given
         final store = givenState() //
             .withDemarches([mockDemarche(id: 'id')])
-            .withThematiqueDemarcheSuccessState()
+            .withMatchingDemarcheSuccessState(null)
             .store();
 
         // When

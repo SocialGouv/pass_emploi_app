@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
-import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_personnalisee_view_model.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_creation_state.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -49,23 +48,31 @@ class DemarchePersonnaliseeForm extends StatelessWidget {
     super.key,
     required this.onCreateDemarcheSuccess,
     required this.createDemarcheLabel,
+    this.initialCommentaire,
   });
   final void Function(String demarcheId) onCreateDemarcheSuccess;
   final String createDemarcheLabel;
+  final String? initialCommentaire;
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, CreateDemarchePersonnaliseeViewModel>(
-      builder: (_, viewModel) => _Body(viewModel: viewModel, createDemarcheLabel: createDemarcheLabel),
+      builder: (_, viewModel) => _Body(
+        viewModel: viewModel,
+        createDemarcheLabel: createDemarcheLabel,
+        initialCommentaire: initialCommentaire,
+      ),
       converter: (store) => CreateDemarchePersonnaliseeViewModel.create(store),
       onDidChange: (oldVm, newVm) => _onDidChange(context, oldVm, newVm),
-      onDispose: (store) => store.dispatch(CreateDemarcheResetAction()),
       distinct: true,
     );
   }
 
   void _onDidChange(
-      BuildContext context, CreateDemarchePersonnaliseeViewModel? oldVm, CreateDemarchePersonnaliseeViewModel newVm) {
+    BuildContext context,
+    CreateDemarchePersonnaliseeViewModel? oldVm,
+    CreateDemarchePersonnaliseeViewModel newVm,
+  ) {
     final creationState = newVm.demarcheCreationState;
     if (creationState is DemarcheCreationSuccessState) {
       onCreateDemarcheSuccess(creationState.demarcheCreatedId);
@@ -76,15 +83,22 @@ class DemarchePersonnaliseeForm extends StatelessWidget {
 class _Body extends StatefulWidget {
   final CreateDemarchePersonnaliseeViewModel viewModel;
   final String createDemarcheLabel;
-  const _Body({required this.viewModel, required this.createDemarcheLabel});
+  final String? initialCommentaire;
+  const _Body({required this.viewModel, required this.createDemarcheLabel, this.initialCommentaire});
 
   @override
   State<_Body> createState() => _BodyState();
 }
 
 class _BodyState extends State<_Body> {
-  String _commentaire = "";
+  late String _commentaire;
   DateTime? _dateEcheance;
+
+  @override
+  void initState() {
+    _commentaire = widget.initialCommentaire ?? "";
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,11 +113,15 @@ class _BodyState extends State<_Body> {
           _CommentaireTitre(),
           _DescriptionTitre(),
           _NombreCaracteresRegle(_isCommentaireValid()),
-          _ChampCommentaire((query) {
-            setState(() {
-              _commentaire = query;
-            });
-          }, _isCommentaireValid()),
+          _ChampCommentaire(
+            onChanged: (query) {
+              setState(() {
+                _commentaire = query;
+              });
+            },
+            isCommentaireValid: _isCommentaireValid(),
+            initialCommentaire: widget.initialCommentaire,
+          ),
           _NombreCaracteresCompteur(_commentaire.length, _isCommentaireValid()),
           if (!_isCommentaireValid()) _MessageError(),
           _Separateur2(),
@@ -295,20 +313,26 @@ class _NombreCaracteresCompteur extends StatelessWidget {
 }
 
 class _ChampCommentaire extends StatelessWidget {
-  final Function(String) _onChanged;
-  final bool _isCommentaireValid;
+  final Function(String) onChanged;
+  final bool isCommentaireValid;
+  final String? initialCommentaire;
 
-  _ChampCommentaire(this._onChanged, this._isCommentaireValid);
+  _ChampCommentaire({
+    required this.onChanged,
+    required this.isCommentaireValid,
+    this.initialCommentaire,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(right: 24, left: 24, top: 8),
       child: BaseTextField(
-        onChanged: _onChanged,
+        onChanged: onChanged,
+        initialValue: initialCommentaire,
         minLines: null,
         maxLines: null,
-        isInvalid: !_isCommentaireValid,
+        isInvalid: !isCommentaireValid,
       ),
     );
   }

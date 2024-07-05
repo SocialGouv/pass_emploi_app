@@ -22,7 +22,7 @@ import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/radio_list_tile.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 
-class CreateDemarcheStep3Page extends StatelessWidget {
+class CreateDemarcheStep3Page extends StatefulWidget {
   final String idDemarche;
   final DemarcheSource source;
 
@@ -33,14 +33,25 @@ class CreateDemarcheStep3Page extends StatelessWidget {
   }
 
   @override
+  State<CreateDemarcheStep3Page> createState() => _CreateDemarcheStep3PageState();
+}
+
+class _CreateDemarcheStep3PageState extends State<CreateDemarcheStep3Page> {
+  @override
+  void dispose() {
+    StoreProvider.of(context).dispatch(CreateDemarcheResetAction());
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: SecondaryAppBar(title: Strings.createDemarcheTitle),
       body: Tracker(
         tracking: AnalyticsScreenNames.searchDemarcheStep3,
         child: CreateDemarcheDuReferentielForm(
-          idDemarche: idDemarche,
-          source: source,
+          idDemarche: widget.idDemarche,
+          source: widget.source,
           createDemarcheButtonLabel: Strings.addALaDemarche,
           onCreateDemarcheSuccess: (demarcheCreatedId) {
             PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.searchDemarcheStep3Success);
@@ -83,8 +94,8 @@ class CreateDemarcheDuReferentielForm extends StatelessWidget {
   const CreateDemarcheDuReferentielForm({
     required this.idDemarche,
     required this.source,
-    required this.onCreateDemarcheSuccess,
     required this.createDemarcheButtonLabel,
+    this.onCreateDemarcheSuccess,
     this.initialCodeComment,
   });
 
@@ -92,7 +103,7 @@ class CreateDemarcheDuReferentielForm extends StatelessWidget {
   final DemarcheSource source;
   final String? initialCodeComment;
   final String createDemarcheButtonLabel;
-  final void Function(String demarcheCreatedId) onCreateDemarcheSuccess;
+  final void Function(String demarcheCreatedId)? onCreateDemarcheSuccess;
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +116,6 @@ class CreateDemarcheDuReferentielForm extends StatelessWidget {
       ),
       converter: (store) => CreateDemarcheStep3ViewModel.create(store, idDemarche, source),
       onDidChange: _onDidChange,
-      onDispose: (store) => store.dispatch(CreateDemarcheResetAction()),
       distinct: true,
     );
   }
@@ -113,7 +123,7 @@ class CreateDemarcheDuReferentielForm extends StatelessWidget {
   void _onDidChange(CreateDemarcheStep3ViewModel? oldVm, CreateDemarcheStep3ViewModel newVm) {
     final creationState = newVm.demarcheCreationState;
     if (creationState is DemarcheCreationSuccessState) {
-      onCreateDemarcheSuccess(creationState.demarcheCreatedId);
+      onCreateDemarcheSuccess?.call(creationState.demarcheCreatedId);
     }
   }
 }
