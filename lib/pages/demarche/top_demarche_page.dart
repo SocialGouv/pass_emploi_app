@@ -17,7 +17,7 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 class TopDemarchePage extends StatelessWidget {
   const TopDemarchePage({super.key});
 
-  static MaterialPageRoute<String?> materialPageRoute() {
+  static MaterialPageRoute<void> materialPageRoute() {
     return MaterialPageRoute(builder: (context) => TopDemarchePage());
   }
 
@@ -93,10 +93,7 @@ class _TopDemarcheList extends StatelessWidget {
             source: source,
             idDemarche: id,
             onTap: () {
-              Navigator.push(context, CreateDemarcheStep3Page.materialPageRoute(id, source)).then((value) {
-                // forward result to previous page
-                if (value != null) Navigator.pop(context, value);
-              });
+              Navigator.push(context, CreateDemarcheStep3Page.materialPageRoute(id, source));
             },
           );
         }

@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_state.dart';
+import 'package:pass_emploi_app/pages/demarche/create_demarche_step1_page.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_step3_view_model.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_creation_state.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_source.dart';
@@ -31,7 +32,7 @@ class CreateDemarcheStep3Page extends StatelessWidget {
 
   CreateDemarcheStep3Page._(this.idDemarche, this.source);
 
-  static MaterialPageRoute<String?> materialPageRoute(String idDemarche, DemarcheSource source) {
+  static MaterialPageRoute<void> materialPageRoute(String idDemarche, DemarcheSource source) {
     return MaterialPageRoute(builder: (context) => CreateDemarcheStep3Page._(idDemarche, source));
   }
 
@@ -124,7 +125,7 @@ class _CreateDemarcheDuReferentielFormState extends State<CreateDemarcheDuRefere
     }
   }
 
-  void _onDidChange(CreateDemarcheStep3ViewModel? oldVm, CreateDemarcheStep3ViewModel newVm) {
+  void _onDidChange(CreateDemarcheStep3ViewModel? _, CreateDemarcheStep3ViewModel newVm) {
     final creationState = newVm.demarcheCreationState;
     if (creationState is DemarcheCreationSuccessState) {
       _onSuccess(creationState.demarcheCreatedId);
@@ -136,6 +137,7 @@ class _CreateDemarcheDuReferentielFormState extends State<CreateDemarcheDuRefere
     Future.delayed(
       AnimationDurations.veryFast,
       () {
+        CreateDemarcheStep1Page.showDemarcheSnackBarWithDetail(context, demarcheId);
         widget.onCreateDemarcheSuccess?.call(demarcheId);
         StoreProvider.of<AppState>(context).dispatch(CreateDemarcheResetAction());
         Navigator.of(context).popUntil((route) => route.settings.name == Navigator.defaultRouteName);

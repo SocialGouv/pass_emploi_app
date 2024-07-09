@@ -80,9 +80,6 @@ class _DuplicateDemarchePersonnalisee extends StatelessWidget {
     return DemarchePersonnaliseeForm(
       createDemarcheLabel: Strings.duplicateDemarche,
       initialCommentaire: source.description,
-      onCreateDemarcheSuccess: (demarcheCreatedId) {
-        Navigator.pop(context, demarcheCreatedId);
-      },
     );
   }
 }
