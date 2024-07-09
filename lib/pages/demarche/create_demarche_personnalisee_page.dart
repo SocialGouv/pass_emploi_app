@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
+import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
+import 'package:pass_emploi_app/features/demarche/create/create_demarche_state.dart';
+import 'package:pass_emploi_app/pages/demarche/create_demarche_step1_page.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_personnalisee_view_model.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_creation_state.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
@@ -17,9 +21,10 @@ import 'package:pass_emploi_app/widgets/date_pickers/date_picker.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
+import 'package:redux/redux.dart';
 
 class CreateDemarchePersonnaliseePage extends StatefulWidget {
-  static MaterialPageRoute<String?> materialPageRoute() {
+  static MaterialPageRoute<void> materialPageRoute() {
     return MaterialPageRoute(builder: (context) => CreateDemarchePersonnaliseePage());
   }
 
@@ -35,7 +40,6 @@ class _CreateDemarchePageState extends State<CreateDemarchePersonnaliseePage> {
       child: Scaffold(
         appBar: SecondaryAppBar(title: Strings.createDemarcheTitle),
         body: DemarchePersonnaliseeForm(
-          onCreateDemarcheSuccess: (demarcheId) => Navigator.pop(context, demarcheId),
           createDemarcheLabel: Strings.addALaDemarche,
         ),
       ),
@@ -43,40 +47,60 @@ class _CreateDemarchePageState extends State<CreateDemarchePersonnaliseePage> {
   }
 }
 
-class DemarchePersonnaliseeForm extends StatelessWidget {
+class DemarchePersonnaliseeForm extends StatefulWidget {
   const DemarchePersonnaliseeForm({
     super.key,
-    required this.onCreateDemarcheSuccess,
     required this.createDemarcheLabel,
     this.initialCommentaire,
   });
-  final void Function(String demarcheId) onCreateDemarcheSuccess;
+
   final String createDemarcheLabel;
   final String? initialCommentaire;
 
+  @override
+  State<DemarchePersonnaliseeForm> createState() => _DemarchePersonnaliseeFormState();
+}
+
+class _DemarchePersonnaliseeFormState extends State<DemarchePersonnaliseeForm> {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, CreateDemarchePersonnaliseeViewModel>(
       builder: (_, viewModel) => _Body(
         viewModel: viewModel,
-        createDemarcheLabel: createDemarcheLabel,
-        initialCommentaire: initialCommentaire,
+        createDemarcheLabel: widget.createDemarcheLabel,
+        initialCommentaire: widget.initialCommentaire,
       ),
       converter: (store) => CreateDemarchePersonnaliseeViewModel.create(store),
-      onDidChange: (oldVm, newVm) => _onDidChange(context, oldVm, newVm),
+      onDidChange: _onDidChange,
+      onInit: _onInit,
       distinct: true,
     );
   }
 
-  void _onDidChange(
-    BuildContext context,
-    CreateDemarchePersonnaliseeViewModel? oldVm,
-    CreateDemarchePersonnaliseeViewModel newVm,
-  ) {
+  void _onInit(Store<AppState> store) {
+    final creationState = store.state.createDemarcheState;
+    if (creationState is CreateDemarcheSuccessState) {
+      _onSuccess(creationState.demarcheCreatedId);
+    }
+  }
+
+  void _onDidChange(CreateDemarchePersonnaliseeViewModel? _, CreateDemarchePersonnaliseeViewModel newVm) {
     final creationState = newVm.demarcheCreationState;
     if (creationState is DemarcheCreationSuccessState) {
-      onCreateDemarcheSuccess(creationState.demarcheCreatedId);
+      _onSuccess(creationState.demarcheCreatedId);
     }
+  }
+
+  void _onSuccess(String demarcheId) {
+    // To avoid poping during the build
+    Future.delayed(
+      AnimationDurations.veryFast,
+      () {
+        CreateDemarcheStep1Page.showDemarcheSnackBarWithDetail(context, demarcheId);
+        StoreProvider.of<AppState>(context).dispatch(CreateDemarcheResetAction());
+        Navigator.of(context).popUntil((route) => route.settings.name == Navigator.defaultRouteName);
+      },
+    );
   }
 }
 
@@ -102,6 +126,10 @@ class _BodyState extends State<_Body> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.viewModel.demarcheCreationState is DemarcheCreationSuccessState) {
+      return SizedBox.shrink();
+    }
+
     return SingleChildScrollView(
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
       child: Column(

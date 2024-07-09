@@ -3,11 +3,13 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
+import 'package:pass_emploi_app/features/demarche/create/create_demarche_state.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_step3_view_model.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_creation_state.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_source.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -21,8 +23,9 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/radio_list_tile.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
+import 'package:redux/redux.dart';
 
-class CreateDemarcheStep3Page extends StatefulWidget {
+class CreateDemarcheStep3Page extends StatelessWidget {
   final String idDemarche;
   final DemarcheSource source;
 
@@ -33,29 +36,17 @@ class CreateDemarcheStep3Page extends StatefulWidget {
   }
 
   @override
-  State<CreateDemarcheStep3Page> createState() => _CreateDemarcheStep3PageState();
-}
-
-class _CreateDemarcheStep3PageState extends State<CreateDemarcheStep3Page> {
-  @override
-  void dispose() {
-    StoreProvider.of(context).dispatch(CreateDemarcheResetAction());
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: SecondaryAppBar(title: Strings.createDemarcheTitle),
       body: Tracker(
         tracking: AnalyticsScreenNames.searchDemarcheStep3,
         child: CreateDemarcheDuReferentielForm(
-          idDemarche: widget.idDemarche,
-          source: widget.source,
+          idDemarche: idDemarche,
+          source: source,
           createDemarcheButtonLabel: Strings.addALaDemarche,
           onCreateDemarcheSuccess: (demarcheCreatedId) {
             PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.searchDemarcheStep3Success);
-            Navigator.pop(context, demarcheCreatedId);
           },
         ),
       ),
@@ -90,7 +81,7 @@ class _UnicTopDemarcheTrackingWrapperState extends State<_UnicTopDemarcheTrackin
   }
 }
 
-class CreateDemarcheDuReferentielForm extends StatelessWidget {
+class CreateDemarcheDuReferentielForm extends StatefulWidget {
   const CreateDemarcheDuReferentielForm({
     required this.idDemarche,
     required this.source,
@@ -106,25 +97,50 @@ class CreateDemarcheDuReferentielForm extends StatelessWidget {
   final void Function(String demarcheCreatedId)? onCreateDemarcheSuccess;
 
   @override
+  State<CreateDemarcheDuReferentielForm> createState() => _CreateDemarcheDuReferentielFormState();
+}
+
+class _CreateDemarcheDuReferentielFormState extends State<CreateDemarcheDuReferentielForm> {
+  @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, CreateDemarcheStep3ViewModel>(
       builder: (_, viewModel) => _Form(
         viewModel,
-        source,
-        initialCodeComment: initialCodeComment,
-        createDemarcheButtonLabel: createDemarcheButtonLabel,
+        widget.source,
+        initialCodeComment: widget.initialCodeComment,
+        createDemarcheButtonLabel: widget.createDemarcheButtonLabel,
       ),
-      converter: (store) => CreateDemarcheStep3ViewModel.create(store, idDemarche, source),
+      converter: (store) => CreateDemarcheStep3ViewModel.create(store, widget.idDemarche, widget.source),
       onDidChange: _onDidChange,
+      onInit: _onInit,
       distinct: true,
     );
+  }
+
+  void _onInit(Store<AppState> store) {
+    final creationState = store.state.createDemarcheState;
+    if (creationState is CreateDemarcheSuccessState) {
+      _onSuccess(creationState.demarcheCreatedId);
+    }
   }
 
   void _onDidChange(CreateDemarcheStep3ViewModel? oldVm, CreateDemarcheStep3ViewModel newVm) {
     final creationState = newVm.demarcheCreationState;
     if (creationState is DemarcheCreationSuccessState) {
-      onCreateDemarcheSuccess?.call(creationState.demarcheCreatedId);
+      _onSuccess(creationState.demarcheCreatedId);
     }
+  }
+
+  void _onSuccess(String demarcheId) {
+    // To avoid poping during the build
+    Future.delayed(
+      AnimationDurations.veryFast,
+      () {
+        widget.onCreateDemarcheSuccess?.call(demarcheId);
+        StoreProvider.of<AppState>(context).dispatch(CreateDemarcheResetAction());
+        Navigator.of(context).popUntil((route) => route.settings.name == Navigator.defaultRouteName);
+      },
+    );
   }
 }
 
@@ -152,6 +168,10 @@ class _FormState extends State<_Form> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.viewModel.demarcheCreationState is DemarcheCreationSuccessState) {
+      return SizedBox.shrink();
+    }
+
     return _UnicTopDemarcheTrackingWrapper(
       source: widget.source,
       viewModel: widget.viewModel,
