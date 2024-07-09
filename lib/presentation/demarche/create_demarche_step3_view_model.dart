@@ -27,7 +27,11 @@ class CreateDemarcheStep3ViewModel extends Equatable {
     required this.onCreateDemarche,
   });
 
-  factory CreateDemarcheStep3ViewModel.create(Store<AppState> store, String idDemarche, DemarcheSource source) {
+  factory CreateDemarcheStep3ViewModel.create(
+    Store<AppState> store,
+    String idDemarche,
+    DemarcheSource source,
+  ) {
     final demarche = source.demarche(store, idDemarche);
     if (demarche != null) {
       return CreateDemarcheStep3ViewModel(
@@ -44,6 +48,7 @@ class CreateDemarcheStep3ViewModel extends Equatable {
               codePourquoi: demarche.codePourquoi,
               codeComment: codeComment,
               dateEcheance: endDate,
+              estDuplicata: source is MatchingDemarcheSource,
             ),
           )
         },

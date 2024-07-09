@@ -17,12 +17,12 @@ class CreateDemarchePersonnaliseeViewModel extends Equatable {
     required this.onCreateDemarche,
   });
 
-  factory CreateDemarchePersonnaliseeViewModel.create(Store<AppState> store) {
+  factory CreateDemarchePersonnaliseeViewModel.create(Store<AppState> store, bool estDuplicata) {
     return CreateDemarchePersonnaliseeViewModel(
       displayState: _displayState(store),
       demarcheCreationState: _demarcheCreationState(store),
       onCreateDemarche: (commentaire, dateEcheance) => store.dispatch(
-        CreateDemarchePersonnaliseeRequestAction(commentaire, dateEcheance),
+        CreateDemarchePersonnaliseeRequestAction(commentaire, dateEcheance, estDuplicata),
       ),
     );
   }

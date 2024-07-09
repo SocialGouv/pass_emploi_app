@@ -41,6 +41,7 @@ class _CreateDemarchePageState extends State<CreateDemarchePersonnaliseePage> {
         appBar: SecondaryAppBar(title: Strings.createDemarcheTitle),
         body: DemarchePersonnaliseeForm(
           createDemarcheLabel: Strings.addALaDemarche,
+          estDuplicata: false,
         ),
       ),
     );
@@ -51,11 +52,13 @@ class DemarchePersonnaliseeForm extends StatefulWidget {
   const DemarchePersonnaliseeForm({
     super.key,
     required this.createDemarcheLabel,
+    required this.estDuplicata,
     this.initialCommentaire,
   });
 
   final String createDemarcheLabel;
   final String? initialCommentaire;
+  final bool estDuplicata;
 
   @override
   State<DemarchePersonnaliseeForm> createState() => _DemarchePersonnaliseeFormState();
@@ -70,7 +73,7 @@ class _DemarchePersonnaliseeFormState extends State<DemarchePersonnaliseeForm> {
         createDemarcheLabel: widget.createDemarcheLabel,
         initialCommentaire: widget.initialCommentaire,
       ),
-      converter: (store) => CreateDemarchePersonnaliseeViewModel.create(store),
+      converter: (store) => CreateDemarchePersonnaliseeViewModel.create(store, widget.estDuplicata),
       onDidChange: _onDidChange,
       onInit: _onInit,
       distinct: true,

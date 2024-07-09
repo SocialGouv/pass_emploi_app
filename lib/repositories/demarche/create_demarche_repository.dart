@@ -17,6 +17,7 @@ class CreateDemarcheRepository {
     required String codePourquoi,
     required String? codeComment,
     required DateTime dateEcheance,
+    required bool estDuplicata,
   }) async {
     final url = "/jeunes/$userId/demarches";
     try {
@@ -28,6 +29,7 @@ class CreateDemarcheRepository {
             codePourquoi: codePourquoi,
             codeComment: codeComment,
             dateEcheance: dateEcheance,
+            estDuplicata: estDuplicata,
           ),
         ),
       );
@@ -42,12 +44,13 @@ class CreateDemarcheRepository {
     required String userId,
     required String commentaire,
     required DateTime dateEcheance,
+    required bool estDuplicata,
   }) async {
     final url = "/jeunes/$userId/demarches";
     try {
       final response = await _httpClient.post(
         url,
-        data: customJsonEncode(PostCreateDemarchePersonnalisee(commentaire, dateEcheance)),
+        data: customJsonEncode(PostCreateDemarchePersonnalisee(commentaire, dateEcheance, estDuplicata)),
       );
       return response.data['id'] as String;
     } catch (e, stack) {

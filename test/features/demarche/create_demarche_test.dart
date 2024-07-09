@@ -17,6 +17,7 @@ void main() {
           codePourquoi: 'codePourquoi',
           codeComment: 'codeComment',
           dateEcheance: DateTime(2022),
+          estDuplicata: false,
         ));
 
     group('when request succeeds', () {
@@ -39,7 +40,7 @@ void main() {
   });
 
   group('when creating a demarche personnalisee', () {
-    sut.whenDispatchingAction(() => CreateDemarchePersonnaliseeRequestAction('commentaire', DateTime(2022)));
+    sut.whenDispatchingAction(() => CreateDemarchePersonnaliseeRequestAction('commentaire', DateTime(2022), false));
 
     group('when request succeeds', () {
       test('should display loading and success', () async {
@@ -95,6 +96,7 @@ class CreateDemarcheRepositorySuccessStub extends CreateDemarcheRepository {
     required String codePourquoi,
     required String? codeComment,
     required DateTime dateEcheance,
+    required bool estDuplicata,
   }) async {
     final success = userId == 'id' &&
         codeQuoi == 'codeQuoi' &&
@@ -109,6 +111,7 @@ class CreateDemarcheRepositorySuccessStub extends CreateDemarcheRepository {
     required String userId,
     required String commentaire,
     required DateTime dateEcheance,
+    required bool estDuplicata,
   }) async {
     final success = commentaire == 'commentaire' && dateEcheance == DateTime(2022) && userId == 'id';
     return success ? 'DEMARCHE-ID' : null;
@@ -125,6 +128,7 @@ class CreateDemarcheRepositoryFailureStub extends CreateDemarcheRepository {
     required String codePourquoi,
     required String? codeComment,
     required DateTime dateEcheance,
+    required bool estDuplicata,
   }) async {
     return null;
   }
@@ -134,6 +138,7 @@ class CreateDemarcheRepositoryFailureStub extends CreateDemarcheRepository {
     required String userId,
     required String commentaire,
     required DateTime dateEcheance,
+    required bool estDuplicata,
   }) async {
     return null;
   }
