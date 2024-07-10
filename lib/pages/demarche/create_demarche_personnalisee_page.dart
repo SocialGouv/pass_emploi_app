@@ -144,7 +144,6 @@ class _BodyState extends State<_Body> {
           _Separateur(),
           _CommentaireTitre(),
           _DescriptionTitre(),
-          _NombreCaracteresRegle(_isCommentaireValid()),
           _ChampCommentaire(
             onChanged: (query) {
               setState(() {
@@ -257,27 +256,6 @@ class _DescriptionTitre extends StatelessWidget {
       child: Text(
         Strings.descriptionDemarche,
         style: TextStyles.textBaseMedium,
-      ),
-    );
-  }
-}
-
-class _NombreCaracteresRegle extends StatelessWidget {
-  final bool _isCommentaireValid;
-
-  _NombreCaracteresRegle(this._isCommentaireValid);
-
-  @override
-  Widget build(BuildContext context) {
-    final textColor = _isCommentaireValid ? AppColors.contentColor : AppColors.warning;
-    return Align(
-      alignment: Alignment.centerRight,
-      child: Padding(
-        padding: const EdgeInsets.only(right: 24, top: 8),
-        child: Text(
-          Strings.caracteres255,
-          style: TextStyles.textXsRegular(color: textColor),
-        ),
       ),
     );
   }
