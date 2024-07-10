@@ -130,7 +130,12 @@ class Strings {
   static String chatPieceJointeBottomSheetSelectFileButton = "Sélectionner un fichier";
   static String chatPieceJointeBottomSheetFileTooLarge =
       "Le fichier est trop volumineux. Veuillez sélectionner un fichier de moins de 5 Mo.";
-  static String chatPieceJointePermissionError = "Autorisez l’accès à la galerie pour pouvoir sélectionner une image.";
+  static String chatPieceJointeGalleryPermissionError =
+      "Autorisez l’accès à la galerie pour pouvoir sélectionner une image.";
+  static String chatPieceJointeCameraPermissionError =
+      "Autorisez l’accès à l'appareil photo pour pouvoir prendre une photo.";
+  static String chatPieceJointeFilePermissionError =
+      "Autorisez l’accès aux fichiers pour pouvoir sélectionner un fichier.";
   static String chatPieceJointeOpenAppSettings = "Paramètres";
 
   // Force Update
@@ -443,7 +448,7 @@ class Strings {
   static const String userActionSubtitleStep1 = 'Choisissez une catégorie';
 
   static const String userActionSubtitleStep2 = '*Pouvez-vous nous en dire plus ?';
-  static const String userActionTitleTextfieldStep2 = '*Pouvez-vous nous en dire plus ?';
+  static const String userActionTitleTextfieldStep2 = '*Nommer mon action ?';
   static const String userActionDescriptionTextfieldStep2 = 'Décrire mon action';
 
   static const String userActionStatusRadioStep3 = 'L’action est :';
@@ -474,7 +479,7 @@ class Strings {
   static const String userActionLogementDescription = 'Recherches de logement';
   static const String userActionSanteDescription = 'Rendez-vous médicaux';
 
-  static const String userActionConfirmationTitle = "Action enregistrée";
+  static const String userActionConfirmationTitle = "Action créée";
   static const String userActionConfirmatioSubtitle =
       "L’action est en route vers votre conseiller. Vous pourrez en discuter ensemble lors de votre prochain rendez-vous\u{00A0}!";
 
@@ -633,7 +638,7 @@ class Strings {
   static const String late = "En retard : ";
   static const String createDemarchePersonnalisee = "Créer une démarche";
   static const String commentaire = "Commentaire";
-  static const String descriptionDemarche = "Description de la démarche";
+  static const String descriptionDemarche = "Décrire la démarche";
   static const String caracteres255 = "255 caractères maximum";
   static const String quand = "Quand";
   static const String selectEcheance = "Sélectionner une date d'échéance";
