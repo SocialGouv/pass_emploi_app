@@ -182,9 +182,9 @@ class AppInitializer {
     final cacheStore = FileCacheStore((await getTemporaryDirectory()).path);
     final requestCacheManager = PassEmploiCacheManager(cacheStore, configuration.serverBaseUrl);
     final modeDemoRepository = ModeDemoRepository();
-    final installationIdRepository = InstallationIdRepository(securedPreferences);
     final baseUrl = configuration.serverBaseUrl;
-    final monitoringInterceptor = MonitoringInterceptor(installationIdRepository, AppVersionRepository());
+    final monitoringInterceptor =
+        MonitoringInterceptor(InstallationIdRepository(securedPreferences), AppVersionRepository());
     _setTrustedCertificatesForOldDevices(configuration, crashlytics);
     final dioClient = PassEmploiDioBuilder(
       baseUrl: baseUrl,
@@ -253,7 +253,6 @@ class AppInitializer {
       SuggestionsRechercheRepository(dioClient, requestCacheManager, crashlytics),
       AnimationsCollectivesRepository(dioClient, crashlytics),
       SessionMiloRepository(dioClient, crashlytics),
-      installationIdRepository,
       DiagorienteUrlsRepository(dioClient, crashlytics),
       DiagorienteMetiersFavorisRepository(dioClient, requestCacheManager, crashlytics),
       GetFavorisRepository(dioClient, crashlytics),

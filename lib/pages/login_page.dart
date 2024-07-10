@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
+import 'package:pass_emploi_app/features/mode_demo/explication_page_mode_demo.dart';
 import 'package:pass_emploi_app/features/preferred_login_mode/preferred_login_mode_actions.dart';
 import 'package:pass_emploi_app/models/accompagnement.dart';
 import 'package:pass_emploi_app/models/brand.dart';
@@ -24,7 +25,6 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/drawables/app_logo.dart';
-import 'package:pass_emploi_app/widgets/hidden_menu.dart';
 import 'package:pass_emploi_app/widgets/welcome.dart';
 
 class LoginPage extends StatelessWidget {
@@ -81,7 +81,9 @@ class _Scaffold extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     _TopSpacer(),
-                    HiddenMenuGesture(child: AppLogo(width: 120)),
+                    GestureDetector(
+                        child: AppLogo(width: 120),
+                        onDoubleTap: () => Navigator.push(context, ExplicationModeDemoPage.materialPageRoute())),
                     SizedBox(height: shrink ? Margins.spacing_base : Margins.spacing_m),
                     Welcome(),
                     SizedBox(height: shrink ? 0 : Margins.spacing_xl),

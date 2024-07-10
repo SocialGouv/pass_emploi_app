@@ -23,7 +23,6 @@ import 'package:pass_emploi_app/features/demarche/update/update_demarche_state.d
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_state.dart';
 import 'package:pass_emploi_app/features/developer_option/activation/developer_options_state.dart';
 import 'package:pass_emploi_app/features/developer_option/matomo/matomo_logging_state.dart';
-import 'package:pass_emploi_app/features/device_info/device_info_state.dart';
 import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_state.dart';
 import 'package:pass_emploi_app/features/evenement_emploi/details/evenement_emploi_details_state.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_state.dart';
@@ -123,7 +122,6 @@ class AppState extends Equatable {
   final SuggestionsRechercheState suggestionsRechercheState;
   final TraiterSuggestionRechercheState traiterSuggestionRechercheState;
   final EventListState eventListState;
-  final DeviceInfoState deviceInfoState;
   final RechercheEmploiState rechercheEmploiState;
   final RechercheImmersionState rechercheImmersionState;
   final RechercheServiceCiviqueState rechercheServiceCiviqueState;
@@ -196,7 +194,6 @@ class AppState extends Equatable {
     required this.suggestionsRechercheState,
     required this.traiterSuggestionRechercheState,
     required this.eventListState,
-    required this.deviceInfoState,
     required this.rechercheEmploiState,
     required this.rechercheImmersionState,
     required this.rechercheServiceCiviqueState,
@@ -270,7 +267,6 @@ class AppState extends Equatable {
     final SuggestionsRechercheState? suggestionsRechercheState,
     final TraiterSuggestionRechercheState? traiterSuggestionRechercheState,
     final EventListState? eventListState,
-    final DeviceInfoState? deviceInfoState,
     final RechercheEmploiState? rechercheEmploiState,
     final RechercheImmersionState? rechercheImmersionState,
     final RechercheServiceCiviqueState? rechercheServiceCiviqueState,
@@ -343,7 +339,6 @@ class AppState extends Equatable {
       suggestionsRechercheState: suggestionsRechercheState ?? this.suggestionsRechercheState,
       traiterSuggestionRechercheState: traiterSuggestionRechercheState ?? this.traiterSuggestionRechercheState,
       eventListState: eventListState ?? this.eventListState,
-      deviceInfoState: deviceInfoState ?? this.deviceInfoState,
       rechercheEmploiState: rechercheEmploiState ?? this.rechercheEmploiState,
       rechercheImmersionState: rechercheImmersionState ?? this.rechercheImmersionState,
       rechercheServiceCiviqueState: rechercheServiceCiviqueState ?? this.rechercheServiceCiviqueState,
@@ -419,7 +414,6 @@ class AppState extends Equatable {
       suggestionsRechercheState: SuggestionsRechercheNotInitializedState(),
       traiterSuggestionRechercheState: TraiterSuggestionRechercheNotInitializedState(),
       eventListState: EventListNotInitializedState(),
-      deviceInfoState: DeviceInfoNotInitializedState(),
       rechercheEmploiState: RechercheState.initial(),
       rechercheImmersionState: RechercheState.initial(),
       rechercheServiceCiviqueState: RechercheState.initial(),
@@ -488,7 +482,6 @@ class AppState extends Equatable {
         suggestionsRechercheState,
         traiterSuggestionRechercheState,
         eventListState,
-        deviceInfoState,
         rechercheEmploiState,
         rechercheImmersionState,
         rechercheServiceCiviqueState,

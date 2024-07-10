@@ -40,7 +40,6 @@ import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_reposi
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion/immersion_repository.dart';
-import 'package:pass_emploi_app/repositories/installation_id_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
 import 'package:pass_emploi_app/repositories/mon_suivi_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
@@ -322,10 +321,6 @@ class DummySessionMiloRepository extends SessionMiloRepository {
 
 class DummyMetierRepository extends MetierRepository {
   DummyMetierRepository() : super(DioMock());
-}
-
-class DummyInstallationIdRepository extends InstallationIdRepository {
-  DummyInstallationIdRepository() : super(MockFlutterSecureStorage());
 }
 
 class DummyDiagorienteUrlsRepository extends DiagorienteUrlsRepository {
