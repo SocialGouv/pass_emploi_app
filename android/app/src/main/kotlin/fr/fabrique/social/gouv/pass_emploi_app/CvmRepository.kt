@@ -126,12 +126,7 @@ private fun stringify(eventType: EventType): String {
 }
 
 private fun Event.readByConseiller(): Boolean {
-    println("🚀🚀🚀 CvmRepository.kotlin#message ->  $message")
-    println("🚀🚀🚀 CvmRepository.kotlin#readBy ->  $readBy")
-    val readByConseiller = readBy?.filterNot { it == SessionManager.matrixUserId }?.isNotEmpty() == true
-    println("🚀🚀🚀 CvmRepository.kotlin#readByConseiller ->  $readByConseiller")
-    println("🚀🚀🚀 ----------")
-    return readByConseiller
+    return readBy?.filterNot { it == SessionManager.matrixUserId }?.isNotEmpty() == true
 }
 
 private fun Event.readByJeune(): Boolean {

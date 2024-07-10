@@ -80,7 +80,9 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
   void _handleLastJeuneReading(Store<AppState> store) {
     if (store.state.cvmState is! CvmSuccessState) return;
     final lastConseillerMessage = _lastConseillerMessage((store.state.cvmState as CvmSuccessState).messages);
-    if (lastConseillerMessage != null) _facade.markAsRead(lastConseillerMessage.id);
+    if (lastConseillerMessage != null && !lastConseillerMessage.readByJeune) {
+      _facade.markAsRead(lastConseillerMessage.id);
+    }
 
     final statusState = store.state.chatStatusState;
     final lastConseillerReading = (statusState is ChatStatusSuccessState) ? statusState.lastConseillerReading : null;
