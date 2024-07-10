@@ -1,8 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
-import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/matching_demarche_du_referentiel.dart';
-import 'package:pass_emploi_app/models/thematique_de_demarche.dart';
 import 'package:pass_emploi_app/repositories/thematiques_demarche_repository.dart';
 
 class MatchingDemarcheRepository {
@@ -12,25 +10,18 @@ class MatchingDemarcheRepository {
 
   Future<MatchingDemarcheDuReferentiel?> getMatchingDemarcheDuReferentiel(Demarche demarche) async {
     final thematiques = await thematiquesRepository.getThematique();
+    if (thematiques == null) return null;
 
-    if (thematiques != null) {
-      DemarcheDuReferentiel? demarcheDuReferentiel;
-      ThematiqueDeDemarche? thematiqueDuReferentiel;
-      for (final thematique in thematiques) {
-        thematiqueDuReferentiel = thematique;
-        demarcheDuReferentiel = thematique.demarches
-            .firstWhereOrNull((demarcheDuReferentiel) => demarcheDuReferentiel.quoi == demarche.titre);
-        if (demarcheDuReferentiel != null) {
-          final comment =
-              demarcheDuReferentiel.comments.firstWhereOrNull((comment) => comment.label == demarche.sousTitre);
-          return MatchingDemarcheDuReferentiel(
-            thematique: thematiqueDuReferentiel,
-            demarcheDuReferentiel: demarcheDuReferentiel,
-            comment: comment,
-          );
-        }
-      }
-      return null;
+    for (final thematique in thematiques) {
+      final matchingDemarche = thematique.demarches
+          .firstWhereOrNull((demarcheDuReferentiel) => demarcheDuReferentiel.quoi == demarche.titre);
+      if (matchingDemarche == null) continue;
+
+      return MatchingDemarcheDuReferentiel(
+        thematique: thematique,
+        demarcheDuReferentiel: matchingDemarche,
+        comment: matchingDemarche.comments.firstWhereOrNull((comment) => comment.label == demarche.sousTitre),
+      );
     }
     return null;
   }
