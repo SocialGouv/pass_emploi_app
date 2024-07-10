@@ -1,10 +1,8 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/features/tracking/tracking_evenement_engagement_action.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_state.dart';
 import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
 import 'package:pass_emploi_app/models/user_action_type.dart';
-import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_create_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_store_extension.dart';
@@ -46,21 +44,19 @@ class DuplicateUserActionViewModel extends Equatable {
       description: userAction.comment,
       type: userAction.type,
       displayState: _displayState(store.state.userActionCreateState),
-      duplicate: (date, title, description, type) {
-        store.dispatch(
-          UserActionCreateRequestAction(
-            UserActionCreateRequest(
-              title,
-              description,
-              date,
-              false,
-              userAction.status,
-              type ?? UserActionReferentielType.emploi,
-            ),
+      duplicate: (date, title, description, type) => store.dispatch(
+        UserActionCreateRequestAction(
+          UserActionCreateRequest(
+            title,
+            description,
+            date,
+            false,
+            userAction.status,
+            type ?? UserActionReferentielType.emploi,
+            true,
           ),
-        );
-        store.dispatch(TrackingEvenementEngagementAction(EvenementEngagement.ACTION_DUPLIQUEE));
-      },
+        ),
+      ),
     );
   }
 
