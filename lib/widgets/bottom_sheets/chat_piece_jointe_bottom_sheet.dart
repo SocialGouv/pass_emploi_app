@@ -41,7 +41,9 @@ class ChatPieceJointeBottomSheet extends StatefulWidget {
 class _ChatPieceJointeBottomSheetState extends State<ChatPieceJointeBottomSheet> {
   bool showFileTooLargeMessage = false;
   bool showLoading = false;
-  bool showPermissionDenied = false;
+  bool showGalleryPermissionDenied = false;
+  bool showCameraPermissionDenied = false;
+  bool showFilePermissionDenied = false;
 
   void _isFileTooLarge(bool isFileTooLarge) {
     setState(() {
@@ -63,9 +65,21 @@ class _ChatPieceJointeBottomSheetState extends State<ChatPieceJointeBottomSheet>
     });
   }
 
-  void _onPermissionError() {
+  void _onGalleryPermissionError() {
     setState(() {
-      showPermissionDenied = true;
+      showGalleryPermissionDenied = true;
+    });
+  }
+
+  void _onCameraPermissionError() {
+    setState(() {
+      showCameraPermissionDenied = true;
+    });
+  }
+
+  void _onFilePermissionError() {
+    setState(() {
+      showFilePermissionDenied = true;
     });
   }
 
@@ -77,9 +91,17 @@ class _ChatPieceJointeBottomSheetState extends State<ChatPieceJointeBottomSheet>
       body: SingleChildScrollView(
         child: Column(
           children: [
-            if (showPermissionDenied) ...[
+            if (showGalleryPermissionDenied) ...[
               SizedBox(height: Margins.spacing_m),
-              _PermissionDeniedWarning(),
+              _GalleryPermissionWarning(),
+            ],
+            if (showCameraPermissionDenied) ...[
+              SizedBox(height: Margins.spacing_m),
+              _CameraPermissionWarning(),
+            ],
+            if (showFilePermissionDenied) ...[
+              SizedBox(height: Margins.spacing_m),
+              _FilePermissionWarning(),
             ],
             if (showFileTooLargeMessage) ...[
               SizedBox(height: Margins.spacing_m),
@@ -93,16 +115,16 @@ class _ChatPieceJointeBottomSheetState extends State<ChatPieceJointeBottomSheet>
             _PieceJointeWarning(),
             SizedBox(height: Margins.spacing_base),
             _TakePictureButton(
-              onPickImagePermissionError: _onPermissionError,
+              onPickImagePermissionError: _onCameraPermissionError,
             ),
             _SelectFileButton(
               isFileTooLarge: _isFileTooLarge,
-              onPermissionError: _onPermissionError,
+              onPermissionError: _onFilePermissionError,
               pickFileSarted: _pickFileSarted,
               pickFileEnded: _pickFileEnded,
             ),
             _SelectPictureButton(
-              onPickImagePermissionError: _onPermissionError,
+              onPickImagePermissionError: _onGalleryPermissionError,
             ),
           ],
         ),
@@ -220,15 +242,41 @@ class _FileTooLargeWarning extends StatelessWidget {
   }
 }
 
+class _GalleryPermissionWarning extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return _PermissionDeniedWarning(Strings.chatPieceJointeGalleryPermissionError);
+  }
+}
+
+class _CameraPermissionWarning extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return _PermissionDeniedWarning(Strings.chatPieceJointeCameraPermissionError);
+  }
+}
+
+class _FilePermissionWarning extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return _PermissionDeniedWarning(Strings.chatPieceJointeFilePermissionError);
+  }
+}
+
 class _PermissionDeniedWarning extends StatelessWidget {
+  final String message;
+
+  const _PermissionDeniedWarning(this.message);
+
   @override
   Widget build(BuildContext context) {
     return AlertMessage(
-        message: Strings.chatPieceJointePermissionError,
-        retryMessage: AlertMessageRetry(
-          message: Strings.chatPieceJointeOpenAppSettings,
-          onRetry: () => AppSettings.openAppSettings(),
-        ));
+      message: message,
+      retryMessage: AlertMessageRetry(
+        message: Strings.chatPieceJointeOpenAppSettings,
+        onRetry: () => AppSettings.openAppSettings(),
+      ),
+    );
   }
 }
 
