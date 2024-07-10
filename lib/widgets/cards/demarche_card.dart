@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/pages/demarche/demarche_detail_bottom_sheet.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_card_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -30,6 +31,7 @@ class DemarcheCard extends StatelessWidget {
       label: viewModel.semanticLabel,
       child: BaseCard(
         onTap: onTap,
+        onLongPress: () => DemarcheDetailsBottomSheet.show(context, demarcheId),
         title: viewModel.title,
         tag: viewModel.categoryText != null
             ? CardTag(

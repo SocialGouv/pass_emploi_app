@@ -42,6 +42,7 @@ import 'package:pass_emploi_app/models/immersion_contact.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/login_mode.dart';
+import 'package:pass_emploi_app/models/matching_demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/models/mon_suivi.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -605,6 +606,13 @@ ThematiqueDeDemarche dummyThematiqueDeDemarche([List<DemarcheDuReferentiel>? dem
   );
 }
 
+MatchingDemarcheDuReferentiel dummyDemarcheDurReferentiel() {
+  return MatchingDemarcheDuReferentiel(
+    demarcheDuReferentiel: mockDemarcheDuReferentiel(),
+    thematique: dummyThematiqueDeDemarche(),
+  );
+}
+
 DemarcheDuReferentiel mockDemarcheDuReferentiel([String? id, List<Comment>? comments]) {
   return DemarcheDuReferentiel(
     id: id ?? '1',
@@ -691,6 +699,8 @@ Demarche mockDemarche({
   DateTime? endDate,
   DateTime? deletionDate,
   List<DemarcheAttribut>? attributs,
+  String? titre,
+  String? sousTitre,
 }) {
   return Demarche(
     id: id,
@@ -703,8 +713,8 @@ Demarche mockDemarche({
     possibleStatus: [],
     creationDate: null,
     modifiedByAdvisor: false,
-    sousTitre: null,
-    titre: null,
+    sousTitre: sousTitre,
+    titre: titre,
     modificationDate: null,
     attributs: attributs ?? [],
   );

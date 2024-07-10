@@ -30,13 +30,7 @@ class CreateDemarcheStep1Page extends StatefulWidget {
     return MaterialPageRoute(builder: (context) => CreateDemarcheStep1Page());
   }
 
-  static void pushDemarcheCreationTunnel(BuildContext context) {
-    Navigator.push(context, CreateDemarcheStep1Page.materialPageRoute()).then((value) {
-      if (value != null) _showDemarcheSnackBarWithDetail(context, value);
-    });
-  }
-
-  static void _showDemarcheSnackBarWithDetail(BuildContext context, String demarcheId) {
+  static void showDemarcheSnackBarWithDetail(BuildContext context, String demarcheId) {
     PassEmploiMatomoTracker.instance.trackEvent(
       eventCategory: AnalyticsEventNames.createActionEventCategory,
       action: AnalyticsEventNames.createActionDisplaySnackBarAction,
@@ -123,10 +117,7 @@ class _CreateDemarcheStep1PageState extends State<CreateDemarcheStep1Page> {
         CreateDemarcheStep2Page.materialPageRoute(
           source: RechercheDemarcheSource(),
           query: _query,
-        )).then((value) {
-      // forward result to previous page
-      if (value != null) Navigator.pop(context, value);
-    });
+        ));
   }
 }
 
@@ -141,10 +132,7 @@ class _ThematicCard extends StatelessWidget {
       description: Strings.demarchesCategoriesDescription,
       pressedTip: Strings.demarchesCategoriesPressedTip,
       onTap: () {
-        Navigator.push(context, ThematiqueDemarchePage.materialPageRoute()).then((value) {
-          // forward result to previous page
-          if (value != null) Navigator.pop(context, value);
-        });
+        Navigator.push(context, ThematiqueDemarchePage.materialPageRoute());
       },
     );
   }
@@ -161,10 +149,7 @@ class _TopDemarcheCard extends StatelessWidget {
       description: Strings.topDemarchesSubtitle,
       pressedTip: Strings.topDemarchesPressedTip,
       onTap: () {
-        Navigator.push(context, TopDemarchePage.materialPageRoute()).then((value) {
-          // forward result to previous page
-          if (value != null) Navigator.pop(context, value);
-        });
+        Navigator.push(context, TopDemarchePage.materialPageRoute());
       },
     );
   }

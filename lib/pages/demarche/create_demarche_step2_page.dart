@@ -21,7 +21,7 @@ import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 class CreateDemarcheStep2Page extends StatelessWidget {
   const CreateDemarcheStep2Page({super.key, required this.source, this.query, this.analyticsDetailsName});
 
-  static MaterialPageRoute<String?> materialPageRoute({
+  static MaterialPageRoute<void> materialPageRoute({
     required DemarcheSource source,
     String? query,
     String? analyticsDetailsName,
@@ -95,11 +95,7 @@ class _Content extends StatelessWidget {
               source: source,
               idDemarche: item.idDemarche,
               onTap: () {
-                Navigator.push(context, CreateDemarcheStep3Page.materialPageRoute(item.idDemarche, source))
-                    .then((value) {
-                  // forward result to previous page
-                  if (value != null) Navigator.pop(context, value);
-                });
+                Navigator.push(context, CreateDemarcheStep3Page.materialPageRoute(item.idDemarche, source));
               },
             ),
           CreateDemarcheStep2ButtonItem() => CreateCustomDemarche(),

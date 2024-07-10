@@ -13,3 +13,7 @@ extension EvenementEngagementExtension on BuildContext {
 extension StoreExtension on BuildContext {
   void dispatch(dynamic action) => StoreProvider.of<AppState>(this).dispatch(action);
 }
+
+extension NavigatorExtension on NavigatorState {
+  void popAll() => popUntil((route) => route.settings.name == Navigator.defaultRouteName);
+}

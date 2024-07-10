@@ -111,7 +111,8 @@ class _Scaffold extends StatelessWidget {
             icon: AppIcons.add_rounded,
             rippleColor: AppColors.primaryDarken,
             onPressed: () => switch (ctaType) {
-                  MonSuiviCtaType.createDemarche => CreateDemarcheStep1Page.pushDemarcheCreationTunnel(context),
+                  MonSuiviCtaType.createDemarche =>
+                    Navigator.push(context, CreateDemarcheStep1Page.materialPageRoute()),
                   MonSuiviCtaType.createAction => CreateUserActionFormPage.pushUserActionCreationTunnel(
                       context,
                       UserActionStateSource.monSuivi,

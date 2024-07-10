@@ -37,10 +37,7 @@ class CreateCustomDemarche extends StatelessWidget {
           SizedBox(height: Margins.spacing_base),
           PrimaryActionButton(
             label: Strings.createDemarchePersonnalisee,
-            onPressed: () => Navigator.push(context, CreateDemarchePersonnaliseePage.materialPageRoute()).then((value) {
-              // forward result to previous page
-              if (value != null) Navigator.pop(context, value);
-            }),
+            onPressed: () => Navigator.push(context, CreateDemarchePersonnaliseePage.materialPageRoute()),
           ),
         ],
       ),

@@ -21,6 +21,7 @@ class CreateDemarcheMiddleware extends MiddlewareClass<AppState> {
         codePourquoi: action.codePourquoi,
         codeComment: action.codeComment,
         dateEcheance: action.dateEcheance,
+        estDuplicata: action.estDuplicata,
       );
       _dispatchCreateDemarche(demarcheId, store);
     }
@@ -30,6 +31,7 @@ class CreateDemarcheMiddleware extends MiddlewareClass<AppState> {
         userId: loginState.user.id,
         commentaire: action.commentaire,
         dateEcheance: action.dateEcheance,
+        estDuplicata: action.estDuplicata,
       );
       _dispatchCreateDemarche(success, store);
     }

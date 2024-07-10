@@ -12,4 +12,12 @@ extension DemarcheStoreExtension on Store<AppState> {
     if (demarche == null) throw Exception('No demarche matching id $demarcheId');
     return demarche;
   }
+
+  Demarche? getDemarcheOrNull(String demarcheId) {
+    try {
+      return getDemarche(demarcheId);
+    } catch (e) {
+      return null;
+    }
+  }
 }

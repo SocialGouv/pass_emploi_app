@@ -23,7 +23,7 @@ import 'package:pass_emploi_app/widgets/pressed_tip.dart';
 class ThematiqueDemarchePage extends StatelessWidget {
   const ThematiqueDemarchePage({super.key});
 
-  static MaterialPageRoute<String?> materialPageRoute() {
+  static MaterialPageRoute<void> materialPageRoute() {
     return MaterialPageRoute(builder: (context) => ThematiqueDemarchePage());
   }
 
@@ -152,10 +152,7 @@ class _ThematiqueTile extends StatelessWidget {
               CreateDemarcheStep2Page.materialPageRoute(
                 source: ThematiqueDemarcheSource(thematique.id),
                 analyticsDetailsName: thematique.title,
-              )).then((value) {
-            // forward result to previous page
-            if (value != null) Navigator.pop(context, value);
-          });
+              ));
         });
   }
 }

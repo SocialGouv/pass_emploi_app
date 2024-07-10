@@ -17,7 +17,7 @@ void main() {
     );
 
     // When
-    final viewModel = CreateDemarchePersonnaliseeViewModel.create(store);
+    final viewModel = CreateDemarchePersonnaliseeViewModel.create(store, false);
 
     // Then
     expect(viewModel.displayState, DisplayState.FAILURE);
@@ -31,7 +31,7 @@ void main() {
     );
 
     // When
-    final viewModel = CreateDemarchePersonnaliseeViewModel.create(store);
+    final viewModel = CreateDemarchePersonnaliseeViewModel.create(store, false);
 
     // Then
     expect(viewModel.displayState, DisplayState.LOADING);
@@ -45,17 +45,17 @@ void main() {
     );
 
     // When
-    final viewModel = CreateDemarchePersonnaliseeViewModel.create(store);
+    final viewModel = CreateDemarchePersonnaliseeViewModel.create(store, false);
 
     // Then
     expect(viewModel.demarcheCreationState, isA<DemarcheCreationSuccessState>());
     expect((viewModel.demarcheCreationState as DemarcheCreationSuccessState).demarcheCreatedId, 'DEMARCHE-ID');
   });
 
-  test('onSearchDemarche should trigger action', () {
+  test('onSearchDemarche should trigger action with estDuplicata to false', () {
     // Given
     final store = StoreSpy();
-    final viewModel = CreateDemarchePersonnaliseeViewModel.create(store);
+    final viewModel = CreateDemarchePersonnaliseeViewModel.create(store, false);
     final now = DateTime.now();
 
     // When
@@ -66,5 +66,22 @@ void main() {
     final action = store.dispatchedAction as CreateDemarchePersonnaliseeRequestAction;
     expect(action.commentaire, 'commentaire');
     expect(action.dateEcheance, now);
+    expect(action.estDuplicata, false);
+  });
+
+  test('onSearchDemarche should trigger action with estDuplicata to true', () {
+    // Given
+    final store = StoreSpy();
+    final viewModel = CreateDemarchePersonnaliseeViewModel.create(store, true);
+    final now = DateTime.now();
+
+    // When
+    viewModel.onCreateDemarche('commentaire', now);
+
+    // Then
+    expect(store.dispatchedAction, isA<CreateDemarchePersonnaliseeRequestAction>());
+    final action = store.dispatchedAction as CreateDemarchePersonnaliseeRequestAction;
+    expect(action.commentaire, 'commentaire');
+    expect(action.estDuplicata, true);
   });
 }

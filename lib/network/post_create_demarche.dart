@@ -3,13 +3,15 @@ import 'package:pass_emploi_app/network/json_serializable.dart';
 class PostCreateDemarchePersonnalisee implements JsonSerializable {
   final String commentaire;
   final DateTime dateEcheance;
+  final bool estDuplicata;
 
-  PostCreateDemarchePersonnalisee(this.commentaire, this.dateEcheance);
+  PostCreateDemarchePersonnalisee(this.commentaire, this.dateEcheance, this.estDuplicata);
 
   @override
   Map<String, dynamic> toJson() => {
         "description": commentaire,
         "dateFin": dateEcheance.toIso8601String(),
+        "estDuplicata": estDuplicata,
       };
 }
 
@@ -18,12 +20,14 @@ class PostCreateDemarche implements JsonSerializable {
   final String codePourquoi;
   final String? codeComment;
   final DateTime dateEcheance;
+  final bool estDuplicata;
 
   PostCreateDemarche({
     required this.codeQuoi,
     required this.codePourquoi,
     required this.codeComment,
     required this.dateEcheance,
+    required this.estDuplicata,
   });
 
   @override
@@ -32,5 +36,6 @@ class PostCreateDemarche implements JsonSerializable {
         "codePourquoi": codePourquoi,
         if (codeComment != null) "codeComment": codeComment,
         "dateFin": dateEcheance.toIso8601String(),
+        "estDuplicata": estDuplicata,
       };
 }

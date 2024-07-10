@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
+import 'package:pass_emploi_app/features/matching_demarche/matching_demarche_state.dart';
 import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_state.dart';
 import 'package:pass_emploi_app/features/top_demarche/top_demarche_state.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
@@ -57,5 +58,21 @@ class TopDemarcheSource extends DemarcheSource {
   DemarcheDuReferentiel? demarche(Store<AppState> store, String idDemarche) {
     final demarchesDuReferentiel = demarcheList(store);
     return demarchesDuReferentiel.firstWhereOrNull((demarche) => demarche.id == idDemarche);
+  }
+}
+
+class MatchingDemarcheSource extends DemarcheSource {
+  @override
+  List<DemarcheDuReferentiel> demarcheList(Store<AppState> store) {
+    return <DemarcheDuReferentiel>[];
+  }
+
+  @override
+  DemarcheDuReferentiel? demarche(Store<AppState> store, String idDemarche) {
+    final matchingDemarcheState = store.state.matchingDemarcheState;
+
+    return matchingDemarcheState is MatchingDemarcheSuccessState
+        ? matchingDemarcheState.result?.demarcheDuReferentiel
+        : null;
   }
 }

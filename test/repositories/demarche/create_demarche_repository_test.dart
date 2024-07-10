@@ -16,6 +16,7 @@ void main() {
           codePourquoi: 'codePourquoi',
           codeComment: 'codeComment',
           dateEcheance: DateTime(2021, 12, 23, 12, 8, 10),
+          estDuplicata: false,
         ),
       );
 
@@ -31,6 +32,7 @@ void main() {
               "codePourquoi": "codePourquoi",
               "codeComment": "codeComment",
               "dateFin": "2021-12-23T12:08:10.000",
+              "estDuplicata": false,
             },
           );
         });
@@ -53,6 +55,7 @@ void main() {
           userId: 'id',
           commentaire: 'Description accentuée',
           dateEcheance: DateTime(2021, 12, 23, 12, 8, 10),
+          estDuplicata: false,
         ),
       );
 
@@ -66,6 +69,7 @@ void main() {
             jsonBody: {
               "description": "Description accentuée",
               "dateFin": "2021-12-23T12:08:10.000",
+              "estDuplicata": false,
             },
           );
         });

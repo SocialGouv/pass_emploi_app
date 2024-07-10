@@ -61,6 +61,7 @@ class Strings {
   static String notConnected = "Vous êtes hors connexion";
   static const String mandatoryFields = "Les champs marqués d’une * sont obligatoires.";
   static const String allMandatoryFields = "Tous les champs sont obligatoires.";
+  static String duplicate = "Dupliquer";
 
   static String stepCounter(int current, int total) => "Étape $current sur $total";
   static String selectDateTooltip = "Sélectionner une date";
@@ -594,7 +595,6 @@ class Strings {
   static String userActionBottomSheetTitle = "Éditer l’action";
   static String userActionBottomSheetDelete = "Supprimer";
   static String userActionBottomSheetEdit = "Modifier";
-  static String userActionBottomSheetDuplicate = "Dupliquer";
 
   // Update user action
   static String updateUserActionPageTitle = "Modifier l'action";
@@ -675,6 +675,12 @@ class Strings {
   static String demarcheCategoriesSubtitle = "Rechercher par catégories";
   static String customDemarcheTitle = "Vous ne trouvez pas ce que vous cherchez ?";
   static String customDemarcheSubtitle = "Créez une démarche personnalisée qui correspond à votre situation.";
+
+  static String demarcheBottomSheetTitle = "Éditer la démarche";
+
+  // Duplicate demarche
+  static String duplicateDemarchePageTitle = "Dupliquer la démarche";
+  static String duplicateDemarche = "Dupliquer la démarche";
 
   // Thematique de demarche
   static String demarcheThematiqueTitle = "Thématiques";

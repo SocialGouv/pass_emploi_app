@@ -15,6 +15,7 @@ import 'package:pass_emploi_app/presentation/router_page_view_model.dart';
 import 'package:pass_emploi_app/push/deep_link_factory.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
@@ -99,7 +100,7 @@ class _RouterPageState extends State<RouterPage> with WidgetsBindingObserver {
 
   void _removeAllScreensAboveRouterPage() {
     if (Navigator.canPop(context)) {
-      Navigator.popUntil(context, (route) => route.settings.name == Navigator.defaultRouteName);
+      Navigator.of(context).popAll();
     }
   }
 

@@ -3,24 +3,29 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
+import 'package:pass_emploi_app/features/demarche/create/create_demarche_state.dart';
+import 'package:pass_emploi_app/pages/demarche/create_demarche_step1_page.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_personnalisee_view_model.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_creation_state.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/a11y/mandatory_fields_label.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/date_pickers/date_picker.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
+import 'package:redux/redux.dart';
 
 class CreateDemarchePersonnaliseePage extends StatefulWidget {
-  static MaterialPageRoute<String?> materialPageRoute() {
+  static MaterialPageRoute<void> materialPageRoute() {
     return MaterialPageRoute(builder: (context) => CreateDemarchePersonnaliseePage());
   }
 
@@ -29,81 +34,157 @@ class CreateDemarchePersonnaliseePage extends StatefulWidget {
 }
 
 class _CreateDemarchePageState extends State<CreateDemarchePersonnaliseePage> {
-  String _commentaire = "";
-  DateTime? _dateEcheance;
-
   @override
   Widget build(BuildContext context) {
     return Tracker(
       tracking: AnalyticsScreenNames.createDemarchePersonnalisee,
-      child: StoreConnector<AppState, CreateDemarchePersonnaliseeViewModel>(
-        builder: _buildBody,
-        converter: (store) => CreateDemarchePersonnaliseeViewModel.create(store),
-        onDidChange: _onDidChange,
-        onDispose: (store) => store.dispatch(CreateDemarcheResetAction()),
-        distinct: true,
-      ),
-    );
-  }
-
-  Widget _buildBody(BuildContext context, CreateDemarchePersonnaliseeViewModel viewModel) {
-    return Scaffold(
-      appBar: SecondaryAppBar(title: Strings.createDemarcheTitle),
-      body: SingleChildScrollView(
-        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            _PremierTitre(),
-            _SecondTitre(),
-            _Separateur(),
-            _CommentaireTitre(),
-            _DescriptionTitre(),
-            _NombreCaracteresRegle(_isCommentaireValid()),
-            _ChampCommentaire((query) {
-              setState(() {
-                _commentaire = query;
-              });
-            }, _isCommentaireValid()),
-            _NombreCaracteresCompteur(_commentaire.length, _isCommentaireValid()),
-            if (!_isCommentaireValid()) _MessageError(),
-            _Separateur2(),
-            _QuandTitre(),
-            _EcheanceTitre(),
-            Padding(
-              padding: const EdgeInsets.only(right: 24, left: 24, top: 12),
-              child: DatePicker(
-                onDateSelected: (date) {
-                  setState(() {
-                    _dateEcheance = date;
-                  });
-                },
-                initialDateValue: _dateEcheance,
-                isActiveDate: true,
-              ),
-            ),
-            if (viewModel.displayState == DisplayState.FAILURE) ErrorText(Strings.genericCreationError),
-            Padding(
-              padding: const EdgeInsets.only(right: 24, left: 24, top: 32),
-              child: PrimaryActionButton(
-                label: Strings.addALaDemarche,
-                onPressed: _buttonShouldBeActive(viewModel)
-                    ? () => viewModel.onCreateDemarche(_commentaire, _dateEcheance!)
-                    : null,
-              ),
-            ),
-            SizedBox(height: 20),
-          ],
+      child: Scaffold(
+        appBar: SecondaryAppBar(title: Strings.createDemarcheTitle),
+        body: DemarchePersonnaliseeForm(
+          createDemarcheLabel: Strings.addALaDemarche,
+          estDuplicata: false,
         ),
       ),
     );
   }
+}
 
-  void _onDidChange(CreateDemarchePersonnaliseeViewModel? oldVm, CreateDemarchePersonnaliseeViewModel newVm) {
+class DemarchePersonnaliseeForm extends StatefulWidget {
+  const DemarchePersonnaliseeForm({
+    super.key,
+    required this.createDemarcheLabel,
+    required this.estDuplicata,
+    this.initialCommentaire,
+  });
+
+  final String createDemarcheLabel;
+  final String? initialCommentaire;
+  final bool estDuplicata;
+
+  @override
+  State<DemarchePersonnaliseeForm> createState() => _DemarchePersonnaliseeFormState();
+}
+
+class _DemarchePersonnaliseeFormState extends State<DemarchePersonnaliseeForm> {
+  @override
+  Widget build(BuildContext context) {
+    return StoreConnector<AppState, CreateDemarchePersonnaliseeViewModel>(
+      builder: (_, viewModel) => _Body(
+        viewModel: viewModel,
+        createDemarcheLabel: widget.createDemarcheLabel,
+        initialCommentaire: widget.initialCommentaire,
+      ),
+      converter: (store) => CreateDemarchePersonnaliseeViewModel.create(store, widget.estDuplicata),
+      onDidChange: _onDidChange,
+      onInit: _onInit,
+      distinct: true,
+    );
+  }
+
+  void _onInit(Store<AppState> store) {
+    final creationState = store.state.createDemarcheState;
+    if (creationState is CreateDemarcheSuccessState) {
+      _onSuccess(creationState.demarcheCreatedId);
+    }
+  }
+
+  void _onDidChange(CreateDemarchePersonnaliseeViewModel? _, CreateDemarchePersonnaliseeViewModel newVm) {
     final creationState = newVm.demarcheCreationState;
     if (creationState is DemarcheCreationSuccessState) {
-      Navigator.pop(context, creationState.demarcheCreatedId);
+      _onSuccess(creationState.demarcheCreatedId);
     }
+  }
+
+  void _onSuccess(String demarcheId) {
+    // To avoid poping during the build
+    Future.delayed(
+      AnimationDurations.veryFast,
+      () {
+        CreateDemarcheStep1Page.showDemarcheSnackBarWithDetail(context, demarcheId);
+        context.dispatch(CreateDemarcheResetAction());
+        Navigator.of(context).popAll();
+      },
+    );
+  }
+}
+
+class _Body extends StatefulWidget {
+  final CreateDemarchePersonnaliseeViewModel viewModel;
+  final String createDemarcheLabel;
+  final String? initialCommentaire;
+  const _Body({required this.viewModel, required this.createDemarcheLabel, this.initialCommentaire});
+
+  @override
+  State<_Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<_Body> {
+  late String _commentaire;
+  DateTime? _dateEcheance;
+
+  @override
+  void initState() {
+    _commentaire = widget.initialCommentaire ?? "";
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (widget.viewModel.demarcheCreationState is DemarcheCreationSuccessState) {
+      return SizedBox.shrink();
+    }
+
+    return SingleChildScrollView(
+      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          _PremierTitre(),
+          _SecondTitre(),
+          _Separateur(),
+          _CommentaireTitre(),
+          _DescriptionTitre(),
+          _NombreCaracteresRegle(_isCommentaireValid()),
+          _ChampCommentaire(
+            onChanged: (query) {
+              setState(() {
+                _commentaire = query;
+              });
+            },
+            isCommentaireValid: _isCommentaireValid(),
+            initialCommentaire: widget.initialCommentaire,
+          ),
+          _NombreCaracteresCompteur(_commentaire.length, _isCommentaireValid()),
+          if (!_isCommentaireValid()) _MessageError(),
+          _Separateur2(),
+          _QuandTitre(),
+          _EcheanceTitre(),
+          Padding(
+            padding: const EdgeInsets.only(right: 24, left: 24, top: 12),
+            child: DatePicker(
+              onDateSelected: (date) {
+                setState(() {
+                  _dateEcheance = date;
+                });
+              },
+              initialDateValue: _dateEcheance,
+              isActiveDate: true,
+            ),
+          ),
+          if (widget.viewModel.displayState == DisplayState.FAILURE) ErrorText(Strings.genericCreationError),
+          Padding(
+            padding: const EdgeInsets.only(right: 24, left: 24, top: 32),
+            child: PrimaryActionButton(
+              label: widget.createDemarcheLabel,
+              onPressed: _buttonShouldBeActive(widget.viewModel)
+                  ? () => widget.viewModel.onCreateDemarche(_commentaire, _dateEcheance!)
+                  : null,
+            ),
+          ),
+          SizedBox(height: 20),
+        ],
+      ),
+    );
   }
 
   bool _buttonShouldBeActive(CreateDemarchePersonnaliseeViewModel viewModel) {
@@ -264,20 +345,26 @@ class _NombreCaracteresCompteur extends StatelessWidget {
 }
 
 class _ChampCommentaire extends StatelessWidget {
-  final Function(String) _onChanged;
-  final bool _isCommentaireValid;
+  final Function(String) onChanged;
+  final bool isCommentaireValid;
+  final String? initialCommentaire;
 
-  _ChampCommentaire(this._onChanged, this._isCommentaireValid);
+  _ChampCommentaire({
+    required this.onChanged,
+    required this.isCommentaireValid,
+    this.initialCommentaire,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(right: 24, left: 24, top: 8),
       child: BaseTextField(
-        onChanged: _onChanged,
+        onChanged: onChanged,
+        initialValue: initialCommentaire,
         minLines: null,
         maxLines: null,
-        isInvalid: !_isCommentaireValid,
+        isInvalid: !isCommentaireValid,
       ),
     );
   }

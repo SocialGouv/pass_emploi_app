@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/radio_list_tile.dart';
@@ -101,7 +102,7 @@ class _CampagneQuestionPageState extends State<CampagneQuestionPage> {
     if (viewModel.bottomButton == QuestionBottomButton.next) {
       Navigator.push(context, CampagneQuestionPage.materialPageRoute(widget.questionOffset + 1));
     } else {
-      Navigator.popUntil(context, (route) => route.settings.name == Navigator.defaultRouteName);
+      Navigator.of(context).popAll();
       showSnackBarWithSuccess(context, Strings.evaluationSuccessfullySent);
     }
   }

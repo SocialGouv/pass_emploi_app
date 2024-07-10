@@ -79,6 +79,7 @@ DisplayState _displayState(DemarcheSource source, AppState state) {
     RechercheDemarcheSource() => _displayStateFromRechercheSource(state.searchDemarcheState),
     ThematiqueDemarcheSource() => _displayStateFromThematiqueSource(state.thematiquesDemarcheState),
     TopDemarcheSource() => _displayStateFromTopDemarcheSource(state.topDemarcheState),
+    MatchingDemarcheSource() => throw UnimplementedError("MatchingDemarcheSource not implemented"),
   };
 }
 
