@@ -30,7 +30,6 @@ import 'package:pass_emploi_app/features/demarche/update/update_demarche_middlew
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_middleware.dart';
 import 'package:pass_emploi_app/features/developer_option/activation/developer_options_middleware.dart';
 import 'package:pass_emploi_app/features/developer_option/matomo/matomo_logging_middleware.dart';
-import 'package:pass_emploi_app/features/device_info/device_info_middleware.dart';
 import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_middleware.dart';
 import 'package:pass_emploi_app/features/evenement_emploi/details/evenement_emploi_details_middleware.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_middleware.dart';
@@ -124,7 +123,6 @@ import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_rep
 import 'package:pass_emploi_app/repositories/first_launch_onboarding_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion/immersion_repository.dart';
-import 'package:pass_emploi_app/repositories/installation_id_repository.dart';
 import 'package:pass_emploi_app/repositories/matching_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
 import 'package:pass_emploi_app/repositories/mon_suivi_repository.dart';
@@ -206,7 +204,6 @@ class StoreFactory {
   final SuggestionsRechercheRepository suggestionsRechercheRepository;
   final AnimationsCollectivesRepository animationsCollectivesRepository;
   final SessionMiloRepository sessionMiloRepository;
-  final InstallationIdRepository installationIdRepository;
   final DiagorienteUrlsRepository diagorienteUrlsRepository;
   final DiagorienteMetiersFavorisRepository diagorienteMetiersFavorisRepository;
   final GetFavorisRepository getFavorisRepository;
@@ -228,6 +225,7 @@ class StoreFactory {
   final FirstLaunchOnboardingRepository firstLaunchOnboardingRepository;
   final PieceJointeUseCase pieceJointeUseCase;
   final MatchingDemarcheRepository matchingDemarcheRepository;
+
   /*AUTOGENERATE-REDUX-STOREFACTORY-PROPERTY-REPOSITORY*/
 
   StoreFactory(
@@ -281,7 +279,6 @@ class StoreFactory {
     this.suggestionsRechercheRepository,
     this.animationsCollectivesRepository,
     this.sessionMiloRepository,
-    this.installationIdRepository,
     this.diagorienteUrlsRepository,
     this.diagorienteMetiersFavorisRepository,
     this.getFavorisRepository,
@@ -311,7 +308,7 @@ class StoreFactory {
       reducer,
       initialState: initialState,
       middleware: [
-        CrashlyticsMiddleware(crashlytics, installationIdRepository).call,
+        CrashlyticsMiddleware(crashlytics).call,
         BootstrapMiddleware().call,
         LoginMiddleware(authenticator, firebaseAuthWrapper, modeDemoRepository, matomoTracker).call,
         FeatureFlipMiddleware(remoteConfigRepository, detailsJeuneRepository).call,
@@ -371,7 +368,6 @@ class StoreFactory {
         SuggestionsRechercheMiddleware(suggestionsRechercheRepository).call,
         TraiterSuggestionRechercheMiddleware(suggestionsRechercheRepository).call,
         EventListMiddleware(animationsCollectivesRepository, sessionMiloRepository).call,
-        DeviceInfoMiddleware(installationIdRepository).call,
         RechercheEmploiMiddleware(offreEmploiRepository).call,
         RechercheImmersionMiddleware(immersionRepository).call,
         RechercheServiceCiviqueMiddleware(serviceCiviqueRepository).call,

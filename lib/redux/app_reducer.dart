@@ -20,7 +20,6 @@ import 'package:pass_emploi_app/features/demarche/update/update_demarche_reducer
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_reducer.dart';
 import 'package:pass_emploi_app/features/developer_option/activation/developer_options_reducer.dart';
 import 'package:pass_emploi_app/features/developer_option/matomo/matomo_logging_reducer.dart';
-import 'package:pass_emploi_app/features/device_info/device_info_reducer.dart';
 import 'package:pass_emploi_app/features/diagoriente_preferences_metier/diagoriente_preferences_metier_reducer.dart';
 import 'package:pass_emploi_app/features/evenement_emploi/details/evenement_emploi_details_reducer.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_reducer.dart';
@@ -148,7 +147,6 @@ AppState reducer(AppState current, dynamic action) {
     suggestionsRechercheState: suggestionsRechercheReducer(current.suggestionsRechercheState, action),
     traiterSuggestionRechercheState: traiterSuggestionRechercheReducer(current.traiterSuggestionRechercheState, action),
     eventListState: eventListReducer(current.eventListState, action),
-    deviceInfoState: deviceInfoReducer(current.deviceInfoState, action),
     rechercheEmploiState: rechercheReducer<EmploiCriteresRecherche, EmploiFiltresRecherche, OffreEmploi>(
       current.rechercheEmploiState,
       action,

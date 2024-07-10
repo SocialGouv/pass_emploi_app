@@ -44,7 +44,6 @@ import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_rep
 import 'package:pass_emploi_app/repositories/first_launch_onboarding_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion/immersion_repository.dart';
-import 'package:pass_emploi_app/repositories/installation_id_repository.dart';
 import 'package:pass_emploi_app/repositories/matching_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
 import 'package:pass_emploi_app/repositories/mon_suivi_repository.dart';
@@ -130,7 +129,6 @@ class TestStoreFactory {
   SuggestionsRechercheRepository suggestionsRechercheRepository = DummySuggestionsRechercheRepository();
   AnimationsCollectivesRepository animationsCollectivesRepository = DummyAnimationsCollectivesRepository();
   SessionMiloRepository sessionMiloRepository = DummySessionMiloRepository();
-  InstallationIdRepository installationIdRepository = DummyInstallationIdRepository();
   DiagorienteUrlsRepository diagorienteUrlsRepository = DummyDiagorienteUrlsRepository();
   DiagorienteMetiersFavorisRepository diagorienteMetiersFavorisRepository = DummyDiagorienteMetiersFavorisRepository();
   GetFavorisRepository getFavorisRepository = MockGetFavorisRepository();
@@ -152,6 +150,7 @@ class TestStoreFactory {
   FirstLaunchOnboardingRepository firstLaunchOnboardingRepository = MockFirstLaunchOnboardingRepository();
   PieceJointeUseCase pieceJointeUseCase = MockPieceJointeUseCase();
   MatchingDemarcheRepository matchingDemarcheRepository = MockMatchingDemarcheRepository();
+
   /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-PROPERTY*/
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -206,7 +205,6 @@ class TestStoreFactory {
       suggestionsRechercheRepository,
       animationsCollectivesRepository,
       sessionMiloRepository,
-      installationIdRepository,
       diagorienteUrlsRepository,
       diagorienteMetiersFavorisRepository,
       getFavorisRepository,

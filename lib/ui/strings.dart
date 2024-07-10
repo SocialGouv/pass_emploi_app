@@ -1060,9 +1060,6 @@ class Strings {
   static String alerteDeleteError = "Erreur lors de la suppression de la recherche.";
   static String alerteDeleteSuccess = "Votre alerte a été supprimée avec succès.";
 
-  // Mode support
-  static String supportInformation = "Infos pour le support";
-
   // Mode démo
   static String passerEnDemo = "Passer en mode démo";
   static String modeDemoAppBarLabel = "Version démo conseiller";
