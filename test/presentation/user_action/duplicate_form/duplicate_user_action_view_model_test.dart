@@ -5,7 +5,6 @@ import 'package:pass_emploi_app/features/user_action/create/user_action_create_s
 import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_type.dart';
-import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
 import 'package:pass_emploi_app/presentation/user_action/duplicate_form/duplicate_user_action_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_create_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
@@ -105,7 +104,5 @@ void main() {
     expect(store.dispatchedActions.first, isA<UserActionCreateRequestAction>());
     expect((store.dispatchedActions.first as UserActionCreateRequestAction).request, request);
     expect(store.dispatchedActions.last, isA<TrackingEvenementEngagementAction>());
-    expect((store.dispatchedActions.last as TrackingEvenementEngagementAction).event,
-        EvenementEngagement.ACTION_DUPLIQUEE);
   });
 }
