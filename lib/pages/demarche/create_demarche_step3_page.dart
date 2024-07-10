@@ -56,18 +56,18 @@ class CreateDemarcheStep3Page extends StatelessWidget {
   }
 }
 
-class _UnicTopDemarcheTrackingWrapper extends StatefulWidget {
-  const _UnicTopDemarcheTrackingWrapper({required this.source, required this.child, required this.viewModel});
+class _TopDemarcheTracker extends StatefulWidget {
+  const _TopDemarcheTracker({required this.source, required this.child, required this.viewModel});
 
   final DemarcheSource source;
   final Widget child;
   final CreateDemarcheStep3ViewModel viewModel;
 
   @override
-  State<_UnicTopDemarcheTrackingWrapper> createState() => _UnicTopDemarcheTrackingWrapperState();
+  State<_TopDemarcheTracker> createState() => _TopDemarcheTrackerState();
 }
 
-class _UnicTopDemarcheTrackingWrapperState extends State<_UnicTopDemarcheTrackingWrapper> {
+class _TopDemarcheTrackerState extends State<_TopDemarcheTracker> {
   @override
   void initState() {
     super.initState();
@@ -175,7 +175,7 @@ class _FormState extends State<_Form> {
       return SizedBox.shrink();
     }
 
-    return _UnicTopDemarcheTrackingWrapper(
+    return _TopDemarcheTracker(
       source: widget.source,
       viewModel: widget.viewModel,
       child: SingleChildScrollView(
