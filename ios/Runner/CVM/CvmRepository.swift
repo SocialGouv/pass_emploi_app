@@ -118,16 +118,10 @@ private extension Event {
     }
     
     private func readByConseiller() -> Bool{
-        print("🚀🚀🚀 CvmRepository.swift#readByConseiller#message -> ", message)
-        print("🚀🚀🚀 CvmRepository.swift#readByConseiller#readBy -> ", readBy)
-        print("🚀🚀🚀 ----------")
         return !readBy.filter({ $0 != SessionManager.sharedInstance.userId }).isEmpty
     }
     
     private func readByJeune() -> Bool{
-        print("🚀🚀🚀 CvmRepository.swift#readByJeune#message -> ", message)
-        print("🚀🚀🚀 CvmRepository.swift#readByJeune#readBy -> ", readBy)
-        print("🚀🚀🚀 ----------")
         return !readBy.filter({ $0 == SessionManager.sharedInstance.userId }).isEmpty
     }
 }

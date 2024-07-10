@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/features/cvm/cvm_actions.dart';
 import 'package:pass_emploi_app/presentation/chat/cvm_chat_item.dart';
 import 'package:pass_emploi_app/presentation/chat/cvm_chat_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_content.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_day_section.dart';
@@ -57,7 +58,7 @@ class CvmChatPageState extends State<CvmChatPage> {
         builder: _builder,
         onInitialBuild: _handleOnboarding,
         onDidChange: (_, __) {
-          StoreProvider.of<AppState>(context).dispatch(CvmLastJeuneReadingAction());
+          context.dispatch(CvmLastJeuneReadingAction());
           _isLoadingMorePast = false;
         },
         distinct: true,

@@ -3,7 +3,10 @@ import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/features/feature_flip/feature_flip_actions.dart';
 import 'package:pass_emploi_app/features/feature_flip/feature_flip_state.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
+import 'package:pass_emploi_app/models/accompagnement.dart';
 import 'package:pass_emploi_app/models/details_jeune.dart';
+import 'package:pass_emploi_app/models/login_mode.dart';
+import 'package:pass_emploi_app/models/user.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../doubles/mocks.dart';
@@ -18,14 +21,13 @@ void main() {
     final detailsJeuneRepository = MockDetailsJeuneRepository();
 
     group("useCvm", () {
-      group("when user is PE", () {
+      group("when user is PE in CEJ accompagnement", () {
         sut.whenDispatchingAction(() => LoginSuccessAction(mockedPoleEmploiCejUser()));
         group("and CVM generally enabled", () {
           test('should set useCvm to true', () {
             when(() => remoteConfigRepository.useCvm()).thenReturn(true);
 
             sut.givenStore = givenState() //
-                .loggedIn()
                 .store((f) => {f.remoteConfigRepository = remoteConfigRepository});
 
             sut.thenExpectAtSomePoint(_shouldHaveUseCvmValue(true));
@@ -40,7 +42,6 @@ void main() {
                 .thenAnswer((_) async => mockDetailsJeune(idConseiller: "id-conseiller-ea"));
 
             sut.givenStore = givenState() //
-                .loggedIn()
                 .store(
                   (f) => {
                     f.remoteConfigRepository = remoteConfigRepository,
@@ -60,7 +61,6 @@ void main() {
                 .thenAnswer((_) async => mockDetailsJeune(idConseiller: "id-conseiller"));
 
             sut.givenStore = givenState() //
-                .loggedIn()
                 .store(
                   (f) => {
                     f.remoteConfigRepository = remoteConfigRepository,
@@ -73,6 +73,26 @@ void main() {
         });
       });
 
+      group("when user is PE not in CEJ accompagnement", () {
+        sut.whenDispatchingAction(() => LoginSuccessAction(User(
+              id: "id",
+              firstName: "F",
+              lastName: "L",
+              email: "first.last@pole-emploi.fr",
+              loginMode: LoginMode.POLE_EMPLOI,
+              accompagnement: Accompagnement.rsa,
+            )));
+
+        test('should never use CVM', () {
+          when(() => remoteConfigRepository.useCvm()).thenReturn(true);
+
+          sut.givenStore = givenState() //
+              .store((f) => {f.remoteConfigRepository = remoteConfigRepository});
+
+          sut.thenExpectNever(_shouldHaveUseCvmValue(true));
+        });
+      });
+
       group("when user is not PE", () {
         sut.whenDispatchingAction(() => LoginSuccessAction(mockedMiloUser()));
 
@@ -80,7 +100,6 @@ void main() {
           when(() => remoteConfigRepository.useCvm()).thenReturn(true);
 
           sut.givenStore = givenState() //
-              .loggedIn()
               .store((f) => {f.remoteConfigRepository = remoteConfigRepository});
 
           sut.thenExpectNever(_shouldHaveUseCvmValue(true));
@@ -97,7 +116,6 @@ void main() {
 
           // When
           sut.givenStore = givenState() //
-              .loggedIn()
               .store((f) => {f.remoteConfigRepository = remoteConfigRepository});
 
           // Then
@@ -113,7 +131,6 @@ void main() {
 
           // When
           sut.givenStore = givenState() //
-              .loggedIn()
               .store((f) => {f.remoteConfigRepository = remoteConfigRepository});
 
           // Then
@@ -129,7 +146,6 @@ void main() {
 
           // When
           sut.givenStore = givenState() //
-              .loggedIn()
               .store(
                 (f) => {
                   f.remoteConfigRepository = remoteConfigRepository,
@@ -150,7 +166,6 @@ void main() {
 
           // When
           sut.givenStore = givenState() //
-              .loggedIn()
               .store(
                 (f) => {
                   f.remoteConfigRepository = remoteConfigRepository,
@@ -171,7 +186,6 @@ void main() {
         when(() => remoteConfigRepository.useCvm()).thenReturn(true);
 
         sut.givenStore = givenState() //
-            .loggedIn()
             .withFeatureFlip(useCvm: true)
             .store((f) => {f.remoteConfigRepository = remoteConfigRepository});
 
