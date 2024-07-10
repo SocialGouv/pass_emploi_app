@@ -14,6 +14,7 @@ import 'package:pass_emploi_app/presentation/offre_emploi/offre_emploi_details_p
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -411,6 +412,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
                 }
               },
               label: Strings.postulerButtonTitle,
+              suffix: shouldShowCvBottomSheet ? null : Icon(AppIcons.open_in_new_rounded, size: Dimens.icon_size_base),
             ),
           ),
           SizedBox(width: Margins.spacing_base),
