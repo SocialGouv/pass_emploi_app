@@ -16,6 +16,7 @@ import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/a11y/mandatory_fields_label.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
@@ -140,7 +141,7 @@ class _CreateDemarcheDuReferentielFormState extends State<CreateDemarcheDuRefere
         CreateDemarcheStep1Page.showDemarcheSnackBarWithDetail(context, demarcheId);
         widget.onCreateDemarcheSuccess?.call(demarcheId);
         StoreProvider.of<AppState>(context).dispatch(CreateDemarcheResetAction());
-        Navigator.of(context).popUntil((route) => route.settings.name == Navigator.defaultRouteName);
+        Navigator.of(context).popAll();
       },
     );
   }
