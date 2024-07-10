@@ -479,7 +479,7 @@ class Strings {
   static const String userActionLogementDescription = 'Recherches de logement';
   static const String userActionSanteDescription = 'Rendez-vous médicaux';
 
-  static const String userActionConfirmationTitle = "Action enregistrée";
+  static const String userActionConfirmationTitle = "Action créée";
   static const String userActionConfirmatioSubtitle =
       "L’action est en route vers votre conseiller. Vous pourrez en discuter ensemble lors de votre prochain rendez-vous\u{00A0}!";
 
