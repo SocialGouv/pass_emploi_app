@@ -128,5 +128,6 @@ extension CreateUserActionFormStateExt on CreateUserActionFormViewModel {
         step3.withRappel,
         step3.estTerminee ? UserActionStatus.DONE : UserActionStatus.IN_PROGRESS,
         step1.actionCategory ?? UserActionReferentielType.emploi,
+        false,
       );
 }

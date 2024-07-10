@@ -63,6 +63,7 @@ void main() {
             true,
             UserActionStatus.DONE,
             UserActionReferentielType.emploi,
+            false,
           ),
         ),
       );
@@ -81,6 +82,7 @@ void main() {
               "rappel": true,
               "dateEcheance": "2022-01-01T00:00:00+00:00",
               "codeQualification": "EMPLOI",
+              "estDuplicata": false,
             },
           );
         });

@@ -9,6 +9,7 @@ class UserActionCreateRequest extends Equatable {
   final bool rappel;
   final UserActionStatus initialStatus;
   final UserActionReferentielType codeQualification;
+  final bool estDuplicata;
 
   UserActionCreateRequest(
     this.content,
@@ -17,10 +18,11 @@ class UserActionCreateRequest extends Equatable {
     this.rappel,
     this.initialStatus,
     this.codeQualification,
+    this.estDuplicata,
   );
 
   @override
-  List<Object?> get props => [content, comment, dateEcheance, rappel, initialStatus, codeQualification];
+  List<Object?> get props => [content, comment, dateEcheance, rappel, initialStatus, codeQualification, estDuplicata];
 
   Map<String, dynamic> toJson() {
     return {
@@ -29,7 +31,8 @@ class UserActionCreateRequest extends Equatable {
       'dateEcheance': dateEcheance.microsecondsSinceEpoch,
       'rappel': rappel,
       'initialStatus': initialStatus.toString(),
-      'codeQualification': codeQualification.code
+      'codeQualification': codeQualification.code,
+      'estDuplicata': estDuplicata,
     };
   }
 
@@ -41,6 +44,7 @@ class UserActionCreateRequest extends Equatable {
       json['rappel'] as bool,
       UserActionStatus.fromString(json['initialStatus'] as String),
       UserActionReferentielType.fromCode(json['codeQualification'] as String?),
+      json['estDuplicata'] as bool,
     );
   }
 }

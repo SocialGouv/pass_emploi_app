@@ -91,6 +91,7 @@ void main() {
       false,
       UserActionStatus.NOT_STARTED,
       UserActionReferentielType.emploi,
+      true,
     );
 
     viewModel.duplicate(

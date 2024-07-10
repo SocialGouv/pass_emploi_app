@@ -56,6 +56,7 @@ class DuplicateUserActionViewModel extends Equatable {
               false,
               userAction.status,
               type ?? UserActionReferentielType.emploi,
+              true,
             ),
           ),
         );

@@ -1216,6 +1216,7 @@ UserActionCreateRequest mockUserActionCreateRequest([String content = "content"]
     true,
     UserActionStatus.NOT_STARTED,
     UserActionReferentielType.emploi,
+    false,
   );
 }
 
