@@ -4,7 +4,6 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/mode_demo/explication_page_mode_demo.dart';
 import 'package:pass_emploi_app/features/preferred_login_mode/preferred_login_mode_actions.dart';
-import 'package:pass_emploi_app/models/accompagnement.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/pages/cej_information_page.dart';
 import 'package:pass_emploi_app/presentation/login_page_view_model.dart';
@@ -98,11 +97,6 @@ class _Scaffold extends StatelessWidget {
                         children: [
                           if (viewModel.preferredLoginMode != null) ...[
                             _PreferredLoginMode(viewModel.preferredLoginMode!),
-                            SizedBox(height: Margins.spacing_base),
-                          ],
-                          // TODO-AIJ: temporary (19/06/2024), until handled by pass-emploi-connect
-                          if (Brand.isPassEmploi()) ...[
-                            _PassEmploiAccompagnementRadio(),
                             SizedBox(height: Margins.spacing_base),
                           ],
                           _LoginButton(viewModel),
@@ -356,38 +350,6 @@ class _PreferredLoginMode extends StatelessWidget {
         ),
       ),
       suffix: Icon(AppIcons.chevron_right_rounded),
-    );
-  }
-}
-
-// TODO-AIJ: temporary (19/06/2024), until handled by pass-emploi-connect
-class _PassEmploiAccompagnementRadio extends StatefulWidget {
-  @override
-  State<_PassEmploiAccompagnementRadio> createState() => _PassEmploiAccompagnementRadioState();
-}
-
-class _PassEmploiAccompagnementRadioState extends State<_PassEmploiAccompagnementRadio> {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListTile(
-          title: const Text('RSA'),
-          leading: Radio<Accompagnement>(
-            value: Accompagnement.rsa,
-            groupValue: Accompagnement.accompagnement,
-            onChanged: (Accompagnement? value) => setState(() => Accompagnement.setAccompagnement(Accompagnement.rsa)),
-          ),
-        ),
-        ListTile(
-          title: const Text('AIJ'),
-          leading: Radio<Accompagnement>(
-            value: Accompagnement.aij,
-            groupValue: Accompagnement.accompagnement,
-            onChanged: (Accompagnement? value) => setState(() => Accompagnement.setAccompagnement(Accompagnement.aij)),
-          ),
-        ),
-      ],
     );
   }
 }

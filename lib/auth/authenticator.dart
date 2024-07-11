@@ -7,8 +7,6 @@ import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
-import 'package:pass_emploi_app/models/accompagnement.dart';
-import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
 
 const String _idTokenKey = "idToken";
@@ -20,10 +18,7 @@ enum RefreshTokenStatus { SUCCESSFUL, GENERIC_ERROR, USER_NOT_LOGGED_IN, NETWORK
 enum AuthenticationMode { GENERIC, SIMILO, POLE_EMPLOI, DEMO }
 
 const Map<String, String> similoParams = {"kc_idp_hint": "similo-jeune"};
-const Map<String, String> poleEmploiCejParams = {"kc_idp_hint": "pe-jeune"};
-const Map<String, String> poleEmploiRsaParams = {"kc_idp_hint": "pe-brsa-jeune"};
-// TODO-AIJ: temporary (19/06/2024), until handled by pass-emploi-connect
-const Map<String, String> poleEmploiAijParams = {"kc_idp_hint": "pe-aij-jeune"};
+const Map<String, String> poleEmploiParams = {"kc_idp_hint": "ft-beneficiaire"};
 
 sealed class AuthenticatorResponse {}
 
@@ -134,11 +129,7 @@ class Authenticator {
 
   Map<String, String>? _additionalParams(AuthenticationMode mode) {
     if (mode == AuthenticationMode.SIMILO) return similoParams;
-    if (mode == AuthenticationMode.POLE_EMPLOI && _configuration.brand.isCej) return poleEmploiCejParams;
-    if (mode == AuthenticationMode.POLE_EMPLOI && _configuration.brand.isPassEmploi) {
-      // TODO-AIJ: temporary (19/06/2024), until handled by pass-emploi-connect
-      return Accompagnement.accompagnement == Accompagnement.rsa ? poleEmploiRsaParams : poleEmploiAijParams;
-    }
+    if (mode == AuthenticationMode.POLE_EMPLOI) return poleEmploiParams;
     return null;
   }
 }

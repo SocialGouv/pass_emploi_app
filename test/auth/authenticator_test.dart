@@ -59,26 +59,9 @@ void main() {
       expect(await prefs.read(key: "refreshToken"), authTokenResponse().refreshToken);
     });
 
-    test('token is saved and returned when login on brand CEJ with POLE_EMPLOI mode is successful', () async {
+    test('token is saved and returned when login in POLE_EMPLOI mode is successful', () async {
       // Given
-      authenticator = Authenticator(wrapper, logoutRepository, configuration(brand: Brand.cej), prefs);
-      when(() => wrapper.login(_tokenRequest(additionalParameters: {"kc_idp_hint": "pe-jeune"})))
-          .thenAnswer((_) async => authTokenResponse());
-
-      // When
-      final result = await authenticator.login(AuthenticationMode.POLE_EMPLOI);
-
-      // Then
-      expect(result, isA<SuccessAuthenticatorResponse>());
-      expect(await prefs.read(key: "idToken"), authTokenResponse().idToken);
-      expect(await prefs.read(key: "accessToken"), authTokenResponse().accessToken);
-      expect(await prefs.read(key: "refreshToken"), authTokenResponse().refreshToken);
-    });
-
-    test('token is saved and returned when login on brand pass emploi with POLE_EMPLOI mode is successful', () async {
-      // Given
-      authenticator = Authenticator(wrapper, logoutRepository, configuration(brand: Brand.passEmploi), prefs);
-      when(() => wrapper.login(_tokenRequest(additionalParameters: {"kc_idp_hint": "pe-brsa-jeune"})))
+      when(() => wrapper.login(_tokenRequest(additionalParameters: {"kc_idp_hint": "ft-beneficiaire"})))
           .thenAnswer((_) async => authTokenResponse());
 
       // When
