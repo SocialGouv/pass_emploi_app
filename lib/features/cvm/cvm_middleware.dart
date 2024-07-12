@@ -79,9 +79,10 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
 
   void _handleLastJeuneReading(Store<AppState> store) {
     if (store.state.cvmState is! CvmSuccessState) return;
-    final lastConseillerMessage = _lastConseillerMessage((store.state.cvmState as CvmSuccessState).messages);
-    if (lastConseillerMessage != null && !lastConseillerMessage.readByJeune) {
-      _facade.markAsRead(lastConseillerMessage.id);
+
+    final lastMessage = _lastMessage((store.state.cvmState as CvmSuccessState).messages);
+    if (lastMessage != null && lastMessage.isFromConseiller() && !lastMessage.readByJeune) {
+      _facade.markAsRead(lastMessage.id);
     }
 
     final statusState = store.state.chatStatusState;
@@ -104,6 +105,12 @@ class CvmMiddleware extends MiddlewareClass<AppState> {
   CvmMessage? _lastConseillerMessage(List<CvmMessage> messages) {
     return messages //
         .where((message) => message.isFromConseiller())
+        .sorted((a, b) => a.date.compareTo(b.date))
+        .lastOrNull;
+  }
+
+  CvmMessage? _lastMessage(List<CvmMessage> messages) {
+    return messages //
         .sorted((a, b) => a.date.compareTo(b.date))
         .lastOrNull;
   }

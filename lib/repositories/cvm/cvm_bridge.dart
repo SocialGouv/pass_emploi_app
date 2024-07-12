@@ -96,22 +96,7 @@ class CvmBridge {
           .toList();
       _aggregator.addEvents(cvmEvents);
       Log.d('--- CvmBridge.getMessages ✅');
-      final sortedEvents = _aggregator.getSortedEvents();
-      final eventsReadByJeune = sortedEvents.where((e) => e.readByJeune);
-      if (eventsReadByJeune.isEmpty) Log.d('😎😎😎 CvmBridge readByJeune EMPTY');
-      for (var e in eventsReadByJeune) {
-        if (e is CvmTextMessage) Log.d('😎😎😎 CvmBridge readByJeune TEXT: ${e.content}');
-        if (e is CvmFileMessage) Log.d('😎😎😎 CvmBridge readByJeune FILE: ${e.fileName}');
-        if (e is CvmUnknownMessage) Log.d('😎😎😎 CvmBridge readByJeune UNKNOWN: ${e.id}');
-      }
-
-      final eventsReadByConseiller = sortedEvents.whereType<CvmTextMessage>().where((e) => e.readByConseiller);
-      if (eventsReadByConseiller.isEmpty) Log.d('😎😎😎 CvmBridge readByConseiller EMPTY');
-      for (var e in eventsReadByConseiller) {
-        Log.d('😎😎😎 CvmBridge readByConseiller TEXT: ${e.content}');
-      }
-
-      return sortedEvents;
+      return _aggregator.getSortedEvents();
     });
   }
 
@@ -131,7 +116,7 @@ class CvmBridge {
   }
 
   Future<bool> markAsRead(String messageId) async {
-    Log.d('--- CvmBridge.markAsRead…');
+    Log.d('--- CvmBridge.markAsRead message with ID $messageId');
     final success = await MethodChannel(_cvmMethodChannel) //
             .invokeMethod<bool>('markAsRead', {'eventId': messageId}) ??
         false;
