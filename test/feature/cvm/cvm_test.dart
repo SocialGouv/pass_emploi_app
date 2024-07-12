@@ -122,8 +122,8 @@ void main() {
     });
 
     group('Last jeune reading', () {
-      group('CvmLastReadingAction should mark last conseiller message as read', () {
-        test('when last conseiller message is of type text', () {
+      group('CvmLastReadingAction', () {
+        test('should not mark last message as read when sent by jeune - type text', () {
           final now = DateTime(2024);
           withClock(Clock.fixed(now), () {
             // Given
@@ -140,11 +140,32 @@ void main() {
             store.dispatch(CvmLastJeuneReadingAction());
 
             // Then
+            verifyNever(() => bridge.markAsRead(any()));
+          });
+        });
+
+        test('should mark last message as read when sent by conseiller - type text', () {
+          final now = DateTime(2024);
+          withClock(Clock.fixed(now), () {
+            // Given
+            final store = givenState().withCvmMessage(messages: [
+              mockCvmTextMessage(id: '1', date: now, sentBy: Sender.conseiller),
+              mockCvmTextMessage(id: '2', date: now.add(Duration(hours: 2)), sentBy: Sender.conseiller),
+              mockCvmFileMessage(id: '3', date: now.add(Duration(hours: 3)), sentBy: Sender.conseiller),
+              mockCvmTextMessage(id: '4', date: now.add(Duration(hours: 4)), sentBy: Sender.conseiller),
+              //mockCvmTextMessage(id: '5', date: now.add(Duration(hours: 5)), sentBy: Sender.jeune),
+            ]).store((f) => {f.cvmBridge = bridge});
+            when(() => bridge.markAsRead(any())).thenAnswer((_) async => true);
+
+            // When
+            store.dispatch(CvmLastJeuneReadingAction());
+
+            // Then
             verify(() => bridge.markAsRead('4')).called(1);
           });
         });
 
-        test('when last conseiller message is of type file', () {
+        test('should mark last message as read when sent by conseiller - type file', () {
           final now = DateTime(2024);
           withClock(Clock.fixed(now), () {
             // Given
@@ -153,7 +174,7 @@ void main() {
               mockCvmTextMessage(id: '2', date: now.add(Duration(hours: 2)), sentBy: Sender.conseiller),
               mockCvmTextMessage(id: '3', date: now.add(Duration(hours: 3)), sentBy: Sender.conseiller),
               mockCvmFileMessage(id: '7', date: now.add(Duration(hours: 7)), sentBy: Sender.conseiller),
-              mockCvmTextMessage(id: '10', date: now.add(Duration(hours: 10)), sentBy: Sender.jeune),
+              //mockCvmTextMessage(id: '10', date: now.add(Duration(hours: 10)), sentBy: Sender.jeune),
             ]).store((f) => {f.cvmBridge = bridge});
             when(() => bridge.markAsRead(any())).thenAnswer((_) async => true);
 
@@ -165,7 +186,7 @@ void main() {
           });
         });
 
-        test('when last conseiller message is of type unknown', () {
+        test('should mark last message as read when sent by conseiller - type unknown', () {
           final now = DateTime(2024);
           withClock(Clock.fixed(now), () {
             // Given
@@ -174,7 +195,7 @@ void main() {
               mockCvmTextMessage(id: '2', date: now.add(Duration(hours: 2)), sentBy: Sender.conseiller),
               mockCvmTextMessage(id: '3', date: now.add(Duration(hours: 3)), sentBy: Sender.conseiller),
               mockCvmUnknownMessage(id: '9', date: now.add(Duration(hours: 9))),
-              mockCvmTextMessage(id: '10', date: now.add(Duration(hours: 10)), sentBy: Sender.jeune),
+              //mockCvmTextMessage(id: '10', date: now.add(Duration(hours: 10)), sentBy: Sender.jeune),
             ]).store((f) => {f.cvmBridge = bridge});
             when(() => bridge.markAsRead(any())).thenAnswer((_) async => true);
 
