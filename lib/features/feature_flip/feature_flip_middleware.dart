@@ -23,8 +23,9 @@ class FeatureFlipMiddleware extends MiddlewareClass<AppState> {
 
       if (action.user.loginMode.isMiLo()) {
         _handlePjFeatureFlip(store, action.user.id);
-        _handleBoiteAOutilsABTesting(store, action.user.id);
       }
+
+      _handleBoiteAOutilsABTesting(store, action.user.id);
     }
   }
 
