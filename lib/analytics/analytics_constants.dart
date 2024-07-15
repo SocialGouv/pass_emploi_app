@@ -274,6 +274,12 @@ class AnalyticsEventNames {
   static const rendezvousVisioCategory = "Rendez-vous bénéficiaire - visio";
   static const rendezvousVisioDisplayAction = "Affichage";
   static const rendezvousVisioClickAction = "Clic";
+
+  static const baoCategoryA = "Boite a outils - A";
+  static const baoCategoryB = "Boite a outils - B";
+
+  static const baoAffichageAccueil = "Affichage accueil";
+  static const baoVoirTousLesOutils = "Clic voir tous les outils";
 }
 
 class AnalyticsCustomDimensions {
