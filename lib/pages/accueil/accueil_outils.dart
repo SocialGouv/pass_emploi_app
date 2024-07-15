@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/models/outil.dart';
@@ -8,6 +9,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/boite_a_outils_card.dart';
 import 'package:pass_emploi_app/widgets/textes.dart';
@@ -30,7 +32,7 @@ class AccueilOutils extends StatelessWidget {
           label: Strings.listSemanticsLabel,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: item.outils.map((outil) => _Outil(outil)).toList() ,
+            children: item.outils.map((outil) => _Outil(outil)).toList(),
           ),
         ),
         SizedBox(height: Margins.spacing_s),
@@ -40,6 +42,14 @@ class AccueilOutils extends StatelessWidget {
   }
 
   void goToOutils(BuildContext context) {
+    final bool boiteAOutilsMisEnAvant =
+        StoreProvider.of<AppState>(context).state.featureFlipState.featureFlip.boiteAOutilsMisEnAvant;
+
+    PassEmploiMatomoTracker.instance.trackEvent(
+      eventCategory: boiteAOutilsMisEnAvant ? AnalyticsEventNames.baoCategoryA : AnalyticsEventNames.baoCategoryB,
+      action: AnalyticsEventNames.baoVoirTousLesOutils,
+    );
+
     StoreProvider.of<AppState>(context).dispatch(
       HandleDeepLinkAction(
         OutilsDeepLink(),

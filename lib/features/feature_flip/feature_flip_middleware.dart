@@ -24,6 +24,8 @@ class FeatureFlipMiddleware extends MiddlewareClass<AppState> {
       if (action.user.loginMode.isMiLo()) {
         _handlePjFeatureFlip(store, action.user.id);
       }
+
+      _handleBoiteAOutilsABTesting(store, action.user.id);
     }
   }
 
@@ -53,5 +55,9 @@ class FeatureFlipMiddleware extends MiddlewareClass<AppState> {
         store.dispatch(FeatureFlipUsePjAction(true));
       }
     }
+  }
+
+  void _handleBoiteAOutilsABTesting(Store<AppState> store, String userId) async {
+    store.dispatch(FeatureFlipBoiteAOutilsABTestingAction(_remoteConfigRepository.hasBoiteAOutilsABTesting()));
   }
 }
