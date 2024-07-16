@@ -72,7 +72,7 @@ void main() {
     expect(viewModel.displayState, isA<DismissWithFailure>());
   });
 
-  test('duplicate should dispatch CreateUserAction', () {
+  test('duplicate should dispatch CreateUserAction with status in progress', () {
     // Given
     final store = StoreSpy.withState(
       givenState()
@@ -87,7 +87,7 @@ void main() {
       "comment",
       DateTime(2023),
       false,
-      UserActionStatus.NOT_STARTED,
+      UserActionStatus.IN_PROGRESS,
       UserActionReferentielType.emploi,
       true,
     );
