@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_state.dart';
 import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
+import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_type.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_create_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
@@ -51,7 +52,7 @@ class DuplicateUserActionViewModel extends Equatable {
             description,
             date,
             false,
-            userAction.status,
+            UserActionStatus.IN_PROGRESS,
             type ?? UserActionReferentielType.emploi,
             true,
           ),
