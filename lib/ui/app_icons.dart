@@ -26,6 +26,7 @@ class AppIcons {
   static const IconData image_not_supported_outlined = Icons.image_not_supported_outlined;
   static const IconData description_outlined = Icons.description_outlined;
   static const IconData more_vert_rounded = Icons.more_vert_rounded;
+  static const IconData highlight_off = Icons.highlight_off;
 
   // Information
   static const IconData signpost_rounded = Icons.signpost_rounded;

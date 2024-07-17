@@ -55,6 +55,7 @@ class Strings {
   static String ajouter = "Ajouter";
   static String cancelLabel = "Annuler";
   static String suppressionLabel = "Supprimer";
+  static String cacher = "Cacher";
   static String refuserLabel = "Refuser";
   static String consulter = "Consulter";
   static String copie = "Copié";
