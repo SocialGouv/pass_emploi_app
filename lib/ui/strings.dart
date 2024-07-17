@@ -137,7 +137,7 @@ class Strings {
       "Autorisez l’accès à l'appareil photo pour pouvoir prendre une photo.";
   static String chatPieceJointeFilePermissionError =
       "Autorisez l’accès aux fichiers pour pouvoir sélectionner un fichier.";
-  static String chatPieceJointeOpenAppSettings = "Paramètres";
+  static String chatPieceJointeOpenAppSettings = "Accéder aux paramètres";
 
   // Force Update
   static String updateTitle = "Mise à jour";
