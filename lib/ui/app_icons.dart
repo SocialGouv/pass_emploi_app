@@ -54,6 +54,7 @@ class AppIcons {
   static const IconData favorite_rounded = Icons.favorite_rounded;
   static const IconData favorite_outline_rounded = Icons.favorite_outline_rounded;
   static const IconData check_circle_outline_rounded = Icons.check_circle_outline_rounded;
+  static const IconData check_circle_rounded = Icons.check_circle_rounded;
   static const IconData forum_rounded = Icons.forum_rounded;
   static const IconData bolt_rounded = Icons.bolt_rounded;
   static const IconData bolt_outlined = AppIconsAdditional.bolt_outlined;

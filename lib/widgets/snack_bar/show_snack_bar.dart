@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
@@ -9,6 +11,7 @@ final GlobalKey<ScaffoldMessengerState> modeDemoSnackBarKey = GlobalKey<Scaffold
 void showSnackBarWithSuccess(BuildContext context, String label, [VoidCallback? onActionTap]) {
   _showSnackBar(
     context: context,
+    icon: AppIcons.check_circle_rounded,
     label: label,
     backgroundColor: AppColors.successLighten,
     textColor: AppColors.success,
@@ -19,6 +22,7 @@ void showSnackBarWithSuccess(BuildContext context, String label, [VoidCallback? 
 void showSnackBarWithInformation(BuildContext context, String label) {
   _showSnackBar(
     context: context,
+    icon: AppIcons.info_rounded,
     label: label,
     backgroundColor: AppColors.primaryLighten,
     textColor: AppColors.primary,
@@ -29,6 +33,7 @@ void showSnackBarWithInformation(BuildContext context, String label) {
 void showSnackBarWithSystemError(BuildContext context, [String? label]) {
   _showSnackBar(
     context: context,
+    icon: AppIcons.highlight_off,
     label: label ?? Strings.miscellaneousErrorRetry,
     backgroundColor: AppColors.disabled,
     textColor: Colors.white,
@@ -39,6 +44,7 @@ void showSnackBarWithSystemError(BuildContext context, [String? label]) {
 void showSnackBarWithUserError(BuildContext context, String label) {
   _showSnackBar(
     context: context,
+    icon: AppIcons.error_rounded,
     label: label,
     backgroundColor: AppColors.warningLighten,
     textColor: AppColors.warning,
@@ -48,6 +54,7 @@ void showSnackBarWithUserError(BuildContext context, String label) {
 
 void _showSnackBar({
   required BuildContext context,
+  required IconData icon,
   required String label,
   required Color backgroundColor,
   required Color textColor,
@@ -58,7 +65,25 @@ void _showSnackBar({
     SnackBar(
       duration: Duration(seconds: 5),
       backgroundColor: backgroundColor,
-      content: Text(label, style: TextStyles.textSRegular(color: textColor)),
+      content: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(icon, color: textColor),
+          SizedBox(width: Margins.spacing_s),
+          Expanded(
+            child: Text(label, style: TextStyles.textSBoldWithColor(textColor)),
+          ),
+          SizedBox(width: Margins.spacing_s),
+          GestureDetector(
+            child: Icon(
+              AppIcons.close_rounded,
+              color: textColor,
+              semanticLabel: Strings.close,
+            ),
+            onTap: () => clearAllSnackBars(),
+          ),
+        ],
+      ),
       action: onActionTap != null
           ? SnackBarAction(
               label: Strings.consulter,

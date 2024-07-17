@@ -14,17 +14,13 @@ class InfoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return CardContainer(
       backgroundColor: AppColors.primaryLighten,
-      child: Column(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Icon(AppIcons.info_rounded, color: AppColors.primary),
-              SizedBox(width: Margins.spacing_s),
-              Flexible(
-                child: Text(message, style: TextStyles.textSMedium(color: AppColors.primary)),
-              ),
-            ],
+          Icon(AppIcons.info_rounded, color: AppColors.primary),
+          SizedBox(width: Margins.spacing_s),
+          Flexible(
+            child: Text(message, style: TextStyles.textSMedium(color: AppColors.primary)),
           ),
         ],
       ),

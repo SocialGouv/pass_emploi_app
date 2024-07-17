@@ -253,9 +253,9 @@ class _WarningCardState extends State<_WarningCard> {
     return _visible
         ? Padding(
             padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-      child: CardContainer(
-        backgroundColor: AppColors.disabled,
-        padding: EdgeInsets.zero, // Padding is set in row children because of inner padding of OutlinedButton
+            child: CardContainer(
+              backgroundColor: AppColors.disabled,
+              padding: EdgeInsets.zero, // Padding is set in row children because of inner padding of OutlinedButton
               child: Column(
                 children: [
                   SizedBox(height: Margins.spacing_base),
@@ -284,9 +284,9 @@ class _WarningCardState extends State<_WarningCard> {
                       child: Text(Strings.retry, style: TextStyles.textSBoldWithColor(Colors.white)),
                     ),
                   ),
-          ],
-        ),
-      ),
+                ],
+              ),
+            ),
           )
         : SizedBox.shrink();
   }
