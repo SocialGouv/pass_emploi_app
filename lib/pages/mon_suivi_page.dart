@@ -202,6 +202,10 @@ class _Content extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        _WarningCard(
+          label: Strings.monSuiviPoleEmploiDataError,
+          onPressed: () => viewModel.onRetry(),
+        ),
         if (viewModel.withWarningOnWrongPoleEmploiDataRetrieval) ...[
           SizedBox(height: Margins.spacing_s),
           _WarningCard(
@@ -249,46 +253,48 @@ class _WarningCardState extends State<_WarningCard> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Add proper disappearing animation
-    return _visible
-        ? Padding(
-            padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-            child: CardContainer(
-              backgroundColor: AppColors.disabled,
-              padding: EdgeInsets.zero, // Padding is set in row children because of inner padding of OutlinedButton
-              child: Column(
+    return AnimatedCrossFade(
+      duration: AnimationDurations.fast,
+      firstChild: SizedBox.shrink(),
+      crossFadeState: _visible ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+      secondChild: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+        child: CardContainer(
+          backgroundColor: AppColors.disabled,
+          padding: EdgeInsets.zero, // Padding is set in row children because of inner padding of OutlinedButton
+          child: Column(
+            children: [
+              SizedBox(height: Margins.spacing_base),
+              Row(
                 children: [
-                  SizedBox(height: Margins.spacing_base),
-                  Row(
-                    children: [
-                      SizedBox(width: Margins.spacing_base),
-                      GestureDetector(
-                        child: Icon(
-                          AppIcons.highlight_off,
-                          color: Colors.white,
-                          semanticLabel: Strings.cacher,
-                        ),
-                        onTap: () => setState(() => _visible = false),
-                      ),
-                      SizedBox(width: Margins.spacing_s),
-                      Flexible(
-                        child: Text(widget.label, style: TextStyles.textSMedium(color: Colors.white)),
-                      ),
-                      SizedBox(width: Margins.spacing_base),
-                    ],
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: OutlinedButton(
-                      onPressed: widget.onPressed,
-                      child: Text(Strings.retry, style: TextStyles.textSBoldWithColor(Colors.white)),
+                  SizedBox(width: Margins.spacing_base),
+                  GestureDetector(
+                    child: Icon(
+                      AppIcons.highlight_off,
+                      color: Colors.white,
+                      semanticLabel: Strings.cacher,
                     ),
+                    onTap: () => setState(() => _visible = false),
                   ),
+                  SizedBox(width: Margins.spacing_s),
+                  Flexible(
+                    child: Text(widget.label, style: TextStyles.textSMedium(color: Colors.white)),
+                  ),
+                  SizedBox(width: Margins.spacing_base),
                 ],
               ),
-            ),
-          )
-        : SizedBox.shrink();
+              Align(
+                alignment: Alignment.centerRight,
+                child: OutlinedButton(
+                  onPressed: widget.onPressed,
+                  child: Text(Strings.retry, style: TextStyles.textSBoldWithColor(Colors.white)),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 
