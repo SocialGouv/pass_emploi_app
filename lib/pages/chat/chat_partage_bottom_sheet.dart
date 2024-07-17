@@ -13,6 +13,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/info_card.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
 
@@ -101,7 +102,7 @@ class _Body extends StatelessWidget {
           SizedBox(height: Margins.spacing_base),
           _TextField(_controller),
           SizedBox(height: Margins.spacing_l),
-          _InfoPartage(_viewModel),
+          InfoCard(message: _viewModel.information),
           SizedBox(height: Margins.spacing_l),
           _PartageButton(_viewModel, _controller),
         ],
@@ -142,29 +143,6 @@ class _TextField extends StatelessWidget {
       textInputAction: TextInputAction.done,
       maxLines: null,
       controller: _controller,
-    );
-  }
-}
-
-class _InfoPartage extends StatelessWidget {
-  final ChatPartagePageViewModel _viewModel;
-
-  const _InfoPartage(this._viewModel);
-
-  @override
-  Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: AppColors.primaryLighten,
-        borderRadius: BorderRadius.all(Radius.circular(Dimens.radius_base)),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(Margins.spacing_m),
-        child: Text(
-          _viewModel.information,
-          style: TextStyles.textBaseBoldWithColor(AppColors.primary),
-        ),
-      ),
     );
   }
 }

@@ -272,7 +272,7 @@ class _WarningCardState extends State<_WarningCard> {
                       ),
                       SizedBox(width: Margins.spacing_s),
                       Flexible(
-                        child: Text(widget.label, style: TextStyles.textXsRegular(color: Colors.white)),
+                        child: Text(widget.label, style: TextStyles.textSMedium(color: Colors.white)),
                       ),
                       SizedBox(width: Margins.spacing_base),
                     ],

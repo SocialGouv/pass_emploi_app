@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/presentation/login_bottom_sheet_view_model.dart';
-import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/external_links.dart';
@@ -10,9 +9,11 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/elevated_button_tile.dart';
+import 'package:pass_emploi_app/widgets/info_card.dart';
 
 class LoginBottomSheetPage1 extends StatelessWidget {
   const LoginBottomSheetPage1({required this.loginButtons, required this.onLoginButtonSelected});
+
   final List<LoginButtonViewModel> loginButtons;
   final void Function(LoginButtonViewModel) onLoginButtonSelected;
 
@@ -23,7 +24,7 @@ class LoginBottomSheetPage1 extends StatelessWidget {
         SizedBox(height: Margins.spacing_s),
         _AppBarTitle(),
         SizedBox(height: Margins.spacing_m),
-        _OrganismInformations(),
+        InfoCard(message: Strings.organismInformations),
         SizedBox(height: Margins.spacing_base),
         ..._buildLoginButtons(),
         _NoOrganismButton(),
@@ -67,6 +68,7 @@ class _NoOrganismButton extends StatelessWidget {
 
 class _MissionLocaleLoginButton extends StatelessWidget {
   const _MissionLocaleLoginButton({required this.onSelected});
+
   final void Function() onSelected;
 
   @override
@@ -86,6 +88,7 @@ class _MissionLocaleLoginButton extends StatelessWidget {
 
 class _FranceTravailLoginButton extends StatelessWidget {
   const _FranceTravailLoginButton({required this.onSelected});
+
   final void Function() onSelected;
 
   @override
@@ -109,34 +112,6 @@ class _AppBarTitle extends StatelessWidget {
     return Semantics(
       header: true,
       child: Text(Strings.loginBottomSeetTitlePage1, style: TextStyles.textMBold),
-    );
-  }
-}
-
-class _OrganismInformations extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: Margins.spacing_xs),
-          child: Icon(AppIcons.info_rounded, color: AppColors.primary),
-        ),
-        const SizedBox(width: Margins.spacing_s),
-        Expanded(
-          child: RichText(
-            text: TextSpan(
-              style: TextStyles.textBaseRegular,
-              children: [
-                TextSpan(text: Strings.organismInformations[0]),
-                TextSpan(text: Strings.organismInformations[1], style: TextStyles.textBaseBold),
-                TextSpan(text: Strings.organismInformations[2]),
-              ],
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

@@ -22,7 +22,7 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_tag.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
-import 'package:pass_emploi_app/widgets/not_up_to_date_message.dart';
+import 'package:pass_emploi_app/widgets/info_card.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
@@ -110,7 +110,7 @@ class _RendezvousDetailsPageState extends State<RendezvousDetailsPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (viewModel.withDateDerniereMiseAJour != null) ...[
-              NotUpToDateMessage(message: viewModel.withDateDerniereMiseAJour!),
+              InfoCard(message: viewModel.withDateDerniereMiseAJour!),
               SizedBox(height: Margins.spacing_base),
             ],
             if (viewModel.isInscrit) ...[

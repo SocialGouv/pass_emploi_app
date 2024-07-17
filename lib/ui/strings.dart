@@ -242,11 +242,8 @@ class Strings {
   static const String loginBottomSeetNoOrganism = "Je ne suis inscrit à aucun de ces organismes";
 
   static const String loginBottomSeetTitlePage1 = "Sélectionnez l’organisme dont dépend votre conseiller CEJ : ";
-  static const List<String> organismInformations = [
-    "L’organisme est celui avec lequel vous avez ",
-    "signé votre contrat CEJ",
-    ". Cette information est visible sur votre contrat CEJ dans la case “Opérateur”."
-  ];
+  static const String organismInformations =
+      "L’organisme est celui avec lequel vous avez signé votre contrat CEJ. Cette information est visible sur votre contrat CEJ dans la case “Opérateur”.";
 
   static const String loginBottomSeetTitlePage2 = "Pour vous connecter, vous aurez besoin des éléments suivants : ";
 
