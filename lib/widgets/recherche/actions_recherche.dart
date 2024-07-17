@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/presentation/recherche/actions_recherche_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
@@ -36,35 +35,25 @@ class ActionsRecherche extends StatelessWidget {
   }
 
   Widget _builder(BuildContext context, ActionsRechercheViewModel viewModel) {
-    return AnimatedSwitcher(
-      duration: AnimationDurations.slow,
-      transitionBuilder: (child, animation) {
-        final offsetAnimation = Tween<Offset>(begin: Offset(0.0, 1), end: Offset(0.0, 0)).animate(animation);
-        return SlideTransition(position: offsetAnimation, child: child);
-      },
-      switchInCurve: Curves.fastOutSlowIn,
-      switchOutCurve: Curves.fastOutSlowIn,
-      child: Wrap(
-        key: UniqueKey(),
-        alignment: WrapAlignment.center,
-        spacing: Margins.spacing_base,
-        runSpacing: Margins.spacing_base,
-        children: [
-          if (viewModel.withAlertButton)
-            PrimaryActionButton(
-              label: Strings.createAlert,
-              icon: AppIcons.notifications_rounded,
-              rippleColor: AppColors.primaryDarken,
-              iconSize: Dimens.icon_size_base,
-              onPressed: () => _onAlertButtonPressed(context),
-            ),
-          if (viewModel.withFiltreButton)
-            FiltreButton(
-              filtresCount: viewModel.filtresCount,
-              onPressed: () => _onFiltreButtonPressed(context),
-            ),
-        ],
-      ),
+    return Wrap(
+      alignment: WrapAlignment.center,
+      spacing: Margins.spacing_base,
+      runSpacing: Margins.spacing_base,
+      children: [
+        if (viewModel.withAlertButton)
+          PrimaryActionButton(
+            label: Strings.createAlert,
+            icon: AppIcons.notifications_rounded,
+            rippleColor: AppColors.primaryDarken,
+            iconSize: Dimens.icon_size_base,
+            onPressed: () => _onAlertButtonPressed(context),
+          ),
+        if (viewModel.withFiltreButton)
+          FiltreButton(
+            filtresCount: viewModel.filtresCount,
+            onPressed: () => _onFiltreButtonPressed(context),
+          ),
+      ],
     );
   }
 
