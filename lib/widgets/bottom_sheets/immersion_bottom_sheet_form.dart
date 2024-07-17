@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/info_card.dart';
 import 'package:pass_emploi_app/widgets/tags/tags.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
 
@@ -46,7 +47,7 @@ class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
               SizedBox(height: Margins.spacing_m),
               _alerteFilters(widget.viewModel.searchModel),
               SizedBox(height: Margins.spacing_m),
-              _alerteInfo(),
+              InfoCard(message: '${Strings.alerteInfo}\n${Strings.searchNotificationInfo}'),
             ],
           ),
         ),
@@ -131,44 +132,6 @@ class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
     return DataTag(
       label: tagInfo.label,
       icon: tagInfo.withIcon ? AppIcons.place_outlined : null,
-    );
-  }
-
-  Widget _alerteInfo() {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Padding(padding: EdgeInsets.fromLTRB(6, 2, 6, 2), child: _setInfo(Strings.alerteInfo)),
-        SizedBox(height: Margins.spacing_base),
-        Padding(padding: EdgeInsets.fromLTRB(6, 2, 6, 2), child: _setInfo(Strings.searchNotificationInfo)),
-      ],
-    );
-  }
-
-  Widget _setInfo(String label) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: Padding(
-              padding: const EdgeInsets.all(4),
-              child: Icon(
-                AppIcons.info_rounded,
-                size: Dimens.icon_size_base,
-                color: AppColors.primary,
-              ),
-            )),
-        SizedBox(
-          width: 270,
-          child: Text(
-            label,
-            style: TextStyles.textSRegular(),
-          ),
-        ),
-      ],
     );
   }
 
