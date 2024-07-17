@@ -303,7 +303,7 @@ class _UserActionsPendingCard extends StatelessWidget {
         ? Strings.pendingActionCreationPlural(userActionsPostponedCount)
         : Strings.pendingActionCreationSingular;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_s),
+      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
       child: CardContainer(
         backgroundColor: AppColors.disabled,
         child: Row(
