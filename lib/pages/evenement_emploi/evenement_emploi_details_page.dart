@@ -21,10 +21,10 @@ import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/share_button.dart';
+import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_tag.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
-import 'package:pass_emploi_app/widgets/tags/job_tag.dart';
 
 class EvenementEmploiDetailsPage extends StatelessWidget {
   final String eventId;
@@ -118,10 +118,7 @@ class _Header extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (viewModel.tag != null) ...[
-          JobTag(
-            label: viewModel.tag!,
-            backgroundColor: AppColors.additional5Lighten,
-          ),
+          CardTag.evenement(text: viewModel.tag!),
           SizedBox(height: Margins.spacing_s),
         ],
         Text(viewModel.titre, style: TextStyles.textLBold()),

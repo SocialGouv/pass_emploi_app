@@ -25,7 +25,6 @@ class RendezvousDetailsViewModel extends Equatable {
   final String navbarTitle;
   final String id;
   final String tag;
-  final bool greenTag;
   final String date;
   final String hourAndDuration;
   final String conseillerPresenceLabel;
@@ -62,7 +61,6 @@ class RendezvousDetailsViewModel extends Equatable {
     required this.navbarTitle,
     required this.id,
     required this.tag,
-    required this.greenTag,
     required this.date,
     required this.hourAndDuration,
     required this.conseillerPresenceLabel,
@@ -114,7 +112,6 @@ class RendezvousDetailsViewModel extends Equatable {
       navbarTitle: _navbarTitle(source, rdv),
       id: rdv.id,
       tag: _takeTypeLabelOrPrecision(rdv),
-      greenTag: _isRendezvousGreenTag(rdv),
       date: rdv.date.toDayWithFullMonthContextualized(),
       hourAndDuration: _hourAndDuration(rdv),
       modality: _modality(rdv),
@@ -161,7 +158,6 @@ class RendezvousDetailsViewModel extends Equatable {
       navbarTitle: Strings.eventTitle,
       id: '',
       tag: '',
-      greenTag: false,
       date: '',
       hourAndDuration: '',
       conseillerPresenceLabel: '',
@@ -188,7 +184,6 @@ class RendezvousDetailsViewModel extends Equatable {
       navbarTitle,
       id,
       tag,
-      greenTag,
       date,
       hourAndDuration,
       conseillerPresenceLabel,
@@ -269,11 +264,6 @@ String? _address(Rendezvous rdv) {
 
 String _takeTypeLabelOrPrecision(Rendezvous rdv) {
   return (rdv.type.code == RendezvousTypeCode.AUTRE && rdv.precision != null) ? rdv.precision! : rdv.type.label;
-}
-
-bool _isRendezvousGreenTag(Rendezvous rdv) {
-  final tag = _takeTypeLabelOrPrecision(rdv);
-  return tag == Strings.individualInterview || tag == Strings.publicInfo;
 }
 
 String _hourAndDuration(Rendezvous rdv) {
