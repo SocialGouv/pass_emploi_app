@@ -10,9 +10,6 @@ import 'package:pass_emploi_app/pages/immersion/immersion_contact_form_bottom_sh
 import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/presentation/immersion/immersion_details_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/app_icons.dart';
-import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -29,6 +26,7 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/errors/favori_not_found_error.dart';
 import 'package:pass_emploi_app/widgets/favori_heart.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
+import 'package:pass_emploi_app/widgets/info_card.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/tags/immersion_tags.dart';
@@ -161,7 +159,7 @@ class ImmersionDetailsPage extends StatelessWidget {
         SizedBox(height: Margins.spacing_m),
         Text(viewModel.contactInformation!, style: TextStyles.textBaseRegular),
         SizedBox(height: Margins.spacing_base),
-        if (viewModel.withDataWarningMessage) _DataWarningMessage(),
+        if (viewModel.withDataWarningMessage) InfoCard(message: Strings.immersionDataWarningMessage),
       ],
     );
   }
@@ -228,31 +226,6 @@ class _EntrepriseAccueillanteCard extends StatelessWidget {
           CardTag.entrepriseAccueillante(),
           SizedBox(height: Margins.spacing_s),
           Text(Strings.immersionAccueillanteExplanation, style: TextStyles.textSRegular()),
-        ],
-      ),
-    );
-  }
-}
-
-class _DataWarningMessage extends StatelessWidget {
-  const _DataWarningMessage();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(Margins.spacing_m),
-      decoration: BoxDecoration(
-        color: AppColors.primaryLighten,
-        borderRadius: BorderRadius.circular(Dimens.radius_base),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(AppIcons.info_rounded, color: AppColors.primary, size: Dimens.icon_size_m),
-          SizedBox(width: Margins.spacing_s),
-          Expanded(
-              child: Text(Strings.immersionDataWarningMessage,
-                  style: TextStyles.textBaseBold.copyWith(color: AppColors.primary))),
         ],
       ),
     );

@@ -19,8 +19,8 @@ import 'package:pass_emploi_app/widgets/confetti_wrapper.dart';
 import 'package:pass_emploi_app/widgets/connectivity_widgets.dart';
 import 'package:pass_emploi_app/widgets/date_echeance_in_detail.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/info_card.dart';
 import 'package:pass_emploi_app/widgets/loading_overlay.dart';
-import 'package:pass_emploi_app/widgets/not_up_to_date_message.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 import 'package:pass_emploi_app/widgets/textes.dart';
 
@@ -84,7 +84,7 @@ class _Body extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       if (viewModel.withDateDerniereMiseAJour != null)
-                        NotUpToDateMessage(message: viewModel.withDateDerniereMiseAJour!),
+                        InfoCard(message: viewModel.withDateDerniereMiseAJour!),
                       if (viewModel.label != null) ...[
                         SizedBox(height: Margins.spacing_base),
                         _Categorie(viewModel.label!),

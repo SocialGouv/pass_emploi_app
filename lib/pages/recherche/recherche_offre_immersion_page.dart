@@ -16,7 +16,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/immersion_alerte_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_tag.dart';
 import 'package:pass_emploi_app/widgets/cards/data_card.dart';
-import 'package:pass_emploi_app/widgets/entreprises_accueillantes_header.dart';
+import 'package:pass_emploi_app/widgets/info_card.dart';
 import 'package:pass_emploi_app/widgets/recherche/criteres_recherche_immersion_contenu.dart';
 import 'package:redux/redux.dart';
 
@@ -77,7 +77,11 @@ class RechercheOffreImmersionPage extends RechercheOffrePage<Immersion> {
       additionalChild: item.fromEntrepriseAccueillante ? CardTag.entrepriseAccueillante() : null,
     );
     if (_shouldAddEntreprisesAccueillantesHeader(index, resultViewModel)) {
-      return Column(children: [EntreprisesAccueillantesHeader(), SizedBox(height: Margins.spacing_base), card]);
+      return Column(children: [
+        InfoCard(message: Strings.entreprisesAccueillantesHeader),
+        SizedBox(height: Margins.spacing_base),
+        card,
+      ]);
     } else {
       return card;
     }

@@ -11,10 +11,10 @@ import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_content.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_day_section.dart';
-import 'package:pass_emploi_app/widgets/chat/chat_information.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_piece_jointe.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_scaffold.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_text_message.dart';
+import 'package:pass_emploi_app/widgets/info_card.dart';
 import 'package:redux/redux.dart';
 
 class CvmChatPage extends StatefulWidget {
@@ -106,7 +106,7 @@ extension on CvmChatItem {
     return switch (this) {
       final CvmDayItem item => ChatDaySection(dayLabel: item.dayLabel),
       final CvmTextMessageItem item => ChatTextMessage(item.toParams()),
-      final CvmInformationItem item => ChatInformation(item.title, item.description),
+      final CvmInformationItem item => InfoCard(message: '${item.title} ${item.description}'),
       final CvmPieceJointeConseillerMessageItem item => ChatPieceJointe(item.toParams()),
     };
   }

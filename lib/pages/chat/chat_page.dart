@@ -15,13 +15,13 @@ import 'package:pass_emploi_app/widgets/chat/chat_content.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_day_section.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_deleted_message.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_image_piece_jointe.dart';
-import 'package:pass_emploi_app/widgets/chat/chat_information.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_local_file.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_local_image.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_piece_jointe.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_scaffold.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_text_message.dart';
 import 'package:pass_emploi_app/widgets/chat/partage_message.dart';
+import 'package:pass_emploi_app/widgets/info_card.dart';
 import 'package:redux/redux.dart';
 
 class ChatPage extends StatefulWidget {
@@ -156,7 +156,7 @@ extension on ChatItem {
       child: switch (this) {
         final DayItem item => ChatDaySection(dayLabel: item.dayLabel),
         final TextMessageItem item => ChatTextMessage(item.toParams()),
-        final InformationItem item => ChatInformation(item.title, item.description),
+        final InformationItem item => InfoCard(message: '${item.title} ${item.description}'),
         final DeletedMessageItem item => DeletedMessage(item),
         final PieceJointeMessageItem item => ChatPieceJointe(item.toParams()),
         final PieceJointeImageItem item => ChatImagePieceJointe(item),

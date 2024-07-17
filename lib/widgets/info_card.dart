@@ -2,25 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 
-class EntreprisesAccueillantesHeader extends StatelessWidget {
+class InfoCard extends StatelessWidget {
+  final String message;
+
+  const InfoCard({required this.message});
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppColors.primaryLighten,
-      padding: EdgeInsets.all(Margins.spacing_m),
+    return CardContainer(
+      backgroundColor: AppColors.primaryLighten,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(AppIcons.info_rounded, color: AppColors.primary),
           SizedBox(width: Margins.spacing_s),
           Flexible(
-            child: Text(
-              Strings.entreprisesAccueillantesHeader,
-              style: TextStyles.textBaseBoldWithColor(AppColors.primary),
-            ),
+            child: Text(message, style: TextStyles.textSMedium(color: AppColors.primary)),
           ),
         ],
       ),

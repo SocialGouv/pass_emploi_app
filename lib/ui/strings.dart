@@ -55,6 +55,7 @@ class Strings {
   static String ajouter = "Ajouter";
   static String cancelLabel = "Annuler";
   static String suppressionLabel = "Supprimer";
+  static String cacher = "Cacher";
   static String refuserLabel = "Refuser";
   static String consulter = "Consulter";
   static String copie = "Copié";
@@ -136,7 +137,7 @@ class Strings {
       "Autorisez l’accès à l'appareil photo pour pouvoir prendre une photo.";
   static String chatPieceJointeFilePermissionError =
       "Autorisez l’accès aux fichiers pour pouvoir sélectionner un fichier.";
-  static String chatPieceJointeOpenAppSettings = "Paramètres";
+  static String chatPieceJointeOpenAppSettings = "Accéder aux paramètres";
 
   // Force Update
   static String updateTitle = "Mise à jour";
@@ -241,11 +242,8 @@ class Strings {
   static const String loginBottomSeetNoOrganism = "Je ne suis inscrit à aucun de ces organismes";
 
   static const String loginBottomSeetTitlePage1 = "Sélectionnez l’organisme dont dépend votre conseiller CEJ : ";
-  static const List<String> organismInformations = [
-    "L’organisme est celui avec lequel vous avez ",
-    "signé votre contrat CEJ",
-    ". Cette information est visible sur votre contrat CEJ dans la case “Opérateur”."
-  ];
+  static const String organismInformations =
+      "L’organisme est celui avec lequel vous avez signé votre contrat CEJ. Cette information est visible sur votre contrat CEJ dans la case “Opérateur”.";
 
   static const String loginBottomSeetTitlePage2 = "Pour vous connecter, vous aurez besoin des éléments suivants : ";
 
