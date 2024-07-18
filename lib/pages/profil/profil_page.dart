@@ -95,9 +95,7 @@ class _Scaffold extends StatelessWidget {
                   _ListTileData(
                     title: Strings.notificationsLabel,
                     externalLink: true,
-                    onTap: () {
-                      // TODO:
-                    },
+                    onTap: viewModel.onOpenAppSettings,
                   ),
                 ]),
                 SizedBox(height: Margins.spacing_m),
