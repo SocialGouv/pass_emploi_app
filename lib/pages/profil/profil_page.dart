@@ -85,17 +85,17 @@ class _Scaffold extends StatelessWidget {
                 SizedBox(height: Margins.spacing_base),
                 _ListTileCard(tiles: [
                   _ListTileData(
+                    title: Strings.notificationsLabel,
+                    externalLink: true,
+                    onTap: viewModel.onOpenAppSettings,
+                  ),
+                  _ListTileData(
                     title: Strings.suppressionAccountLabel,
                     onTap: () => Navigator.push(context, SuppressionComptePage.materialPageRoute()),
                   ),
                   _ListTileData(
                     title: Strings.activityShareLabel,
                     onTap: () => Navigator.push(context, PartageActivitePage.materialPageRoute()),
-                  ),
-                  _ListTileData(
-                    title: Strings.notificationsLabel,
-                    externalLink: true,
-                    onTap: viewModel.onOpenAppSettings,
                   ),
                 ]),
                 SizedBox(height: Margins.spacing_m),
