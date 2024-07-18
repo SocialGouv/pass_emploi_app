@@ -62,6 +62,16 @@ class PushNotificationManager {
     _trackAuthorizationStatus(settings.authorizationStatus);
   }
 
+  Future<bool> hasNotificationBeenRequested() async {
+    final NotificationSettings settings = await _firebaseMessaging.getNotificationSettings();
+    return switch (settings.authorizationStatus) {
+      AuthorizationStatus.authorized => true,
+      AuthorizationStatus.provisional => true,
+      AuthorizationStatus.denied => true,
+      AuthorizationStatus.notDetermined => false,
+    };
+  }
+
   Future<void> _createHighImportanceAndroidChannel() async {
     const AndroidNotificationChannel channel = AndroidNotificationChannel(
       _channelId,
