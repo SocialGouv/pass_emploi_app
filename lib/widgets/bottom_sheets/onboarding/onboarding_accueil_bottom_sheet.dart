@@ -13,7 +13,6 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
-import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 
 class OnboardingAccueilBottomSheet extends StatefulWidget {
   const OnboardingAccueilBottomSheet({super.key});
@@ -59,13 +58,6 @@ class _OnboardingAccueilBottomSheetState extends State<OnboardingAccueilBottomSh
                       PassEmploiMatomoTracker.instance.trackEvent(
                         eventCategory: AnalyticsEventNames.onboardingPushNotificationPermissionCategory,
                         action: AnalyticsEventNames.onboardingPushNotificationPermissionAcceptAction,
-                      );
-                    },
-                    onDeclineNotifications: () {
-                      viewModel.onOnboardingCompleted();
-                      PassEmploiMatomoTracker.instance.trackEvent(
-                        eventCategory: AnalyticsEventNames.onboardingPushNotificationPermissionCategory,
-                        action: AnalyticsEventNames.onboardingPushNotificationPermissionDeclineAction,
                       );
                     },
                   ),
@@ -125,12 +117,10 @@ class _OnboardingAccueilPage extends StatelessWidget {
 class _OnboardingPushNotificationPermissionPage extends StatelessWidget {
   const _OnboardingPushNotificationPermissionPage({
     required this.onAcceptNotifications,
-    required this.onDeclineNotifications,
     required this.viewModel,
   });
 
   final void Function() onAcceptNotifications;
-  final void Function() onDeclineNotifications;
   final AccueilOnboardingViewModel viewModel;
 
   @override
@@ -161,11 +151,6 @@ class _OnboardingPushNotificationPermissionPage extends StatelessWidget {
                       PrimaryActionButton(
                         label: Strings.accueilOnboardingButtonAcceptNotifications,
                         onPressed: onAcceptNotifications,
-                      ),
-                      SizedBox(height: Margins.spacing_s),
-                      SecondaryButton(
-                        label: Strings.accueilOnboardingButtonDeclineNotifications,
-                        onPressed: onDeclineNotifications,
                       ),
                     ],
                   ),

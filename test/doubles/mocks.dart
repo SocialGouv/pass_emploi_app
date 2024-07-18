@@ -114,6 +114,18 @@ class MockPushNotificationManager extends Mock implements PushNotificationManage
   void mockGetToken() {
     when(() => getToken()).thenAnswer((_) async => "token");
   }
+
+  void mockHasNotificationBeenRequested(bool value) {
+    when(() => hasNotificationBeenRequested()).thenAnswer((invocation) async => value);
+  }
+
+  void mockRequestPermission() {
+    when(() => requestPermission()).thenAnswer((invocation) async {});
+  }
+
+  void mockOpenAppSettings() {
+    when(() => openAppSettings()).thenAnswer((invocation) async {});
+  }
 }
 
 class MockSessionMiloRepository extends Mock implements SessionMiloRepository {

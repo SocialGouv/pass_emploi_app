@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:app_settings/app_settings.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -60,6 +61,20 @@ class PushNotificationManager {
     );
     Log.d('User granted permission: ${settings.authorizationStatus}');
     _trackAuthorizationStatus(settings.authorizationStatus);
+  }
+
+  Future<bool> hasNotificationBeenRequested() async {
+    final NotificationSettings settings = await _firebaseMessaging.getNotificationSettings();
+    return switch (settings.authorizationStatus) {
+      AuthorizationStatus.authorized => true,
+      AuthorizationStatus.provisional => true,
+      AuthorizationStatus.denied => true,
+      AuthorizationStatus.notDetermined => false,
+    };
+  }
+
+  Future<void> openAppSettings() {
+    return AppSettings.openAppSettings();
   }
 
   Future<void> _createHighImportanceAndroidChannel() async {

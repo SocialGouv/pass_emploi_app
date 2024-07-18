@@ -50,6 +50,11 @@ class StoreSut {
     await _whenFunction();
   }
 
+  Future<void> thenExpectNothing() async {
+    Future.delayed(Duration(milliseconds: 50), () => givenStore.teardown());
+    await _whenFunction();
+  }
+
   Future<void> thenDebugStates(dynamic Function(AppState) info) async {
     expect(givenStore.onChange, emitsThrough(DebugMatcher(info)));
     await _whenFunction();

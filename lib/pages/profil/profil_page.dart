@@ -92,6 +92,11 @@ class _Scaffold extends StatelessWidget {
                     title: Strings.activityShareLabel,
                     onTap: () => Navigator.push(context, PartageActivitePage.materialPageRoute()),
                   ),
+                  _ListTileData(
+                    title: Strings.notificationsLabel,
+                    externalLink: true,
+                    onTap: viewModel.onOpenAppSettings,
+                  ),
                 ]),
                 SizedBox(height: Margins.spacing_m),
                 _SectionTitle(Strings.legalInformation),
@@ -284,19 +289,22 @@ class _ListTileCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: tiles
               .map(
-                (data) => [
-                  ListTile(
-                    onTap: data.onTap,
-                    title: Text(data.title, style: TextStyles.textBaseRegular),
-                    trailing: Icon(
-                      externalRedirect ? AppIcons.open_in_new_rounded : AppIcons.chevron_right_rounded,
-                      semanticLabel: externalRedirect ? Strings.openInNavigator : Strings.openInNewTab,
-                      size: externalRedirect ? Dimens.icon_size_base : Dimens.icon_size_m,
-                      color: AppColors.contentColor,
+                (data) {
+                  final externalLink = externalRedirect || data.externalLink;
+                  return [
+                    ListTile(
+                      onTap: data.onTap,
+                      title: Text(data.title, style: TextStyles.textBaseRegular),
+                      trailing: Icon(
+                        externalLink ? AppIcons.open_in_new_rounded : AppIcons.chevron_right_rounded,
+                        semanticLabel: externalLink ? Strings.openInNavigator : Strings.openInNewTab,
+                        size: externalLink ? Dimens.icon_size_base : Dimens.icon_size_m,
+                        color: AppColors.contentColor,
+                      ),
                     ),
-                  ),
-                  Divider(color: AppColors.grey100, height: 0),
-                ],
+                    Divider(color: AppColors.grey100, height: 0),
+                  ];
+                },
               )
               .expand((e) => e)
               .toList()
@@ -310,8 +318,9 @@ class _ListTileCard extends StatelessWidget {
 class _ListTileData {
   final String title;
   final VoidCallback onTap;
+  final bool externalLink;
 
-  _ListTileData({required this.title, required this.onTap});
+  _ListTileData({required this.title, required this.onTap, this.externalLink = false});
 }
 
 void _launchAndTrackExternalLink(String link) {

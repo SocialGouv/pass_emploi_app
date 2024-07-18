@@ -47,6 +47,7 @@ import 'package:pass_emploi_app/features/message_important/message_important_mid
 import 'package:pass_emploi_app/features/metier/search_metier_middleware.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_middleware.dart';
+import 'package:pass_emploi_app/features/notifications_settings/notifications_settings_middleware.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_middleware.dart';
 import 'package:pass_emploi_app/features/onboarding/onboarding_middleware.dart';
 import 'package:pass_emploi_app/features/partage_activite/partage_activite_middleware.dart';
@@ -391,6 +392,7 @@ class StoreFactory {
         FirstLaunchOnboardingMiddleware(firstLaunchOnboardingRepository).call,
         MessageImportantMiddleware(chatRepository, detailsJeuneRepository).call,
         MatchingDemarcheMiddleware(matchingDemarcheRepository).call,
+        NotificationsSettingsMiddleware(pushNotificationManager).call,
         /*AUTOGENERATE-REDUX-STOREFACTORY-ADD-MIDDLEWARE*/
         ..._debugMiddlewares(),
         ..._stagingMiddlewares(initialState.configurationState.getFlavor()),
