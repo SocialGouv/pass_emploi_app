@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_actions.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_page.dart';
 import 'package:pass_emploi_app/pages/chat/chat_page.dart';
@@ -118,6 +119,14 @@ class MainPageState extends State<MainPage> with WidgetsBindingObserver {
 
   void _onItemTapped(int index, MainPageViewModel viewModel) {
     setState(() => _selectedIndex = index);
+    if (viewModel.tabs[index] == MainTab.solutions) {
+      PassEmploiMatomoTracker.instance.trackEvent(
+        eventCategory: viewModel.withOffresWording
+            ? AnalyticsEventNames.wordingRechercheOffresCategoryA
+            : AnalyticsEventNames.wordingRechercheOffresCategoryB,
+        action: AnalyticsEventNames.wordingRechercheOffresSelected,
+      );
+    }
   }
 
   Widget _content(int index, MainPageViewModel viewModel) {
@@ -260,7 +269,7 @@ extension _MainTab on MainTab {
         return menu.MenuItem(
           defaultIcon: AppIcons.pageview_rounded,
           inactiveIcon: AppIcons.pageview_outlined,
-          label: Strings.menuSolutions,
+          label: viewModel.withOffresWording ? Strings.menuSolutionsOffres : Strings.menuSolutions,
         );
       case MainTab.evenements:
         return menu.MenuItem(

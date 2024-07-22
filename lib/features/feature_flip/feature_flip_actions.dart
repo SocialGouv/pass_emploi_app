@@ -16,6 +16,12 @@ class FeatureFlipBoiteAOutilsABTestingAction {
   FeatureFlipBoiteAOutilsABTestingAction(this.boiteAOutilsMisEnAvant);
 }
 
+class FeatureFlipOffresWordingABTestingAction {
+  final bool withOffresWording;
+
+  FeatureFlipOffresWordingABTestingAction(this.withOffresWording);
+}
+
 class FeatureFlipCampagneRecrutementAction {
   final bool withCampagneRecrutement;
 

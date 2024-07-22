@@ -280,6 +280,11 @@ class AnalyticsEventNames {
 
   static const baoAffichageAccueil = "Affichage accueil";
   static const baoVoirTousLesOutils = "Clic voir tous les outils";
+
+  static const wordingRechercheOffresCategoryA = "Recherche/Offres - A";
+  static const wordingRechercheOffresCategoryB = "Recherche/Offres - B";
+
+  static const wordingRechercheOffresSelected = "Clic onglet Recherche/Offres";
 }
 
 class AnalyticsCustomDimensions {

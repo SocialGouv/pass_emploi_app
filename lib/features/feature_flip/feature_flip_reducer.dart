@@ -7,6 +7,9 @@ FeatureFlipState featureFlipReducer(FeatureFlipState current, dynamic action) {
   if (action is FeatureFlipBoiteAOutilsABTestingAction) {
     return FeatureFlipState(current.featureFlip.copyWith(boiteAOutilsMisEnAvant: action.boiteAOutilsMisEnAvant));
   }
+  if (action is FeatureFlipOffresWordingABTestingAction) {
+    return FeatureFlipState(current.featureFlip.copyWith(withOffresWording: action.withOffresWording));
+  }
   if (action is FeatureFlipCampagneRecrutementAction) {
     return FeatureFlipState(current.featureFlip.copyWith(withCampagneRecrutement: action.withCampagneRecrutement));
   }
