@@ -22,6 +22,7 @@ class MainPageViewModel extends Equatable {
   final bool useCvm;
   final Function resetDeeplink;
   final String actualisationPoleEmploiUrl;
+  final bool withOffresWording;
 
   MainPageViewModel({
     required this.tabs,
@@ -29,6 +30,7 @@ class MainPageViewModel extends Equatable {
     required this.useCvm,
     required this.resetDeeplink,
     required this.actualisationPoleEmploiUrl,
+    required this.withOffresWording,
   });
 
   factory MainPageViewModel.create(Store<AppState> store) {
@@ -45,9 +47,10 @@ class MainPageViewModel extends Equatable {
       useCvm: store.state.featureFlipState.featureFlip.useCvm,
       resetDeeplink: () => store.dispatch(ResetDeeplinkAction()),
       actualisationPoleEmploiUrl: store.state.configurationState.configuration?.actualisationPoleEmploiUrl ?? "",
+      withOffresWording: store.state.featureFlipState.featureFlip.withOffresWording,
     );
   }
 
   @override
-  List<Object?> get props => [tabs, withChatBadge, useCvm];
+  List<Object?> get props => [tabs, withChatBadge, useCvm, withOffresWording];
 }
