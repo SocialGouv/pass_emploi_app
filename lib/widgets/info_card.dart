@@ -14,6 +14,7 @@ class InfoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return CardContainer(
       backgroundColor: AppColors.primaryLighten,
+      withShadow: false,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
