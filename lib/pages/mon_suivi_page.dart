@@ -202,10 +202,6 @@ class _Content extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _WarningCard(
-          label: Strings.monSuiviPoleEmploiDataError,
-          onPressed: () => viewModel.onRetry(),
-        ),
         if (viewModel.withWarningOnWrongPoleEmploiDataRetrieval) ...[
           SizedBox(height: Margins.spacing_s),
           _WarningCard(
