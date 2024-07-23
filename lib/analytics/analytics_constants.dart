@@ -284,6 +284,7 @@ class AnalyticsEventNames {
   static const wordingRechercheOffresCategoryA = "Recherche/Offres - A";
   static const wordingRechercheOffresCategoryB = "Recherche/Offres - B";
 
+  static const wordingRechercheOffresAffichage = "Affichage";
   static const wordingRechercheOffresSelected = "Clic onglet Recherche/Offres";
 }
 

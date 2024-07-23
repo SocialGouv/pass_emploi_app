@@ -72,6 +72,13 @@ class MainPageState extends State<MainPage> with WidgetsBindingObserver {
     return StoreConnector<AppState, MainPageViewModel>(
       converter: (store) => MainPageViewModel.create(store),
       onInitialBuild: (viewModel) {
+        PassEmploiMatomoTracker.instance.trackEvent(
+          eventCategory: viewModel.withOffresWording
+              ? AnalyticsEventNames.wordingRechercheOffresCategoryA
+              : AnalyticsEventNames.wordingRechercheOffresCategoryB,
+          action: AnalyticsEventNames.wordingRechercheOffresAffichage,
+        );
+
         if (widget.displayState == MainPageDisplayState.actualisationPoleEmploi) {
           viewModel.resetDeeplink();
           _showActualisationPeDialog(viewModel.actualisationPoleEmploiUrl);
