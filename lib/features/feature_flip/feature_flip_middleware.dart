@@ -37,7 +37,7 @@ class FeatureFlipMiddleware extends MiddlewareClass<AppState> {
       final idsConseiller = _remoteConfigRepository.getIdsConseillerCvmEarlyAdopters();
       if (idsConseiller.isEmpty) return;
 
-      final jeune = await _detailsJeuneRepository.fetch(userId);
+      final jeune = await _detailsJeuneRepository.get(userId);
       if (idsConseiller.contains(jeune?.conseiller.id)) {
         store.dispatch(FeatureFlipUseCvmAction(true));
       }
@@ -51,7 +51,7 @@ class FeatureFlipMiddleware extends MiddlewareClass<AppState> {
       final idsMilo = _remoteConfigRepository.getIdsMiloPjEarlyAdopters();
       if (idsMilo.isEmpty) return;
 
-      final jeune = await _detailsJeuneRepository.fetch(userId);
+      final jeune = await _detailsJeuneRepository.get(userId);
       if (idsMilo.contains(jeune?.structure?.id)) {
         store.dispatch(FeatureFlipUsePjAction(true));
       }

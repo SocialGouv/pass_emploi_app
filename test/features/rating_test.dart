@@ -79,7 +79,7 @@ class DetailsJeuneRepositorySinceLessOneMonthStub extends DetailsJeuneRepository
   DetailsJeuneRepositorySinceLessOneMonthStub() : super(DioMock());
 
   @override
-  Future<DetailsJeune?> fetch(String userId) async {
+  Future<DetailsJeune?> get(String userId) async {
     return detailsJeuneSinceLessThanOneMonth();
   }
 }
@@ -88,7 +88,7 @@ class DetailsJeuneRepositorySinceOneMonthStub extends DetailsJeuneRepository {
   DetailsJeuneRepositorySinceOneMonthStub() : super(DioMock());
 
   @override
-  Future<DetailsJeune?> fetch(String userId) async {
+  Future<DetailsJeune?> get(String userId) async {
     return detailsJeuneSinceOneMonth();
   }
 }

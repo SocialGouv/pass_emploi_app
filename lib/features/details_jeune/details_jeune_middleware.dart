@@ -20,7 +20,7 @@ class DetailsJeuneMiddleware extends MiddlewareClass<AppState> {
     if (loginState is! LoginSuccessState) return;
 
     store.dispatch(DetailsJeuneLoadingAction());
-    final result = await _repository.fetch(loginState.user.id);
+    final result = await _repository.get(loginState.user.id);
 
     if (result != null) {
       store.dispatch(DetailsJeuneSuccessAction(detailsJeune: result));

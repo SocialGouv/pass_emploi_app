@@ -38,7 +38,7 @@ void main() {
           test('should load then succeed when request succeeds', () {
             when(() => remoteConfigRepository.useCvm()).thenReturn(false);
             when(() => remoteConfigRepository.getIdsConseillerCvmEarlyAdopters()).thenReturn(["id-conseiller-ea"]);
-            when(() => detailsJeuneRepository.fetch("id")) //
+            when(() => detailsJeuneRepository.get("id")) //
                 .thenAnswer((_) async => mockDetailsJeune(idConseiller: "id-conseiller-ea"));
 
             sut.givenStore = givenState() //
@@ -57,7 +57,7 @@ void main() {
           test('should load then succeed when request succeeds', () async {
             when(() => remoteConfigRepository.useCvm()).thenReturn(false);
             when(() => remoteConfigRepository.getIdsConseillerCvmEarlyAdopters()).thenReturn(["id-conseiller-ea"]);
-            when(() => detailsJeuneRepository.fetch("id")) //
+            when(() => detailsJeuneRepository.get("id")) //
                 .thenAnswer((_) async => mockDetailsJeune(idConseiller: "id-conseiller"));
 
             sut.givenStore = givenState() //
@@ -141,7 +141,7 @@ void main() {
           // Given
           when(() => remoteConfigRepository.usePj()).thenReturn(false);
           when(() => remoteConfigRepository.getIdsMiloPjEarlyAdopters()).thenReturn(["id-mission-locale-ea"]);
-          when(() => detailsJeuneRepository.fetch("id")) //
+          when(() => detailsJeuneRepository.get("id")) //
               .thenAnswer((_) async => mockDetailsJeune(structure: StructureMilo("id-mission-locale-ea", null)));
 
           // When
@@ -161,7 +161,7 @@ void main() {
           // Given
           when(() => remoteConfigRepository.usePj()).thenReturn(false);
           when(() => remoteConfigRepository.getIdsMiloPjEarlyAdopters()).thenReturn(["id-mission-locale-ea"]);
-          when(() => detailsJeuneRepository.fetch("id")) //
+          when(() => detailsJeuneRepository.get("id")) //
               .thenAnswer((_) async => mockDetailsJeune(structure: StructureMilo("id-mission-locale", null)));
 
           // When

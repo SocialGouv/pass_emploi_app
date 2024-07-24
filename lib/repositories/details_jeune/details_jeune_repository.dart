@@ -8,7 +8,7 @@ class DetailsJeuneRepository {
 
   DetailsJeuneRepository(this._httpClient, [this._crashlytics]);
 
-  Future<DetailsJeune?> fetch(String userId) async {
+  Future<DetailsJeune?> get(String userId) async {
     final url = "/jeunes/$userId";
     try {
       final response = await _httpClient.get(url);

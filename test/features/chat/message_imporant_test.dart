@@ -34,7 +34,7 @@ void main() {
             .copyWith(detailsJeuneState: DetailsJeuneSuccessState(detailsJeune: detailsJeune())) //
             .store((f) => {
                   f.chatRepository = chatRepository..withGetMessageImportantSuccess(),
-                  f.detailsJeuneRepository = detailsJeuneRepository..withFetchDetailsJeuneSuccess(),
+                  f.detailsJeuneRepository = detailsJeuneRepository..withGetDetailsJeuneSuccess(),
                 });
 
         // When & Then
@@ -48,7 +48,7 @@ void main() {
             .copyWith(detailsJeuneState: DetailsJeuneSuccessState(detailsJeune: detailsJeune())) //
             .store((f) => {
                   f.chatRepository = chatRepository..withGetMessageImportantSuccess(),
-                  f.detailsJeuneRepository = detailsJeuneRepository..withFetchDetailsJeuneFailure(),
+                  f.detailsJeuneRepository = detailsJeuneRepository..withGetDetailsJeuneFailure(),
                 });
 
         // When & Then
@@ -76,9 +76,9 @@ class _MockChatRepository extends Mock implements ChatRepository {
 }
 
 class _MockDetailsJeuneRepository extends Mock implements DetailsJeuneRepository {
-  void withFetchDetailsJeuneSuccess() => when(() => fetch(any())).thenAnswer((_) async => detailsJeune());
+  void withGetDetailsJeuneSuccess() => when(() => get(any())).thenAnswer((_) async => detailsJeune());
 
-  void withFetchDetailsJeuneFailure() => when(() => fetch(any())).thenAnswer((_) async => null);
+  void withGetDetailsJeuneFailure() => when(() => get(any())).thenAnswer((_) async => null);
 }
 
 Matcher _shouldSucceed() => StateIs<MessageImportantSuccessState>((state) => state.messageImportantState);

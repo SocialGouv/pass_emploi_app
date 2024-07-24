@@ -9,8 +9,8 @@ void main() {
   final sut = DioRepositorySut<DetailsJeuneRepository>();
   sut.givenRepository((client) => DetailsJeuneRepository(client));
 
-  group("fetch", () {
-    sut.when((repository) => repository.fetch("id-jeune"));
+  group("get", () {
+    sut.when((repository) => repository.get("id-jeune"));
 
     group('when response is valid', () {
       sut.givenJsonResponse(fromJson: "details_jeune.json");

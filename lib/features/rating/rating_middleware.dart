@@ -20,7 +20,7 @@ class RatingMiddleware extends MiddlewareClass<AppState> {
       final loginState = store.state.loginState;
       if (loginState is LoginSuccessState) {
         final userId = loginState.user.id;
-        final user = await _userRepository.fetch(userId);
+        final user = await _userRepository.get(userId);
         if (user != null && _shouldRate(user.conseiller.sinceDate)) {
           final showRating = await _ratingRepository.shouldShowRating();
           if (showRating) store.dispatch(ShowRatingAction());

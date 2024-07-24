@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/features/alerte/create/alerte_create_reducer.dar
 import 'package:pass_emploi_app/features/alerte/delete/alerte_delete_reducer.dart';
 import 'package:pass_emploi_app/features/alerte/list/alerte_list_reducer.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_reducer.dart';
+import 'package:pass_emploi_app/features/cgu/cgu_reducer.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_reducer.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_reducer.dart';
 import 'package:pass_emploi_app/features/chat/partage/chat_partage_reducer.dart';
@@ -183,6 +184,7 @@ AppState reducer(AppState current, dynamic action) {
     firstLaunchOnboardingState: firstLaunchOnboardingReducer(current.firstLaunchOnboardingState, action),
     messageImportantState: messageImportantReducer(current.messageImportantState, action),
     matchingDemarcheState: matchingDemarcheReducer(current.matchingDemarcheState, action),
+    cguState: cguReducer(current.cguState, action),
     /*AUTOGENERATE-REDUX-APP-REDUCER-STATE*/
   );
 }

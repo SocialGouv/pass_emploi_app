@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/features/alerte/create/alerte_create_state.dart'
 import 'package:pass_emploi_app/features/alerte/delete/alerte_delete_state.dart';
 import 'package:pass_emploi_app/features/alerte/list/alerte_list_state.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
+import 'package:pass_emploi_app/features/cgu/cgu_state.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_state.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/partage/chat_partage_state.dart';
@@ -143,6 +144,7 @@ class AppState extends Equatable {
   final FirstLaunchOnboardingState firstLaunchOnboardingState;
   final MessageImportantState messageImportantState;
   final MatchingDemarcheState matchingDemarcheState;
+  final CguState cguState;
   /*AUTOGENERATE-REDUX-APP-STATE-PROPERTY*/
 
   AppState({
@@ -215,6 +217,7 @@ class AppState extends Equatable {
     required this.firstLaunchOnboardingState,
     required this.messageImportantState,
     required this.matchingDemarcheState,
+    required this.cguState,
     /*AUTOGENERATE-REDUX-APP-STATE-CONSTRUCTOR*/
   });
 
@@ -288,6 +291,7 @@ class AppState extends Equatable {
     final FirstLaunchOnboardingState? firstLaunchOnboardingState,
     final MessageImportantState? messageImportantState,
     final MatchingDemarcheState? matchingDemarcheState,
+    final CguState? cguState,
     /*AUTOGENERATE-REDUX-APP-STATE-COPYPARAM*/
   }) {
     return AppState(
@@ -360,6 +364,7 @@ class AppState extends Equatable {
       firstLaunchOnboardingState: firstLaunchOnboardingState ?? this.firstLaunchOnboardingState,
       messageImportantState: messageImportantState ?? this.messageImportantState,
       matchingDemarcheState: matchingDemarcheState ?? this.matchingDemarcheState,
+      cguState: cguState ?? this.cguState,
       /*AUTOGENERATE-REDUX-APP-STATE-COPYBODY*/
     );
   }
@@ -435,6 +440,7 @@ class AppState extends Equatable {
       firstLaunchOnboardingState: FirstLaunchOnboardingNotInitializedState(),
       messageImportantState: MessageImportantNotInitializedState(),
       matchingDemarcheState: MatchingDemarcheNotInitializedState(),
+      cguState: CguNotInitializedState(),
       /*AUTOGENERATE-REDUX-APP-STATE-FACTORY*/
     );
   }
@@ -503,6 +509,7 @@ class AppState extends Equatable {
         firstLaunchOnboardingState,
         messageImportantState,
         matchingDemarcheState,
+        cguState,
         /*AUTOGENERATE-REDUX-APP-STATE-EQUATABLE*/
       ];
 

@@ -58,7 +58,7 @@ class DetailsJeuneRepositorySuccessStub extends DetailsJeuneRepository {
   DetailsJeuneRepositorySuccessStub() : super(DioMock());
 
   @override
-  Future<DetailsJeune?> fetch(String userId) async {
+  Future<DetailsJeune?> get(String userId) async {
     return detailsJeune();
   }
 }
@@ -67,7 +67,7 @@ class DetailsJeuneRepositoryErrorStub extends DetailsJeuneRepository {
   DetailsJeuneRepositoryErrorStub() : super(DioMock());
 
   @override
-  Future<DetailsJeune?> fetch(String userId) async {
+  Future<DetailsJeune?> get(String userId) async {
     return null;
   }
 }

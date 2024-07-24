@@ -1,4 +1,5 @@
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:pass_emploi_app/models/cgu.dart';
 
 class RemoteConfigRepository {
   final FirebaseRemoteConfig? _firebaseRemoteConfig;
@@ -53,5 +54,12 @@ class RemoteConfigRepository {
   List<String> getIdsMiloPjEarlyAdopters() {
     if (_firebaseRemoteConfig == null) return [];
     return _firebaseRemoteConfig.getString('ids_milo_pj_early_adopters').split(',');
+  }
+
+  Cgu? getCgu() {
+    if (_firebaseRemoteConfig == null) return null;
+    final String cguAsString = _firebaseRemoteConfig.getString('cgu');
+    if (cguAsString.isEmpty) return null;
+    return Cgu.fromJson(cguAsString);
   }
 }
