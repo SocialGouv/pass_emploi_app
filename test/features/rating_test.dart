@@ -80,7 +80,7 @@ class DetailsJeuneRepositorySinceLessOneMonthStub extends DetailsJeuneRepository
 
   @override
   Future<DetailsJeune?> fetch(String userId) async {
-    return detailsJeuneSinceLessOneMonth();
+    return detailsJeuneSinceLessThanOneMonth();
   }
 }
 

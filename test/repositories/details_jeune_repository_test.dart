@@ -28,6 +28,7 @@ void main() {
           expect(
               result,
               DetailsJeune(
+                dateSignatureCgu: parseDateTimeUtcWithCurrentTimeZone('2024-01-01T18:00:00.000Z'),
                 conseiller: DetailsJeuneConseiller(
                   id: "ID_CONSEILLER",
                   firstname: "Nils",
