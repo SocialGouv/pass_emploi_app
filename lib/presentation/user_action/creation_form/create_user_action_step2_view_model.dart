@@ -7,6 +7,7 @@ sealed class CreateActionTitleSource {
   bool get isFromSuggestions => this is CreateActionTitleFromSuggestions;
   bool get isFromUserInput => this is CreateActionTitleFromUserInput;
   bool get isNone => this is CreateActionTitleNotInitialized;
+  bool get isNotNone => this is! CreateActionTitleNotInitialized;
 }
 
 class CreateActionTitleNotInitialized extends CreateActionTitleSource {

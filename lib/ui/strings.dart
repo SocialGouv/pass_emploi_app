@@ -449,6 +449,8 @@ class Strings {
   static const String userActionSubtitleStep2 = '*Pouvez-vous nous en dire plus ?';
   static const String userActionTitleTextfieldStep2 = '*Nommer mon action';
   static const String userActionDescriptionTextfieldStep2 = 'Décrire mon action';
+  static const String userActionDescriptionDescriptionfieldStep2 =
+      'Ajouter des détails pour que votre conseiller puisse valider votre action.';
 
   static const String userActionStatusRadioStep3 = 'L’action est :';
   static const String userActionStatusRadioCompletedStep3 = 'Terminée';

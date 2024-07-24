@@ -11,7 +11,7 @@ import 'package:pass_emploi_app/widgets/a11y/mandatory_fields_label.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_chip.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
 
-class CreateUserActionFormStep2 extends StatelessWidget {
+class CreateUserActionFormStep2 extends StatefulWidget {
   final UserActionReferentielType actionType;
   final CreateUserActionStep2ViewModel viewModel;
   final void Function(CreateActionTitleSource) onTitleChanged;
@@ -24,7 +24,14 @@ class CreateUserActionFormStep2 extends StatelessWidget {
     required this.onDescriptionChanged,
   });
 
+  @override
+  State<CreateUserActionFormStep2> createState() => _CreateUserActionFormStep2State();
+}
+
+class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
   final descriptionKey = GlobalKey();
+
+  final descriptionFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -41,33 +48,56 @@ class CreateUserActionFormStep2 extends StatelessWidget {
             Text(Strings.userActionSubtitleStep2, style: TextStyles.textBaseBold),
             const SizedBox(height: Margins.spacing_m),
             _SuggestionTagWrap(
-              titleSource: viewModel.titleSource,
-              onSelected: onTitleChanged,
-              actionType: actionType,
+              titleSource: widget.viewModel.titleSource,
+              onSelected: (value) {
+                widget.onTitleChanged(value);
+                Future.delayed(AnimationDurations.fast, () {
+                  descriptionFocusNode.requestFocus();
+                  _scrollToDescription(context);
+                });
+              },
+              actionType: widget.actionType,
             ),
-            if (viewModel.titleSource.isFromUserInput) ...[
+            if (widget.viewModel.titleSource.isFromUserInput) ...[
               const SizedBox(height: Margins.spacing_m),
               Text(Strings.userActionTitleTextfieldStep2, style: TextStyles.textBaseBold),
               const SizedBox(height: Margins.spacing_s),
               BaseTextField(
-                initialValue: viewModel.titleSource.title,
-                onChanged: (value) => onTitleChanged(CreateActionTitleFromUserInput(value)),
+                initialValue: widget.viewModel.titleSource.title,
+                onChanged: (value) => widget.onTitleChanged(CreateActionTitleFromUserInput(value)),
               ),
             ],
             const SizedBox(height: Margins.spacing_m),
-            Text(
-              Strings.userActionDescriptionTextfieldStep2,
-              key: descriptionKey,
-              style: TextStyles.textBaseBold,
-            ),
-            const SizedBox(height: Margins.spacing_s),
-            BaseTextField(
-              initialValue: viewModel.description,
-              maxLines: 5,
-              onChanged: (value) {
-                onDescriptionChanged(value);
-                _scrollToDescription(context);
-              },
+            AnimatedSwitcher(
+              duration: AnimationDurations.fast,
+              child: widget.viewModel.titleSource.isNone
+                  ? SizedBox.shrink()
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          Strings.userActionDescriptionTextfieldStep2,
+                          key: descriptionKey,
+                          style: TextStyles.textBaseBold,
+                        ),
+                        const SizedBox(height: Margins.spacing_s),
+                        Text(
+                          Strings.userActionDescriptionDescriptionfieldStep2,
+                          style: TextStyles.textSRegular(),
+                        ),
+                        const SizedBox(height: Margins.spacing_s),
+                        const SizedBox(height: Margins.spacing_s),
+                        BaseTextField(
+                          focusNode: descriptionFocusNode,
+                          initialValue: widget.viewModel.description,
+                          maxLines: 5,
+                          onChanged: (value) {
+                            widget.onDescriptionChanged(value);
+                            _scrollToDescription(context);
+                          },
+                        ),
+                      ],
+                    ),
             ),
             // To ensure scrolling is available, and hence closing of keyboard
             SizedBox(height: 600),
