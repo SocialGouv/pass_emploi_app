@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:pass_emploi_app/models/cgu.dart';
 
@@ -60,6 +62,6 @@ class RemoteConfigRepository {
     if (_firebaseRemoteConfig == null) return null;
     final String cguAsString = _firebaseRemoteConfig.getString('cgu');
     if (cguAsString.isEmpty) return null;
-    return Cgu.fromJson(cguAsString);
+    return Cgu.fromJson(json.decode(cguAsString));
   }
 }

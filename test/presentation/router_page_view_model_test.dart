@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
-import 'package:pass_emploi_app/models/brand.dart';
+import 'package:pass_emploi_app/models/cgu.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/models/tutorial/tutorial.dart';
 import 'package:pass_emploi_app/models/version.dart';
@@ -21,12 +21,11 @@ import '../dsl/app_state_dsl.dart';
 
 void main() {
   test('RouterPageViewModel.create when login not initialized should display splash screen', () {
-    Brand.setBrand(Brand.cej);
     final store = givenState().store();
 
     final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
-    expect(viewModel.routerPageDisplayState, RouterPageDisplayState.SPLASH);
+    expect(viewModel.routerPageDisplayState, RouterPageDisplayState.splash);
   });
 
   test('…with login initialized and onboarding not initialized should display splash screen', () {
@@ -34,7 +33,7 @@ void main() {
 
     final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
-    expect(viewModel.routerPageDisplayState, RouterPageDisplayState.SPLASH);
+    expect(viewModel.routerPageDisplayState, RouterPageDisplayState.splash);
   });
 
   group("RouterPageViewModel.create when user not logged in…", () {
@@ -46,7 +45,7 @@ void main() {
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
-      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.ONBOARDING);
+      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.onboarding);
     });
 
     test('…without first launch onboarding should display login page', () {
@@ -57,7 +56,7 @@ void main() {
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
-      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.LOGIN);
+      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.login);
     });
 
     test('…with not logged state in should display login page', () {
@@ -68,7 +67,7 @@ void main() {
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
-      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.LOGIN);
+      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.login);
     });
 
     test('…with not logged state in should display login page', () {
@@ -79,7 +78,7 @@ void main() {
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
-      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.LOGIN);
+      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.login);
     });
 
     test('…with login loading state should display login page', () {
@@ -90,7 +89,7 @@ void main() {
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
-      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.LOGIN);
+      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.login);
     });
 
     test('…with login failure state should display login page', () {
@@ -101,7 +100,7 @@ void main() {
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
-      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.LOGIN);
+      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.login);
     });
   });
 
@@ -114,7 +113,7 @@ void main() {
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
-      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.MAIN);
+      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.main);
     });
 
     test('…and deep link not set should display main page with accueil display state', () {
@@ -126,7 +125,7 @@ void main() {
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
-      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.MAIN);
+      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.main);
       expect(viewModel.mainPageDisplayState, MainPageDisplayState.accueil);
     });
 
@@ -139,7 +138,7 @@ void main() {
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
-      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.MAIN);
+      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.main);
       expect(viewModel.mainPageDisplayState, MainPageDisplayState.monSuivi);
     });
 
@@ -152,7 +151,7 @@ void main() {
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
-      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.MAIN);
+      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.main);
       expect(viewModel.mainPageDisplayState, MainPageDisplayState.accueil);
     });
 
@@ -165,7 +164,7 @@ void main() {
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
-      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.MAIN);
+      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.main);
       expect(viewModel.mainPageDisplayState, MainPageDisplayState.accueil);
     });
 
@@ -178,7 +177,7 @@ void main() {
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
-      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.MAIN);
+      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.main);
       expect(viewModel.mainPageDisplayState, MainPageDisplayState.accueil);
     });
 
@@ -191,7 +190,7 @@ void main() {
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
-      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.MAIN);
+      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.main);
       expect(viewModel.mainPageDisplayState, MainPageDisplayState.accueil);
     });
 
@@ -204,7 +203,7 @@ void main() {
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
-      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.MAIN);
+      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.main);
       expect(viewModel.mainPageDisplayState, MainPageDisplayState.accueil);
     });
 
@@ -230,7 +229,7 @@ void main() {
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
-      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.MAIN);
+      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.main);
       expect(viewModel.mainPageDisplayState, MainPageDisplayState.chat);
     });
 
@@ -267,7 +266,7 @@ void main() {
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
-      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.MAIN);
+      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.main);
       expect(viewModel.mainPageDisplayState, MainPageDisplayState.evenements);
     });
 
@@ -280,7 +279,31 @@ void main() {
 
       final viewModel = RouterPageViewModel.create(store, Platform.IOS);
 
-      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.TUTORIAL);
+      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.tutorial);
+    });
+
+    test('should show cgu if user has never accepted them', () {
+      final store = givenState() //
+          .loggedIn()
+          .withFirstLaunchOnboardingSuccessState(false)
+          .withCguNeverAccepted()
+          .store();
+
+      final viewModel = RouterPageViewModel.create(store, Platform.IOS);
+
+      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.cgu);
+    });
+
+    test('should show cgu if user has accepted an older version', () {
+      final store = givenState() //
+          .loggedIn()
+          .withFirstLaunchOnboardingSuccessState(false)
+          .withCguUpdateRequired(Cgu(lastUpdate: DateTime(2022), changes: []))
+          .store();
+
+      final viewModel = RouterPageViewModel.create(store, Platform.IOS);
+
+      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.cgu);
     });
   });
 

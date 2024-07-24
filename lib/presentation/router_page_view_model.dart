@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/cgu/cgu_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/first_launch_onboarding/first_launch_onboarding_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
@@ -11,7 +12,7 @@ import 'package:pass_emploi_app/utils/platform.dart';
 import 'package:pass_emploi_app/utils/store_extensions.dart';
 import 'package:redux/redux.dart';
 
-enum RouterPageDisplayState { SPLASH, ONBOARDING, LOGIN, MAIN, TUTORIAL }
+enum RouterPageDisplayState { splash, onboarding, login, cgu, main, tutorial }
 
 class RouterPageViewModel extends Equatable {
   final RouterPageDisplayState routerPageDisplayState;
@@ -58,24 +59,27 @@ RouterPageDisplayState _routerPageDisplayState(Store<AppState> store) {
   final loginState = store.state.loginState;
   final tutoState = store.state.tutorialState;
   final onboardingState = store.state.firstLaunchOnboardingState;
+  final cguState = store.state.cguState;
 
   if (loginState is LoginNotInitializedState || onboardingState is FirstLaunchOnboardingNotInitializedState) {
-    return RouterPageDisplayState.SPLASH;
+    return RouterPageDisplayState.splash;
   }
 
   if (loginState is LoginSuccessState) {
-    if (tutoState is ShowTutorialState) {
-      return RouterPageDisplayState.TUTORIAL;
+    if (cguState is CguNeverAcceptedState || cguState is CguUpdateRequiredState) {
+      return RouterPageDisplayState.cgu;
+    } else if (tutoState is ShowTutorialState) {
+      return RouterPageDisplayState.tutorial;
     } else {
-      return RouterPageDisplayState.MAIN;
+      return RouterPageDisplayState.main;
     }
   }
 
   if (onboardingState is FirstLaunchOnboardingSuccessState && onboardingState.showOnboarding) {
-    return RouterPageDisplayState.ONBOARDING;
+    return RouterPageDisplayState.onboarding;
   }
 
-  return RouterPageDisplayState.LOGIN;
+  return RouterPageDisplayState.login;
 }
 
 MainPageDisplayState _toMainPageDisplayState(Store<AppState> store) {

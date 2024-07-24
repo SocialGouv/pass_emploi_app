@@ -129,6 +129,7 @@ class AnalyticsScreenNames {
   static const diagorienteFavoris = "/diagoriente/favoris";
 
   static const cvListPage = "/cv/list";
+  static const cguPage = "cgu";
 }
 
 class AnalyticsActionNames {

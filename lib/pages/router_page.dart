@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/features/bootstrap/bootstrap_action.dart';
 import 'package:pass_emploi_app/features/connectivity/connectivity_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
+import 'package:pass_emploi_app/pages/cgu_page.dart';
 import 'package:pass_emploi_app/pages/first_lauch_onboarding_page.dart';
 import 'package:pass_emploi_app/pages/login_page.dart';
 import 'package:pass_emploi_app/pages/main_page.dart';
@@ -73,11 +74,12 @@ class _RouterPageState extends State<RouterPage> with WidgetsBindingObserver {
 
   Widget _content(RouterPageViewModel viewModel) {
     return switch (viewModel.routerPageDisplayState) {
-      RouterPageDisplayState.SPLASH => SplashScreenPage(),
-      RouterPageDisplayState.ONBOARDING => FirstLaunchOnboardingPage(),
-      RouterPageDisplayState.LOGIN => LoginPage(),
-      RouterPageDisplayState.TUTORIAL => TutorialPage(),
-      RouterPageDisplayState.MAIN => MainPage(
+      RouterPageDisplayState.splash => SplashScreenPage(),
+      RouterPageDisplayState.onboarding => FirstLaunchOnboardingPage(),
+      RouterPageDisplayState.login => LoginPage(),
+      RouterPageDisplayState.cgu => CguPage(),
+      RouterPageDisplayState.tutorial => TutorialPage(),
+      RouterPageDisplayState.main => MainPage(
           displayState: viewModel.mainPageDisplayState,
           deepLinkKey: viewModel.deepLinkKey,
         )
@@ -85,8 +87,8 @@ class _RouterPageState extends State<RouterPage> with WidgetsBindingObserver {
   }
 
   Future<void> _onWillChange(RouterPageViewModel? oldVm, RouterPageViewModel newVm) async {
-    if (newVm.routerPageDisplayState == RouterPageDisplayState.LOGIN ||
-        newVm.routerPageDisplayState == RouterPageDisplayState.MAIN) {
+    if (newVm.routerPageDisplayState == RouterPageDisplayState.login ||
+        newVm.routerPageDisplayState == RouterPageDisplayState.main) {
       _removeAllScreensAboveRouterPage();
     }
   }

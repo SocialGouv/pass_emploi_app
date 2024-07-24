@@ -9,3 +9,11 @@ class CguUpdateRequiredAction {
 
   CguUpdateRequiredAction(this.updatedCgu);
 }
+
+class CguAcceptedAction {
+  final DateTime date;
+
+  CguAcceptedAction(this.date);
+}
+
+class CguRefusedAction {}

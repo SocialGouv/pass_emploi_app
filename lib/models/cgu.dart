@@ -8,8 +8,8 @@ class Cgu extends Equatable {
 
   factory Cgu.fromJson(dynamic json) {
     return Cgu(
-      lastUpdate: json['lastUpdate'] as DateTime,
-      changes: json['changes'] as List<String>,
+      lastUpdate: DateTime.parse(json['lastUpdate'] as String),
+      changes: (json['changes'] as List<dynamic>).cast<String>(),
     );
   }
 
