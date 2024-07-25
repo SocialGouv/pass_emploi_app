@@ -49,4 +49,32 @@ void main() {
       });
     });
   });
+
+  group('patch', () {
+    sut.when((repository) => repository.patch("id-jeune", DateTime(2024, 1, 1)));
+
+    group('when response is valid', () {
+      sut.givenResponseCode(201);
+
+      test('request should be valid', () async {
+        await sut.expectRequestBody(
+          method: HttpMethod.patch,
+          url: "/jeunes/id-jeune",
+          jsonBody: {"dateSignatureCGU": "2024-01-01T00:00:00.000"},
+        );
+      });
+
+      test('response should be true', () async {
+        await sut.expectTrueAsResult();
+      });
+    });
+
+    group('when response is invalid', () {
+      sut.givenResponseCode(500);
+
+      test('response should be false', () async {
+        await sut.expectFalseAsResult();
+      });
+    });
+  });
 }

@@ -1,7 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:pass_emploi_app/features/cgu/cgu_actions.dart';
 import 'package:pass_emploi_app/features/cgu/cgu_state.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
+import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/models/cgu.dart';
 
 import '../../doubles/fixtures.dart';
@@ -75,10 +77,56 @@ void main() {
         sut.thenExpectChangingStatesThroughOrder([_shouldAcceptUpdatedCgu(cgu)]);
       });
     });
+
+    group("on CGU accepted", () {
+      sut.whenDispatchingAction(() => CguAcceptedAction(DateTime(2024)));
+
+      test('should call repository and update state if successful', () async {
+        when(() => detailsJeuneRepository.patch('id', DateTime(2024))).thenAnswer((_) async => true);
+
+        sut.givenStore = givenState() //
+            .loggedIn()
+            .store((f) => {
+                  f.detailsJeuneRepository = detailsJeuneRepository,
+                });
+
+        await sut.thenExpectChangingStatesThroughOrder([_shouldHaveAcceptedCgu()]);
+
+        verify(() => detailsJeuneRepository.patch('id', DateTime(2024))).called(1);
+      });
+
+      test('should call repository and keep current state if unsuccessful', () async {
+        when(() => detailsJeuneRepository.patch('id', DateTime(2024))).thenAnswer((_) async => false);
+
+        sut.givenStore = givenState() //
+            .loggedIn()
+            .store((f) => {
+                  f.detailsJeuneRepository = detailsJeuneRepository,
+                });
+
+        await sut.thenExpectNever(_shouldHaveAcceptedCgu());
+
+        verify(() => detailsJeuneRepository.patch('id', DateTime(2024))).called(1);
+      });
+    });
+
+    group("on CGU refused", () {
+      sut.whenDispatchingAction(() => CguRefusedAction());
+
+      test('should logout user', () async {
+        sut.givenStore = givenState() //
+            .loggedIn()
+            .store();
+
+        sut.thenExpectChangingStatesThroughOrder([_shouldLogout()]);
+      });
+    });
   });
 }
 
 Matcher _shouldAcceptCgu() => StateIs<CguNeverAcceptedState>((state) => state.cguState);
+
+Matcher _shouldHaveAcceptedCgu() => StateIs<CguAlreadyAcceptedState>((state) => state.cguState);
 
 Matcher _shouldNotAcceptCgu() => StateIs<CguAlreadyAcceptedState>((state) => state.cguState);
 
@@ -90,3 +138,5 @@ Matcher _shouldAcceptUpdatedCgu(Cgu expectedCgu) {
     },
   );
 }
+
+Matcher _shouldLogout() => StateIs<LoginNotInitializedState>((state) => state.loginState);

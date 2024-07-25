@@ -14,8 +14,17 @@ class CguMiddleware extends MiddlewareClass<AppState> {
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
-    if (action is! LoginSuccessAction) return;
+    if (action is LoginSuccessAction) {
+      _handleLoginAction(store, action);
+    } else if (action is CguAcceptedAction) {
+      final success = await _detailsJeuneRepository.patch(store.state.userId()!, action.date);
+      if (success) store.dispatch(CguAlreadyAcceptedAction());
+    } else if (action is CguRefusedAction) {
+      store.dispatch(RequestLogoutAction(LogoutReason.cguRefused));
+    }
+  }
 
+  void _handleLoginAction(Store<AppState> store, LoginSuccessAction action) async {
     final detailsJeune = await _detailsJeuneRepository.get(action.user.id);
     if (detailsJeune == null) return;
 
