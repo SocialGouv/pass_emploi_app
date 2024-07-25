@@ -1328,6 +1328,37 @@ class Strings {
       "Sélectionnez une ville dans laquelle vous cherchez une immersion.";
   static String suggestionLocalisationAddAlerteButton = "Ajouter l’alerte";
 
+  // CGU
+  static String cguNeverAcceptedTitle =
+      Brand.isCej() ? "Bienvenue sur l’application du CEJ" : "Bienvenue sur l’application pass emploi";
+  static String cguUpdateRequiredTitle = "Mise à jour des Conditions Générales d'Utilisation (CGU)";
+  static List<String> cguNeverAcceptedDescription = [
+    "L’utilisation de notre service est soumise à l’acception préalable de nos ",
+    "↗ Conditions Générales d’Utilisation",
+    ". Ces conditions définissent ",
+    "vos droits et obligations en tant qu'utilisateur ",
+    "de notre application.",
+  ];
+  static List<String> cguUpdateRequiredDescription = [
+    "Nous avons mis à jour nos CGU le ",
+    ". L’utilisation de notre service est soumise à l’acception préalable de nos ",
+    "↗ CGU.",
+    "\n\nPoints clés de la mise à jour :\n"
+  ];
+  static List<String> cguNeverAcceptedSwitch = [
+    "J’ai lu et j’accepte les",
+    "  ↗ Conditions Générales d’Utilisation",
+  ];
+  static List<String> cguUpdateRequiredSwitch = [
+    "J’ai lu et j’accepte les nouvelles",
+    "  ↗ CGU",
+  ];
+  static String cguSwitchError = "Acceptez les Conditions Générales d’Utilisation pour utiliser l’application.";
+  static String cguAccept = "Valider";
+  static String cguRefuse = "Refuser et se déconnecter";
+
+  static String cguSwitchLabel(bool accepted) => accepted ? "Refuser les cgu" : "Accepter les cgu";
+
   // textes alternatifs
   static String favoriHeartRemove = "Retirer l'offre des favoris";
   static String favoriHeartAdd = "Mettre l'offre en favoris";
