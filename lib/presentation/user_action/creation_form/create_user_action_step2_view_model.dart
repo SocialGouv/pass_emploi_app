@@ -3,6 +3,7 @@ part of 'create_user_action_form_view_model.dart';
 sealed class CreateActionTitleSource {
   bool get isValid;
   String get title;
+  String get descriptionHint;
 
   bool get isFromSuggestions => this is CreateActionTitleFromSuggestions;
   bool get isFromUserInput => this is CreateActionTitleFromUserInput;
@@ -16,10 +17,13 @@ class CreateActionTitleNotInitialized extends CreateActionTitleSource {
 
   @override
   String get title => "";
+
+  @override
+  String get descriptionHint => Strings.hintUserActionOther;
 }
 
 class CreateActionTitleFromSuggestions extends CreateActionTitleSource {
-  final String suggestion;
+  final UserActionCategory suggestion;
 
   CreateActionTitleFromSuggestions(this.suggestion);
 
@@ -27,7 +31,10 @@ class CreateActionTitleFromSuggestions extends CreateActionTitleSource {
   bool get isValid => true;
 
   @override
-  String get title => suggestion;
+  String get title => suggestion.value;
+
+  @override
+  String get descriptionHint => suggestion.hint;
 }
 
 class CreateActionTitleFromUserInput extends CreateActionTitleSource {
@@ -40,6 +47,9 @@ class CreateActionTitleFromUserInput extends CreateActionTitleSource {
 
   @override
   String get title => userInput;
+
+  @override
+  String get descriptionHint => Strings.hintUserActionOther;
 }
 
 class CreateUserActionStep2ViewModel extends CreateUserActionPageViewModel {

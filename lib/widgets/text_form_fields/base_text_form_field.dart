@@ -69,7 +69,7 @@ class BaseTextField extends StatelessWidget {
         hintText: hintText,
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
-        hintStyle: TextStyles.textSRegular(),
+        hintStyle: TextStyles.textSRegular(color: AppColors.grey800),
         contentPadding: const EdgeInsets.all(Margins.spacing_base),
         error: errorText != null ? _Error(errorText!) : null,
         border: isInvalid ? _errorBorder() : _idleBorder(),

@@ -32,6 +32,13 @@ class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
   final descriptionKey = GlobalKey();
 
   final descriptionFocusNode = FocusNode();
+  late final TextEditingController descriptionController;
+
+  @override
+  void initState() {
+    descriptionController = TextEditingController(text: widget.viewModel.description);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,8 +96,18 @@ class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
                         const SizedBox(height: Margins.spacing_s),
                         BaseTextField(
                           focusNode: descriptionFocusNode,
-                          initialValue: widget.viewModel.description,
+                          controller: descriptionController,
+                          hintText: Strings.exampleHint + widget.viewModel.titleSource.descriptionHint,
                           maxLines: 5,
+                          suffixIcon: descriptionController.text.isEmpty
+                              ? null
+                              : IconButton(
+                                  icon: Icon(Icons.clear),
+                                  onPressed: () {
+                                    widget.onDescriptionChanged("");
+                                    descriptionController.clear();
+                                  },
+                                ),
                           onChanged: (value) {
                             widget.onDescriptionChanged(value);
                             _scrollToDescription(context);
@@ -128,15 +145,15 @@ class _SuggestionTagWrap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<String> suggestionList = actionType.suggestionList;
+    final List<UserActionCategory> suggestionList = actionType.suggestionList;
     return Wrap(
       spacing: Margins.spacing_s,
       runSpacing: Margins.spacing_s,
       children: switch (titleSource) {
         CreateActionTitleNotInitialized() => [
             ...suggestionList.map(
-              (suggestion) => PassEmploiChip<String>(
-                label: suggestion,
+              (suggestion) => PassEmploiChip<UserActionCategory>(
+                label: suggestion.value,
                 value: suggestion,
                 isSelected: false,
                 onTagSelected: (value) => onSelected(CreateActionTitleFromSuggestions(value)),
