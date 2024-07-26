@@ -4,11 +4,14 @@ import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form
 import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_step3.dart';
 import 'package:pass_emploi_app/pages/user_action/create/widgets/user_action_stepper.dart';
 import 'package:pass_emploi_app/presentation/user_action/creation_form/create_user_action_form_view_model.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_stepper.dart';
 
 class CreateUserActionForm extends StatefulWidget {
@@ -36,6 +39,8 @@ class _CreateUserActionFormState extends State<CreateUserActionForm> {
       widget.onAbort();
     } else if (_viewModel.isSubmitted) {
       widget.onSubmit(_viewModel);
+    } else if (_viewModel.isDescriptionConfirmation) {
+      showDialog(context: context, builder: (_) => _PopUpConfirmationDescription(viewModel: _viewModel));
     }
     setState(() {});
   }
@@ -184,7 +189,9 @@ class _CreateUserActionForm extends StatelessWidget {
                       onTitleChanged: (titleSource) => formState.titleChanged(titleSource),
                       onDescriptionChanged: (description) => formState.descriptionChanged(description),
                     ),
-                  CreateUserActionDisplayState.step3 => CreateUserActionFormStep3(
+                  CreateUserActionDisplayState.step3 ||
+                  CreateUserActionDisplayState.descriptionConfimation =>
+                    CreateUserActionFormStep3(
                       viewModel: formState.step3,
                       onStatusChanged: (estTerminee) => formState.statusChanged(estTerminee),
                       onDateChanged: (dateSource) => formState.dateChanged(dateSource),
@@ -194,6 +201,65 @@ class _CreateUserActionForm extends StatelessWidget {
                 },
               ],
             ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _PopUpConfirmationDescription extends StatelessWidget {
+  final CreateUserActionFormViewModel viewModel;
+
+  const _PopUpConfirmationDescription({required this.viewModel});
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      titlePadding: EdgeInsets.all(Margins.spacing_m),
+      surfaceTintColor: Colors.white,
+      backgroundColor: Colors.white,
+      title: Column(
+        children: [
+          Align(
+            alignment: Alignment.centerRight,
+            child: IconButton(
+              icon: Icon(Icons.close_rounded),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ),
+          SizedBox.square(
+            dimension: 100,
+            child: Illustration.grey(AppIcons.checklist_rounded),
+          ),
+          SizedBox(height: Margins.spacing_m),
+          Text(Strings.userActionDescriptionConfirmationTitle,
+              style: TextStyles.textBaseBold, textAlign: TextAlign.center),
+          SizedBox(height: Margins.spacing_m),
+          Text(Strings.userActionDescriptionConfirmationSubtitle,
+              style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
+        ],
+      ),
+      actions: [
+        SizedBox(
+          width: double.infinity,
+          child: PrimaryActionButton(
+            label: Strings.userActionDescriptionConfirmationConfirmButton,
+            onPressed: () {
+              Navigator.pop(context);
+              viewModel.goBackToStep2();
+            },
+          ),
+        ),
+        const SizedBox(height: Margins.spacing_s),
+        SizedBox(
+          width: double.infinity,
+          child: SecondaryButton(
+            label: Strings.userActionDescriptionConfirmationGoToDescriptionButton,
+            onPressed: () {
+              Navigator.pop(context);
+              viewModel.confirmDescription();
+            },
           ),
         ),
       ],

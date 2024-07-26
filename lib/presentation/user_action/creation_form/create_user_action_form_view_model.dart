@@ -15,6 +15,7 @@ enum CreateUserActionDisplayState {
   step1(0),
   step2(1),
   step3(2),
+  descriptionConfimation(2),
   submitted(2);
 
   final int stepIndex;
@@ -42,14 +43,31 @@ class CreateUserActionFormViewModel extends ChangeNotifier {
         step3 = initialStep3 ?? CreateUserActionStep3ViewModel(),
         displayState = initialDisplayState ?? CreateUserActionDisplayState.step1;
 
+  void goBackToStep2() {
+    displayState = CreateUserActionDisplayState.step2;
+    notifyListeners();
+  }
+
+  void confirmDescription() {
+    displayState = CreateUserActionDisplayState.submitted;
+    notifyListeners();
+  }
+
   void viewChangedForward() {
     displayState = switch (displayState) {
       CreateUserActionDisplayState.step1 => CreateUserActionDisplayState.step2,
       CreateUserActionDisplayState.step2 => CreateUserActionDisplayState.step3,
-      CreateUserActionDisplayState.step3 => CreateUserActionDisplayState.submitted,
+      CreateUserActionDisplayState.step3 => _displayStateOnStep3(),
       _ => displayState,
     };
     notifyListeners();
+  }
+
+  CreateUserActionDisplayState _displayStateOnStep3() {
+    if ((step2.description ?? "").isEmpty && step3.estTerminee) {
+      return CreateUserActionDisplayState.descriptionConfimation;
+    }
+    return CreateUserActionDisplayState.submitted;
   }
 
   void viewChangedBackward() {
@@ -57,6 +75,7 @@ class CreateUserActionFormViewModel extends ChangeNotifier {
       CreateUserActionDisplayState.step1 => CreateUserActionDisplayState.aborted,
       CreateUserActionDisplayState.step2 => CreateUserActionDisplayState.step1,
       CreateUserActionDisplayState.step3 => CreateUserActionDisplayState.step2,
+      CreateUserActionDisplayState.descriptionConfimation => CreateUserActionDisplayState.step2,
       _ => displayState,
     };
     notifyListeners();
@@ -74,6 +93,7 @@ class CreateUserActionFormViewModel extends ChangeNotifier {
         CreateUserActionDisplayState.step1 => step1,
         CreateUserActionDisplayState.step2 => step2,
         CreateUserActionDisplayState.step3 => step3,
+        CreateUserActionDisplayState.descriptionConfimation => step3,
         CreateUserActionDisplayState.submitted => step3,
       };
 
@@ -113,13 +133,14 @@ sealed class CreateUserActionPageViewModel extends Equatable {
 }
 
 extension CreateUserActionFormStateExt on CreateUserActionFormViewModel {
-  bool get shouldDisplayNavigationButtons => isStep2 || isStep3;
+  bool get shouldDisplayNavigationButtons => isStep2 || isStep3 || isDescriptionConfirmation;
 
   bool get isAborted => displayState == CreateUserActionDisplayState.aborted;
   bool get isStep1 => displayState == CreateUserActionDisplayState.step1;
   bool get isStep2 => displayState == CreateUserActionDisplayState.step2;
   bool get isStep3 => displayState == CreateUserActionDisplayState.step3;
   bool get isSubmitted => displayState == CreateUserActionDisplayState.submitted;
+  bool get isDescriptionConfirmation => displayState == CreateUserActionDisplayState.descriptionConfimation;
 
   UserActionCreateRequest get toRequest => UserActionCreateRequest(
         step2.titleSource.title,

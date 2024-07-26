@@ -485,6 +485,12 @@ class Strings {
   static const String userActionConfirmationSeeDetailButton = "Consulter mon action";
   static const String userActionConfirmationCreateMoreButton = "Créer une autre action";
 
+  static const String userActionDescriptionConfirmationTitle = "Cette action ne contient aucune description.";
+  static const String userActionDescriptionConfirmationSubtitle =
+      "Votre conseiller risque de ne pas pouvoir valider cette action.";
+  static const String userActionDescriptionConfirmationConfirmButton = "Ajouter une description";
+  static const String userActionDescriptionConfirmationGoToDescriptionButton = "Créer l’action";
+
   // Emploi
   static const String faireMonCV = "Faire mon CV";
   static const String hintFaireMonCV = "J'ai mis à jour mon CV avec mon dernier stage, etc.";
