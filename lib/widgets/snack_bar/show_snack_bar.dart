@@ -72,7 +72,7 @@ void _showSnackBar({
           Icon(icon, color: textColor),
           SizedBox(width: Margins.spacing_s),
           Expanded(
-            child: Text(label, style: TextStyles.textSBoldWithColor(textColor)),
+            child: Text(label, style: TextStyles.textSMedium(color: textColor)),
           ),
           SizedBox(width: Margins.spacing_s),
           GestureDetector(
