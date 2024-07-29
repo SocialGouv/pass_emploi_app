@@ -58,6 +58,7 @@ class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
               titleSource: widget.viewModel.titleSource,
               onSelected: (value) {
                 widget.onTitleChanged(value);
+                // ensure the description field is visible
                 Future.delayed(AnimationDurations.fast, () {
                   descriptionFocusNode.requestFocus();
                   _scrollToDescription(context);
@@ -94,24 +95,31 @@ class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
                         ),
                         const SizedBox(height: Margins.spacing_s),
                         const SizedBox(height: Margins.spacing_s),
-                        BaseTextField(
-                          focusNode: descriptionFocusNode,
-                          controller: descriptionController,
-                          hintText: Strings.exampleHint + widget.viewModel.titleSource.descriptionHint,
-                          maxLines: 5,
-                          suffixIcon: descriptionController.text.isEmpty
-                              ? null
-                              : IconButton(
+                        Stack(
+                          children: [
+                            BaseTextField(
+                              focusNode: descriptionFocusNode,
+                              controller: descriptionController,
+                              hintText: Strings.exampleHint + widget.viewModel.titleSource.descriptionHint,
+                              maxLines: 5,
+                              onChanged: (value) {
+                                widget.onDescriptionChanged(value);
+                                _scrollToDescription(context);
+                              },
+                            ),
+                            if (descriptionController.text.isNotEmpty)
+                              Align(
+                                alignment: Alignment.topRight,
+                                child: IconButton(
+                                  tooltip: Strings.clear,
                                   icon: Icon(Icons.clear),
                                   onPressed: () {
                                     widget.onDescriptionChanged("");
                                     descriptionController.clear();
                                   },
                                 ),
-                          onChanged: (value) {
-                            widget.onDescriptionChanged(value);
-                            _scrollToDescription(context);
-                          },
+                              )
+                          ],
                         ),
                       ],
                     ),

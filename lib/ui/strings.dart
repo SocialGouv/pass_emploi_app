@@ -63,6 +63,7 @@ class Strings {
   static const String mandatoryFields = "Les champs marqués d’une * sont obligatoires.";
   static const String allMandatoryFields = "Tous les champs sont obligatoires.";
   static String duplicate = "Dupliquer";
+  static String clear = "Effacer le texte";
 
   static String stepCounter(int current, int total) => "Étape $current sur $total";
   static String selectDateTooltip = "Sélectionner une date";
