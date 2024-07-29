@@ -64,6 +64,7 @@ void _showSnackBar({
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       duration: Duration(seconds: 5),
+      behavior: SnackBarBehavior.floating,
       backgroundColor: backgroundColor,
       content: Row(
         crossAxisAlignment: CrossAxisAlignment.start,

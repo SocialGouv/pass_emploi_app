@@ -23,10 +23,12 @@ class AlertMessage extends StatelessWidget {
     const contentColor = AppColors.warning;
     return CardContainer(
       backgroundColor: AppColors.warningLighten,
-      padding: EdgeInsets.zero, // Padding is set in row children because of inner padding of OutlinedButton
+      withShadow: false,
+      padding: EdgeInsets.symmetric(
+        vertical: Margins.spacing_base,
+      ),
       child: Column(
         children: [
-          SizedBox(height: Margins.spacing_base),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
