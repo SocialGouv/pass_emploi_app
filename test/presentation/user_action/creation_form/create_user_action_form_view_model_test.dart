@@ -42,16 +42,52 @@ void main() {
           expect(hasBeenNotified, true);
         });
 
-        test('should display submitted when current step is step 3', () {
+        test('should display submitted when current step is step 3 and action is terminee and has description', () {
           // Given
-          final viewModel = CreateUserActionFormViewModel(initialDisplayState: CreateUserActionDisplayState.step3)
-            ..addListener(notify);
+          final viewModel = CreateUserActionFormViewModel(
+            initialDisplayState: CreateUserActionDisplayState.step3,
+            initialStep2: MockCreateUserActionStep2ViewModel(valid: true)..withDescription("any"),
+            initialStep3: MockCreateUserActionStep3ViewModel(valid: true)..withEstTerminee(true),
+          )..addListener(notify);
 
           // When
           viewModel.viewChangedForward();
 
           // Then
           expect(viewModel.displayState, CreateUserActionDisplayState.submitted);
+          expect(hasBeenNotified, true);
+        });
+
+        test('should display submitted when current step is step 3 and action is not terminee', () {
+          // Given
+          final viewModel = CreateUserActionFormViewModel(
+            initialDisplayState: CreateUserActionDisplayState.step3,
+            initialStep2: MockCreateUserActionStep2ViewModel(valid: false)..withDescription(""),
+            initialStep3: MockCreateUserActionStep3ViewModel(valid: true)..withEstTerminee(false),
+          )..addListener(notify);
+
+          // When
+          viewModel.viewChangedForward();
+
+          // Then
+          expect(viewModel.displayState, CreateUserActionDisplayState.submitted);
+          expect(hasBeenNotified, true);
+        });
+
+        test('should display descriptionConfimation when current step is step 3 and description is empty and terminee',
+            () {
+          // Given
+          final viewModel = CreateUserActionFormViewModel(
+            initialDisplayState: CreateUserActionDisplayState.step3,
+            initialStep2: MockCreateUserActionStep2ViewModel(valid: false)..withDescription(""),
+            initialStep3: MockCreateUserActionStep3ViewModel(valid: true)..withEstTerminee(true),
+          )..addListener(notify);
+
+          // When
+          viewModel.viewChangedForward();
+
+          // Then
+          expect(viewModel.displayState, CreateUserActionDisplayState.descriptionConfimation);
           expect(hasBeenNotified, true);
         });
       });
@@ -92,6 +128,50 @@ void main() {
 
           // Then
           expect(viewModel.displayState, CreateUserActionDisplayState.step2);
+          expect(hasBeenNotified, true);
+        });
+
+        test('should display step 3 when current step is descriptionConfimation', () {
+          // Given
+          final viewModel =
+              CreateUserActionFormViewModel(initialDisplayState: CreateUserActionDisplayState.descriptionConfimation)
+                ..addListener(notify);
+
+          // When
+          viewModel.viewChangedBackward();
+
+          // Then
+          expect(viewModel.displayState, CreateUserActionDisplayState.step2);
+          expect(hasBeenNotified, true);
+        });
+      });
+
+      group('goBackToStep2', () {
+        test('should display step 2', () {
+          // Given
+          final viewModel = CreateUserActionFormViewModel(initialDisplayState: CreateUserActionDisplayState.step3)
+            ..addListener(notify);
+
+          // When
+          viewModel.goBackToStep2();
+
+          // Then
+          expect(viewModel.displayState, CreateUserActionDisplayState.step2);
+          expect(hasBeenNotified, true);
+        });
+      });
+
+      group('confirmDescription', () {
+        test('should display submitted', () {
+          // Given
+          final viewModel = CreateUserActionFormViewModel(initialDisplayState: CreateUserActionDisplayState.step3)
+            ..addListener(notify);
+
+          // When
+          viewModel.confirmDescription();
+
+          // Then
+          expect(viewModel.displayState, CreateUserActionDisplayState.submitted);
           expect(hasBeenNotified, true);
         });
       });
@@ -306,6 +386,10 @@ class MockCreateUserActionStep2ViewModel with Mock implements CreateUserActionSt
   MockCreateUserActionStep2ViewModel({required this.valid}) {
     when(() => isValid).thenReturn(valid);
   }
+
+  void withDescription(String description) {
+    when(() => this.description).thenReturn(description);
+  }
 }
 
 class MockCreateUserActionStep3ViewModel with Mock implements CreateUserActionStep3ViewModel {
@@ -313,5 +397,9 @@ class MockCreateUserActionStep3ViewModel with Mock implements CreateUserActionSt
 
   MockCreateUserActionStep3ViewModel({required this.valid}) {
     when(() => isValid).thenReturn(valid);
+  }
+
+  void withEstTerminee(bool estTerminee) {
+    when(() => this.estTerminee).thenReturn(estTerminee);
   }
 }

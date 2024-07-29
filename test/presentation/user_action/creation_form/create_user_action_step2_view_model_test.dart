@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/models/user_action_type.dart';
 import 'package:pass_emploi_app/presentation/user_action/creation_form/create_user_action_form_view_model.dart';
 
 void main() {
@@ -21,7 +22,8 @@ void main() {
 
     test('should be valid when titleSource is from suggestions', () {
       // Given
-      final viewModel = CreateUserActionStep2ViewModel(titleSource: CreateActionTitleFromSuggestions(""));
+      final viewModel = CreateUserActionStep2ViewModel(
+          titleSource: CreateActionTitleFromSuggestions(UserActionCategory.achatImmobilier));
 
       // When & Then
       expect(viewModel.isValid, true);

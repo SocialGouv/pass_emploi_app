@@ -68,6 +68,8 @@ class _CustomChip extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: Margins.spacing_s, vertical: Margins.spacing_xs),
           child: Wrap(
             runAlignment: WrapAlignment.center,
+            alignment: WrapAlignment.center,
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               Text(
                 label,
