@@ -51,7 +51,7 @@ void main() {
   });
 
   group('patch', () {
-    sut.when((repository) => repository.patch("id-jeune", DateTime(2024, 1, 1)));
+    sut.when((repository) => repository.patch("id-jeune", DateTime.utc(2024, 1, 1)));
 
     group('when response is valid', () {
       sut.givenResponseCode(201);
@@ -60,7 +60,7 @@ void main() {
         await sut.expectRequestBody(
           method: HttpMethod.patch,
           url: "/jeunes/id-jeune",
-          jsonBody: {"dateSignatureCGU": "2024-01-01T00:00:00.000"},
+          jsonBody: {"dateSignatureCGU": '2024-01-01T00:00:00+00:00'},
         );
       });
 

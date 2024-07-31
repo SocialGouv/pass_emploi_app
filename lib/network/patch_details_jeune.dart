@@ -1,4 +1,5 @@
 import 'package:pass_emploi_app/network/json_serializable.dart';
+import 'package:pass_emploi_app/utils/date_extensions.dart';
 
 class PatchDetailsJeune implements JsonSerializable {
   final DateTime dateSignatureCgu;
@@ -7,6 +8,6 @@ class PatchDetailsJeune implements JsonSerializable {
 
   @override
   Map<String, dynamic> toJson() => {
-        "dateSignatureCGU": dateSignatureCgu.toIso8601String(),
+        "dateSignatureCGU": dateSignatureCgu.toIso8601WithOffsetDateTime(),
       };
 }
