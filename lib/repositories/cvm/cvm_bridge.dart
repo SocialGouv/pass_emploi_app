@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/services.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/chat/cvm_message.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_aggregator.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_event_factory.dart';
 import 'package:pass_emploi_app/utils/log.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 
 // Methods calls are not try/catch.
 // It is caller responsibility to handle errors.
@@ -101,11 +105,21 @@ class CvmBridge {
   }
 
   Future<bool> sendMessage(String message) async {
+    final begin = DateTime.now();
     Log.d('--- CvmBridge.sendMessage…');
     final success = await MethodChannel(_cvmMethodChannel) //
             .invokeMethod<bool>('sendMessage', {'message': message}) ??
         false;
     Log.d('--- CvmBridge.sendMessage: ${success ? '✅' : '❌'}');
+    final duration = DateTime.now().difference(begin).inMilliseconds;
+    PassEmploiMatomoTracker.instance.trackEvent(
+      eventCategory: AnalyticsEventNames.cvmSendMessageCategory,
+      action: Platform.isIOS
+          ? AnalyticsEventNames.cvmSendMessageIosAction
+          : AnalyticsEventNames.cvmSendMessageAndroidAction,
+      eventName: AnalyticsEventNames.cvmSendMessageEventName,
+      eventValue: duration,
+    );
     return success;
   }
 
