@@ -261,6 +261,15 @@ class AnalyticsEventNames {
   static const cvmLoadingIosAction = "Chargement iOS";
   static const cvmLoadingEventName = "Durée";
 
+  static const cvmSendMessageCategory = "CVM - temps d'envoi de message";
+  static const cvmSendMessageAndroidAction = "Envoi de message Android";
+  static const cvmSendMessageIosAction = "Envoi de message iOS";
+  static const cvmSendMessageEventName = "Durée en ms";
+
+  static const cvmDownloadPieceJointeCategory = "CVM - temps de download d'une pièce jointe";
+  static const cvmDownloadPieceJointedAction = "Temps de download d'une pièce jointe";
+  static const cvmDownloadPieceJointeEventName = "Durée en ms";
+
   static const cvmResultCategory = "CVM - état de la page";
   static const cvmResultAndroidSuccessAction = "Chargement Android réussi";
   static const cvmResultAndroidFailureAction = "Chargement Android échoué";
