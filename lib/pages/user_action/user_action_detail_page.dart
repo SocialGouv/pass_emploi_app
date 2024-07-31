@@ -302,6 +302,7 @@ class _PopUpConfirmationDescription extends StatelessWidget {
           child: PrimaryActionButton(
             label: Strings.userActionDescriptionConfirmationConfirmButton,
             onPressed: () async {
+              _trackActionDescriptionConfirmation(AnalyticsEventNames.updateActionWithoutDescriptionAddDescription);
               await Navigator.push(context, UpdateUserActionPage.route(source, userActionId));
               if (context.mounted) {
                 // Avoid pop before rebuild
@@ -316,11 +317,19 @@ class _PopUpConfirmationDescription extends StatelessWidget {
           child: SecondaryButton(
             label: Strings.userActionDescriptionConfirmationTerminer,
             onPressed: () {
+              _trackActionDescriptionConfirmation(AnalyticsEventNames.updateActionWithoutDescription);
               Navigator.pop(context);
             },
           ),
         ),
       ],
+    );
+  }
+
+  void _trackActionDescriptionConfirmation(String event) {
+    PassEmploiMatomoTracker.instance.trackEvent(
+      eventCategory: AnalyticsEventNames.actionWithoutDescription,
+      action: event,
     );
   }
 }

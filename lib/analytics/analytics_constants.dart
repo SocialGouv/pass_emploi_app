@@ -286,6 +286,14 @@ class AnalyticsEventNames {
 
   static const wordingRechercheOffresAffichage = "Affichage";
   static const wordingRechercheOffresSelected = "Clic onglet Recherche/Offres";
+
+  static const actionWithoutDescription = "Rattrapage action sans description";
+
+  static const createActionWithoutDescription = "Créer action sans description - popin création de l’action";
+  static const createActionWithoutDescriptionAddDescription = "Ajouter description - popin création de l’action";
+
+  static const updateActionWithoutDescription = "Terminer l’action - popin terminer l’action";
+  static const updateActionWithoutDescriptionAddDescription = "Ajouter description - popin terminer l’action";
 }
 
 class AnalyticsCustomDimensions {
