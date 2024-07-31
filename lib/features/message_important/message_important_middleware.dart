@@ -21,7 +21,7 @@ class MessageImportantMiddleware extends MiddlewareClass<AppState> {
 
     if (action is SubscribeToChatAction) {
       final userId = loginState.user.id;
-      final detailsJeune = await _detailsJeuneRepository.fetch(userId);
+      final detailsJeune = await _detailsJeuneRepository.get(userId);
       final conseillerId = detailsJeune?.conseiller.id;
       if (conseillerId == null) return;
 

@@ -54,7 +54,7 @@ class MockAuthWrapper extends Mock implements AuthWrapper {}
 
 class MockDetailsJeuneRepository extends Mock implements DetailsJeuneRepository {
   MockDetailsJeuneRepository() {
-    when(() => fetch(any())).thenAnswer((_) async => null);
+    when(() => get(any())).thenAnswer((_) async => null);
   }
 }
 

@@ -36,9 +36,11 @@ class CacheInterceptor extends PassEmploiBaseInterceptor {
 }
 
 extension on RequestOptions {
-  bool shouldCache() => !_isMonSuiviRequest() && !_isCvmTokenRequest();
+  bool shouldCache() => !_isMonSuiviRequest() && !_isCvmTokenRequest() && !_isDetailsJeuneRequest();
 
   bool _isMonSuiviRequest() => uri.toString().contains('mon-suivi');
 
   bool _isCvmTokenRequest() => uri.toString().contains('idp-token');
+
+  bool _isDetailsJeuneRequest() => uri.toString().contains('jeunes') && uri.pathSegments.length == 2;
 }

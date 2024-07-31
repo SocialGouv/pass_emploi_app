@@ -1,7 +1,7 @@
 import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/user.dart';
 
-enum LogoutReason { userLogout, apiResponse401, expiredRefreshToken, accountSuppression }
+enum LogoutReason { userLogout, apiResponse401, expiredRefreshToken, accountSuppression, cguRefused }
 
 extension LoginModeModeExtension on LoginMode {
   bool isDemo() => this == LoginMode.DEMO_PE || this == LoginMode.DEMO_MILO;

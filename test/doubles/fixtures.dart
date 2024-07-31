@@ -119,8 +119,9 @@ User mockedPoleEmploiCejUser() {
   );
 }
 
-DetailsJeune mockDetailsJeune({String idConseiller = "id", StructureMilo? structure}) {
+DetailsJeune mockDetailsJeune({DateTime? dateSignatureCgu, String idConseiller = "id", StructureMilo? structure}) {
   return DetailsJeune(
+    dateSignatureCgu: dateSignatureCgu,
     conseiller: DetailsJeuneConseiller(
       id: idConseiller,
       firstname: "F",
@@ -555,6 +556,7 @@ EvenementEmploiDetails mockEvenementEmploiDetails({DateTime? dateDebut, DateTime
 
 DetailsJeune detailsJeune() {
   return DetailsJeune(
+    dateSignatureCgu: DateTime(2024),
     conseiller: DetailsJeuneConseiller(
       id: "id",
       firstname: "Perceval",
@@ -566,24 +568,28 @@ DetailsJeune detailsJeune() {
 }
 
 DetailsJeune detailsJeuneSinceOneMonth() {
+  final oneMonth = clock.now().subtract(Duration(days: 31));
   return DetailsJeune(
+    dateSignatureCgu: oneMonth,
     conseiller: DetailsJeuneConseiller(
       id: "id",
       firstname: "Perceval",
       lastname: "de Galles",
-      sinceDate: clock.now().subtract(Duration(days: 31)),
+      sinceDate: oneMonth,
     ),
     structure: null,
   );
 }
 
-DetailsJeune detailsJeuneSinceLessOneMonth() {
+DetailsJeune detailsJeuneSinceLessThanOneMonth() {
+  final lessThanOneMonth = clock.now().subtract(Duration(days: 29));
   return DetailsJeune(
+    dateSignatureCgu: lessThanOneMonth,
     conseiller: DetailsJeuneConseiller(
       id: "id",
       firstname: "Perceval",
       lastname: "de Galles",
-      sinceDate: clock.now().subtract(Duration(days: 29)),
+      sinceDate: lessThanOneMonth,
     ),
     structure: null,
   );

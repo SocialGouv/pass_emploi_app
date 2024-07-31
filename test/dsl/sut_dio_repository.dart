@@ -87,6 +87,13 @@ class DioRepositorySut<REPO> {
                 ))
             .thenAnswer((_) async => _response());
         mocktail //
+            .when(() => _client.patch(
+                  mocktail.any(),
+                  data: mocktail.any(named: "data"),
+                  options: mocktail.any(named: "options"),
+                ))
+            .thenAnswer((_) async => _response());
+        mocktail //
             .when(() => _client.put(mocktail.any(), data: mocktail.any(named: "data")))
             .thenAnswer((_) async => _response());
         mocktail //
@@ -150,6 +157,18 @@ class DioRepositorySut<REPO> {
         capturedData = captured[1];
         capturedOptions = captured[2];
         break;
+      case HttpMethod.patch:
+        final captured = mocktail
+            .verify(() => _client.patch(
+                  mocktail.captureAny(),
+                  data: mocktail.captureAny(named: "data"),
+                  options: mocktail.captureAny(named: "options"),
+                ))
+            .captured;
+        capturedUrl = captured[0];
+        capturedData = captured[1];
+        capturedOptions = captured[2];
+        break;
       case HttpMethod.delete:
         capturedUrl = mocktail.verify(() => _client.delete(mocktail.captureAny())).captured.last;
         break;
@@ -195,4 +214,4 @@ class DioRepositorySut<REPO> {
   }
 }
 
-enum HttpMethod { get, post, put, delete }
+enum HttpMethod { get, post, put, delete, patch }

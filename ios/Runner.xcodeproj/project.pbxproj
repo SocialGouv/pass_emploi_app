@@ -213,7 +213,6 @@
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
 				FBC7C5AB346040EF73E6923F /* [CP] Embed Pods Frameworks */,
 				7042E32828F84FEC00D013FF /* [firebase_crashlytics] Crashlytics Upload Symbols */,
-				7091D1E7191AC27B5BA06FB0 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -312,23 +311,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "echo \"Starting [firebase_crashlytics] Crashlytics Upload Symbols build phase.\"\n\nPLIST_DESTINATION=${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\necho \"- plist path ${PLIST_DESTINATION}\"\n\necho \"- find dSYM from BUILT_PRODUCTS_DIR ${BUILT_PRODUCTS_DIR}\"\nfind ${BUILT_PRODUCTS_DIR} -name \"*.dSYM\" | xargs -I \\{\\} $PODS_ROOT/FirebaseCrashlytics/upload-symbols -gsp ${PLIST_DESTINATION}/GoogleService-Info.plist -p ios \\{\\}\n\necho \"Ending [firebase_crashlytics] Crashlytics Upload Symbols build phase.\"\n";
-		};
-		7091D1E7191AC27B5BA06FB0 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		72EE6D38E43DBD8A7EFE6806 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

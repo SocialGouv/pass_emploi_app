@@ -44,10 +44,12 @@ class CardContainer extends StatelessWidget {
           child: InkWell(
             borderRadius: cardBorderRadius,
             onTap: onTap,
-            onLongPress: () {
-              HapticFeedback.heavyImpact();
-              onLongPress?.call();
-            },
+            onLongPress: onLongPress != null
+                ? () {
+                    HapticFeedback.heavyImpact();
+                    onLongPress!.call();
+                  }
+                : null,
             splashColor: splashColor,
             child: Padding(
               padding: padding,

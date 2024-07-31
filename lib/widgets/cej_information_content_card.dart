@@ -6,8 +6,6 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 
 class CejInformationFirstContentCard extends StatelessWidget {
-  const CejInformationFirstContentCard({super.key});
-
   @override
   Widget build(BuildContext context) {
     return CardContainer(

@@ -2,21 +2,27 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 
 class DetailsJeune extends Equatable {
+  final DateTime? dateSignatureCgu;
   final DetailsJeuneConseiller conseiller;
   final StructureMilo? structure;
 
-  DetailsJeune({required this.conseiller, required this.structure});
+  DetailsJeune({
+    required this.dateSignatureCgu,
+    required this.conseiller,
+    required this.structure,
+  });
 
   factory DetailsJeune.fromJson(dynamic json) {
     final structure = json["structureMilo"];
     return DetailsJeune(
+      dateSignatureCgu: (json["dateSignatureCGU"] as String?)?.toDateTimeUtcOnLocalTimeZone(),
       structure: structure != null ? StructureMilo.fromJson(structure) : null,
       conseiller: DetailsJeuneConseiller.fromJson(json['conseiller']),
     );
   }
 
   @override
-  List<Object?> get props => [conseiller, structure];
+  List<Object?> get props => [dateSignatureCgu, conseiller, structure];
 }
 
 class DetailsJeuneConseiller extends Equatable {

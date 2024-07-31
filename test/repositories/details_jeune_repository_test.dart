@@ -9,8 +9,8 @@ void main() {
   final sut = DioRepositorySut<DetailsJeuneRepository>();
   sut.givenRepository((client) => DetailsJeuneRepository(client));
 
-  group("fetch", () {
-    sut.when((repository) => repository.fetch("id-jeune"));
+  group("get", () {
+    sut.when((repository) => repository.get("id-jeune"));
 
     group('when response is valid', () {
       sut.givenJsonResponse(fromJson: "details_jeune.json");
@@ -28,6 +28,7 @@ void main() {
           expect(
               result,
               DetailsJeune(
+                dateSignatureCgu: parseDateTimeUtcWithCurrentTimeZone('2024-01-01T18:00:00.000Z'),
                 conseiller: DetailsJeuneConseiller(
                   id: "ID_CONSEILLER",
                   firstname: "Nils",
@@ -45,6 +46,34 @@ void main() {
 
       test('response should be null', () async {
         await sut.expectNullResult();
+      });
+    });
+  });
+
+  group('patch', () {
+    sut.when((repository) => repository.patch("id-jeune", DateTime.utc(2024, 1, 1)));
+
+    group('when response is valid', () {
+      sut.givenResponseCode(201);
+
+      test('request should be valid', () async {
+        await sut.expectRequestBody(
+          method: HttpMethod.patch,
+          url: "/jeunes/id-jeune",
+          jsonBody: {"dateSignatureCGU": '2024-01-01T00:00:00+00:00'},
+        );
+      });
+
+      test('response should be true', () async {
+        await sut.expectTrueAsResult();
+      });
+    });
+
+    group('when response is invalid', () {
+      sut.givenResponseCode(500);
+
+      test('response should be false', () async {
+        await sut.expectFalseAsResult();
       });
     });
   });

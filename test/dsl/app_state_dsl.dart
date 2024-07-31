@@ -2,6 +2,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
+import 'package:pass_emploi_app/features/cgu/cgu_state.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_state.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_state.dart';
@@ -52,6 +53,7 @@ import 'package:pass_emploi_app/models/accompagnement.dart';
 import 'package:pass_emploi_app/models/accueil/accueil.dart';
 import 'package:pass_emploi_app/models/alerte/alerte.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
+import 'package:pass_emploi_app/models/cgu.dart';
 import 'package:pass_emploi_app/models/chat/cvm_message.dart';
 import 'package:pass_emploi_app/models/chat/message.dart';
 import 'package:pass_emploi_app/models/date/interval.dart';
@@ -789,5 +791,13 @@ extension AppStateDSL on AppState {
 
   AppState withCvmMessage({List<CvmMessage>? messages}) {
     return copyWith(cvmState: CvmSuccessState(messages ?? [mockCvmTextMessage()]));
+  }
+
+  AppState withCguNeverAccepted() {
+    return copyWith(cguState: CguNeverAcceptedState());
+  }
+
+  AppState withCguUpdateRequired(Cgu updatedCgu) {
+    return copyWith(cguState: CguUpdateRequiredState(updatedCgu));
   }
 }
