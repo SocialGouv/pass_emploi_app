@@ -44,7 +44,7 @@ class UserActionCreateRequest extends Equatable {
       json['rappel'] as bool,
       UserActionStatus.fromString(json['initialStatus'] as String),
       UserActionReferentielType.fromCode(json['codeQualification'] as String?),
-      json['estDuplicata'] as bool,
+      json['estDuplicata'] as bool? ?? false, // required for retro compatibility on UserActionPendingCreationRepository
     );
   }
 }
