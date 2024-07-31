@@ -75,14 +75,15 @@ void _showSnackBar({
             child: Text(label, style: TextStyles.textSMedium(color: textColor)),
           ),
           SizedBox(width: Margins.spacing_s),
-          GestureDetector(
-            child: Icon(
-              AppIcons.close_rounded,
-              color: textColor,
-              semanticLabel: Strings.close,
+          if (onActionTap == null)
+            GestureDetector(
+              child: Icon(
+                AppIcons.close_rounded,
+                color: textColor,
+                semanticLabel: Strings.close,
+              ),
+              onTap: () => clearAllSnackBars(),
             ),
-            onTap: () => clearAllSnackBars(),
-          ),
         ],
       ),
       action: onActionTap != null

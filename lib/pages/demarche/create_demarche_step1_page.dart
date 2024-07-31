@@ -35,6 +35,8 @@ class CreateDemarcheStep1Page extends StatefulWidget {
       eventCategory: AnalyticsEventNames.createActionEventCategory,
       action: AnalyticsEventNames.createActionDisplaySnackBarAction,
     );
+    // As context is not available anymore in callback, navigator needs to be instantiated here.
+    final navigator = Navigator.of(context);
     showSnackBarWithSuccess(
       context,
       Strings.createDemarcheSuccess,
@@ -43,7 +45,7 @@ class CreateDemarcheStep1Page extends StatefulWidget {
           eventCategory: AnalyticsEventNames.createActionEventCategory,
           action: AnalyticsEventNames.createActionClickOnSnackBarAction,
         );
-        Navigator.push(context, DemarcheDetailPage.materialPageRoute(demarcheId));
+        navigator.push(DemarcheDetailPage.materialPageRoute(demarcheId));
       },
     );
   }
