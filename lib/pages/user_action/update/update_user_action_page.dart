@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 class UpdateUserActionPage extends StatelessWidget {
   final UserActionStateSource source;
@@ -38,6 +39,7 @@ class UpdateUserActionPage extends StatelessWidget {
   void _popOnUpdateSuccess(
       BuildContext context, UpdateUserActionViewModel? previousViewModel, UpdateUserActionViewModel viewModel) {
     if (viewModel.shouldPop && (previousViewModel?.shouldPop != viewModel.shouldPop)) {
+      showSnackBarWithSuccess(context, Strings.updateUserActionConfirmation);
       Navigator.of(context).pop();
     }
   }

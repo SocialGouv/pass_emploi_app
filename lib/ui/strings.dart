@@ -699,6 +699,7 @@ class Strings {
   static String updateUserActionCategory = "Catégorie";
   static String updateUserActionCategoryPressedTip = "Modifier";
   static String updateUserActionSaveButton = "Enregistrer les modifications";
+  static String updateUserActionConfirmation = "Vos modifications ont été enregistrées.";
   static String deleteAction = "Supprimer l'action";
   static String deleteActionDescription = "Vous ne pourrez plus consulter ni modifier l'action.";
 
