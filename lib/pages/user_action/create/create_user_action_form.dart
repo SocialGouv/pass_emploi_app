@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_step1.dart';
 import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_step2.dart';
 import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_step3.dart';
@@ -8,6 +9,7 @@ import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -246,6 +248,7 @@ class _PopUpConfirmationDescription extends StatelessWidget {
           child: PrimaryActionButton(
             label: Strings.userActionDescriptionConfirmationConfirmButton,
             onPressed: () {
+              _trackActionDescriptionConfirmation(AnalyticsEventNames.createActionWithoutDescriptionAddDescription);
               Navigator.pop(context);
               viewModel.goBackToStep2();
             },
@@ -257,12 +260,20 @@ class _PopUpConfirmationDescription extends StatelessWidget {
           child: SecondaryButton(
             label: Strings.userActionDescriptionConfirmationGoToDescriptionButton,
             onPressed: () {
+              _trackActionDescriptionConfirmation(AnalyticsEventNames.createActionWithoutDescription);
               Navigator.pop(context);
               viewModel.confirmDescription();
             },
           ),
         ),
       ],
+    );
+  }
+
+  void _trackActionDescriptionConfirmation(String action) {
+    PassEmploiMatomoTracker.instance.trackEvent(
+      eventCategory: AnalyticsEventNames.actionWithoutDescriptionCategory,
+      action: action,
     );
   }
 }

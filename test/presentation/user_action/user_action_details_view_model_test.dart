@@ -372,6 +372,32 @@ void main() {
     expect(shouldDisplayUpdateButton, false);
   });
 
+  test("should display description confirmation pop up when action has no description", () {
+    // Given
+    final action = mockUserAction(id: 'actionId', content: 'content', comment: null);
+    final store = givenState().withAction(action).store();
+
+    // When
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'actionId');
+    final withDescriptionConfirmationPopup = viewModel.withDescriptionConfirmationPopup;
+
+    // Then
+    expect(withDescriptionConfirmationPopup, true);
+  });
+
+  test("should not display description confirmation pop up when action has description", () {
+    // Given
+    final action = mockUserAction(id: 'actionId', content: 'content', comment: "Vive les cornichons");
+    final store = givenState().withAction(action).store();
+
+    // When
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.noSource, 'actionId');
+    final withDescriptionConfirmationPopup = viewModel.withDescriptionConfirmationPopup;
+
+    // Then
+    expect(withDescriptionConfirmationPopup, false);
+  });
+
   group('Category', () {
     test("should display Aucune category when no category is provided", () {
       // Given

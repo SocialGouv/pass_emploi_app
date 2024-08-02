@@ -8,12 +8,14 @@ import 'package:pass_emploi_app/features/user_action/details/user_action_details
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/pages/user_action/action_commentaires_page.dart';
+import 'package:pass_emploi_app/pages/user_action/update/update_user_action_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_detail_bottom_sheet.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/user_action/commentaires/action_commentaire_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_details_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
@@ -137,7 +139,7 @@ class _Scaffold extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             if (viewModel.withUnfinishedButton) _UnfinishedActionButton(viewModel),
-            if (viewModel.withFinishedButton) _FinishActionButton(viewModel, onActionDone),
+            if (viewModel.withFinishedButton) _FinishActionButton(viewModel, onActionDone, source),
           ],
         ),
       ),
@@ -228,10 +230,11 @@ class _Content extends StatelessWidget {
 }
 
 class _FinishActionButton extends StatelessWidget {
-  const _FinishActionButton(this.viewModel, this.onActionDone);
+  const _FinishActionButton(this.viewModel, this.onActionDone, this.source);
 
   final UserActionDetailsViewModel viewModel;
   final VoidCallback onActionDone;
+  final UserActionStateSource source;
 
   @override
   Widget build(BuildContext context) {
@@ -240,11 +243,91 @@ class _FinishActionButton extends StatelessWidget {
       child: PrimaryActionButton(
         label: Strings.completeAction,
         suffix: Icon(AppIcons.celebration_rounded, color: Colors.white),
-        onPressed: () {
+        onPressed: () async {
+          if (viewModel.withDescriptionConfirmationPopup) {
+            await _showDescriptionConfirmationPopup(context);
+          }
           onActionDone();
           viewModel.updateStatus(UserActionStatus.DONE);
         },
       ),
+    );
+  }
+
+  Future<void> _showDescriptionConfirmationPopup(BuildContext context) => showDialog(
+      context: context,
+      builder: (context) {
+        return _PopUpConfirmationDescription(userActionId: viewModel.id, source: source);
+      });
+}
+
+class _PopUpConfirmationDescription extends StatelessWidget {
+  const _PopUpConfirmationDescription({required this.userActionId, required this.source});
+
+  final String userActionId;
+  final UserActionStateSource source;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      titlePadding: EdgeInsets.all(Margins.spacing_m),
+      surfaceTintColor: Colors.white,
+      backgroundColor: Colors.white,
+      title: Column(
+        children: [
+          Align(
+            alignment: Alignment.centerRight,
+            child: IconButton(
+              icon: Icon(Icons.close_rounded),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ),
+          SizedBox.square(
+            dimension: 100,
+            child: Illustration.grey(AppIcons.checklist_rounded),
+          ),
+          SizedBox(height: Margins.spacing_m),
+          Text(Strings.userActionDescriptionConfirmationTitle,
+              style: TextStyles.textBaseBold, textAlign: TextAlign.center),
+          SizedBox(height: Margins.spacing_m),
+          Text(Strings.userActionDescriptionConfirmationSubtitle,
+              style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
+        ],
+      ),
+      actions: [
+        SizedBox(
+          width: double.infinity,
+          child: PrimaryActionButton(
+            label: Strings.userActionDescriptionConfirmationConfirmButton,
+            onPressed: () async {
+              _trackActionDescriptionConfirmation(AnalyticsEventNames.updateActionWithoutDescriptionAddDescription);
+              await Navigator.push(context, UpdateUserActionPage.route(source, userActionId));
+              if (context.mounted) {
+                // Avoid pop before rebuild
+                Future.delayed(AnimationDurations.fast, () => Navigator.pop(context));
+              }
+            },
+          ),
+        ),
+        const SizedBox(height: Margins.spacing_s),
+        SizedBox(
+          width: double.infinity,
+          child: SecondaryButton(
+            label: Strings.userActionDescriptionConfirmationTerminer,
+            onPressed: () {
+              _trackActionDescriptionConfirmation(AnalyticsEventNames.updateActionWithoutDescription);
+              Navigator.pop(context);
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _trackActionDescriptionConfirmation(String event) {
+    PassEmploiMatomoTracker.instance.trackEvent(
+      eventCategory: AnalyticsEventNames.actionWithoutDescriptionCategory,
+      action: event,
     );
   }
 }
