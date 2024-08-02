@@ -254,13 +254,11 @@ class _FinishActionButton extends StatelessWidget {
     );
   }
 
-  Future<void> _showDescriptionConfirmationPopup(BuildContext context) {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return _PopUpConfirmationDescription(userActionId: viewModel.id, source: source);
-        });
-  }
+  Future<void> _showDescriptionConfirmationPopup(BuildContext context) => showDialog(
+      context: context,
+      builder: (context) {
+        return _PopUpConfirmationDescription(userActionId: viewModel.id, source: source);
+      });
 }
 
 class _PopUpConfirmationDescription extends StatelessWidget {
@@ -328,7 +326,7 @@ class _PopUpConfirmationDescription extends StatelessWidget {
 
   void _trackActionDescriptionConfirmation(String event) {
     PassEmploiMatomoTracker.instance.trackEvent(
-      eventCategory: AnalyticsEventNames.actionWithoutDescription,
+      eventCategory: AnalyticsEventNames.actionWithoutDescriptionCategory,
       action: event,
     );
   }

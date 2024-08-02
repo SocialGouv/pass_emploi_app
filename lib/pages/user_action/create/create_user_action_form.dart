@@ -270,10 +270,10 @@ class _PopUpConfirmationDescription extends StatelessWidget {
     );
   }
 
-  void _trackActionDescriptionConfirmation(String event) {
+  void _trackActionDescriptionConfirmation(String action) {
     PassEmploiMatomoTracker.instance.trackEvent(
-      eventCategory: AnalyticsEventNames.actionWithoutDescription,
-      action: event,
+      eventCategory: AnalyticsEventNames.actionWithoutDescriptionCategory,
+      action: action,
     );
   }
 }
