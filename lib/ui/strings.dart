@@ -1361,6 +1361,10 @@ class Strings {
 
   static String cguSwitchLabel(bool accepted) => accepted ? "Refuser les cgu" : "Accepter les cgu";
 
+  // a11y
+  static String selectedRadioButton = "Sélectionné";
+  static String unselectedRadioButton = "Non sélectionné";
+
   // textes alternatifs
   static String favoriHeartRemove = "Retirer l'offre des favoris";
   static String favoriHeartAdd = "Mettre l'offre en favoris";

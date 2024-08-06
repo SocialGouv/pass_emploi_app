@@ -127,21 +127,28 @@ class _PassEmploiRadio<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => onPressed(value),
-      child: Row(
-        children: [
-          SizedBox(
-            height: 40,
-            width: 40,
-            child: Radio<T>(
-              value: value,
-              groupValue: groupValue,
-              onChanged: (value) => onPressed(value),
+    return Semantics(
+      button: true,
+      label: value == groupValue ? Strings.selectedRadioButton : Strings.unselectedRadioButton,
+      child: InkWell(
+        onTap: () => onPressed(value),
+        child: Row(
+          children: [
+            SizedBox(
+              height: 40,
+              width: 40,
+              // a11y : ingonre pointer to not take priority on semantic focus
+              child: IgnorePointer(
+                child: Radio<T>(
+                  value: value,
+                  groupValue: groupValue,
+                  onChanged: (value) => onPressed(value),
+                ),
+              ),
             ),
-          ),
-          Text(title, style: TextStyles.textBaseRegular),
-        ],
+            Text(title, style: TextStyles.textBaseRegular),
+          ],
+        ),
       ),
     );
   }
