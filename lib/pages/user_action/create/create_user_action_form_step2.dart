@@ -69,6 +69,7 @@ class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
             if (widget.viewModel.titleSource.isFromUserInput) ...[
               const SizedBox(height: Margins.spacing_m),
               Text(Strings.userActionTitleTextfieldStep2, style: TextStyles.textBaseBold),
+              MandatoryFieldsLabel.single(),
               const SizedBox(height: Margins.spacing_s),
               BaseTextField(
                 initialValue: widget.viewModel.titleSource.title,

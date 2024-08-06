@@ -3,18 +3,18 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class MandatoryFieldsLabel extends StatelessWidget {
-  final bool allFieldsAreMandatory;
+  MandatoryFieldsLabel.all() : label = Strings.allMandatoryFields;
 
-  const MandatoryFieldsLabel._({required this.allFieldsAreMandatory});
+  MandatoryFieldsLabel.some() : label = Strings.mandatoryFields;
 
-  factory MandatoryFieldsLabel.all() => MandatoryFieldsLabel._(allFieldsAreMandatory: true);
+  MandatoryFieldsLabel.single() : label = Strings.mandatoryField;
 
-  factory MandatoryFieldsLabel.some() => MandatoryFieldsLabel._(allFieldsAreMandatory: false);
+  final String label;
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      allFieldsAreMandatory ? Strings.allMandatoryFields : Strings.mandatoryFields,
+      label,
       style: TextStyles.textSRegular(),
     );
   }
