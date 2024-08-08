@@ -133,7 +133,8 @@ class _ServiceCiviqueBottomSheetFormState extends State<ServiceCiviqueBottomShee
   Widget _buildTag(TagInfo tagInfo) {
     return DataTag(
       label: tagInfo.label,
-      icon: tagInfo.withIcon ? AppIcons.place_outlined : null,
+      iconSemantics:
+          tagInfo.withIcon ? IconWithSemantics(AppIcons.place_outlined, Strings.iconAlternativeLocation) : null,
     );
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/tags/tags.dart';
 
 class ImmersionTags extends StatelessWidget {
@@ -16,7 +17,10 @@ class ImmersionTags extends StatelessWidget {
       runSpacing: Margins.spacing_base,
       children: [
         DataTag(label: secteurActivite),
-        DataTag(label: ville, icon: AppIcons.place_outlined),
+        DataTag(
+          label: ville,
+          iconSemantics: IconWithSemantics(AppIcons.place_outlined, Strings.iconAlternativeLocation),
+        ),
       ],
     );
   }

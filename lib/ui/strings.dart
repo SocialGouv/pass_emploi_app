@@ -1364,6 +1364,14 @@ class Strings {
   // a11y
   static String selectedRadioButton = "Sélectionné";
   static String unselectedRadioButton = "Non sélectionné";
+  static String exitApp = "Sortir de l'application";
+
+  static String iconAlternativeLocation = "Localisation";
+  static String iconAlternativeContractType = "Type de contrat";
+  static String iconAlternativeSalary = "Salaire";
+  static String iconAlternativeDuration = "Durée";
+  static String iconAlternativeDateDeDebut = "Date de début";
+  static String iconAlternativeDateDeFin = "Date de fin";
 
   // textes alternatifs
   static String favoriHeartRemove = "Retirer l'offre des favoris";
