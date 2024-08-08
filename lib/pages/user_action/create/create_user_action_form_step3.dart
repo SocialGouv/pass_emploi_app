@@ -34,9 +34,15 @@ class CreateUserActionFormStep3 extends StatelessWidget {
             const SizedBox(height: Margins.spacing_m),
             MandatoryFieldsLabel.all(),
             const SizedBox(height: Margins.spacing_m),
-            Text(Strings.userActionStatusRadioStep3, style: TextStyles.textBaseBold),
+            Semantics(
+              excludeSemantics: true,
+              child: Text(Strings.userActionStatusRadioStep3, style: TextStyles.textBaseBold),
+            ),
             const SizedBox(height: Margins.spacing_base),
-            _ActionStatusRadios(isCompleted: viewModel.estTerminee, onStatusChanged: onStatusChanged),
+            // a11y : 9.6 - majeur : Les boutons radios ne sont pas regroupés
+            Semantics(
+                label: Strings.userActionStatusRadioStep3,
+                child: _ActionStatusRadios(isCompleted: viewModel.estTerminee, onStatusChanged: onStatusChanged)),
             const SizedBox(height: Margins.spacing_m),
             DatePickerSuggestions(
               title: Strings.datePickerTitle,

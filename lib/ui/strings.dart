@@ -454,6 +454,7 @@ class Strings {
       'Ajouter des détails pour que votre conseiller puisse valider votre action.';
 
   static const String userActionStatusRadioStep3 = 'L’action est :';
+  static const String userActionRadioGroup = "L'action est";
   static const String userActionStatusRadioCompletedStep3 = 'Terminée';
   static const String userActionStatusRadioTodoStep3 = 'En cours';
   static const String datePickerTitle = 'Date';
