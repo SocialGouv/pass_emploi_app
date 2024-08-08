@@ -82,13 +82,16 @@ class _ChatTextFieldState extends State<ChatTextField> {
             duration: AnimationDurations.fast,
           ),
           Expanded(
-            child: BaseTextField(
-              controller: widget.controller,
-              focusNode: widget.focusNode,
-              keyboardType: TextInputType.multiline,
-              minLines: 1,
-              maxLines: 5,
-              hintText: Strings.yourMessage,
+            child: Semantics(
+              label: Strings.yourMessage,
+              child: BaseTextField(
+                controller: widget.controller,
+                focusNode: widget.focusNode,
+                keyboardType: TextInputType.multiline,
+                minLines: 1,
+                maxLines: 5,
+                hintText: Strings.yourMessage,
+              ),
             ),
           ),
           AnimatedCrossFade(

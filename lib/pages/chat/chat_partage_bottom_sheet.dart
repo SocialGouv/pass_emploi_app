@@ -98,7 +98,11 @@ class _Body extends StatelessWidget {
           SizedBox(height: Margins.spacing_base),
           _Offre(_viewModel),
           SizedBox(height: Margins.spacing_l),
-          Text(Strings.messagePourConseiller, style: TextStyles.textBaseMedium),
+          // a11y : 9.2
+          Semantics(
+            excludeSemantics: true,
+            child: Text(Strings.messagePourConseiller, style: TextStyles.textBaseMedium),
+          ),
           SizedBox(height: Margins.spacing_base),
           _TextField(_controller),
           SizedBox(height: Margins.spacing_l),
@@ -138,11 +142,14 @@ class _TextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BaseTextField(
-      keyboardType: TextInputType.multiline,
-      textInputAction: TextInputAction.done,
-      maxLines: null,
-      controller: _controller,
+    return Semantics(
+      label: Strings.messagePourConseiller,
+      child: BaseTextField(
+        keyboardType: TextInputType.multiline,
+        textInputAction: TextInputAction.done,
+        maxLines: null,
+        controller: _controller,
+      ),
     );
   }
 }
