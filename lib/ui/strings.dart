@@ -1381,4 +1381,5 @@ class Strings {
   static String openInNewTab = "Ouvrir dans un nouvel onglet";
   static String semanticsLabelInformation = "Information";
   static String listSemanticsLabel = "Liste";
+  static String invalidField = "Champ invalide";
 }
