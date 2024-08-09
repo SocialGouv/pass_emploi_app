@@ -19,6 +19,7 @@ class BoiteAOutilsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Semantics(
       label: outil.actionLabel != null ? Strings.exitApp : null,
+      button: true,
       child: BaseCard(
         title: outil.title,
         body: outil.description,
