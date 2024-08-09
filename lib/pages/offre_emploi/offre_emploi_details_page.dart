@@ -369,20 +369,17 @@ class OffreEmploiDetailsPage extends StatelessWidget {
   }
 
   Widget _requiredElement(String requiredText) {
-    return Semantics(
-      label: Strings.requiredIcon,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: Margins.spacing_xs),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Flexible(child: _listItem(requiredText)),
-            Padding(
-              padding: const EdgeInsets.only(left: Margins.spacing_s, bottom: Margins.spacing_base),
-              child: HelpTooltip(message: Strings.requiredIcon, icon: AppIcons.error_rounded),
-            ),
-          ],
-        ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: Margins.spacing_xs),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Flexible(child: _listItem(requiredText)),
+          Padding(
+            padding: const EdgeInsets.only(left: Margins.spacing_s, bottom: Margins.spacing_base),
+            child: HelpTooltip(message: Strings.requiredIcon, icon: AppIcons.error_rounded),
+          ),
+        ],
       ),
     );
   }
