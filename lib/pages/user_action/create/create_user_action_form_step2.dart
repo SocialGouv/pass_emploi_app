@@ -50,9 +50,15 @@ class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const SizedBox(height: Margins.spacing_m),
-            MandatoryFieldsLabel.some(),
+            Semantics(excludeSemantics: true, child: MandatoryFieldsLabel.some()),
             const SizedBox(height: Margins.spacing_m),
-            Text(Strings.userActionSubtitleStep2, style: TextStyles.textBaseBold),
+            Semantics(
+              label: Strings.mandatoryField,
+              child: Text(
+                Strings.userActionSubtitleStep2,
+                style: TextStyles.textBaseBold,
+              ),
+            ),
             const SizedBox(height: Margins.spacing_m),
             _SuggestionTagWrap(
               titleSource: widget.viewModel.titleSource,
@@ -71,16 +77,17 @@ class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
             if (widget.viewModel.titleSource.isFromUserInput) ...[
               const SizedBox(height: Margins.spacing_m),
               Semantics(
-                excludeSemantics: true,
-                child: Text(Strings.userActionTitleTextfieldStep2, style: TextStyles.textBaseBold),
-              ),
-              MandatoryFieldsLabel.single(),
-              const SizedBox(height: Margins.spacing_s),
-              Semantics(
-                label: Strings.userActionTitleTextfieldStep2,
-                child: BaseTextField(
-                  initialValue: widget.viewModel.titleSource.title,
-                  onChanged: (value) => widget.onTitleChanged(CreateActionTitleFromUserInput(value)),
+                label: Strings.mandatoryField,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(Strings.userActionTitleTextfieldStep2, style: TextStyles.textBaseBold),
+                    const SizedBox(height: Margins.spacing_s),
+                    BaseTextField(
+                      initialValue: widget.viewModel.titleSource.title,
+                      onChanged: (value) => widget.onTitleChanged(CreateActionTitleFromUserInput(value)),
+                    ),
+                  ],
                 ),
               ),
             ],
