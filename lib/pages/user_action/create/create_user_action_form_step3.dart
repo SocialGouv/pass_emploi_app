@@ -37,8 +37,10 @@ class CreateUserActionFormStep3 extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(Strings.userActionStatusRadioStep3, style: TextStyles.textBaseBold),
                 const SizedBox(height: Margins.spacing_base),
+                Semantics(
+                  child: Text(Strings.userActionStatusRadioStep3, style: TextStyles.textBaseBold),
+                ),
                 _ActionStatusRadios(isCompleted: viewModel.estTerminee, onStatusChanged: onStatusChanged),
               ],
             ),

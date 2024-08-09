@@ -103,13 +103,18 @@ class _Body extends StatelessWidget {
           SizedBox(height: Margins.spacing_base),
           _Offre(_viewModel),
           SizedBox(height: Margins.spacing_l),
-          // a11y : 9.2
           Semantics(
-            excludeSemantics: true,
-            child: Text(Strings.messagePourConseiller, style: TextStyles.textBaseMedium),
+            label: Strings.messagePourConseiller,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(Strings.messagePourConseiller, style: TextStyles.textBaseMedium),
+                SizedBox(height: Margins.spacing_base),
+                _TextField(_controller),
+              ],
+            ),
           ),
-          SizedBox(height: Margins.spacing_base),
-          _TextField(_controller),
           SizedBox(height: Margins.spacing_l),
           InfoCard(message: _viewModel.information),
           SizedBox(height: Margins.spacing_l),
@@ -147,14 +152,11 @@ class _TextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Semantics(
-      label: Strings.messagePourConseiller,
-      child: BaseTextField(
-        keyboardType: TextInputType.multiline,
-        textInputAction: TextInputAction.done,
-        maxLines: null,
-        controller: _controller,
-      ),
+    return BaseTextField(
+      keyboardType: TextInputType.multiline,
+      textInputAction: TextInputAction.done,
+      maxLines: null,
+      controller: _controller,
     );
   }
 }

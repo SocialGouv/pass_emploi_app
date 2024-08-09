@@ -83,7 +83,7 @@ class _ChatTextFieldState extends State<ChatTextField> {
           ),
           Expanded(
             child: Semantics(
-              label: Strings.yourMessage,
+              label: widget.controller.text.isNotEmpty ? Strings.yourMessage : null,
               child: BaseTextField(
                 controller: widget.controller,
                 focusNode: widget.focusNode,

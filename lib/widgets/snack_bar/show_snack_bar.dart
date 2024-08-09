@@ -64,7 +64,7 @@ void _showSnackBar({
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       // a11y : 11.1 - bloquant: Le message de succès disparaît automatiquement après quelques secondes
-      // duration: Duration(seconds: 5),
+      duration: Duration(minutes: 1),
       behavior: SnackBarBehavior.floating,
       backgroundColor: backgroundColor,
       content: Row(
