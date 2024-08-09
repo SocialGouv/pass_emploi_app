@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
@@ -67,6 +68,8 @@ class ChatPartageBottomSheetState extends State<ChatPartageBottomSheet> {
     switch (viewModel.snackbarState) {
       case DisplayState.CONTENT:
         PassEmploiMatomoTracker.instance.trackScreen(viewModel.snackbarSuccessTracking);
+        // a11y 5.4
+        SemanticsService.announce(viewModel.snackbarSuccessText, TextDirection.ltr);
         showSnackBarWithSuccess(context, viewModel.snackbarSuccessText);
         viewModel.snackbarDisplayed();
         Navigator.pop(context);
@@ -77,6 +80,8 @@ class ChatPartageBottomSheetState extends State<ChatPartageBottomSheet> {
         break;
       case DisplayState.EMPTY:
       case DisplayState.LOADING:
+        // a11y 5.4
+        SemanticsService.announce(Strings.loadingAnnouncement, TextDirection.ltr);
         break;
     }
   }

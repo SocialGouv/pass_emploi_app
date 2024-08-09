@@ -1382,4 +1382,5 @@ class Strings {
   static String semanticsLabelInformation = "Information";
   static String listSemanticsLabel = "Liste";
   static String invalidField = "Champ invalide";
+  static String loadingAnnouncement = "Chargement en cours";
 }
