@@ -34,9 +34,15 @@ class CreateUserActionFormStep3 extends StatelessWidget {
             const SizedBox(height: Margins.spacing_m),
             MandatoryFieldsLabel.all(),
             const SizedBox(height: Margins.spacing_m),
-            Text(Strings.userActionStatusRadioStep3, style: TextStyles.textBaseBold),
+            Semantics(
+              excludeSemantics: true,
+              child: Text(Strings.userActionStatusRadioStep3, style: TextStyles.textBaseBold),
+            ),
             const SizedBox(height: Margins.spacing_base),
-            _ActionStatusRadios(isCompleted: viewModel.estTerminee, onStatusChanged: onStatusChanged),
+            // a11y : 9.6 - majeur : Les boutons radios ne sont pas regroupés
+            Semantics(
+                label: Strings.userActionStatusRadioStep3,
+                child: _ActionStatusRadios(isCompleted: viewModel.estTerminee, onStatusChanged: onStatusChanged)),
             const SizedBox(height: Margins.spacing_m),
             DatePickerSuggestions(
               title: Strings.datePickerTitle,
@@ -127,21 +133,28 @@ class _PassEmploiRadio<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => onPressed(value),
-      child: Row(
-        children: [
-          SizedBox(
-            height: 40,
-            width: 40,
-            child: Radio<T>(
-              value: value,
-              groupValue: groupValue,
-              onChanged: (value) => onPressed(value),
+    return Semantics(
+      button: true,
+      label: value == groupValue ? Strings.selectedRadioButton : Strings.unselectedRadioButton,
+      child: InkWell(
+        onTap: () => onPressed(value),
+        child: Row(
+          children: [
+            SizedBox(
+              height: 40,
+              width: 40,
+              // a11y : ingonre pointer to not take priority on semantic focus
+              child: IgnorePointer(
+                child: Radio<T>(
+                  value: value,
+                  groupValue: groupValue,
+                  onChanged: (value) => onPressed(value),
+                ),
+              ),
             ),
-          ),
-          Text(title, style: TextStyles.textBaseRegular),
-        ],
+            Text(title, style: TextStyles.textBaseRegular),
+          ],
+        ),
       ),
     );
   }

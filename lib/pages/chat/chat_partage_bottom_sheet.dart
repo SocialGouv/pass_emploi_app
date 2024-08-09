@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
@@ -67,6 +68,8 @@ class ChatPartageBottomSheetState extends State<ChatPartageBottomSheet> {
     switch (viewModel.snackbarState) {
       case DisplayState.CONTENT:
         PassEmploiMatomoTracker.instance.trackScreen(viewModel.snackbarSuccessTracking);
+        // a11y 5.4
+        SemanticsService.announce(viewModel.snackbarSuccessText, TextDirection.ltr);
         showSnackBarWithSuccess(context, viewModel.snackbarSuccessText);
         viewModel.snackbarDisplayed();
         Navigator.pop(context);
@@ -77,6 +80,8 @@ class ChatPartageBottomSheetState extends State<ChatPartageBottomSheet> {
         break;
       case DisplayState.EMPTY:
       case DisplayState.LOADING:
+        // a11y 5.4
+        SemanticsService.announce(Strings.loadingAnnouncement, TextDirection.ltr);
         break;
     }
   }
@@ -98,7 +103,11 @@ class _Body extends StatelessWidget {
           SizedBox(height: Margins.spacing_base),
           _Offre(_viewModel),
           SizedBox(height: Margins.spacing_l),
-          Text(Strings.messagePourConseiller, style: TextStyles.textBaseMedium),
+          // a11y : 9.2
+          Semantics(
+            excludeSemantics: true,
+            child: Text(Strings.messagePourConseiller, style: TextStyles.textBaseMedium),
+          ),
           SizedBox(height: Margins.spacing_base),
           _TextField(_controller),
           SizedBox(height: Margins.spacing_l),
@@ -138,11 +147,14 @@ class _TextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BaseTextField(
-      keyboardType: TextInputType.multiline,
-      textInputAction: TextInputAction.done,
-      maxLines: null,
-      controller: _controller,
+    return Semantics(
+      label: Strings.messagePourConseiller,
+      child: BaseTextField(
+        keyboardType: TextInputType.multiline,
+        textInputAction: TextInputAction.done,
+        maxLines: null,
+        controller: _controller,
+      ),
     );
   }
 }

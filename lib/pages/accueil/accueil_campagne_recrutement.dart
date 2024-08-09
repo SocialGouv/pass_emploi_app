@@ -44,7 +44,12 @@ class CampagneRecrutementCard extends StatelessWidget {
                         child: SizedBox(
                           width: 72,
                           height: 72,
-                          child: Image.asset(Drawables.logoInProgress),
+                          child: Semantics(
+                            excludeSemantics: true,
+                            child: Image.asset(
+                              Drawables.logoInProgress,
+                            ),
+                          ),
                         ),
                       ),
                     ),

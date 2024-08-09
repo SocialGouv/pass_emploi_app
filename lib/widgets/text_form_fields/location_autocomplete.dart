@@ -143,13 +143,16 @@ class _LocationAutocompletePageState extends State<_LocationAutocompletePage> {
             hint: widget.hint,
             onCloseButtonPressed: () => Navigator.pop(context, widget.selectedLocation),
           ),
-          DebounceTextFormField(
-            heroTag: _heroTag,
-            initialValue: widget.selectedLocation?.displayableLabel(),
-            onChanged: (text) {
-              if (text.isEmpty != emptyInput) setState(() => emptyInput = text.isEmpty);
-              viewModel.onInputLocation(text);
-            },
+          Semantics(
+            label: Strings.locationTitle,
+            child: DebounceTextFormField(
+              heroTag: _heroTag,
+              initialValue: widget.selectedLocation?.displayableLabel(),
+              onChanged: (text) {
+                if (text.isEmpty != emptyInput) setState(() => emptyInput = text.isEmpty);
+                viewModel.onInputLocation(text);
+              },
+            ),
           ),
           TextFormFieldSepLine(),
           Expanded(

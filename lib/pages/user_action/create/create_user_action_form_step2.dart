@@ -59,20 +59,29 @@ class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
               onSelected: (value) {
                 widget.onTitleChanged(value);
                 // ensure the description field is visible
-                Future.delayed(AnimationDurations.fast, () {
-                  descriptionFocusNode.requestFocus();
-                  _scrollToDescription(context);
-                });
+                if (!value.isFromUserInput) {
+                  Future.delayed(AnimationDurations.fast, () {
+                    descriptionFocusNode.requestFocus();
+                    _scrollToDescription(context);
+                  });
+                }
               },
               actionType: widget.actionType,
             ),
             if (widget.viewModel.titleSource.isFromUserInput) ...[
               const SizedBox(height: Margins.spacing_m),
-              Text(Strings.userActionTitleTextfieldStep2, style: TextStyles.textBaseBold),
+              Semantics(
+                excludeSemantics: true,
+                child: Text(Strings.userActionTitleTextfieldStep2, style: TextStyles.textBaseBold),
+              ),
+              MandatoryFieldsLabel.single(),
               const SizedBox(height: Margins.spacing_s),
-              BaseTextField(
-                initialValue: widget.viewModel.titleSource.title,
-                onChanged: (value) => widget.onTitleChanged(CreateActionTitleFromUserInput(value)),
+              Semantics(
+                label: Strings.userActionTitleTextfieldStep2,
+                child: BaseTextField(
+                  initialValue: widget.viewModel.titleSource.title,
+                  onChanged: (value) => widget.onTitleChanged(CreateActionTitleFromUserInput(value)),
+                ),
               ),
             ],
             const SizedBox(height: Margins.spacing_m),

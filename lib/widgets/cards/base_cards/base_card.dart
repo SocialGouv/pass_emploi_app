@@ -81,7 +81,8 @@ class BaseCard extends StatelessWidget {
                       iconButton!,
                     ],
                   ),
-                if (imagePath != null) _CardIllustration(imagePath: imagePath!),
+                if (imagePath != null)
+                  Semantics(excludeSemantics: true, child: _CardIllustration(imagePath: imagePath!)),
                 if (title.isNotEmpty) ...[
                   if (!isSimpleCard || imagePath != null) SizedBox(height: Margins.spacing_m),
                   Row(

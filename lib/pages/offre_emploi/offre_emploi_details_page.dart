@@ -177,22 +177,29 @@ class OffreEmploiDetailsPage extends StatelessWidget {
       if (location != null)
         Padding(
           padding: const EdgeInsets.only(bottom: Margins.spacing_base),
-          child: DataTag(label: location, icon: AppIcons.place_outlined),
+          child: DataTag(
+              label: location,
+              iconSemantics: IconWithSemantics(AppIcons.place_outlined, Strings.iconAlternativeLocation)),
         ),
       if (contractType != null)
         Padding(
           padding: const EdgeInsets.only(bottom: Margins.spacing_base),
-          child: DataTag(label: contractType, icon: AppIcons.description_rounded),
+          child: DataTag(
+              label: contractType,
+              iconSemantics: IconWithSemantics(AppIcons.description_rounded, Strings.iconAlternativeContractType)),
         ),
       if (salary != null)
         Padding(
           padding: const EdgeInsets.only(bottom: Margins.spacing_base),
-          child: DataTag(label: salary, icon: AppIcons.euro_rounded),
+          child: DataTag(
+              label: salary, iconSemantics: IconWithSemantics(AppIcons.euro_rounded, Strings.iconAlternativeSalary)),
         ),
       if (duration != null)
         Padding(
           padding: const EdgeInsets.only(bottom: Margins.spacing_base),
-          child: DataTag(label: duration, icon: AppIcons.schedule_rounded),
+          child: DataTag(
+              label: duration,
+              iconSemantics: IconWithSemantics(AppIcons.schedule_rounded, Strings.iconAlternativeDuration)),
         ),
       _spacer(Margins.spacing_m)
     ]);
@@ -362,17 +369,20 @@ class OffreEmploiDetailsPage extends StatelessWidget {
   }
 
   Widget _requiredElement(String requiredText) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: Margins.spacing_xs),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Flexible(child: _listItem(requiredText)),
-          Padding(
-            padding: const EdgeInsets.only(left: Margins.spacing_s, bottom: Margins.spacing_base),
-            child: HelpTooltip(message: Strings.requiredIcon, icon: AppIcons.error_rounded),
-          ),
-        ],
+    return Semantics(
+      label: Strings.requiredIcon,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: Margins.spacing_xs),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Flexible(child: _listItem(requiredText)),
+            Padding(
+              padding: const EdgeInsets.only(left: Margins.spacing_s, bottom: Margins.spacing_base),
+              child: HelpTooltip(message: Strings.requiredIcon, icon: AppIcons.error_rounded),
+            ),
+          ],
+        ),
       ),
     );
   }

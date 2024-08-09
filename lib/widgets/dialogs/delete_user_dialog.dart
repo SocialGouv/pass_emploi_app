@@ -143,16 +143,19 @@ class _DeleteAlertTextField extends StatefulWidget {
 class _DeleteAlertTextFieldState extends State<_DeleteAlertTextField> {
   @override
   Widget build(BuildContext context) {
-    return BaseTextField(
-      controller: widget.controller,
-      errorText: (_isNotValid()) ? Strings.mandatorySuppressionLabelError : null,
-      keyboardType: TextInputType.multiline,
-      textInputAction: TextInputAction.done,
-      onChanged: (value) {
-        setState(() {
-          widget.setFieldContent(value);
-        });
-      },
+    return Semantics(
+      label: _isNotValid() ? Strings.invalidField : null,
+      child: BaseTextField(
+        controller: widget.controller,
+        errorText: (_isNotValid()) ? Strings.mandatorySuppressionLabelError : null,
+        keyboardType: TextInputType.multiline,
+        textInputAction: TextInputAction.done,
+        onChanged: (value) {
+          setState(() {
+            widget.setFieldContent(value);
+          });
+        },
+      ),
     );
   }
 

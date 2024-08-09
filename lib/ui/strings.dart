@@ -454,6 +454,7 @@ class Strings {
       'Ajouter des détails pour que votre conseiller puisse valider votre action.';
 
   static const String userActionStatusRadioStep3 = 'L’action est :';
+  static const String userActionRadioGroup = "L'action est";
   static const String userActionStatusRadioCompletedStep3 = 'Terminée';
   static const String userActionStatusRadioTodoStep3 = 'En cours';
   static const String datePickerTitle = 'Date';
@@ -1361,6 +1362,18 @@ class Strings {
 
   static String cguSwitchLabel(bool accepted) => accepted ? "Refuser les cgu" : "Accepter les cgu";
 
+  // a11y
+  static String selectedRadioButton = "Sélectionné";
+  static String unselectedRadioButton = "Non sélectionné";
+  static String exitApp = "Sortir de l'application";
+
+  static String iconAlternativeLocation = "Localisation";
+  static String iconAlternativeContractType = "Type de contrat";
+  static String iconAlternativeSalary = "Salaire";
+  static String iconAlternativeDuration = "Durée";
+  static String iconAlternativeDateDeDebut = "Date de début";
+  static String iconAlternativeDateDeFin = "Date de fin";
+
   // textes alternatifs
   static String favoriHeartRemove = "Retirer l'offre des favoris";
   static String favoriHeartAdd = "Mettre l'offre en favoris";
@@ -1368,4 +1381,6 @@ class Strings {
   static String openInNewTab = "Ouvrir dans un nouvel onglet";
   static String semanticsLabelInformation = "Information";
   static String listSemanticsLabel = "Liste";
+  static String invalidField = "Champ invalide";
+  static String loadingAnnouncement = "Chargement en cours";
 }
