@@ -244,6 +244,29 @@ void main() {
             expect(viewModel.canGoForward, false);
           });
         });
+
+        group('when step is description confirmation', () {
+          test('should return true when step 3 is valid', () {
+            // Given
+            final viewModel = CreateUserActionFormViewModel(
+              initialStep3: MockCreateUserActionStep3ViewModel(valid: true),
+              initialDisplayState: CreateUserActionDisplayState.descriptionConfimation,
+            );
+
+            // When & Then
+            expect(viewModel.canGoForward, true);
+          });
+          test('should return false when step 3 invalid', () {
+            // Given
+            final viewModel = CreateUserActionFormViewModel(
+              initialStep3: MockCreateUserActionStep3ViewModel(valid: false),
+              initialDisplayState: CreateUserActionDisplayState.descriptionConfimation,
+            );
+
+            // When & Then
+            expect(viewModel.canGoForward, false);
+          });
+        });
       });
     });
 
@@ -303,7 +326,21 @@ void main() {
           expect(hasBeenNotified, true);
         });
       });
+
       group('titleChanged', () {
+        test('should be on step 2', () {
+          // Given
+          final viewModel = CreateUserActionFormViewModel(initialDisplayState: CreateUserActionDisplayState.step3)
+            ..addListener(notify);
+
+          // When
+          viewModel.titleChanged(CreateActionTitleFromUserInput("title"));
+
+          // Then
+          expect(viewModel.displayState, CreateUserActionDisplayState.step2);
+          expect(hasBeenNotified, true);
+        });
+
         test('should update title and notify listeners', () {
           // Given
           final viewModel = CreateUserActionFormViewModel()..addListener(notify);
@@ -316,7 +353,21 @@ void main() {
           expect(hasBeenNotified, true);
         });
       });
+
       group('descriptionChanged', () {
+        test('should be on step 2', () {
+          // Given
+          final viewModel = CreateUserActionFormViewModel(initialDisplayState: CreateUserActionDisplayState.step3)
+            ..addListener(notify);
+
+          // When
+          viewModel.descriptionChanged("description");
+
+          // Then
+          expect(viewModel.displayState, CreateUserActionDisplayState.step2);
+          expect(hasBeenNotified, true);
+        });
+
         test('should update description and notify listeners', () {
           // Given
           final viewModel = CreateUserActionFormViewModel()..addListener(notify);
@@ -329,7 +380,21 @@ void main() {
           expect(hasBeenNotified, true);
         });
       });
+
       group('statusChanged', () {
+        test('should be on step 3', () {
+          // Given
+          final viewModel = CreateUserActionFormViewModel(initialDisplayState: CreateUserActionDisplayState.step2)
+            ..addListener(notify);
+
+          // When
+          viewModel.statusChanged(true);
+
+          // Then
+          expect(viewModel.displayState, CreateUserActionDisplayState.step3);
+          expect(hasBeenNotified, true);
+        });
+
         test('should update status and notify listeners', () {
           // Given
           final viewModel = CreateUserActionFormViewModel()..addListener(notify);
@@ -343,6 +408,19 @@ void main() {
         });
       });
       group('dateChanged', () {
+        test('should be on step 3', () {
+          // Given
+          final viewModel = CreateUserActionFormViewModel(initialDisplayState: CreateUserActionDisplayState.step2)
+            ..addListener(notify);
+
+          // When
+          viewModel.dateChanged(DateFromPicker(DateTime(2023)));
+
+          // Then
+          expect(viewModel.displayState, CreateUserActionDisplayState.step3);
+          expect(hasBeenNotified, true);
+        });
+
         test('should update date and notify listeners', () {
           // Given
           final viewModel = CreateUserActionFormViewModel()..addListener(notify);
@@ -356,6 +434,18 @@ void main() {
         });
       });
       group('withRappelChanged', () {
+        test('should be on step 3', () {
+          // Given
+          final viewModel = CreateUserActionFormViewModel(initialDisplayState: CreateUserActionDisplayState.step2)
+            ..addListener(notify);
+
+          // When
+          viewModel.withRappelChanged(true);
+
+          // Then
+          expect(viewModel.displayState, CreateUserActionDisplayState.step3);
+          expect(hasBeenNotified, true);
+        });
         test('should update withRappel and notify listeners', () {
           // Given
           final viewModel = CreateUserActionFormViewModel()..addListener(notify);

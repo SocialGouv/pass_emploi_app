@@ -24,7 +24,9 @@ enum CreateUserActionDisplayState {
 
   static int get stepCount => 3;
   String get nextLabel =>
-      this == CreateUserActionDisplayState.step3 ? Strings.userActionFinishButton : Strings.userActionNextButton;
+      this == CreateUserActionDisplayState.step3 || this == CreateUserActionDisplayState.descriptionConfimation
+          ? Strings.userActionFinishButton
+          : Strings.userActionNextButton;
 }
 
 class CreateUserActionFormViewModel extends ChangeNotifier {
@@ -85,6 +87,7 @@ class CreateUserActionFormViewModel extends ChangeNotifier {
         CreateUserActionDisplayState.step1 => step1.isValid,
         CreateUserActionDisplayState.step2 => step2.isValid,
         CreateUserActionDisplayState.step3 => step3.isValid,
+        CreateUserActionDisplayState.descriptionConfimation => step3.isValid,
         _ => false,
       };
 
@@ -98,31 +101,37 @@ class CreateUserActionFormViewModel extends ChangeNotifier {
       };
 
   void userActionTypeSelected(UserActionReferentielType type) {
+    displayState = CreateUserActionDisplayState.step1;
     step1 = step1.copyWith(type: type);
     viewChangedForward();
   }
 
   void titleChanged(CreateActionTitleSource titleSource) {
+    displayState = CreateUserActionDisplayState.step2;
     step2 = step2.copyWith(titleSource: titleSource);
     notifyListeners();
   }
 
   void descriptionChanged(String description) {
+    displayState = CreateUserActionDisplayState.step2;
     step2 = step2.copyWith(description: description);
     notifyListeners();
   }
 
   void statusChanged(bool estTerminee) {
+    displayState = CreateUserActionDisplayState.step3;
     step3 = step3.copyWith(estTerminee: estTerminee);
     notifyListeners();
   }
 
   void dateChanged(DateInputSource dateSource) {
+    displayState = CreateUserActionDisplayState.step3;
     step3 = step3.copyWith(dateSource: dateSource);
     notifyListeners();
   }
 
   void withRappelChanged(bool withRappel) {
+    displayState = CreateUserActionDisplayState.step3;
     step3 = step3.copyWith(withRappel: withRappel);
     notifyListeners();
   }

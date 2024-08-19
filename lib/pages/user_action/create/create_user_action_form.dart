@@ -218,55 +218,58 @@ class _PopUpConfirmationDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      scrollable: true,
       titlePadding: EdgeInsets.all(Margins.spacing_m),
       surfaceTintColor: Colors.white,
       backgroundColor: Colors.white,
-      title: Column(
-        children: [
-          Align(
-            alignment: Alignment.centerRight,
-            child: IconButton(
-              icon: Icon(Icons.close_rounded),
-              onPressed: () => Navigator.pop(context),
+      title: SingleChildScrollView(
+        child: Column(
+          children: [
+            Align(
+              alignment: Alignment.centerRight,
+              child: IconButton(
+                icon: Icon(Icons.close_rounded),
+                onPressed: () => Navigator.pop(context),
+              ),
             ),
-          ),
-          SizedBox.square(
-            dimension: 100,
-            child: Illustration.grey(AppIcons.checklist_rounded),
-          ),
-          SizedBox(height: Margins.spacing_m),
-          Text(Strings.userActionDescriptionConfirmationTitle,
-              style: TextStyles.textBaseBold, textAlign: TextAlign.center),
-          SizedBox(height: Margins.spacing_m),
-          Text(Strings.userActionDescriptionConfirmationSubtitle,
-              style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
-        ],
+            SizedBox.square(
+              dimension: 100,
+              child: Illustration.grey(AppIcons.checklist_rounded),
+            ),
+            SizedBox(height: Margins.spacing_m),
+            Text(Strings.userActionDescriptionConfirmationTitle,
+                style: TextStyles.textBaseBold, textAlign: TextAlign.center),
+            SizedBox(height: Margins.spacing_m),
+            Text(Strings.userActionDescriptionConfirmationSubtitle,
+                style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
+            SizedBox(height: Margins.spacing_m),
+            SizedBox(
+              width: double.infinity,
+              child: PrimaryActionButton(
+                label: Strings.userActionDescriptionConfirmationConfirmButton,
+                onPressed: () {
+                  _trackActionDescriptionConfirmation(AnalyticsEventNames.createActionWithoutDescriptionAddDescription);
+                  Navigator.pop(context);
+                  viewModel.goBackToStep2();
+                },
+              ),
+            ),
+            const SizedBox(height: Margins.spacing_s),
+            SizedBox(
+              width: double.infinity,
+              child: SecondaryButton(
+                label: Strings.userActionDescriptionConfirmationGoToDescriptionButton,
+                onPressed: () {
+                  _trackActionDescriptionConfirmation(AnalyticsEventNames.createActionWithoutDescription);
+                  Navigator.pop(context);
+                  viewModel.confirmDescription();
+                },
+              ),
+            ),
+          ],
+        ),
       ),
-      actions: [
-        SizedBox(
-          width: double.infinity,
-          child: PrimaryActionButton(
-            label: Strings.userActionDescriptionConfirmationConfirmButton,
-            onPressed: () {
-              _trackActionDescriptionConfirmation(AnalyticsEventNames.createActionWithoutDescriptionAddDescription);
-              Navigator.pop(context);
-              viewModel.goBackToStep2();
-            },
-          ),
-        ),
-        const SizedBox(height: Margins.spacing_s),
-        SizedBox(
-          width: double.infinity,
-          child: SecondaryButton(
-            label: Strings.userActionDescriptionConfirmationGoToDescriptionButton,
-            onPressed: () {
-              _trackActionDescriptionConfirmation(AnalyticsEventNames.createActionWithoutDescription);
-              Navigator.pop(context);
-              viewModel.confirmDescription();
-            },
-          ),
-        ),
-      ],
+      actions: [],
     );
   }
 

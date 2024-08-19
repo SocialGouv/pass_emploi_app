@@ -491,7 +491,7 @@ class Strings {
   static const String userActionDescriptionConfirmationSubtitle =
       "Votre conseiller risque de ne pas pouvoir valider cette action.";
   static const String userActionDescriptionConfirmationConfirmButton = "Ajouter une description";
-  static const String userActionDescriptionConfirmationGoToDescriptionButton = "Créer l’action";
+  static const String userActionDescriptionConfirmationGoToDescriptionButton = "Créer l’action sans description";
   static const String userActionDescriptionConfirmationTerminer = "Terminer l'action sans description";
 
   // Emploi
