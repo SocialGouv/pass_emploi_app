@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
@@ -150,6 +151,13 @@ class _Scaffold extends StatelessWidget {
                         context.dispatch(DeveloperOptionsDeleteAllPrefsAction());
                         showSnackBarWithSystemError(context, "Killez 💀- voire supprimer 🗑 - l'app");
                       },
+                    ),
+                    _ListTileData(
+                      title: "Tester l'énonciation",
+                      onTap: () => SemanticsService.announce(
+                        "Ceci est un test d'énonciation, si vous entendez ce message, c'est que l'énonciation fonctionne correctement",
+                        TextDirection.ltr,
+                      ),
                     ),
                   ]),
                   SizedBox(height: Margins.spacing_l),
