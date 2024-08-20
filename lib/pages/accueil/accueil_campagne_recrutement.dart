@@ -20,68 +20,71 @@ class CampagneRecrutementCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CardContainer(
-      backgroundColor: Colors.transparent,
-      splashColor: AppColors.primaryDarken.withOpacity(0.5),
-      padding: EdgeInsets.zero,
-      onTap: () => launchExternalUrl(ExternalLinks.campagneRecrutement),
-      image: DecorationImage(
-        image: AssetImage(Drawables.campagneRecrutementBg),
-        fit: BoxFit.cover,
-      ),
-      child: Stack(
-        children: [
-          Padding(
-            padding: EdgeInsets.all(Margins.spacing_base),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(Margins.spacing_xs),
-                      child: Transform.rotate(
-                        angle: (2 * pi / 360) * 8,
-                        child: SizedBox(
-                          width: 72,
-                          height: 72,
-                          child: Semantics(
-                            excludeSemantics: true,
-                            child: Image.asset(
-                              Drawables.logoInProgress,
+    return Semantics(
+      button: true,
+      child: CardContainer(
+        backgroundColor: Colors.transparent,
+        splashColor: AppColors.primaryDarken.withOpacity(0.5),
+        padding: EdgeInsets.zero,
+        onTap: () => launchExternalUrl(ExternalLinks.campagneRecrutement),
+        image: DecorationImage(
+          image: AssetImage(Drawables.campagneRecrutementBg),
+          fit: BoxFit.cover,
+        ),
+        child: Stack(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(Margins.spacing_base),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(Margins.spacing_xs),
+                        child: Transform.rotate(
+                          angle: (2 * pi / 360) * 8,
+                          child: SizedBox(
+                            width: 72,
+                            height: 72,
+                            child: Semantics(
+                              excludeSemantics: true,
+                              child: Image.asset(
+                                Drawables.logoInProgress,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(width: Margins.spacing_m),
-                    Expanded(
-                      child: Text(
-                        Strings.accueilCampagneRecrutementLabel,
-                        style: TextStyles.textMBold.copyWith(color: Colors.white),
+                      SizedBox(width: Margins.spacing_m),
+                      Expanded(
+                        child: Text(
+                          Strings.accueilCampagneRecrutementLabel,
+                          style: TextStyles.textMBold.copyWith(color: Colors.white),
+                        ),
                       ),
-                    ),
-                    SizedBox(width: Margins.spacing_m),
-                  ],
-                ),
-                SizedBox(height: Margins.spacing_s),
-                PressedTip(
-                  Strings.accueilCampagneRecrutementPressedTip,
-                  textColor: Colors.white,
-                  icon: AppIcons.open_in_new_rounded,
-                )
-              ],
+                      SizedBox(width: Margins.spacing_m),
+                    ],
+                  ),
+                  SizedBox(height: Margins.spacing_s),
+                  PressedTip(
+                    Strings.accueilCampagneRecrutementPressedTip,
+                    textColor: Colors.white,
+                    icon: AppIcons.open_in_new_rounded,
+                  )
+                ],
+              ),
             ),
-          ),
-          Positioned(
-            top: 0,
-            right: 0,
-            child: IconButton(
-              tooltip: Strings.close,
-              onPressed: campagneRecrutementCej.onDismiss,
-              icon: Icon(AppIcons.close_rounded, color: Colors.white),
+            Positioned(
+              top: 0,
+              right: 0,
+              child: IconButton(
+                tooltip: Strings.close,
+                onPressed: campagneRecrutementCej.onDismiss,
+                icon: Icon(AppIcons.close_rounded, color: Colors.white),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

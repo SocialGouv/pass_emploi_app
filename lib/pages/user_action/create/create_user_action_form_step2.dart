@@ -50,9 +50,15 @@ class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const SizedBox(height: Margins.spacing_m),
-            MandatoryFieldsLabel.some(),
+            Semantics(excludeSemantics: true, child: MandatoryFieldsLabel.some()),
             const SizedBox(height: Margins.spacing_m),
-            Text(Strings.userActionSubtitleStep2, style: TextStyles.textBaseBold),
+            Semantics(
+              label: Strings.mandatoryField,
+              child: Text(
+                Strings.userActionSubtitleStep2,
+                style: TextStyles.textBaseBold,
+              ),
+            ),
             const SizedBox(height: Margins.spacing_m),
             _SuggestionTagWrap(
               titleSource: widget.viewModel.titleSource,
@@ -71,16 +77,17 @@ class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
             if (widget.viewModel.titleSource.isFromUserInput) ...[
               const SizedBox(height: Margins.spacing_m),
               Semantics(
-                excludeSemantics: true,
-                child: Text(Strings.userActionTitleTextfieldStep2, style: TextStyles.textBaseBold),
-              ),
-              MandatoryFieldsLabel.single(),
-              const SizedBox(height: Margins.spacing_s),
-              Semantics(
-                label: Strings.userActionTitleTextfieldStep2,
-                child: BaseTextField(
-                  initialValue: widget.viewModel.titleSource.title,
-                  onChanged: (value) => widget.onTitleChanged(CreateActionTitleFromUserInput(value)),
+                label: Strings.mandatoryField,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(Strings.userActionTitleTextfieldStep2, style: TextStyles.textBaseBold),
+                    const SizedBox(height: Margins.spacing_s),
+                    BaseTextField(
+                      initialValue: widget.viewModel.titleSource.title,
+                      onChanged: (value) => widget.onTitleChanged(CreateActionTitleFromUserInput(value)),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -89,48 +96,50 @@ class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
               duration: AnimationDurations.fast,
               child: widget.viewModel.titleSource.isNone
                   ? SizedBox.shrink()
-                  : Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          Strings.userActionDescriptionTextfieldStep2,
-                          key: descriptionKey,
-                          style: TextStyles.textBaseBold,
-                        ),
-                        const SizedBox(height: Margins.spacing_s),
-                        Text(
-                          Strings.userActionDescriptionDescriptionfieldStep2,
-                          style: TextStyles.textSRegular(),
-                        ),
-                        const SizedBox(height: Margins.spacing_s),
-                        const SizedBox(height: Margins.spacing_s),
-                        Stack(
-                          children: [
-                            BaseTextField(
-                              focusNode: descriptionFocusNode,
-                              controller: descriptionController,
-                              hintText: Strings.exampleHint + widget.viewModel.titleSource.descriptionHint,
-                              maxLines: 5,
-                              onChanged: (value) {
-                                widget.onDescriptionChanged(value);
-                                _scrollToDescription(context);
-                              },
-                            ),
-                            if (descriptionController.text.isNotEmpty)
-                              Align(
-                                alignment: Alignment.topRight,
-                                child: IconButton(
-                                  tooltip: Strings.clear,
-                                  icon: Icon(Icons.clear),
-                                  onPressed: () {
-                                    widget.onDescriptionChanged("");
-                                    descriptionController.clear();
-                                  },
-                                ),
-                              )
-                          ],
-                        ),
-                      ],
+                  : Semantics(
+                      container: true,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            Strings.userActionDescriptionTextfieldStep2,
+                            key: descriptionKey,
+                            style: TextStyles.textBaseBold,
+                          ),
+                          const SizedBox(height: Margins.spacing_s),
+                          Text(
+                            Strings.userActionDescriptionDescriptionfieldStep2,
+                            style: TextStyles.textSRegular(),
+                          ),
+                          const SizedBox(height: Margins.spacing_base),
+                          Stack(
+                            children: [
+                              BaseTextField(
+                                focusNode: descriptionFocusNode,
+                                controller: descriptionController,
+                                hintText: Strings.exampleHint + widget.viewModel.titleSource.descriptionHint,
+                                maxLines: 5,
+                                onChanged: (value) {
+                                  widget.onDescriptionChanged(value);
+                                  _scrollToDescription(context);
+                                },
+                              ),
+                              if (descriptionController.text.isNotEmpty)
+                                Align(
+                                  alignment: Alignment.topRight,
+                                  child: IconButton(
+                                    tooltip: Strings.clear,
+                                    icon: Icon(Icons.clear),
+                                    onPressed: () {
+                                      widget.onDescriptionChanged("");
+                                      descriptionController.clear();
+                                    },
+                                  ),
+                                )
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
             ),
             // To ensure scrolling is available, and hence closing of keyboard

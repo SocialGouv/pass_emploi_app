@@ -23,6 +23,7 @@ class DeleteAlertDialog extends StatefulWidget {
 class _DeleteAlertDialogState extends State<DeleteAlertDialog> {
   final TextEditingController _inputController = TextEditingController();
   String? _fieldContent;
+  bool _showError = false;
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +59,13 @@ class _DeleteAlertDialogState extends State<DeleteAlertDialog> {
           _DeleteAlertTextField(
             controller: _inputController,
             getFieldContent: () => _fieldContent,
-            setFieldContent: (value) => _fieldContent = value,
+            onChanged: (value) {
+              setState(() {
+                _fieldContent = value;
+                _showError = false;
+              });
+            },
+            showError: _showError,
           ),
           SizedBox(height: Margins.spacing_m),
         ],
@@ -70,21 +77,26 @@ class _DeleteAlertDialogState extends State<DeleteAlertDialog> {
           onPressed: () => Navigator.pop(context),
         ),
         ValueListenableBuilder<TextEditingValue>(
-            valueListenable: _inputController,
-            builder: (context, value, child) => PrimaryActionButton(
-                  label: Strings.suppressionLabel,
-                  textColor: AppColors.warning,
-                  backgroundColor: AppColors.warningLighten,
-                  disabledBackgroundColor: AppColors.warningLighten,
-                  rippleColor: AppColors.warningLighten,
-                  withShadow: true,
-                  onPressed: _shouldActivateButton(viewModel)
-                      ? () {
-                          viewModel.onDeleteUser();
-                          Navigator.pop(context);
-                        }
-                      : null,
-                ))
+          valueListenable: _inputController,
+          builder: (context, value, child) => PrimaryActionButton(
+            label: Strings.suppressionLabel,
+            textColor: AppColors.warning,
+            backgroundColor: AppColors.warningLighten,
+            disabledBackgroundColor: AppColors.warningLighten,
+            rippleColor: AppColors.warningLighten,
+            withShadow: true,
+            onPressed: _canDeleteAccount(viewModel)
+                ? () {
+                    viewModel.onDeleteUser();
+                    Navigator.pop(context);
+                  }
+                : () {
+                    setState(() {
+                      _showError = true;
+                    });
+                  },
+          ),
+        )
       ],
       actionsAlignment: MainAxisAlignment.center,
       actionsOverflowAlignment: OverflowBarAlignment.center,
@@ -94,7 +106,7 @@ class _DeleteAlertDialogState extends State<DeleteAlertDialog> {
     );
   }
 
-  bool _shouldActivateButton(SuppressionCompteViewModel viewModel) {
+  bool _canDeleteAccount(SuppressionCompteViewModel viewModel) {
     return _isStringValid() && viewModel.displayState != DisplayState.LOADING;
   }
 
@@ -132,9 +144,15 @@ class _DeleteAlertCrossButton extends StatelessWidget {
 class _DeleteAlertTextField extends StatefulWidget {
   final TextEditingController controller;
   final String? Function() getFieldContent;
-  final Function(String) setFieldContent;
+  final Function(String) onChanged;
+  final bool showError;
 
-  const _DeleteAlertTextField({required this.controller, required this.getFieldContent, required this.setFieldContent});
+  const _DeleteAlertTextField({
+    required this.controller,
+    required this.getFieldContent,
+    required this.onChanged,
+    required this.showError,
+  });
 
   @override
   State<_DeleteAlertTextField> createState() => _DeleteAlertTextFieldState();
@@ -143,19 +161,17 @@ class _DeleteAlertTextField extends StatefulWidget {
 class _DeleteAlertTextFieldState extends State<_DeleteAlertTextField> {
   @override
   Widget build(BuildContext context) {
-    return Semantics(
-      label: _isNotValid() ? Strings.invalidField : null,
-      child: BaseTextField(
-        controller: widget.controller,
-        errorText: (_isNotValid()) ? Strings.mandatorySuppressionLabelError : null,
-        keyboardType: TextInputType.multiline,
-        textInputAction: TextInputAction.done,
-        onChanged: (value) {
-          setState(() {
-            widget.setFieldContent(value);
-          });
-        },
-      ),
+    final displayErorr = _isNotValid() && widget.showError;
+    return BaseTextField(
+      controller: widget.controller,
+      errorText: (displayErorr) ? Strings.mandatorySuppressionLabelError : null,
+      keyboardType: TextInputType.multiline,
+      textInputAction: TextInputAction.done,
+      onChanged: (value) {
+        setState(() {
+          widget.onChanged(value);
+        });
+      },
     );
   }
 

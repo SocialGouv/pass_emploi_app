@@ -34,15 +34,16 @@ class CreateUserActionFormStep3 extends StatelessWidget {
             const SizedBox(height: Margins.spacing_m),
             MandatoryFieldsLabel.all(),
             const SizedBox(height: Margins.spacing_m),
-            Semantics(
-              excludeSemantics: true,
-              child: Text(Strings.userActionStatusRadioStep3, style: TextStyles.textBaseBold),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: Margins.spacing_base),
+                Semantics(
+                  child: Text(Strings.userActionStatusRadioStep3, style: TextStyles.textBaseBold),
+                ),
+                _ActionStatusRadios(isCompleted: viewModel.estTerminee, onStatusChanged: onStatusChanged),
+              ],
             ),
-            const SizedBox(height: Margins.spacing_base),
-            // a11y : 9.6 - majeur : Les boutons radios ne sont pas regroupés
-            Semantics(
-                label: Strings.userActionStatusRadioStep3,
-                child: _ActionStatusRadios(isCompleted: viewModel.estTerminee, onStatusChanged: onStatusChanged)),
             const SizedBox(height: Margins.spacing_m),
             DatePickerSuggestions(
               title: Strings.datePickerTitle,
@@ -135,25 +136,28 @@ class _PassEmploiRadio<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return Semantics(
       button: true,
-      label: value == groupValue ? Strings.selectedRadioButton : Strings.unselectedRadioButton,
+      label: "${value == groupValue ? Strings.selectedRadioButton : Strings.unselectedRadioButton} : $title",
       child: InkWell(
         onTap: () => onPressed(value),
-        child: Row(
-          children: [
-            SizedBox(
-              height: 40,
-              width: 40,
-              // a11y : ingonre pointer to not take priority on semantic focus
-              child: IgnorePointer(
-                child: Radio<T>(
-                  value: value,
-                  groupValue: groupValue,
-                  onChanged: (value) => onPressed(value),
+        child: Semantics(
+          excludeSemantics: true,
+          child: Row(
+            children: [
+              SizedBox(
+                height: 40,
+                width: 40,
+                // a11y : ingonre pointer to not take priority on semantic focus
+                child: IgnorePointer(
+                  child: Radio<T>(
+                    value: value,
+                    groupValue: groupValue,
+                    onChanged: (value) => onPressed(value),
+                  ),
                 ),
               ),
-            ),
-            Text(title, style: TextStyles.textBaseRegular),
-          ],
+              Semantics(child: Text(title, style: TextStyles.textBaseRegular)),
+            ],
+          ),
         ),
       ),
     );

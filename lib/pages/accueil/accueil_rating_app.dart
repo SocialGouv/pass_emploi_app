@@ -32,58 +32,61 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CardContainer(
-      backgroundColor: AppColors.primary,
-      splashColor: AppColors.primaryDarken.withOpacity(0.5),
-      padding: EdgeInsets.zero,
-      onTap: () => Navigator.push(context, RatingPage.materialPageRoute()),
-      child: Stack(
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: Margins.spacing_base, horizontal: Margins.spacing_m),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Icon(
-                  AppIcons.hotel_class,
-                  color: Colors.white,
-                  size: Dimens.icon_size_l,
-                ),
-                SizedBox(width: Margins.spacing_m),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        Strings.ratingAppLabel,
-                        style: TextStyles.textMBold.copyWith(color: Colors.white),
-                      ),
-                      SizedBox(height: Margins.spacing_base),
-                      PressedTip(
-                        Strings.ratingButton,
-                        textColor: Colors.white,
-                        icon: AppIcons.chevron_right_rounded,
-                      )
-                    ],
+    return Semantics(
+      button: true,
+      child: CardContainer(
+        backgroundColor: AppColors.primary,
+        splashColor: AppColors.primaryDarken.withOpacity(0.5),
+        padding: EdgeInsets.zero,
+        onTap: () => Navigator.push(context, RatingPage.materialPageRoute()),
+        child: Stack(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: Margins.spacing_base, horizontal: Margins.spacing_m),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(
+                    AppIcons.hotel_class,
+                    color: Colors.white,
+                    size: Dimens.icon_size_l,
                   ),
-                ),
-              ],
+                  SizedBox(width: Margins.spacing_m),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          Strings.ratingAppLabel,
+                          style: TextStyles.textMBold.copyWith(color: Colors.white),
+                        ),
+                        SizedBox(height: Margins.spacing_base),
+                        PressedTip(
+                          Strings.ratingButton,
+                          textColor: Colors.white,
+                          icon: AppIcons.chevron_right_rounded,
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Positioned(
-            top: 0,
-            right: 0,
-            child: IconButton(
-              tooltip: Strings.close,
-              onPressed: () {
-                viewModel.onDone();
-                PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.skipRating);
-              },
-              icon: Icon(AppIcons.close_rounded, color: Colors.white),
+            Positioned(
+              top: 0,
+              right: 0,
+              child: IconButton(
+                tooltip: Strings.close,
+                onPressed: () {
+                  viewModel.onDone();
+                  PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.skipRating);
+                },
+                icon: Icon(AppIcons.close_rounded, color: Colors.white),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

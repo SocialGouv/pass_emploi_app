@@ -69,6 +69,7 @@ class BaseTextField extends StatelessWidget {
         hintText: hintText,
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
+        semanticCounterText: "",
         hintStyle: TextStyles.textSRegular(color: AppColors.grey800),
         contentPadding: const EdgeInsets.all(Margins.spacing_base),
         error: errorText != null ? _Error(errorText!) : null,
@@ -117,23 +118,27 @@ class _Error extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(
-          AppIcons.error_rounded,
-          color: AppColors.warning,
-        ),
-        SizedBox(width: Margins.spacing_s),
-        Expanded(
-          child: Text(
-            errorText,
-            style: TextStyle(
-              color: AppColors.warning,
-              fontWeight: FontWeight.bold,
+    return Semantics(
+      focusable: true,
+      focused: true,
+      child: Row(
+        children: [
+          Icon(
+            AppIcons.error_rounded,
+            color: AppColors.warning,
+          ),
+          SizedBox(width: Margins.spacing_s),
+          Expanded(
+            child: Text(
+              errorText,
+              style: TextStyle(
+                color: AppColors.warning,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
