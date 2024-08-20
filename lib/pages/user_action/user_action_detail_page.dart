@@ -245,7 +245,8 @@ class _FinishActionButton extends StatelessWidget {
         suffix: Icon(AppIcons.celebration_rounded, color: Colors.white),
         onPressed: () async {
           if (viewModel.withDescriptionConfirmationPopup) {
-            await _showDescriptionConfirmationPopup(context);
+            final result = await _showDescriptionConfirmationPopup(context);
+            if (result == null || !result) return;
           }
           onActionDone();
           viewModel.updateStatus(UserActionStatus.DONE);
@@ -254,7 +255,7 @@ class _FinishActionButton extends StatelessWidget {
     );
   }
 
-  Future<void> _showDescriptionConfirmationPopup(BuildContext context) => showDialog(
+  Future<bool?> _showDescriptionConfirmationPopup(BuildContext context) => showDialog(
       context: context,
       builder: (context) {
         return _PopUpConfirmationDescription(userActionId: viewModel.id, source: source);
@@ -279,7 +280,7 @@ class _PopUpConfirmationDescription extends StatelessWidget {
             alignment: Alignment.centerRight,
             child: IconButton(
               icon: Icon(Icons.close_rounded),
-              onPressed: () => Navigator.pop(context),
+              onPressed: () => Navigator.pop(context, false),
             ),
           ),
           SizedBox.square(
@@ -304,7 +305,7 @@ class _PopUpConfirmationDescription extends StatelessWidget {
               await Navigator.push(context, UpdateUserActionPage.route(source, userActionId));
               if (context.mounted) {
                 // Avoid pop before rebuild
-                Future.delayed(AnimationDurations.fast, () => Navigator.pop(context));
+                Future.delayed(AnimationDurations.fast, () => Navigator.pop(context, true));
               }
             },
           ),
@@ -316,7 +317,7 @@ class _PopUpConfirmationDescription extends StatelessWidget {
             label: Strings.userActionDescriptionConfirmationTerminer,
             onPressed: () {
               _trackActionDescriptionConfirmation(AnalyticsEventNames.updateActionWithoutDescription);
-              Navigator.pop(context);
+              Navigator.pop(context, true);
             },
           ),
         ),
