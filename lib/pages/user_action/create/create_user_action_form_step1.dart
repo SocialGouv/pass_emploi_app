@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/media_sizes.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/a11y/auto_focus.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 
 class CreateUserActionFormStep1 extends StatelessWidget {
@@ -19,22 +20,24 @@ class CreateUserActionFormStep1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Tracker(
-      tracking: AnalyticsScreenNames.createUserActionStep1,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: Margins.spacing_m),
-            Text(Strings.userActionSubtitleStep1, style: TextStyles.textBaseBold),
-            const SizedBox(height: Margins.spacing_m),
-            Semantics(
-              label: Strings.listSemanticsLabel,
-              child: ActionCategorySelector(onActionSelected: onActionTypeSelected),
-            ),
-            const SizedBox(height: Margins.spacing_base),
-          ],
+    return AutoFocus(
+      child: Tracker(
+        tracking: AnalyticsScreenNames.createUserActionStep1,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: Margins.spacing_m),
+              Text(Strings.userActionSubtitleStep1, style: TextStyles.textBaseBold),
+              const SizedBox(height: Margins.spacing_m),
+              Semantics(
+                label: Strings.listSemanticsLabel,
+                child: ActionCategorySelector(onActionSelected: onActionTypeSelected),
+              ),
+              const SizedBox(height: Margins.spacing_base),
+            ],
+          ),
         ),
       ),
     );

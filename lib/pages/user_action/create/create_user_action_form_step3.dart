@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/presentation/user_action/creation_form/create_us
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/a11y/auto_focus.dart';
 import 'package:pass_emploi_app/widgets/a11y/mandatory_fields_label.dart';
 import 'package:pass_emploi_app/widgets/date_pickers/date_picker_suggestions.dart';
 
@@ -24,39 +25,41 @@ class CreateUserActionFormStep3 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Tracker(
-      tracking: AnalyticsScreenNames.createUserActionStep3,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const SizedBox(height: Margins.spacing_m),
-            MandatoryFieldsLabel.all(),
-            const SizedBox(height: Margins.spacing_m),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: Margins.spacing_base),
-                Semantics(
-                  child: Text(Strings.userActionStatusRadioStep3, style: TextStyles.textBaseBold),
-                ),
-                _ActionStatusRadios(isCompleted: viewModel.estTerminee, onStatusChanged: onStatusChanged),
-              ],
-            ),
-            const SizedBox(height: Margins.spacing_m),
-            DatePickerSuggestions(
-              title: Strings.datePickerTitle,
-              dateSource: viewModel.dateSource,
-              onDateChanged: onDateChanged,
-            ),
-            const SizedBox(height: Margins.spacing_m),
-            if (viewModel.shouldDisplayRappelNotification())
-              _RappelsSwitcher(
-                value: viewModel.withRappel,
-                onChanged: (value) => withRappelChanged(value),
-              )
-          ],
+    return AutoFocus(
+      child: Tracker(
+        tracking: AnalyticsScreenNames.createUserActionStep3,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SizedBox(height: Margins.spacing_m),
+              MandatoryFieldsLabel.all(),
+              const SizedBox(height: Margins.spacing_m),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: Margins.spacing_base),
+                  Semantics(
+                    child: Text(Strings.userActionStatusRadioStep3, style: TextStyles.textBaseBold),
+                  ),
+                  _ActionStatusRadios(isCompleted: viewModel.estTerminee, onStatusChanged: onStatusChanged),
+                ],
+              ),
+              const SizedBox(height: Margins.spacing_m),
+              DatePickerSuggestions(
+                title: Strings.datePickerTitle,
+                dateSource: viewModel.dateSource,
+                onDateChanged: onDateChanged,
+              ),
+              const SizedBox(height: Margins.spacing_m),
+              if (viewModel.shouldDisplayRappelNotification())
+                _RappelsSwitcher(
+                  value: viewModel.withRappel,
+                  onChanged: (value) => withRappelChanged(value),
+                )
+            ],
+          ),
         ),
       ),
     );

@@ -55,6 +55,7 @@ class _CreateUserActionFormState extends State<CreateUserActionForm> {
       appBar: SecondaryAppBar(
         title: Strings.createActionAppBarTitle,
         leading: IconButton(
+          tooltip: Strings.close,
           icon: Icon(Icons.close_rounded),
           onPressed: () => Navigator.pop(context),
         ),
