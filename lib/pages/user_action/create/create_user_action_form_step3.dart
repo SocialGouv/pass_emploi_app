@@ -50,7 +50,13 @@ class CreateUserActionFormStep3 extends StatelessWidget {
               DatePickerSuggestions(
                 title: Strings.datePickerTitle,
                 dateSource: viewModel.dateSource,
-                onDateChanged: onDateChanged,
+                onDateChanged: (date) {
+                  onDateChanged(date);
+                  if (!date.isNone) {
+                    // a11y : wait ui to be updated before moving focus
+                    Future.delayed(Duration(milliseconds: 50), () => FocusScope.of(context).nextFocus());
+                  }
+                },
               ),
               const SizedBox(height: Margins.spacing_m),
               if (viewModel.shouldDisplayRappelNotification())
