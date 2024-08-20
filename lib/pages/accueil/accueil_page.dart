@@ -30,6 +30,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+import 'package:pass_emploi_app/widgets/a11y/auto_focus.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_accueil_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_navigation_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/cards/campagne_card.dart';
@@ -47,18 +48,20 @@ class _AccueilPageState extends State<AccueilPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Tracker(
-      tracking: AnalyticsScreenNames.accueil,
-      child: StoreConnector<AppState, AccueilViewModel>(
-        onInit: (store) => store.dispatch(AccueilRequestAction()),
-        converter: (store) => AccueilViewModel.create(store),
-        builder: _builder,
-        onDidChange: (previousViewModel, viewModel) {
-          _handleOnboarding(viewModel);
-          _handleDeeplink(previousViewModel, viewModel);
-        },
-        onInitialBuild: _onInitialBuild,
-        distinct: true,
+    return AutoFocus(
+      child: Tracker(
+        tracking: AnalyticsScreenNames.accueil,
+        child: StoreConnector<AppState, AccueilViewModel>(
+          onInit: (store) => store.dispatch(AccueilRequestAction()),
+          converter: (store) => AccueilViewModel.create(store),
+          builder: _builder,
+          onDidChange: (previousViewModel, viewModel) {
+            _handleOnboarding(viewModel);
+            _handleDeeplink(previousViewModel, viewModel);
+          },
+          onInitialBuild: _onInitialBuild,
+          distinct: true,
+        ),
       ),
     );
   }

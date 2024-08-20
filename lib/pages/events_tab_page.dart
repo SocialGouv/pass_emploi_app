@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/presentation/events/event_tab_page_view_model.da
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/widgets/a11y/auto_focus.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/connectivity_widgets.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -25,10 +26,12 @@ class _EventsTabPageState extends State<EventsTabPage> {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, EventsTabPageViewModel>(
-      builder: (context, viewModel) => _Body(viewModel, widget.initialTab),
-      converter: (store) => EventsTabPageViewModel.create(store),
-      onDidChange: (_, newVm) => _handleOnboarding(newVm),
+    return AutoFocus(
+      child: StoreConnector<AppState, EventsTabPageViewModel>(
+        builder: (context, viewModel) => _Body(viewModel, widget.initialTab),
+        converter: (store) => EventsTabPageViewModel.create(store),
+        onDidChange: (_, newVm) => _handleOnboarding(newVm),
+      ),
     );
   }
 

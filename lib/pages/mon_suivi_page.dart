@@ -22,6 +22,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+import 'package:pass_emploi_app/widgets/a11y/auto_focus.dart';
 import 'package:pass_emploi_app/widgets/animated_list_loader.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
@@ -45,20 +46,22 @@ class _MonSuiviPageState extends State<MonSuiviPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Tracker(
-      tracking: AnalyticsScreenNames.monSuivi,
-      child: _StateProvider(
-        child: StoreConnector<AppState, MonSuiviViewModel>(
-          onInit: (store) => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.current)),
-          converter: (store) => MonSuiviViewModel.create(store),
-          builder: (_, viewModel) => _Scaffold(
-            body: _Body(viewModel),
-            withCreateButton: viewModel.withCreateButton,
-            ctaType: viewModel.ctaType,
+    return AutoFocus(
+      child: Tracker(
+        tracking: AnalyticsScreenNames.monSuivi,
+        child: _StateProvider(
+          child: StoreConnector<AppState, MonSuiviViewModel>(
+            onInit: (store) => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.current)),
+            converter: (store) => MonSuiviViewModel.create(store),
+            builder: (_, viewModel) => _Scaffold(
+              body: _Body(viewModel),
+              withCreateButton: viewModel.withCreateButton,
+              ctaType: viewModel.ctaType,
+            ),
+            onDispose: (store) => store.dispatch(MonSuiviResetAction()),
+            onDidChange: (_, viewModel) => _handleOnboarding(context, viewModel),
+            distinct: true,
           ),
-          onDispose: (store) => store.dispatch(MonSuiviResetAction()),
-          onDidChange: (_, viewModel) => _handleOnboarding(context, viewModel),
-          distinct: true,
         ),
       ),
     );
