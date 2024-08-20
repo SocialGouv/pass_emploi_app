@@ -61,7 +61,8 @@ class RemoteConfigRepository {
   Cgu? getCgu() {
     if (_firebaseRemoteConfig == null) return null;
     final String cguAsString = _firebaseRemoteConfig.getString('cgu');
-    if (cguAsString.isEmpty) return null;
+    // Despite Remote config documentation, Firebase returns "null" string value when key is not found
+    if (cguAsString.isEmpty || cguAsString == "null") return null;
     return Cgu.fromJson(json.decode(cguAsString));
   }
 }
