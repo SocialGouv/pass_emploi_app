@@ -154,9 +154,12 @@ class _Scaffold extends StatelessWidget {
                     ),
                     _ListTileData(
                       title: "Tester l'énonciation",
-                      onTap: () => SemanticsService.announce(
-                        "Ceci est un test d'énonciation, si vous entendez ce message, c'est que l'énonciation fonctionne correctement",
-                        TextDirection.ltr,
+                      onTap: () => Future.delayed(
+                        Duration(milliseconds: 500),
+                        () => SemanticsService.announce(
+                          "Ceci est un test d'énonciation, si vous entendez ce message, c'est que l'énonciation fonctionne correctement",
+                          TextDirection.ltr,
+                        ),
                       ),
                     ),
                   ]),
