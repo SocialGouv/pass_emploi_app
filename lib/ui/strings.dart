@@ -1370,7 +1370,7 @@ class Strings {
   static String iconAlternativeLocation = "Localisation";
   static String iconAlternativeContractType = "Type de contrat";
   static String iconAlternativeSalary = "Salaire";
-  static String iconAlternativeDuration = "Durée";
+  static String iconAlternativeDuration = "Temps de travail";
   static String iconAlternativeDateDeDebut = "Date de début";
   static String iconAlternativeDateDeFin = "Date de fin";
 
