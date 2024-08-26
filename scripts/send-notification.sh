@@ -6,7 +6,7 @@ API_ACCESS_KEY="Mettre ici la valeur de Clé du Serveur API Cloud Messaging disp
 DEVICE_TOKEN="Mettre ici le token de l'appareil dans la console au lancement de l'app"
 NOTIFICATION_TITLE="Un titre de notification"
 NOTIFICATION_BODY="Un body"
-NOTIFICATION_DATA_TYPE="Mettre ici un des types de notifications présent dans deep_link_state.dart"
+NOTIFICATION_DATA_TYPE="Mettre ici un des types de notifications présent dans deep_link_factory.dart"
 NOTIFICATION_DATA_ID="Un ID"
 
 

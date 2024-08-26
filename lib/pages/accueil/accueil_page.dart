@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
+import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_alertes.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_campagne_recrutement.dart';
@@ -16,8 +17,10 @@ import 'package:pass_emploi_app/pages/accueil/accueil_rating_app.dart';
 import 'package:pass_emploi_app/pages/alerte_page.dart';
 import 'package:pass_emploi_app/pages/benevolat_page.dart';
 import 'package:pass_emploi_app/pages/campagne/campagne_details_page.dart';
+import 'package:pass_emploi_app/pages/demarche/create_demarche_step1_page.dart';
 import 'package:pass_emploi_app/pages/offre_favoris_page.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_details_page.dart';
+import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_view_model.dart';
@@ -70,29 +73,55 @@ class _AccueilPageState extends State<AccueilPage> {
     );
   }
 
-  void _handleDeeplink(AccueilViewModel? oldViewModel, AccueilViewModel newViewModel) {
-    final route = switch (newViewModel.deepLink) {
-      final RendezvousDeepLink deeplink => RendezvousDetailsPage.materialPageRoute(
-          RendezvousStateSource.noSource,
-          deeplink.idRendezvous,
-        ),
-      final SessionMiloDeepLink deeplink => RendezvousDetailsPage.materialPageRoute(
-          RendezvousStateSource.sessionMiloDetails,
-          deeplink.idSessionMilo,
-        ),
-      final ActionDeepLink deeplink => UserActionDetailPage.materialPageRoute(
-          deeplink.idAction,
-          UserActionStateSource.noSource,
-        ),
-      AlerteDeepLink() => AlertePage.materialPageRoute(),
-      AlertesDeepLink() => AlertePage.materialPageRoute(),
-      FavorisDeepLink() => OffreFavorisPage.materialPageRoute(),
-      BenevolatDeepLink() => BenevolatPage.materialPageRoute(),
-      _ => null,
-    };
+  Future<void> _handleDeeplink(AccueilViewModel? oldViewModel, AccueilViewModel newViewModel) async {
+    if (newViewModel.deepLink is RappelCreationDemarcheDeepLink) {
+      await _handleRappelCreationDemarcheDeeplink();
+    } else if (newViewModel.deepLink is RappelCreationActionDeepLink) {
+      await _handleRappelCreationActionDeeplink();
+    } else {
+      final route = switch (newViewModel.deepLink) {
+        final RendezvousDeepLink deeplink => RendezvousDetailsPage.materialPageRoute(
+            RendezvousStateSource.noSource,
+            deeplink.idRendezvous,
+          ),
+        final SessionMiloDeepLink deeplink => RendezvousDetailsPage.materialPageRoute(
+            RendezvousStateSource.sessionMiloDetails,
+            deeplink.idSessionMilo,
+          ),
+        final ActionDeepLink deeplink => UserActionDetailPage.materialPageRoute(
+            deeplink.idAction,
+            UserActionStateSource.noSource,
+          ),
+        AlerteDeepLink() => AlertePage.materialPageRoute(),
+        AlertesDeepLink() => AlertePage.materialPageRoute(),
+        FavorisDeepLink() => OffreFavorisPage.materialPageRoute(),
+        BenevolatDeepLink() => BenevolatPage.materialPageRoute(),
+        _ => null,
+      };
 
-    if (route != null) Navigator.push(context, route);
-    if (newViewModel.shouldResetDeeplink) newViewModel.resetDeeplink();
+      if (route != null) Navigator.push(context, route);
+      if (newViewModel.shouldResetDeeplink) newViewModel.resetDeeplink();
+    }
+  }
+
+  Future<void> _handleRappelCreationDemarcheDeeplink() async {
+    // Displaying of MonSuivi page is required if user wants to display details of created demarche.
+    await _displayMonSuiviPage();
+    if (mounted) Navigator.push(context, CreateDemarcheStep1Page.materialPageRoute());
+  }
+
+  Future<void> _handleRappelCreationActionDeeplink() async {
+    // As context is not available anymore in callback, navigator needs to be instantiated here.
+    final navigator = Navigator.of(context);
+    // Displaying of MonSuivi page is required if user wants to display details of created action.
+    await _displayMonSuiviPage();
+    CreateUserActionFormPage.pushUserActionCreationTunnel(navigator, UserActionStateSource.monSuivi);
+  }
+
+  dynamic _displayMonSuiviPage() {
+    StoreProvider.of<AppState>(context).dispatch(
+      HandleDeepLinkAction(MonSuiviDeepLink(), DeepLinkOrigin.inAppNavigation),
+    );
   }
 
   void _handleOnboarding(AccueilViewModel newViewModel) {

@@ -328,6 +328,28 @@ void main() {
         // Then
         expect(viewModel.shouldResetDeeplink, isFalse);
       });
+
+      test('RappelCreationDemarcheDeepLink > double opening of pages required', () {
+        // Given
+        final store = givenState().withHandleDeepLink(RappelCreationDemarcheDeepLink()).store();
+
+        // When
+        final viewModel = AccueilViewModel.create(store);
+
+        // Then
+        expect(viewModel.shouldResetDeeplink, isFalse);
+      });
+
+      test('RappelCreationActionDeepLink > double opening of pages required', () {
+        // Given
+        final store = givenState().withHandleDeepLink(RappelCreationActionDeepLink()).store();
+
+        // When
+        final viewModel = AccueilViewModel.create(store);
+
+        // Then
+        expect(viewModel.shouldResetDeeplink, isFalse);
+      });
     });
   });
 

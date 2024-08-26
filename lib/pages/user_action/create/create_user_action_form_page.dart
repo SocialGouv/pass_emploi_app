@@ -29,9 +29,11 @@ class CreateUserActionFormPage extends StatelessWidget {
   const CreateUserActionFormPage(this.source);
   final UserActionStateSource source;
 
-  static void pushUserActionCreationTunnel(BuildContext context, UserActionStateSource source) {
-    Navigator.push(context, _route(source)) //
-        .then((result) => _handleResult(context, result, source));
+  // NavigatorState is used rather than context, as it may not be available anymore in callbacks.
+  static void pushUserActionCreationTunnel(NavigatorState navigator, UserActionStateSource source) {
+    navigator
+        .push(_route(source)) //
+        .then((result) => _handleResult(navigator, result, source));
   }
 
   static Route<CreateActionFormResult> _route(UserActionStateSource source) {
@@ -41,19 +43,19 @@ class CreateUserActionFormPage extends StatelessWidget {
     );
   }
 
-  static void _handleResult(BuildContext context, CreateActionFormResult? result, UserActionStateSource source) {
+  static void _handleResult(NavigatorState navigator, CreateActionFormResult? result, UserActionStateSource source) {
     if (result is CreateNewUserAction) {
       PassEmploiMatomoTracker.instance.trackEvent(
         eventCategory: AnalyticsEventNames.createActionv2EventCategory,
         action: AnalyticsEventNames.createActionResultAnotherAction,
       );
-      pushUserActionCreationTunnel(context, source);
+      pushUserActionCreationTunnel(navigator, source);
     } else if (result is NavigateToUserActionDetails) {
       PassEmploiMatomoTracker.instance.trackEvent(
         eventCategory: AnalyticsEventNames.createActionv2EventCategory,
         action: AnalyticsEventNames.createActionResultDetailsAction,
       );
-      _openDetails(context, result.userActionId, result.source);
+      _openDetails(navigator, result.userActionId, result.source);
     } else {
       PassEmploiMatomoTracker.instance.trackEvent(
         eventCategory: AnalyticsEventNames.createActionv2EventCategory,
@@ -62,8 +64,8 @@ class CreateUserActionFormPage extends StatelessWidget {
     }
   }
 
-  static void _openDetails(BuildContext context, String userActionId, UserActionStateSource source) {
-    Navigator.push(context, UserActionDetailPage.materialPageRoute(userActionId, source));
+  static void _openDetails(NavigatorState navigator, String userActionId, UserActionStateSource source) {
+    navigator.push(UserActionDetailPage.materialPageRoute(userActionId, source));
   }
 
   static void showSnackBarForOfflineCreation(BuildContext context) {
