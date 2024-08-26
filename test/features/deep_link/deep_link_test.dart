@@ -98,6 +98,16 @@ void main() {
           AlerteDeepLink(idAlerte: 'id'),
           DeepLinkOrigin.pushNotification,
         );
+        assertStateWithJson(
+          {"type": "RAPPEL_CREATION_DEMARCHE"},
+          RappelCreationDemarcheDeepLink(),
+          DeepLinkOrigin.pushNotification,
+        );
+        assertStateWithJson(
+          {"type": "RAPPEL_CREATION_ACTION"},
+          RappelCreationActionDeepLink(),
+          DeepLinkOrigin.pushNotification,
+        );
       });
 
       group('Firebase', () {

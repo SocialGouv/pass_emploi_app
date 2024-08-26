@@ -65,3 +65,7 @@ class RechercheDeepLink extends DeepLink {}
 class OutilsDeepLink extends DeepLink {}
 
 class BenevolatDeepLink extends DeepLink {}
+
+class RappelCreationDemarcheDeepLink extends DeepLink {}
+
+class RappelCreationActionDeepLink extends DeepLink {}

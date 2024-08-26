@@ -114,7 +114,7 @@ class _Scaffold extends StatelessWidget {
                   MonSuiviCtaType.createDemarche =>
                     Navigator.push(context, CreateDemarcheStep1Page.materialPageRoute()),
                   MonSuiviCtaType.createAction => CreateUserActionFormPage.pushUserActionCreationTunnel(
-                      context,
+                      Navigator.of(context),
                       UserActionStateSource.monSuivi,
                     ),
                 }),

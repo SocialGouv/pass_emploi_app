@@ -69,6 +69,8 @@ bool _shouldResetDeeplink(Store<AppState> store) {
 
   return switch (deeplinkState.deepLink) {
     AlerteDeepLink() => false,
+    RappelCreationDemarcheDeepLink() => false,
+    RappelCreationActionDeepLink() => false,
     _ => true,
   };
 }
