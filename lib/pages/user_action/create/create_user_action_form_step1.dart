@@ -1,6 +1,9 @@
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
+import 'package:flutter/widgets.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/models/user_action_type.dart';
@@ -29,10 +32,13 @@ class CreateUserActionFormStep1 extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: Margins.spacing_m),
-              Text(Strings.userActionSubtitleStep1, style: TextStyles.textBaseBold),
+              Semantics(
+                sortKey: const OrdinalSortKey(1),
+                child: Text(Strings.userActionSubtitleStep1, style: TextStyles.textBaseBold),
+              ),
               const SizedBox(height: Margins.spacing_m),
               Semantics(
-                label: Strings.listSemanticsLabel,
+                sortKey: const OrdinalSortKey(2),
                 child: ActionCategorySelector(onActionSelected: onActionTypeSelected),
               ),
               const SizedBox(height: Margins.spacing_base),
@@ -51,25 +57,29 @@ class ActionCategorySelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        mainAxisSpacing: Margins.spacing_base,
-        crossAxisSpacing: Margins.spacing_base,
-        childAspectRatio: _responsiveChildAspectRatioForA11y(context),
+    return Semantics(
+      label: Strings.listSemanticsLabel,
+      child: GridView.builder(
+        semanticChildCount: UserActionReferentielTypePresentation.all.length,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisSpacing: Margins.spacing_base,
+          crossAxisSpacing: Margins.spacing_base,
+          childAspectRatio: _responsiveChildAspectRatioForA11y(context),
+        ),
+        itemCount: UserActionReferentielTypePresentation.all.length,
+        itemBuilder: (context, index) {
+          final type = UserActionReferentielTypePresentation.all[index];
+          return ActionCategoryCard(
+            onTap: () => onActionSelected.call(type),
+            icon: type.icon,
+            label: type.label,
+            description: type.description,
+          );
+        },
       ),
-      itemCount: UserActionReferentielTypePresentation.all.length,
-      itemBuilder: (context, index) {
-        final type = UserActionReferentielTypePresentation.all[index];
-        return ActionCategoryCard(
-          onTap: () => onActionSelected.call(type),
-          icon: type.icon,
-          label: type.label,
-          description: type.description,
-        );
-      },
     );
   }
 

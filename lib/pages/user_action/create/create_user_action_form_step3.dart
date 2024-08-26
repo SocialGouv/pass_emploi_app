@@ -36,16 +36,12 @@ class CreateUserActionFormStep3 extends StatelessWidget {
               const SizedBox(height: Margins.spacing_m),
               MandatoryFieldsLabel.all(),
               const SizedBox(height: Margins.spacing_m),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: Margins.spacing_base),
-                  Semantics(
-                    child: Text(Strings.userActionStatusRadioStep3, style: TextStyles.textBaseBold),
-                  ),
-                  _ActionStatusRadios(isCompleted: viewModel.estTerminee, onStatusChanged: onStatusChanged),
-                ],
+              const SizedBox(height: Margins.spacing_base),
+              Semantics(
+                container: true,
+                child: Text(Strings.userActionStatusRadioStep3, style: TextStyles.textBaseBold),
               ),
+              _ActionStatusRadios(isCompleted: viewModel.estTerminee, onStatusChanged: onStatusChanged),
               const SizedBox(height: Margins.spacing_m),
               DatePickerSuggestions(
                 title: Strings.datePickerTitle,
@@ -115,11 +111,19 @@ class _RappelsSwitcher extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Expanded(child: Text(Strings.rappelSwitch, style: textStyle)),
+        Expanded(
+          child: Semantics(
+            excludeSemantics: true,
+            child: Text(Strings.rappelSwitch, style: textStyle),
+          ),
+        ),
         SizedBox(width: Margins.spacing_m),
-        Switch(
-          value: value,
-          onChanged: onChanged,
+        Semantics(
+          label: Strings.rappelSwitch,
+          child: Switch(
+            value: value,
+            onChanged: onChanged,
+          ),
         ),
         SizedBox(width: Margins.spacing_xs),
         Text(value ? Strings.yes : Strings.no, style: textStyle),
