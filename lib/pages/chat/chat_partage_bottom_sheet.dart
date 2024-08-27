@@ -70,7 +70,7 @@ class ChatPartageBottomSheetState extends State<ChatPartageBottomSheet> {
         PassEmploiMatomoTracker.instance.trackScreen(viewModel.snackbarSuccessTracking);
         // a11y 5.4
         Future.delayed(
-          Duration(milliseconds: 500),
+          Duration(milliseconds: 100),
           () => SemanticsService.announce(viewModel.snackbarSuccessText, TextDirection.ltr),
         );
         showSnackBarWithSuccess(context, viewModel.snackbarSuccessText);
@@ -85,7 +85,7 @@ class ChatPartageBottomSheetState extends State<ChatPartageBottomSheet> {
       case DisplayState.LOADING:
         // a11y 5.4
         Future.delayed(
-          Duration(milliseconds: 500),
+          Duration(milliseconds: 100),
           () => SemanticsService.announce(Strings.loadingAnnouncement, TextDirection.ltr),
         );
         break;

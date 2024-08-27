@@ -130,10 +130,13 @@ class _PartageFavorisState extends State<_PartageFavoris> {
             child: Row(
               children: [
                 Expanded(
-                    child: Text(
-                  Strings.shareFavoriteLabel,
-                  style: TextStyles.textBaseRegularWithColor(
-                    widget.updatedState == DisplayState.LOADING ? AppColors.grey500 : AppColors.contentColor,
+                    child: Semantics(
+                  excludeSemantics: true,
+                  child: Text(
+                    Strings.shareFavoriteLabel,
+                    style: TextStyles.textBaseRegularWithColor(
+                      widget.updatedState == DisplayState.LOADING ? AppColors.grey500 : AppColors.contentColor,
+                    ),
                   ),
                 )),
                 Semantics(
@@ -144,10 +147,13 @@ class _PartageFavorisState extends State<_PartageFavoris> {
                   ),
                 ),
                 SizedBox(width: Margins.spacing_xs),
-                Text(
-                  _partageFavorisEnabled ? Strings.yes : Strings.no,
-                  style: TextStyles.textBaseRegularWithColor(
-                      widget.updatedState == DisplayState.LOADING ? AppColors.grey500 : AppColors.contentColor),
+                Semantics(
+                  excludeSemantics: true,
+                  child: Text(
+                    _partageFavorisEnabled ? Strings.yes : Strings.no,
+                    style: TextStyles.textBaseRegularWithColor(
+                        widget.updatedState == DisplayState.LOADING ? AppColors.grey500 : AppColors.contentColor),
+                  ),
                 ),
               ],
             ),

@@ -64,7 +64,7 @@ class _Scaffold extends StatelessWidget {
         canPop: true,
       ),
       body: Semantics(
-        label: Strings.listSemanticsLabel,
+        container: true,
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(Margins.spacing_m),
@@ -293,7 +293,7 @@ class _ListTileCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Semantics(
-      label: Strings.listSemanticsLabel,
+      container: true,
       child: CardContainer(
         padding: EdgeInsets.zero,
         child: Column(
