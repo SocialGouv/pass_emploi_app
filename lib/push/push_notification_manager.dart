@@ -14,18 +14,6 @@ import 'package:pass_emploi_app/utils/log.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:redux/redux.dart';
 
-@pragma('vm:entry-point')
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  final type = message.getType();
-  if (type != null) {
-    PassEmploiMatomoTracker.instance.trackEvent(
-      eventCategory: AnalyticsEventNames.pushNotificationEventCategory,
-      action: AnalyticsEventNames.pushNotificationReceivedAction,
-      eventName: type,
-    );
-  }
-}
-
 const String _channelId = 'high_importance_channel';
 const String _channelName = 'Notifications importantes';
 
@@ -33,7 +21,6 @@ class PushNotificationManager {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
   Future<void> init(Store<AppState> store) async {
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     if (Platform.isIOS) {
       await _firebaseMessaging.setForegroundNotificationPresentationOptions(
         alert: true,
