@@ -57,29 +57,26 @@ class ActionCategorySelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Semantics(
-      label: Strings.listSemanticsLabel,
-      child: GridView.builder(
-        semanticChildCount: UserActionReferentielTypePresentation.all.length,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          mainAxisSpacing: Margins.spacing_base,
-          crossAxisSpacing: Margins.spacing_base,
-          childAspectRatio: _responsiveChildAspectRatioForA11y(context),
-        ),
-        itemCount: UserActionReferentielTypePresentation.all.length,
-        itemBuilder: (context, index) {
-          final type = UserActionReferentielTypePresentation.all[index];
-          return ActionCategoryCard(
-            onTap: () => onActionSelected.call(type),
-            icon: type.icon,
-            label: type.label,
-            description: type.description,
-          );
-        },
+    return GridView.builder(
+      semanticChildCount: UserActionReferentielTypePresentation.all.length,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        mainAxisSpacing: Margins.spacing_base,
+        crossAxisSpacing: Margins.spacing_base,
+        childAspectRatio: _responsiveChildAspectRatioForA11y(context),
       ),
+      itemCount: UserActionReferentielTypePresentation.all.length,
+      itemBuilder: (context, index) {
+        final type = UserActionReferentielTypePresentation.all[index];
+        return ActionCategoryCard(
+          onTap: () => onActionSelected.call(type),
+          icon: type.icon,
+          label: type.label,
+          description: type.description,
+        );
+      },
     );
   }
 
