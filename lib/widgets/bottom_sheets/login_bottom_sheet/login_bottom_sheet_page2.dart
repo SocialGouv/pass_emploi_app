@@ -36,15 +36,21 @@ class LoginBottomSheetPage2 extends StatelessWidget {
         SizedBox(height: Margins.spacing_base),
         _RecuperationInfos(isPoleEmploi: isPoleEmploi),
         SizedBox(height: Margins.spacing_m),
-        PrimaryActionButton(
-          label: Strings.loginAction,
-          onPressed: () {
-            Navigator.pop(context);
-            viewModel.action();
-          },
+        Semantics(
+          label: Strings.loginOpenInNewDescription(isPoleEmploi),
+          child: PrimaryActionButton(
+            label: Strings.loginAction,
+            onPressed: () {
+              Navigator.pop(context);
+              viewModel.action();
+            },
+          ),
         ),
         SizedBox(height: Margins.spacing_s),
-        _OpenInNewDescription(isPoleEmploi: isPoleEmploi),
+        Semantics(
+          excludeSemantics: true,
+          child: _OpenInNewDescription(isPoleEmploi: isPoleEmploi),
+        ),
         SizedBox(height: Margins.spacing_m),
         _NoAccount(),
         SizedBox(height: Margins.spacing_s),

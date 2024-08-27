@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/presentation/chat/chat_item.dart';
 import 'package:pass_emploi_app/presentation/chat/chat_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/widgets/a11y/auto_focus.dart';
 import 'package:pass_emploi_app/widgets/apparition_animation.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/chat_message_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_bottom_sheet.dart';
@@ -70,23 +71,25 @@ class ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return Tracker(
-      tracking: AnalyticsScreenNames.chat,
-      child: StoreConnector<AppState, ChatPageViewModel>(
-        onInit: (store) {
-          store.dispatch(LastMessageSeenAction());
-          store.dispatch(SubscribeToChatAction());
-        },
-        onDispose: _onDispose,
-        converter: ChatPageViewModel.create,
-        builder: _builder,
-        onDidChange: (_, newVm) {
-          StoreProvider.of<AppState>(context).dispatch(LastMessageSeenAction());
-          _animateMessage = true;
-          _isLoadingMorePast = false;
-          _handleOnboarding(newVm);
-        },
-        distinct: true,
+    return AutoFocus(
+      child: Tracker(
+        tracking: AnalyticsScreenNames.chat,
+        child: StoreConnector<AppState, ChatPageViewModel>(
+          onInit: (store) {
+            store.dispatch(LastMessageSeenAction());
+            store.dispatch(SubscribeToChatAction());
+          },
+          onDispose: _onDispose,
+          converter: ChatPageViewModel.create,
+          builder: _builder,
+          onDidChange: (_, newVm) {
+            StoreProvider.of<AppState>(context).dispatch(LastMessageSeenAction());
+            _animateMessage = true;
+            _isLoadingMorePast = false;
+            _handleOnboarding(newVm);
+          },
+          distinct: true,
+        ),
       ),
     );
   }

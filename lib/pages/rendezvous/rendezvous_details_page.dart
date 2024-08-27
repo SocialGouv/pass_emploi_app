@@ -185,94 +185,97 @@ class _Modality extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _trackVisioButtonDisplay();
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SepLine(Margins.spacing_m, Margins.spacing_m),
-        if (viewModel.modality != null)
-          Padding(
-            padding: const EdgeInsets.only(bottom: Margins.spacing_xs),
-            child: Text(viewModel.modality!, style: TextStyles.textBaseBold),
-          ),
-        if (viewModel.conseiller != null)
-          Padding(
-            padding: const EdgeInsets.only(top: Margins.spacing_s, bottom: Margins.spacing_xs),
-            child: Row(
-              children: [
-                Text(Strings.withConseiller, style: TextStyles.textBaseRegular),
-                SizedBox(width: Margins.spacing_xs),
-                Text(viewModel.conseiller!, style: TextStyles.textBaseBold),
-              ],
+    return Semantics(
+      container: true,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SepLine(Margins.spacing_m, Margins.spacing_m),
+          if (viewModel.modality != null)
+            Padding(
+              padding: const EdgeInsets.only(bottom: Margins.spacing_xs),
+              child: Text(viewModel.modality!, style: TextStyles.textBaseBold),
             ),
-          ),
-        if (viewModel.createur != null)
-          Padding(
-            padding: const EdgeInsets.only(top: Margins.spacing_s),
-            child: _Createur(viewModel.createur!),
-          ),
-        if (_withInactiveVisioButton())
-          Padding(
-            padding: const EdgeInsets.only(top: Margins.spacing_s),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                PrimaryActionButton(label: Strings.seeVisio),
-              ],
-            ),
-          ),
-        if (_withActiveVisioButton())
-          Padding(
-            padding: const EdgeInsets.only(top: Margins.spacing_s),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                PrimaryActionButton(
-                  label: Strings.seeVisio,
-                  onPressed: () {
-                    _trackVisioButtonClick();
-                    launchExternalUrl(viewModel.visioRedirectUrl!);
-                  },
-                ),
-              ],
-            ),
-          ),
-        if (viewModel.organism != null)
-          Padding(
-            padding: const EdgeInsets.only(top: Margins.spacing_m),
-            child: Text(viewModel.organism!, style: TextStyles.textMBold),
-          ),
-        if (viewModel.address != null)
-          Padding(
-            padding: const EdgeInsets.only(top: Margins.spacing_xs),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: Margins.spacing_xs),
-                  child: Icon(AppIcons.place_outlined, color: AppColors.grey800),
-                ),
-                SizedBox(width: Margins.spacing_s),
-                Expanded(child: Text(viewModel.address!, style: TextStyles.textBaseRegular)),
-              ],
-            ),
-          ),
-        if (viewModel.addressRedirectUri != null)
-          Padding(
-            padding: const EdgeInsets.only(top: Margins.spacing_m),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(minWidth: double.infinity),
-              child: SecondaryButton(
-                label: Strings.seeItinerary,
-                onPressed: () => launchExternalUrl(viewModel.addressRedirectUri!.toString()),
+          if (viewModel.conseiller != null)
+            Padding(
+              padding: const EdgeInsets.only(top: Margins.spacing_s, bottom: Margins.spacing_xs),
+              child: Row(
+                children: [
+                  Text(Strings.withConseiller, style: TextStyles.textBaseRegular),
+                  SizedBox(width: Margins.spacing_xs),
+                  Text(viewModel.conseiller!, style: TextStyles.textBaseBold),
+                ],
               ),
             ),
-          ),
-        if (viewModel.phone != null)
-          Padding(
-            padding: const EdgeInsets.only(top: Margins.spacing_m),
-            child: Text(viewModel.phone!, style: TextStyles.textBaseRegular),
-          ),
-      ],
+          if (viewModel.createur != null)
+            Padding(
+              padding: const EdgeInsets.only(top: Margins.spacing_s),
+              child: _Createur(viewModel.createur!),
+            ),
+          if (_withInactiveVisioButton())
+            Padding(
+              padding: const EdgeInsets.only(top: Margins.spacing_s),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  PrimaryActionButton(label: Strings.seeVisio),
+                ],
+              ),
+            ),
+          if (_withActiveVisioButton())
+            Padding(
+              padding: const EdgeInsets.only(top: Margins.spacing_s),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  PrimaryActionButton(
+                    label: Strings.seeVisio,
+                    onPressed: () {
+                      _trackVisioButtonClick();
+                      launchExternalUrl(viewModel.visioRedirectUrl!);
+                    },
+                  ),
+                ],
+              ),
+            ),
+          if (viewModel.organism != null)
+            Padding(
+              padding: const EdgeInsets.only(top: Margins.spacing_m),
+              child: Text(viewModel.organism!, style: TextStyles.textMBold),
+            ),
+          if (viewModel.address != null)
+            Padding(
+              padding: const EdgeInsets.only(top: Margins.spacing_xs),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: Margins.spacing_xs),
+                    child: Icon(AppIcons.place_outlined, color: AppColors.grey800),
+                  ),
+                  SizedBox(width: Margins.spacing_s),
+                  Expanded(child: Text(viewModel.address!, style: TextStyles.textBaseRegular)),
+                ],
+              ),
+            ),
+          if (viewModel.addressRedirectUri != null)
+            Padding(
+              padding: const EdgeInsets.only(top: Margins.spacing_m),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(minWidth: double.infinity),
+                child: SecondaryButton(
+                  label: Strings.seeItinerary,
+                  onPressed: () => launchExternalUrl(viewModel.addressRedirectUri!.toString()),
+                ),
+              ),
+            ),
+          if (viewModel.phone != null)
+            Padding(
+              padding: const EdgeInsets.only(top: Margins.spacing_m),
+              child: Text(viewModel.phone!, style: TextStyles.textBaseRegular),
+            ),
+        ],
+      ),
     );
   }
 

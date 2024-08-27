@@ -5,7 +5,6 @@ import 'package:pass_emploi_app/presentation/profil/suppression_compte_view_mode
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
-import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -34,75 +33,80 @@ class _DeleteAlertDialogState extends State<DeleteAlertDialog> {
   }
 
   Widget _build(BuildContext context, SuppressionCompteViewModel viewModel) {
-    return AlertDialog(
-      scrollable: true,
-      surfaceTintColor: Colors.white,
-      titlePadding: EdgeInsets.zero,
-      contentPadding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-      title: _DeleteAlertCrossButton(),
-      content: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Center(
-            child: SizedBox.square(
-              dimension: 100,
-              child: Illustration.red(AppIcons.delete),
-            ),
+    return Dialog(
+      surfaceTintColor: Colors.transparent,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(Margins.spacing_base),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              _DeleteAlertCrossButton(),
+              Center(
+                child: SizedBox.square(
+                  dimension: 100,
+                  child: Illustration.red(AppIcons.delete),
+                ),
+              ),
+              SizedBox(height: Margins.spacing_m),
+              Text(
+                Strings.lastWarningBeforeSuppression,
+                style: TextStyles.textBaseBold,
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: Margins.spacing_m),
+              _DeleteAlertTextField(
+                controller: _inputController,
+                getFieldContent: () => _fieldContent,
+                onChanged: (value) {
+                  setState(() {
+                    _fieldContent = value;
+                    _showError = false;
+                  });
+                },
+                showError: _showError,
+              ),
+              SizedBox(height: Margins.spacing_m),
+              Row(
+                children: [
+                  Expanded(
+                    child: SecondaryButton(
+                      label: Strings.cancelLabel,
+                      fontSize: FontSizes.medium,
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ),
+                  SizedBox(width: Margins.spacing_base),
+                  Expanded(
+                    child: ValueListenableBuilder<TextEditingValue>(
+                      valueListenable: _inputController,
+                      builder: (context, value, child) => PrimaryActionButton(
+                        label: Strings.suppressionLabel,
+                        textColor: AppColors.warning,
+                        backgroundColor: AppColors.warningLighten,
+                        disabledBackgroundColor: AppColors.warningLighten,
+                        rippleColor: AppColors.warningLighten,
+                        withShadow: true,
+                        onPressed: _canDeleteAccount(viewModel)
+                            ? () {
+                                viewModel.onDeleteUser();
+                                Navigator.pop(context);
+                              }
+                            : () {
+                                setState(() {
+                                  _showError = true;
+                                });
+                              },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
-          SizedBox(height: Margins.spacing_m),
-          Text(
-            Strings.lastWarningBeforeSuppression,
-            style: TextStyles.textBaseBold,
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: Margins.spacing_m),
-          _DeleteAlertTextField(
-            controller: _inputController,
-            getFieldContent: () => _fieldContent,
-            onChanged: (value) {
-              setState(() {
-                _fieldContent = value;
-                _showError = false;
-              });
-            },
-            showError: _showError,
-          ),
-          SizedBox(height: Margins.spacing_m),
-        ],
-      ),
-      actions: [
-        SecondaryButton(
-          label: Strings.cancelLabel,
-          fontSize: FontSizes.medium,
-          onPressed: () => Navigator.pop(context),
         ),
-        ValueListenableBuilder<TextEditingValue>(
-          valueListenable: _inputController,
-          builder: (context, value, child) => PrimaryActionButton(
-            label: Strings.suppressionLabel,
-            textColor: AppColors.warning,
-            backgroundColor: AppColors.warningLighten,
-            disabledBackgroundColor: AppColors.warningLighten,
-            rippleColor: AppColors.warningLighten,
-            withShadow: true,
-            onPressed: _canDeleteAccount(viewModel)
-                ? () {
-                    viewModel.onDeleteUser();
-                    Navigator.pop(context);
-                  }
-                : () {
-                    setState(() {
-                      _showError = true;
-                    });
-                  },
-          ),
-        )
-      ],
-      actionsAlignment: MainAxisAlignment.center,
-      actionsOverflowAlignment: OverflowBarAlignment.center,
-      actionsOverflowButtonSpacing: Margins.spacing_base,
-      actionsPadding: EdgeInsets.only(bottom: Margins.spacing_base),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimens.radius_l)),
+      ),
     );
   }
 

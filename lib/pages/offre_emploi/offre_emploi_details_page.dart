@@ -207,12 +207,28 @@ class OffreEmploiDetailsPage extends StatelessWidget {
 
   Widget _description(OffreEmploiDetailsPageViewModel viewModel) {
     final description = viewModel.description;
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      _descriptionTitle(title: Strings.offreDetailsTitle),
-      _spacer(Margins.spacing_m),
-      if (description != null) Text(description, style: TextStyles.textSRegular()),
-      _spacer(Margins.spacing_l),
-    ]);
+    if (description == null) {
+      return SizedBox.shrink();
+    }
+
+    final paragraphs = description.split("\n").where((paragraph) => paragraph.trim().isNotEmpty).toList();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _descriptionTitle(title: Strings.offreDetailsTitle),
+        _spacer(Margins.spacing_m),
+        ...paragraphs.map((paragraph) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(paragraph, style: TextStyles.textSRegular()),
+            ],
+          );
+        }),
+        _spacer(Margins.spacing_l),
+      ],
+    );
   }
 
   Widget _profileDescription(OffreEmploiDetailsPageViewModel viewModel) {

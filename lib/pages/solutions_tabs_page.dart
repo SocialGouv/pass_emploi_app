@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/presentation/solutions_tabs_page_view_model.dart
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/widgets/a11y/auto_focus.dart';
 import 'package:pass_emploi_app/widgets/connectivity_widgets.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_tab_bar.dart';
@@ -17,10 +18,12 @@ class SolutionsTabPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, SolutionsTabPageViewModel>(
-      builder: (context, viewModel) => _Body(viewModel, initialTab),
-      converter: (store) => SolutionsTabPageViewModel.create(store),
-      distinct: true,
+    return AutoFocus(
+      child: StoreConnector<AppState, SolutionsTabPageViewModel>(
+        builder: (context, viewModel) => _Body(viewModel, initialTab),
+        converter: (store) => SolutionsTabPageViewModel.create(store),
+        distinct: true,
+      ),
     );
   }
 }

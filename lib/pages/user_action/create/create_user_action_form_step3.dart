@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/presentation/user_action/creation_form/create_us
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/a11y/auto_focus.dart';
 import 'package:pass_emploi_app/widgets/a11y/mandatory_fields_label.dart';
 import 'package:pass_emploi_app/widgets/date_pickers/date_picker_suggestions.dart';
 
@@ -24,39 +25,43 @@ class CreateUserActionFormStep3 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Tracker(
-      tracking: AnalyticsScreenNames.createUserActionStep3,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const SizedBox(height: Margins.spacing_m),
-            MandatoryFieldsLabel.all(),
-            const SizedBox(height: Margins.spacing_m),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: Margins.spacing_base),
-                Semantics(
-                  child: Text(Strings.userActionStatusRadioStep3, style: TextStyles.textBaseBold),
-                ),
-                _ActionStatusRadios(isCompleted: viewModel.estTerminee, onStatusChanged: onStatusChanged),
-              ],
-            ),
-            const SizedBox(height: Margins.spacing_m),
-            DatePickerSuggestions(
-              title: Strings.datePickerTitle,
-              dateSource: viewModel.dateSource,
-              onDateChanged: onDateChanged,
-            ),
-            const SizedBox(height: Margins.spacing_m),
-            if (viewModel.shouldDisplayRappelNotification())
-              _RappelsSwitcher(
-                value: viewModel.withRappel,
-                onChanged: (value) => withRappelChanged(value),
-              )
-          ],
+    return AutoFocus(
+      child: Tracker(
+        tracking: AnalyticsScreenNames.createUserActionStep3,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SizedBox(height: Margins.spacing_m),
+              MandatoryFieldsLabel.all(),
+              const SizedBox(height: Margins.spacing_m),
+              const SizedBox(height: Margins.spacing_base),
+              Semantics(
+                container: true,
+                child: Text(Strings.userActionStatusRadioStep3, style: TextStyles.textBaseBold),
+              ),
+              _ActionStatusRadios(isCompleted: viewModel.estTerminee, onStatusChanged: onStatusChanged),
+              const SizedBox(height: Margins.spacing_m),
+              DatePickerSuggestions(
+                title: Strings.datePickerTitle,
+                dateSource: viewModel.dateSource,
+                onDateChanged: (date) {
+                  onDateChanged(date);
+                  if (!date.isNone) {
+                    // a11y : wait ui to be updated before moving focus
+                    Future.delayed(Duration(milliseconds: 50), () => FocusScope.of(context).nextFocus());
+                  }
+                },
+              ),
+              const SizedBox(height: Margins.spacing_m),
+              if (viewModel.shouldDisplayRappelNotification())
+                _RappelsSwitcher(
+                  value: viewModel.withRappel,
+                  onChanged: (value) => withRappelChanged(value),
+                )
+            ],
+          ),
         ),
       ),
     );
@@ -106,11 +111,19 @@ class _RappelsSwitcher extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Expanded(child: Text(Strings.rappelSwitch, style: textStyle)),
+        Expanded(
+          child: Semantics(
+            excludeSemantics: true,
+            child: Text(Strings.rappelSwitch, style: textStyle),
+          ),
+        ),
         SizedBox(width: Margins.spacing_m),
-        Switch(
-          value: value,
-          onChanged: onChanged,
+        Semantics(
+          label: Strings.rappelSwitch,
+          child: Switch(
+            value: value,
+            onChanged: onChanged,
+          ),
         ),
         SizedBox(width: Margins.spacing_xs),
         Text(value ? Strings.yes : Strings.no, style: textStyle),

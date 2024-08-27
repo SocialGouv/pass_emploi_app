@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/presentation/chat/cvm_chat_item.dart';
 import 'package:pass_emploi_app/presentation/chat/cvm_chat_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
+import 'package:pass_emploi_app/widgets/a11y/auto_focus.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_content.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_day_section.dart';
@@ -49,19 +50,21 @@ class CvmChatPageState extends State<CvmChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Tracker(
-      tracking: AnalyticsScreenNames.cvmChat,
-      child: StoreConnector<AppState, CvmChatPageViewModel>(
-        onInit: (store) => store.dispatch(CvmLastJeuneReadingAction()),
-        onDispose: _onDispose,
-        converter: CvmChatPageViewModel.create,
-        builder: _builder,
-        onInitialBuild: _handleOnboarding,
-        onDidChange: (_, __) {
-          context.dispatch(CvmLastJeuneReadingAction());
-          _isLoadingMorePast = false;
-        },
-        distinct: true,
+    return AutoFocus(
+      child: Tracker(
+        tracking: AnalyticsScreenNames.cvmChat,
+        child: StoreConnector<AppState, CvmChatPageViewModel>(
+          onInit: (store) => store.dispatch(CvmLastJeuneReadingAction()),
+          onDispose: _onDispose,
+          converter: CvmChatPageViewModel.create,
+          builder: _builder,
+          onInitialBuild: _handleOnboarding,
+          onDidChange: (_, __) {
+            context.dispatch(CvmLastJeuneReadingAction());
+            _isLoadingMorePast = false;
+          },
+          distinct: true,
+        ),
       ),
     );
   }
