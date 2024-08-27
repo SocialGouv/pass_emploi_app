@@ -379,6 +379,8 @@ class Strings {
   static String monSuiviPePastLimitReached = "Les démarches et les rendez-vous plus anciens ne sont pas disponibles";
   static String monSuiviPeFutureLimitReached = "Les démarches et les rendez-vous plus récents ne sont pas disponibles";
   static String monSuiviPoleEmploiDataError = "Certaines démarches et rendez-vous ne sont peut-être pas à jour.";
+  static String monSuiviA11yPreviousPeriodButton = "Afficher la période précédente";
+  static String monSuiviA11yNextPeriodButton = "Afficher la période suivante";
 
   // Actualisation PE
   static String actualisationPePopUpTitle = "La période d’actualisation France Travail a commencé";
