@@ -26,6 +26,7 @@ import 'package:pass_emploi_app/widgets/a11y/auto_focus.dart';
 import 'package:pass_emploi_app/widgets/animated_list_loader.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/demarche_card.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
@@ -338,7 +339,11 @@ class _TodayCenteredMonSuiviList extends StatelessWidget {
     bool loadingNextPeriod = false;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+      padding: EdgeInsets.only(
+        left: Margins.spacing_base,
+        right: Margins.spacing_base,
+        bottom: MediaQuery.of(context).accessibleNavigation ? Margins.spacing_x_huge : 0,
+      ),
       child: CustomScrollView(
         center: _StateProvider.maybeOf(context)?.centerKey,
         controller: _StateProvider.maybeOf(context)?.scrollController,
@@ -347,23 +352,21 @@ class _TodayCenteredMonSuiviList extends StatelessWidget {
             separatorBuilder: (context, index) => const SizedBox(height: Margins.spacing_base),
             itemCount: pastItems.length + 1,
             itemBuilder: (context, index) {
-              if (viewModel.withPagination && index > pastItems.length - 2 && !loadingPreviousPeriod) {
-                viewModel.onLoadPreviousPeriod();
+              if (_shouldAutomaticallyLoadPreviousPeriod(context, index, loadingPreviousPeriod)) {
                 loadingPreviousPeriod = true;
-
-                _StateProvider.maybeOf(context)?.previousPeriodCount--;
-                PassEmploiMatomoTracker.instance.trackEvent(
-                  eventCategory: AnalyticsEventNames.monSuiviCategory,
-                  action: AnalyticsEventNames.monSuiviPreviousPeriodAction,
-                  eventName: AnalyticsEventNames.monSuiviPeriodName,
-                  eventValue: _StateProvider.maybeOf(context)?.previousPeriodCount,
-                );
+                _loadPreviousPeriod(context);
               }
               if (index == pastItems.length) {
                 return Padding(
                   padding: const EdgeInsets.only(top: Margins.spacing_base),
                   child: viewModel.withPagination
-                      ? _PaginationLoader()
+                      ? _Pagination(
+                          label: Strings.monSuiviA11yPreviousPeriodButton,
+                          onPressed: () {
+                            loadingPreviousPeriod = true;
+                            _loadPreviousPeriod(context);
+                          },
+                        )
                       : _LimitReachedBanner(Strings.monSuiviPePastLimitReached),
                 );
               }
@@ -375,17 +378,9 @@ class _TodayCenteredMonSuiviList extends StatelessWidget {
             separatorBuilder: (context, index) => const SizedBox(height: Margins.spacing_base),
             itemCount: presentAndFutureItems.length + 1,
             itemBuilder: (context, index) {
-              if (viewModel.withPagination && index > presentAndFutureItems.length - 2 && !loadingNextPeriod) {
-                viewModel.onLoadNextPeriod();
+              if (_shouldAutomaticallyLoadNextPeriod(context, index, loadingNextPeriod)) {
                 loadingNextPeriod = true;
-
-                _StateProvider.maybeOf(context)?.nextPeriodCount++;
-                PassEmploiMatomoTracker.instance.trackEvent(
-                  eventCategory: AnalyticsEventNames.monSuiviCategory,
-                  action: AnalyticsEventNames.monSuiviNextPeriodAction,
-                  eventName: AnalyticsEventNames.monSuiviPeriodName,
-                  eventValue: _StateProvider.maybeOf(context)?.nextPeriodCount,
-                );
+                _loadNextPeriod(context);
               }
               if (index == presentAndFutureItems.length) {
                 return Padding(
@@ -393,18 +388,61 @@ class _TodayCenteredMonSuiviList extends StatelessWidget {
                     bottom: viewModel.withPagination ? Margins.spacing_base : Margins.spacing_huge,
                   ),
                   child: viewModel.withPagination
-                      ? _PaginationLoader()
+                      ? _Pagination(
+                          label: Strings.monSuiviA11yNextPeriodButton,
+                          onPressed: () {
+                            loadingNextPeriod = true;
+                            _loadNextPeriod(context);
+                          },
+                        )
                       : _LimitReachedBanner(Strings.monSuiviPeFutureLimitReached),
                 );
               }
               return Padding(
                 padding: EdgeInsets.only(top: index == 0 ? Margins.spacing_base : 0),
-                child: presentAndFutureItems[index].toWidget(),
+                child: index == 0
+                    // A11y - 10.2: required to focus on today item when app bar button is clicked
+                    ? AutoFocus(child: presentAndFutureItems[0].toWidget())
+                    : presentAndFutureItems[index].toWidget(),
               );
             },
           ),
         ],
       ),
+    );
+  }
+
+  bool _shouldAutomaticallyLoadNextPeriod(BuildContext context, int index, bool loadingNextPeriod) {
+    if (MediaQuery.of(context).accessibleNavigation) return false;
+    return viewModel.withPagination && index > presentAndFutureItems.length - 2 && !loadingNextPeriod;
+  }
+
+  bool _shouldAutomaticallyLoadPreviousPeriod(BuildContext context, int index, bool loadingPreviousPeriod) {
+    if (MediaQuery.of(context).accessibleNavigation) return false;
+    return viewModel.withPagination && index > pastItems.length - 2 && !loadingPreviousPeriod;
+  }
+
+  void _loadNextPeriod(BuildContext context) {
+    viewModel.onLoadNextPeriod();
+    _StateProvider.maybeOf(context)?.nextPeriodCount++;
+
+    PassEmploiMatomoTracker.instance.trackEvent(
+      eventCategory: AnalyticsEventNames.monSuiviCategory,
+      action: AnalyticsEventNames.monSuiviNextPeriodAction,
+      eventName: AnalyticsEventNames.monSuiviPeriodName,
+      eventValue: _StateProvider.maybeOf(context)?.nextPeriodCount,
+    );
+  }
+
+  void _loadPreviousPeriod(BuildContext context) {
+    viewModel.onLoadPreviousPeriod();
+    _StateProvider.maybeOf(context)?.previousPeriodCount--;
+
+    PassEmploiMatomoTracker.instance.trackEvent(
+      eventCategory: AnalyticsEventNames.monSuiviCategory,
+      action: AnalyticsEventNames.monSuiviPreviousPeriodAction,
+      eventName: AnalyticsEventNames.monSuiviPeriodName,
+      eventValue: _StateProvider.maybeOf(context)?.previousPeriodCount,
     );
   }
 }
@@ -457,20 +495,34 @@ class _FilledDayItem extends StatelessWidget {
   }
 }
 
-class _EmptyDayItem extends StatelessWidget {
+class _EmptyDayItem extends StatefulWidget {
   final MonSuiviDay day;
   final String text;
 
   const _EmptyDayItem(this.day, this.text);
 
   @override
+  State<_EmptyDayItem> createState() => _EmptyDayItemState();
+}
+
+class _EmptyDayItemState extends State<_EmptyDayItem> {
+  Color _color = AppColors.disabled;
+
+  @override
   Widget build(BuildContext context) {
     return _DayRow(
-      day: day,
-      child: DashedBox(
-        padding: const EdgeInsets.all(Margins.spacing_base),
-        color: AppColors.disabled,
-        child: Text(text, style: TextStyles.textXsMedium(color: AppColors.disabled)),
+      day: widget.day,
+      child: Focus(
+        onFocusChange: (focused) {
+          setState(() {
+            _color = focused ? AppColors.primaryDarken : AppColors.disabled;
+          });
+        },
+        child: DashedBox(
+          padding: const EdgeInsets.all(Margins.spacing_base),
+          color: _color,
+          child: Text(widget.text, style: TextStyles.textXsMedium(color: _color)),
+        ),
       ),
     );
   }
@@ -625,6 +677,20 @@ class _MonSuiviLoader extends StatelessWidget {
   }
 }
 
+class _Pagination extends StatelessWidget {
+  final String label;
+  final VoidCallback onPressed;
+
+  const _Pagination({required this.label, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return MediaQuery.of(context).accessibleNavigation
+        ? _LoadPeriodButton(label: label, onPressed: onPressed)
+        : _PaginationLoader();
+  }
+}
+
 class _PaginationLoader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -632,6 +698,24 @@ class _PaginationLoader extends StatelessWidget {
       baseColor: AppColors.grey100,
       highlightColor: Colors.white,
       child: _MonSuiviItemLoader(),
+    );
+  }
+}
+
+class _LoadPeriodButton extends StatelessWidget {
+  final String label;
+  final VoidCallback onPressed;
+
+  const _LoadPeriodButton({required this.onPressed, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: SecondaryButton(
+        label: label,
+        onPressed: () => onPressed(),
+      ),
     );
   }
 }
