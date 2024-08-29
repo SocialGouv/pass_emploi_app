@@ -31,6 +31,7 @@ class CardContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     final BorderRadius cardBorderRadius = BorderRadius.circular(Dimens.radius_base);
 
+    // a11y 10.2 : to avoid useless tap trigger we should remove inkwell
     final childWithPadding = Padding(
       padding: padding,
       child: child,
