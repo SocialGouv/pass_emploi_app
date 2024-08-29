@@ -512,22 +512,19 @@ class _DateAndCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.max,
+    return Wrap(
+      spacing: Margins.spacing_m,
+      runSpacing: Margins.spacing_s,
       children: [
-        Expanded(
-          child: _section(
-            sectionIcon: AppIcons.event,
-            sectionTitle: Strings.userActionDate,
-            value: viewModel.date,
-          ),
+        _section(
+          sectionIcon: AppIcons.event,
+          sectionTitle: Strings.userActionDate,
+          value: viewModel.date,
         ),
-        Expanded(
-          child: _section(
-            sectionIcon: Icons.account_tree_rounded,
-            sectionTitle: Strings.userActionCategory,
-            value: viewModel.category,
-          ),
+        _section(
+          sectionIcon: Icons.account_tree_rounded,
+          sectionTitle: Strings.userActionCategory,
+          value: viewModel.category,
         ),
       ],
     );
