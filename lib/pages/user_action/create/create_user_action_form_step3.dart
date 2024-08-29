@@ -59,7 +59,8 @@ class CreateUserActionFormStep3 extends StatelessWidget {
                 _RappelsSwitcher(
                   value: viewModel.withRappel,
                   onChanged: (value) => withRappelChanged(value),
-                )
+                ),
+              const SizedBox(height: Margins.spacing_xx_huge),
             ],
           ),
         ),
