@@ -59,15 +59,14 @@ class _ChatPieceJointeBottomSheetState extends State<ChatPieceJointeBottomSheet>
     });
   }
 
-  void _pickFileEnded() {
-    setState(() {
-      showLoading = false;
-    });
-  }
+  void _pickFileEnded() => setState(() => showLoading = false);
 
-  void _onPermissionError(PermissionErrorType type) {
+  void _onPermissionError(PermissionErrorType type) => setState(() => permissionErrorType = type);
+
+  void _resetErrorMessages() {
     setState(() {
-      permissionErrorType = type;
+      showFileTooLargeMessage = false;
+      permissionErrorType = PermissionErrorType.none;
     });
   }
 
@@ -97,15 +96,18 @@ class _ChatPieceJointeBottomSheetState extends State<ChatPieceJointeBottomSheet>
             _PieceJointeWarning(),
             SizedBox(height: Margins.spacing_base),
             _TakePictureButton(
+              onPressed: () => _resetErrorMessages(),
               onPickImagePermissionError: () => _onPermissionError(PermissionErrorType.camera),
             ),
             _SelectFileButton(
+              onPressed: () => _resetErrorMessages(),
               isFileTooLarge: _isFileTooLarge,
               onPermissionError: () => _onPermissionError(PermissionErrorType.file),
               pickFileSarted: _pickFileSarted,
               pickFileEnded: _pickFileEnded,
             ),
             _SelectPictureButton(
+              onPressed: () => _resetErrorMessages(),
               onPickImagePermissionError: () => _onPermissionError(PermissionErrorType.gallery),
             ),
           ],
@@ -133,15 +135,17 @@ class _PieceJointeWarning extends StatelessWidget {
 }
 
 class _SelectPictureButton extends StatelessWidget {
-  final void Function() onPickImagePermissionError;
+  final VoidCallback onPressed;
+  final VoidCallback onPickImagePermissionError;
 
-  const _SelectPictureButton({required this.onPickImagePermissionError});
+  const _SelectPictureButton({required this.onPressed, required this.onPickImagePermissionError});
   @override
   Widget build(BuildContext context) {
     return _PieceJointeListTile(
       icon: AppIcons.image_outlined,
       text: Strings.chatPieceJointeBottomSheetSelectImageButton,
       onPressed: () async {
+        onPressed();
         final result = await ImagePickerWrapper.pickSingleImage();
         if (context.mounted && result is ImagePickerSuccessResult) {
           Navigator.of(context).pop(ChatPieceJointeBottomSheetImageResult(result.path));
@@ -154,15 +158,17 @@ class _SelectPictureButton extends StatelessWidget {
 }
 
 class _TakePictureButton extends StatelessWidget {
-  final void Function() onPickImagePermissionError;
+  final VoidCallback onPressed;
+  final VoidCallback onPickImagePermissionError;
 
-  const _TakePictureButton({required this.onPickImagePermissionError});
+  const _TakePictureButton({required this.onPressed, required this.onPickImagePermissionError});
   @override
   Widget build(BuildContext context) {
     return _PieceJointeListTile(
       icon: AppIcons.camera_alt_outlined,
       text: Strings.chatPieceJointeBottomSheetTakeImageButton,
       onPressed: () async {
+        onPressed();
         final result = await ImagePickerWrapper.takeSinglePicture();
         if (context.mounted && result is ImagePickerSuccessResult) {
           Navigator.of(context).pop(ChatPieceJointeBottomSheetImageResult(result.path));
@@ -176,10 +182,12 @@ class _TakePictureButton extends StatelessWidget {
 
 class _SelectFileButton extends StatelessWidget {
   final void Function(bool isFileTooLarge) isFileTooLarge;
-  final void Function() onPermissionError;
-  final void Function() pickFileSarted;
-  final void Function() pickFileEnded;
+  final VoidCallback onPressed;
+  final VoidCallback onPermissionError;
+  final VoidCallback pickFileSarted;
+  final VoidCallback pickFileEnded;
   const _SelectFileButton({
+    required this.onPressed,
     required this.isFileTooLarge,
     required this.onPermissionError,
     required this.pickFileSarted,
@@ -192,6 +200,7 @@ class _SelectFileButton extends StatelessWidget {
       icon: AppIcons.description_outlined,
       text: Strings.chatPieceJointeBottomSheetSelectFileButton,
       onPressed: () async {
+        onPressed();
         pickFileSarted();
         final result = await FilePickerWrapper.pickFile();
         if (result is FilePickerSuccessResult && context.mounted) {
@@ -214,8 +223,6 @@ class _SelectFileButton extends StatelessWidget {
 }
 
 class _FileTooLargeWarning extends StatelessWidget {
-  const _FileTooLargeWarning();
-
   @override
   Widget build(BuildContext context) {
     return AlertMessage(

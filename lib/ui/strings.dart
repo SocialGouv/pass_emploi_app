@@ -96,11 +96,11 @@ class Strings {
   static String sendMessageTooltip = "Envoyer le message";
   static String sendAttachmentTooltip = "Envoyer une pièce jointe";
   static String chatError = "Erreur lors de la récupération de votre messagerie";
-  static String newConseillerTitle = "Vous échangez avec votre nouveau conseiller";
-  static String newConseillerTemporaireTitle = "Vous échangez temporairement avec un nouveau conseiller";
-  static String newConseillerDescription = "Il a accès à l’historique de vos échanges";
+  static String newConseillerTitle = "Vous échangez avec votre nouveau conseiller.";
+  static String newConseillerTemporaireTitle = "Vous échangez temporairement avec un nouveau conseiller.";
+  static String newConseillerDescription = "Il a accès à l’historique de vos échanges.";
   static String unknownTypeTitle = "Le message est inaccessible";
-  static String unknownTypeDescription = "Pour avoir l'accès au contenu veuillez mettre à jour l'application";
+  static String unknownTypeDescription = "Pour avoir l'accès au contenu, veuillez mettre à jour l'application.";
   static String voirOffre = "Voir l'offre";
   static String voirEvent = "Voir l'événement";
 

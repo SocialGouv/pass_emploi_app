@@ -82,7 +82,7 @@ void main() {
       CvmTextMessageItem(messageId: 'id2', content: '2', caption: '16:30 · Lu', sender: Sender.jeune),
       CvmInformationItem(
         'Le message est inaccessible',
-        'Pour avoir l\'accès au contenu veuillez mettre à jour l\'application',
+        'Pour avoir l\'accès au contenu, veuillez mettre à jour l\'application.',
       ),
       CvmDayItem('Le 02/01/2021'),
       CvmPieceJointeConseillerMessageItem(
