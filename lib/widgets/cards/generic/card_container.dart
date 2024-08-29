@@ -30,6 +30,11 @@ class CardContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final BorderRadius cardBorderRadius = BorderRadius.circular(Dimens.radius_base);
+
+    final childWithPadding = Padding(
+      padding: padding,
+      child: child,
+    );
     return DecoratedBox(
       decoration: BoxDecoration(
         color: backgroundColor,
@@ -37,25 +42,25 @@ class CardContainer extends StatelessWidget {
         boxShadow: withShadow ? [Shadows.radius_base] : [],
         image: image,
       ),
-      child: Material(
-          clipBehavior: Clip.hardEdge,
-          color: backgroundColor,
-          borderRadius: cardBorderRadius,
-          child: InkWell(
-            borderRadius: cardBorderRadius,
-            onTap: onTap,
-            onLongPress: onLongPress != null
-                ? () {
-                    HapticFeedback.heavyImpact();
-                    onLongPress!.call();
-                  }
-                : null,
-            splashColor: splashColor,
-            child: Padding(
-              padding: padding,
-              child: child,
+      child: (onTap == null && onLongPress == null)
+          ? childWithPadding
+          : Material(
+              clipBehavior: Clip.hardEdge,
+              color: backgroundColor,
+              borderRadius: cardBorderRadius,
+              child: InkWell(
+                borderRadius: cardBorderRadius,
+                onTap: onTap,
+                onLongPress: onLongPress != null
+                    ? () {
+                        HapticFeedback.heavyImpact();
+                        onLongPress!.call();
+                      }
+                    : null,
+                splashColor: splashColor,
+                child: childWithPadding,
+              ),
             ),
-          )),
     );
   }
 }
