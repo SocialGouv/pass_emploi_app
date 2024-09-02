@@ -81,6 +81,7 @@ class BaseTextField extends StatelessWidget {
       keyboardType: keyboardType,
       textCapitalization: textCapitalization,
       textInputAction: textInputAction,
+      onTapOutside: (event) => FocusScope.of(context).unfocus(),
       style: TextStyles.textBaseRegular,
       onChanged: onChanged,
       enabled: enabled,
