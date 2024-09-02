@@ -27,6 +27,8 @@ class AppIcons {
   static const IconData description_outlined = Icons.description_outlined;
   static const IconData more_vert_rounded = Icons.more_vert_rounded;
   static const IconData highlight_off = Icons.highlight_off;
+  static const IconData add = Icons.add;
+  static const IconData remove = Icons.remove;
 
   // Information
   static const IconData signpost_rounded = Icons.signpost_rounded;
