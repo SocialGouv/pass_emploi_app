@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/ui/dimens.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/utils/accessibility_utils.dart';
 import 'package:pass_emploi_app/widgets/slider/slider_caption.dart';
 import 'package:pass_emploi_app/widgets/slider/slider_value.dart';
 
@@ -21,11 +25,10 @@ class _DistanceSliderState extends State<DistanceSlider> {
     return Column(
       children: [
         SliderValue(value: _sliderValueToDisplay(widget.initialDistanceValue).toInt()),
-        _Slider(
+        _Selector(
           onValueChange: (value) => _onValueChange(value),
           currentValue: _sliderValueToDisplay(widget.initialDistanceValue),
         ),
-        SliderCaption(),
       ],
     );
   }
@@ -34,6 +37,7 @@ class _DistanceSliderState extends State<DistanceSlider> {
     if (value > 0) {
       setState(() => _currentSliderValue = value);
       widget.onValueChange(value);
+      A11yUtils.announce(Strings.distanceUpdated(value.toInt()));
     }
   }
 
@@ -41,24 +45,70 @@ class _DistanceSliderState extends State<DistanceSlider> {
       _currentSliderValue != null ? _currentSliderValue! : initialDistanceValue;
 }
 
-class _Slider extends StatelessWidget {
+class _Selector extends StatelessWidget {
   final Function(double) onValueChange;
   final double currentValue;
 
-  _Slider({required this.onValueChange, required this.currentValue});
+  _Selector({required this.onValueChange, required this.currentValue});
 
   @override
   Widget build(BuildContext context) {
-    return SliderTheme(
-      data: SliderTheme.of(context).copyWith(
-        thumbShape: RoundSliderThumbShape(enabledThumbRadius: Dimens.icon_size_base),
-      ),
-      child: Slider(
-        value: currentValue,
-        min: 0,
-        max: 100,
-        divisions: 10,
-        onChanged: (value) => onValueChange(value),
+    return Row(
+      children: [
+        _DistanceButton(
+          label: Strings.removeDistance(10),
+          icon: AppIcons.remove,
+          onPressed: () => onValueChange(currentValue - 10),
+        ),
+        Expanded(
+          child: Semantics(
+            excludeSemantics: true,
+            child: Column(
+              children: [
+                Slider(
+                  value: currentValue,
+                  min: 0,
+                  max: 100,
+                  divisions: 10,
+                  onChanged: onValueChange,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+                  child: SliderCaption(),
+                ),
+              ],
+            ),
+          ),
+        ),
+        _DistanceButton(
+          label: Strings.addDistance(10),
+          icon: AppIcons.add,
+          onPressed: () => onValueChange(currentValue + 10),
+        ),
+      ],
+    );
+  }
+}
+
+class _DistanceButton extends StatelessWidget {
+  const _DistanceButton({required this.label, required this.icon, required this.onPressed});
+
+  final String label;
+  final IconData icon;
+  final Function() onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      tooltip: label,
+      onPressed: onPressed,
+      icon: Container(
+        padding: EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: AppColors.primary,
+          shape: BoxShape.circle,
+        ),
+        child: Icon(icon, color: Colors.white),
       ),
     );
   }

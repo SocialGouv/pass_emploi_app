@@ -1385,4 +1385,7 @@ class Strings {
   static String listSemanticsLabel = "Liste";
   static String invalidField = "Champ invalide";
   static String loadingAnnouncement = "Chargement en cours";
+  static String removeDistance(int value) => 'Diminuer la distance de $value km';
+  static String addDistance(int value) => 'Augmenter la distance de $value km';
+  static String distanceUpdated(int value) => 'Distance mise à jour à $value km';
 }

@@ -9,11 +9,14 @@ class SliderValue extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(Strings.searchRadius, style: TextStyles.textSRegular()),
-        Text(Strings.kmFormat(value), style: TextStyles.textBaseBold),
-      ],
+    return Semantics(
+      container: true,
+      child: Row(
+        children: [
+          Text(Strings.searchRadius, style: TextStyles.textSRegular()),
+          Text(Strings.kmFormat(value), style: TextStyles.textBaseBold),
+        ],
+      ),
     );
   }
 }
