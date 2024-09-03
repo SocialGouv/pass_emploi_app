@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/utils/accessibility_utils.dart';
 import 'package:pass_emploi_app/widgets/slider/slider_caption.dart';
 import 'package:pass_emploi_app/widgets/slider/slider_value.dart';
 
@@ -37,8 +37,7 @@ class _DistanceSliderState extends State<DistanceSlider> {
     if (value > 0) {
       setState(() => _currentSliderValue = value);
       widget.onValueChange(value);
-      Future.delayed(Duration(milliseconds: 100),
-          () => SemanticsService.announce(Strings.distanceUpdated(value.toInt()), TextDirection.ltr));
+      A11yUtils.announce(Strings.distanceUpdated(value.toInt()));
     }
   }
 

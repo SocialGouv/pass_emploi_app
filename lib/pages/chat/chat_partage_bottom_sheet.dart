@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
@@ -11,6 +10,7 @@ import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/accessibility_utils.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
@@ -68,11 +68,7 @@ class ChatPartageBottomSheetState extends State<ChatPartageBottomSheet> {
     switch (viewModel.snackbarState) {
       case DisplayState.CONTENT:
         PassEmploiMatomoTracker.instance.trackScreen(viewModel.snackbarSuccessTracking);
-        // a11y 5.4
-        Future.delayed(
-          Duration(milliseconds: 100),
-          () => SemanticsService.announce(viewModel.snackbarSuccessText, TextDirection.ltr),
-        );
+        A11yUtils.announce(viewModel.snackbarSuccessText);
         showSnackBarWithSuccess(context, viewModel.snackbarSuccessText);
         viewModel.snackbarDisplayed();
         Navigator.pop(context);
@@ -83,11 +79,7 @@ class ChatPartageBottomSheetState extends State<ChatPartageBottomSheet> {
         break;
       case DisplayState.EMPTY:
       case DisplayState.LOADING:
-        // a11y 5.4
-        Future.delayed(
-          Duration(milliseconds: 100),
-          () => SemanticsService.announce(Strings.loadingAnnouncement, TextDirection.ltr),
-        );
+        A11yUtils.announce(Strings.loadingAnnouncement);
         break;
     }
   }
