@@ -139,6 +139,9 @@ class Strings {
   static String chatPieceJointeFilePermissionError =
       "Autorisez l’accès aux fichiers pour pouvoir sélectionner un fichier.";
   static String chatPieceJointeOpenAppSettings = "Accéder aux paramètres";
+  static String chatA11yMessageFromMe = "Mon message : ";
+  static String chatA11yMessageFromMyConseiller = "Message de mon conseiller : ";
+  static String chatA11yHours = "heures";
 
   // Force Update
   static String updateTitle = "Mise à jour";
@@ -1383,7 +1386,10 @@ class Strings {
   static String listSemanticsLabel = "Liste";
   static String invalidField = "Champ invalide";
   static String loadingAnnouncement = "Chargement en cours";
+
   static String removeDistance(int value) => 'Diminuer la distance de $value km';
+
   static String addDistance(int value) => 'Augmenter la distance de $value km';
+
   static String distanceUpdated(int value) => 'Distance mise à jour à $value km';
 }
