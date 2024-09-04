@@ -18,6 +18,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
+import 'package:pass_emploi_app/widgets/a11y/string_a11y_extensions.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_tag.dart';
@@ -169,7 +170,11 @@ class _Header extends StatelessWidget {
             Expanded(child: SizedBox()),
             Icon(AppIcons.schedule_rounded, color: AppColors.grey800),
             SizedBox(width: Margins.spacing_s),
-            Text(viewModel.hourAndDuration, style: TextStyles.textBaseBold),
+            Text(
+              viewModel.hourAndDuration,
+              style: TextStyles.textBaseBold,
+              semanticsLabel: viewModel.hourAndDuration.toTimeAndDurationForScreenReaders(),
+            ),
           ],
         ),
       ],

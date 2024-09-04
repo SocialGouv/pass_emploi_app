@@ -141,7 +141,6 @@ class Strings {
   static String chatPieceJointeOpenAppSettings = "Accéder aux paramètres";
   static String chatA11yMessageFromMe = "Mon message : ";
   static String chatA11yMessageFromMyConseiller = "Message de mon conseiller : ";
-  static String chatA11yHours = "heures";
 
   // Force Update
   static String updateTitle = "Mise à jour";
@@ -1376,6 +1375,9 @@ class Strings {
   static String iconAlternativeDuration = "Temps de travail";
   static String iconAlternativeDateDeDebut = "Date de début";
   static String iconAlternativeDateDeFin = "Date de fin";
+  static String a11yHours = " heures ";
+  static String a11yMinutes = " minutes ";
+  static String a11yDuration = "durée : ";
 
   // textes alternatifs
   static String favoriHeartRemove = "Retirer l'offre des favoris";

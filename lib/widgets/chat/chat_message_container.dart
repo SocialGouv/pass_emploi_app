@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/a11y/string_a11y_extensions.dart';
 
 class ChatMessageContainer extends StatelessWidget {
   const ChatMessageContainer({
@@ -96,8 +97,7 @@ class _Caption extends StatelessWidget {
         Text(
           text,
           style: TextStyles.textXsRegular().copyWith(color: color),
-          // a11y : to ensure that the screen reader reads the time properly
-          semanticsLabel: text.replaceAll(":", Strings.chatA11yHours),
+          semanticsLabel: text.toTimeAndDurationForScreenReaders(),
         ),
       ],
     );
