@@ -247,12 +247,13 @@ class Link extends StatelessWidget {
         child: Wrap(
           crossAxisAlignment: WrapCrossAlignment.end,
           children: [
-            Text(label, style: TextStyles.internalLink),
-            SizedBox(width: Margins.spacing_s),
             Padding(
               padding: const EdgeInsets.only(bottom: 3),
               child: Icon(AppIcons.open_in_new_rounded, color: AppColors.primary),
-            )
+            ),
+            SizedBox(width: Margins.spacing_s),
+            Text(label, style: TextStyles.internalLink),
+            Semantics(label: Strings.link),
           ],
         ),
       ),

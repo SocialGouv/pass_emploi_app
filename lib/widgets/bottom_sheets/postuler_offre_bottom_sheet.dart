@@ -32,6 +32,7 @@ class PostulerOffreBottomSheet extends StatelessWidget {
           PrimaryActionButton(
             label: Strings.postulerContinueButton,
             icon: AppIcons.open_in_new_rounded,
+            iconLabel: Strings.link,
             onPressed: onPostuler,
           ),
         ],

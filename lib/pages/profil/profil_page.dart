@@ -295,12 +295,21 @@ class _ListTileCard extends StatelessWidget {
                     ListTile(
                       onTap: data.onTap,
                       title: Text(data.title, style: TextStyles.textBaseRegular),
-                      trailing: Icon(
-                        externalLink ? AppIcons.open_in_new_rounded : AppIcons.chevron_right_rounded,
-                        semanticLabel: externalLink ? Strings.openInNavigator : Strings.openInNewTab,
-                        size: externalLink ? Dimens.icon_size_base : Dimens.icon_size_m,
-                        color: AppColors.contentColor,
-                      ),
+                      leading: externalLink
+                          ? Icon(
+                              AppIcons.open_in_new_rounded,
+                              size: Dimens.icon_size_base,
+                              color: AppColors.contentColor,
+                            )
+                          : null,
+                      trailing: !externalLink
+                          ? Icon(
+                              AppIcons.chevron_right_rounded,
+                              semanticLabel: Strings.openInNewTab,
+                              size: Dimens.icon_size_m,
+                              color: AppColors.contentColor,
+                            )
+                          : Semantics(label: Strings.link),
                     ),
                     Divider(color: AppColors.grey100, height: 0),
                   ];

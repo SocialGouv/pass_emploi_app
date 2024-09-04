@@ -22,6 +22,7 @@ class PrimaryActionButton extends StatelessWidget {
   final double widthPadding;
   final bool underlined;
   final Widget? suffix;
+  final String? iconLabel;
 
   PrimaryActionButton({
     super.key,
@@ -41,6 +42,7 @@ class PrimaryActionButton extends StatelessWidget {
     this.widthPadding = Margins.spacing_m,
     this.underlined = false,
     this.suffix,
+    this.iconLabel,
   }) : backgroundColor = backgroundColor ?? AppColors.primary;
 
   @override
@@ -96,6 +98,9 @@ class PrimaryActionButton extends StatelessWidget {
           label,
           textAlign: TextAlign.center,
           style: TextStyles.textPrimaryButton.copyWith(color: textColor),
+        ),
+        Semantics(
+          label: iconLabel,
         ),
         if (suffix != null)
           Padding(
