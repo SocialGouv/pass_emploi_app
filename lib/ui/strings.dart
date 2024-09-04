@@ -1378,6 +1378,13 @@ class Strings {
   static String a11yHours = " heures ";
   static String a11yMinutes = " minutes ";
   static String a11yDuration = "durée : ";
+  static String a11yMonday = "lundi";
+  static String a11yTuesday = "mardi";
+  static String a11yWednesday = "mercredi";
+  static String a11yThursday = "jeudi";
+  static String a11yFriday = "vendredi";
+  static String a11ySaturday = "samedi";
+  static String a11ySunday = "dimanche";
 
   // textes alternatifs
   static String favoriHeartRemove = "Retirer l'offre des favoris";

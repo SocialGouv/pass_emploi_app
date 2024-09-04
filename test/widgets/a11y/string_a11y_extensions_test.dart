@@ -23,4 +23,34 @@ void main() {
       expect("(1h)".toTimeAndDurationForScreenReaders(), "(durée : 1 heures )");
     });
   });
+
+  group('toFullDayForScreenReaders', () {
+    test('should replace lun.', () {
+      expect("lun.".toFullDayForScreenReaders(), "lundi");
+    });
+
+    test('should replace mar.', () {
+      expect("mar.".toFullDayForScreenReaders(), "mardi");
+    });
+
+    test('should replace mer.', () {
+      expect("mer.".toFullDayForScreenReaders(), "mercredi");
+    });
+
+    test('should replace jeu.', () {
+      expect("jeu.".toFullDayForScreenReaders(), "jeudi");
+    });
+
+    test('should replace ven.', () {
+      expect("ven.".toFullDayForScreenReaders(), "vendredi");
+    });
+
+    test('should replace sam.', () {
+      expect("sam.".toFullDayForScreenReaders(), "samedi");
+    });
+
+    test('should replace dim.', () {
+      expect("dim.".toFullDayForScreenReaders(), "dimanche");
+    });
+  });
 }
