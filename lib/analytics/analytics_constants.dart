@@ -284,12 +284,6 @@ class AnalyticsEventNames {
   static const rendezvousVisioDisplayAction = "Affichage";
   static const rendezvousVisioClickAction = "Clic";
 
-  static const wordingRechercheOffresCategoryA = "Recherche/Offres - A";
-  static const wordingRechercheOffresCategoryB = "Recherche/Offres - B";
-
-  static const wordingRechercheOffresAffichage = "Affichage";
-  static const wordingRechercheOffresSelected = "Clic onglet Recherche/Offres";
-
   static const actionWithoutDescriptionCategory = "Rattrapage action sans description";
 
   static const createActionWithoutDescription = "Créer action sans description - popin création de l’action";

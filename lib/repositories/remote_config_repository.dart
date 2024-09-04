@@ -8,11 +8,6 @@ class RemoteConfigRepository {
 
   RemoteConfigRepository(this._firebaseRemoteConfig);
 
-  bool hasOffresWordingABTesting() {
-    if (_firebaseRemoteConfig == null) return false;
-    return _firebaseRemoteConfig.getBool('wording_recherche_offres');
-  }
-
   int? maxLivingTimeInSecondsForMilo() {
     if (_firebaseRemoteConfig == null) return null;
 
