@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/a11y/string_a11y_extensions.dart';
 
 class ChatMessageContainer extends StatelessWidget {
   const ChatMessageContainer({
@@ -13,6 +15,7 @@ class ChatMessageContainer extends StatelessWidget {
     required this.isPj,
     this.captionSuffixIcon,
   });
+
   final Widget content;
   final String caption;
   final Color? captionColor;
@@ -54,23 +57,27 @@ class ChatMessageContainer extends StatelessWidget {
 
 class _ChatBubble extends StatelessWidget {
   const _ChatBubble({required this.isMyMessage, required this.child, required this.isPj});
+
   final bool isPj;
   final bool isMyMessage;
   final Widget child;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(
-        left: isMyMessage ? 77.0 : 0,
-        right: !isMyMessage ? 77.0 : 0,
+    return Semantics(
+      label: isMyMessage ? Strings.chatA11yMessageFromMe : Strings.chatA11yMessageFromMyConseiller,
+      child: Container(
+        margin: EdgeInsets.only(
+          left: isMyMessage ? 77.0 : 0,
+          right: !isMyMessage ? 77.0 : 0,
+        ),
+        padding: EdgeInsets.all(isPj ? Margins.spacing_s : Margins.spacing_base),
+        decoration: BoxDecoration(
+          color: isMyMessage ? AppColors.primary : Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(16)),
+        ),
+        child: child,
       ),
-      padding: EdgeInsets.all(isPj ? Margins.spacing_s : Margins.spacing_base),
-      decoration: BoxDecoration(
-        color: isMyMessage ? AppColors.primary : Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(16)),
-      ),
-      child: child,
     );
   }
 }
@@ -87,7 +94,11 @@ class _Caption extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: Margins.spacing_xs),
-        Text(text, style: TextStyles.textXsRegular().copyWith(color: color)),
+        Text(
+          text,
+          style: TextStyles.textXsRegular().copyWith(color: color),
+          semanticsLabel: text.toTimeAndDurationForScreenReaders(),
+        ),
       ],
     );
   }

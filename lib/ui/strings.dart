@@ -139,6 +139,8 @@ class Strings {
   static String chatPieceJointeFilePermissionError =
       "Autorisez l’accès aux fichiers pour pouvoir sélectionner un fichier.";
   static String chatPieceJointeOpenAppSettings = "Accéder aux paramètres";
+  static String chatA11yMessageFromMe = "Mon message : ";
+  static String chatA11yMessageFromMyConseiller = "Message de mon conseiller : ";
 
   // Force Update
   static String updateTitle = "Mise à jour";
@@ -1373,6 +1375,16 @@ class Strings {
   static String iconAlternativeDuration = "Temps de travail";
   static String iconAlternativeDateDeDebut = "Date de début";
   static String iconAlternativeDateDeFin = "Date de fin";
+  static String a11yHours = " heures ";
+  static String a11yMinutes = " minutes ";
+  static String a11yDuration = "durée : ";
+  static String a11yMonday = "lundi";
+  static String a11yTuesday = "mardi";
+  static String a11yWednesday = "mercredi";
+  static String a11yThursday = "jeudi";
+  static String a11yFriday = "vendredi";
+  static String a11ySaturday = "samedi";
+  static String a11ySunday = "dimanche";
 
   // textes alternatifs
   static String favoriHeartRemove = "Retirer l'offre des favoris";
@@ -1383,7 +1395,10 @@ class Strings {
   static String listSemanticsLabel = "Liste";
   static String invalidField = "Champ invalide";
   static String loadingAnnouncement = "Chargement en cours";
+
   static String removeDistance(int value) => 'Diminuer la distance de $value km';
+
   static String addDistance(int value) => 'Augmenter la distance de $value km';
+
   static String distanceUpdated(int value) => 'Distance mise à jour à $value km';
 }

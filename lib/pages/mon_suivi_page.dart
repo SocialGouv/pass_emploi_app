@@ -23,6 +23,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/a11y/auto_focus.dart';
+import 'package:pass_emploi_app/widgets/a11y/string_a11y_extensions.dart';
 import 'package:pass_emploi_app/widgets/animated_list_loader.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
@@ -563,7 +564,11 @@ class _Day extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(day.shortened, style: TextStyles.textXsMedium()),
+          Text(
+            day.shortened,
+            style: TextStyles.textXsMedium(),
+            semanticsLabel: day.shortened.toFullDayForScreenReaders(),
+          ),
           Text(day.number, style: TextStyles.textBaseBold),
         ],
       ),
