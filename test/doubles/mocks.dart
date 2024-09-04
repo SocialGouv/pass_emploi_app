@@ -222,7 +222,6 @@ class MockRemoteConfigRepository extends Mock implements RemoteConfigRepository 
     when(() => lastCampagneRecrutementId()).thenReturn(null);
     when(() => useCvm()).thenReturn(false);
     when(() => usePj()).thenReturn(false);
-    when(() => hasBoiteAOutilsABTesting()).thenReturn(false);
     when(() => hasOffresWordingABTesting()).thenReturn(false);
     when(() => getIdsConseillerCvmEarlyAdopters()).thenReturn([]);
     when(() => getIdsMiloPjEarlyAdopters()).thenReturn([]);

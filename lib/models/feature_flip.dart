@@ -4,14 +4,12 @@ class FeatureFlip extends Equatable {
   final bool useCvm;
   final bool usePj;
   final bool withCampagneRecrutement;
-  final bool boiteAOutilsMisEnAvant;
   final bool withOffresWording;
 
   FeatureFlip({
     required this.useCvm,
     required this.usePj,
     required this.withCampagneRecrutement,
-    required this.boiteAOutilsMisEnAvant,
     required this.withOffresWording,
   });
 
@@ -20,7 +18,6 @@ class FeatureFlip extends Equatable {
       useCvm: false,
       usePj: false,
       withCampagneRecrutement: false,
-      boiteAOutilsMisEnAvant: false,
       withOffresWording: false,
     );
   }
@@ -36,7 +33,6 @@ class FeatureFlip extends Equatable {
       useCvm: useCvm ?? this.useCvm,
       usePj: usePj ?? this.usePj,
       withCampagneRecrutement: withCampagneRecrutement ?? this.withCampagneRecrutement,
-      boiteAOutilsMisEnAvant: boiteAOutilsMisEnAvant ?? this.boiteAOutilsMisEnAvant,
       withOffresWording: withOffresWording ?? this.withOffresWording,
     );
   }
@@ -46,7 +42,6 @@ class FeatureFlip extends Equatable {
         useCvm,
         usePj,
         withCampagneRecrutement,
-        boiteAOutilsMisEnAvant,
         withOffresWording,
       ];
 }

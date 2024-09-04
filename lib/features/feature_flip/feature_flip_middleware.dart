@@ -25,7 +25,6 @@ class FeatureFlipMiddleware extends MiddlewareClass<AppState> {
         _handlePjFeatureFlip(store, action.user.id);
       }
 
-      _handleBoiteAOutilsABTesting(store, action.user.id);
       _handleOffresWordingABTesting(store, action.user.id);
     }
   }
@@ -56,10 +55,6 @@ class FeatureFlipMiddleware extends MiddlewareClass<AppState> {
         store.dispatch(FeatureFlipUsePjAction(true));
       }
     }
-  }
-
-  void _handleBoiteAOutilsABTesting(Store<AppState> store, String userId) async {
-    store.dispatch(FeatureFlipBoiteAOutilsABTestingAction(_remoteConfigRepository.hasBoiteAOutilsABTesting()));
   }
 
   void _handleOffresWordingABTesting(Store<AppState> store, String userId) async {

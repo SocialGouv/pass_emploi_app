@@ -284,12 +284,6 @@ class AnalyticsEventNames {
   static const rendezvousVisioDisplayAction = "Affichage";
   static const rendezvousVisioClickAction = "Clic";
 
-  static const baoCategoryA = "Boite a outils - A";
-  static const baoCategoryB = "Boite a outils - B";
-
-  static const baoAffichageAccueil = "Affichage accueil";
-  static const baoVoirTousLesOutils = "Clic voir tous les outils";
-
   static const wordingRechercheOffresCategoryA = "Recherche/Offres - A";
   static const wordingRechercheOffresCategoryB = "Recherche/Offres - B";
 
