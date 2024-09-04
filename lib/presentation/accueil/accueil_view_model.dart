@@ -23,7 +23,6 @@ class AccueilViewModel extends Equatable {
   final DeepLink? deepLink;
   final bool shouldResetDeeplink;
   final bool shouldShowOnboarding;
-  final bool boiteAOutilsMisEnAvant;
   final Function() resetDeeplink;
   final Function() retry;
 
@@ -33,7 +32,6 @@ class AccueilViewModel extends Equatable {
     required this.deepLink,
     required this.shouldResetDeeplink,
     required this.shouldShowOnboarding,
-    required this.boiteAOutilsMisEnAvant,
     required this.resetDeeplink,
     required this.retry,
   });
@@ -45,14 +43,13 @@ class AccueilViewModel extends Equatable {
       deepLink: store.getDeepLink(),
       shouldResetDeeplink: _shouldResetDeeplink(store),
       shouldShowOnboarding: _shouldShowOnboarding(store),
-      boiteAOutilsMisEnAvant: store.state.featureFlipState.featureFlip.boiteAOutilsMisEnAvant,
       resetDeeplink: () => store.dispatch(ResetDeeplinkAction()),
       retry: () => store.dispatch(AccueilRequestAction(forceRefresh: true)),
     );
   }
 
   @override
-  List<Object?> get props => [displayState, items, deepLink, shouldShowOnboarding, boiteAOutilsMisEnAvant];
+  List<Object?> get props => [displayState, items, deepLink, shouldShowOnboarding];
 }
 
 DisplayState _displayState(Store<AppState> store) {
@@ -77,7 +74,6 @@ bool _shouldResetDeeplink(Store<AppState> store) {
 
 List<AccueilItem> _items(Store<AppState> store) {
   final accueilState = store.state.accueilState;
-  final boiteAOutilsMisEnAvant = store.state.featureFlipState.featureFlip.boiteAOutilsMisEnAvant;
   final user = store.state.user();
   if (accueilState is! AccueilSuccessState || user == null) return [];
 
@@ -87,11 +83,10 @@ List<AccueilItem> _items(Store<AppState> store) {
     _campagneEvaluationItem(store.state),
     _cetteSemaineItem(user.loginMode, accueilState),
     _prochainRendezvousItem(accueilState),
-    if (boiteAOutilsMisEnAvant) _outilsItem(accueilState, user.accompagnement),
     _evenementsItem(accueilState),
     _alertesItem(accueilState),
     _favorisItem(accueilState),
-    if (!boiteAOutilsMisEnAvant) _outilsItem(accueilState, user.accompagnement),
+    _outilsItem(accueilState, user.accompagnement),
   ].whereNotNull().toList();
 }
 
