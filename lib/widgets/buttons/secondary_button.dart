@@ -11,6 +11,7 @@ class SecondaryButton extends StatelessWidget {
   final Color backgroundColor;
   final Color? foregroundColor;
   final double? fontSize;
+  final String? iconLabel;
 
   const SecondaryButton({
     super.key,
@@ -20,6 +21,7 @@ class SecondaryButton extends StatelessWidget {
     this.backgroundColor = Colors.white,
     this.foregroundColor,
     this.fontSize,
+    this.iconLabel,
   });
 
   @override
@@ -50,11 +52,13 @@ class SecondaryButton extends StatelessWidget {
                       size: Dimens.icon_size_m,
                     )),
               Flexible(
-                  child: Text(
-                label,
-                textAlign: TextAlign.center,
-                style: usedTextStyle.copyWith(color: textColor),
-              )),
+                child: Text(
+                  label,
+                  textAlign: TextAlign.center,
+                  style: usedTextStyle.copyWith(color: textColor),
+                ),
+              ),
+              Semantics(label: iconLabel),
             ],
           ),
         ),

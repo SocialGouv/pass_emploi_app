@@ -209,6 +209,7 @@ class _EmptyListPlaceholder extends StatelessWidget {
           PrimaryActionButton(
             label: Strings.cvEmptyButton,
             icon: AppIcons.open_in_new_rounded,
+            iconLabel: Strings.link,
             onPressed: () => _launchAndTrackExternalLink(),
           ),
         ],
@@ -231,6 +232,7 @@ class _EmptyListPlaceholder extends StatelessWidget {
           SecondaryButton(
             label: Strings.cvEmptyButton,
             icon: AppIcons.open_in_new_rounded,
+            iconLabel: Strings.link,
             onPressed: () => _launchAndTrackExternalLink(),
           ),
         ],

@@ -66,10 +66,9 @@ class CampagneRecrutementCard extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: Margins.spacing_s),
-                  PressedTip(
+                  PressedTip.externalLink(
                     Strings.accueilCampagneRecrutementPressedTip,
                     textColor: Colors.white,
-                    icon: AppIcons.open_in_new_rounded,
                   )
                 ],
               ),

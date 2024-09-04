@@ -3,9 +3,9 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/benevolat_assets.dart';
-import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/external_links.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
@@ -176,7 +176,8 @@ class _Button extends StatelessWidget {
         label: BenevolatAssets.cta,
         underlined: true,
         widthPadding: Margins.spacing_xl,
-        suffix: Icon(AppIcons.open_in_new_rounded, size: Dimens.icon_size_base),
+        icon: AppIcons.open_in_new_rounded,
+        iconLabel: Strings.link,
         onPressed: () => _launchExternalRedirect(),
       ),
     );

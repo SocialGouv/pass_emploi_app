@@ -58,10 +58,10 @@ class _NoOrganismButton extends StatelessWidget {
         launchExternalUrl(noOrganismeLink);
       },
       label: Strings.loginBottomSeetNoOrganism,
-      suffix: Semantics(
-        label: Strings.openInNewTab,
+      leading: Semantics(
         child: Icon(AppIcons.open_in_new_rounded),
       ),
+      suffix: Semantics(label: Strings.link),
     );
   }
 }

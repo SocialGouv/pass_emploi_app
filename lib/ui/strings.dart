@@ -1366,7 +1366,6 @@ class Strings {
   // a11y
   static String selectedRadioButton = "Sélectionné";
   static String unselectedRadioButton = "Non sélectionné";
-  static String exitApp = "Sortir de l'application";
 
   static String iconAlternativeLocation = "Localisation";
   static String iconAlternativeContractType = "Type de contrat";
@@ -1378,7 +1377,7 @@ class Strings {
   // textes alternatifs
   static String favoriHeartRemove = "Retirer l'offre des favoris";
   static String favoriHeartAdd = "Mettre l'offre en favoris";
-  static String openInNavigator = "Ouvrir dans le navigateur";
+  static String link = "Lien";
   static String openInNewTab = "Ouvrir dans un nouvel onglet";
   static String semanticsLabelInformation = "Information";
   static String listSemanticsLabel = "Liste";

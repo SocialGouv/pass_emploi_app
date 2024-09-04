@@ -211,6 +211,7 @@ class _PopUpActualisationPe extends StatelessWidget {
           PrimaryActionButton(
             label: Strings.actualisationPePopUpPrimaryButton,
             icon: AppIcons.open_in_new_rounded,
+            iconLabel: Strings.link,
             heightPadding: 8,
             iconSize: Dimens.icon_size_base,
             fontSize: fontSize,

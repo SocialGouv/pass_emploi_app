@@ -197,18 +197,12 @@ class _FooterButtons extends StatelessWidget {
           Expanded(
             child: PrimaryActionButton(
               icon: AppIcons.open_in_new_rounded,
+              iconLabel: Strings.link,
               iconSize: Dimens.icon_size_base,
               label: Strings.eventEmploiDetailsInscription,
               onPressed: () => _openInscriptionUrl(context),
             ),
           ),
-        // SizedBox(width: Margins.spacing_base),
-        // FavoriHeart<EvenementEmploiDetails>(
-        //   offreId: "offreId",
-        //   withBorder: true,
-        //   from: OffrePage.emploiDetails,
-        //   onFavoriRemoved: null,
-        // ),
         if (viewModel.url != null) ...[
           SizedBox(width: Margins.spacing_base),
           ShareButton(

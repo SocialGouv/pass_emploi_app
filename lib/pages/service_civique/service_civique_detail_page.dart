@@ -13,7 +13,6 @@ import 'package:pass_emploi_app/presentation/service_civique/service_civique_det
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
-import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -252,7 +251,8 @@ class ServiceCiviqueDetailPage extends StatelessWidget {
                   _applyToOffer(context, url);
                 }
               },
-              suffix: shouldShowCvBottomSheet ? null : Icon(AppIcons.open_in_new_rounded, size: Dimens.icon_size_base),
+              icon: shouldShowCvBottomSheet ? null : AppIcons.open_in_new_rounded,
+              iconLabel: Strings.link,
             ),
           ),
           SizedBox(width: Margins.spacing_base),
