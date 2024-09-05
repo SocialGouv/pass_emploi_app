@@ -17,7 +17,7 @@ void main() {
     expect(viewModel.outils, [
       Outil.benevolatCej,
       Outil.diagoriente,
-      Outil.aides,
+      Outil.mesAides1J1S,
       Outil.mentor,
       Outil.formation,
       Outil.evenement,
@@ -39,7 +39,7 @@ void main() {
     expect(viewModel.outils, [
       Outil.benevolatPassEmploi,
       Outil.diagoriente,
-      Outil.aides,
+      Outil.mesAides1J1S,
       Outil.mentor,
       Outil.formation,
       Outil.evenement,
@@ -60,7 +60,7 @@ void main() {
     // Then
     expect(viewModel.outils, [
       Outil.benevolatPassEmploi,
-      Outil.aides,
+      Outil.mesAides1J1S,
       Outil.emploiStore,
       Outil.emploiSolidaire,
       Outil.laBonneBoite,

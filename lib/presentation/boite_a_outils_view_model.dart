@@ -26,7 +26,7 @@ List<Outil> _getOutils(Accompagnement accompagnement) {
     Accompagnement.cej => [
         Outil.benevolatCej,
         Outil.diagoriente,
-        Outil.aides,
+        Outil.mesAides1J1S,
         Outil.mentor,
         Outil.formation,
         Outil.evenement,
@@ -38,7 +38,7 @@ List<Outil> _getOutils(Accompagnement accompagnement) {
     Accompagnement.aij => [
         Outil.benevolatPassEmploi,
         Outil.diagoriente,
-        Outil.aides,
+        Outil.mesAides1J1S,
         Outil.mentor,
         Outil.formation,
         Outil.evenement,
@@ -49,7 +49,7 @@ List<Outil> _getOutils(Accompagnement accompagnement) {
       ],
     Accompagnement.rsa => [
         Outil.benevolatPassEmploi,
-        Outil.aides,
+        Outil.mesAides1J1S,
         Outil.emploiStore,
         Outil.emploiSolidaire,
         Outil.laBonneBoite,

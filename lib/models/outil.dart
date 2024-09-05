@@ -24,12 +24,12 @@ class Outil extends Equatable {
     redirectMode: OutilExternalRedirectMode(ExternalLinks.boiteAOutilsDiagoriente),
     imagePath: "diagoriente.png",
   );
-  static Outil aides = Outil(
+  static Outil mesAides1J1S = Outil(
     title: "J'accède à mes aides",
     description:
         "Trouvez en quelques clics les aides auxquelles vous avez droit : logement, santé, mobilité, emploi, culture, etc.",
     actionLabel: "Lancer ma simulation",
-    redirectMode: OutilExternalRedirectMode(ExternalLinks.boiteAOutilsAides),
+    redirectMode: OutilExternalRedirectMode(ExternalLinks.boiteAOutils1J1SAides),
     imagePath: "aides.png",
   );
 

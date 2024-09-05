@@ -85,7 +85,7 @@ void main() {
           AccueilOutilsItem([
             Outil.benevolatCej.withoutImage(),
             Outil.diagoriente.withoutImage(),
-            Outil.aides.withoutImage(),
+            Outil.mesAides1J1S.withoutImage(),
           ]),
         ],
       );
@@ -133,7 +133,7 @@ void main() {
           AccueilOutilsItem([
             Outil.benevolatCej.withoutImage(),
             Outil.diagoriente.withoutImage(),
-            Outil.aides.withoutImage(),
+            Outil.mesAides1J1S.withoutImage(),
           ]),
         ],
       );
@@ -170,7 +170,7 @@ void main() {
           AccueilOutilsItem([
             Outil.benevolatCej.withoutImage(),
             Outil.diagoriente.withoutImage(),
-            Outil.aides.withoutImage(),
+            Outil.mesAides1J1S.withoutImage(),
           ]),
         ],
       );
@@ -196,7 +196,7 @@ void main() {
         [
           Outil.benevolatCej.withoutImage(),
           Outil.diagoriente.withoutImage(),
-          Outil.aides.withoutImage(),
+          Outil.mesAides1J1S.withoutImage(),
         ],
       );
     });
@@ -219,7 +219,7 @@ void main() {
         [
           Outil.benevolatPassEmploi.withoutImage(),
           Outil.diagoriente.withoutImage(),
-          Outil.aides.withoutImage(),
+          Outil.mesAides1J1S.withoutImage(),
         ],
       );
     });

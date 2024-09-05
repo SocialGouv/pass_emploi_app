@@ -148,7 +148,7 @@ AccueilItem? _outilsItem(AccueilSuccessState successState, Accompagnement accomp
     Accompagnement.cej => AccueilOutilsItem([
         Outil.benevolatCej.withoutImage(),
         Outil.diagoriente.withoutImage(),
-        Outil.aides.withoutImage(),
+        Outil.mesAides1J1S.withoutImage(),
       ]),
     Accompagnement.rsa => AccueilOutilsItem([
         Outil.benevolatPassEmploi.withoutImage(),
@@ -158,7 +158,7 @@ AccueilItem? _outilsItem(AccueilSuccessState successState, Accompagnement accomp
     Accompagnement.aij => AccueilOutilsItem([
         Outil.benevolatPassEmploi.withoutImage(),
         Outil.diagoriente.withoutImage(),
-        Outil.aides.withoutImage(),
+        Outil.mesAides1J1S.withoutImage(),
       ]),
   };
 }

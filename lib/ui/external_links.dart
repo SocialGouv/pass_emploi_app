@@ -7,7 +7,7 @@ class ExternalLinks {
   static const String unJeuneUneSolution = "https://www.1jeune1solution.gouv.fr/contrat-engagement-jeune";
   static const String espaceCandidats = "https://candidat.pole-emploi.fr/espacepersonnel/";
   static const String boiteAOutilsDiagoriente = "https://app.diagoriente.beta.gouv.fr/register";
-  static const String boiteAOutilsAides =
+  static const String boiteAOutils1J1SAides =
       "https://mes-aides.1jeune1solution.beta.gouv.fr/simulation/individu/demandeur/date_naissance";
   static const String boiteAOutilsMentor = "https://www.1jeune1mentor.fr/formulaire?1jeune1solution";
   static final String boiteAOutilsBenevolat = Brand.isCej()
