@@ -1385,6 +1385,18 @@ class Strings {
   static String a11yFriday = "vendredi";
   static String a11ySaturday = "samedi";
   static String a11ySunday = "dimanche";
+  static String a11yJanuary = " janvier ";
+  static String a11yFebruary = " février ";
+  static String a11yMarch = " mars ";
+  static String a11yApril = " avril ";
+  static String a11yMay = " mai ";
+  static String a11yJune = " juin ";
+  static String a11yJuly = " juillet ";
+  static String a11yAugust = " août ";
+  static String a11ySeptember = " septembre ";
+  static String a11yOctober = " octobre ";
+  static String a11yNovember = " novembre ";
+  static String a11yDecember = " décembre ";
 
   // textes alternatifs
   static String favoriHeartRemove = "Retirer l'offre des favoris";

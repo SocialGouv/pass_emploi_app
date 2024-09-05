@@ -18,4 +18,20 @@ extension A11yStringExtensions on String {
         .replaceAll("sam.", Strings.a11ySaturday)
         .replaceAll("dim.", Strings.a11ySunday);
   }
+
+  String toDateForScreenReaders() {
+    return replaceAll("/01", Strings.a11yJanuary)
+        .replaceAll("/02", Strings.a11yFebruary)
+        .replaceAll("/03", Strings.a11yMarch)
+        .replaceAll("/04", Strings.a11yApril)
+        .replaceAll("/05", Strings.a11yMay)
+        .replaceAll("/06", Strings.a11yJune)
+        .replaceAll("/07", Strings.a11yJuly)
+        .replaceAll("/08", Strings.a11yAugust)
+        .replaceAll("/09", Strings.a11ySeptember)
+        .replaceAll("/10", Strings.a11yOctober)
+        .replaceAll("/11", Strings.a11yNovember)
+        .replaceAll("/12", Strings.a11yDecember)
+        .replaceAll("/", "");
+  }
 }

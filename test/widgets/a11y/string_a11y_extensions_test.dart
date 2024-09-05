@@ -53,4 +53,54 @@ void main() {
       expect("dim.".toFullDayForScreenReaders(), "dimanche");
     });
   });
+
+  group('toDateForScreenReaders', () {
+    test('should replace /01', () {
+      expect("Le 01/01/2024".toDateForScreenReaders(), "Le 01 janvier 2024");
+    });
+
+    test('should replace /02', () {
+      expect("Le 01/02/2024".toDateForScreenReaders(), "Le 01 février 2024");
+    });
+
+    test('should replace /03', () {
+      expect("Le 01/03/2024".toDateForScreenReaders(), "Le 01 mars 2024");
+    });
+
+    test('should replace /04', () {
+      expect("Le 01/04/2024".toDateForScreenReaders(), "Le 01 avril 2024");
+    });
+
+    test('should replace /05', () {
+      expect("Le 01/05/2024".toDateForScreenReaders(), "Le 01 mai 2024");
+    });
+
+    test('should replace /06', () {
+      expect("Le 01/06/2024".toDateForScreenReaders(), "Le 01 juin 2024");
+    });
+
+    test('should replace /07', () {
+      expect("Le 01/07/2024".toDateForScreenReaders(), "Le 01 juillet 2024");
+    });
+
+    test('should replace /08', () {
+      expect("Le 01/08/2024".toDateForScreenReaders(), "Le 01 août 2024");
+    });
+
+    test('should replace /09', () {
+      expect("Le 01/09/2024".toDateForScreenReaders(), "Le 01 septembre 2024");
+    });
+
+    test('should replace /10', () {
+      expect("Le 01/10/2024".toDateForScreenReaders(), "Le 01 octobre 2024");
+    });
+
+    test('should replace /11', () {
+      expect("Le 01/11/2024".toDateForScreenReaders(), "Le 01 novembre 2024");
+    });
+
+    test('should replace /12', () {
+      expect("Le 01/12/2024".toDateForScreenReaders(), "Le 01 décembre 2024");
+    });
+  });
 }
