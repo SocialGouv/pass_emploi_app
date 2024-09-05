@@ -22,7 +22,7 @@ class Outil extends Equatable {
         "Explorez vos expériences, analysez vos compétences transversales et identifiez vos intérêts personnels afin de faciliter votre orientation.",
     actionLabel: "Créer mon compte Diagoriente",
     redirectMode: OutilExternalRedirectMode(ExternalLinks.boiteAOutilsDiagoriente),
-    imagePath: "diagoriente.png",
+    imagePath: "boite_a_outils/diagoriente.webp",
   );
   static Outil mesAides1J1S = Outil(
     title: "J'accède à mes aides",
@@ -30,7 +30,7 @@ class Outil extends Equatable {
         "Trouvez en quelques clics les aides auxquelles vous avez droit : logement, santé, mobilité, emploi, culture, etc.",
     actionLabel: "Lancer ma simulation",
     redirectMode: OutilExternalRedirectMode(ExternalLinks.boiteAOutils1J1SAides),
-    imagePath: "aides.png",
+    imagePath: "boite_a_outils/mes_aides_1j1s.webp",
   );
 
   static Outil mentor = Outil(
@@ -39,7 +39,7 @@ class Outil extends Equatable {
         "Expliquez nous votre situation et vos besoins. Nous vous mettrons en relation avec une association qui vous proposera un mentor.",
     actionLabel: "Me faire accompagner",
     redirectMode: OutilExternalRedirectMode(ExternalLinks.boiteAOutilsMentor),
-    imagePath: "mentor.png",
+    imagePath: "boite_a_outils/mentor.webp",
   );
 
   static Outil benevolatCej = Outil(
@@ -47,14 +47,14 @@ class Outil extends Equatable {
     description:
         "Trouvez une mission de bénévolat à distance ou en présentiel, comptabilisée dans vos heures d’activités CEJ, sur JeVeuxAider.gouv.fr",
     redirectMode: OutilInternalRedirectMode(OutilInternalLink.benevolat),
-    imagePath: "boite_outil_benevolat.webp",
+    imagePath: "boite_a_outils/benevolat.webp",
   );
 
   static Outil benevolatPassEmploi = Outil(
     title: "Je m’engage bénévolement",
     description: "Trouvez une mission de bénévolat à distance ou en présentiel sur JeVeuxAider.gouv.fr",
     redirectMode: OutilInternalRedirectMode(OutilInternalLink.benevolat),
-    imagePath: "boite_outil_benevolat.webp",
+    imagePath: "boite_a_outils/benevolat.webp",
   );
 
   static Outil formation = Outil(
