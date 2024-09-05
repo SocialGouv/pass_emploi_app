@@ -84,10 +84,11 @@ flutter:
 
   assets:
     - assets/
-    - assets/illustrations/
-    - assets/benevolat/
-    - assets/onboarding/
     - assets/tuto/
+    - assets/onboarding/
+    - assets/illustrations/
+    - assets/boite_a_outils/
+    - assets/benevolat/
     - assets/mode_demo/
     - assets/mode_demo/brsa/
     - assets/mode_demo/cej/
