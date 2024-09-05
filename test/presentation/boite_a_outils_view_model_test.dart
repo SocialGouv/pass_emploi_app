@@ -15,16 +15,17 @@ void main() {
 
     // Then
     expect(viewModel.outils, [
+      Outil.mesAidesFt,
       Outil.benevolatCej,
-      Outil.diagoriente,
-      Outil.mesAides1J1S,
-      Outil.mentor,
       Outil.formation,
+      Outil.mentor,
       Outil.evenement,
       Outil.emploiStore,
       Outil.emploiSolidaire,
       Outil.laBonneBoite,
       Outil.alternance,
+      Outil.diagoriente,
+      Outil.mesAides1J1S,
     ]);
   });
 
@@ -37,16 +38,17 @@ void main() {
 
     // Then
     expect(viewModel.outils, [
+      Outil.mesAidesFt,
       Outil.benevolatPassEmploi,
-      Outil.diagoriente,
-      Outil.mesAides1J1S,
-      Outil.mentor,
       Outil.formation,
+      Outil.mentor,
       Outil.evenement,
       Outil.emploiStore,
       Outil.emploiSolidaire,
       Outil.laBonneBoite,
       Outil.alternance,
+      Outil.diagoriente,
+      Outil.mesAides1J1S,
     ]);
   });
 
@@ -59,11 +61,12 @@ void main() {
 
     // Then
     expect(viewModel.outils, [
+      Outil.mesAidesFt,
       Outil.benevolatPassEmploi,
-      Outil.mesAides1J1S,
       Outil.emploiStore,
       Outil.emploiSolidaire,
       Outil.laBonneBoite,
+      Outil.mesAides1J1S,
     ]);
   });
 }

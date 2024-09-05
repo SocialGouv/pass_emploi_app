@@ -24,12 +24,22 @@ class Outil extends Equatable {
     redirectMode: OutilExternalRedirectMode(ExternalLinks.boiteAOutilsDiagoriente),
     imagePath: "boite_a_outils/diagoriente.webp",
   );
+
+  static Outil mesAidesFt = Outil(
+    title: "Je découvre Mes aides France Travail",
+    description:
+        "Besoin d'une une aide financière, de conseils ? Permis, voiture, vélo, logement... Consultez les aides qui existent pour vos projets. ",
+    actionLabel: "Pour en savoir plus sur Mes aides, c'est ici !",
+    redirectMode: OutilExternalRedirectMode(ExternalLinks.boiteAOutilsMesAides1J1S),
+    imagePath: "boite_a_outils/mes_aides_ft.webp",
+  );
+
   static Outil mesAides1J1S = Outil(
     title: "J'accède à mes aides",
     description:
         "Trouvez en quelques clics les aides auxquelles vous avez droit : logement, santé, mobilité, emploi, culture, etc.",
     actionLabel: "Lancer ma simulation",
-    redirectMode: OutilExternalRedirectMode(ExternalLinks.boiteAOutils1J1SAides),
+    redirectMode: OutilExternalRedirectMode(ExternalLinks.boiteAOutilsMesAides1J1S),
     imagePath: "boite_a_outils/mes_aides_1j1s.webp",
   );
 

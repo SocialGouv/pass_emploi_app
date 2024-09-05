@@ -146,19 +146,19 @@ AccueilItem? _favorisItem(AccueilSuccessState successState) {
 AccueilItem? _outilsItem(AccueilSuccessState successState, Accompagnement accompagnement) {
   return switch (accompagnement) {
     Accompagnement.cej => AccueilOutilsItem([
+        Outil.mesAidesFt.withoutImage(),
         Outil.benevolatCej.withoutImage(),
-        Outil.diagoriente.withoutImage(),
-        Outil.mesAides1J1S.withoutImage(),
+        Outil.formation.withoutImage(),
       ]),
     Accompagnement.rsa => AccueilOutilsItem([
-        Outil.benevolatPassEmploi.withoutImage(),
+        Outil.mesAidesFt.withoutImage(),
         Outil.emploiSolidaire.withoutImage(),
         Outil.emploiStore.withoutImage(),
       ]),
     Accompagnement.aij => AccueilOutilsItem([
+        Outil.mesAidesFt.withoutImage(),
         Outil.benevolatPassEmploi.withoutImage(),
-        Outil.diagoriente.withoutImage(),
-        Outil.mesAides1J1S.withoutImage(),
+        Outil.formation.withoutImage(),
       ]),
   };
 }

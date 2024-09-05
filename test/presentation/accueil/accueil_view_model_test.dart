@@ -83,9 +83,9 @@ void main() {
           AccueilAlertesItem(getMockedAlerte()),
           AccueilFavorisItem(mock3Favoris()),
           AccueilOutilsItem([
+            Outil.mesAidesFt.withoutImage(),
             Outil.benevolatCej.withoutImage(),
-            Outil.diagoriente.withoutImage(),
-            Outil.mesAides1J1S.withoutImage(),
+            Outil.formation.withoutImage(),
           ]),
         ],
       );
@@ -131,9 +131,9 @@ void main() {
           AccueilAlertesItem(getMockedAlerte()),
           AccueilFavorisItem(mock3Favoris()),
           AccueilOutilsItem([
+            Outil.mesAidesFt.withoutImage(),
             Outil.benevolatCej.withoutImage(),
-            Outil.diagoriente.withoutImage(),
-            Outil.mesAides1J1S.withoutImage(),
+            Outil.formation.withoutImage(),
           ]),
         ],
       );
@@ -168,9 +168,9 @@ void main() {
           AccueilAlertesItem(getMockedAlerte()),
           AccueilFavorisItem(mock3Favoris()),
           AccueilOutilsItem([
+            Outil.mesAidesFt.withoutImage(),
             Outil.benevolatCej.withoutImage(),
-            Outil.diagoriente.withoutImage(),
-            Outil.mesAides1J1S.withoutImage(),
+            Outil.formation.withoutImage(),
           ]),
         ],
       );
@@ -178,7 +178,7 @@ void main() {
   });
 
   group('outils items…', () {
-    test('on CEJ accompagnement should highlight Diagoriente and Aides', () {
+    test('on CEJ accompagnement should highlight Mes Aides FT, Benevolat CEJ and Formations', () {
       // Given
       final store = givenState() //
           .loggedInUser(accompagnement: Accompagnement.cej)
@@ -194,14 +194,14 @@ void main() {
       expect(
         (outilsItem as AccueilOutilsItem).outils,
         [
+          Outil.mesAidesFt.withoutImage(),
           Outil.benevolatCej.withoutImage(),
-          Outil.diagoriente.withoutImage(),
-          Outil.mesAides1J1S.withoutImage(),
+          Outil.formation.withoutImage(),
         ],
       );
     });
 
-    test('on AIJ accompagnement should highlight Diagoriente and Aides', () {
+    test('on AIJ accompagnement should highlight Mes Aides FT, Benevolat Pass emploi and Formations', () {
       // Given
       final store = givenState() //
           .loggedInUser(accompagnement: Accompagnement.aij)
@@ -217,14 +217,14 @@ void main() {
       expect(
         (outilsItem as AccueilOutilsItem).outils,
         [
+          Outil.mesAidesFt.withoutImage(),
           Outil.benevolatPassEmploi.withoutImage(),
-          Outil.diagoriente.withoutImage(),
-          Outil.mesAides1J1S.withoutImage(),
+          Outil.formation.withoutImage(),
         ],
       );
     });
 
-    test('on RSA accompagnement should highlight Diagoriente and Aides', () {
+    test('on RSA accompagnement should highlight Mes Aides FT, Emploi solidaire and Emploi store', () {
       // Given
       final store = givenState() //
           .loggedInUser(accompagnement: Accompagnement.rsa)
@@ -240,7 +240,7 @@ void main() {
       expect(
         (outilsItem as AccueilOutilsItem).outils,
         [
-          Outil.benevolatPassEmploi.withoutImage(),
+          Outil.mesAidesFt.withoutImage(),
           Outil.emploiSolidaire.withoutImage(),
           Outil.emploiStore.withoutImage(),
         ],
