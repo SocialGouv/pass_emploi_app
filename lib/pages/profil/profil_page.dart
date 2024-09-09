@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/features/developer_option/activation/developer_o
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/pages/cv/cv_list_page.dart';
 import 'package:pass_emploi_app/pages/diagoriente/diagoriente_entry_page.dart';
+import 'package:pass_emploi_app/pages/notification_preferences_page.dart';
 import 'package:pass_emploi_app/pages/partage_activite_page.dart';
 import 'package:pass_emploi_app/pages/profil/matomo_logging_page.dart';
 import 'package:pass_emploi_app/pages/suppression_compte_page.dart';
@@ -87,7 +88,8 @@ class _Scaffold extends StatelessWidget {
                   _ListTileData(
                     title: Strings.notificationsLabel,
                     externalLink: true,
-                    onTap: viewModel.onOpenAppSettings,
+                    //TODO-GAD onTap: viewModel.onOpenAppSettings,
+                    onTap: () => Navigator.push(context, NotificationPreferencesPage.materialPageRoute()),
                   ),
                   _ListTileData(
                     title: Strings.suppressionAccountLabel,
