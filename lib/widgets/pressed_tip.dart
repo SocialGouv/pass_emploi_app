@@ -35,7 +35,7 @@ class PressedTip extends StatelessWidget {
           child: Text(
             tip,
             style: TextStyles.textSRegular(color: textColor),
-            textAlign: TextAlign.end,
+            textAlign: TextAlign.start,
           ),
         ),
         Semantics(label: iconLabel),
