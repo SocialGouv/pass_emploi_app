@@ -22,6 +22,7 @@ class HelpTooltip extends StatelessWidget {
           message: message,
           triggerMode: TooltipTriggerMode.tap,
           showDuration: Duration(seconds: 3),
+          exitDuration: Duration(seconds: 3),
           textStyle: TextStyles.textSRegular(),
           margin: EdgeInsets.symmetric(horizontal: 16),
           padding: EdgeInsets.all(8),
