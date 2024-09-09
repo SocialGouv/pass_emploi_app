@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/partage_activite/partage_activite_actions.dart';
-import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_actions.dart';
+import 'package:pass_emploi_app/features/preferences/preferences_actions.dart';
+import 'package:pass_emploi_app/features/preferences/update/preferences_update_actions.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/profil/partage_activite_page_view_model.dart';
 
@@ -52,7 +52,7 @@ void main() {
       viewModel.onPartageFavorisTap(false);
 
       // Then
-      expect(store.dispatchedAction, isA<PartageActiviteUpdateRequestAction>());
+      expect(store.dispatchedAction, isA<PreferencesUpdateRequestAction>());
     });
 
     test('retry, after view model was created with failure, should dispatch a PartageActiviteRequestAction', () {
@@ -64,7 +64,7 @@ void main() {
       viewModel.onRetry();
 
       // Then
-      expect(store.dispatchedAction, isA<PartageActiviteRequestAction>());
+      expect(store.dispatchedAction, isA<PreferencesRequestAction>());
     });
   });
 

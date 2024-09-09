@@ -24,8 +24,8 @@ import 'package:pass_emploi_app/features/matching_demarche/matching_demarche_sta
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/features/onboarding/onboarding_state.dart';
-import 'package:pass_emploi_app/features/partage_activite/partage_activites_state.dart';
-import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_state.dart';
+import 'package:pass_emploi_app/features/preferences/preferences_state.dart';
+import 'package:pass_emploi_app/features/preferences/update/preferences_update_state.dart';
 import 'package:pass_emploi_app/features/rating/rating_state.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
@@ -219,27 +219,27 @@ extension AppStateDSL on AppState {
   }
 
   AppState partageActiviteSuccess({required bool favori}) {
-    return copyWith(partageActiviteState: PartageActiviteSuccessState(mockPartageActivite(favoriShared: favori)));
+    return copyWith(preferencesState: PreferencesSuccessState(mockPreferences(favoriShared: favori)));
   }
 
   AppState partageActiviteLoading() {
-    return copyWith(partageActiviteState: PartageActiviteLoadingState());
+    return copyWith(preferencesState: PreferencesLoadingState());
   }
 
   AppState partageActiviteFailure() {
-    return copyWith(partageActiviteState: PartageActiviteFailureState());
+    return copyWith(preferencesState: PreferencesFailureState());
   }
 
   AppState partageActiviteUpdateSuccess({required bool favori}) {
-    return copyWith(partageActiviteUpdateState: PartageActiviteUpdateSuccessState(favori));
+    return copyWith(preferencesUpdateState: PreferencesUpdateSuccessState(favori));
   }
 
   AppState partageActiviteUpdateLoading() {
-    return copyWith(partageActiviteUpdateState: PartageActiviteUpdateLoadingState());
+    return copyWith(preferencesUpdateState: PreferencesUpdateLoadingState());
   }
 
   AppState partageActiviteUpdateFailure() {
-    return copyWith(partageActiviteUpdateState: PartageActiviteUpdateFailureState());
+    return copyWith(preferencesUpdateState: PreferencesUpdateFailureState());
   }
 
   AppState showRating() {

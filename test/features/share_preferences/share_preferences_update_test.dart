@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/partage_activite/partage_activites_state.dart';
-import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_actions.dart';
-import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_state.dart';
-import 'package:pass_emploi_app/models/partage_activite.dart';
+import 'package:pass_emploi_app/features/preferences/preferences_state.dart';
+import 'package:pass_emploi_app/features/preferences/update/preferences_update_actions.dart';
+import 'package:pass_emploi_app/features/preferences/update/preferences_update_state.dart';
+import 'package:pass_emploi_app/models/preferences.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:redux/src/store.dart';
@@ -15,17 +15,16 @@ void main() {
     // Given
     final Store<AppState> store = _successStoreWithLoadedPartageActivite();
 
-    final loadingState = store.onChange.any((e) => e.partageActiviteUpdateState is PartageActiviteUpdateLoadingState);
-    final successState =
-        store.onChange.firstWhere((e) => e.partageActiviteUpdateState is PartageActiviteUpdateSuccessState);
+    final loadingState = store.onChange.any((e) => e.preferencesUpdateState is PreferencesUpdateLoadingState);
+    final successState = store.onChange.firstWhere((e) => e.preferencesUpdateState is PreferencesUpdateSuccessState);
 
     // When
-    store.dispatch(PartageActiviteUpdateRequestAction(true));
+    store.dispatch(PreferencesUpdateRequestAction(true));
 
     // Then
     expect(await loadingState, true);
     final updatedPreferences = await successState;
-    final preferencesState = (updatedPreferences.partageActiviteUpdateState as PartageActiviteUpdateSuccessState);
+    final preferencesState = (updatedPreferences.preferencesUpdateState as PreferencesUpdateSuccessState);
     expect(preferencesState.favorisShared, true);
   });
 
@@ -33,24 +32,23 @@ void main() {
     // Given
     final Store<AppState> store = _failureStoreWithLoadedPartageActivite();
 
-    final loadingState = store.onChange.any((e) => e.partageActiviteUpdateState is PartageActiviteUpdateLoadingState);
-    final failureState =
-        store.onChange.firstWhere((e) => e.partageActiviteUpdateState is PartageActiviteUpdateFailureState);
+    final loadingState = store.onChange.any((e) => e.preferencesUpdateState is PreferencesUpdateLoadingState);
+    final failureState = store.onChange.firstWhere((e) => e.preferencesUpdateState is PreferencesUpdateFailureState);
 
     // When
-    store.dispatch(PartageActiviteUpdateRequestAction(true));
+    store.dispatch(PreferencesUpdateRequestAction(true));
 
     // Then
     expect(await loadingState, true);
     final updatedPreferences = await failureState;
-    expect(updatedPreferences.partageActiviteUpdateState, isA<PartageActiviteUpdateFailureState>());
+    expect(updatedPreferences.preferencesUpdateState, isA<PreferencesUpdateFailureState>());
   });
 }
 
 Store<AppState> _successStoreWithLoadedPartageActivite() {
   final store = givenState()
       .loggedInMiloUser()
-      .copyWith(partageActiviteState: PartageActiviteSuccessState(PartageActivite(partageFavoris: false)))
+      .copyWith(preferencesState: PreferencesSuccessState(Preferences(partageFavoris: false)))
       .store((factory) => {factory.partageActiviteRepository = PartageActiviteRepositorySuccessStub()});
 
   return store;
@@ -59,7 +57,7 @@ Store<AppState> _successStoreWithLoadedPartageActivite() {
 Store<AppState> _failureStoreWithLoadedPartageActivite() {
   final store = givenState()
       .loggedInMiloUser()
-      .copyWith(partageActiviteState: PartageActiviteSuccessState(PartageActivite(partageFavoris: false)))
+      .copyWith(preferencesState: PreferencesSuccessState(Preferences(partageFavoris: false)))
       .store((factory) => {factory.partageActiviteRepository = PartageActiviteRepositoryFailureStub()});
 
   return store;

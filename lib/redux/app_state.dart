@@ -41,8 +41,8 @@ import 'package:pass_emploi_app/features/metier/search_metier_state.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/features/onboarding/onboarding_state.dart';
-import 'package:pass_emploi_app/features/partage_activite/partage_activites_state.dart';
-import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_state.dart';
+import 'package:pass_emploi_app/features/preferences/preferences_state.dart';
+import 'package:pass_emploi_app/features/preferences/update/preferences_update_state.dart';
 import 'package:pass_emploi_app/features/preferred_login_mode/preferred_login_mode_state.dart';
 import 'package:pass_emploi_app/features/rating/rating_state.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
@@ -116,8 +116,8 @@ class AppState extends Equatable {
   final ChatBrouillonState chatBrouillonState;
   final ChatPartageState chatPartageState;
   final TutorialState tutorialState;
-  final PartageActiviteState partageActiviteState;
-  final PartageActiviteUpdateState partageActiviteUpdateState;
+  final PreferencesState preferencesState;
+  final PreferencesUpdateState preferencesUpdateState;
   final RatingState ratingState;
   final ActionCommentaireListState actionCommentaireListState;
   final SuggestionsRechercheState suggestionsRechercheState;
@@ -189,8 +189,8 @@ class AppState extends Equatable {
     required this.chatBrouillonState,
     required this.chatPartageState,
     required this.tutorialState,
-    required this.partageActiviteState,
-    required this.partageActiviteUpdateState,
+    required this.preferencesState,
+    required this.preferencesUpdateState,
     required this.ratingState,
     required this.actionCommentaireListState,
     required this.suggestionsRechercheState,
@@ -263,8 +263,8 @@ class AppState extends Equatable {
     final ChatBrouillonState? chatBrouillonState,
     final ChatPartageState? chatPartageState,
     final TutorialState? tutorialState,
-    final PartageActiviteState? partageActiviteState,
-    final PartageActiviteUpdateState? partageActiviteUpdateState,
+    final PreferencesState? preferencesState,
+    final PreferencesUpdateState? preferencesUpdateState,
     final RatingState? ratingState,
     final ActionCommentaireListState? actionCommentaireListState,
     final SuggestionsRechercheState? suggestionsRechercheState,
@@ -336,8 +336,8 @@ class AppState extends Equatable {
       chatBrouillonState: chatBrouillonState ?? this.chatBrouillonState,
       chatPartageState: chatPartageState ?? this.chatPartageState,
       tutorialState: tutorialState ?? this.tutorialState,
-      partageActiviteState: partageActiviteState ?? this.partageActiviteState,
-      partageActiviteUpdateState: partageActiviteUpdateState ?? this.partageActiviteUpdateState,
+      preferencesState: preferencesState ?? this.preferencesState,
+      preferencesUpdateState: preferencesUpdateState ?? this.preferencesUpdateState,
       ratingState: ratingState ?? this.ratingState,
       actionCommentaireListState: actionCommentaireListState ?? this.actionCommentaireListState,
       suggestionsRechercheState: suggestionsRechercheState ?? this.suggestionsRechercheState,
@@ -412,8 +412,8 @@ class AppState extends Equatable {
       chatBrouillonState: ChatBrouillonState(null),
       chatPartageState: ChatPartageNotInitializedState(),
       tutorialState: TutorialNotInitializedState(),
-      partageActiviteState: PartageActiviteNotInitializedState(),
-      partageActiviteUpdateState: PartageActiviteUpdateNotInitializedState(),
+      preferencesState: PreferencesNotInitializedState(),
+      preferencesUpdateState: PreferencesUpdateNotInitializedState(),
       ratingState: RatingNotInitializedState(),
       actionCommentaireListState: ActionCommentaireListNotInitializedState(),
       suggestionsRechercheState: SuggestionsRechercheNotInitializedState(),
@@ -481,8 +481,8 @@ class AppState extends Equatable {
         chatBrouillonState,
         chatPartageState,
         tutorialState,
-        partageActiviteState,
-        partageActiviteUpdateState,
+        preferencesState,
+        preferencesUpdateState,
         ratingState,
         actionCommentaireListState,
         suggestionsRechercheState,

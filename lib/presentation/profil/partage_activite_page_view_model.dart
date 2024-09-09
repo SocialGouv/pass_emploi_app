@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/features/partage_activite/partage_activite_actions.dart';
-import 'package:pass_emploi_app/features/partage_activite/partage_activites_state.dart';
-import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_actions.dart';
-import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_state.dart';
+import 'package:pass_emploi_app/features/preferences/preferences_actions.dart';
+import 'package:pass_emploi_app/features/preferences/preferences_state.dart';
+import 'package:pass_emploi_app/features/preferences/update/preferences_update_actions.dart';
+import 'package:pass_emploi_app/features/preferences/update/preferences_update_state.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
@@ -23,15 +23,15 @@ class PartageActivitePageViewModel extends Equatable {
   });
 
   factory PartageActivitePageViewModel.create(Store<AppState> store) {
-    final state = store.state.partageActiviteState;
-    final updateState = store.state.partageActiviteUpdateState;
-    final favoriShared = state is PartageActiviteSuccessState ? state.preferences.partageFavoris : true;
+    final state = store.state.preferencesState;
+    final updateState = store.state.preferencesUpdateState;
+    final favoriShared = state is PreferencesSuccessState ? state.preferences.partageFavoris : true;
     return PartageActivitePageViewModel(
       displayState: _displayState(state),
       updateState: _updateState(updateState),
       shareFavoris: favoriShared,
-      onPartageFavorisTap: (isShare) => store.dispatch(PartageActiviteUpdateRequestAction(isShare)),
-      onRetry: () => store.dispatch(PartageActiviteRequestAction()),
+      onPartageFavorisTap: (isShare) => store.dispatch(PreferencesUpdateRequestAction(isShare)),
+      onRetry: () => store.dispatch(PreferencesRequestAction()),
     );
   }
 
@@ -40,16 +40,16 @@ class PartageActivitePageViewModel extends Equatable {
 }
 
 
-DisplayState _displayState(PartageActiviteState state) {
-  if (state is PartageActiviteLoadingState) return DisplayState.LOADING;
-  if (state is PartageActiviteFailureState) return DisplayState.FAILURE;
+DisplayState _displayState(PreferencesState state) {
+  if (state is PreferencesLoadingState) return DisplayState.LOADING;
+  if (state is PreferencesFailureState) return DisplayState.FAILURE;
   return DisplayState.CONTENT;
 }
 
 
-DisplayState _updateState(PartageActiviteUpdateState state) {
-  if (state is PartageActiviteUpdateLoadingState) return DisplayState.LOADING;
-  if (state is PartageActiviteUpdateFailureState) return DisplayState.FAILURE;
+DisplayState _updateState(PreferencesUpdateState state) {
+  if (state is PreferencesUpdateLoadingState) return DisplayState.LOADING;
+  if (state is PreferencesUpdateFailureState) return DisplayState.FAILURE;
   return DisplayState.CONTENT;
 }
 

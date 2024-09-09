@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/models/partage_activite.dart';
+import 'package:pass_emploi_app/models/preferences.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 
 import '../dsl/sut_dio_repository.dart';
@@ -25,8 +25,8 @@ void main() {
         });
 
         test('response should be valid', () async {
-          await sut.expectResult<PartageActivite?>((result) {
-            expect(result, PartageActivite(partageFavoris: true));
+          await sut.expectResult<Preferences?>((result) {
+            expect(result, Preferences(partageFavoris: true));
           });
         });
       });

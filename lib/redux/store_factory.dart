@@ -51,8 +51,8 @@ import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_middleware.dart';
 import 'package:pass_emploi_app/features/notifications_settings/notifications_settings_middleware.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_middleware.dart';
 import 'package:pass_emploi_app/features/onboarding/onboarding_middleware.dart';
-import 'package:pass_emploi_app/features/partage_activite/partage_activite_middleware.dart';
-import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_middleware.dart';
+import 'package:pass_emploi_app/features/preferences/preferences_middleware.dart';
+import 'package:pass_emploi_app/features/preferences/update/preferences_update_middleware.dart';
 import 'package:pass_emploi_app/features/preferred_login_mode/preferred_login_mode_middleware.dart';
 import 'package:pass_emploi_app/features/push_notification/register/register_push_notification_token_middleware.dart';
 import 'package:pass_emploi_app/features/rating/rating_middleware.dart';
@@ -363,8 +363,8 @@ class StoreFactory {
         CampagneMiddleware(campagneRepository).call,
         PieceJointeMiddleware(pieceJointeRepository).call,
         TutorialMiddleware(tutorialRepository).call,
-        PartageActiviteMiddleware(partageActiviteRepository).call,
-        PartageActiviteUpdateMiddleware(partageActiviteRepository).call,
+        PreferencesMiddleware(partageActiviteRepository).call,
+        PreferencesUpdateMiddleware(partageActiviteRepository).call,
         RatingMiddleware(ratingRepository, detailsJeuneRepository).call,
         ActionCommentaireListMiddleware(actionCommentaireRepository).call,
         SuggestionsRechercheMiddleware(suggestionsRechercheRepository).call,

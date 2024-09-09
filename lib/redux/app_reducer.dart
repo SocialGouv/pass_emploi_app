@@ -40,8 +40,8 @@ import 'package:pass_emploi_app/features/mode_demo/mode_demo_reducer.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_reducer.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_reducer.dart';
 import 'package:pass_emploi_app/features/onboarding/onboarding_reducer.dart';
-import 'package:pass_emploi_app/features/partage_activite/partage_activite_reducer.dart';
-import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_reducer.dart';
+import 'package:pass_emploi_app/features/preferences/preferences_reducer.dart';
+import 'package:pass_emploi_app/features/preferences/update/preferences_update_reducer.dart';
 import 'package:pass_emploi_app/features/preferred_login_mode/preferred_login_mode_reducer.dart';
 import 'package:pass_emploi_app/features/rating/rating_reducer.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
@@ -141,8 +141,8 @@ AppState reducer(AppState current, dynamic action) {
     chatBrouillonState: chatBrouillonReducer(current.chatBrouillonState, action),
     chatPartageState: chatPartageReducer(current.chatPartageState, action),
     tutorialState: tutorialReducer(current.tutorialState, action),
-    partageActiviteState: partageActiviteReducer(current.partageActiviteState, action),
-    partageActiviteUpdateState: partageActiviteUpdateReducer(current.partageActiviteUpdateState, action),
+    preferencesState: preferencesReducer(current.preferencesState, action),
+    preferencesUpdateState: preferencesUpdateReducer(current.preferencesUpdateState, action),
     ratingState: ratingReducer(current.ratingState, action),
     actionCommentaireListState: actionCommentaireListReducer(current.actionCommentaireListState, action),
     suggestionsRechercheState: suggestionsRechercheReducer(current.suggestionsRechercheState, action),
