@@ -29,8 +29,8 @@ class Outil extends Equatable {
     title: "Je découvre Mes aides France Travail",
     description:
         "Besoin d'une une aide financière, de conseils ? Permis, voiture, vélo, logement... Consultez les aides qui existent pour vos projets. ",
-    actionLabel: "Pour en savoir plus sur Mes aides, c'est ici !",
-    redirectMode: OutilExternalRedirectMode(ExternalLinks.boiteAOutilsMesAides1J1S),
+    actionLabel: "En savoir plus sur Mes aides",
+    redirectMode: OutilExternalRedirectMode(ExternalLinks.boiteAOutilsMesAidesFt),
     imagePath: "boite_a_outils/mes_aides_ft.webp",
   );
 
