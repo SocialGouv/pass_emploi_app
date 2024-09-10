@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/media_sizes.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -249,7 +250,11 @@ class Link extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 3),
-              child: Icon(AppIcons.open_in_new_rounded, color: AppColors.primary),
+              child: Icon(
+                AppIcons.open_in_new_rounded,
+                color: AppColors.primary,
+                size: Dimens.icon_size_base,
+              ),
             ),
             SizedBox(width: Margins.spacing_s),
             Text(label, style: TextStyles.internalLink),
