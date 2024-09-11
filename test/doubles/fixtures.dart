@@ -738,7 +738,23 @@ UserAction mockNotStartedAction({required String actionId}) {
   );
 }
 
-Preferences mockPreferences({required bool favoriShared}) => Preferences(partageFavoris: favoriShared);
+Preferences mockPreferences({
+  bool partageFavoris = false,
+  bool pushNotificationAlertesOffres = false,
+  bool pushNotificationMessages = false,
+  bool pushNotificationCreationActionConseiller = false,
+  bool pushNotificationRendezVousSessions = false,
+  bool pushNotificationRappelActions = false,
+}) {
+  return Preferences(
+    partageFavoris: partageFavoris,
+    pushNotificationAlertesOffres: pushNotificationAlertesOffres,
+    pushNotificationMessages: pushNotificationMessages,
+    pushNotificationCreationActionConseiller: pushNotificationCreationActionConseiller,
+    pushNotificationRendezvousSessions: pushNotificationRendezVousSessions,
+    pushNotificationRappelActions: pushNotificationRappelActions,
+  );
+}
 
 List<Commentaire> mockCommentaires() => [
       Commentaire(

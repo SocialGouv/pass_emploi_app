@@ -131,8 +131,8 @@ import 'package:pass_emploi_app/repositories/mon_suivi_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/onboarding_repository.dart';
-import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
+import 'package:pass_emploi_app/repositories/preferences_repository.dart';
 import 'package:pass_emploi_app/repositories/preferred_login_mode_repository.dart';
 import 'package:pass_emploi_app/repositories/rating_repository.dart';
 import 'package:pass_emploi_app/repositories/recherches_recentes_repository.dart';
@@ -200,7 +200,7 @@ class StoreFactory {
   final SearchDemarcheRepository demarcheDuReferentielRepository;
   final PieceJointeRepository pieceJointeRepository;
   final TutorialRepository tutorialRepository;
-  final PartageActiviteRepository partageActiviteRepository;
+  final PreferencesRepository preferencesRepository;
   final RatingRepository ratingRepository;
   final ActionCommentaireRepository actionCommentaireRepository;
   final SuggestionsRechercheRepository suggestionsRechercheRepository;
@@ -275,7 +275,7 @@ class StoreFactory {
     this.demarcheDuReferentielRepository,
     this.pieceJointeRepository,
     this.tutorialRepository,
-    this.partageActiviteRepository,
+    this.preferencesRepository,
     this.ratingRepository,
     this.actionCommentaireRepository,
     this.suggestionsRechercheRepository,
@@ -363,8 +363,8 @@ class StoreFactory {
         CampagneMiddleware(campagneRepository).call,
         PieceJointeMiddleware(pieceJointeRepository).call,
         TutorialMiddleware(tutorialRepository).call,
-        PreferencesMiddleware(partageActiviteRepository).call,
-        PreferencesUpdateMiddleware(partageActiviteRepository).call,
+        PreferencesMiddleware(preferencesRepository).call,
+        PreferencesUpdateMiddleware(preferencesRepository).call,
         RatingMiddleware(ratingRepository, detailsJeuneRepository).call,
         ActionCommentaireListMiddleware(actionCommentaireRepository).call,
         SuggestionsRechercheMiddleware(suggestionsRechercheRepository).call,

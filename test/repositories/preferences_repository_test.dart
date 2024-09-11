@@ -1,21 +1,21 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/preferences.dart';
-import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
+import 'package:pass_emploi_app/repositories/preferences_repository.dart';
 
 import '../dsl/sut_dio_repository.dart';
 
 void main() {
-  group('PartageActiviteRepository', () {
-    final sut = DioRepositorySut<PartageActiviteRepository>();
-    sut.givenRepository((client) => PartageActiviteRepository(client));
+  group('PreferencesRepository', () {
+    final sut = DioRepositorySut<PreferencesRepository>();
+    sut.givenRepository((client) => PreferencesRepository(client));
 
-    group('getPartageActivite', () {
+    group('getPreferences', () {
       sut.when(
-        (repository) => repository.getPartageActivite("UID"),
+        (repository) => repository.getPreferences("UID"),
       );
 
       group('when response is valid', () {
-        sut.givenJsonResponse(fromJson: "partage_activite.json");
+        sut.givenJsonResponse(fromJson: "preferences.json");
 
         test('request should be valid', () async {
           await sut.expectRequestBody(
@@ -26,7 +26,17 @@ void main() {
 
         test('response should be valid', () async {
           await sut.expectResult<Preferences?>((result) {
-            expect(result, Preferences(partageFavoris: true));
+            expect(
+              result,
+              Preferences(
+                partageFavoris: true,
+                pushNotificationAlertesOffres: false,
+                pushNotificationMessages: true,
+                pushNotificationCreationActionConseiller: true,
+                pushNotificationRendezvousSessions: false,
+                pushNotificationRappelActions: true,
+              ),
+            );
           });
         });
       });
@@ -40,9 +50,9 @@ void main() {
       });
     });
 
-    group('updatePartageActivite', () {
+    group('updatePreferences', () {
       sut.when(
-        (repository) => repository.updatePartageActivite("UID", true),
+        (repository) => repository.updatePreferences("UID", true),
       );
 
       group('when response is valid', () {

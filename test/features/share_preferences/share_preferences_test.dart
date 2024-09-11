@@ -2,9 +2,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/preferences/preferences_actions.dart';
 import 'package:pass_emploi_app/features/preferences/preferences_state.dart';
 import 'package:pass_emploi_app/models/preferences.dart';
-import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
+import 'package:pass_emploi_app/repositories/preferences_repository.dart';
 
 import '../../doubles/dio_mock.dart';
+import '../../doubles/fixtures.dart';
 import '../../dsl/app_state_dsl.dart';
 
 void main() {
@@ -13,7 +14,7 @@ void main() {
 
     final store = givenState()
         .loggedInMiloUser()
-        .store((factory) => {factory.partageActiviteRepository = PartageActiviteRepositorySuccessStub()});
+        .store((factory) => {factory.preferencesRepository = PartageActiviteRepositorySuccessStub()});
 
     final displayedLoading = store.onChange.any((e) => e.preferencesState is PreferencesLoadingState);
     final successState = store.onChange.firstWhere((e) => e.preferencesState is PreferencesSuccessState);
@@ -31,7 +32,7 @@ void main() {
     // Given
     final store = givenState()
         .loggedInMiloUser()
-        .store((factory) => {factory.partageActiviteRepository = PartageActiviteRepositoryFailureStub()});
+        .store((factory) => {factory.preferencesRepository = PartageActiviteRepositoryFailureStub()});
 
     final displayedLoading = store.onChange.any((e) => e.preferencesState is PreferencesLoadingState);
     final displayedError = store.onChange.any((e) => e.preferencesState is PreferencesFailureState);
@@ -45,20 +46,21 @@ void main() {
   });
 }
 
-class PartageActiviteRepositorySuccessStub extends PartageActiviteRepository {
+// TODO- GAD refactor test
+class PartageActiviteRepositorySuccessStub extends PreferencesRepository {
   PartageActiviteRepositorySuccessStub() : super(DioMock());
 
   @override
-  Future<Preferences?> getPartageActivite(String userId) async {
-    return Preferences(partageFavoris: true);
+  Future<Preferences?> getPreferences(String userId) async {
+    return mockPreferences(partageFavoris: true);
   }
 }
 
-class PartageActiviteRepositoryFailureStub extends PartageActiviteRepository {
+class PartageActiviteRepositoryFailureStub extends PreferencesRepository {
   PartageActiviteRepositoryFailureStub() : super(DioMock());
 
   @override
-  Future<Preferences?> getPartageActivite(String userId) async {
+  Future<Preferences?> getPreferences(String userId) async {
     return null;
   }
 }

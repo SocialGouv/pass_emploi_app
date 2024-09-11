@@ -72,6 +72,7 @@ import 'package:pass_emploi_app/models/mon_suivi.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/onboarding.dart';
+import 'package:pass_emploi_app/models/preferences.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/requests/user_action_update_request.dart';
@@ -218,27 +219,38 @@ extension AppStateDSL on AppState {
     return copyWith(tutorialState: ShowTutorialState(Tutorial.milo));
   }
 
-  AppState partageActiviteSuccess({required bool favori}) {
-    return copyWith(preferencesState: PreferencesSuccessState(mockPreferences(favoriShared: favori)));
+  AppState preferencesSuccess({bool favori = false}) {
+    return copyWith(
+      preferencesState: PreferencesSuccessState(
+        Preferences(
+          partageFavoris: favori,
+          pushNotificationAlertesOffres: false,
+          pushNotificationMessages: false,
+          pushNotificationCreationActionConseiller: false,
+          pushNotificationRendezvousSessions: false,
+          pushNotificationRappelActions: false,
+        ),
+      ),
+    );
   }
 
-  AppState partageActiviteLoading() {
+  AppState preferencesLoading() {
     return copyWith(preferencesState: PreferencesLoadingState());
   }
 
-  AppState partageActiviteFailure() {
+  AppState preferencesFailure() {
     return copyWith(preferencesState: PreferencesFailureState());
   }
 
-  AppState partageActiviteUpdateSuccess({required bool favori}) {
+  AppState preferencesUpdateSuccess({required bool favori}) {
     return copyWith(preferencesUpdateState: PreferencesUpdateSuccessState(favori));
   }
 
-  AppState partageActiviteUpdateLoading() {
+  AppState preferencesUpdateLoading() {
     return copyWith(preferencesUpdateState: PreferencesUpdateLoadingState());
   }
 
-  AppState partageActiviteUpdateFailure() {
+  AppState preferencesUpdateFailure() {
     return copyWith(preferencesUpdateState: PreferencesUpdateFailureState());
   }
 

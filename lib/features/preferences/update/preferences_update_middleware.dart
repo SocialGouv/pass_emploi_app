@@ -1,11 +1,11 @@
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/preferences/update/preferences_update_actions.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
+import 'package:pass_emploi_app/repositories/preferences_repository.dart';
 import 'package:redux/redux.dart';
 
 class PreferencesUpdateMiddleware extends MiddlewareClass<AppState> {
-  final PartageActiviteRepository _repository;
+  final PreferencesRepository _repository;
 
   PreferencesUpdateMiddleware(this._repository);
 
@@ -15,7 +15,7 @@ class PreferencesUpdateMiddleware extends MiddlewareClass<AppState> {
     final loginState = store.state.loginState;
     if (action is PreferencesUpdateRequestAction && loginState is LoginSuccessState) {
       store.dispatch(PreferencesUpdateLoadingAction(action.favorisShared));
-      final result = await _repository.updatePartageActivite(
+      final result = await _repository.updatePreferences(
         loginState.user.id,
         action.favorisShared,
       );
