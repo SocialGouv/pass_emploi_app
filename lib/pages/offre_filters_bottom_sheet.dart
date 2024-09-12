@@ -82,24 +82,20 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Semantics(
-      label: Strings.listSemanticsLabel,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: Margins.spacing_base),
-          _OffreFilterSubtitle(),
-          SizedBox(height: Margins.spacing_base),
-          _buildRadioGroup(OffreFilter.tous, Strings.filterAll),
-          if (offreTypes.contains(OffreType.emploi)) _buildRadioGroup(OffreFilter.emploi, Strings.filterEmploi),
-          if (offreTypes.contains(OffreType.alternance))
-            _buildRadioGroup(OffreFilter.alternance, Strings.filterAlternance),
-          if (offreTypes.contains(OffreType.immersion))
-            _buildRadioGroup(OffreFilter.immersion, Strings.filterImmersion),
-          if (offreTypes.contains(OffreType.serviceCivique))
-            _buildRadioGroup(OffreFilter.serviceCivique, Strings.filterServiceCivique),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: Margins.spacing_base),
+        _OffreFilterSubtitle(),
+        SizedBox(height: Margins.spacing_base),
+        _buildRadioGroup(OffreFilter.tous, Strings.filterAll),
+        if (offreTypes.contains(OffreType.emploi)) _buildRadioGroup(OffreFilter.emploi, Strings.filterEmploi),
+        if (offreTypes.contains(OffreType.alternance))
+          _buildRadioGroup(OffreFilter.alternance, Strings.filterAlternance),
+        if (offreTypes.contains(OffreType.immersion)) _buildRadioGroup(OffreFilter.immersion, Strings.filterImmersion),
+        if (offreTypes.contains(OffreType.serviceCivique))
+          _buildRadioGroup(OffreFilter.serviceCivique, Strings.filterServiceCivique),
+      ],
     );
   }
 

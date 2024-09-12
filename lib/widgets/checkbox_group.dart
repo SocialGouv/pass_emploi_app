@@ -5,7 +5,6 @@ import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/shadows.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/help_tooltip.dart';
 
@@ -44,7 +43,6 @@ class CheckBoxGroupState<T extends CheckboxValueViewModel> extends State<CheckBo
       children: [
         Semantics(
           header: true,
-          label: Strings.listSemanticsLabel,
           child: Text(widget.title, style: TextStyles.textBaseBold),
         ),
         SizedBox(height: Margins.spacing_base),

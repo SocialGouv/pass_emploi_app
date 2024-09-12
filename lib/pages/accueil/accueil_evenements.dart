@@ -24,13 +24,9 @@ class AccueilEvenements extends StatelessWidget {
       children: [
         LargeSectionTitle(Strings.accueilEvenementsSection),
         SizedBox(height: Margins.spacing_base),
-        Semantics(
-          label: Strings.listSemanticsLabel,
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: item.evenements.map((event) => _EventCard(event.$1, event.$2)).toList()
-          ),
-        ),
+        Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: item.evenements.map((event) => _EventCard(event.$1, event.$2)).toList()),
         SizedBox(height: Margins.spacing_s),
         SecondaryButton(label: Strings.accueilVoirLesEvenements, onPressed: () => goToEventList(context)),
       ],

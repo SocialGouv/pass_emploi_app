@@ -1436,7 +1436,6 @@ class Strings {
   static String link = "Lien";
   static String openInNewTab = "Ouvrir dans un nouvel onglet";
   static String semanticsLabelInformation = "Information";
-  static String listSemanticsLabel = "Liste";
   static String invalidField = "Champ invalide";
   static String loadingAnnouncement = "Chargement en cours";
   static String closeDialog = "Fermer la boîte de dialogue";

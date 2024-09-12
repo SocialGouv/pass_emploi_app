@@ -53,12 +53,9 @@ class _AvecFavoris extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Semantics(
-          label: Strings.listSemanticsLabel,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children:item.favoris.map((favori) => _FavorisCard(favori)).toList(),
-              ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: item.favoris.map((favori) => _FavorisCard(favori)).toList(),
         ),
         SizedBox(height: Margins.spacing_s),
         SecondaryButton(label: Strings.accueilVoirMesFavoris, onPressed: () => _goToFavoris(context)),

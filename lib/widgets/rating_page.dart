@@ -58,26 +58,23 @@ class _Body extends StatelessWidget {
     return Column(
       children: [
         Expanded(
-          child: Semantics(
-            label: Strings.listSemanticsLabel,
-            child: ListView(
-              shrinkWrap: true,
-              children: [
-                RatingCard(
-                  emoji: Strings.happyEmoji,
-                  description: Strings.positiveRating,
-                  onClick: () => _sendStoreReview(context, viewModel),
-                ),
-                SepLine(10, 10),
-                RatingCard(
-                  emoji: Strings.sadEmoji,
-                  description: Strings.negativeRating,
-                  onClick: () => viewModel.shouldSendEmailOnNegativeRating
-                      ? _sendEmailReview(context, viewModel)
-                      : _sendStoreReview(context, viewModel),
-                ),
-              ],
-            ),
+          child: ListView(
+            shrinkWrap: true,
+            children: [
+              RatingCard(
+                emoji: Strings.happyEmoji,
+                description: Strings.positiveRating,
+                onClick: () => _sendStoreReview(context, viewModel),
+              ),
+              SepLine(10, 10),
+              RatingCard(
+                emoji: Strings.sadEmoji,
+                description: Strings.negativeRating,
+                onClick: () => viewModel.shouldSendEmailOnNegativeRating
+                    ? _sendEmailReview(context, viewModel)
+                    : _sendStoreReview(context, viewModel),
+              ),
+            ],
           ),
         ),
       ],
