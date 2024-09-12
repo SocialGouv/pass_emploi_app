@@ -181,7 +181,14 @@ class _AskAccount extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(Strings.noAccount, style: TextStyles.textSMedium(color: Colors.white), textAlign: TextAlign.center),
+        Semantics(
+          header: true,
+          child: Text(
+            Strings.noAccount,
+            style: TextStyles.textSMedium(color: Colors.white),
+            textAlign: TextAlign.center,
+          ),
+        ),
         SizedBox(height: Margins.spacing_s),
         SecondaryButton(
           label: Strings.askAccount,
