@@ -347,12 +347,15 @@ class _PreferredLoginMode extends StatelessWidget {
         );
       },
       label: loginMode.title,
-      leading: SizedBox(
-        width: 40,
-        height: 40,
-        child: Image.asset(
-          loginMode.logo,
-          fit: BoxFit.cover,
+      leading: Semantics(
+        excludeSemantics: true,
+        child: SizedBox(
+          width: 40,
+          height: 40,
+          child: Image.asset(
+            loginMode.logo,
+            fit: BoxFit.cover,
+          ),
         ),
       ),
       suffix: Icon(AppIcons.chevron_right_rounded),
