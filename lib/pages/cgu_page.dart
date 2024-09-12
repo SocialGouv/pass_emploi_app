@@ -105,6 +105,7 @@ class _BodyState extends State<_Body> {
                         child: GestureDetector(
                           onTap: _launchExternalRedirect,
                           child: RichText(
+                            textScaler: MediaQuery.of(context).textScaler,
                             text: TextSpan(
                               children: [
                                 TextSpan(
@@ -200,6 +201,7 @@ class _CguNeverAcceptedContent extends StatelessWidget {
         GestureDetector(
           onTap: _launchExternalRedirect,
           child: RichText(
+            textScaler: MediaQuery.of(context).textScaler,
             text: TextSpan(
               children: [
                 TextSpan(
@@ -251,6 +253,7 @@ class _CguUpdateRequiredContent extends StatelessWidget {
         GestureDetector(
           onTap: _launchExternalRedirect,
           child: RichText(
+            textScaler: MediaQuery.of(context).textScaler,
             text: TextSpan(
               children: [
                 TextSpan(

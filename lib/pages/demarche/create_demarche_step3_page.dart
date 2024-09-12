@@ -288,6 +288,7 @@ class _Section extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           RichText(
+            textScaler: MediaQuery.of(context).textScaler,
             text: TextSpan(
               children: [
                 TextSpan(

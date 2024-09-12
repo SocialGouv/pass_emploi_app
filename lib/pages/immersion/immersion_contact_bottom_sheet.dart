@@ -77,6 +77,7 @@ class _InstructionsText extends StatelessWidget {
         _Subtitle(text: Strings.immersionContactSubtitle1),
         SizedBox(height: Margins.spacing_base),
         RichText(
+          textScaler: MediaQuery.of(context).textScaler,
           text: TextSpan(
             text: Strings.immersionContactBody1_1,
             style: TextStyles.textBaseRegular,

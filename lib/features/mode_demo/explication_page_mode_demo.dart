@@ -84,6 +84,7 @@ class _Contenu extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 24, right: 24),
                 child: RichText(
+                  textScaler: MediaQuery.of(context).textScaler,
                   text: TextSpan(
                     children: [
                       TextSpan(text: Strings.modeDemoExplicationPremierPoint1, style: TextStyles.textBaseRegular),

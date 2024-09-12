@@ -381,6 +381,7 @@ class _Historique extends StatelessWidget {
         children: [
           if (viewModel.modificationDate != null)
             RichText(
+              textScaler: MediaQuery.of(context).textScaler,
               text: TextSpan(
                 children: [
                   TextSpan(text: Strings.modifiedBy, style: TextStyles.textBaseRegular),
@@ -393,6 +394,7 @@ class _Historique extends StatelessWidget {
             ),
           if (viewModel.creationDate != null)
             RichText(
+              textScaler: MediaQuery.of(context).textScaler,
               text: TextSpan(
                 children: [
                   TextSpan(text: Strings.createdBy, style: TextStyles.textBaseRegular),

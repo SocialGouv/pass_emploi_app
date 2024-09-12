@@ -35,6 +35,7 @@ class DateEcheanceInDetail extends StatelessWidget {
           }),
           Expanded(
             child: RichText(
+              textScaler: MediaQuery.of(context).textScaler,
               text: TextSpan(
                 children: formattedTexts.map((text) {
                   return TextSpan(
