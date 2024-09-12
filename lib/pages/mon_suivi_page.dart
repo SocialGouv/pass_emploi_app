@@ -270,17 +270,18 @@ class _WarningCardState extends State<_WarningCard> {
               Row(
                 children: [
                   SizedBox(width: Margins.spacing_base),
-                  GestureDetector(
-                    child: Icon(
+                  IconButton(
+                    icon: Icon(
                       AppIcons.highlight_off,
                       color: Colors.white,
-                      semanticLabel: Strings.cacher,
+                      semanticLabel: Strings.closeDialog,
                     ),
-                    onTap: () => setState(() => _visible = false),
+                    onPressed: () => setState(() => _visible = false),
                   ),
                   SizedBox(width: Margins.spacing_s),
                   Flexible(
-                    child: Text(widget.label, style: TextStyles.textSMedium(color: Colors.white)),
+                    child: Semantics(
+                        focusable: true, child: Text(widget.label, style: TextStyles.textSMedium(color: Colors.white))),
                   ),
                   SizedBox(width: Margins.spacing_base),
                 ],
