@@ -68,9 +68,7 @@ class PrimaryActionButton extends StatelessWidget {
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(200))),
           ),
-          overlayColor: MaterialStateProperty.resolveWith(
-            (states) => states.contains(MaterialState.pressed) ? rippleColor : null,
-          ),
+          overlayColor: MaterialStateProperty.all(rippleColor),
         ),
         onPressed: onPressed,
         child: Padding(

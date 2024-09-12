@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/focused_border_builder.dart';
 
-class SecondaryButton extends StatelessWidget {
+class SecondaryButton extends StatefulWidget {
   final String label;
   final IconData? icon;
   final VoidCallback? onPressed;
@@ -25,17 +25,31 @@ class SecondaryButton extends StatelessWidget {
   });
 
   @override
+  State<SecondaryButton> createState() => _SecondaryButtonState();
+}
+
+class _SecondaryButtonState extends State<SecondaryButton> {
+  bool isHovered = false;
+  @override
   Widget build(BuildContext context) {
     final baseTextStyle = TextStyles.textSecondaryButton;
-    final textColor = foregroundColor ?? AppColors.primary;
-    final usedTextStyle = fontSize != null ? baseTextStyle.copyWith(fontSize: fontSize) : baseTextStyle;
+    final textColor = widget.foregroundColor ?? AppColors.primary;
+    final usedTextStyle = widget.fontSize != null ? baseTextStyle.copyWith(fontSize: widget.fontSize) : baseTextStyle;
     return FocusedBorderBuilder(builder: (focusNode) {
       return OutlinedButton(
         focusNode: focusNode,
-        onPressed: onPressed,
+        onPressed: widget.onPressed,
+        onHover: (hover) {
+          setState(() {
+            isHovered = hover;
+          });
+        },
         style: OutlinedButton.styleFrom(
           shape: StadiumBorder(),
-          backgroundColor: backgroundColor,
+          backgroundColor: Color.alphaBlend(
+            isHovered ? textColor.withOpacity(0.2) : Colors.transparent,
+            widget.backgroundColor,
+          ),
           side: BorderSide(color: textColor, width: 2),
         ),
         child: Padding(
@@ -43,22 +57,22 @@ class SecondaryButton extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (icon != null)
+              if (widget.icon != null)
                 Padding(
                     padding: const EdgeInsets.only(right: 12),
                     child: Icon(
-                      icon,
+                      widget.icon,
                       color: textColor,
                       size: Dimens.icon_size_m,
                     )),
               Flexible(
                 child: Text(
-                  label,
+                  widget.label,
                   textAlign: TextAlign.center,
                   style: usedTextStyle.copyWith(color: textColor),
                 ),
               ),
-              Semantics(label: iconLabel),
+              Semantics(label: widget.iconLabel),
             ],
           ),
         ),
