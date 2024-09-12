@@ -327,8 +327,8 @@ class Strings {
 
   static String accueilOnboardingTitle2 = "Gardez une longueur d’avance grâce aux notifications";
   static String accueilOnboardingBody2 = "Nous vous conseillons d’activer les notifications pour : ";
-  static String accueilOnboardingSection1 = "Recevoir instantanément les messages importants de votre conseiller ; ";
-  static String accueilOnboardingSection2 = "Être mis au courant des dernières offres correspondant à vos critères.";
+  static String accueilOnboardingSection1 = "Recevoir instantanément les messages importants de votre conseiller";
+  static String accueilOnboardingSection2 = "Être mis au courant des dernières offres correspondant à vos critères";
   static String accueilOnboardingButtonAcceptNotifications = "Activer les notifications";
   static String accueilOnboardingButtonDeclineNotifications = "Plus tard";
 
