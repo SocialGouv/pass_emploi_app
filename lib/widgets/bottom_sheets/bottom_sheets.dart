@@ -71,7 +71,7 @@ class _CloseButton extends StatelessWidget {
         child: IconButton(
           iconSize: Dimens.icon_size_m,
           onPressed: () => Navigator.pop(context),
-          tooltip: Strings.close,
+          tooltip: Strings.closeDialog,
           icon: Icon(
             AppIcons.close_rounded,
             color: AppColors.contentColor,

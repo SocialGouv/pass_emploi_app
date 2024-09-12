@@ -77,7 +77,7 @@ class CampagneRecrutementCard extends StatelessWidget {
               top: 0,
               right: 0,
               child: IconButton(
-                tooltip: Strings.close,
+                tooltip: Strings.closeDialog,
                 onPressed: campagneRecrutementCej.onDismiss,
                 icon: Icon(AppIcons.close_rounded, color: Colors.white),
               ),

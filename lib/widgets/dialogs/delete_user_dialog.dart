@@ -132,7 +132,7 @@ class _DeleteAlertCrossButton extends StatelessWidget {
       alignment: Alignment.topRight,
       child: IconButton(
         onPressed: () => Navigator.pop(context),
-        tooltip: Strings.close,
+        tooltip: Strings.closeDialog,
         icon: Padding(
           padding: const EdgeInsets.all(Margins.spacing_s),
           child: Icon(

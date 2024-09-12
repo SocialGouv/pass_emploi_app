@@ -158,7 +158,7 @@ class _DeleteAccountSuccessDialog extends StatelessWidget {
         SizedBox(
           width: double.infinity,
           child: PrimaryActionButton(
-            label: Strings.close,
+            label: Strings.closeDialog,
             onPressed: () => Navigator.pop(context),
           ),
         ),

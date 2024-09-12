@@ -1439,6 +1439,7 @@ class Strings {
   static String listSemanticsLabel = "Liste";
   static String invalidField = "Champ invalide";
   static String loadingAnnouncement = "Chargement en cours";
+  static String closeDialog = "Fermer la boîte de dialogue";
 
   static String removeDistance(int value) => 'Diminuer la distance de $value km';
 
