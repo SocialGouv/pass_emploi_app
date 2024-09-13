@@ -175,6 +175,7 @@ class _Blocs extends StatelessWidget {
         physics: NeverScrollableScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base, vertical: Margins.spacing_base),
         itemCount: viewModel.items.length,
+        addSemanticIndexes: false,
         itemBuilder: _itemBuilder,
         separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_m),
       ),

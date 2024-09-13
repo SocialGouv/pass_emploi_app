@@ -92,26 +92,29 @@ class _BlocInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(Dimens.radius_base),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(Margins.spacing_s),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(icon, color: contentColor, size: Dimens.icon_size_m),
-                SizedBox(width: Margins.spacing_s),
-                Text(count, style: TextStyles.textMBold.copyWith(color: contentColor)),
-              ],
-            ),
-            SizedBox(height: Margins.spacing_xs),
-            Text(label, style: TextStyles.textXsBold(color: contentColor)),
-          ],
+    return Semantics(
+      container: true,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: BorderRadius.circular(Dimens.radius_base),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(Margins.spacing_s),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Icon(icon, color: contentColor, size: Dimens.icon_size_m),
+                  SizedBox(width: Margins.spacing_s),
+                  Text(count, style: TextStyles.textMBold.copyWith(color: contentColor)),
+                ],
+              ),
+              SizedBox(height: Margins.spacing_xs),
+              Text(label, style: TextStyles.textXsBold(color: contentColor)),
+            ],
+          ),
         ),
       ),
     );
