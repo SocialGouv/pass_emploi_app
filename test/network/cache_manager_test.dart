@@ -12,7 +12,7 @@ void main() {
         final result = CachedResource.fromUrl(url);
 
         // Then
-        expect(result, CachedResource.SESSIONS_MILO_LIST);
+        expect(result, CachedResource.sessionsMiloList);
       });
 
       test('should return only sessions where jeune is inscrit when filter is true', () {
@@ -23,7 +23,7 @@ void main() {
         final result = CachedResource.fromUrl(url);
 
         // Then
-        expect(result, CachedResource.SESSIONS_MILO_INSCRIT);
+        expect(result, CachedResource.sessionsMiloInscrit);
       });
 
       test('should return only sessions where jeune is not inscrit when filter is false', () {
@@ -34,7 +34,7 @@ void main() {
         final result = CachedResource.fromUrl(url);
 
         // Then
-        expect(result, CachedResource.SESSIONS_MILO_NOT_INSCRIT);
+        expect(result, CachedResource.sessionsMiloNonInscrit);
       });
 
       test('should return nothing when url is get session details', () {

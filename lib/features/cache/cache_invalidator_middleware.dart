@@ -27,19 +27,19 @@ class CacheInvalidatorMiddleware extends MiddlewareClass<AppState> {
     final userId = store.state.userId() ?? "";
 
     if (_shouldInvalidateAccueil(store, action)) {
-      await cacheManager.removeResource(CachedResource.ACCUEIL, userId);
+      await cacheManager.removeResource(CachedResource.accueil, userId);
     }
 
     if (_shouldInvalidateAnimationsCollectives(action)) {
-      await cacheManager.removeResource(CachedResource.ANIMATIONS_COLLECTIVES, userId);
+      await cacheManager.removeResource(CachedResource.animationsCollectives, userId);
     }
 
     if (_shouldInvalidateSessionsMiloInscrit(action)) {
-      await cacheManager.removeResource(CachedResource.SESSIONS_MILO_INSCRIT, userId);
+      await cacheManager.removeResource(CachedResource.sessionsMiloInscrit, userId);
     }
 
     if (_shouldInvalidateSessionsMiloList(action)) {
-      await cacheManager.removeResource(CachedResource.SESSIONS_MILO_LIST, userId);
+      await cacheManager.removeResource(CachedResource.sessionsMiloList, userId);
     }
 
     if (_shouldInvalidateFavoris(action)) {
@@ -51,7 +51,7 @@ class CacheInvalidatorMiddleware extends MiddlewareClass<AppState> {
     }
 
     if (_shouldInvalidatePreferences(action)) {
-      await cacheManager.removeResource(CachedResource.PREFERENCES, userId);
+      await cacheManager.removeResource(CachedResource.preferences, userId);
     }
 
     next(action);
