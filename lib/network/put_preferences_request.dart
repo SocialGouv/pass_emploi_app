@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/network/json_serializable.dart';
 
-class PutPreferencesRequest implements JsonSerializable {
+class PutPreferencesRequest extends Equatable implements JsonSerializable {
   final bool? partageFavoris;
   final bool? pushNotificationAlertesOffres;
   final bool? pushNotificationMessages;
@@ -26,4 +27,14 @@ class PutPreferencesRequest implements JsonSerializable {
         if (pushNotificationRendezvousSessions != null) "rendezVousSessions": pushNotificationRendezvousSessions,
         if (pushNotificationRappelActions != null) "rappelActions": pushNotificationRappelActions,
       };
+
+  @override
+  List<Object?> get props => [
+        partageFavoris,
+        pushNotificationAlertesOffres,
+        pushNotificationMessages,
+        pushNotificationCreationAction,
+        pushNotificationRendezvousSessions,
+        pushNotificationRappelActions,
+      ];
 }

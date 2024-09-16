@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/preferences.dart';
+import 'package:pass_emploi_app/network/put_preferences_request.dart';
 import 'package:pass_emploi_app/repositories/preferences_repository.dart';
 
 import '../dsl/sut_dio_repository.dart';
@@ -50,9 +51,19 @@ void main() {
       });
     });
 
-    group('updatePreferences', () {
+    group('updatePreferences with all fields', () {
       sut.when(
-        (repository) => repository.updatePreferences("UID", true),
+        (repository) => repository.updatePreferences(
+          "UID",
+          PutPreferencesRequest(
+            partageFavoris: true,
+            pushNotificationAlertesOffres: false,
+            pushNotificationMessages: true,
+            pushNotificationCreationAction: false,
+            pushNotificationRendezvousSessions: true,
+            pushNotificationRappelActions: false,
+          ),
+        ),
       );
 
       group('when response is valid', () {
@@ -62,7 +73,14 @@ void main() {
           await sut.expectRequestBody(
             method: HttpMethod.put,
             url: "/jeunes/UID/preferences",
-            jsonBody: {'partageFavoris': true},
+            jsonBody: {
+              "partageFavoris": true,
+              "alertesOffres": false,
+              "messages": true,
+              "creationActionConseiller": false,
+              "rendezVousSessions": true,
+              "rappelActions": false
+            },
           );
         });
 
@@ -76,6 +94,24 @@ void main() {
 
         test('response should be false', () async {
           await sut.expectFalseAsResult();
+        });
+      });
+    });
+
+    group('updatePreferences with one field only', () {
+      sut.when(
+        (repository) => repository.updatePreferences("UID", PutPreferencesRequest(pushNotificationMessages: true)),
+      );
+
+      group('when response is valid', () {
+        sut.givenResponseCode(200);
+
+        test('request should be valid', () async {
+          await sut.expectRequestBody(
+            method: HttpMethod.put,
+            url: "/jeunes/UID/preferences",
+            jsonBody: {'messages': true},
+          );
         });
       });
     });

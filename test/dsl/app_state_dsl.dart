@@ -242,8 +242,8 @@ extension AppStateDSL on AppState {
     return copyWith(preferencesState: PreferencesFailureState());
   }
 
-  AppState preferencesUpdateSuccess({required bool favori}) {
-    return copyWith(preferencesUpdateState: PreferencesUpdateSuccessState(favori));
+  AppState preferencesUpdateSuccess() {
+    return copyWith(preferencesUpdateState: PreferencesUpdateSuccessState());
   }
 
   AppState preferencesUpdateLoading() {

@@ -71,7 +71,7 @@ void main() {
   group('PartageActivitePageViewModel.create when update  PartageActivite…', () {
     test('…should show CONTENT if PartageActivite updated data', () async {
       // Given
-      final store = givenState().preferencesUpdateSuccess(favori: false).store();
+      final store = givenState().preferencesUpdateSuccess().store();
       final viewModel = PartageActivitePageViewModel.create(store);
 
       // When
