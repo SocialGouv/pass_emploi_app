@@ -51,7 +51,7 @@ class CacheInvalidatorMiddleware extends MiddlewareClass<AppState> {
     }
 
     if (_shouldInvalidatePreferences(action)) {
-      await cacheManager.removeResource(CachedResource.UPDATE_PARTAGE_ACTIVITE, userId);
+      await cacheManager.removeResource(CachedResource.PREFERENCES, userId);
     }
 
     next(action);
@@ -103,7 +103,7 @@ bool _shouldInvalidateAlertes(dynamic action) {
 }
 
 bool _shouldInvalidatePreferences(dynamic action) {
-  return action is PreferencesUpdateRequestAction;
+  return action is PreferencesUpdateSuccessAction;
 }
 
 bool _newUserActionsCreated(Store<AppState> store, dynamic action) {

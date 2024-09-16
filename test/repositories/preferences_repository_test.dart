@@ -32,7 +32,7 @@ void main() {
                 partageFavoris: true,
                 pushNotificationAlertesOffres: false,
                 pushNotificationMessages: true,
-                pushNotificationCreationActionConseiller: true,
+                pushNotificationCreationAction: true,
                 pushNotificationRendezvousSessions: false,
                 pushNotificationRappelActions: true,
               ),

@@ -30,7 +30,7 @@ class PartageActivitePageViewModel extends Equatable {
       displayState: _displayState(state),
       updateState: _updateState(updateState),
       shareFavoris: favoriShared,
-      onPartageFavorisTap: (isShare) => store.dispatch(PreferencesUpdateRequestAction(isShare)),
+      onPartageFavorisTap: (isShare) => store.dispatch(PreferencesUpdateRequestAction(partageFavoris: isShare)),
       onRetry: () => store.dispatch(PreferencesRequestAction()),
     );
   }

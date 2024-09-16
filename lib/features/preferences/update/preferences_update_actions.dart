@@ -1,23 +1,23 @@
 class PreferencesUpdateRequestAction {
-  final bool favorisShared;
+  final bool? partageFavoris;
+  final bool? pushNotificationAlertesOffres;
+  final bool? pushNotificationMessages;
+  final bool? pushNotificationCreationAction;
+  final bool? pushNotificationRendezvousSessions;
+  final bool? pushNotificationRappelActions;
 
-  PreferencesUpdateRequestAction(this.favorisShared);
+  PreferencesUpdateRequestAction({
+    this.partageFavoris,
+    this.pushNotificationAlertesOffres,
+    this.pushNotificationMessages,
+    this.pushNotificationCreationAction,
+    this.pushNotificationRendezvousSessions,
+    this.pushNotificationRappelActions,
+  });
 }
 
-class PreferencesUpdateLoadingAction {
-  final bool favorisShared;
+class PreferencesUpdateLoadingAction {}
 
-  PreferencesUpdateLoadingAction(this.favorisShared);
-}
+class PreferencesUpdateSuccessAction {}
 
-class PreferencesUpdateSuccessAction {
-  final bool favorisShared;
-
-  PreferencesUpdateSuccessAction(this.favorisShared);
-}
-
-class PreferencesUpdateFailureAction {
-  final bool favorisShared;
-
-  PreferencesUpdateFailureAction(this.favorisShared);
-}
+class PreferencesUpdateFailureAction {}

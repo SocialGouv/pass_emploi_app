@@ -4,7 +4,7 @@ class Preferences extends Equatable {
   final bool partageFavoris;
   final bool pushNotificationAlertesOffres;
   final bool pushNotificationMessages;
-  final bool pushNotificationCreationActionConseiller;
+  final bool pushNotificationCreationAction;
   final bool pushNotificationRendezvousSessions;
   final bool pushNotificationRappelActions;
 
@@ -12,7 +12,7 @@ class Preferences extends Equatable {
     required this.partageFavoris,
     required this.pushNotificationAlertesOffres,
     required this.pushNotificationMessages,
-    required this.pushNotificationCreationActionConseiller,
+    required this.pushNotificationCreationAction,
     required this.pushNotificationRendezvousSessions,
     required this.pushNotificationRappelActions,
   });
@@ -22,9 +22,27 @@ class Preferences extends Equatable {
       partageFavoris: json['partageFavoris'] as bool,
       pushNotificationAlertesOffres: json['alertesOffres'] as bool,
       pushNotificationMessages: json['messages'] as bool,
-      pushNotificationCreationActionConseiller: json['creationActionConseiller'] as bool,
+      pushNotificationCreationAction: json['creationActionConseiller'] as bool,
       pushNotificationRendezvousSessions: json['rendezVousSessions'] as bool,
       pushNotificationRappelActions: json['rappelActions'] as bool,
+    );
+  }
+
+  Preferences copyWith({
+    bool? partageFavoris,
+    bool? pushNotificationAlertesOffres,
+    bool? pushNotificationMessages,
+    bool? pushNotificationCreationAction,
+    bool? pushNotificationRendezvousSessions,
+    bool? pushNotificationRappelActions,
+  }) {
+    return Preferences(
+      partageFavoris: partageFavoris ?? this.partageFavoris,
+      pushNotificationAlertesOffres: pushNotificationAlertesOffres ?? this.pushNotificationAlertesOffres,
+      pushNotificationMessages: pushNotificationMessages ?? this.pushNotificationMessages,
+      pushNotificationCreationAction: pushNotificationCreationAction ?? this.pushNotificationCreationAction,
+      pushNotificationRendezvousSessions: pushNotificationRendezvousSessions ?? this.pushNotificationRendezvousSessions,
+      pushNotificationRappelActions: pushNotificationRappelActions ?? this.pushNotificationRappelActions,
     );
   }
 
@@ -33,7 +51,7 @@ class Preferences extends Equatable {
         partageFavoris,
         pushNotificationAlertesOffres,
         pushNotificationMessages,
-        pushNotificationCreationActionConseiller,
+        pushNotificationCreationAction,
         pushNotificationRendezvousSessions,
         pushNotificationRappelActions,
       ];

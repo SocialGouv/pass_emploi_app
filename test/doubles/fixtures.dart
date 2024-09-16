@@ -750,7 +750,7 @@ Preferences mockPreferences({
     partageFavoris: partageFavoris,
     pushNotificationAlertesOffres: pushNotificationAlertesOffres,
     pushNotificationMessages: pushNotificationMessages,
-    pushNotificationCreationActionConseiller: pushNotificationCreationActionConseiller,
+    pushNotificationCreationAction: pushNotificationCreationActionConseiller,
     pushNotificationRendezvousSessions: pushNotificationRendezVousSessions,
     pushNotificationRappelActions: pushNotificationRappelActions,
   );

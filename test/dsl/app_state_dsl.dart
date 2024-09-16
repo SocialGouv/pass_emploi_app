@@ -226,7 +226,7 @@ extension AppStateDSL on AppState {
           partageFavoris: favori,
           pushNotificationAlertesOffres: false,
           pushNotificationMessages: false,
-          pushNotificationCreationActionConseiller: false,
+          pushNotificationCreationAction: false,
           pushNotificationRendezvousSessions: false,
           pushNotificationRappelActions: false,
         ),

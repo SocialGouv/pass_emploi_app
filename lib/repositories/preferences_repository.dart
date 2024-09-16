@@ -24,13 +24,10 @@ class PreferencesRepository {
     return null;
   }
 
-  Future<bool> updatePreferences(String userId, bool isShare) async {
+  Future<bool> updatePreferences(String userId, PutPreferencesRequest request) async {
     final url = getPreferencesUrl(userId: userId);
     try {
-      await _httpClient.put(
-        url,
-        data: customJsonEncode(PutPreferencesRequest(favoris: isShare)),
-      );
+      await _httpClient.put(url, data: customJsonEncode(request));
       return true;
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
