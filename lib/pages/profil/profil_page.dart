@@ -87,8 +87,6 @@ class _Scaffold extends StatelessWidget {
                 _ListTileCard(tiles: [
                   _ListTileData(
                     title: Strings.notificationsLabel,
-                    externalLink: true,
-                    //TODO-GAD onTap: viewModel.onOpenAppSettings,
                     onTap: () => Navigator.push(context, NotificationPreferencesPage.materialPageRoute()),
                   ),
                   _ListTileData(
@@ -292,19 +290,18 @@ class _ListTileCard extends StatelessWidget {
           children: tiles
               .map(
                 (data) {
-                  final externalLink = externalRedirect || data.externalLink;
                   return [
                     ListTile(
                       onTap: data.onTap,
                       title: Text(data.title, style: TextStyles.textBaseRegular),
-                      leading: externalLink
+                      leading: externalRedirect
                           ? Icon(
                               AppIcons.open_in_new_rounded,
                               size: Dimens.icon_size_base,
                               color: AppColors.contentColor,
                             )
                           : null,
-                      trailing: !externalLink
+                      trailing: !externalRedirect
                           ? Icon(
                               AppIcons.chevron_right_rounded,
                               semanticLabel: Strings.openInNewTab,
@@ -329,9 +326,8 @@ class _ListTileCard extends StatelessWidget {
 class _ListTileData {
   final String title;
   final VoidCallback onTap;
-  final bool externalLink;
 
-  _ListTileData({required this.title, required this.onTap, this.externalLink = false});
+  _ListTileData({required this.title, required this.onTap});
 }
 
 void _launchAndTrackExternalLink(String link) {
