@@ -1,7 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/notifications_settings/notifications_settings_actions.dart';
 import 'package:pass_emploi_app/features/preferences/preferences_actions.dart';
 import 'package:pass_emploi_app/features/preferences/preferences_state.dart';
 import 'package:pass_emploi_app/features/preferences/update/preferences_update_actions.dart';
+import 'package:pass_emploi_app/features/preferences/update/preferences_update_state.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/preferences/notification_preferences_view_model.dart';
 
@@ -44,6 +46,29 @@ void main() {
         // Then
         expect(viewModel.displayState, DisplayState.CONTENT);
       });
+    });
+
+    test('should display error when update fails', () {
+      // Given
+      final store = givenState().copyWith(preferencesUpdateState: PreferencesUpdateFailureState()).store();
+
+      // When
+      final viewModel = NotificationPreferencesViewModel.create(store);
+
+      // Then
+      expect(viewModel.withUpdateError, true);
+    });
+
+    test('open app settings', () {
+      // Given
+      final store = StoreSpy();
+      final viewModel = NotificationPreferencesViewModel.create(store);
+
+      // When
+      viewModel.onOpenAppSettings();
+
+      // Then
+      expect(store.dispatchedAction, isA<NotificationsSettingsRequestAction>());
     });
 
     test('retry', () {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pass_emploi_app/features/notifications_settings/notifications_settings_actions.dart';
 import 'package:pass_emploi_app/features/preferences/preferences_actions.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/preferences/notification_preferences_view_model.dart';
@@ -9,10 +8,10 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
+import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 class NotificationPreferencesPage extends StatelessWidget {
   static MaterialPageRoute<void> materialPageRoute() {
@@ -25,8 +24,19 @@ class NotificationPreferencesPage extends StatelessWidget {
       onInit: (store) => store.dispatch(PreferencesRequestAction()),
       converter: (store) => NotificationPreferencesViewModel.create(store),
       builder: (context, viewModel) => _Body(viewModel),
+      onDidChange: (previousViewModel, viewModel) => _onDidChange(previousViewModel, viewModel, context),
       distinct: true,
     );
+  }
+
+  void _onDidChange(
+    NotificationPreferencesViewModel? previousViewModel,
+    NotificationPreferencesViewModel viewModel,
+    BuildContext context,
+  ) {
+    if (previousViewModel?.withUpdateError != viewModel.withUpdateError && viewModel.withUpdateError) {
+      showSnackBarWithSystemError(context);
+    }
   }
 }
 
@@ -110,8 +120,11 @@ class _Content extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: CardContainer(
-              child: Text("↗ Ouvrir les paramètres de notifications", style: TextStyles.textSRegular()),
-              onTap: () => context.dispatch(NotificationsSettingsRequestAction()), //TODO move to view model
+              onTap: viewModel.onOpenAppSettings,
+              child: Text(
+                "↗ Ouvrir les paramètres de notifications",
+                style: TextStyles.textSRegular(),
+              ),
             ),
           ),
         ],
