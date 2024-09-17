@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/preferences/notification_preferences_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -50,7 +51,7 @@ class _Body extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.grey100,
       appBar: PrimaryAppBar(
-        title: "Gérer vos notifications", // TODO extract all strings
+        title: Strings.notificationsSettingsAppbarTitle,
         withProfileButton: false,
         canPop: true,
       ),
@@ -78,52 +79,60 @@ class _Content extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Recevoir des notifications pour les événements suivants :", style: TextStyles.textBaseRegular),
+          Text(Strings.notificationsSettingsSubtitle, style: TextStyles.textBaseRegular),
           SizedBox(height: Margins.spacing_base),
           _NotificationSwitch(
-            title: "Alertes",
-            description: "De nouvelles offres correspondent à vos alertes enregistrées",
+            title: Strings.notificationsSettingsAlertesTitle,
+            description: Strings.notificationsSettingsAlertesSubtitle,
             value: viewModel.withAlertesOffres,
             onChanged: viewModel.onAlertesOffresChanged,
           ),
           SizedBox(height: Margins.spacing_base),
           _NotificationSwitch(
-            title: "Messagerie",
-            description: "Réception d’un nouveau message",
+            title: Strings.notificationsSettingsMessagerieTitle,
+            description: Strings.notificationsSettingsMessagerieSubtitle,
             value: viewModel.withMessages,
             onChanged: viewModel.onMessagesChanged,
           ),
           SizedBox(height: Margins.spacing_base),
           _NotificationSwitch(
-            title: "Mon suivi",
-            description: "Création d’une action par votre conseiller",
+            title: Strings.notificationsSettingsMonSuiviTitle,
+            description: Strings.notificationsSettingsMonSuiviSubtitle,
             value: viewModel.withCreationAction,
             onChanged: viewModel.onCreationActionChanged,
           ),
           SizedBox(height: Margins.spacing_base),
           _NotificationSwitch(
-            title: "Rendez-vous et sessions",
-            description: "Inscription, modification ou suppression par votre conseiller",
+            title: Strings.notificationsSettingsRendezVoussTitle,
+            description: Strings.notificationsSettingsRendezVousSubtitle,
             value: viewModel.withRendezvousSessions,
             onChanged: viewModel.onRendezvousSessionsChanged,
           ),
           SizedBox(height: Margins.spacing_base),
           _NotificationSwitch(
-            title: "Rappels",
-            description: "Rappel de complétion des actions (1 fois par semaine)",
+            title: Strings.notificationsSettingsRappelsTitle,
+            description: Strings.notificationsSettingsRappelsSubtitle,
             value: viewModel.withRappelActions,
             onChanged: viewModel.onRappelActionsChanged,
           ),
           SizedBox(height: Margins.spacing_l),
-          Text("Paramètres système", style: TextStyles.textBaseBold),
+          Text(Strings.notificationsSettingsTitle, style: TextStyles.textBaseBold),
           SizedBox(height: Margins.spacing_s),
           SizedBox(
             width: double.infinity,
             child: CardContainer(
               onTap: viewModel.onOpenAppSettings,
-              child: Text(
-                "↗ Ouvrir les paramètres de notifications",
-                style: TextStyles.textSRegular(),
+              child: Row(
+                children: [
+                  Icon(AppIcons.open_in_new_rounded, color: AppColors.contentColor),
+                  SizedBox(width: Margins.spacing_base),
+                  Expanded(
+                    child: Text(
+                      Strings.openNotificationsSettings,
+                      style: TextStyles.textSRegular(),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
