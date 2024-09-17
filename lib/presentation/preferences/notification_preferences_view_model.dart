@@ -4,7 +4,6 @@ import 'package:pass_emploi_app/features/preferences/preferences_actions.dart';
 import 'package:pass_emploi_app/features/preferences/preferences_state.dart';
 import 'package:pass_emploi_app/features/preferences/update/preferences_update_actions.dart';
 import 'package:pass_emploi_app/features/preferences/update/preferences_update_state.dart';
-import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/preferences.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -52,8 +51,6 @@ class NotificationPreferencesViewModel extends Equatable {
     final state = store.state.preferencesState;
     final updateState = store.state.preferencesUpdateState;
 
-    final isMilo = store.state.user()?.loginMode.isMiLo() ?? false;
-
     final Preferences? preferences = (state is PreferencesSuccessState) ? state.preferences : null;
 
     return NotificationPreferencesViewModel(
@@ -64,7 +61,7 @@ class NotificationPreferencesViewModel extends Equatable {
       withCreationAction: preferences?.pushNotificationCreationAction ?? false,
       withRendezvousSessions: preferences?.pushNotificationRendezvousSessions ?? false,
       withRappelActions: preferences?.pushNotificationRappelActions ?? false,
-      withMiloWording: isMilo,
+      withMiloWording: store.state.isMiloLoginMode(),
       onAlertesOffresChanged: (value) => store.dispatch(
         PreferencesUpdateRequestAction(pushNotificationAlertesOffres: value),
       ),
