@@ -1106,6 +1106,41 @@ class Strings {
   static String ratingAppLabel = "Partager votre avis sur l'application";
   static String contactTeamLabel = "Contacter l'équipe de l'application";
 
+  // Notifications settings
+  static const String notificationsSettingsAppbarTitle = "Gérer vos notifications";
+  static const String notificationsSettingsSubtitle = "Recevoir des notifications pour les événements suivants :";
+
+  static const String notificationsSettingsAlertesTitle = "Alertes";
+  static const String notificationsSettingsAlertesSubtitle =
+      "De nouvelles offres correspondant à vos alertes enregistrées";
+
+  static const String notificationsSettingsMessagerieTitle = "Messagerie";
+  static const String notificationsSettingsMessagerieSubtitle = "Réception d’un nouveau message";
+
+  static const String notificationsSettingsMonSuiviTitle = "Mon suivi";
+
+  static String notificationsSettingsMonSuiviSubtitle(bool isMilo) =>
+      isMilo ? notificationsSettingsMonSuiviSubtitleMilo : notificationsSettingsMonSuiviSubtitleFT;
+
+  static const String notificationsSettingsMonSuiviSubtitleMilo = "Création d’une action par votre conseiller";
+  static const String notificationsSettingsMonSuiviSubtitleFT = "Création d’une démarche par votre conseiller";
+
+  static String notificationsSettingsRendezVoussTitle(bool isMilo) =>
+      isMilo ? notificationsSettingsRendezVoussTitleMilo : notificationsSettingsRendezVoussTitleFT;
+
+  static const String notificationsSettingsRendezVoussTitleMilo = "Rendez-vous et sessions";
+  static const String notificationsSettingsRendezVoussTitleFT = "Rendez-vous";
+  static const String notificationsSettingsRendezVousSubtitle =
+      "Inscription, modification ou suppression par votre conseiller";
+
+  static const String notificationsSettingsRappelsTitle = "Rappels";
+  static const String notificationsSettingsRappelsSubtitle = "Rappel de complétion des actions (1 fois par semaine)";
+
+  static const String notificationsSettingsTitle = "Paramètres système";
+  static const String openNotificationsSettings = "Ouvrir les paramètres de notifications";
+  static const String notificationsA11yEnable = "Activer les notifications pour ";
+  static const String notificationsA11yDisable = "Désactiver les notifications pour ";
+
   // contact page
   static String contactPageTitle = "Contacter l’équipe";
   static String contactPageBody1 = Brand.isCej()

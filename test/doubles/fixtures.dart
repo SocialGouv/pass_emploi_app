@@ -48,7 +48,7 @@ import 'package:pass_emploi_app/models/mon_suivi.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/offre_type.dart';
-import 'package:pass_emploi_app/models/partage_activite.dart';
+import 'package:pass_emploi_app/models/preferences.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/requests/contact_immersion_request.dart';
@@ -738,7 +738,23 @@ UserAction mockNotStartedAction({required String actionId}) {
   );
 }
 
-PartageActivite mockPartageActivite({required bool favoriShared}) => PartageActivite(partageFavoris: favoriShared);
+Preferences mockPreferences({
+  bool partageFavoris = false,
+  bool pushNotificationAlertesOffres = false,
+  bool pushNotificationMessages = false,
+  bool pushNotificationCreationActionConseiller = false,
+  bool pushNotificationRendezVousSessions = false,
+  bool pushNotificationRappelActions = false,
+}) {
+  return Preferences(
+    partageFavoris: partageFavoris,
+    pushNotificationAlertesOffres: pushNotificationAlertesOffres,
+    pushNotificationMessages: pushNotificationMessages,
+    pushNotificationCreationAction: pushNotificationCreationActionConseiller,
+    pushNotificationRendezvousSessions: pushNotificationRendezVousSessions,
+    pushNotificationRappelActions: pushNotificationRappelActions,
+  );
+}
 
 List<Commentaire> mockCommentaires() => [
       Commentaire(

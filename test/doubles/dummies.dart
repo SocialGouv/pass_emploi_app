@@ -44,7 +44,6 @@ import 'package:pass_emploi_app/repositories/metier_repository.dart';
 import 'package:pass_emploi_app/repositories/mon_suivi_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_repository.dart';
-import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/rating_repository.dart';
 import 'package:pass_emploi_app/repositories/recherches_recentes_repository.dart';
@@ -265,10 +264,6 @@ class DummyPieceJointeRepository extends PieceJointeRepository {
 
 class DummyTutorialRepository extends TutorialRepository {
   DummyTutorialRepository() : super(MockFlutterSecureStorage());
-}
-
-class DummyPartageActiviteRepository extends PartageActiviteRepository {
-  DummyPartageActiviteRepository() : super(DioMock());
 }
 
 class DummyModifyDemarcheRepository extends UpdateDemarcheRepository {

@@ -23,6 +23,7 @@ import 'package:pass_emploi_app/repositories/mon_suivi_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/onboarding_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
+import 'package:pass_emploi_app/repositories/preferences_repository.dart';
 import 'package:pass_emploi_app/repositories/preferred_login_mode_repository.dart';
 import 'package:pass_emploi_app/repositories/remote_config_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
@@ -241,4 +242,6 @@ class MockImageCompressor extends Mock implements ImageCompressor {}
 class MockPieceJointeUseCase extends Mock implements PieceJointeUseCase {}
 
 class MockMatchingDemarcheRepository extends Mock implements MatchingDemarcheRepository {}
+
+class MockPreferencesRepository extends Mock implements PreferencesRepository {}
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-DECLARATION*/

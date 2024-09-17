@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
-import 'package:pass_emploi_app/features/partage_activite/partage_activite_actions.dart';
+import 'package:pass_emploi_app/features/preferences/preferences_actions.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/profil/partage_activite_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -24,7 +24,7 @@ class PartageActivitePage extends StatelessWidget {
     return Tracker(
       tracking: AnalyticsScreenNames.shareActivity,
       child: StoreConnector<AppState, PartageActivitePageViewModel>(
-        onInit: (store) => store.dispatch(PartageActiviteRequestAction()),
+        onInit: (store) => store.dispatch(PreferencesRequestAction()),
         converter: (store) => PartageActivitePageViewModel.create(store),
         builder: (context, viewModel) => _scaffold(context, viewModel),
       ),

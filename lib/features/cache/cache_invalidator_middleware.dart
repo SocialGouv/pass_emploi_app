@@ -6,7 +6,7 @@ import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_actions.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
-import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_actions.dart';
+import 'package:pass_emploi_app/features/preferences/update/preferences_update_actions.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_actions.dart';
 import 'package:pass_emploi_app/features/user_action/create/pending/user_action_create_pending_actions.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
@@ -27,19 +27,19 @@ class CacheInvalidatorMiddleware extends MiddlewareClass<AppState> {
     final userId = store.state.userId() ?? "";
 
     if (_shouldInvalidateAccueil(store, action)) {
-      await cacheManager.removeResource(CachedResource.ACCUEIL, userId);
+      await cacheManager.removeResource(CachedResource.accueil, userId);
     }
 
     if (_shouldInvalidateAnimationsCollectives(action)) {
-      await cacheManager.removeResource(CachedResource.ANIMATIONS_COLLECTIVES, userId);
+      await cacheManager.removeResource(CachedResource.animationsCollectives, userId);
     }
 
     if (_shouldInvalidateSessionsMiloInscrit(action)) {
-      await cacheManager.removeResource(CachedResource.SESSIONS_MILO_INSCRIT, userId);
+      await cacheManager.removeResource(CachedResource.sessionsMiloInscrit, userId);
     }
 
     if (_shouldInvalidateSessionsMiloList(action)) {
-      await cacheManager.removeResource(CachedResource.SESSIONS_MILO_LIST, userId);
+      await cacheManager.removeResource(CachedResource.sessionsMiloList, userId);
     }
 
     if (_shouldInvalidateFavoris(action)) {
@@ -50,8 +50,8 @@ class CacheInvalidatorMiddleware extends MiddlewareClass<AppState> {
       await cacheManager.removeResource(CachedResource.alerte, userId);
     }
 
-    if (_shouldInvalidatePartageActivite(action)) {
-      await cacheManager.removeResource(CachedResource.UPDATE_PARTAGE_ACTIVITE, userId);
+    if (_shouldInvalidatePreferences(action)) {
+      await cacheManager.removeResource(CachedResource.preferences, userId);
     }
 
     next(action);
@@ -102,8 +102,8 @@ bool _shouldInvalidateAlertes(dynamic action) {
       _isExternalDeepLinkOf<AlerteDeepLink>(action);
 }
 
-bool _shouldInvalidatePartageActivite(dynamic action) {
-  return action is PartageActiviteUpdateRequestAction;
+bool _shouldInvalidatePreferences(dynamic action) {
+  return action is PreferencesUpdateSuccessAction;
 }
 
 bool _newUserActionsCreated(Store<AppState> store, dynamic action) {

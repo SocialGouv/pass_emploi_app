@@ -3,7 +3,6 @@ import 'package:pass_emploi_app/features/details_jeune/details_jeune_state.dart'
 import 'package:pass_emploi_app/features/developer_option/activation/developer_options_action.dart';
 import 'package:pass_emploi_app/features/developer_option/activation/developer_options_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
-import 'package:pass_emploi_app/features/notifications_settings/notifications_settings_actions.dart';
 import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -16,7 +15,6 @@ class ProfilPageViewModel extends Equatable {
   final bool displayDeveloperOptions;
   final bool withDownloadCv;
   final Function() onTitleTap;
-  final Function() onOpenAppSettings;
 
   ProfilPageViewModel({
     required this.userName,
@@ -25,7 +23,6 @@ class ProfilPageViewModel extends Equatable {
     required this.displayDeveloperOptions,
     required this.withDownloadCv,
     required this.onTitleTap,
-    required this.onOpenAppSettings,
   });
 
   factory ProfilPageViewModel.create(Store<AppState> store) {
@@ -38,7 +35,6 @@ class ProfilPageViewModel extends Equatable {
       displayDeveloperOptions: store.state.developerOptionsState is DeveloperOptionsActivatedState,
       withDownloadCv: user?.loginMode.isPe() ?? false,
       onTitleTap: () => store.dispatch(DeveloperOptionsActivationRequestAction()),
-      onOpenAppSettings: () => store.dispatch(NotificationsSettingsRequestAction()),
     );
   }
 

@@ -24,8 +24,8 @@ import 'package:pass_emploi_app/features/matching_demarche/matching_demarche_sta
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/features/onboarding/onboarding_state.dart';
-import 'package:pass_emploi_app/features/partage_activite/partage_activites_state.dart';
-import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_state.dart';
+import 'package:pass_emploi_app/features/preferences/preferences_state.dart';
+import 'package:pass_emploi_app/features/preferences/update/preferences_update_state.dart';
 import 'package:pass_emploi_app/features/rating/rating_state.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
@@ -72,6 +72,7 @@ import 'package:pass_emploi_app/models/mon_suivi.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/onboarding.dart';
+import 'package:pass_emploi_app/models/preferences.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/requests/user_action_update_request.dart';
@@ -218,28 +219,39 @@ extension AppStateDSL on AppState {
     return copyWith(tutorialState: ShowTutorialState(Tutorial.milo));
   }
 
-  AppState partageActiviteSuccess({required bool favori}) {
-    return copyWith(partageActiviteState: PartageActiviteSuccessState(mockPartageActivite(favoriShared: favori)));
+  AppState preferencesSuccess({bool favori = false}) {
+    return copyWith(
+      preferencesState: PreferencesSuccessState(
+        Preferences(
+          partageFavoris: favori,
+          pushNotificationAlertesOffres: false,
+          pushNotificationMessages: false,
+          pushNotificationCreationAction: false,
+          pushNotificationRendezvousSessions: false,
+          pushNotificationRappelActions: false,
+        ),
+      ),
+    );
   }
 
-  AppState partageActiviteLoading() {
-    return copyWith(partageActiviteState: PartageActiviteLoadingState());
+  AppState preferencesLoading() {
+    return copyWith(preferencesState: PreferencesLoadingState());
   }
 
-  AppState partageActiviteFailure() {
-    return copyWith(partageActiviteState: PartageActiviteFailureState());
+  AppState preferencesFailure() {
+    return copyWith(preferencesState: PreferencesFailureState());
   }
 
-  AppState partageActiviteUpdateSuccess({required bool favori}) {
-    return copyWith(partageActiviteUpdateState: PartageActiviteUpdateSuccessState(favori));
+  AppState preferencesUpdateSuccess() {
+    return copyWith(preferencesUpdateState: PreferencesUpdateSuccessState());
   }
 
-  AppState partageActiviteUpdateLoading() {
-    return copyWith(partageActiviteUpdateState: PartageActiviteUpdateLoadingState());
+  AppState preferencesUpdateLoading() {
+    return copyWith(preferencesUpdateState: PreferencesUpdateLoadingState());
   }
 
-  AppState partageActiviteUpdateFailure() {
-    return copyWith(partageActiviteUpdateState: PartageActiviteUpdateFailureState());
+  AppState preferencesUpdateFailure() {
+    return copyWith(preferencesUpdateState: PreferencesUpdateFailureState());
   }
 
   AppState showRating() {

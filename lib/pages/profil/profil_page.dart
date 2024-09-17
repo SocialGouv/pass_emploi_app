@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/features/developer_option/activation/developer_o
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/pages/cv/cv_list_page.dart';
 import 'package:pass_emploi_app/pages/diagoriente/diagoriente_entry_page.dart';
+import 'package:pass_emploi_app/pages/notification_preferences_page.dart';
 import 'package:pass_emploi_app/pages/partage_activite_page.dart';
 import 'package:pass_emploi_app/pages/profil/matomo_logging_page.dart';
 import 'package:pass_emploi_app/pages/suppression_compte_page.dart';
@@ -86,8 +87,7 @@ class _Scaffold extends StatelessWidget {
                 _ListTileCard(tiles: [
                   _ListTileData(
                     title: Strings.notificationsLabel,
-                    externalLink: true,
-                    onTap: viewModel.onOpenAppSettings,
+                    onTap: () => Navigator.push(context, NotificationPreferencesPage.materialPageRoute()),
                   ),
                   _ListTileData(
                     title: Strings.suppressionAccountLabel,
@@ -290,19 +290,18 @@ class _ListTileCard extends StatelessWidget {
           children: tiles
               .map(
                 (data) {
-                  final externalLink = externalRedirect || data.externalLink;
                   return [
                     ListTile(
                       onTap: data.onTap,
                       title: Text(data.title, style: TextStyles.textBaseRegular),
-                      leading: externalLink
+                      leading: externalRedirect
                           ? Icon(
                               AppIcons.open_in_new_rounded,
                               size: Dimens.icon_size_base,
                               color: AppColors.contentColor,
                             )
                           : null,
-                      trailing: !externalLink
+                      trailing: !externalRedirect
                           ? Icon(
                               AppIcons.chevron_right_rounded,
                               semanticLabel: Strings.openInNewTab,
@@ -327,9 +326,8 @@ class _ListTileCard extends StatelessWidget {
 class _ListTileData {
   final String title;
   final VoidCallback onTap;
-  final bool externalLink;
 
-  _ListTileData({required this.title, required this.onTap, this.externalLink = false});
+  _ListTileData({required this.title, required this.onTap});
 }
 
 void _launchAndTrackExternalLink(String link) {

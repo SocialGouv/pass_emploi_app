@@ -22,10 +22,10 @@ class PassEmploiCacheManager {
   }
 
   Future<void> removeAllFavorisResources() async {
-    await _delete(CachedResource.FAVORIS.toString());
-    await _delete(CachedResource.FAVORIS_EMPLOI.toString());
-    await _delete(CachedResource.FAVORIS_IMMERSION.toString());
-    await _delete(CachedResource.FAVORIS_SERVICE_CIVIQUE.toString());
+    await _delete(CachedResource.favoris.toString());
+    await _delete(CachedResource.favorisEmploi.toString());
+    await _delete(CachedResource.favorisImmersion.toString());
+    await _delete(CachedResource.favorisServiceCivique.toString());
   }
 
   Future<void> removeActionCommentaireResource(String actionId) async {
@@ -46,30 +46,30 @@ class PassEmploiCacheManager {
 }
 
 enum CachedResource {
-  ACCUEIL,
-  ANIMATIONS_COLLECTIVES,
-  SESSIONS_MILO_LIST,
-  SESSIONS_MILO_INSCRIT,
-  SESSIONS_MILO_NOT_INSCRIT,
-  FAVORIS,
-  FAVORIS_EMPLOI,
-  FAVORIS_IMMERSION,
-  FAVORIS_SERVICE_CIVIQUE,
+  accueil,
+  animationsCollectives,
+  sessionsMiloList,
+  sessionsMiloInscrit,
+  sessionsMiloNonInscrit,
+  favoris,
+  favorisEmploi,
+  favorisImmersion,
+  favorisServiceCivique,
   alerte,
-  UPDATE_PARTAGE_ACTIVITE;
+  preferences;
 
   static CachedResource? fromUrl(String url) {
-    if (url.contains('/accueil')) return ACCUEIL;
-    if (url.contains('/animations-collectives')) return ANIMATIONS_COLLECTIVES;
-    if (url.endsWith('/favoris')) return FAVORIS;
-    if (url.endsWith('/favoris/offres-emploi')) return FAVORIS_EMPLOI;
-    if (url.endsWith('/favoris/offres-immersion')) return FAVORIS_IMMERSION;
-    if (url.endsWith('/favoris/services-civique')) return FAVORIS_SERVICE_CIVIQUE;
-    if (url.contains('/preferences')) return UPDATE_PARTAGE_ACTIVITE;
+    if (url.contains('/accueil')) return accueil;
+    if (url.contains('/animations-collectives')) return animationsCollectives;
+    if (url.endsWith('/favoris')) return favoris;
+    if (url.endsWith('/favoris/offres-emploi')) return favorisEmploi;
+    if (url.endsWith('/favoris/offres-immersion')) return favorisImmersion;
+    if (url.endsWith('/favoris/services-civique')) return favorisServiceCivique;
+    if (url.contains('/preferences')) return preferences;
     if (url.endsWith('/recherches')) return alerte;
-    if (url.contains('/milo') && url.endsWith('sessions')) return SESSIONS_MILO_LIST;
-    if (url.contains('/milo') && url.endsWith('sessions?filtrerEstInscrit=true')) return SESSIONS_MILO_INSCRIT;
-    if (url.contains('/milo') && url.endsWith('sessions?filtrerEstInscrit=false')) return SESSIONS_MILO_NOT_INSCRIT;
+    if (url.contains('/milo') && url.endsWith('sessions')) return sessionsMiloList;
+    if (url.contains('/milo') && url.endsWith('sessions?filtrerEstInscrit=true')) return sessionsMiloInscrit;
+    if (url.contains('/milo') && url.endsWith('sessions?filtrerEstInscrit=false')) return sessionsMiloNonInscrit;
     return null;
   }
 }

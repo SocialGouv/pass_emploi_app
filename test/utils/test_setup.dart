@@ -50,8 +50,8 @@ import 'package:pass_emploi_app/repositories/mon_suivi_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/onboarding_repository.dart';
-import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
+import 'package:pass_emploi_app/repositories/preferences_repository.dart';
 import 'package:pass_emploi_app/repositories/preferred_login_mode_repository.dart';
 import 'package:pass_emploi_app/repositories/rating_repository.dart';
 import 'package:pass_emploi_app/repositories/recherches_recentes_repository.dart';
@@ -123,7 +123,7 @@ class TestStoreFactory {
   SearchDemarcheRepository searchDemarcheRepository = DummyDemarcheDuReferentielRepository();
   PieceJointeRepository pieceJointeRepository = DummyPieceJointeRepository();
   TutorialRepository tutorialRepository = DummyTutorialRepository();
-  PartageActiviteRepository partageActiviteRepository = DummyPartageActiviteRepository();
+  PreferencesRepository preferencesRepository = MockPreferencesRepository();
   RatingRepository ratingRepository = DummyRatingRepository();
   ActionCommentaireRepository actionCommentaireRepository = DummyActionCommentaireRepository();
   SuggestionsRechercheRepository suggestionsRechercheRepository = DummySuggestionsRechercheRepository();
@@ -199,7 +199,7 @@ class TestStoreFactory {
       searchDemarcheRepository,
       pieceJointeRepository,
       tutorialRepository,
-      partageActiviteRepository,
+      preferencesRepository,
       ratingRepository,
       actionCommentaireRepository,
       suggestionsRechercheRepository,
