@@ -71,72 +71,75 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(
-        horizontal: Margins.spacing_base,
-        vertical: Margins.spacing_m,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(Strings.notificationsSettingsSubtitle, style: TextStyles.textBaseRegular),
-          SizedBox(height: Margins.spacing_base),
-          _NotificationSwitch(
-            title: Strings.notificationsSettingsAlertesTitle,
-            description: Strings.notificationsSettingsAlertesSubtitle,
-            value: viewModel.withAlertesOffres,
-            onChanged: viewModel.onAlertesOffresChanged,
-          ),
-          SizedBox(height: Margins.spacing_base),
-          _NotificationSwitch(
-            title: Strings.notificationsSettingsMessagerieTitle,
-            description: Strings.notificationsSettingsMessagerieSubtitle,
-            value: viewModel.withMessages,
-            onChanged: viewModel.onMessagesChanged,
-          ),
-          SizedBox(height: Margins.spacing_base),
-          _NotificationSwitch(
-            title: Strings.notificationsSettingsMonSuiviTitle,
-            description: Strings.notificationsSettingsMonSuiviSubtitle(viewModel.withMiloWording),
-            value: viewModel.withCreationAction,
-            onChanged: viewModel.onCreationActionChanged,
-          ),
-          SizedBox(height: Margins.spacing_base),
-          _NotificationSwitch(
-            title: Strings.notificationsSettingsRendezVoussTitle(viewModel.withMiloWording),
-            description: Strings.notificationsSettingsRendezVousSubtitle,
-            value: viewModel.withRendezvousSessions,
-            onChanged: viewModel.onRendezvousSessionsChanged,
-          ),
-          SizedBox(height: Margins.spacing_base),
-          _NotificationSwitch(
-            title: Strings.notificationsSettingsRappelsTitle,
-            description: Strings.notificationsSettingsRappelsSubtitle,
-            value: viewModel.withRappelActions,
-            onChanged: viewModel.onRappelActionsChanged,
-          ),
-          SizedBox(height: Margins.spacing_l),
-          Text(Strings.notificationsSettingsTitle, style: TextStyles.textBaseBold),
-          SizedBox(height: Margins.spacing_s),
-          SizedBox(
-            width: double.infinity,
-            child: CardContainer(
-              onTap: viewModel.onOpenAppSettings,
-              child: Row(
-                children: [
-                  Icon(AppIcons.open_in_new_rounded, color: AppColors.contentColor),
-                  SizedBox(width: Margins.spacing_base),
-                  Expanded(
-                    child: Text(
-                      Strings.openNotificationsSettings,
-                      style: TextStyles.textSRegular(),
+    return Semantics(
+      container: true,
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(
+          horizontal: Margins.spacing_base,
+          vertical: Margins.spacing_m,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(Strings.notificationsSettingsSubtitle, style: TextStyles.textBaseRegular),
+            SizedBox(height: Margins.spacing_base),
+            _NotificationSwitch(
+              title: Strings.notificationsSettingsAlertesTitle,
+              description: Strings.notificationsSettingsAlertesSubtitle,
+              enabled: viewModel.withAlertesOffres,
+              onChanged: viewModel.onAlertesOffresChanged,
+            ),
+            SizedBox(height: Margins.spacing_base),
+            _NotificationSwitch(
+              title: Strings.notificationsSettingsMessagerieTitle,
+              description: Strings.notificationsSettingsMessagerieSubtitle,
+              enabled: viewModel.withMessages,
+              onChanged: viewModel.onMessagesChanged,
+            ),
+            SizedBox(height: Margins.spacing_base),
+            _NotificationSwitch(
+              title: Strings.notificationsSettingsMonSuiviTitle,
+              description: Strings.notificationsSettingsMonSuiviSubtitle(viewModel.withMiloWording),
+              enabled: viewModel.withCreationAction,
+              onChanged: viewModel.onCreationActionChanged,
+            ),
+            SizedBox(height: Margins.spacing_base),
+            _NotificationSwitch(
+              title: Strings.notificationsSettingsRendezVoussTitle(viewModel.withMiloWording),
+              description: Strings.notificationsSettingsRendezVousSubtitle,
+              enabled: viewModel.withRendezvousSessions,
+              onChanged: viewModel.onRendezvousSessionsChanged,
+            ),
+            SizedBox(height: Margins.spacing_base),
+            _NotificationSwitch(
+              title: Strings.notificationsSettingsRappelsTitle,
+              description: Strings.notificationsSettingsRappelsSubtitle,
+              enabled: viewModel.withRappelActions,
+              onChanged: viewModel.onRappelActionsChanged,
+            ),
+            SizedBox(height: Margins.spacing_l),
+            Text(Strings.notificationsSettingsTitle, style: TextStyles.textBaseBold),
+            SizedBox(height: Margins.spacing_s),
+            SizedBox(
+              width: double.infinity,
+              child: CardContainer(
+                onTap: viewModel.onOpenAppSettings,
+                child: Row(
+                  children: [
+                    Icon(AppIcons.open_in_new_rounded, color: AppColors.contentColor),
+                    SizedBox(width: Margins.spacing_base),
+                    Expanded(
+                      child: Text(
+                        Strings.openNotificationsSettings,
+                        style: TextStyles.textSRegular(),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -145,13 +148,13 @@ class _Content extends StatelessWidget {
 class _NotificationSwitch extends StatelessWidget {
   final String title;
   final String description;
-  final bool value;
+  final bool enabled;
   final ValueChanged<bool> onChanged;
 
   const _NotificationSwitch({
     required this.title,
     required this.description,
-    required this.value,
+    required this.enabled,
     required this.onChanged,
   });
 
@@ -184,9 +187,11 @@ class _NotificationSwitch extends StatelessWidget {
         Row(
           children: [
             Semantics(
-              label: Strings.partageFavorisEnabled(true),
+              label: enabled
+                  ? Strings.notificationsA11yDisable + description
+                  : Strings.notificationsA11yEnable + description,
               child: Switch(
-                value: value,
+                value: enabled,
                 onChanged: (value) => onChanged(value),
               ),
             ),
@@ -194,7 +199,7 @@ class _NotificationSwitch extends StatelessWidget {
             Semantics(
               excludeSemantics: true,
               child: Text(
-                value ? Strings.yes : Strings.no,
+                enabled ? Strings.yes : Strings.no,
                 style: TextStyles.textBaseRegularWithColor(AppColors.contentColor),
               ),
             ),

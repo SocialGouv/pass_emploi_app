@@ -1112,7 +1112,7 @@ class Strings {
 
   static const String notificationsSettingsAlertesTitle = "Alertes";
   static const String notificationsSettingsAlertesSubtitle =
-      "De nouvelles offres correspondent à vos alertes enregistrées";
+      "De nouvelles offres correspondant à vos alertes enregistrées";
 
   static const String notificationsSettingsMessagerieTitle = "Messagerie";
   static const String notificationsSettingsMessagerieSubtitle = "Réception d’un nouveau message";
@@ -1138,6 +1138,8 @@ class Strings {
 
   static const String notificationsSettingsTitle = "Paramètres système";
   static const String openNotificationsSettings = "Ouvrir les paramètres de notifications";
+  static const String notificationsA11yEnable = "Activer les notifications pour ";
+  static const String notificationsA11yDisable = "Désactiver les notifications pour ";
 
   // contact page
   static String contactPageTitle = "Contacter l’équipe";
