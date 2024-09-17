@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/features/preferences/preferences_actions.dart';
 import 'package:pass_emploi_app/features/preferences/preferences_state.dart';
 import 'package:pass_emploi_app/features/preferences/update/preferences_update_actions.dart';
 import 'package:pass_emploi_app/features/preferences/update/preferences_update_state.dart';
+import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/preferences.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -18,6 +19,7 @@ class NotificationPreferencesViewModel extends Equatable {
   final bool withCreationAction;
   final bool withRendezvousSessions;
   final bool withRappelActions;
+  final bool withMiloWording;
 
   final void Function(bool) onAlertesOffresChanged;
   final void Function(bool) onMessagesChanged;
@@ -36,6 +38,7 @@ class NotificationPreferencesViewModel extends Equatable {
     required this.withCreationAction,
     required this.withRendezvousSessions,
     required this.withRappelActions,
+    required this.withMiloWording,
     required this.onAlertesOffresChanged,
     required this.onMessagesChanged,
     required this.onCreationActionChanged,
@@ -49,6 +52,8 @@ class NotificationPreferencesViewModel extends Equatable {
     final state = store.state.preferencesState;
     final updateState = store.state.preferencesUpdateState;
 
+    final isMilo = store.state.user()?.loginMode.isMiLo() ?? false;
+
     final Preferences? preferences = (state is PreferencesSuccessState) ? state.preferences : null;
 
     return NotificationPreferencesViewModel(
@@ -59,6 +64,7 @@ class NotificationPreferencesViewModel extends Equatable {
       withCreationAction: preferences?.pushNotificationCreationAction ?? false,
       withRendezvousSessions: preferences?.pushNotificationRendezvousSessions ?? false,
       withRappelActions: preferences?.pushNotificationRappelActions ?? false,
+      withMiloWording: isMilo,
       onAlertesOffresChanged: (value) => store.dispatch(
         PreferencesUpdateRequestAction(pushNotificationAlertesOffres: value),
       ),
@@ -88,6 +94,7 @@ class NotificationPreferencesViewModel extends Equatable {
         withCreationAction,
         withRendezvousSessions,
         withRappelActions,
+        withMiloWording,
       ];
 }
 

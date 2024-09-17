@@ -1118,9 +1118,18 @@ class Strings {
   static const String notificationsSettingsMessagerieSubtitle = "Réception d’un nouveau message";
 
   static const String notificationsSettingsMonSuiviTitle = "Mon suivi";
-  static const String notificationsSettingsMonSuiviSubtitle = "Création d’une action par votre conseiller";
 
-  static const String notificationsSettingsRendezVoussTitle = "Rendez-vous et sessions";
+  static String notificationsSettingsMonSuiviSubtitle(bool isMilo) =>
+      isMilo ? notificationsSettingsMonSuiviSubtitleMilo : notificationsSettingsMonSuiviSubtitleFT;
+
+  static const String notificationsSettingsMonSuiviSubtitleMilo = "Création d’une action par votre conseiller";
+  static const String notificationsSettingsMonSuiviSubtitleFT = "Création d’une démarche par votre conseiller";
+
+  static String notificationsSettingsRendezVoussTitle(bool isMilo) =>
+      isMilo ? notificationsSettingsRendezVoussTitleMilo : notificationsSettingsRendezVoussTitleFT;
+
+  static const String notificationsSettingsRendezVoussTitleMilo = "Rendez-vous et sessions";
+  static const String notificationsSettingsRendezVoussTitleFT = "Rendez-vous";
   static const String notificationsSettingsRendezVousSubtitle =
       "Inscription, modification ou suppression par votre conseiller";
 

@@ -97,13 +97,13 @@ class _Content extends StatelessWidget {
           SizedBox(height: Margins.spacing_base),
           _NotificationSwitch(
             title: Strings.notificationsSettingsMonSuiviTitle,
-            description: Strings.notificationsSettingsMonSuiviSubtitle,
+            description: Strings.notificationsSettingsMonSuiviSubtitle(viewModel.withMiloWording),
             value: viewModel.withCreationAction,
             onChanged: viewModel.onCreationActionChanged,
           ),
           SizedBox(height: Margins.spacing_base),
           _NotificationSwitch(
-            title: Strings.notificationsSettingsRendezVoussTitle,
+            title: Strings.notificationsSettingsRendezVoussTitle(viewModel.withMiloWording),
             description: Strings.notificationsSettingsRendezVousSubtitle,
             value: viewModel.withRendezvousSessions,
             onChanged: viewModel.onRendezvousSessionsChanged,

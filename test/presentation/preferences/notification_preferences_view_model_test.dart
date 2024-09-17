@@ -110,6 +110,28 @@ void main() {
       expect(viewModel.withRappelActions, true);
     });
 
+    test('should display Cej wording when accompagnement is Cej', () {
+      // Given
+      final store = givenState().loggedInMiloUser().store();
+
+      // When
+      final viewModel = NotificationPreferencesViewModel.create(store);
+
+      // Then
+      expect(viewModel.withMiloWording, true);
+    });
+
+    test('should not display Cej wording when accompagnement is not Cej', () {
+      // Given
+      final store = givenState().loggedInPoleEmploiUser().store();
+
+      // When
+      final viewModel = NotificationPreferencesViewModel.create(store);
+
+      // Then
+      expect(viewModel.withMiloWording, false);
+    });
+
     test('on AlertesOffres changed should dispatch update preferences action', () {
       // Given
       final store = StoreSpy();
