@@ -4,10 +4,10 @@ import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/models/user_action_type.dart';
 import 'package:pass_emploi_app/presentation/user_action/creation_form/create_user_action_form_view_model.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/a11y/auto_focus.dart';
 import 'package:pass_emploi_app/widgets/a11y/mandatory_fields_label.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_chip.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
@@ -43,7 +43,7 @@ class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
 
   @override
   Widget build(BuildContext context) {
-    return AutoFocus(
+    return SingleChildScrollView(
       child: Tracker(
         tracking: AnalyticsScreenNames.createUserActionStep2,
         child: Padding(
@@ -51,6 +51,8 @@ class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              const SizedBox(height: Margins.spacing_s),
+              Text(Strings.userActionTitleStep2, style: TextStyles.textMBold.copyWith(color: AppColors.contentColor)),
               const SizedBox(height: Margins.spacing_m),
               Semantics(excludeSemantics: true, child: MandatoryFieldsLabel.some()),
               const SizedBox(height: Margins.spacing_m),

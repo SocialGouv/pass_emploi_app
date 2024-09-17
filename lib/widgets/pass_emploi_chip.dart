@@ -54,36 +54,39 @@ class _CustomChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: bgColor,
-      borderRadius: BorderRadius.circular(Dimens.radius_base),
-      child: InkWell(
+    return Semantics(
+      button: true,
+      child: Material(
+        color: bgColor,
         borderRadius: BorderRadius.circular(Dimens.radius_base),
-        onTap: onSelected,
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(Dimens.radius_base),
-            border: Border.all(color: borderColor),
-          ),
-          padding: EdgeInsets.symmetric(horizontal: Margins.spacing_s, vertical: Margins.spacing_xs),
-          child: Wrap(
-            runAlignment: WrapAlignment.center,
-            alignment: WrapAlignment.center,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            children: [
-              Text(
-                label,
-                style: textstyle,
-              ),
-              if (isSelected) ...[
-                SizedBox(width: Margins.spacing_s),
-                Icon(
-                  Icons.close_rounded,
-                  size: Dimens.icon_size_base,
-                  color: Colors.white,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(Dimens.radius_base),
+          onTap: onSelected,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(Dimens.radius_base),
+              border: Border.all(color: borderColor),
+            ),
+            padding: EdgeInsets.symmetric(horizontal: Margins.spacing_s, vertical: Margins.spacing_xs),
+            child: Wrap(
+              runAlignment: WrapAlignment.center,
+              alignment: WrapAlignment.center,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                Text(
+                  label,
+                  style: textstyle,
                 ),
-              ]
-            ],
+                if (isSelected) ...[
+                  SizedBox(width: Margins.spacing_s),
+                  Icon(
+                    Icons.close_rounded,
+                    size: Dimens.icon_size_base,
+                    color: Colors.white,
+                  ),
+                ]
+              ],
+            ),
           ),
         ),
       ),

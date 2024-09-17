@@ -168,21 +168,19 @@ class _CreateUserActionForm extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: SingleChildScrollView(
-            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: Margins.spacing_s),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-                  child: UserActionStepperTexts(
-                    displayState: formState.displayState,
-                    category: formState.step1.actionCategory?.label ?? "",
-                  ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: Margins.spacing_s),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+                child: UserActionStepperTexts(
+                  displayState: formState.displayState,
                 ),
-                switch (formState.displayState) {
+              ),
+              Expanded(
+                child: switch (formState.displayState) {
                   CreateUserActionDisplayState.step1 => CreateUserActionFormStep1(
                       onActionTypeSelected: (type) => formState.userActionTypeSelected(type),
                     ),
@@ -202,8 +200,8 @@ class _CreateUserActionForm extends StatelessWidget {
                     ),
                   _ => const SizedBox.shrink(),
                 },
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ],

@@ -30,7 +30,7 @@ class _AutoFocusState extends State<AutoFocus> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _focusNode.requestFocus();
-      globalKey.requestA11yFocus();
+      globalKey.requestFocusDelayed();
     });
   }
 
