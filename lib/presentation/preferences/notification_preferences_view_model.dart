@@ -1,0 +1,89 @@
+import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/preferences/preferences_actions.dart';
+import 'package:pass_emploi_app/features/preferences/preferences_state.dart';
+import 'package:pass_emploi_app/features/preferences/update/preferences_update_actions.dart';
+import 'package:pass_emploi_app/models/preferences.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:redux/redux.dart';
+
+class NotificationPreferencesViewModel extends Equatable {
+  final DisplayState displayState;
+
+  final bool withAlertesOffres;
+  final bool withMessages;
+  final bool withCreationAction;
+  final bool withRendezvousSessions;
+  final bool withRappelActions;
+
+  final void Function(bool) onAlertesOffresChanged;
+  final void Function(bool) onMessagesChanged;
+  final void Function(bool) onCreationActionChanged;
+  final void Function(bool) onRendezvousSessionsChanged;
+  final void Function(bool) onRappelActionsChanged;
+
+  final void Function() retry;
+
+  NotificationPreferencesViewModel({
+    required this.displayState,
+    required this.withAlertesOffres,
+    required this.withMessages,
+    required this.withCreationAction,
+    required this.withRendezvousSessions,
+    required this.withRappelActions,
+    required this.onAlertesOffresChanged,
+    required this.onMessagesChanged,
+    required this.onCreationActionChanged,
+    required this.onRendezvousSessionsChanged,
+    required this.onRappelActionsChanged,
+    required this.retry,
+  });
+
+  factory NotificationPreferencesViewModel.create(Store<AppState> store) {
+    final preferencesState = store.state.preferencesState;
+
+    final Preferences? preferences =
+        (preferencesState is PreferencesSuccessState) ? preferencesState.preferences : null;
+
+    return NotificationPreferencesViewModel(
+      displayState: _displayState(preferencesState),
+      withAlertesOffres: preferences?.pushNotificationAlertesOffres ?? false,
+      withMessages: preferences?.pushNotificationMessages ?? false,
+      withCreationAction: preferences?.pushNotificationCreationAction ?? false,
+      withRendezvousSessions: preferences?.pushNotificationRendezvousSessions ?? false,
+      withRappelActions: preferences?.pushNotificationRappelActions ?? false,
+      onAlertesOffresChanged: (value) => store.dispatch(
+        PreferencesUpdateRequestAction(pushNotificationAlertesOffres: value),
+      ),
+      onMessagesChanged: (value) => store.dispatch(
+        PreferencesUpdateRequestAction(pushNotificationMessages: value),
+      ),
+      onCreationActionChanged: (value) => store.dispatch(
+        PreferencesUpdateRequestAction(pushNotificationCreationAction: value),
+      ),
+      onRendezvousSessionsChanged: (value) => store.dispatch(
+        PreferencesUpdateRequestAction(pushNotificationRendezvousSessions: value),
+      ),
+      onRappelActionsChanged: (value) => store.dispatch(
+        PreferencesUpdateRequestAction(pushNotificationRappelActions: value),
+      ),
+      retry: () => store.dispatch(PreferencesRequestAction()),
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+        displayState,
+        withAlertesOffres,
+        withMessages,
+        withCreationAction,
+        withRendezvousSessions,
+        withRappelActions,
+      ];
+}
+
+DisplayState _displayState(PreferencesState preferencesState) => switch (preferencesState) {
+      PreferencesSuccessState() => DisplayState.CONTENT,
+      PreferencesFailureState() => DisplayState.FAILURE,
+      _ => DisplayState.LOADING,
+    };

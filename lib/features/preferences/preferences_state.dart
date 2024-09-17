@@ -1,6 +1,6 @@
 import 'package:pass_emploi_app/models/preferences.dart';
 
-abstract class PreferencesState {}
+sealed class PreferencesState {}
 
 class PreferencesNotInitializedState extends PreferencesState {}
 
