@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/preferences/preferences_actions.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/preferences/notification_preferences_view_model.dart';
@@ -21,12 +23,15 @@ class NotificationPreferencesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, NotificationPreferencesViewModel>(
-      onInit: (store) => store.dispatch(PreferencesRequestAction()),
-      converter: (store) => NotificationPreferencesViewModel.create(store),
-      builder: (context, viewModel) => _Body(viewModel),
-      onDidChange: (previousViewModel, viewModel) => _onDidChange(previousViewModel, viewModel, context),
-      distinct: true,
+    return Tracker(
+      tracking: AnalyticsScreenNames.notificationPreferences,
+      child: StoreConnector<AppState, NotificationPreferencesViewModel>(
+        onInit: (store) => store.dispatch(PreferencesRequestAction()),
+        converter: (store) => NotificationPreferencesViewModel.create(store),
+        builder: (context, viewModel) => _Body(viewModel),
+        onDidChange: (previousViewModel, viewModel) => _onDidChange(previousViewModel, viewModel, context),
+        distinct: true,
+      ),
     );
   }
 
