@@ -10,7 +10,7 @@ class RechercheHomePageViewModel extends Equatable {
 
   RechercheHomePageViewModel({required this.offreTypes, required this.shouldShowOnboarding});
 
-  factory RechercheHomePageViewModel.create(Store<AppState> store) {
+  factory RechercheHomePageViewModel.create(Store<AppState> store, {bool releaseMode = true}) {
     final accompagnement = store.state.accompagnement();
     return RechercheHomePageViewModel(
       offreTypes: [
@@ -19,7 +19,7 @@ class RechercheHomePageViewModel extends Equatable {
         OffreType.immersion,
         if ([Accompagnement.cej, Accompagnement.aij].contains(accompagnement)) OffreType.serviceCivique,
       ],
-      shouldShowOnboarding: _shouldShowOnboarding(store),
+      shouldShowOnboarding: _shouldShowOnboarding(store, releaseMode),
     );
   }
 
@@ -27,6 +27,6 @@ class RechercheHomePageViewModel extends Equatable {
   List<Object?> get props => [offreTypes, shouldShowOnboarding];
 }
 
-bool _shouldShowOnboarding(Store<AppState> store) {
-  return store.state.onboardingState.showRechercheOnboarding;
+bool _shouldShowOnboarding(Store<AppState> store, bool releaseMode) {
+  return releaseMode && store.state.onboardingState.showRechercheOnboarding;
 }

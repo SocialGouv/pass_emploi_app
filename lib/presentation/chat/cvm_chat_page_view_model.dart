@@ -33,7 +33,7 @@ class CvmChatPageViewModel extends Equatable {
     required this.onRetry,
   });
 
-  factory CvmChatPageViewModel.create(Store<AppState> store) {
+  factory CvmChatPageViewModel.create(Store<AppState> store, {bool releaseMode = true}) {
     final chatState = store.state.cvmState;
     final statusState = store.state.chatStatusState;
     final lastReading = (statusState is ChatStatusSuccessState) ? statusState.lastConseillerReading : minDateTime;
@@ -41,7 +41,7 @@ class CvmChatPageViewModel extends Equatable {
       displayState: _displayState(chatState),
       brouillon: store.state.chatBrouillonState.brouillon,
       items: chatState is CvmSuccessState ? _messagesToChatItems(chatState.messages, lastReading) : [],
-      shouldShowOnboarding: store.state.onboardingState.showChatOnboarding,
+      shouldShowOnboarding: releaseMode && store.state.onboardingState.showChatOnboarding,
       onSendMessage: (String message) => _sendMessage(store, message),
       onRetry: () => store.dispatch(CvmRequestAction()),
     );

@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
@@ -54,7 +55,7 @@ class _MonSuiviPageState extends State<MonSuiviPage> {
         child: _StateProvider(
           child: StoreConnector<AppState, MonSuiviViewModel>(
             onInit: (store) => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.current)),
-            converter: (store) => MonSuiviViewModel.create(store),
+            converter: (store) => MonSuiviViewModel.create(store, releaseMode: kReleaseMode),
             builder: (_, viewModel) => _Scaffold(
               body: _Body(viewModel),
               withCreateButton: viewModel.withCreateButton,
