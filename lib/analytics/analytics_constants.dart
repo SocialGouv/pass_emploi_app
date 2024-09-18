@@ -292,6 +292,12 @@ class AnalyticsEventNames {
 
   static const updateActionWithoutDescription = "Terminer l’action - popin terminer l’action";
   static const updateActionWithoutDescriptionAddDescription = "Ajouter description - popin terminer l’action";
+
+  static const a11yCategory = "Accessibilité app mobile";
+  static const a11yWithScreenReader = "Avec lecteur d'écran";
+  static const a11yWithoutScreenReader = "Sans lecteur d'écran";
+  static const a11yWithTextScale = "Avec agrandissement de texte";
+  static const a11yWithoutTextScale = "Sans agrandissement de texte";
 }
 
 class AnalyticsCustomDimensions {

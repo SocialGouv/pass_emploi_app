@@ -58,6 +58,7 @@ class _RouterPageState extends State<RouterPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    _trackA11y();
     final platform = PlatformUtils.getPlatform;
     return StoreConnector<AppState, RouterPageViewModel>(
       onInit: (store) {
@@ -139,5 +140,19 @@ class _RouterPageState extends State<RouterPage> with WidgetsBindingObserver {
         ),
       );
     }
+  }
+
+  void _trackA11y() {
+    final withScreenReader = MediaQuery.of(context).accessibleNavigation;
+    final withTextScale = MediaQuery.textScalerOf(context).scale(1) > 1.0;
+
+    PassEmploiMatomoTracker.instance.trackEvent(
+      eventCategory: AnalyticsEventNames.a11yCategory,
+      action: withScreenReader ? AnalyticsEventNames.a11yWithScreenReader : AnalyticsEventNames.a11yWithoutScreenReader,
+    );
+    PassEmploiMatomoTracker.instance.trackEvent(
+      eventCategory: AnalyticsEventNames.a11yCategory,
+      action: withTextScale ? AnalyticsEventNames.a11yWithTextScale : AnalyticsEventNames.a11yWithoutTextScale,
+    );
   }
 }
