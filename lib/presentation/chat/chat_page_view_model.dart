@@ -43,7 +43,7 @@ class ChatPageViewModel extends Equatable {
     required this.onRetry,
   });
 
-  factory ChatPageViewModel.create(Store<AppState> store) {
+  factory ChatPageViewModel.create(Store<AppState> store, {bool releaseMode = true}) {
     final chatState = store.state.chatState;
     final statusState = store.state.chatStatusState;
     final lastReading = (statusState is ChatStatusSuccessState) ? statusState.lastConseillerReading : minDateTime;
@@ -52,7 +52,7 @@ class ChatPageViewModel extends Equatable {
       brouillon: store.state.chatBrouillonState.brouillon,
       items: chatState is ChatSuccessState ? _messagesToChatItems(chatState.messages, lastReading) : [],
       messageImportant: _messageImportant(store),
-      shouldShowOnboarding: store.state.onboardingState.showChatOnboarding,
+      shouldShowOnboarding: releaseMode && store.state.onboardingState.showChatOnboarding,
       jeunePjEnabled: store.state.featureFlipState.featureFlip.usePj,
       onSendMessage: (String message) => store.dispatch(SendMessageAction(message)),
       onSendImage: (String imagePath) => _sendImage(store, imagePath),

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
@@ -56,7 +57,7 @@ class CvmChatPageState extends State<CvmChatPage> {
         child: StoreConnector<AppState, CvmChatPageViewModel>(
           onInit: (store) => store.dispatch(CvmLastJeuneReadingAction()),
           onDispose: _onDispose,
-          converter: CvmChatPageViewModel.create,
+          converter: (store) => CvmChatPageViewModel.create(store, releaseMode: kReleaseMode),
           builder: _builder,
           onInitialBuild: _handleOnboarding,
           onDidChange: (_, __) {

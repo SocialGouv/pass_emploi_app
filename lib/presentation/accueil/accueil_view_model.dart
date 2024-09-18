@@ -36,13 +36,13 @@ class AccueilViewModel extends Equatable {
     required this.retry,
   });
 
-  factory AccueilViewModel.create(Store<AppState> store) {
+  factory AccueilViewModel.create(Store<AppState> store, {bool releaseMode = true}) {
     return AccueilViewModel(
       displayState: _displayState(store),
       items: _items(store),
       deepLink: store.getDeepLink(),
       shouldResetDeeplink: _shouldResetDeeplink(store),
-      shouldShowOnboarding: _shouldShowOnboarding(store),
+      shouldShowOnboarding: _shouldShowOnboarding(store, releaseMode),
       resetDeeplink: () => store.dispatch(ResetDeeplinkAction()),
       retry: () => store.dispatch(AccueilRequestAction(forceRefresh: true)),
     );
@@ -182,6 +182,6 @@ AccueilItem? _campagneRecrutementItem(Store<AppState> store, AppState state) {
   return null;
 }
 
-bool _shouldShowOnboarding(Store<AppState> store) {
-  return store.state.onboardingState.showAccueilOnboarding;
+bool _shouldShowOnboarding(Store<AppState> store, bool releaseMode) {
+  return releaseMode && store.state.onboardingState.showAccueilOnboarding;
 }
