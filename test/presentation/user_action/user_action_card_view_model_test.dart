@@ -63,7 +63,6 @@ void main() {
       // Then
       expect(viewModel.categoryText, 'Action');
       expect(viewModel.categoryIcon, AppIcons.emploi);
-      expect(viewModel.semanticLabel, 'Action : Faire un CV - Terminée');
     });
 
     test("when type is set should return proper label and icon", () {
@@ -86,7 +85,6 @@ void main() {
       // Then
       expect(viewModel.categoryText, 'Sport et loisirs');
       expect(viewModel.categoryIcon, AppIcons.sportLoisirs);
-      expect(viewModel.semanticLabel, 'Action Sport et loisirs : Faire un CV - En cours');
     });
   });
 

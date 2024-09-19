@@ -12,23 +12,33 @@ enum CardPilluleType {
   late,
   canceled;
 
-  CardPillule toActionCardPillule() {
+  CardPillule toActionCardPillule({bool excludeSemantics = false}) {
     return switch (this) {
-      CardPilluleType.todo => CardPillule.actionTodo(),
-      CardPilluleType.doing => CardPillule.actionTodo(),
-      CardPilluleType.done => CardPillule.actionDone(),
-      CardPilluleType.late => CardPillule.actionLate(),
-      CardPilluleType.canceled => CardPillule.actionDone(),
+      CardPilluleType.todo => CardPillule.actionTodo(excludeSemantics),
+      CardPilluleType.doing => CardPillule.actionTodo(excludeSemantics),
+      CardPilluleType.done => CardPillule.actionDone(excludeSemantics),
+      CardPilluleType.late => CardPillule.actionLate(excludeSemantics),
+      CardPilluleType.canceled => CardPillule.actionDone(excludeSemantics),
     };
   }
 
-  CardPillule toDemarcheCardPillule() {
+  CardPillule toDemarcheCardPillule({bool excludeSemantics = false}) {
     return switch (this) {
-      CardPilluleType.todo => CardPillule.demarcheTodo(),
-      CardPilluleType.doing => CardPillule.demarcheDoing(),
-      CardPilluleType.done => CardPillule.demarcheDone(),
-      CardPilluleType.late => CardPillule.demarcheLate(),
-      CardPilluleType.canceled => CardPillule.demarcheCanceled(),
+      CardPilluleType.todo => CardPillule.demarcheTodo(excludeSemantics),
+      CardPilluleType.doing => CardPillule.demarcheDoing(excludeSemantics),
+      CardPilluleType.done => CardPillule.demarcheDone(excludeSemantics),
+      CardPilluleType.late => CardPillule.demarcheLate(excludeSemantics),
+      CardPilluleType.canceled => CardPillule.demarcheCanceled(excludeSemantics),
+    };
+  }
+
+  String toSemanticLabel() {
+    return switch (this) {
+      CardPilluleType.todo => Strings.doingPillule,
+      CardPilluleType.doing => Strings.doingPillule,
+      CardPilluleType.done => Strings.donePillule,
+      CardPilluleType.late => Strings.latePillule,
+      CardPilluleType.canceled => Strings.donePillule,
     };
   }
 }
@@ -37,50 +47,56 @@ class CardPillule extends StatelessWidget {
   final String text;
   final Color contentColor;
   final Color backgroundColor;
+  final bool excludeSemantics;
 
-  const CardPillule({required this.text, required this.contentColor, required this.backgroundColor});
+  const CardPillule({
+    required this.text,
+    required this.contentColor,
+    required this.backgroundColor,
+    required this.excludeSemantics,
+  });
 
-  CardPillule.actionTodo()
+  CardPillule.actionTodo([this.excludeSemantics = false])
       : text = Strings.doingPillule,
         contentColor = AppColors.accent1,
         backgroundColor = AppColors.accent1Lighten;
 
-  CardPillule.actionDone()
+  CardPillule.actionDone([this.excludeSemantics = false])
       : text = Strings.donePillule,
         contentColor = AppColors.success,
         backgroundColor = AppColors.successLighten;
 
-  CardPillule.actionLate()
+  CardPillule.actionLate([this.excludeSemantics = false])
       : text = Strings.latePillule,
         contentColor = AppColors.warning,
         backgroundColor = AppColors.warningLighten;
 
-  CardPillule.demarcheTodo()
+  CardPillule.demarcheTodo([this.excludeSemantics = false])
       : text = Strings.todoPillule,
         contentColor = AppColors.primaryDarken,
         backgroundColor = AppColors.accent3Lighten;
 
-  CardPillule.demarcheDoing()
+  CardPillule.demarcheDoing([this.excludeSemantics = false])
       : text = Strings.doingPillule,
         contentColor = AppColors.accent1,
         backgroundColor = AppColors.accent1Lighten;
 
-  CardPillule.demarcheDone()
+  CardPillule.demarcheDone([this.excludeSemantics = false])
       : text = Strings.donePillule,
         contentColor = AppColors.success,
         backgroundColor = AppColors.successLighten;
 
-  CardPillule.demarcheLate()
+  CardPillule.demarcheLate([this.excludeSemantics = false])
       : text = Strings.latePillule,
         contentColor = AppColors.warning,
         backgroundColor = AppColors.warningLighten;
 
-  CardPillule.demarcheCanceled()
+  CardPillule.demarcheCanceled([this.excludeSemantics = false])
       : text = Strings.canceledPillule,
         contentColor = AppColors.disabled,
         backgroundColor = AppColors.grey100;
 
-  CardPillule.evenementCanceled()
+  CardPillule.evenementCanceled([this.excludeSemantics = false])
       : text = Strings.rendezvousCardAnnule,
         contentColor = AppColors.disabled,
         backgroundColor = AppColors.grey100;
@@ -91,7 +107,10 @@ class CardPillule extends StatelessWidget {
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimens.radius_l), color: backgroundColor),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_s, vertical: Margins.spacing_xs),
-        child: Text(text, style: TextStyles.textXsBold().copyWith(color: contentColor)),
+        child: Semantics(
+          excludeSemantics: excludeSemantics,
+          child: Text(text, style: TextStyles.textXsBold().copyWith(color: contentColor)),
+        ),
       ),
     );
   }

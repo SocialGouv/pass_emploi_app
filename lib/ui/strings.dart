@@ -1430,6 +1430,8 @@ class Strings {
   static String a11yNovember = " novembre ";
   static String a11yDecember = " décembre ";
 
+  static String a11yStatus = "Statut : ";
+
   // textes alternatifs
   static String favoriHeartRemove = "Retirer l'offre des favoris";
   static String favoriHeartAdd = "Mettre l'offre en favoris";
