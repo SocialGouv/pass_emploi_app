@@ -495,11 +495,13 @@ class _FilledDayItem extends StatelessWidget {
         key: key,
         children: entries //
             .map((entry) => [
-                  // A11y : to repeat day information for each entry
-                  Semantics(
-                    label: day.shortened.toFullDayForScreenReaders() + day.number + day.month,
-                    child: entry.toWidget(),
-                  ),
+                  entries.length > 1
+                      ? Semantics(
+                          // A11y : to repeat day information for each entry
+                          label: day.shortened.toFullDayForScreenReaders() + day.number + day.month,
+                          child: entry.toWidget(),
+                        )
+                      : entry.toWidget(),
                   SizedBox(height: Margins.spacing_s),
                 ])
             .flattened
