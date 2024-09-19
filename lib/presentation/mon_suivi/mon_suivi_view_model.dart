@@ -224,12 +224,14 @@ class EmptyDayMonSuiviItem extends DayMonSuiviItem {
 class MonSuiviDay extends Equatable {
   final String shortened;
   final String number;
+  final String month;
 
-  MonSuiviDay(this.shortened, this.number);
+  MonSuiviDay(this.shortened, this.number, this.month);
 
   factory MonSuiviDay.fromDateTime(DateTime dateTime) => MonSuiviDay(
         dateTime.toDayShortened(),
         dateTime.day.toString(),
+        dateTime.toMonth(),
       );
 
   @override

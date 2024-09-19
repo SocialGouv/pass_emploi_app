@@ -577,6 +577,7 @@ class _Day extends StatelessWidget {
             semanticsLabel: day.shortened.toFullDayForScreenReaders(),
           ),
           Text(day.number, style: TextStyles.textBaseBold),
+          Semantics(label: day.month),
         ],
       ),
     );
