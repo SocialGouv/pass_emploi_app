@@ -15,6 +15,7 @@ extension GlobayKeyA11yExt on GlobalKey {
 
 class AutoFocus extends StatefulWidget {
   const AutoFocus({super.key, required this.child});
+
   final Widget child;
 
   @override
@@ -22,29 +23,18 @@ class AutoFocus extends StatefulWidget {
 }
 
 class _AutoFocusState extends State<AutoFocus> {
-  final FocusNode _focusNode = FocusNode();
   final GlobalKey globalKey = GlobalKey();
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _focusNode.requestFocus();
-      globalKey.requestFocusDelayed();
-    });
-  }
-
-  @override
-  void dispose() {
-    _focusNode.dispose();
-    super.dispose();
+    WidgetsBinding.instance.addPostFrameCallback((_) => globalKey.requestFocusDelayed());
   }
 
   @override
   Widget build(BuildContext context) {
-    return Focus(
+    return SizedBox(
       key: globalKey,
-      focusNode: _focusNode,
       child: widget.child,
     );
   }
