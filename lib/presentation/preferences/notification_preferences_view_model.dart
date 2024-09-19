@@ -14,14 +14,12 @@ class NotificationPreferencesViewModel extends Equatable {
   final bool withUpdateError;
 
   final bool withAlertesOffres;
-  final bool withMessages;
   final bool withCreationAction;
   final bool withRendezvousSessions;
   final bool withRappelActions;
   final bool withMiloWording;
 
   final void Function(bool) onAlertesOffresChanged;
-  final void Function(bool) onMessagesChanged;
   final void Function(bool) onCreationActionChanged;
   final void Function(bool) onRendezvousSessionsChanged;
   final void Function(bool) onRappelActionsChanged;
@@ -33,13 +31,11 @@ class NotificationPreferencesViewModel extends Equatable {
     required this.displayState,
     required this.withUpdateError,
     required this.withAlertesOffres,
-    required this.withMessages,
     required this.withCreationAction,
     required this.withRendezvousSessions,
     required this.withRappelActions,
     required this.withMiloWording,
     required this.onAlertesOffresChanged,
-    required this.onMessagesChanged,
     required this.onCreationActionChanged,
     required this.onRendezvousSessionsChanged,
     required this.onRappelActionsChanged,
@@ -57,16 +53,12 @@ class NotificationPreferencesViewModel extends Equatable {
       displayState: _displayState(state),
       withUpdateError: updateState is PreferencesUpdateFailureState,
       withAlertesOffres: preferences?.pushNotificationAlertesOffres ?? false,
-      withMessages: preferences?.pushNotificationMessages ?? false,
       withCreationAction: preferences?.pushNotificationCreationAction ?? false,
       withRendezvousSessions: preferences?.pushNotificationRendezvousSessions ?? false,
       withRappelActions: preferences?.pushNotificationRappelActions ?? false,
       withMiloWording: store.state.isMiloLoginMode(),
       onAlertesOffresChanged: (value) => store.dispatch(
         PreferencesUpdateRequestAction(pushNotificationAlertesOffres: value),
-      ),
-      onMessagesChanged: (value) => store.dispatch(
-        PreferencesUpdateRequestAction(pushNotificationMessages: value),
       ),
       onCreationActionChanged: (value) => store.dispatch(
         PreferencesUpdateRequestAction(pushNotificationCreationAction: value),
@@ -87,7 +79,6 @@ class NotificationPreferencesViewModel extends Equatable {
         displayState,
         withUpdateError,
         withAlertesOffres,
-        withMessages,
         withCreationAction,
         withRendezvousSessions,
         withRappelActions,
