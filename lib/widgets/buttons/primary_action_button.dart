@@ -55,20 +55,20 @@ class PrimaryActionButton extends StatelessWidget {
       return TextButton(
         focusNode: focusNode,
         style: ButtonStyle(
-          padding: MaterialStateProperty.all(EdgeInsets.zero),
-          foregroundColor: MaterialStateProperty.all(textColor),
-          textStyle: MaterialStateProperty.all(usedTextStyle),
-          backgroundColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-            return states.contains(MaterialState.disabled) ? disabledBackgroundColor : backgroundColor;
+          padding: WidgetStateProperty.all(EdgeInsets.zero),
+          foregroundColor: WidgetStateProperty.all(textColor),
+          textStyle: WidgetStateProperty.all(usedTextStyle),
+          backgroundColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+            return states.contains(WidgetState.disabled) ? disabledBackgroundColor : backgroundColor;
           }),
-          elevation: MaterialStateProperty.resolveWith((states) {
-            return (states.contains(MaterialState.disabled) || !withShadow) ? 0 : 10;
+          elevation: WidgetStateProperty.resolveWith((states) {
+            return (states.contains(WidgetState.disabled) || !withShadow) ? 0 : 10;
           }),
           alignment: Alignment.center,
-          shape: MaterialStateProperty.all(
+          shape: WidgetStateProperty.all(
             RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(200))),
           ),
-          overlayColor: MaterialStateProperty.all(rippleColor),
+          overlayColor: WidgetStateProperty.all(rippleColor),
         ),
         onPressed: onPressed,
         child: Padding(
