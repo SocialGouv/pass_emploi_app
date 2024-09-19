@@ -90,7 +90,6 @@ void main() {
             preferencesState: PreferencesSuccessState(
               mockPreferences(
                 pushNotificationAlertesOffres: true,
-                pushNotificationMessages: false,
                 pushNotificationCreationActionConseiller: true,
                 pushNotificationRendezVousSessions: false,
                 pushNotificationRappelActions: true,
@@ -104,7 +103,6 @@ void main() {
 
       // Then
       expect(viewModel.withAlertesOffres, true);
-      expect(viewModel.withMessages, false);
       expect(viewModel.withCreationAction, true);
       expect(viewModel.withRendezvousSessions, false);
       expect(viewModel.withRappelActions, true);
@@ -143,19 +141,6 @@ void main() {
       // Then
       expect(store.dispatchedAction, isA<PreferencesUpdateRequestAction>());
       expect((store.dispatchedAction as PreferencesUpdateRequestAction).pushNotificationAlertesOffres, true);
-    });
-
-    test('on Messages changed should dispatch update preferences action', () {
-      // Given
-      final store = StoreSpy();
-      final viewModel = NotificationPreferencesViewModel.create(store);
-
-      // When
-      viewModel.onMessagesChanged(true);
-
-      // Then
-      expect(store.dispatchedAction, isA<PreferencesUpdateRequestAction>());
-      expect((store.dispatchedAction as PreferencesUpdateRequestAction).pushNotificationMessages, true);
     });
 
     test('on CreationAction changed should dispatch update preferences action', () {

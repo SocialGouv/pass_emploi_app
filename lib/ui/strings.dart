@@ -1114,9 +1114,6 @@ class Strings {
   static const String notificationsSettingsAlertesSubtitle =
       "De nouvelles offres correspondant à vos alertes enregistrées";
 
-  static const String notificationsSettingsMessagerieTitle = "Messagerie";
-  static const String notificationsSettingsMessagerieSubtitle = "Réception d’un nouveau message";
-
   static const String notificationsSettingsMonSuiviTitle = "Mon suivi";
 
   static String notificationsSettingsMonSuiviSubtitle(bool isMilo) =>

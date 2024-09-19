@@ -96,13 +96,6 @@ class _Content extends StatelessWidget {
             ),
             SizedBox(height: Margins.spacing_base),
             _NotificationSwitch(
-              title: Strings.notificationsSettingsMessagerieTitle,
-              description: Strings.notificationsSettingsMessagerieSubtitle,
-              enabled: viewModel.withMessages,
-              onChanged: viewModel.onMessagesChanged,
-            ),
-            SizedBox(height: Margins.spacing_base),
-            _NotificationSwitch(
               title: Strings.notificationsSettingsMonSuiviTitle,
               description: Strings.notificationsSettingsMonSuiviSubtitle(viewModel.withMiloWording),
               enabled: viewModel.withCreationAction,
@@ -127,19 +120,22 @@ class _Content extends StatelessWidget {
             SizedBox(height: Margins.spacing_s),
             SizedBox(
               width: double.infinity,
-              child: CardContainer(
-                onTap: viewModel.onOpenAppSettings,
-                child: Row(
-                  children: [
-                    Icon(AppIcons.open_in_new_rounded, color: AppColors.contentColor),
-                    SizedBox(width: Margins.spacing_base),
-                    Expanded(
-                      child: Text(
-                        Strings.openNotificationsSettings,
-                        style: TextStyles.textSRegular(),
+              child: Semantics(
+                link: true,
+                child: CardContainer(
+                  onTap: viewModel.onOpenAppSettings,
+                  child: Row(
+                    children: [
+                      Icon(AppIcons.open_in_new_rounded, color: AppColors.contentColor),
+                      SizedBox(width: Margins.spacing_base),
+                      Expanded(
+                        child: Text(
+                          Strings.openNotificationsSettings,
+                          style: TextStyles.textSRegular(),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
