@@ -134,10 +134,12 @@ class _CreateDemarcheDuReferentielFormState extends State<CreateDemarcheDuRefere
   }
 
   void _onSuccess(String demarcheId) {
+    final context = this.context;
     // To avoid poping during the build
     Future.delayed(
       AnimationDurations.veryFast,
       () {
+        if (!context.mounted) return;
         CreateDemarcheStep1Page.showDemarcheSnackBarWithDetail(context, demarcheId);
         widget.onCreateDemarcheSuccess?.call(demarcheId);
         StoreProvider.of<AppState>(context).dispatch(CreateDemarcheResetAction());

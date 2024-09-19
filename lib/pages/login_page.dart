@@ -207,10 +207,12 @@ class _InformationsLegales extends StatelessWidget {
     return ExpansionTile(
       onExpansionChanged: (_) {
         Future.delayed(AnimationDurations.medium, () {
-          Scrollable.of(context).position.ensureVisible(
-                context.findRenderObject()!,
-                duration: AnimationDurations.fast,
-              );
+          if (context.mounted) {
+            Scrollable.of(context).position.ensureVisible(
+                  context.findRenderObject()!,
+                  duration: AnimationDurations.fast,
+                );
+          }
         });
       },
       tilePadding: EdgeInsets.zero,

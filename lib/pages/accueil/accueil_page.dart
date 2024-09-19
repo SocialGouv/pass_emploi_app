@@ -127,9 +127,12 @@ class _AccueilPageState extends State<AccueilPage> {
   }
 
   void _handleOnboarding(AccueilViewModel newViewModel) {
+    final context = this.context;
     if (newViewModel.shouldShowOnboarding && !_onboardingShown) {
       _onboardingShown = true;
-      OnboardingAccueilBottomSheet.show(context).then((_) => OnboardingNavigationBottomSheet.show(context));
+      OnboardingAccueilBottomSheet.show(context).then((_) {
+        if (context.mounted) OnboardingNavigationBottomSheet.show(context);
+      });
     }
   }
 }

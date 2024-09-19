@@ -85,11 +85,14 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
   }
 
   void _pageNavigationHandling(UserActionDetailsViewModel viewModel) {
+    final context = this.context;
     if (viewModel.updateDisplayState == UpdateDisplayState.SHOW_UPDATE_ERROR) {
       showSnackBarWithSystemError(context, Strings.updateStatusError);
       viewModel.resetUpdateStatus();
     } else if (viewModel.updateDisplayState == UpdateDisplayState.SHOW_SUCCESS) {
-      showPassEmploiBottomSheet(context: context, builder: _successBottomSheet).then((value) => Navigator.pop(context));
+      showPassEmploiBottomSheet(context: context, builder: _successBottomSheet).then((value) {
+        if (context.mounted) Navigator.pop(context);
+      });
     } else if (viewModel.updateDisplayState == UpdateDisplayState.TO_DISMISS_AFTER_UPDATE) {
       _trackSuccessfulUpdate();
     } else if (viewModel.deleteDisplayState == DeleteDisplayState.TO_DISMISS_AFTER_DELETION) {
@@ -303,10 +306,10 @@ class _PopUpConfirmationDescription extends StatelessWidget {
             onPressed: () async {
               _trackActionDescriptionConfirmation(AnalyticsEventNames.updateActionWithoutDescriptionAddDescription);
               await Navigator.push(context, UpdateUserActionPage.route(source, userActionId));
-              if (context.mounted) {
-                // Avoid pop before rebuild
-                Future.delayed(AnimationDurations.fast, () => Navigator.pop(context, true));
-              }
+              // Avoid pop before rebuild
+              Future.delayed(AnimationDurations.fast, () {
+                if (context.mounted) Navigator.pop(context, true);
+              });
             },
           ),
         ),
@@ -556,6 +559,7 @@ class _DateAndCategory extends StatelessWidget {
 
 class _MoreButton extends StatelessWidget {
   const _MoreButton({required this.source, required this.actionId});
+
   final UserActionStateSource source;
   final String actionId;
 

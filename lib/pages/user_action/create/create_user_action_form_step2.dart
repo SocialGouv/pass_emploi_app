@@ -72,7 +72,7 @@ class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
                   if (!value.isFromUserInput) {
                     Future.delayed(AnimationDurations.fast, () {
                       descriptionFocusNode.requestFocus();
-                      _scrollToDescription(context);
+                      if (context.mounted) _scrollToDescription(context);
                     });
                   }
                 },

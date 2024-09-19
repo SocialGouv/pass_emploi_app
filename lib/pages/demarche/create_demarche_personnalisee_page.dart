@@ -96,10 +96,12 @@ class _DemarchePersonnaliseeFormState extends State<DemarchePersonnaliseeForm> {
   }
 
   void _onSuccess(String demarcheId) {
+    final context = this.context;
     // To avoid poping during the build
     Future.delayed(
       AnimationDurations.veryFast,
       () {
+        if (!context.mounted) return;
         CreateDemarcheStep1Page.showDemarcheSnackBarWithDetail(context, demarcheId);
         context.dispatch(CreateDemarcheResetAction());
         Navigator.of(context).popAll();
@@ -112,6 +114,7 @@ class _Body extends StatefulWidget {
   final CreateDemarchePersonnaliseeViewModel viewModel;
   final String createDemarcheLabel;
   final String? initialCommentaire;
+
   const _Body({required this.viewModel, required this.createDemarcheLabel, this.initialCommentaire});
 
   @override

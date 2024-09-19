@@ -52,7 +52,9 @@ class CreateUserActionFormStep3 extends StatelessWidget {
                   onDateChanged(date);
                   if (!date.isNone) {
                     // a11y : wait ui to be updated before moving focus
-                    Future.delayed(Duration(milliseconds: 50), () => FocusScope.of(context).nextFocus());
+                    Future.delayed(Duration(milliseconds: 50), () {
+                      if (context.mounted) FocusScope.of(context).nextFocus();
+                    });
                   }
                 },
               ),
@@ -143,6 +145,7 @@ class _PassEmploiRadio<T> extends StatelessWidget {
     required this.groupValue,
     required this.title,
   });
+
   final void Function(T?) onPressed;
   final T value;
   final T groupValue;
