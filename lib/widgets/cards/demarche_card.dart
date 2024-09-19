@@ -31,6 +31,7 @@ class DemarcheCard extends StatelessWidget {
     // A11y : to read "Démarche" + category + title + status
     return Semantics(
       label: Strings.accueilDemarcheSingular,
+      button: true,
       child: Column(
         children: [
           BaseCard(

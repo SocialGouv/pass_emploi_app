@@ -34,6 +34,7 @@ class UserActionCard extends StatelessWidget {
     // A11y : to read "Action" + category + title + status
     return Semantics(
       label: Strings.accueilActionSingular,
+      button: true,
       child: Column(
         children: [
           BaseCard(
