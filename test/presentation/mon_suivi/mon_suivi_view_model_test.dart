@@ -237,7 +237,8 @@ void main() {
         expect(items[1 * indexOfWeek], SemaineSectionMonSuiviItem('8 - 14 janvier 2024', 'Semaine prochaine'));
         expect(items[2 * indexOfWeek], SemaineSectionMonSuiviItem('15 - 21 janvier 2024'));
         expect(items[3 * indexOfWeek], SemaineSectionMonSuiviItem('22 - 28 janvier 2024'));
-        expect(items[4 * indexOfWeek], SemaineSectionMonSuiviItem('29 - 4 février 2024'));
+        // When period is between 2 months, we explicit them
+        expect(items[4 * indexOfWeek], SemaineSectionMonSuiviItem('29 janvier - 4 février 2024'));
       });
     });
 

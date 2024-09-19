@@ -458,17 +458,22 @@ class _SemaineSectionItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (boldTitle != null) ...[
-            Text(boldTitle!, style: TextStyles.textMBold),
-            const SizedBox(height: Margins.spacing_xs),
-          ],
-          Text(interval, style: TextStyles.textXsRegular(color: AppColors.grey800)),
-        ],
+    return Focus(
+      child: Semantics(
+        header: true,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (boldTitle != null) ...[
+                Text(boldTitle!, style: TextStyles.textMBold),
+                const SizedBox(height: Margins.spacing_xs),
+              ],
+              Text(interval, style: TextStyles.textXsRegular(color: AppColors.grey800)),
+            ],
+          ),
+        ),
       ),
     );
   }

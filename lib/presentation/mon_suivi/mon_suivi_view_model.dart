@@ -135,7 +135,10 @@ SemaineSectionMonSuiviItem _semaineSectionItem(DateTime jourCourant) {
 
 String _semaineInterval(DateTime monday) {
   final sunday = monday.add(Duration(days: 6));
-  return "${monday.day} - ${sunday.day} ${sunday.toMonth()} ${sunday.year}";
+  final periodOnSameMonth = monday.month == sunday.month;
+  return periodOnSameMonth
+      ? "${monday.day} - ${sunday.day} ${sunday.toMonth()} ${sunday.year}"
+      : "${monday.day} ${monday.toMonth()} - ${sunday.day} ${sunday.toMonth()} ${sunday.year}";
 }
 
 Map<String, List<MonSuiviEntry>> _entriesByDay(MonSuiviState state) {
