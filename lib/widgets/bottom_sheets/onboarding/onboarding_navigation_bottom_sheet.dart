@@ -54,7 +54,7 @@ class OnboardingNavigationBottomSheet extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       const SizedBox(height: Margins.spacing_xl),
-                      AutoFocus(
+                      AutoFocusA11y(
                         child: Semantics(
                           focusable: true,
                           child: Text(

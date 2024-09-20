@@ -18,7 +18,7 @@ class SolutionsTabPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AutoFocus(
+    return AutoFocusA11y(
       child: StoreConnector<AppState, SolutionsTabPageViewModel>(
         builder: (context, viewModel) => _Body(viewModel, initialTab),
         converter: (store) => SolutionsTabPageViewModel.create(store),

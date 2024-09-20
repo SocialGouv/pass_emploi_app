@@ -13,16 +13,16 @@ extension GlobayKeyA11yExt on GlobalKey {
   }
 }
 
-class AutoFocus extends StatefulWidget {
-  const AutoFocus({super.key, required this.child});
+class AutoFocusA11y extends StatefulWidget {
+  const AutoFocusA11y({super.key, required this.child});
 
   final Widget child;
 
   @override
-  State<AutoFocus> createState() => _AutoFocusState();
+  State<AutoFocusA11y> createState() => _AutoFocusA11yState();
 }
 
-class _AutoFocusState extends State<AutoFocus> {
+class _AutoFocusA11yState extends State<AutoFocusA11y> {
   final GlobalKey globalKey = GlobalKey();
 
   @override

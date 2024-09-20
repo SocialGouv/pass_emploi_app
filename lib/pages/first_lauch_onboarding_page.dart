@@ -249,7 +249,7 @@ class _PageContent extends StatelessWidget {
                   Builder(builder: (context) {
                     final text = Text(key: globalKey, title, style: TextStyles.textBaseBold);
                     if (autoFocus) {
-                      return AutoFocus(child: text);
+                      return AutoFocusA11y(child: text);
                     }
                     return text;
                   }),

@@ -27,7 +27,7 @@ class _EventsTabPageState extends State<EventsTabPage> {
 
   @override
   Widget build(BuildContext context) {
-    return AutoFocus(
+    return AutoFocusA11y(
       child: StoreConnector<AppState, EventsTabPageViewModel>(
         builder: (context, viewModel) => _Body(viewModel, widget.initialTab),
         converter: (store) => EventsTabPageViewModel.create(store, releaseMode: kReleaseMode),

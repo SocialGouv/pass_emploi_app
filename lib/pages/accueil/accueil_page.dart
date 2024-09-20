@@ -51,7 +51,7 @@ class _AccueilPageState extends State<AccueilPage> {
 
   @override
   Widget build(BuildContext context) {
-    return AutoFocus(
+    return AutoFocusA11y(
       child: Tracker(
         tracking: AnalyticsScreenNames.accueil,
         child: StoreConnector<AppState, AccueilViewModel>(

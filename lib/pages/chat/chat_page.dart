@@ -72,7 +72,7 @@ class ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return AutoFocus(
+    return AutoFocusA11y(
       child: Tracker(
         tracking: AnalyticsScreenNames.chat,
         child: StoreConnector<AppState, ChatPageViewModel>(

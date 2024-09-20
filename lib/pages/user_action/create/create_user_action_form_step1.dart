@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/models/user_action_type.dart';
+import 'package:pass_emploi_app/pages/user_action/create/widgets/user_action_stepper.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -30,6 +31,8 @@ class CreateUserActionFormStep1 extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(height: Margins.spacing_s),
+              UserActionStepperTexts(index: 1),
               const SizedBox(height: Margins.spacing_s),
               Text(Strings.userActionTitleStep1, style: TextStyles.textMBold.copyWith(color: AppColors.contentColor)),
               const SizedBox(height: Margins.spacing_m),

@@ -16,17 +16,19 @@ class PassEmploiStepperTexts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AutoFocus(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            Strings.stepCounter(currentStep + 1, stepCount),
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Semantics(
+        // fix a11y to avoid getting the reader lost
+        label: " ",
+        child: AutoFocusA11y(
+          child: Text(
+            Strings.stepCounter(currentStep, stepCount),
             style: TextStyles.textSRegular(
               color: AppColors.contentColor,
             ),
           ),
-        ],
+        ),
       ),
     );
   }

@@ -49,7 +49,7 @@ class _MonSuiviPageState extends State<MonSuiviPage> {
 
   @override
   Widget build(BuildContext context) {
-    return AutoFocus(
+    return AutoFocusA11y(
       child: Tracker(
         tracking: AnalyticsScreenNames.monSuivi,
         child: _StateProvider(
@@ -405,7 +405,7 @@ class _TodayCenteredMonSuiviList extends StatelessWidget {
                 padding: EdgeInsets.only(top: index == 0 ? Margins.spacing_base : 0),
                 child: index == 0
                     // A11y - 10.2: required to focus on today item when app bar button is clicked
-                    ? AutoFocus(child: presentAndFutureItems[0].toWidget())
+                    ? AutoFocusA11y(child: presentAndFutureItems[0].toWidget())
                     : presentAndFutureItems[index].toWidget(),
               );
             },

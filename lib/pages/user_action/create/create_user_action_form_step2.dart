@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/models/user_action_type.dart';
+import 'package:pass_emploi_app/pages/user_action/create/widgets/user_action_stepper.dart';
 import 'package:pass_emploi_app/presentation/user_action/creation_form/create_user_action_form_view_model.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -51,6 +52,8 @@ class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              const SizedBox(height: Margins.spacing_base),
+              UserActionStepperTexts(index: 2),
               const SizedBox(height: Margins.spacing_s),
               Text(Strings.userActionTitleStep2, style: TextStyles.textMBold.copyWith(color: AppColors.contentColor)),
               const SizedBox(height: Margins.spacing_m),
@@ -69,7 +72,8 @@ class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
                 onSelected: (value) {
                   widget.onTitleChanged(value);
                   // ensure the description field is visible
-                  if (!value.isFromUserInput) {
+                  final bool isA11y = MediaQuery.of(context).accessibleNavigation;
+                  if (!value.isFromUserInput && !isA11y) {
                     Future.delayed(AnimationDurations.fast, () {
                       descriptionFocusNode.requestFocus();
                       if (context.mounted) _scrollToDescription(context);
