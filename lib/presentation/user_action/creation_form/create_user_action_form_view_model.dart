@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_type.dart';
 import 'package:pass_emploi_app/presentation/model/date_input_source.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/widgets/a11y/auto_focus.dart';
 
 part 'create_user_action_step1_view_model.dart';
 part 'create_user_action_step2_view_model.dart';
@@ -110,6 +111,12 @@ class CreateUserActionFormViewModel extends ChangeNotifier {
     displayState = CreateUserActionDisplayState.step2;
     step2 = step2.copyWith(titleSource: titleSource);
     notifyListeners();
+
+    (switch (titleSource) {
+      CreateActionTitleFromUserInput() => step2.titleInputKey.requestFocusDelayed(),
+      CreateActionTitleFromSuggestions() => step2.descriptionKey.requestFocusDelayed(),
+      _ => null,
+    });
   }
 
   void descriptionChanged(String description) {

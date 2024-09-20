@@ -31,8 +31,6 @@ class CreateUserActionFormStep2 extends StatefulWidget {
 }
 
 class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
-  final descriptionKey = GlobalKey();
-
   final descriptionFocusNode = FocusNode();
   late final TextEditingController descriptionController;
 
@@ -89,7 +87,11 @@ class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(Strings.userActionTitleTextfieldStep2, style: TextStyles.textBaseBold),
+                      Text(
+                        key: widget.viewModel.titleInputKey,
+                        Strings.userActionTitleTextfieldStep2,
+                        style: TextStyles.textBaseBold,
+                      ),
                       const SizedBox(height: Margins.spacing_s),
                       BaseTextField(
                         initialValue: widget.viewModel.titleSource.title,
@@ -111,7 +113,7 @@ class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
                           children: [
                             Text(
                               Strings.userActionDescriptionTextfieldStep2,
-                              key: descriptionKey,
+                              key: widget.viewModel.descriptionKey,
                               style: TextStyles.textBaseBold,
                             ),
                             const SizedBox(height: Margins.spacing_s),
@@ -161,7 +163,7 @@ class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
 
   Future<void> _scrollToDescription(BuildContext context) {
     return Scrollable.ensureVisible(
-      descriptionKey.currentContext ?? context,
+      widget.viewModel.descriptionKey.currentContext ?? context,
       duration: AnimationDurations.fast,
     );
   }

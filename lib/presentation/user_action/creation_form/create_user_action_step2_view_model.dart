@@ -56,6 +56,9 @@ class CreateUserActionStep2ViewModel extends CreateUserActionPageViewModel {
   final CreateActionTitleSource titleSource;
   final String? description;
 
+  final GlobalKey titleInputKey = GlobalKey();
+  final GlobalKey descriptionKey = GlobalKey();
+
   CreateUserActionStep2ViewModel({this.description, CreateActionTitleSource? titleSource})
       : titleSource = titleSource ?? CreateActionTitleNotInitialized();
 
