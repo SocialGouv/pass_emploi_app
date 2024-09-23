@@ -64,7 +64,7 @@ void main() {
 
       // When
       await store.dispatch(
-        LoginSuccessAction(mockUser(loginMode: LoginMode.POLE_EMPLOI, accompagnement: Accompagnement.rsa)),
+        LoginSuccessAction(mockUser(loginMode: LoginMode.POLE_EMPLOI, accompagnement: Accompagnement.rsaFranceTravail)),
       );
 
       // Then

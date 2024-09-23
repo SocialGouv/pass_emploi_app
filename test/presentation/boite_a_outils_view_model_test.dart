@@ -54,7 +54,7 @@ void main() {
 
   test('create when accompagnement is RSA', () {
     // Given
-    final store = givenState().loggedInUser(accompagnement: Accompagnement.rsa).store();
+    final store = givenState().loggedInUser(accompagnement: Accompagnement.rsaFranceTravail).store();
 
     // When
     final viewModel = BoiteAOutilsViewModel.create(store);

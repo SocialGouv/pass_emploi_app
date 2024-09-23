@@ -70,7 +70,7 @@ extension on User {
     return switch (loginMode) {
       LoginMode.POLE_EMPLOI => switch (accompagnement) {
           Accompagnement.cej => 'POLE_EMPLOI',
-          Accompagnement.rsa => 'POLE_EMPLOI_BRSA',
+          Accompagnement.rsaFranceTravail => 'POLE_EMPLOI_BRSA',
           Accompagnement.aij => 'POLE_EMPLOI_AIJ',
         },
       LoginMode.MILO => 'MILO',

@@ -150,7 +150,7 @@ AccueilItem? _outilsItem(AccueilSuccessState successState, Accompagnement accomp
         Outil.benevolatCej.withoutImage(),
         Outil.formation.withoutImage(),
       ]),
-    Accompagnement.rsa => AccueilOutilsItem([
+    Accompagnement.rsaFranceTravail => AccueilOutilsItem([
         Outil.mesAidesFt.withoutImage(),
         Outil.emploiSolidaire.withoutImage(),
         Outil.emploiStore.withoutImage(),

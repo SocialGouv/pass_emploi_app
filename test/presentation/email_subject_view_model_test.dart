@@ -42,7 +42,7 @@ void main() {
         test('should return expected email subject for login mode POLE_EMPLOI', () {
           // Given
           final store = givenPassEmploiState() //
-              .loggedInUser(accompagnement: Accompagnement.rsa)
+              .loggedInUser(accompagnement: Accompagnement.rsaFranceTravail)
               .store();
 
           // When
@@ -104,7 +104,7 @@ void main() {
         test('should return expected email subject for login mode POLE_EMPLOI', () {
           // Given
           final store = givenPassEmploiState() //
-              .loggedInUser(accompagnement: Accompagnement.rsa)
+              .loggedInUser(accompagnement: Accompagnement.rsaFranceTravail)
               .store();
 
           // When

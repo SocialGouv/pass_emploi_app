@@ -61,7 +61,7 @@ extension on User {
   String accompagnementName() {
     return switch (accompagnement) {
       Accompagnement.cej => 'CEJ',
-      Accompagnement.rsa => 'BRSA',
+      Accompagnement.rsaFranceTravail => 'BRSA', // TODO: CD
       Accompagnement.aij => 'AIJ',
     };
   }

@@ -129,7 +129,7 @@ void main() {
         // Then
         sut.thenExpectChangingStatesThroughOrder([
           _shouldLoad(),
-          _shouldBeLoggedInWith(mode: LoginMode.POLE_EMPLOI, accompagnement: Accompagnement.rsa),
+          _shouldBeLoggedInWith(mode: LoginMode.POLE_EMPLOI, accompagnement: Accompagnement.rsaFranceTravail),
         ]);
         preferredLoginModeRepository.verifySaveCalled();
       });

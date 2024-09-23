@@ -71,7 +71,7 @@ class AuthIdToken extends Equatable {
 
   Accompagnement getAccompagnement() {
     return switch (structure) {
-      'POLE_EMPLOI_BRSA' => Accompagnement.rsa,
+      'POLE_EMPLOI_BRSA' => Accompagnement.rsaFranceTravail,
       'POLE_EMPLOI_AIJ' => Accompagnement.aij,
       _ => Accompagnement.cej,
     };

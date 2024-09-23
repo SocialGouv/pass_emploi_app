@@ -87,7 +87,8 @@ void main() {
     group('For Pôle emploi user in RSA accompagnement', () {
       sut.when(
         (repository) => repository.send(
-          user: mockUser(id: 'userId', loginMode: LoginMode.POLE_EMPLOI, accompagnement: Accompagnement.rsa),
+          user:
+              mockUser(id: 'userId', loginMode: LoginMode.POLE_EMPLOI, accompagnement: Accompagnement.rsaFranceTravail),
           event: EvenementEngagement.MESSAGE_ENVOYE,
         ),
       );

@@ -227,7 +227,7 @@ void main() {
     test('on RSA accompagnement should highlight Mes Aides FT, Emploi solidaire and Emploi store', () {
       // Given
       final store = givenState() //
-          .loggedInUser(accompagnement: Accompagnement.rsa)
+          .loggedInUser(accompagnement: Accompagnement.rsaFranceTravail)
           .withAccueilPoleEmploiSuccess()
           .store();
       final viewModel = AccueilViewModel.create(store);
