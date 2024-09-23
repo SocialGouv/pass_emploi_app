@@ -88,7 +88,6 @@ class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        key: widget.viewModel.titleInputKey,
                         Strings.userActionTitleTextfieldStep2,
                         style: TextStyles.textBaseBold,
                       ),
