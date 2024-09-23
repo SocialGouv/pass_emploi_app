@@ -13,7 +13,7 @@ sealed class AccueilItem extends Equatable {
 }
 
 class AccueilCetteSemaineItem extends AccueilItem {
-  final String rendezvousCount;
+  final String? rendezvousCount;
   final String actionsOuDemarchesCount;
   final String actionsOuDemarchesLabel;
 
@@ -25,11 +25,11 @@ class AccueilCetteSemaineItem extends AccueilItem {
 
   factory AccueilCetteSemaineItem.from({
     required LoginMode loginMode,
-    required int rendezvousCount,
+    required int? rendezvousCount,
     required int actionsOuDemarchesCount,
   }) {
     return AccueilCetteSemaineItem(
-      rendezvousCount: rendezvousCount.toString(),
+      rendezvousCount: rendezvousCount?.toString(),
       actionsOuDemarchesCount: actionsOuDemarchesCount.toString(),
       actionsOuDemarchesLabel: _actionsOuDemarchesLabel(loginMode, actionsOuDemarchesCount),
     );
