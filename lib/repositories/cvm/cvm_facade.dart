@@ -33,6 +33,7 @@ class CvmFacade {
 
   void stop() {
     _streamController?.close();
+    _streamController = null;
     _state.reset();
   }
 
