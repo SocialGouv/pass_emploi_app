@@ -48,7 +48,7 @@ extension on User {
           _ => '',
         },
       Accompagnement.rsaFranceTravail => '${Strings.poleEmploi} - RSA',
-      Accompagnement.rsaConseilsDepartementaux => throw Exception('TODO CD'),
+      Accompagnement.rsaConseilsDepartementaux => '${Strings.contactConseilsDepartementaux} - RSA',
       Accompagnement.aij => '${Strings.poleEmploi} - AIJ',
     };
   }

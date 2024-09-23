@@ -38,7 +38,7 @@ void main() {
         });
       });
 
-      group('when accompagnement is RSA and app is pass emploi', () {
+      group('when accompagnement is RSA France Travail and app is pass emploi', () {
         test('should return expected email subject for login mode POLE_EMPLOI', () {
           // Given
           final store = givenPassEmploiState() //
@@ -51,6 +51,22 @@ void main() {
           // Then
           expect(viewModel.contactEmailObject,
               "France Travail - RSA - Prise de contact avec l’équipe de l’application pass emploi");
+        });
+      });
+
+      group('when accompagnement is RSA Conseils Départementaux and app is pass emploi', () {
+        test('should return expected email subject for login mode POLE_EMPLOI', () {
+          // Given
+          final store = givenPassEmploiState() //
+              .loggedInUser(accompagnement: Accompagnement.rsaConseilsDepartementaux)
+              .store();
+
+          // When
+          final viewModel = EmailObjectViewModel.create(store);
+
+          // Then
+          expect(viewModel.contactEmailObject,
+              "Conseil départemental - RSA - Prise de contact avec l’équipe de l’application pass emploi");
         });
       });
 
@@ -100,7 +116,7 @@ void main() {
         });
       });
 
-      group('when accompagnement is RSA and app is pass emploi', () {
+      group('when accompagnement is RSA France Travail and app is pass emploi', () {
         test('should return expected email subject for login mode POLE_EMPLOI', () {
           // Given
           final store = givenPassEmploiState() //
@@ -112,6 +128,21 @@ void main() {
 
           // Then
           expect(viewModel.ratingEmailObject, "France Travail - RSA - Mon avis sur l’application pass emploi");
+        });
+      });
+
+      group('when accompagnement is RSA Conseils Départementaux and app is pass emploi', () {
+        test('should return expected email subject for login mode POLE_EMPLOI', () {
+          // Given
+          final store = givenPassEmploiState() //
+              .loggedInUser(accompagnement: Accompagnement.rsaConseilsDepartementaux)
+              .store();
+
+          // When
+          final viewModel = EmailObjectViewModel.create(store);
+
+          // Then
+          expect(viewModel.ratingEmailObject, "Conseil départemental - RSA - Mon avis sur l’application pass emploi");
         });
       });
 
