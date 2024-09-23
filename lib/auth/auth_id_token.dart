@@ -64,15 +64,21 @@ class AuthIdToken extends Equatable {
   List<Object?> get props => [userId, firstName, lastName, issuedAt, expiresAt];
 
   LoginMode getLoginMode() {
-    if (structure == 'MILO') return LoginMode.MILO;
-    if (structure.contains('POLE_EMPLOI')) return LoginMode.POLE_EMPLOI;
-    throw Exception('Unknown login mode');
+    return switch (structure) {
+      'MILO' => LoginMode.MILO,
+      'POLE_EMPLOI' => LoginMode.POLE_EMPLOI,
+      'POLE_EMPLOI_AIJ' => LoginMode.POLE_EMPLOI,
+      'POLE_EMPLOI_BRSA' => LoginMode.POLE_EMPLOI,
+      'CONSEIL_DEPT' => LoginMode.POLE_EMPLOI,
+      _ => throw Exception('Unknown login mode'),
+    };
   }
 
   Accompagnement getAccompagnement() {
     return switch (structure) {
-      'POLE_EMPLOI_BRSA' => Accompagnement.rsaFranceTravail,
       'POLE_EMPLOI_AIJ' => Accompagnement.aij,
+      'POLE_EMPLOI_BRSA' => Accompagnement.rsaFranceTravail,
+      'CONSEIL_DEPT' => Accompagnement.rsaConseilsDepartementaux,
       _ => Accompagnement.cej,
     };
   }

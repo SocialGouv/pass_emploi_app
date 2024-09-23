@@ -49,7 +49,7 @@ List<Outil> _getOutils(Accompagnement accompagnement) {
         Outil.diagoriente,
         Outil.mesAides1J1S,
       ],
-    Accompagnement.rsaFranceTravail => [
+    Accompagnement.rsaFranceTravail || Accompagnement.rsaConseilsDepartementaux => [
         Outil.mesAidesFt,
         Outil.benevolatPassEmploi,
         Outil.emploiStore,

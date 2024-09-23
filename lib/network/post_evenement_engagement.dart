@@ -71,6 +71,7 @@ extension on User {
       LoginMode.POLE_EMPLOI => switch (accompagnement) {
           Accompagnement.cej => 'POLE_EMPLOI',
           Accompagnement.rsaFranceTravail => 'POLE_EMPLOI_BRSA',
+          Accompagnement.rsaConseilsDepartementaux => throw Exception('TODO'),
           Accompagnement.aij => 'POLE_EMPLOI_AIJ',
         },
       LoginMode.MILO => 'MILO',

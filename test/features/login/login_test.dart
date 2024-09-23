@@ -112,7 +112,7 @@ void main() {
       });
     });
 
-    group('with mode POLE_EMPLOI in RSA accompagnement', () {
+    group('with mode POLE_EMPLOI in RSA France Travail accompagnement', () {
       sut.whenDispatchingAction(() => RequestLoginAction(LoginMode.POLE_EMPLOI));
 
       test('user is properly logged in with POLE_EMPLOI authentication mode', () async {
@@ -130,6 +130,29 @@ void main() {
         sut.thenExpectChangingStatesThroughOrder([
           _shouldLoad(),
           _shouldBeLoggedInWith(mode: LoginMode.POLE_EMPLOI, accompagnement: Accompagnement.rsaFranceTravail),
+        ]);
+        preferredLoginModeRepository.verifySaveCalled();
+      });
+    });
+
+    group('with mode POLE_EMPLOI in RSA Conseils Departementaux accompagnement', () {
+      sut.whenDispatchingAction(() => RequestLoginAction(LoginMode.POLE_EMPLOI));
+
+      test('user is properly logged in with POLE_EMPLOI authentication mode', () async {
+        // Given
+        when(() => authenticator.login(AuthenticationMode.POLE_EMPLOI))
+            .thenAnswer((_) async => SuccessAuthenticatorResponse());
+        when(() => authenticator.idToken()).thenAnswer((_) async => authIdToken('CONSEIL_DEPT'));
+        sut.givenStore = givenState().store((f) {
+          f.authenticator = authenticator;
+          f.matomoTracker = matomoTracker;
+          f.preferredLoginModeRepository = preferredLoginModeRepository;
+        });
+
+        // Then
+        sut.thenExpectChangingStatesThroughOrder([
+          _shouldLoad(),
+          _shouldBeLoggedInWith(mode: LoginMode.POLE_EMPLOI, accompagnement: Accompagnement.rsaConseilsDepartementaux),
         ]);
         preferredLoginModeRepository.verifySaveCalled();
       });
