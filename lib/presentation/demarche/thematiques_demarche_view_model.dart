@@ -26,9 +26,14 @@ class ThematiqueDemarchePageViewModel extends Equatable {
 }
 
 List<ThematiqueDemarcheItem> _thematiques(ThematiqueDemarcheState state) {
-  return state is ThematiqueDemarcheSuccessState
-      ? state.thematiques.map((e) => ThematiqueDemarcheItem(id: e.code, title: e.libelle)).toList()
-      : <ThematiqueDemarcheItem>[];
+  if (state is ThematiqueDemarcheSuccessState) {
+    return state.thematiques
+        .where((e) => e.demarches.isNotEmpty)
+        .map((e) => ThematiqueDemarcheItem(id: e.code, title: e.libelle))
+        .toList();
+  } else {
+    return <ThematiqueDemarcheItem>[];
+  }
 }
 
 DisplayState _displayState(ThematiqueDemarcheState state) {

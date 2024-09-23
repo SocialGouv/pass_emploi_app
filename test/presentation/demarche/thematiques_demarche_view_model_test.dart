@@ -1,8 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_actions.dart';
+import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_state.dart';
+import 'package:pass_emploi_app/models/thematique_de_demarche.dart';
 import 'package:pass_emploi_app/presentation/demarche/thematiques_demarche_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 
+import '../../doubles/fixtures.dart';
 import '../../doubles/spies.dart';
 import '../../dsl/app_state_dsl.dart';
 
@@ -78,6 +81,36 @@ void main() {
         final thematique = viewModel.thematiques.first;
         expect(thematique.id, "P03");
         expect(thematique.title, "Mes candidatures");
+      });
+
+      test('should hide thematique when it has not any associated demarche', () {
+        // Given
+        final store = givenState()
+            .loggedIn()
+            .copyWith(
+              thematiquesDemarcheState: ThematiqueDemarcheSuccessState(
+                [
+                  ThematiqueDeDemarche(
+                    code: "P03",
+                    libelle: "Mes candidatures",
+                    demarches: [mockDemarcheDuReferentiel()],
+                  ),
+                  ThematiqueDeDemarche(
+                    code: "P04",
+                    libelle: "Mes contraintes personnelles",
+                    demarches: [],
+                  ),
+                ],
+              ),
+            )
+            .store();
+
+        // When
+        final viewModel = ThematiqueDemarchePageViewModel.create(store);
+
+        // Then
+        expect(viewModel.thematiques.length, 1);
+        expect(viewModel.thematiques.first.id, "P03");
       });
     });
 
