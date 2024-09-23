@@ -9,15 +9,15 @@ class PassEmploiTheme {
     sliderTheme: _sliders(),
     progressIndicatorTheme: _progress(),
     radioTheme: RadioThemeData(
-      fillColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-        return states.contains(MaterialState.selected) ? AppColors.primary : null;
+      fillColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+        return states.contains(WidgetState.selected) ? AppColors.primary : null;
       }),
     ),
     switchTheme: SwitchThemeData(
-      thumbColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) => Colors.white),
-      trackColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-        if (states.contains(MaterialState.disabled)) return AppColors.grey700;
-        if (states.contains(MaterialState.selected)) return AppColors.success;
+      thumbColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) => Colors.white),
+      trackColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+        if (states.contains(WidgetState.disabled)) return AppColors.grey700;
+        if (states.contains(WidgetState.selected)) return AppColors.success;
         return null;
       }),
     ),

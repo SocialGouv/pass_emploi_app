@@ -327,8 +327,8 @@ class Strings {
 
   static String accueilOnboardingTitle2 = "Gardez une longueur d’avance grâce aux notifications";
   static String accueilOnboardingBody2 = "Nous vous conseillons d’activer les notifications pour : ";
-  static String accueilOnboardingSection1 = "Recevoir instantanément les messages importants de votre conseiller ; ";
-  static String accueilOnboardingSection2 = "Être mis au courant des dernières offres correspondant à vos critères.";
+  static String accueilOnboardingSection1 = "Recevoir instantanément les messages importants de votre conseiller";
+  static String accueilOnboardingSection2 = "Être mis au courant des dernières offres correspondant à vos critères";
   static String accueilOnboardingButtonAcceptNotifications = "Activer les notifications";
   static String accueilOnboardingButtonDeclineNotifications = "Plus tard";
 
@@ -1430,15 +1430,17 @@ class Strings {
   static String a11yNovember = " novembre ";
   static String a11yDecember = " décembre ";
 
+  static String a11yStatus = "Statut : ";
+
   // textes alternatifs
   static String favoriHeartRemove = "Retirer l'offre des favoris";
   static String favoriHeartAdd = "Mettre l'offre en favoris";
   static String link = "Lien";
   static String openInNewTab = "Ouvrir dans un nouvel onglet";
   static String semanticsLabelInformation = "Information";
-  static String listSemanticsLabel = "Liste";
   static String invalidField = "Champ invalide";
   static String loadingAnnouncement = "Chargement en cours";
+  static String closeDialog = "Fermer la boîte de dialogue";
 
   static String removeDistance(int value) => 'Diminuer la distance de $value km';
 

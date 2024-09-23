@@ -81,7 +81,7 @@ void _showSnackBar({
               child: Icon(
                 AppIcons.close_rounded,
                 color: textColor,
-                semanticLabel: Strings.close,
+                semanticLabel: Strings.closeDialog,
               ),
               onTap: () => clearAllSnackBars(),
             ),

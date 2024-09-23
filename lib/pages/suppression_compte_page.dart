@@ -91,18 +91,15 @@ class _ListedItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Semantics(
-      label: Strings.listSemanticsLabel,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          for (final item in list)
-            Padding(
-              padding: const EdgeInsets.only(bottom: Margins.spacing_xs),
-              child: Text("· $item", style: TextStyles.textSRegular()),
-            ),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        for (final item in list)
+          Padding(
+            padding: const EdgeInsets.only(bottom: Margins.spacing_xs),
+            child: Text("· $item", style: TextStyles.textSRegular()),
+          ),
+      ],
     );
   }
 }
@@ -158,7 +155,7 @@ class _DeleteAccountSuccessDialog extends StatelessWidget {
         SizedBox(
           width: double.infinity,
           child: PrimaryActionButton(
-            label: Strings.close,
+            label: Strings.closeDialog,
             onPressed: () => Navigator.pop(context),
           ),
         ),

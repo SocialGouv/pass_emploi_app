@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/presentation/demarche/demarche_card_view_model.d
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/base_card.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_tag.dart';
 
@@ -27,21 +28,28 @@ class DemarcheCard extends StatelessWidget {
   }
 
   Widget _builder(BuildContext context, DemarcheCardViewModel viewModel) {
+    // A11y : to read "Démarche" + category + title + status
     return Semantics(
-      label: viewModel.semanticLabel,
-      child: BaseCard(
-        onTap: onTap,
-        onLongPress: () => DemarcheDetailsBottomSheet.show(context, demarcheId),
-        title: viewModel.title,
-        tag: viewModel.categoryText != null
-            ? CardTag(
-                icon: AppIcons.emploi,
-                text: viewModel.categoryText!,
-                contentColor: AppColors.primary,
-                backgroundColor: AppColors.primaryLighten,
-              )
-            : null,
-        pillule: viewModel.pillule.toDemarcheCardPillule(),
+      label: Strings.accueilDemarcheSingular,
+      button: true,
+      child: Column(
+        children: [
+          BaseCard(
+            onTap: onTap,
+            onLongPress: () => DemarcheDetailsBottomSheet.show(context, demarcheId),
+            title: viewModel.title,
+            tag: viewModel.categoryText != null
+                ? CardTag(
+                    icon: AppIcons.emploi,
+                    text: viewModel.categoryText!,
+                    contentColor: AppColors.primary,
+                    backgroundColor: AppColors.primaryLighten,
+                  )
+                : null,
+            pillule: viewModel.pillule.toDemarcheCardPillule(excludeSemantics: true),
+          ),
+          Semantics(label: Strings.a11yStatus + viewModel.pillule.toSemanticLabel()),
+        ],
       ),
     );
   }

@@ -3,7 +3,6 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_step1.dart';
 import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_step2.dart';
 import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_step3.dart';
-import 'package:pass_emploi_app/pages/user_action/create/widgets/user_action_stepper.dart';
 import 'package:pass_emploi_app/presentation/user_action/creation_form/create_user_action_form_view_model.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -168,21 +167,12 @@ class _CreateUserActionForm extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: SingleChildScrollView(
-            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: Margins.spacing_s),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-                  child: UserActionStepperTexts(
-                    displayState: formState.displayState,
-                    category: formState.step1.actionCategory?.label ?? "",
-                  ),
-                ),
-                switch (formState.displayState) {
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: switch (formState.displayState) {
                   CreateUserActionDisplayState.step1 => CreateUserActionFormStep1(
                       onActionTypeSelected: (type) => formState.userActionTypeSelected(type),
                     ),
@@ -202,8 +192,8 @@ class _CreateUserActionForm extends StatelessWidget {
                     ),
                   _ => const SizedBox.shrink(),
                 },
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ],

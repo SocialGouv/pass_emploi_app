@@ -80,13 +80,13 @@ void main() {
           // Then
           expect(viewModel.items, [
             SemaineSectionMonSuiviItem('1 - 7 janvier 2024'),
-            EmptyDayMonSuiviItem(MonSuiviDay('lun.', '1'), 'Aucun événement ni action'),
-            EmptyDayMonSuiviItem(MonSuiviDay('mar.', '2'), 'Aucun événement ni action'),
-            EmptyDayMonSuiviItem(MonSuiviDay('mer.', '3'), 'Aucun événement ni action'),
-            EmptyDayMonSuiviItem(MonSuiviDay('jeu.', '4'), 'Aucun événement ni action'),
-            EmptyDayMonSuiviItem(MonSuiviDay('ven.', '5'), 'Aucun événement ni action'),
-            EmptyDayMonSuiviItem(MonSuiviDay('sam.', '6'), 'Aucun événement ni action'),
-            EmptyDayMonSuiviItem(MonSuiviDay('dim.', '7'), 'Aucun événement ni action'),
+            EmptyDayMonSuiviItem(MonSuiviDay('lun.', '1', "janvier"), 'Aucun événement ni action'),
+            EmptyDayMonSuiviItem(MonSuiviDay('mar.', '2', "janvier"), 'Aucun événement ni action'),
+            EmptyDayMonSuiviItem(MonSuiviDay('mer.', '3', "janvier"), 'Aucun événement ni action'),
+            EmptyDayMonSuiviItem(MonSuiviDay('jeu.', '4', "janvier"), 'Aucun événement ni action'),
+            EmptyDayMonSuiviItem(MonSuiviDay('ven.', '5', "janvier"), 'Aucun événement ni action'),
+            EmptyDayMonSuiviItem(MonSuiviDay('sam.', '6', "janvier"), 'Aucun événement ni action'),
+            EmptyDayMonSuiviItem(MonSuiviDay('dim.', '7', "janvier"), 'Aucun événement ni action'),
           ]);
         });
       });
@@ -112,15 +112,15 @@ void main() {
           // Then
           expect(viewModel.items, [
             SemaineSectionMonSuiviItem('1 - 7 janvier 2024'),
-            FilledDayMonSuiviItem(MonSuiviDay('lun.', '1'), [
+            FilledDayMonSuiviItem(MonSuiviDay('lun.', '1', "janvier"), [
               UserActionMonSuiviEntry('actionId'),
             ]),
-            EmptyDayMonSuiviItem(MonSuiviDay('mar.', '2'), 'Rien de prévu'),
-            EmptyDayMonSuiviItem(MonSuiviDay('mer.', '3'), 'Rien de prévu'),
-            EmptyDayMonSuiviItem(MonSuiviDay('jeu.', '4'), 'Rien de prévu'),
-            EmptyDayMonSuiviItem(MonSuiviDay('ven.', '5'), 'Rien de prévu'),
-            EmptyDayMonSuiviItem(MonSuiviDay('sam.', '6'), 'Rien de prévu'),
-            FilledDayMonSuiviItem(MonSuiviDay('dim.', '7'), [
+            EmptyDayMonSuiviItem(MonSuiviDay('mar.', '2', "janvier"), 'Rien de prévu'),
+            EmptyDayMonSuiviItem(MonSuiviDay('mer.', '3', "janvier"), 'Rien de prévu'),
+            EmptyDayMonSuiviItem(MonSuiviDay('jeu.', '4', "janvier"), 'Rien de prévu'),
+            EmptyDayMonSuiviItem(MonSuiviDay('ven.', '5', "janvier"), 'Rien de prévu'),
+            EmptyDayMonSuiviItem(MonSuiviDay('sam.', '6', "janvier"), 'Rien de prévu'),
+            FilledDayMonSuiviItem(MonSuiviDay('dim.', '7', "janvier"), [
               RendezvousMonSuiviEntry('rendezvousId'),
               SessionMiloMonSuiviEntry('sessionMiloId'),
             ]),
@@ -158,13 +158,13 @@ void main() {
           // Then
           expect(viewModel.items, [
             SemaineSectionMonSuiviItem('1 - 7 janvier 2024'),
-            EmptyDayMonSuiviItem(MonSuiviDay('lun.', '1'), 'Aucun rendez-vous ni démarche'),
-            EmptyDayMonSuiviItem(MonSuiviDay('mar.', '2'), 'Aucun rendez-vous ni démarche'),
-            EmptyDayMonSuiviItem(MonSuiviDay('mer.', '3'), 'Aucun rendez-vous ni démarche'),
-            EmptyDayMonSuiviItem(MonSuiviDay('jeu.', '4'), 'Aucun rendez-vous ni démarche'),
-            EmptyDayMonSuiviItem(MonSuiviDay('ven.', '5'), 'Aucun rendez-vous ni démarche'),
-            EmptyDayMonSuiviItem(MonSuiviDay('sam.', '6'), 'Aucun rendez-vous ni démarche'),
-            EmptyDayMonSuiviItem(MonSuiviDay('dim.', '7'), 'Aucun rendez-vous ni démarche'),
+            EmptyDayMonSuiviItem(MonSuiviDay('lun.', '1', "janvier"), 'Aucun rendez-vous ni démarche'),
+            EmptyDayMonSuiviItem(MonSuiviDay('mar.', '2', "janvier"), 'Aucun rendez-vous ni démarche'),
+            EmptyDayMonSuiviItem(MonSuiviDay('mer.', '3', "janvier"), 'Aucun rendez-vous ni démarche'),
+            EmptyDayMonSuiviItem(MonSuiviDay('jeu.', '4', "janvier"), 'Aucun rendez-vous ni démarche'),
+            EmptyDayMonSuiviItem(MonSuiviDay('ven.', '5', "janvier"), 'Aucun rendez-vous ni démarche'),
+            EmptyDayMonSuiviItem(MonSuiviDay('sam.', '6', "janvier"), 'Aucun rendez-vous ni démarche'),
+            EmptyDayMonSuiviItem(MonSuiviDay('dim.', '7', "janvier"), 'Aucun rendez-vous ni démarche'),
           ]);
         });
       });
@@ -192,15 +192,15 @@ void main() {
           // Then
           expect(viewModel.items, [
             SemaineSectionMonSuiviItem('1 - 7 janvier 2024'),
-            FilledDayMonSuiviItem(MonSuiviDay('lun.', '1'), [
+            FilledDayMonSuiviItem(MonSuiviDay('lun.', '1', "janvier"), [
               DemarcheMonSuiviEntry('demarcheId'),
             ]),
-            EmptyDayMonSuiviItem(MonSuiviDay('mar.', '2'), 'Rien de prévu'),
-            EmptyDayMonSuiviItem(MonSuiviDay('mer.', '3'), 'Rien de prévu'),
-            EmptyDayMonSuiviItem(MonSuiviDay('jeu.', '4'), 'Rien de prévu'),
-            EmptyDayMonSuiviItem(MonSuiviDay('ven.', '5'), 'Rien de prévu'),
-            EmptyDayMonSuiviItem(MonSuiviDay('sam.', '6'), 'Rien de prévu'),
-            FilledDayMonSuiviItem(MonSuiviDay('dim.', '7'), [
+            EmptyDayMonSuiviItem(MonSuiviDay('mar.', '2', "janvier"), 'Rien de prévu'),
+            EmptyDayMonSuiviItem(MonSuiviDay('mer.', '3', "janvier"), 'Rien de prévu'),
+            EmptyDayMonSuiviItem(MonSuiviDay('jeu.', '4', "janvier"), 'Rien de prévu'),
+            EmptyDayMonSuiviItem(MonSuiviDay('ven.', '5', "janvier"), 'Rien de prévu'),
+            EmptyDayMonSuiviItem(MonSuiviDay('sam.', '6', "janvier"), 'Rien de prévu'),
+            FilledDayMonSuiviItem(MonSuiviDay('dim.', '7', "janvier"), [
               RendezvousMonSuiviEntry('rendezvousId'),
             ]),
           ]);
@@ -237,7 +237,8 @@ void main() {
         expect(items[1 * indexOfWeek], SemaineSectionMonSuiviItem('8 - 14 janvier 2024', 'Semaine prochaine'));
         expect(items[2 * indexOfWeek], SemaineSectionMonSuiviItem('15 - 21 janvier 2024'));
         expect(items[3 * indexOfWeek], SemaineSectionMonSuiviItem('22 - 28 janvier 2024'));
-        expect(items[4 * indexOfWeek], SemaineSectionMonSuiviItem('29 - 4 février 2024'));
+        // When period is between 2 months, we explicit them
+        expect(items[4 * indexOfWeek], SemaineSectionMonSuiviItem('29 janvier - 4 février 2024'));
       });
     });
 

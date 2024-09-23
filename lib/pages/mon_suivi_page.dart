@@ -49,7 +49,7 @@ class _MonSuiviPageState extends State<MonSuiviPage> {
 
   @override
   Widget build(BuildContext context) {
-    return AutoFocus(
+    return AutoFocusA11y(
       child: Tracker(
         tracking: AnalyticsScreenNames.monSuivi,
         child: _StateProvider(
@@ -270,17 +270,18 @@ class _WarningCardState extends State<_WarningCard> {
               Row(
                 children: [
                   SizedBox(width: Margins.spacing_base),
-                  GestureDetector(
-                    child: Icon(
+                  IconButton(
+                    icon: Icon(
                       AppIcons.highlight_off,
                       color: Colors.white,
-                      semanticLabel: Strings.cacher,
+                      semanticLabel: Strings.closeDialog,
                     ),
-                    onTap: () => setState(() => _visible = false),
+                    onPressed: () => setState(() => _visible = false),
                   ),
                   SizedBox(width: Margins.spacing_s),
                   Flexible(
-                    child: Text(widget.label, style: TextStyles.textSMedium(color: Colors.white)),
+                    child: Semantics(
+                        focusable: true, child: Text(widget.label, style: TextStyles.textSMedium(color: Colors.white))),
                   ),
                   SizedBox(width: Margins.spacing_base),
                 ],
@@ -404,7 +405,7 @@ class _TodayCenteredMonSuiviList extends StatelessWidget {
                 padding: EdgeInsets.only(top: index == 0 ? Margins.spacing_base : 0),
                 child: index == 0
                     // A11y - 10.2: required to focus on today item when app bar button is clicked
-                    ? AutoFocus(child: presentAndFutureItems[0].toWidget())
+                    ? AutoFocusA11y(child: presentAndFutureItems[0].toWidget())
                     : presentAndFutureItems[index].toWidget(),
               );
             },
@@ -457,17 +458,22 @@ class _SemaineSectionItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (boldTitle != null) ...[
-            Text(boldTitle!, style: TextStyles.textMBold),
-            const SizedBox(height: Margins.spacing_xs),
-          ],
-          Text(interval, style: TextStyles.textXsRegular(color: AppColors.grey800)),
-        ],
+    return Focus(
+      child: Semantics(
+        header: true,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (boldTitle != null) ...[
+                Text(boldTitle!, style: TextStyles.textMBold),
+                const SizedBox(height: Margins.spacing_xs),
+              ],
+              Text(interval, style: TextStyles.textXsRegular(color: AppColors.grey800)),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -488,7 +494,16 @@ class _FilledDayItem extends StatelessWidget {
       child: Column(
         key: key,
         children: entries //
-            .map((entry) => [entry.toWidget(), SizedBox(height: Margins.spacing_s)])
+            .map((entry) => [
+                  entries.length > 1
+                      ? Semantics(
+                          // A11y : to repeat day information for each entry
+                          label: day.shortened.toFullDayForScreenReaders() + day.number + day.month,
+                          child: entry.toWidget(),
+                        )
+                      : entry.toWidget(),
+                  SizedBox(height: Margins.spacing_s),
+                ])
             .flattened
             .toList()
           ..removeLast(),
@@ -571,6 +586,7 @@ class _Day extends StatelessWidget {
             semanticsLabel: day.shortened.toFullDayForScreenReaders(),
           ),
           Text(day.number, style: TextStyles.textBaseBold),
+          Semantics(label: day.month),
         ],
       ),
     );

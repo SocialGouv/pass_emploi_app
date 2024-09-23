@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
@@ -8,7 +9,6 @@ import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/utils/accessibility_utils.dart';
 import 'package:pass_emploi_app/widgets/recherche/criteres_recheche_expansion_tile.dart';
 
 class BlocCriteresRecherche<Result> extends StatelessWidget {
@@ -68,12 +68,15 @@ class _BlocCriteresRechercheTileState<Result> extends State<_BlocCriteresRecherc
       child: widget.buildCriteresContentWidget(
         onNumberOfCriteresChanged: (number) {
           setState(() => _criteresActifsCount = number);
-          A11yUtils.announce(intl.Intl.plural(
-            _criteresActifsCount ?? 0,
-            zero: Strings.rechercheCriteresActifsZero,
-            one: Strings.rechercheCriteresActifsOne,
-            other: Strings.rechercheCriteresActifsPlural(_criteresActifsCount ?? 0),
-          ));
+          SemanticsService.announce(
+            intl.Intl.plural(
+              _criteresActifsCount ?? 0,
+              zero: Strings.rechercheCriteresActifsZero,
+              one: Strings.rechercheCriteresActifsOne,
+              other: Strings.rechercheCriteresActifsPlural(_criteresActifsCount ?? 0),
+            ),
+            TextDirection.ltr,
+          );
         },
       ),
     );

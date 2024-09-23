@@ -106,7 +106,10 @@ class _InformationCard extends StatelessWidget {
             SizedBox(height: Margins.spacing_s),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-              child: RichText(text: TextSpan(children: spans)),
+              child: RichText(
+                textScaler: MediaQuery.of(context).textScaler,
+                text: TextSpan(children: spans),
+              ),
             ),
             SizedBox(height: Margins.spacing_m),
           ],
@@ -141,6 +144,7 @@ class _VerbatimCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
               child: RichText(
+                textScaler: MediaQuery.of(context).textScaler,
                 textAlign: TextAlign.center,
                 text: TextSpan(
                   children: [

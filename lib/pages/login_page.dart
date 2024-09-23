@@ -181,7 +181,14 @@ class _AskAccount extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(Strings.noAccount, style: TextStyles.textSMedium(color: Colors.white), textAlign: TextAlign.center),
+        Semantics(
+          header: true,
+          child: Text(
+            Strings.noAccount,
+            style: TextStyles.textSMedium(color: Colors.white),
+            textAlign: TextAlign.center,
+          ),
+        ),
         SizedBox(height: Margins.spacing_s),
         SecondaryButton(
           label: Strings.askAccount,
@@ -200,10 +207,12 @@ class _InformationsLegales extends StatelessWidget {
     return ExpansionTile(
       onExpansionChanged: (_) {
         Future.delayed(AnimationDurations.medium, () {
-          Scrollable.of(context).position.ensureVisible(
-                context.findRenderObject()!,
-                duration: AnimationDurations.fast,
-              );
+          if (context.mounted) {
+            Scrollable.of(context).position.ensureVisible(
+                  context.findRenderObject()!,
+                  duration: AnimationDurations.fast,
+                );
+          }
         });
       },
       tilePadding: EdgeInsets.zero,
@@ -347,12 +356,15 @@ class _PreferredLoginMode extends StatelessWidget {
         );
       },
       label: loginMode.title,
-      leading: SizedBox(
-        width: 40,
-        height: 40,
-        child: Image.asset(
-          loginMode.logo,
-          fit: BoxFit.cover,
+      leading: Semantics(
+        excludeSemantics: true,
+        child: SizedBox(
+          width: 40,
+          height: 40,
+          child: Image.asset(
+            loginMode.logo,
+            fit: BoxFit.cover,
+          ),
         ),
       ),
       suffix: Icon(AppIcons.chevron_right_rounded),

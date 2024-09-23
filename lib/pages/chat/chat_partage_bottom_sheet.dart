@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
@@ -46,6 +47,12 @@ class ChatPartageBottomSheetState extends State<ChatPartageBottomSheet> {
         builder: _builder,
         onWillChange: _onWillChange,
         distinct: true,
+        onDidChange: (oldVm, newVm) {
+          // a11y : 5.4
+          if (oldVm?.snackbarState == DisplayState.CONTENT && newVm.snackbarState == DisplayState.LOADING) {
+            SemanticsService.announce(Strings.loadingAnnouncement, TextDirection.ltr);
+          }
+        },
       ),
     );
   }

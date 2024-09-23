@@ -197,6 +197,7 @@ class _LocationListTile extends StatelessWidget {
             SizedBox(width: Margins.spacing_s),
           ],
           RichText(
+            textScaler: MediaQuery.of(context).textScaler,
             text: TextSpan(
               text: location.libelle,
               style: TextStyles.textBaseBold,

@@ -14,6 +14,7 @@ import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 
 class ChatMessageBottomSheet extends StatelessWidget {
   const ChatMessageBottomSheet({super.key, required this.chatItem});
+
   final ChatItem chatItem;
 
   static void show(BuildContext context, ChatItem chatItem) {
@@ -49,6 +50,7 @@ class ChatMessageBottomSheet extends StatelessWidget {
 
 class _CopyMessageButton extends StatelessWidget {
   const _CopyMessageButton(this.text);
+
   final String text;
 
   @override
@@ -58,7 +60,9 @@ class _CopyMessageButton extends StatelessWidget {
       text: Strings.chatCopyMessage,
       onPressed: () {
         Clipboard.setData(ClipboardData(text: text)) //
-            .then((value) => Navigator.pop(context));
+            .then((value) {
+          if (context.mounted) Navigator.pop(context);
+        });
       },
     );
   }
@@ -66,6 +70,7 @@ class _CopyMessageButton extends StatelessWidget {
 
 class _EditMessageButton extends StatelessWidget {
   const _EditMessageButton(this.onEditMessage, this.content);
+
   final void Function(String) onEditMessage;
   final String content;
 
@@ -90,6 +95,7 @@ class _EditMessageButton extends StatelessWidget {
 
 class _DeleteMessageButton extends StatelessWidget {
   const _DeleteMessageButton(this.onDelete);
+
   final void Function() onDelete;
 
   @override

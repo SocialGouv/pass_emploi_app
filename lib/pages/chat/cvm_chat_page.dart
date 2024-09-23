@@ -51,7 +51,7 @@ class CvmChatPageState extends State<CvmChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    return AutoFocus(
+    return AutoFocusA11y(
       child: Tracker(
         tracking: AnalyticsScreenNames.cvmChat,
         child: StoreConnector<AppState, CvmChatPageViewModel>(

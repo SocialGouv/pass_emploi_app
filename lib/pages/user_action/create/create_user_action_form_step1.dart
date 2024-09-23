@@ -7,13 +7,13 @@ import 'package:flutter/widgets.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/models/user_action_type.dart';
+import 'package:pass_emploi_app/pages/user_action/create/widgets/user_action_stepper.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/media_sizes.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/a11y/auto_focus.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 
 class CreateUserActionFormStep1 extends StatelessWidget {
@@ -23,7 +23,7 @@ class CreateUserActionFormStep1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AutoFocus(
+    return SingleChildScrollView(
       child: Tracker(
         tracking: AnalyticsScreenNames.createUserActionStep1,
         child: Padding(
@@ -31,6 +31,10 @@ class CreateUserActionFormStep1 extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(height: Margins.spacing_s),
+              UserActionStepperTexts(index: 1),
+              const SizedBox(height: Margins.spacing_s),
+              Text(Strings.userActionTitleStep1, style: TextStyles.textMBold.copyWith(color: AppColors.contentColor)),
               const SizedBox(height: Margins.spacing_m),
               Semantics(
                 sortKey: const OrdinalSortKey(1),
@@ -104,25 +108,28 @@ class ActionCategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CardContainer(
-      onTap: onTap,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, size: 32, color: AppColors.primary),
-          const SizedBox(height: Margins.spacing_s),
-          Text(
-            label,
-            textAlign: TextAlign.center,
-            style: TextStyles.textBaseBold.copyWith(color: AppColors.primary),
-          ),
-          const SizedBox(height: Margins.spacing_s),
-          Text(
-            description,
-            textAlign: TextAlign.center,
-            style: TextStyles.textSRegular(color: AppColors.grey800),
-          ),
-        ],
+    return Semantics(
+      button: true,
+      child: CardContainer(
+        onTap: onTap,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 32, color: AppColors.primary),
+            const SizedBox(height: Margins.spacing_s),
+            Text(
+              label,
+              textAlign: TextAlign.center,
+              style: TextStyles.textBaseBold.copyWith(color: AppColors.primary),
+            ),
+            const SizedBox(height: Margins.spacing_s),
+            Text(
+              description,
+              textAlign: TextAlign.center,
+              style: TextStyles.textSRegular(color: AppColors.grey800),
+            ),
+          ],
+        ),
       ),
     );
   }

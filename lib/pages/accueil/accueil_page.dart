@@ -51,7 +51,7 @@ class _AccueilPageState extends State<AccueilPage> {
 
   @override
   Widget build(BuildContext context) {
-    return AutoFocus(
+    return AutoFocusA11y(
       child: Tracker(
         tracking: AnalyticsScreenNames.accueil,
         child: StoreConnector<AppState, AccueilViewModel>(
@@ -127,9 +127,12 @@ class _AccueilPageState extends State<AccueilPage> {
   }
 
   void _handleOnboarding(AccueilViewModel newViewModel) {
+    final context = this.context;
     if (newViewModel.shouldShowOnboarding && !_onboardingShown) {
       _onboardingShown = true;
-      OnboardingAccueilBottomSheet.show(context).then((_) => OnboardingNavigationBottomSheet.show(context));
+      OnboardingAccueilBottomSheet.show(context).then((_) {
+        if (context.mounted) OnboardingNavigationBottomSheet.show(context);
+      });
     }
   }
 }
@@ -175,6 +178,7 @@ class _Blocs extends StatelessWidget {
         physics: NeverScrollableScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base, vertical: Margins.spacing_base),
         itemCount: viewModel.items.length,
+        addSemanticIndexes: false,
         itemBuilder: _itemBuilder,
         separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_m),
       ),

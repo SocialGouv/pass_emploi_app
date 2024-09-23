@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/a11y/auto_focus.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 
 class OnboardingNavigationBottomSheet extends StatelessWidget {
@@ -40,9 +41,12 @@ class OnboardingNavigationBottomSheet extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Image.asset(
-                  Drawables.illustrationNavigationBottomSheet,
-                  fit: BoxFit.fitWidth,
+                Semantics(
+                  excludeSemantics: true,
+                  child: Image.asset(
+                    Drawables.illustrationNavigationBottomSheet,
+                    fit: BoxFit.fitWidth,
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
@@ -50,14 +54,22 @@ class OnboardingNavigationBottomSheet extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       const SizedBox(height: Margins.spacing_xl),
-                      Text(
-                        Strings.onboardingNavigationTitle,
-                        style: TextStyles.textMBold,
+                      AutoFocusA11y(
+                        child: Semantics(
+                          focusable: true,
+                          child: Text(
+                            Strings.onboardingNavigationTitle,
+                            style: TextStyles.textMBold,
+                          ),
+                        ),
                       ),
                       SizedBox(height: Margins.spacing_m),
-                      Text(
-                        Strings.onboardingNavigationBody,
-                        style: TextStyles.textBaseRegular,
+                      Semantics(
+                        focusable: true,
+                        child: Text(
+                          Strings.onboardingNavigationBody,
+                          style: TextStyles.textBaseRegular,
+                        ),
                       ),
                     ],
                   ),
@@ -140,7 +152,9 @@ class _CustomMenuItem extends StatelessWidget {
         alignment: Alignment.center,
         children: [
           Semantics(
-            label: label,
+            // focusable: true,
+            enabled: isAnimated,
+            button: true,
             child: InkWell(
               onTap: onTap,
               child: Column(

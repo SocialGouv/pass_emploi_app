@@ -10,14 +10,12 @@ import 'package:redux/redux.dart';
 class DemarcheCardViewModel extends Equatable {
   final String id;
   final String title;
-  final String semanticLabel;
   final String? categoryText;
   final CardPilluleType pillule;
 
   DemarcheCardViewModel({
     required this.id,
     required this.title,
-    required this.semanticLabel,
     required this.categoryText,
     required this.pillule,
   });
@@ -30,7 +28,6 @@ class DemarcheCardViewModel extends Equatable {
     return DemarcheCardViewModel(
       id: demarche.id,
       title: demarche.content ?? Strings.withoutContent,
-      semanticLabel: demarche.semanticLabel(),
       categoryText: demarche.label,
       pillule: demarche.pillule(),
     );
@@ -40,7 +37,6 @@ class DemarcheCardViewModel extends Equatable {
   List<Object?> get props => [
         id,
         title,
-        semanticLabel,
         categoryText,
         pillule,
       ];
@@ -62,21 +58,5 @@ extension on Demarche {
       return endDate!.isBefore(DateTime.now()) && (endDate!.numberOfDaysUntilToday() > 0);
     }
     return false;
-  }
-
-  String semanticLabel() {
-    final prefix = label != null
-        ? '${Strings.accueilDemarcheSingular} $label' //
-        : Strings.accueilDemarcheSingular;
-
-    final suffix = switch (pillule()) {
-      CardPilluleType.todo => Strings.doingPillule,
-      CardPilluleType.doing => Strings.doingPillule,
-      CardPilluleType.done => Strings.donePillule,
-      CardPilluleType.late => Strings.latePillule,
-      CardPilluleType.canceled => Strings.donePillule,
-    };
-
-    return '$prefix : $content - $suffix';
   }
 }

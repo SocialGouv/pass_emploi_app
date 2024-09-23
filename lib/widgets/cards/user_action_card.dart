@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/presentation/user_action/user_action_card_view_m
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/base_card.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_tag.dart';
 
@@ -30,19 +31,26 @@ class UserActionCard extends StatelessWidget {
   }
 
   Widget _builder(BuildContext context, UserActionCardViewModel viewModel) {
+    // A11y : to read "Action" + category + title + status
     return Semantics(
-      label: viewModel.semanticLabel,
-      child: BaseCard(
-        onTap: onTap,
-        onLongPress: () => UserActionDetailsBottomSheet.show(context, source, viewModel.id),
-        title: viewModel.title,
-        tag: CardTag(
-          icon: viewModel.categoryIcon,
-          text: viewModel.categoryText,
-          contentColor: viewModel.isLate ? AppColors.warning : AppColors.primary,
-          backgroundColor: viewModel.isLate ? AppColors.warningLighten : AppColors.primaryLighten,
-        ),
-        pillule: viewModel.pillule.toActionCardPillule(),
+      label: Strings.accueilActionSingular,
+      button: true,
+      child: Column(
+        children: [
+          BaseCard(
+            onTap: onTap,
+            onLongPress: () => UserActionDetailsBottomSheet.show(context, source, viewModel.id),
+            title: viewModel.title,
+            tag: CardTag(
+              icon: viewModel.categoryIcon,
+              text: viewModel.categoryText,
+              contentColor: viewModel.isLate ? AppColors.warning : AppColors.primary,
+              backgroundColor: viewModel.isLate ? AppColors.warningLighten : AppColors.primaryLighten,
+            ),
+            pillule: viewModel.pillule.toActionCardPillule(excludeSemantics: true),
+          ),
+          Semantics(label: Strings.a11yStatus + viewModel.pillule.toSemanticLabel()),
+        ],
       ),
     );
   }

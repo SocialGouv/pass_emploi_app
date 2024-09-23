@@ -52,6 +52,7 @@ class DuplicateUserActionPage extends StatelessWidget {
           source,
         ),
       ).then((result) {
+        if (!context.mounted) return;
         Navigator.pop(context);
         if (result is NavigateToUserActionDetails) {
           Navigator.push(context, UserActionDetailPage.materialPageRoute(result.userActionId, result.source));

@@ -77,7 +77,7 @@ class _Body extends StatelessWidget {
               top: 0,
               right: 0,
               child: IconButton(
-                tooltip: Strings.close,
+                tooltip: "${Strings.closeDialog} ${Strings.ratingAppLabel}",
                 onPressed: () {
                   viewModel.onDone();
                   PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.skipRating);

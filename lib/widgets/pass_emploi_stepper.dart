@@ -3,32 +3,33 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/a11y/auto_focus.dart';
 
 class PassEmploiStepperTexts extends StatelessWidget {
   const PassEmploiStepperTexts({
     super.key,
     required this.stepCount,
     required this.currentStep,
-    required this.stepTitle,
   });
   final int stepCount;
   final int currentStep;
-  final String stepTitle;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          Strings.stepCounter(currentStep + 1, stepCount),
-          style: TextStyles.textSRegular(
-            color: AppColors.contentColor,
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Semantics(
+        // fix a11y to avoid getting the reader lost
+        label: " ",
+        child: AutoFocusA11y(
+          child: Text(
+            Strings.stepCounter(currentStep, stepCount),
+            style: TextStyles.textSRegular(
+              color: AppColors.contentColor,
+            ),
           ),
         ),
-        const SizedBox(height: Margins.spacing_s),
-        Text(stepTitle, style: TextStyles.textMBold.copyWith(color: AppColors.contentColor)),
-      ],
+      ),
     );
   }
 }

@@ -27,41 +27,6 @@ void main() {
     expect(viewModel.categoryText, "Mes entretiens d'embauche");
   });
 
-  group('semanticLabel', () {
-    test('with category', () {
-      // Given
-      final demarche = mockDemarche(
-        content: 'Faire mon CV',
-        label: "Mes entretiens d'embauche",
-        status: DemarcheStatus.DONE,
-        endDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
-      );
-      final store = givenState().monSuivi(monSuivi: mockMonSuivi(demarches: [(demarche)])).store();
-
-      // When
-      final viewModel = DemarcheCardViewModel.create(store: store, demarcheId: 'id');
-
-      // Then
-      expect(viewModel.semanticLabel, "Démarche Mes entretiens d'embauche : Faire mon CV - Terminée");
-    });
-
-    test('without category', () {
-      // Given
-      final demarche = mockDemarche(
-        content: 'Faire mon CV',
-        status: DemarcheStatus.DONE,
-        endDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
-      );
-      final store = givenState().monSuivi(monSuivi: mockMonSuivi(demarches: [(demarche)])).store();
-
-      // When
-      final viewModel = DemarcheCardViewModel.create(store: store, demarcheId: 'id');
-
-      // Then
-      expect(viewModel.semanticLabel, "Démarche : Faire mon CV - Terminée");
-    });
-  });
-
   group('pillule', () {
     test("when end date is in the past should return CardPilluleType.late", () {
       // Given

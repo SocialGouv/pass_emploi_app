@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
 
@@ -58,13 +59,22 @@ class DatePicker extends StatelessWidget {
   Future<void> _iOSDatePicker(BuildContext context) async {
     showCupertinoModalPopup(
       context: context,
-      builder: (_) => Container(
-        height: 190,
+      builder: (context) => Container(
+        height: 300,
         color: Colors.white,
         child: Column(
           children: [
-            SizedBox(
-              height: 180,
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text(
+                  Strings.close,
+                  style: TextStyles.textSecondaryButton,
+                ),
+              ),
+            ),
+            Flexible(
               child: CupertinoDatePicker(
                   initialDateTime: initialDateValue ?? DateTime.now(),
                   minimumDate: firstDate,

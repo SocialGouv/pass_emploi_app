@@ -232,11 +232,12 @@ class _AlertePageState extends State<AlertePage> {
   }
 
   void _showDeleteDialog(AlerteListViewModel viewModel, String alerteId, AlerteType type) {
+    final context = this.context;
     showDialog(
       context: context,
       builder: (_) => AlerteDeleteDialog(alerteId, type),
     ).then((result) {
-      if (result == true) showSnackBarWithSuccess(context, Strings.alerteDeleteSuccess);
+      if (result == true && context.mounted) showSnackBarWithSuccess(context, Strings.alerteDeleteSuccess);
     });
   }
 

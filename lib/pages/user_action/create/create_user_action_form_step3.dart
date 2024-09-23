@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
+import 'package:pass_emploi_app/pages/user_action/create/widgets/user_action_stepper.dart';
 import 'package:pass_emploi_app/presentation/model/date_input_source.dart';
 import 'package:pass_emploi_app/presentation/user_action/creation_form/create_user_action_form_view_model.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/a11y/auto_focus.dart';
 import 'package:pass_emploi_app/widgets/a11y/mandatory_fields_label.dart';
 import 'package:pass_emploi_app/widgets/date_pickers/date_picker_suggestions.dart';
 
@@ -25,7 +26,7 @@ class CreateUserActionFormStep3 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AutoFocus(
+    return SingleChildScrollView(
       child: Tracker(
         tracking: AnalyticsScreenNames.createUserActionStep3,
         child: Padding(
@@ -33,6 +34,10 @@ class CreateUserActionFormStep3 extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              const SizedBox(height: Margins.spacing_s),
+              UserActionStepperTexts(index: 3),
+              const SizedBox(height: Margins.spacing_s),
+              Text(Strings.userActionTitleStep3, style: TextStyles.textMBold.copyWith(color: AppColors.contentColor)),
               const SizedBox(height: Margins.spacing_m),
               MandatoryFieldsLabel.all(),
               const SizedBox(height: Margins.spacing_m),
@@ -50,7 +55,9 @@ class CreateUserActionFormStep3 extends StatelessWidget {
                   onDateChanged(date);
                   if (!date.isNone) {
                     // a11y : wait ui to be updated before moving focus
-                    Future.delayed(Duration(milliseconds: 50), () => FocusScope.of(context).nextFocus());
+                    Future.delayed(Duration(milliseconds: 50), () {
+                      if (context.mounted) FocusScope.of(context).nextFocus();
+                    });
                   }
                 },
               ),
@@ -141,6 +148,7 @@ class _PassEmploiRadio<T> extends StatelessWidget {
     required this.groupValue,
     required this.title,
   });
+
   final void Function(T?) onPressed;
   final T value;
   final T groupValue;

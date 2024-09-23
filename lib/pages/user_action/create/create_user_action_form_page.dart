@@ -27,6 +27,7 @@ class NavigateToUserActionDetails extends CreateActionFormResult {
 
 class CreateUserActionFormPage extends StatelessWidget {
   const CreateUserActionFormPage(this.source);
+
   final UserActionStateSource source;
 
   // NavigatorState is used rather than context, as it may not be available anymore in callbacks.
@@ -98,7 +99,9 @@ class CreateUserActionFormPage extends StatelessWidget {
           displayState.userActionCreatedId,
           source,
         ),
-      ).then((result) => Navigator.pop(context, result));
+      ).then((result) {
+        if (context.mounted) Navigator.pop(context, result);
+      });
     }
   }
 }
