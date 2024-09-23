@@ -4,12 +4,6 @@ class FeatureFlipUseCvmAction {
   FeatureFlipUseCvmAction(this.useCvm);
 }
 
-class FeatureFlipUsePjAction {
-  final bool usePj;
-
-  FeatureFlipUsePjAction(this.usePj);
-}
-
 class FeatureFlipCampagneRecrutementAction {
   final bool withCampagneRecrutement;
 
