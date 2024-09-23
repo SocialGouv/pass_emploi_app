@@ -824,9 +824,9 @@ void main() {
   });
 
   group('piece jointe', () {
-    test('should display pj picker', () {
+    test('should display pj picker when user is milo', () {
       // Given
-      final store = givenState().withFeatureFlip(usePj: true).store();
+      final store = givenState().loggedInMiloUser().store();
 
       // When
       final viewModel = ChatPageViewModel.create(store);
@@ -835,9 +835,9 @@ void main() {
       expect(viewModel.jeunePjEnabled, isTrue);
     });
 
-    test('should not display pj picker', () {
+    test('should not display pj picker when user is from FT', () {
       // Given
-      final store = givenState().withFeatureFlip(usePj: false).store();
+      final store = givenState().loggedInPoleEmploiUser().store();
 
       // When
       final viewModel = ChatPageViewModel.create(store);
