@@ -1139,6 +1139,7 @@ class Strings {
   static const String notificationsA11yDisable = "Désactiver les notifications pour ";
 
   // contact page
+  static String contactConseilsDepartementaux = "Conseil départemental";
   static String contactPageTitle = "Contacter l’équipe";
   static String contactPageBody1 = Brand.isCej()
       ? "L’équipe technique de l’application CEJ est en charge du développement de l’application."

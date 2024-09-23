@@ -37,7 +37,7 @@ void main() {
 
   test('create when accompagnement is RSA should only return OffreEmploi and Alternance', () {
     // Given
-    final store = givenState().loggedInUser(accompagnement: Accompagnement.rsa).store();
+    final store = givenState().loggedInUser(accompagnement: Accompagnement.rsaFranceTravail).store();
 
     // When
     final viewModel = RechercheHomePageViewModel.create(store);

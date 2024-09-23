@@ -75,7 +75,7 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
       lastName: "Sevier",
       email: "mode@demo.com",
       loginMode: mode == LoginMode.DEMO_PE ? LoginMode.DEMO_PE : LoginMode.DEMO_MILO,
-      accompagnement: Brand.isCej() ? Accompagnement.cej : Accompagnement.rsa,
+      accompagnement: Brand.isCej() ? Accompagnement.cej : Accompagnement.rsaFranceTravail,
     );
   }
 

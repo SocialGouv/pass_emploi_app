@@ -1,9 +1,11 @@
 import 'package:collection/collection.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
+import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
 import 'package:pass_emploi_app/models/accompagnement.dart';
 import 'package:pass_emploi_app/models/accueil/accueil.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
+import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/outil.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_view_model.dart';
@@ -175,6 +177,27 @@ void main() {
         ],
       );
     });
+
+    test('should hide rendezvous count section when 0 and accompagnement RSA Conseils Départementaux', () {
+      // Given
+      final store = givenState() //
+          .loggedInUser(loginMode: LoginMode.POLE_EMPLOI, accompagnement: Accompagnement.rsaConseilsDepartementaux)
+          .copyWith(accueilState: AccueilSuccessState(mockAccueilPoleEmploi(nombreRendezVous: 0)))
+          .store();
+
+      // When
+      final viewModel = AccueilViewModel.create(store);
+
+      // Then
+      expect(
+        viewModel.items[0],
+        AccueilCetteSemaineItem(
+          rendezvousCount: null,
+          actionsOuDemarchesCount: "1",
+          actionsOuDemarchesLabel: "Démarche",
+        ),
+      );
+    });
   });
 
   group('outils items…', () {
@@ -227,7 +250,7 @@ void main() {
     test('on RSA accompagnement should highlight Mes Aides FT, Emploi solidaire and Emploi store', () {
       // Given
       final store = givenState() //
-          .loggedInUser(accompagnement: Accompagnement.rsa)
+          .loggedInUser(accompagnement: Accompagnement.rsaFranceTravail)
           .withAccueilPoleEmploiSuccess()
           .store();
       final viewModel = AccueilViewModel.create(store);

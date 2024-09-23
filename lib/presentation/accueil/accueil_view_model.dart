@@ -8,8 +8,8 @@ import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/rating/rating_state.dart';
 import 'package:pass_emploi_app/models/accompagnement.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
-import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/outil.dart';
+import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -81,7 +81,7 @@ List<AccueilItem> _items(Store<AppState> store) {
     _ratingAppItem(store.state),
     _campagneRecrutementItem(store, store.state),
     _campagneEvaluationItem(store.state),
-    _cetteSemaineItem(user.loginMode, accueilState),
+    _cetteSemaineItem(user, accueilState),
     _prochainRendezvousItem(accueilState),
     _evenementsItem(accueilState),
     _alertesItem(accueilState),
@@ -90,13 +90,15 @@ List<AccueilItem> _items(Store<AppState> store) {
   ].whereNotNull().toList();
 }
 
-AccueilItem? _cetteSemaineItem(LoginMode loginMode, AccueilSuccessState successState) {
+AccueilItem? _cetteSemaineItem(User user, AccueilSuccessState successState) {
   final cetteSemaine = successState.accueil.cetteSemaine;
   if (cetteSemaine == null) return null;
+  final bool withRendezvousCount =
+      user.accompagnement != Accompagnement.rsaConseilsDepartementaux || cetteSemaine.nombreRendezVous != 0;
 
   return AccueilCetteSemaineItem.from(
-    loginMode: loginMode,
-    rendezvousCount: cetteSemaine.nombreRendezVous,
+    loginMode: user.loginMode,
+    rendezvousCount: withRendezvousCount ? cetteSemaine.nombreRendezVous : null,
     actionsOuDemarchesCount: cetteSemaine.nombreActionsDemarchesARealiser,
   );
 }
@@ -150,7 +152,7 @@ AccueilItem? _outilsItem(AccueilSuccessState successState, Accompagnement accomp
         Outil.benevolatCej.withoutImage(),
         Outil.formation.withoutImage(),
       ]),
-    Accompagnement.rsa => AccueilOutilsItem([
+    Accompagnement.rsaFranceTravail || Accompagnement.rsaConseilsDepartementaux => AccueilOutilsItem([
         Outil.mesAidesFt.withoutImage(),
         Outil.emploiSolidaire.withoutImage(),
         Outil.emploiStore.withoutImage(),

@@ -47,7 +47,8 @@ extension on User {
           LoginMode.POLE_EMPLOI => Strings.poleEmploi,
           _ => '',
         },
-      Accompagnement.rsa => '${Strings.poleEmploi} - RSA',
+      Accompagnement.rsaFranceTravail => '${Strings.poleEmploi} - RSA',
+      Accompagnement.rsaConseilsDepartementaux => '${Strings.contactConseilsDepartementaux} - RSA',
       Accompagnement.aij => '${Strings.poleEmploi} - AIJ',
     };
   }

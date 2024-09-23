@@ -79,7 +79,7 @@ void main() {
               lastName: "L",
               email: "first.last@pole-emploi.fr",
               loginMode: LoginMode.POLE_EMPLOI,
-              accompagnement: Accompagnement.rsa,
+              accompagnement: Accompagnement.rsaFranceTravail,
             )));
 
         test('should never use CVM', () {

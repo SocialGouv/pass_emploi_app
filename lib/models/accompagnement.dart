@@ -1,5 +1,6 @@
 enum Accompagnement {
   cej,
-  rsa,
+  rsaFranceTravail,
+  rsaConseilsDepartementaux,
   aij;
 }

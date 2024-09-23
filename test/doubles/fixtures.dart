@@ -1123,11 +1123,11 @@ Accueil mockAccueilMilo({List<Rendezvous>? evenements}) {
   );
 }
 
-Accueil mockAccueilPoleEmploi() {
+Accueil mockAccueilPoleEmploi({int nombreRendezVous = 3}) {
   return Accueil(
     dateDerniereMiseAJour: parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'),
     cetteSemaine: AccueilCetteSemaine(
-      nombreRendezVous: 3,
+      nombreRendezVous: nombreRendezVous,
       nombreActionsDemarchesARealiser: 1,
     ),
     prochainRendezVous: mockRendezvousPoleEmploi(),

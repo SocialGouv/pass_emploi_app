@@ -21,6 +21,7 @@ class AccueilCetteSemaine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final rendezvousCount = item.rendezvousCount;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -35,16 +36,18 @@ class AccueilCetteSemaine extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Expanded(
-                      child: _BlocInfo(
-                        icon: AppIcons.event,
-                        label: Strings.accueilRendezvous,
-                        count: item.rendezvousCount,
-                        backgroundColor: AppColors.accent1Lighten,
-                        contentColor: AppColors.additional3,
+                    if (rendezvousCount != null) ...[
+                      Expanded(
+                        child: _BlocInfo(
+                          icon: AppIcons.event,
+                          label: Strings.accueilRendezvous,
+                          count: rendezvousCount,
+                          backgroundColor: AppColors.accent1Lighten,
+                          contentColor: AppColors.additional3,
+                        ),
                       ),
-                    ),
-                    SizedBox(width: Margins.spacing_base),
+                      SizedBox(width: Margins.spacing_base),
+                    ],
                     Expanded(
                       child: _BlocInfo(
                         icon: AppIcons.bolt_outlined,
