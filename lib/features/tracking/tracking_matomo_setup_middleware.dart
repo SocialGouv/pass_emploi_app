@@ -62,7 +62,7 @@ extension on User {
     return switch (accompagnement) {
       Accompagnement.cej => 'CEJ',
       Accompagnement.rsaFranceTravail => 'BRSA',
-      Accompagnement.rsaConseilsDepartementaux => throw Exception('TODO'),
+      Accompagnement.rsaConseilsDepartementaux => 'Conseil départemental BRSA',
       Accompagnement.aij => 'AIJ',
     };
   }

@@ -58,7 +58,9 @@ void main() {
       verify(() => tracker.setDimension('matomoDimensionProduitId', 'CEJ')).called(1);
     });
 
-    test('with POLE_EMPLOI in RSA accompagnement user should properly set structure and produit dimension', () async {
+    test(
+        'with POLE_EMPLOI in RSA France Travail accompagnement user should properly set structure and produit dimension',
+        () async {
       // Given
       final store = givenState(configuration()).store((f) => f.matomoTracker = tracker);
 
@@ -70,6 +72,25 @@ void main() {
       // Then
       verify(() => tracker.setDimension('2', 'Pôle emploi')).called(1);
       verify(() => tracker.setDimension('matomoDimensionProduitId', 'BRSA')).called(1);
+    });
+
+    test(
+        'with POLE_EMPLOI in RSA Conseils Départementaux accompagnement user should properly set structure and produit dimension',
+        () async {
+      // Given
+      final store = givenState(configuration()).store((f) => f.matomoTracker = tracker);
+
+      // When
+      await store.dispatch(
+        LoginSuccessAction(mockUser(
+          loginMode: LoginMode.POLE_EMPLOI,
+          accompagnement: Accompagnement.rsaConseilsDepartementaux,
+        )),
+      );
+
+      // Then
+      verify(() => tracker.setDimension('2', 'Pôle emploi')).called(1);
+      verify(() => tracker.setDimension('matomoDimensionProduitId', 'Conseil départemental BRSA')).called(1);
     });
 
     test('with POLE_EMPLOI in AIJ accompagnement user should properly set structure and produit dimension', () async {
