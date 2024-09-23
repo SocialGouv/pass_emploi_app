@@ -84,7 +84,7 @@ void main() {
       });
     });
 
-    group('For Pôle emploi user in RSA accompagnement', () {
+    group('For Pôle emploi user in RSA France Travail accompagnement', () {
       sut.when(
         (repository) => repository.send(
           user:
@@ -103,6 +103,43 @@ void main() {
             jsonBody: {
               'type': 'MESSAGE_ENVOYE',
               'emetteur': {'type': 'JEUNE', 'structure': 'POLE_EMPLOI_BRSA', 'id': 'userId'}
+            },
+          );
+        });
+
+        test('response should be valid', () async {
+          await sut.expectTrueAsResult();
+        });
+      });
+
+      group('when response is invalid', () {
+        sut.givenResponseCode(500);
+
+        test('response should be null', () async {
+          await sut.expectFalseAsResult();
+        });
+      });
+    });
+
+    group('For Pôle emploi user in RSA Conseils Départementaux accompagnement', () {
+      sut.when(
+        (repository) => repository.send(
+          user: mockUser(
+              id: 'userId', loginMode: LoginMode.POLE_EMPLOI, accompagnement: Accompagnement.rsaConseilsDepartementaux),
+          event: EvenementEngagement.MESSAGE_ENVOYE,
+        ),
+      );
+
+      group('when response is valid', () {
+        sut.givenResponseCode(201);
+
+        test('request should be valid', () async {
+          await sut.expectRequestBody(
+            method: HttpMethod.post,
+            url: "/evenements",
+            jsonBody: {
+              'type': 'MESSAGE_ENVOYE',
+              'emetteur': {'type': 'JEUNE', 'structure': 'CONSEIL_DEPARTEMENTAL_BRSA', 'id': 'userId'}
             },
           );
         });
