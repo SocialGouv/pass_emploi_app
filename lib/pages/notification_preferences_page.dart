@@ -199,9 +199,17 @@ class _NotificationSwitch extends StatelessWidget {
             SizedBox(width: Margins.spacing_xs),
             Semantics(
               excludeSemantics: true,
-              child: Text(
-                enabled ? Strings.yes : Strings.no,
-                style: TextStyles.textBaseRegularWithColor(AppColors.contentColor),
+              // Stack is added with transparent text to force widget to keep the same width.
+              // It avoids "jumping" of text when its value is changed from "Oui" to "Non".
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Text(Strings.no, style: TextStyles.textBaseRegularWithColor(Colors.transparent)),
+                  Text(
+                    enabled ? Strings.yes : Strings.no,
+                    style: TextStyles.textBaseRegularWithColor(AppColors.contentColor),
+                  ),
+                ],
               ),
             ),
           ],
