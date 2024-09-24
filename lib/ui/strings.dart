@@ -142,6 +142,7 @@ class Strings {
   static String chatPieceJointeOpenAppSettings = "Accéder aux paramètres";
   static String chatA11yMessageFromMe = "Mon message : ";
   static String chatA11yMessageFromMyConseiller = "Message de mon conseiller : ";
+  static String chatA11yLastMessage = "Dernier message : ";
 
   // Force Update
   static String updateTitle = "Mise à jour";
