@@ -58,25 +58,31 @@ class _SecteurActiviteField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(Strings.secteurActiviteLabel, style: TextStyles.textBaseBold),
-        SizedBox(height: Margins.spacing_base),
-        GestureDetector(
-          onTap: onFieldTap,
-          child: Container(
-            height: 56,
-            width: double.maxFinite,
-            alignment: Alignment.centerLeft,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(Dimens.radius_base),
-              border: Border.all(color: AppColors.contentColor),
+    return Semantics(
+      button: true,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(Strings.secteurActiviteLabel, style: TextStyles.textBaseBold),
+          SizedBox(height: Margins.spacing_base),
+          // A11y - GestureDetector is not focusable by itself
+          Focus(
+            child: GestureDetector(
+              onTap: onFieldTap,
+              child: Container(
+                height: 56,
+                width: double.maxFinite,
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(Dimens.radius_base),
+                  border: Border.all(color: AppColors.contentColor),
+                ),
+                child: _SelectedSecteurActivite(value?.label ?? Strings.secteurActiviteAll),
+              ),
             ),
-            child: _SelectedSecteurActivite(value?.label ?? Strings.secteurActiviteAll),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

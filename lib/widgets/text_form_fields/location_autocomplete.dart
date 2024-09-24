@@ -54,7 +54,7 @@ class _LocationAutocompleteState extends State<LocationAutocomplete> {
   @override
   Widget build(BuildContext context) {
     return Semantics(
-      label: widget.title,
+      button: true,
       child: ReadOnlyTextFormField(
         title: widget.title,
         hint: widget.hint,

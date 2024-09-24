@@ -34,7 +34,6 @@ class _KeywordTextFormFieldState extends State<KeywordTextFormField> {
   @override
   Widget build(BuildContext context) {
     return Semantics(
-      label: widget.title,
       button: true,
       child: ReadOnlyTextFormField(
         title: widget.title,

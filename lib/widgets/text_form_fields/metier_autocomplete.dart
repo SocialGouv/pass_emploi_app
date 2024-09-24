@@ -50,22 +50,25 @@ class _MetierAutocompleteState extends State<MetierAutocomplete> {
 
   @override
   Widget build(BuildContext context) {
-    return ReadOnlyTextFormField(
-      title: widget.title,
-      hint: widget.hint,
-      heroTag: _heroTag,
-      textFormFieldKey: Key(_selectedMetier.toString()),
-      withDeleteButton: _selectedMetier != null,
-      onTextTap: () => Navigator.push(
-        IgnoreTrackingContext.of(context).nonTrackingContext,
-        _MetierAutocompletePage.materialPageRoute(
-          title: widget.title,
-          hint: widget.hint,
-          selectedMetier: _selectedMetier,
-        ),
-      ).then((metier) => _updateMetier(metier)),
-      onDeleteTap: () => _updateMetier(null),
-      initialValue: _selectedMetier?.libelle,
+    return Semantics(
+      button: true,
+      child: ReadOnlyTextFormField(
+        title: widget.title,
+        hint: widget.hint,
+        heroTag: _heroTag,
+        textFormFieldKey: Key(_selectedMetier.toString()),
+        withDeleteButton: _selectedMetier != null,
+        onTextTap: () => Navigator.push(
+          IgnoreTrackingContext.of(context).nonTrackingContext,
+          _MetierAutocompletePage.materialPageRoute(
+            title: widget.title,
+            hint: widget.hint,
+            selectedMetier: _selectedMetier,
+          ),
+        ).then((metier) => _updateMetier(metier)),
+        onDeleteTap: () => _updateMetier(null),
+        initialValue: _selectedMetier?.libelle,
+      ),
     );
   }
 
