@@ -187,17 +187,20 @@ class _DiscoverDiagorienteCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const Color textColor = Colors.white;
-    return CardContainer(
-      backgroundColor: AppColors.primary,
-      splashColor: AppColors.primaryDarken,
-      onTap: () => Navigator.push(context, DiagorienteEntryPage.materialPageRoute()),
-      child: Column(
-        children: [
-          Text(Strings.diagorienteDiscoverCardTitle, style: TextStyles.textMBold.copyWith(color: textColor)),
-          SizedBox(height: Margins.spacing_m),
-          Text(Strings.diagorienteDiscoverCardSubtitle, style: TextStyles.textBaseRegularWithColor(textColor)),
-          PressedTip(Strings.diagorienteDiscoverCardPressedTip, textColor: textColor),
-        ],
+    return Semantics(
+      button: true,
+      child: CardContainer(
+        backgroundColor: AppColors.primary,
+        splashColor: AppColors.primaryDarken,
+        onTap: () => Navigator.push(context, DiagorienteEntryPage.materialPageRoute()),
+        child: Column(
+          children: [
+            Text(Strings.diagorienteDiscoverCardTitle, style: TextStyles.textMBold.copyWith(color: textColor)),
+            SizedBox(height: Margins.spacing_m),
+            Text(Strings.diagorienteDiscoverCardSubtitle, style: TextStyles.textBaseRegularWithColor(textColor)),
+            PressedTip(Strings.diagorienteDiscoverCardPressedTip, textColor: textColor),
+          ],
+        ),
       ),
     );
   }
