@@ -14,7 +14,8 @@ class BoiteAOutilsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Semantics(
-      button: true,
+      button: outil.redirectMode is OutilInternalRedirectMode,
+      link: outil.redirectMode is OutilExternalRedirectMode,
       child: BaseCard(
         title: outil.title,
         body: outil.description,
