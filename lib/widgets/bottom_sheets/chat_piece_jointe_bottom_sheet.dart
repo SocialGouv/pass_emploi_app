@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/file_picker_wrapper.dart';
 import 'package:pass_emploi_app/utils/image_picker_wrapper.dart';
+import 'package:pass_emploi_app/widgets/a11y/auto_focus.dart';
 import 'package:pass_emploi_app/widgets/alert_message.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 
@@ -261,11 +262,17 @@ class _PermissionDeniedWarning extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: Margins.spacing_m),
-      child: AlertMessage(
-        message: message,
-        retryMessage: AlertMessageRetry(
-          message: Strings.chatPieceJointeOpenAppSettings,
-          onRetry: () => AppSettings.openAppSettings(),
+      child: Semantics(
+        focusable: true,
+        child: AutoFocusA11y(
+          child: AlertMessage(
+            message: message,
+            retryMessage: AlertMessageRetry(
+              message: Strings.chatPieceJointeOpenAppSettings,
+              onRetry: () => AppSettings.openAppSettings(),
+              link: true,
+            ),
+          ),
         ),
       ),
     );
