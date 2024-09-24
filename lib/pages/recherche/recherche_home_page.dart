@@ -138,17 +138,20 @@ class _BlocSolution extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CardContainer(
-      onTap: onTap,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(icon, color: AppColors.accent3, size: Dimens.icon_size_m),
-          SizedBox(height: Margins.spacing_s),
-          Text(title, style: TextStyles.textMBold),
-          SizedBox(height: Margins.spacing_m),
-          Text(subtitle, style: TextStyles.textBaseRegular),
-        ],
+    return Semantics(
+      button: true,
+      child: CardContainer(
+        onTap: onTap,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(icon, color: AppColors.accent3, size: Dimens.icon_size_m),
+            SizedBox(height: Margins.spacing_s),
+            Text(title, style: TextStyles.textMBold),
+            SizedBox(height: Margins.spacing_m),
+            Text(subtitle, style: TextStyles.textBaseRegular),
+          ],
+        ),
       ),
     );
   }
