@@ -56,7 +56,7 @@ class _CriteresRechercheEmploiContenuState extends State<CriteresRechercheEmploi
         children: [
           KeywordTextFormField(
             title: Strings.keywordTitle,
-            hint: widget.onlyAlternance ? Strings.keywordAlternanceHint : Strings.keywordEmploiHint,
+            hint: Strings.keywordEmploiHint,
             initialValue: _keyword,
             onKeywordSelected: (keyword) {
               _keyword = keyword;
