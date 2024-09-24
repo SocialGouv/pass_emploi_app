@@ -285,12 +285,15 @@ class _PieceJointeListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(icon),
-      contentPadding: EdgeInsets.zero,
-      visualDensity: VisualDensity(vertical: -2),
-      title: Text(text, style: TextStyles.textBaseBold),
-      onTap: onPressed,
+    return Semantics(
+      button: true,
+      child: ListTile(
+        leading: Icon(icon),
+        contentPadding: EdgeInsets.zero,
+        visualDensity: VisualDensity(vertical: -2),
+        title: Text(text, style: TextStyles.textBaseBold),
+        onTap: onPressed,
+      ),
     );
   }
 }

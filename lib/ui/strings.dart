@@ -124,6 +124,7 @@ class Strings {
 
   static String chatDeletedMessageContent = "(Message supprimé)";
 
+  static String chatOpenPieceJointe = "Ouvrir la pièce jointe";
   static String chatPieceJointeBottomSheetTitle = "Ajouter une pièce jointe";
   static String chatPieceJointeBottomSheetSubtitle =
       "Attention à ne pas partager vos données personnelles ou d’informations sensibles notamment votre numéro de Sécurité Sociale (ex : Carte Vitale, etc.)";
