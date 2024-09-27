@@ -294,24 +294,27 @@ class _ListTileCard extends StatelessWidget {
               .map(
                 (data) {
                   return [
-                    ListTile(
-                      onTap: data.onTap,
-                      title: Text(data.title, style: TextStyles.textBaseRegular),
-                      leading: externalRedirect
-                          ? Icon(
-                              AppIcons.open_in_new_rounded,
-                              size: Dimens.icon_size_base,
-                              color: AppColors.contentColor,
-                            )
-                          : null,
-                      trailing: !externalRedirect
-                          ? Icon(
-                              AppIcons.chevron_right_rounded,
-                              semanticLabel: Strings.openInNewTab,
-                              size: Dimens.icon_size_m,
-                              color: AppColors.contentColor,
-                            )
-                          : Semantics(label: Strings.link),
+                    Semantics(
+                      link: externalRedirect,
+                      button: !externalRedirect,
+                      child: ListTile(
+                        onTap: data.onTap,
+                        title: Text(data.title, style: TextStyles.textBaseRegular),
+                        leading: externalRedirect
+                            ? Icon(
+                                AppIcons.open_in_new_rounded,
+                                size: Dimens.icon_size_base,
+                                color: AppColors.contentColor,
+                              )
+                            : null,
+                        trailing: externalRedirect
+                            ? SizedBox()
+                            : Icon(
+                                AppIcons.chevron_right_rounded,
+                                size: Dimens.icon_size_m,
+                                color: AppColors.contentColor,
+                              ),
+                      ),
                     ),
                     Divider(color: AppColors.grey100, height: 0),
                   ];

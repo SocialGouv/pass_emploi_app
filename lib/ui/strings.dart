@@ -1460,7 +1460,7 @@ class Strings {
   static String favoriHeartRemove(String offre) => "Retirer l'offre $offre des favoris";
 
   static String favoriHeartAdd(String offre) => "Mettre l'offre $offre en favoris";
-  static String link = "Lien";
+  static String link = "Lien"; // TODO: remove me
   static String openInNewTab = "Ouvrir dans un nouvel onglet";
   static String semanticsLabelInformation = "Information";
   static String invalidField = "Champ invalide";
