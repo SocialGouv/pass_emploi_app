@@ -22,7 +22,7 @@ class MonConseillerCard extends StatelessWidget {
   Widget _build(BuildContext context, ConseillerProfilePageViewModel vm) {
     final displayState = vm.displayState;
     if (displayState == DisplayState.CONTENT) {
-      return _contentCard(vm.sinceDate, vm.name);
+      return _contentCard(vm);
     } else if (displayState == DisplayState.LOADING) {
       return _loading();
     }
@@ -39,7 +39,7 @@ class MonConseillerCard extends StatelessWidget {
     );
   }
 
-  Widget _contentCard(String sinceDate, String name) {
+  Widget _contentCard(ConseillerProfilePageViewModel vm) {
     return Semantics(
       header: true,
       child: Column(
@@ -51,10 +51,14 @@ class MonConseillerCard extends StatelessWidget {
               children: [
                 Text(Strings.yourConseiller, style: TextStyles.textMBold),
                 SizedBox(height: Margins.spacing_m),
-                Text(sinceDate, style: TextStyles.textBaseRegular),
+                Semantics(label: vm.sinceDateA11y),
+                Semantics(
+                  excludeSemantics: true,
+                  child: Text(vm.sinceDate, style: TextStyles.textBaseRegular),
+                ),
                 SizedBox(height: Margins.spacing_s),
                 Text(
-                  name,
+                  vm.name,
                   style: TextStyles.textBaseBold.copyWith(color: AppColors.primary),
                 ),
               ],

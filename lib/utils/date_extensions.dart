@@ -7,6 +7,10 @@ final DateTime minDateTime = DateTime.fromMicrosecondsSinceEpoch(0);
 const String locale = 'fr';
 
 extension DateExtensions on DateTime {
+  String formatDateToFrench() {
+    return DateFormat('d MMMM y', 'fr_FR').format(this);
+  }
+
   String toIso8601WithOffsetDateTime() {
     String twoDigits(int n) => n >= 10 ? "$n" : "0$n";
 
