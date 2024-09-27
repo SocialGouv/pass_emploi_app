@@ -50,13 +50,17 @@ class PrimarySliverAppbar extends StatelessWidget {
                 child: Row(
                   children: [
                     Expanded(
-                      child: Text(
-                        title,
-                        style: TextStyles.primaryAppBar
-                            .copyWith(fontSize: FontSizes.huge)
-                            .copyWith(color: Brand.isCej() ? AppColors.primary : AppColors.grey100),
-                        overflow: TextOverflow.fade,
-                        maxLines: 1,
+                      child: Tooltip(
+                        message: title,
+                        excludeFromSemantics: true,
+                        child: Text(
+                          title,
+                          style: TextStyles.primaryAppBar
+                              .copyWith(fontSize: FontSizes.huge)
+                              .copyWith(color: Brand.isCej() ? AppColors.primary : AppColors.grey100),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
                       ),
                     ),
                     if (withProfileButton) ...[
@@ -118,10 +122,14 @@ class PrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Brand.isCej() ? AppColors.grey100 : AppColors.primary,
       title: Semantics(
         header: true,
-        child: Text(
-          title,
-          style: TextStyles.primaryAppBar.copyWith(color: Brand.isCej() ? AppColors.primary : AppColors.grey100),
-          overflow: TextOverflow.fade,
+        child: Tooltip(
+          message: title,
+          excludeFromSemantics: true,
+          child: Text(
+            title,
+            style: TextStyles.primaryAppBar.copyWith(color: Brand.isCej() ? AppColors.primary : AppColors.grey100),
+            overflow: TextOverflow.fade,
+          ),
         ),
       ),
       elevation: 0,

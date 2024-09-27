@@ -123,10 +123,12 @@ class ActionCategoryCard extends StatelessWidget {
               style: TextStyles.textBaseBold.copyWith(color: AppColors.primary),
             ),
             const SizedBox(height: Margins.spacing_s),
-            Text(
-              description,
-              textAlign: TextAlign.center,
-              style: TextStyles.textSRegular(color: AppColors.grey800),
+            Flexible(
+              child: Text(
+                description,
+                textAlign: TextAlign.center,
+                style: TextStyles.textSRegular(color: AppColors.grey800),
+              ),
             ),
           ],
         ),
