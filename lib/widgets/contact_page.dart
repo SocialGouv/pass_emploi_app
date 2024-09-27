@@ -66,13 +66,16 @@ class ContactPage extends StatelessWidget {
   }
 
   Widget _bulletedText(String text) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('•', style: TextStyles.textBaseMedium),
-        SizedBox(width: Margins.spacing_s),
-        Expanded(child: Text(text, style: TextStyles.textBaseMedium)),
-      ],
+    return Semantics(
+      container: true,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Semantics(excludeSemantics: true, child: Text('•', style: TextStyles.textBaseMedium)),
+          SizedBox(width: Margins.spacing_s),
+          Expanded(child: Text(text, style: TextStyles.textBaseMedium)),
+        ],
+      ),
     );
   }
 

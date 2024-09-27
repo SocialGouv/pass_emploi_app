@@ -1119,7 +1119,7 @@ class Strings {
     "vos recherches et offres sauvegardées"
   ];
   static String lastWarningBeforeSuppression = "Tapez “supprimer” pour confirmer la suppression de votre compte.";
-  static String mandatorySuppressionLabelError = "Vérifiez que vous avez bien tapé “supprimer”";
+  static String mandatorySuppressionLabelError = "Champs invalide. Vérifiez que vous avez bien tapé “supprimer”";
   static String accountDeletionSuccess =
       Brand.isCej() ? _CejStrings.accountDeletionSuccess : _PassEmploiStrings.accountDeletionSuccess;
 

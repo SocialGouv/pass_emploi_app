@@ -69,6 +69,7 @@ class SuppressionComptePage extends StatelessWidget {
               SizedBox(height: Margins.spacing_base),
               if (viewModel.isPoleEmploiLogin)
                 Text(Strings.warningInformationPoleEmploi, style: TextStyles.textSRegular()),
+              SizedBox(height: Margins.spacing_xx_huge),
             ],
           ),
         ),
