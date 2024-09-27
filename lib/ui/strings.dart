@@ -1111,12 +1111,12 @@ class Strings {
     "vos actions",
     "vos messages avec votre conseiller",
     "vos rendez-vous",
-    "vos recherches et offres sauvergardées"
+    "vos recherches et offres sauvegardées"
   ];
 
   static List<String> warningPointsPoleEmploi = [
     "vos messages avec votre conseiller",
-    "vos recherches et offres sauvergardées"
+    "vos recherches et offres sauvegardées"
   ];
   static String lastWarningBeforeSuppression = "Tapez “supprimer” pour confirmer la suppression de votre compte.";
   static String mandatorySuppressionLabelError = "Vérifiez que vous avez bien tapé “supprimer”";
