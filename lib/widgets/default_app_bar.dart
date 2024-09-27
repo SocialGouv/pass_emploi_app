@@ -169,6 +169,7 @@ class SecondaryAppBar extends StatelessWidget implements PreferredSizeWidget {
         header: true,
         child: Tooltip(
           message: title,
+          excludeFromSemantics: true,
           child: Text(
             title,
             style: TextStyles.secondaryAppBar,
