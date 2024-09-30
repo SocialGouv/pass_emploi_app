@@ -21,9 +21,11 @@ class TitleSection extends StatelessWidget {
                 height: 6,
                 decoration: BoxDecoration(color: AppColors.primary, shape: BoxShape.circle),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0),
-                child: Text(label, style: TextStyles.textMBold),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16.0),
+                  child: Text(label, style: TextStyles.textMBold),
+                ),
               )
             ],
           ),

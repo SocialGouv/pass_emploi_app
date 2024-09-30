@@ -13,8 +13,8 @@ class SliderValue extends StatelessWidget {
       container: true,
       child: Row(
         children: [
-          Text(Strings.searchRadius, style: TextStyles.textSRegular()),
-          Text(Strings.kmFormat(value), style: TextStyles.textBaseBold),
+          Flexible(child: Text(Strings.searchRadius, style: TextStyles.textSRegular())),
+          Flexible(child: Text(Strings.kmFormat(value), style: TextStyles.textBaseBold)),
         ],
       ),
     );

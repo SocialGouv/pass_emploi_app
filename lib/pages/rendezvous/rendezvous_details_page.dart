@@ -166,14 +166,16 @@ class _Header extends StatelessWidget {
           children: [
             Icon(AppIcons.today_rounded, color: AppColors.grey800),
             SizedBox(width: Margins.spacing_s),
-            Text(viewModel.date, style: TextStyles.textBaseBold),
+            Flexible(child: Text(viewModel.date, style: TextStyles.textBaseBold)),
             Expanded(child: SizedBox()),
             Icon(AppIcons.schedule_rounded, color: AppColors.grey800),
             SizedBox(width: Margins.spacing_s),
-            Text(
-              viewModel.hourAndDuration,
-              style: TextStyles.textBaseBold,
-              semanticsLabel: viewModel.hourAndDuration.toTimeAndDurationForScreenReaders(),
+            Flexible(
+              child: Text(
+                viewModel.hourAndDuration,
+                style: TextStyles.textBaseBold,
+                semanticsLabel: viewModel.hourAndDuration.toTimeAndDurationForScreenReaders(),
+              ),
             ),
           ],
         ),
@@ -363,11 +365,11 @@ class _ConseillerPart extends StatelessWidget {
             style: TextStyles.textBaseBoldWithColor(viewModel.conseillerPresenceColor),
           ),
         if (_withSepLine()) SepLine(Margins.spacing_m, Margins.spacing_m),
-        if (viewModel.commentTitle != null) Text(viewModel.commentTitle!, style: TextStyles.textBaseBold),
+        if (viewModel.commentTitle != null) Text("viewModel.commentTitle!", style: TextStyles.textBaseBold),
         if (viewModel.comment != null)
           Padding(
             padding: const EdgeInsets.only(top: Margins.spacing_s),
-            child: TextWithClickableLinks(viewModel.comment!, style: TextStyles.textBaseRegular),
+            child: TextWithClickableLinks("viewModel.comment!", style: TextStyles.textBaseRegular),
           ),
         if (_withEndSepLine()) SepLine(Margins.spacing_m, Margins.spacing_m),
       ],

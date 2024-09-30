@@ -62,11 +62,13 @@ class _EmptyListPlaceholder extends StatelessWidget {
   Widget build(BuildContext context) {
     return RefreshIndicatorAddingScrollview(
       onRefresh: () async => viewModel.onRetry(),
-      child: Center(
-        child: EmptyStatePlaceholder(
-          illustration: Illustration.grey(Icons.event, withWhiteBackground: true),
-          title: Strings.eventListEmpty,
-          subtitle: Strings.eventListEmptySubtitle,
+      child: SingleChildScrollView(
+        child: Center(
+          child: EmptyStatePlaceholder(
+            illustration: Illustration.grey(Icons.event, withWhiteBackground: true),
+            title: Strings.eventListEmpty,
+            subtitle: Strings.eventListEmptySubtitle,
+          ),
         ),
       ),
     );
