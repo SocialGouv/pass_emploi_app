@@ -17,12 +17,14 @@ class FavoriHeart<T> extends StatelessWidget {
   final String offreId;
   final bool withBorder;
   final OffrePage from;
+  final String a11yLabel;
   final Function()? onFavoriRemoved;
 
   FavoriHeart({
     required this.offreId,
     required this.withBorder,
     required this.from,
+    this.a11yLabel = ' ',
     this.onFavoriRemoved,
   }) : super();
 
@@ -54,7 +56,7 @@ class FavoriHeart<T> extends StatelessWidget {
     return DebouncedButton(
       childBuilder: (onTapDebounced) => SecondaryIconButton(
         icon: viewModel.isFavori ? AppIcons.favorite_rounded : AppIcons.favorite_outline_rounded,
-        tooltip: viewModel.isFavori ? Strings.favoriHeartRemove : Strings.favoriHeartAdd,
+        tooltip: viewModel.isFavori ? Strings.favoriHeartRemove(a11yLabel) : Strings.favoriHeartAdd(a11yLabel),
         iconColor: AppColors.favorite,
         borderColor: withBorder ? AppColors.primary : Colors.transparent,
         onTap: onTapDebounced,

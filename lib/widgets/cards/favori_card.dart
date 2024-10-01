@@ -40,6 +40,7 @@ class FavoriCard<T> extends StatelessWidget {
     required OffrePage from,
   }) : specialAction = FavoriHeart<T>(
           offreId: id,
+          a11yLabel: title,
           withBorder: false,
           from: from,
         );

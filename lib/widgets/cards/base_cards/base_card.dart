@@ -47,102 +47,105 @@ class BaseCard extends StatelessWidget {
   Widget build(BuildContext context) {
     assert(pillule == null || iconButton == null, "A BaseCard can't have both a pillule and an iconButton.");
     final bool isSimpleCard = tag == null && pillule == null;
-    return Stack(
-      children: [
-        CardContainer(
-          padding: EdgeInsets.only(
-            left: Margins.spacing_base,
-            top: (!isSimpleCard && iconButton != null) ? 0 : Margins.spacing_base,
-            right: Margins.spacing_base,
-            bottom: Margins.spacing_base,
-          ),
-          onTap: onTap,
-          onLongPress: onLongPress,
-          child: SizedBox(
-            width: double.infinity,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (!isSimpleCard && iconButton == null)
-                  Wrap(
-                    spacing: Margins.spacing_s,
-                    runSpacing: Margins.spacing_s,
-                    children: [
-                      if (tag != null) tag!,
-                      if (pillule != null) pillule!,
-                    ],
-                  ),
-                if (!isSimpleCard && iconButton != null)
-                  Row(
-                    children: [
-                      if (tag != null) tag!,
-                      Expanded(child: SizedBox.shrink()),
-                      iconButton!,
-                    ],
-                  ),
-                if (imagePath != null)
-                  Semantics(
-                    excludeSemantics: true,
-                    child: _CardIllustration(imagePath: imagePath!),
-                  ),
-                if (title.isNotEmpty) ...[
-                  if (!isSimpleCard || imagePath != null) SizedBox(height: Margins.spacing_m),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(child: CardTitle(title)),
-                      if (isSimpleCard && iconButton != null)
-                        // This is a hack to make the iconButton appear aligned on the right of the title
-                        SizedBox.square(dimension: kMinInteractiveDimension),
-                    ],
-                  ),
+    return Semantics(
+      button: onTap != null ? true : null,
+      child: Stack(
+        children: [
+          CardContainer(
+            padding: EdgeInsets.only(
+              left: Margins.spacing_base,
+              top: (!isSimpleCard && iconButton != null) ? 0 : Margins.spacing_base,
+              right: Margins.spacing_base,
+              bottom: Margins.spacing_base,
+            ),
+            onTap: onTap,
+            onLongPress: onLongPress,
+            child: SizedBox(
+              width: double.infinity,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (!isSimpleCard && iconButton == null)
+                    Wrap(
+                      spacing: Margins.spacing_s,
+                      runSpacing: Margins.spacing_s,
+                      children: [
+                        if (tag != null) tag!,
+                        if (pillule != null) pillule!,
+                      ],
+                    ),
+                  if (!isSimpleCard && iconButton != null)
+                    Row(
+                      children: [
+                        if (tag != null) tag!,
+                        Expanded(child: SizedBox.shrink()),
+                        iconButton!,
+                      ],
+                    ),
+                  if (imagePath != null)
+                    Semantics(
+                      excludeSemantics: true,
+                      child: _CardIllustration(imagePath: imagePath!),
+                    ),
+                  if (title.isNotEmpty) ...[
+                    if (!isSimpleCard || imagePath != null) SizedBox(height: Margins.spacing_m),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(child: CardTitle(title)),
+                        if (isSimpleCard && iconButton != null)
+                          // This is a hack to make the iconButton appear aligned on the right of the title
+                          SizedBox.square(dimension: kMinInteractiveDimension),
+                      ],
+                    ),
+                  ],
+                  if (subtitle != null && subtitle!.isNotEmpty) ...[
+                    SizedBox(height: Margins.spacing_base),
+                    CardSubtitle(subtitle!),
+                  ],
+                  if (body != null && body!.isNotEmpty) ...[
+                    SizedBox(height: Margins.spacing_base),
+                    CardBodyText(body!),
+                  ],
+                  if (complements != null && complements!.isNotEmpty) ...[
+                    SizedBox(height: Margins.spacing_base),
+                    Wrap(spacing: Margins.spacing_base, runSpacing: Margins.spacing_s, children: complements!),
+                  ],
+                  if (secondaryTags != null && secondaryTags!.isNotEmpty) ...[
+                    SizedBox(height: Margins.spacing_base),
+                    Wrap(
+                      spacing: Margins.spacing_s,
+                      runSpacing: Margins.spacing_s,
+                      children: secondaryTags!,
+                    ),
+                  ],
+                  if (additionalChild != null) ...[
+                    SizedBox(height: Margins.spacing_base),
+                    additionalChild!,
+                  ],
+                  if (actions != null && actions!.isNotEmpty) ...[
+                    SizedBox(height: Margins.spacing_base),
+                    Wrap(
+                      children: actions!,
+                    ),
+                  ],
+                  if (onTap != null && pressedTip != null) ...[
+                    SizedBox(height: Margins.spacing_s),
+                    pressedTip!,
+                  ],
                 ],
-                if (subtitle != null && subtitle!.isNotEmpty) ...[
-                  SizedBox(height: Margins.spacing_base),
-                  CardSubtitle(subtitle!),
-                ],
-                if (body != null && body!.isNotEmpty) ...[
-                  SizedBox(height: Margins.spacing_base),
-                  CardBodyText(body!),
-                ],
-                if (complements != null && complements!.isNotEmpty) ...[
-                  SizedBox(height: Margins.spacing_base),
-                  Wrap(spacing: Margins.spacing_base, runSpacing: Margins.spacing_s, children: complements!),
-                ],
-                if (secondaryTags != null && secondaryTags!.isNotEmpty) ...[
-                  SizedBox(height: Margins.spacing_base),
-                  Wrap(
-                    spacing: Margins.spacing_s,
-                    runSpacing: Margins.spacing_s,
-                    children: secondaryTags!,
-                  ),
-                ],
-                if (additionalChild != null) ...[
-                  SizedBox(height: Margins.spacing_base),
-                  additionalChild!,
-                ],
-                if (actions != null && actions!.isNotEmpty) ...[
-                  SizedBox(height: Margins.spacing_base),
-                  Wrap(
-                    children: actions!,
-                  ),
-                ],
-                if (onTap != null && pressedTip != null) ...[
-                  SizedBox(height: Margins.spacing_s),
-                  pressedTip!,
-                ],
-              ],
+              ),
             ),
           ),
-        ),
-        if (isSimpleCard && iconButton != null)
-          Positioned(
-            top: 0,
-            right: 0,
-            child: iconButton!,
-          ),
-      ],
+          if (isSimpleCard && iconButton != null)
+            Positioned(
+              top: 0,
+              right: 0,
+              child: iconButton!,
+            ),
+        ],
+      ),
     );
   }
 }

@@ -49,6 +49,7 @@ class DataCard<T> extends StatelessWidget {
       iconButton: (id != null && from != null)
           ? FavoriHeart<T>(
               offreId: id!,
+              a11yLabel: sousTitre != null ? '$titre ${sousTitre!}' : titre,
               withBorder: false,
               from: from!,
             )

@@ -1444,8 +1444,9 @@ class Strings {
   static String a11yStatus = "Statut : ";
 
   // textes alternatifs
-  static String favoriHeartRemove = "Retirer l'offre des favoris";
-  static String favoriHeartAdd = "Mettre l'offre en favoris";
+  static String favoriHeartRemove(String offre) => "Retirer l'offre $offre des favoris";
+
+  static String favoriHeartAdd(String offre) => "Mettre l'offre $offre en favoris";
   static String link = "Lien";
   static String openInNewTab = "Ouvrir dans un nouvel onglet";
   static String semanticsLabelInformation = "Information";
