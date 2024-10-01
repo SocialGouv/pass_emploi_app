@@ -51,9 +51,19 @@ class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: Margins.spacing_base),
-              UserActionStepperTexts(index: 2),
-              const SizedBox(height: Margins.spacing_s),
-              Text(Strings.userActionTitleStep2, style: TextStyles.textMBold.copyWith(color: AppColors.contentColor)),
+              Semantics(
+                container: true,
+                header: true,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    UserActionStepperTexts(index: 2),
+                    const SizedBox(height: Margins.spacing_s),
+                    Text(Strings.userActionTitleStep2,
+                        style: TextStyles.textMBold.copyWith(color: AppColors.contentColor)),
+                  ],
+                ),
+              ),
               const SizedBox(height: Margins.spacing_m),
               Semantics(excludeSemantics: true, child: MandatoryFieldsLabel.some()),
               const SizedBox(height: Margins.spacing_m),
