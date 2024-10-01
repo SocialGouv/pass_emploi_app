@@ -986,6 +986,10 @@ class Strings {
   static String kmFormat(int int) => "$int km";
   static String experienceSectionTitle = "Expérience";
   static String experienceSectionDescription = "Afficher uniquement les offres débutants acceptés";
+
+  static String experienceSectionEnabled(bool enabled) => enabled
+      ? "Désactiver l'affichage des offres débutants acceptés uniquement"
+      : "Activer l'affichage des offres débutants acceptés uniquement";
   static String contratSectionTitle = "Type de contrat";
   static String contratCdiLabel = "CDI";
   static String contratCdiTooltip = "CDI et CDI Intérimaire";

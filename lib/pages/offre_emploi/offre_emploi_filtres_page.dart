@@ -240,13 +240,24 @@ class _FiltreDebutantState extends State<_FiltreDebutant> {
         CardContainer(
           child: Row(
             children: [
-              Expanded(child: Text(Strings.experienceSectionDescription, style: TextStyles.textBaseRegular)),
-              Switch(
-                value: _debutantOnlyEnabled,
-                onChanged: _onDebutantOnlyValueChange,
+              Expanded(
+                child: Semantics(
+                  excludeSemantics: true,
+                  child: Text(Strings.experienceSectionDescription, style: TextStyles.textBaseRegular),
+                ),
+              ),
+              Semantics(
+                label: Strings.experienceSectionEnabled(_debutantOnlyEnabled),
+                child: Switch(
+                  value: _debutantOnlyEnabled,
+                  onChanged: _onDebutantOnlyValueChange,
+                ),
               ),
               SizedBox(width: Margins.spacing_xs),
-              Text(_debutantOnlyEnabled ? Strings.yes : Strings.no, style: TextStyles.textBaseRegular),
+              Semantics(
+                excludeSemantics: true,
+                child: Text(_debutantOnlyEnabled ? Strings.yes : Strings.no, style: TextStyles.textBaseRegular),
+              ),
             ],
           ),
         )

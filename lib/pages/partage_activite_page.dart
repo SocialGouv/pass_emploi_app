@@ -130,15 +130,16 @@ class _PartageFavorisState extends State<_PartageFavoris> {
             child: Row(
               children: [
                 Expanded(
-                    child: Semantics(
-                  excludeSemantics: true,
-                  child: Text(
-                    Strings.shareFavoriteLabel,
-                    style: TextStyles.textBaseRegularWithColor(
-                      widget.updatedState == DisplayState.LOADING ? AppColors.grey500 : AppColors.contentColor,
+                  child: Semantics(
+                    excludeSemantics: true,
+                    child: Text(
+                      Strings.shareFavoriteLabel,
+                      style: TextStyles.textBaseRegularWithColor(
+                        widget.updatedState == DisplayState.LOADING ? AppColors.grey500 : AppColors.contentColor,
+                      ),
                     ),
                   ),
-                )),
+                ),
                 Semantics(
                   label: Strings.partageFavorisEnabled(_partageFavorisEnabled),
                   child: Switch(
