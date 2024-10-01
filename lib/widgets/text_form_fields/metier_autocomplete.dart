@@ -193,34 +193,37 @@ class _MetierListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: Margins.spacing_l),
-      title: Row(
-        children: [
-          Icon(
-            source == MetierSource.dernieresRecherches ? AppIcons.schedule_rounded : AppIcons.bolt_rounded,
-            size: Dimens.icon_size_base,
-            color: AppColors.grey800,
-          ),
-          SizedBox(width: Margins.spacing_s),
-          Expanded(child: Text(metier.libelle, style: TextStyles.textBaseRegular)),
-        ],
+    return Semantics(
+      button: true,
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: Margins.spacing_l),
+        title: Row(
+          children: [
+            Icon(
+              source == MetierSource.dernieresRecherches ? AppIcons.schedule_rounded : AppIcons.bolt_rounded,
+              size: Dimens.icon_size_base,
+              color: AppColors.grey800,
+            ),
+            SizedBox(width: Margins.spacing_s),
+            Expanded(child: Text(metier.libelle, style: TextStyles.textBaseRegular)),
+          ],
+        ),
+        onTap: () {
+          if (source == MetierSource.dernieresRecherches) {
+            PassEmploiMatomoTracker.instance.trackEvent(
+              eventCategory: AnalyticsEventNames.lastRechercheMetierEventCategory,
+              action: AnalyticsEventNames.lastRechercheMetierClickAction,
+            );
+          }
+          if (source == MetierSource.diagorienteMetiersFavoris) {
+            PassEmploiMatomoTracker.instance.trackEvent(
+              eventCategory: AnalyticsEventNames.autocompleteMetierDiagorienteMetiersFavorisEventCategory,
+              action: AnalyticsEventNames.autocompleteMetierDiagorienteMetiersFavorisClickAction,
+            );
+          }
+          onMetierTap(metier);
+        },
       ),
-      onTap: () {
-        if (source == MetierSource.dernieresRecherches) {
-          PassEmploiMatomoTracker.instance.trackEvent(
-            eventCategory: AnalyticsEventNames.lastRechercheMetierEventCategory,
-            action: AnalyticsEventNames.lastRechercheMetierClickAction,
-          );
-        }
-        if (source == MetierSource.diagorienteMetiersFavoris) {
-          PassEmploiMatomoTracker.instance.trackEvent(
-            eventCategory: AnalyticsEventNames.autocompleteMetierDiagorienteMetiersFavorisEventCategory,
-            action: AnalyticsEventNames.autocompleteMetierDiagorienteMetiersFavorisClickAction,
-          );
-        }
-        onMetierTap(metier);
-      },
     );
   }
 }
