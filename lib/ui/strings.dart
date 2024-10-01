@@ -1425,6 +1425,8 @@ class Strings {
   static String selectedRadioButton = "Sélectionné";
   static String unselectedRadioButton = "Non sélectionné";
 
+  static String deleteSelection = "Supprimer la sélection";
+
   static String iconAlternativeLocation = "Localisation";
   static String iconAlternativeContractType = "Type de contrat";
   static String iconAlternativeSalary = "Salaire";

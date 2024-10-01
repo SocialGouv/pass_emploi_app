@@ -59,8 +59,10 @@ class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
                   children: [
                     UserActionStepperTexts(index: 2),
                     const SizedBox(height: Margins.spacing_s),
-                    Text(Strings.userActionTitleStep2,
-                        style: TextStyles.textMBold.copyWith(color: AppColors.contentColor)),
+                    Text(
+                      Strings.userActionTitleStep2,
+                      style: TextStyles.textMBold.copyWith(color: AppColors.contentColor),
+                    ),
                   ],
                 ),
               ),
