@@ -17,7 +17,10 @@ Future<T?> showPassEmploiBottomSheet<T>({required BuildContext context, required
       ),
     ),
     isScrollControlled: true,
-    builder: builder,
+    builder: (context) => Padding(
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      child: builder(context),
+    ),
   );
 }
 
@@ -35,7 +38,6 @@ class BottomSheetHeader extends StatelessWidget {
         padding: padding ?? EdgeInsets.only(top: Margins.spacing_base),
         color: Colors.white,
         child: Row(
-          // alignment: AlignmentDirectional.topCenter,
           children: [
             _CloseButton(),
             if (title != null)
