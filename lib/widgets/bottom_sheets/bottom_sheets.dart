@@ -10,6 +10,7 @@ Future<T?> showPassEmploiBottomSheet<T>({required BuildContext context, required
   return showModalBottomSheet(
     context: context,
     backgroundColor: Colors.white,
+    barrierLabel: Strings.bottomSheetBarrierLabel,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.only(
         topLeft: Radius.circular(Dimens.radius_l),

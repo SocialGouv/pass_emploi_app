@@ -1469,6 +1469,8 @@ class Strings {
   static String loadingAnnouncement = "Chargement en cours";
   static String closeDialog = "Fermer la boîte de dialogue";
   static String chosenValue = "Valeur choisie :";
+  static String buttonRole = "bouton";
+  static String bottomSheetBarrierLabel = "$closeDialog, $buttonRole";
 
   static String removeDistance(int value) => 'Diminuer la distance de $value km';
 

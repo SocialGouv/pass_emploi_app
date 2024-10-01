@@ -31,6 +31,7 @@ class ChatPieceJointeBottomSheet extends StatefulWidget {
     return await showModalBottomSheet<ChatPieceJointeBottomSheetResult>(
       context: context,
       isScrollControlled: true,
+      barrierLabel: Strings.bottomSheetBarrierLabel,
       builder: (context) => ChatPieceJointeBottomSheet(),
     );
   }
