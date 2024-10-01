@@ -964,6 +964,10 @@ class Strings {
   static String serviceCiviqueFiltresTitle = "Filtrer les missions";
   static String startDateFiltreTitle = "Date de début";
   static String startDate = "Dès le";
+
+  static String startDateEnabled(bool enabled) => enabled
+      ? "Désactiver l'affichage des offres à partir d'une date"
+      : "Activer l'affichage des offres à partir d'une date";
   static String domainFiltreTitle = "Domaine";
   static String asSoonAs = "Dès le ";
   static String serviceCiviqueDetailTitle = "Détails de l’offre de service civique";

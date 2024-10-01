@@ -130,8 +130,7 @@ class _PartageFavorisState extends State<_PartageFavoris> {
             child: Row(
               children: [
                 Expanded(
-                  child: Semantics(
-                    excludeSemantics: true,
+                  child: ExcludeSemantics(
                     child: Text(
                       Strings.shareFavoriteLabel,
                       style: TextStyles.textBaseRegularWithColor(
@@ -148,8 +147,7 @@ class _PartageFavorisState extends State<_PartageFavoris> {
                   ),
                 ),
                 SizedBox(width: Margins.spacing_xs),
-                Semantics(
-                  excludeSemantics: true,
+                ExcludeSemantics(
                   child: Text(
                     _partageFavorisEnabled ? Strings.yes : Strings.no,
                     style: TextStyles.textBaseRegularWithColor(

@@ -241,8 +241,7 @@ class _FiltreDebutantState extends State<_FiltreDebutant> {
           child: Row(
             children: [
               Expanded(
-                child: Semantics(
-                  excludeSemantics: true,
+                child: ExcludeSemantics(
                   child: Text(Strings.experienceSectionDescription, style: TextStyles.textBaseRegular),
                 ),
               ),
@@ -254,8 +253,7 @@ class _FiltreDebutantState extends State<_FiltreDebutant> {
                 ),
               ),
               SizedBox(width: Margins.spacing_xs),
-              Semantics(
-                excludeSemantics: true,
+              ExcludeSemantics(
                 child: Text(_debutantOnlyEnabled ? Strings.yes : Strings.no, style: TextStyles.textBaseRegular),
               ),
             ],
