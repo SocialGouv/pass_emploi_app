@@ -206,9 +206,10 @@ class _FooterButtons extends StatelessWidget {
         if (viewModel.url != null) ...[
           SizedBox(width: Margins.spacing_base),
           ShareButton(
-            viewModel.url!,
-            viewModel.titre,
-            () => context.trackEvenementEngagement(EvenementEngagement.EVENEMENT_EXTERNE_PARTAGE),
+            textToShare: viewModel.url!,
+            semanticsLabel: viewModel.titre,
+            subjectForEmail: Strings.a11yPartagerEvenementLabel,
+            onPressed: () => context.trackEvenementEngagement(EvenementEngagement.EVENEMENT_EXTERNE_PARTAGE),
           ),
         ],
       ],

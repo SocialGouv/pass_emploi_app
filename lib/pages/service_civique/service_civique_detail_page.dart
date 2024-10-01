@@ -237,22 +237,25 @@ class ServiceCiviqueDetailPage extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Expanded(
-            child: PrimaryActionButton(
-              label: Strings.postulerButtonTitle,
-              onPressed: () {
-                if (shouldShowCvBottomSheet) {
-                  showPassEmploiBottomSheet(
-                    context: context,
-                    builder: (context) => PostulerOffreBottomSheet(
-                      onPostuler: () => _applyToOffer(context, url),
-                    ),
-                  );
-                } else {
-                  _applyToOffer(context, url);
-                }
-              },
-              icon: shouldShowCvBottomSheet ? null : AppIcons.open_in_new_rounded,
-              iconLabel: Strings.link,
+            child: Semantics(
+              link: true,
+              child: PrimaryActionButton(
+                label: Strings.postulerButtonTitle,
+                onPressed: () {
+                  if (shouldShowCvBottomSheet) {
+                    showPassEmploiBottomSheet(
+                      context: context,
+                      builder: (context) => PostulerOffreBottomSheet(
+                        onPostuler: () => _applyToOffer(context, url),
+                      ),
+                    );
+                  } else {
+                    _applyToOffer(context, url);
+                  }
+                },
+                icon: shouldShowCvBottomSheet ? null : AppIcons.open_in_new_rounded,
+                iconLabel: Strings.link,
+              ),
             ),
           ),
           SizedBox(width: Margins.spacing_base),
@@ -263,7 +266,12 @@ class ServiceCiviqueDetailPage extends StatelessWidget {
             onFavoriRemoved: popPageWhenFavoriIsRemoved ? () => Navigator.pop(context) : null,
           ),
           SizedBox(width: Margins.spacing_base),
-          ShareButton(url, title, () => _shareOffer(context)),
+          ShareButton(
+            textToShare: url,
+            semanticsLabel: Strings.a11yPartagerOffreLabel,
+            subjectForEmail: title,
+            onPressed: () => _shareOffer(context),
+          ),
         ],
       ),
     );

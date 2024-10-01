@@ -867,6 +867,9 @@ class Strings {
   static String a11YMetiersExplanationLabel =
       "Commencez à saisir un métier. Une liste de choix s'affiche directement sous le champ et se met à jour au fur et à mesure. Puis sélectionnez un métier dans lequel vous cherchez une immersion";
 
+  static String a11yPartagerOffreLabel = "Partager l’offre";
+  static String a11yPartagerEvenementLabel = "Partager l’événement";
+
   // Alternance
   static String partagerOffreAlternance = "Partager l’offre d’alternance";
   static String partageOffreAlternanceNavTitle = "Partage de l’offre d’alternance";

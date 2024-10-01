@@ -6,16 +6,23 @@ import 'package:share_plus/share_plus.dart';
 
 class ShareButton extends StatelessWidget {
   final String textToShare;
+  final String semanticsLabel;
   final String? subjectForEmail;
   final VoidCallback? onPressed;
 
-  const ShareButton(this.textToShare, this.subjectForEmail, this.onPressed) : super();
+  const ShareButton({
+    required this.textToShare,
+    required this.semanticsLabel,
+    required this.subjectForEmail,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
     return SecondaryIconButton(
       icon: AppIcons.share_rounded,
       iconSize: Dimens.icon_size_base,
+      tooltip: semanticsLabel,
       onTap: () {
         if (onPressed != null) onPressed!();
         Share.share(textToShare, subject: subjectForEmail);
