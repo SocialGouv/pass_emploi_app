@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
 
@@ -13,6 +12,7 @@ class ReadOnlyTextFormField extends StatefulWidget {
   final bool withDeleteButton;
   final Function() onTextTap;
   final Function() onDeleteTap;
+  final String a11ySuppressionLabel;
   final String? hint;
   final String? initialValue;
 
@@ -24,6 +24,7 @@ class ReadOnlyTextFormField extends StatefulWidget {
     required this.withDeleteButton,
     required this.onTextTap,
     required this.onDeleteTap,
+    required this.a11ySuppressionLabel,
     this.hint,
     this.initialValue,
   });
@@ -74,7 +75,7 @@ class _ReadOnlyTextFormFieldState extends State<ReadOnlyTextFormField> {
             if (widget.withDeleteButton)
               IconButton(
                 onPressed: widget.onDeleteTap,
-                tooltip: Strings.suppressionLabel,
+                tooltip: widget.a11ySuppressionLabel,
                 icon: const Icon(Icons.close),
               ),
           ],

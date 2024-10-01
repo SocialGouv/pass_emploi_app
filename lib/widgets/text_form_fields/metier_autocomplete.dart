@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/utils/debounce_text_form_field.dart';
@@ -55,6 +56,7 @@ class _MetierAutocompleteState extends State<MetierAutocomplete> {
       child: ReadOnlyTextFormField(
         title: widget.title,
         hint: widget.hint,
+        a11ySuppressionLabel: Strings.a11YMetierSuppressionLabel,
         heroTag: _heroTag,
         textFormFieldKey: Key(_selectedMetier.toString()),
         withDeleteButton: _selectedMetier != null,

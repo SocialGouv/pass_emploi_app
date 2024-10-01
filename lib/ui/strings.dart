@@ -855,6 +855,9 @@ class Strings {
   static String messagePourConseiller = "Message destiné à votre conseiller";
   static String infoOffrePartageChat = "L’offre d’emploi sera partagée à votre conseiller dans la messagerie";
   static String partagerOffreEmploi = "Partager l’offre d’emploi";
+  static String a11YLocationSuppressionLabel = "Supprimer la localisation";
+  static String a11YKeywordSuppressionLabel = "Supprimer le mot clé";
+  static String a11YMetierSuppressionLabel = "Supprimer le métier";
 
   // Alternance
   static String partagerOffreAlternance = "Partager l’offre d’alternance";

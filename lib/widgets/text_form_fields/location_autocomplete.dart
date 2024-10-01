@@ -58,6 +58,7 @@ class _LocationAutocompleteState extends State<LocationAutocomplete> {
       child: ReadOnlyTextFormField(
         title: widget.title,
         hint: widget.hint,
+        a11ySuppressionLabel: Strings.a11YLocationSuppressionLabel,
         heroTag: _heroTag,
         textFormFieldKey: Key(_selectedLocation.toString()),
         withDeleteButton: _selectedLocation != null,
