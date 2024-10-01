@@ -204,37 +204,41 @@ class _AskAccount extends StatelessWidget {
 class _InformationsLegales extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ExpansionTile(
-      onExpansionChanged: (_) {
-        Future.delayed(AnimationDurations.medium, () {
-          if (context.mounted) {
-            Scrollable.of(context).position.ensureVisible(
-                  context.findRenderObject()!,
-                  duration: AnimationDurations.fast,
-                );
-          }
-        });
-      },
-      tilePadding: EdgeInsets.zero,
-      title: Text(Strings.legalInformation, style: TextStyles.textBaseRegular),
-      expandedCrossAxisAlignment: CrossAxisAlignment.start,
-      expandedAlignment: Alignment.topLeft,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: Margins.spacing_s),
-            Link(Strings.legalNoticeLabel, Strings.legalNoticeUrl),
-            SizedBox(height: Margins.spacing_m),
-            Link(Strings.privacyPolicyLabel, Strings.privacyPolicyUrl),
-            SizedBox(height: Margins.spacing_m),
-            Link(Strings.termsOfServiceLabel, Strings.termsOfServiceUrl),
-            SizedBox(height: Margins.spacing_m),
-            Link(Strings.accessibilityLevelLabel, Strings.accessibilityUrl),
-            SizedBox(height: Margins.spacing_m),
-          ],
-        )
-      ],
+    return Semantics(
+      button: true,
+      focusable: true,
+      child: ExpansionTile(
+        onExpansionChanged: (_) {
+          Future.delayed(AnimationDurations.medium, () {
+            if (context.mounted) {
+              Scrollable.of(context).position.ensureVisible(
+                    context.findRenderObject()!,
+                    duration: AnimationDurations.fast,
+                  );
+            }
+          });
+        },
+        tilePadding: EdgeInsets.zero,
+        title: Text(Strings.legalInformation, style: TextStyles.textBaseRegular),
+        expandedCrossAxisAlignment: CrossAxisAlignment.start,
+        expandedAlignment: Alignment.topLeft,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: Margins.spacing_s),
+              Link(Strings.legalNoticeLabel, Strings.legalNoticeUrl),
+              SizedBox(height: Margins.spacing_m),
+              Link(Strings.privacyPolicyLabel, Strings.privacyPolicyUrl),
+              SizedBox(height: Margins.spacing_m),
+              Link(Strings.termsOfServiceLabel, Strings.termsOfServiceUrl),
+              SizedBox(height: Margins.spacing_m),
+              Link(Strings.accessibilityLevelLabel, Strings.accessibilityUrl),
+              SizedBox(height: Margins.spacing_m),
+            ],
+          )
+        ],
+      ),
     );
   }
 }
