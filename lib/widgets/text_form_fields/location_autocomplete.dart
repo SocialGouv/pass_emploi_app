@@ -145,7 +145,9 @@ class _LocationAutocompletePageState extends State<_LocationAutocompletePage> {
             onCloseButtonPressed: () => Navigator.pop(context, widget.selectedLocation),
           ),
           Semantics(
-            label: Strings.locationTitle,
+            label: '${Strings.locationTitle} ${widget.villesOnly ? //
+                Strings.a11YLocationWithoutDepartmentExplanationLabel : //
+                Strings.a11YLocationWithDepartmentsExplanationLabel}',
             child: DebounceTextFormField(
               heroTag: _heroTag,
               initialValue: widget.selectedLocation?.displayableLabel(),

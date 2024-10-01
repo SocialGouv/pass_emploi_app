@@ -858,6 +858,14 @@ class Strings {
   static String a11YLocationSuppressionLabel = "Supprimer la localisation";
   static String a11YKeywordSuppressionLabel = "Supprimer le mot clé";
   static String a11YMetierSuppressionLabel = "Supprimer le métier";
+  static String a11YLocationWithDepartmentsExplanationLabel =
+      "Commencez à saisir un nom de ville ou de département. Une liste de choix s'affiche directement sous le champ et se met à jour au fur et à mesure. Puis sélectionnez une ville ou un département dans lequel vous cherchez un emploi";
+  static String a11YLocationWithoutDepartmentExplanationLabel =
+      "Commencez à saisir un nom de ville. Une liste de choix s'affiche directement sous le champ et se met à jour au fur et à mesure. Puis sélectionnez une ville dans laquelle vous cherchez un emploi";
+  static String a11YKeywordExplanationLabel =
+      "Saisissez un mot clé correspondant à votre recherche d'emploi. Puis validez votre choix.";
+  static String a11YMetiersExplanationLabel =
+      "Commencez à saisir un métier. Une liste de choix s'affiche directement sous le champ et se met à jour au fur et à mesure. Puis sélectionnez un métier dans lequel vous cherchez une immersion";
 
   // Alternance
   static String partagerOffreAlternance = "Partager l’offre d’alternance";

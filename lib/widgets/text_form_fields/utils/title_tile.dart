@@ -9,9 +9,12 @@ class TitleTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: Margins.spacing_l),
-      title: Text(title, style: TextStyles.textBaseBold),
+    return Semantics(
+      header: true,
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: Margins.spacing_l),
+        title: Text(title, style: TextStyles.textBaseBold),
+      ),
     );
   }
 }
