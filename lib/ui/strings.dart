@@ -1464,6 +1464,7 @@ class Strings {
   static String invalidField = "Champ invalide";
   static String loadingAnnouncement = "Chargement en cours";
   static String closeDialog = "Fermer la boîte de dialogue";
+  static String chosenValue = "Valeur choisie :";
 
   static String removeDistance(int value) => 'Diminuer la distance de $value km';
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
 
@@ -61,14 +62,18 @@ class _ReadOnlyTextFormFieldState extends State<ReadOnlyTextFormField> {
           children: [
             Hero(
               tag: widget.heroTag,
-              child: Material(
-                type: MaterialType.transparency,
-                child: BaseTextField(
-                  focusNode: _focusNode,
-                  key: widget.textFormFieldKey,
-                  readOnly: true,
-                  initialValue: widget.initialValue,
-                  onTap: widget.onTextTap,
+              child: Semantics(
+                label: widget.initialValue != null ? "${Strings.chosenValue} ${widget.initialValue!}" : null,
+                focusable: true,
+                child: Material(
+                  type: MaterialType.transparency,
+                  child: BaseTextField(
+                    focusNode: _focusNode,
+                    key: widget.textFormFieldKey,
+                    readOnly: true,
+                    initialValue: widget.initialValue,
+                    onTap: widget.onTextTap,
+                  ),
                 ),
               ),
             ),
