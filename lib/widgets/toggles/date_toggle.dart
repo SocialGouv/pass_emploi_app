@@ -13,7 +13,7 @@ class DateToggle extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(Strings.startDate, style: TextStyles.textSRegular()),
+        ExcludeSemantics(child: Text(Strings.startDate, style: TextStyles.textSRegular())),
         _StartDateToggle(
           onIsActiveChange: onIsActiveChange,
           isActiveDate: isActiveDate,
@@ -34,11 +34,12 @@ class _StartDateToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Switch.adaptive(
-      value: isActiveDate,
-      onChanged: (newValue) {
-        onIsActiveChange(newValue);
-      },
+    return Semantics(
+      label: Strings.startDateEnabled(isActiveDate),
+      child: Switch.adaptive(
+        value: isActiveDate,
+        onChanged: onIsActiveChange,
+      ),
     );
   }
 }

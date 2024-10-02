@@ -69,6 +69,14 @@ class _CriteresRechercheBandeau extends StatefulWidget {
 }
 
 class _CriteresRechercheBandeauState extends State<_CriteresRechercheBandeau> {
+  bool initialBuild = true;
+
+  @override
+  void didUpdateWidget(covariant _CriteresRechercheBandeau oldWidget) {
+    initialBuild = false;
+    super.didUpdateWidget(oldWidget);
+  }
+
   @override
   Widget build(BuildContext context) {
     return FocusedBorderBuilder(
@@ -76,8 +84,10 @@ class _CriteresRechercheBandeauState extends State<_CriteresRechercheBandeau> {
       borderRadius: Dimens.radius_base,
       builder: (focusNode) {
         return Semantics(
-          button: true,
-          enabled: true,
+          // On initial build, role header is given, as widget not clickable.
+          // Later, role button is given
+          header: initialBuild ? true : null,
+          button: initialBuild ? null : true,
           label: Strings.rechercheCriteresActifsTooltip(widget.isOpen),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(Dimens.radius_base),

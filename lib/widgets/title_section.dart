@@ -10,23 +10,26 @@ class TitleSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            Container(
-              width: 6,
-              height: 6,
-              decoration: BoxDecoration(color: AppColors.primary, shape: BoxShape.circle),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 16.0),
-              child: Text(label, style: TextStyles.textMBold),
-            )
-          ],
-        ),
-        SepLine(10, 0),
-      ],
+    return Semantics(
+      header: true,
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 6,
+                height: 6,
+                decoration: BoxDecoration(color: AppColors.primary, shape: BoxShape.circle),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0),
+                child: Text(label, style: TextStyles.textMBold),
+              )
+            ],
+          ),
+          SepLine(10, 0),
+        ],
+      ),
     );
   }
 }

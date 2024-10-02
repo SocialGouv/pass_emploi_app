@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/utils/debounce_text_form_field.dart';
@@ -109,13 +110,16 @@ class _BodyState extends State<_Body> {
           hint: widget.hint,
           onCloseButtonPressed: () => Navigator.pop(context, widget.selectedKeyword),
         ),
-        DebounceTextFormField(
-          heroTag: widget.heroTag,
-          initialValue: widget.selectedKeyword,
-          onChanged: (text) {
-            if (text.isEmpty != emptyInput) setState(() => emptyInput = text.isEmpty);
-          },
-          onFieldSubmitted: (keyword) => Navigator.pop(context, keyword),
+        Semantics(
+          label: '${widget.title} ${Strings.a11YKeywordExplanationLabel}',
+          child: DebounceTextFormField(
+            heroTag: widget.heroTag,
+            initialValue: widget.selectedKeyword,
+            onChanged: (text) {
+              if (text.isEmpty != emptyInput) setState(() => emptyInput = text.isEmpty);
+            },
+            onFieldSubmitted: (keyword) => Navigator.pop(context, keyword),
+          ),
         ),
         TextFormFieldSepLine(),
         if (emptyInput)
@@ -164,20 +168,23 @@ class _MotCleListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: Margins.spacing_l),
-      title: Row(
-        children: [
-          Icon(
-            source == MotCleSource.dernieresRecherches ? AppIcons.schedule_rounded : AppIcons.bolt_rounded,
-            size: Dimens.icon_size_base,
-            color: AppColors.grey800,
-          ),
-          SizedBox(width: Margins.spacing_s),
-          Expanded(child: Text(motCle, style: TextStyles.textBaseRegular)),
-        ],
+    return Semantics(
+      button: true,
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: Margins.spacing_l),
+        title: Row(
+          children: [
+            Icon(
+              source == MotCleSource.dernieresRecherches ? AppIcons.schedule_rounded : AppIcons.bolt_rounded,
+              size: Dimens.icon_size_base,
+              color: AppColors.grey800,
+            ),
+            SizedBox(width: Margins.spacing_s),
+            Expanded(child: Text(motCle, style: TextStyles.textBaseRegular)),
+          ],
+        ),
+        onTap: () => onTap(motCle),
       ),
-      onTap: () => onTap(motCle),
     );
   }
 }

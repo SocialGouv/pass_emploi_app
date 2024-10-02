@@ -114,7 +114,11 @@ class _Body extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(Strings.messagePourConseiller, style: TextStyles.textBaseMedium),
+                Text(
+                  Strings.messagePourConseiller,
+                  style: TextStyles.textBaseMedium,
+                  semanticsLabel: ' ',
+                ),
                 SizedBox(height: Margins.spacing_base),
                 _TextField(_controller),
               ],

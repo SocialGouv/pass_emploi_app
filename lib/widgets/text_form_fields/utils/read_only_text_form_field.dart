@@ -13,6 +13,7 @@ class ReadOnlyTextFormField extends StatefulWidget {
   final bool withDeleteButton;
   final Function() onTextTap;
   final Function() onDeleteTap;
+  final String a11ySuppressionLabel;
   final String? hint;
   final String? initialValue;
 
@@ -24,6 +25,7 @@ class ReadOnlyTextFormField extends StatefulWidget {
     required this.withDeleteButton,
     required this.onTextTap,
     required this.onDeleteTap,
+    required this.a11ySuppressionLabel,
     this.hint,
     this.initialValue,
   });
@@ -60,21 +62,25 @@ class _ReadOnlyTextFormFieldState extends State<ReadOnlyTextFormField> {
           children: [
             Hero(
               tag: widget.heroTag,
-              child: Material(
-                type: MaterialType.transparency,
-                child: BaseTextField(
-                  focusNode: _focusNode,
-                  key: widget.textFormFieldKey,
-                  readOnly: true,
-                  initialValue: widget.initialValue,
-                  onTap: widget.onTextTap,
+              child: Semantics(
+                label: widget.initialValue != null ? "${Strings.chosenValue} ${widget.initialValue!}" : null,
+                focusable: true,
+                child: Material(
+                  type: MaterialType.transparency,
+                  child: BaseTextField(
+                    focusNode: _focusNode,
+                    key: widget.textFormFieldKey,
+                    readOnly: true,
+                    initialValue: widget.initialValue,
+                    onTap: widget.onTextTap,
+                  ),
                 ),
               ),
             ),
             if (widget.withDeleteButton)
               IconButton(
                 onPressed: widget.onDeleteTap,
-                tooltip: Strings.suppressionLabel,
+                tooltip: widget.a11ySuppressionLabel,
                 icon: const Icon(Icons.close),
               ),
           ],

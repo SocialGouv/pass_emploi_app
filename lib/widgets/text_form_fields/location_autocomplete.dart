@@ -54,10 +54,11 @@ class _LocationAutocompleteState extends State<LocationAutocomplete> {
   @override
   Widget build(BuildContext context) {
     return Semantics(
-      label: widget.title,
+      button: true,
       child: ReadOnlyTextFormField(
         title: widget.title,
         hint: widget.hint,
+        a11ySuppressionLabel: Strings.a11YLocationSuppressionLabel,
         heroTag: _heroTag,
         textFormFieldKey: Key(_selectedLocation.toString()),
         withDeleteButton: _selectedLocation != null,
@@ -144,7 +145,9 @@ class _LocationAutocompletePageState extends State<_LocationAutocompletePage> {
             onCloseButtonPressed: () => Navigator.pop(context, widget.selectedLocation),
           ),
           Semantics(
-            label: Strings.locationTitle,
+            label: '${Strings.locationTitle} ${widget.villesOnly ? //
+                Strings.a11YLocationWithoutDepartmentExplanationLabel : //
+                Strings.a11YLocationWithDepartmentsExplanationLabel}',
             child: DebounceTextFormField(
               heroTag: _heroTag,
               initialValue: widget.selectedLocation?.displayableLabel(),
@@ -188,36 +191,39 @@ class _LocationListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: Margins.spacing_l),
-      title: Row(
-        children: [
-          if (source == LocationSource.dernieresRecherches) ...[
-            Icon(AppIcons.schedule_rounded, size: Dimens.icon_size_base, color: AppColors.grey800),
-            SizedBox(width: Margins.spacing_s),
-          ],
-          RichText(
-            textScaler: MediaQuery.of(context).textScaler,
-            text: TextSpan(
-              text: location.libelle,
-              style: TextStyles.textBaseBold,
-              children: [
-                TextSpan(text: ' '),
-                TextSpan(text: location.displayableCode(), style: TextStyles.textBaseRegular),
-              ],
+    return Semantics(
+      button: true,
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: Margins.spacing_l),
+        title: Row(
+          children: [
+            if (source == LocationSource.dernieresRecherches) ...[
+              Icon(AppIcons.schedule_rounded, size: Dimens.icon_size_base, color: AppColors.grey800),
+              SizedBox(width: Margins.spacing_s),
+            ],
+            RichText(
+              textScaler: MediaQuery.of(context).textScaler,
+              text: TextSpan(
+                text: location.libelle,
+                style: TextStyles.textBaseBold,
+                children: [
+                  TextSpan(text: ' '),
+                  TextSpan(text: location.displayableCode(), style: TextStyles.textBaseRegular),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
+        onTap: () {
+          if (source == LocationSource.dernieresRecherches) {
+            PassEmploiMatomoTracker.instance.trackEvent(
+              eventCategory: AnalyticsEventNames.lastRechercheLocationEventCategory,
+              action: AnalyticsEventNames.lastRechercheLocationClickAction,
+            );
+          }
+          onLocationTap(location);
+        },
       ),
-      onTap: () {
-        if (source == LocationSource.dernieresRecherches) {
-          PassEmploiMatomoTracker.instance.trackEvent(
-            eventCategory: AnalyticsEventNames.lastRechercheLocationEventCategory,
-            action: AnalyticsEventNames.lastRechercheLocationClickAction,
-          );
-        }
-        onLocationTap(location);
-      },
     );
   }
 }

@@ -830,7 +830,6 @@ class Strings {
   // Solutions
   static String keywordTitle = "Mot clé";
   static String keywordEmploiHint = "Saisissez un métier, une compétence, un secteur d'activité…";
-  static String keywordAlternanceHint = "Saisissez un métier, une compétence, un secteur d'activité…";
   static String metierLabel = "Métier";
   static String metierImmersionHint = "Renseignez le métier pour lequel vous souhaitez faire une immersion.";
   static String locationTitle = "Localisation";
@@ -856,6 +855,20 @@ class Strings {
   static String messagePourConseiller = "Message destiné à votre conseiller";
   static String infoOffrePartageChat = "L’offre d’emploi sera partagée à votre conseiller dans la messagerie";
   static String partagerOffreEmploi = "Partager l’offre d’emploi";
+  static String a11YLocationSuppressionLabel = "Supprimer la localisation";
+  static String a11YKeywordSuppressionLabel = "Supprimer le mot clé";
+  static String a11YMetierSuppressionLabel = "Supprimer le métier";
+  static String a11YLocationWithDepartmentsExplanationLabel =
+      "Commencez à saisir un nom de ville ou de département. Une liste de choix s'affiche directement sous le champ et se met à jour au fur et à mesure. Puis sélectionnez une ville ou un département dans lequel vous cherchez un emploi";
+  static String a11YLocationWithoutDepartmentExplanationLabel =
+      "Commencez à saisir un nom de ville. Une liste de choix s'affiche directement sous le champ et se met à jour au fur et à mesure. Puis sélectionnez une ville dans laquelle vous cherchez un emploi";
+  static String a11YKeywordExplanationLabel =
+      "Saisissez un mot clé correspondant à votre recherche d'emploi. Puis validez votre choix.";
+  static String a11YMetiersExplanationLabel =
+      "Commencez à saisir un métier. Une liste de choix s'affiche directement sous le champ et se met à jour au fur et à mesure. Puis sélectionnez un métier dans lequel vous cherchez une immersion";
+
+  static String a11yPartagerOffreLabel = "Partager l’offre";
+  static String a11yPartagerEvenementLabel = "Partager l’événement";
 
   // Alternance
   static String partagerOffreAlternance = "Partager l’offre d’alternance";
@@ -951,6 +964,10 @@ class Strings {
   static String serviceCiviqueFiltresTitle = "Filtrer les missions";
   static String startDateFiltreTitle = "Date de début";
   static String startDate = "Dès le";
+
+  static String startDateEnabled(bool enabled) => enabled
+      ? "Désactiver l'affichage des offres à partir d'une date"
+      : "Activer l'affichage des offres à partir d'une date";
   static String domainFiltreTitle = "Domaine";
   static String asSoonAs = "Dès le ";
   static String serviceCiviqueDetailTitle = "Détails de l’offre de service civique";
@@ -973,6 +990,10 @@ class Strings {
   static String kmFormat(int int) => "$int km";
   static String experienceSectionTitle = "Expérience";
   static String experienceSectionDescription = "Afficher uniquement les offres débutants acceptés";
+
+  static String experienceSectionEnabled(bool enabled) => enabled
+      ? "Désactiver l'affichage des offres débutants acceptés uniquement"
+      : "Activer l'affichage des offres débutants acceptés uniquement";
   static String contratSectionTitle = "Type de contrat";
   static String contratCdiLabel = "CDI";
   static String contratCdiTooltip = "CDI et CDI Intérimaire";
@@ -1434,14 +1455,16 @@ class Strings {
   static String a11yStatus = "Statut : ";
 
   // textes alternatifs
-  static String favoriHeartRemove = "Retirer l'offre des favoris";
-  static String favoriHeartAdd = "Mettre l'offre en favoris";
+  static String favoriHeartRemove(String offre) => "Retirer l'offre $offre des favoris";
+
+  static String favoriHeartAdd(String offre) => "Mettre l'offre $offre en favoris";
   static String link = "Lien";
   static String openInNewTab = "Ouvrir dans un nouvel onglet";
   static String semanticsLabelInformation = "Information";
   static String invalidField = "Champ invalide";
   static String loadingAnnouncement = "Chargement en cours";
   static String closeDialog = "Fermer la boîte de dialogue";
+  static String chosenValue = "Valeur choisie :";
 
   static String removeDistance(int value) => 'Diminuer la distance de $value km';
 

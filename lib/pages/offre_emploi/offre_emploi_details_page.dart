@@ -130,7 +130,10 @@ class OffreEmploiDetailsPage extends StatelessWidget {
                 if (title != null)
                   Padding(
                     padding: const EdgeInsets.only(bottom: Margins.spacing_m),
-                    child: Text(title, style: TextStyles.textLBold()),
+                    child: Semantics(
+                      header: true,
+                      child: Text(title, style: TextStyles.textLBold()),
+                    ),
                   ),
                 if (companyName != null)
                   Padding(
@@ -420,22 +423,25 @@ class OffreEmploiDetailsPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            child: PrimaryActionButton(
-              onPressed: () {
-                if (shouldShowCvBottomSheet) {
-                  showPassEmploiBottomSheet(
-                    context: context,
-                    builder: (context) => PostulerOffreBottomSheet(
-                      onPostuler: () => _applyToOffer(context, url),
-                    ),
-                  );
-                } else {
-                  _applyToOffer(context, url);
-                }
-              },
-              label: Strings.postulerButtonTitle,
-              icon: shouldShowCvBottomSheet ? null : AppIcons.open_in_new_rounded,
-              iconLabel: shouldShowCvBottomSheet ? null : Strings.link,
+            child: Semantics(
+              link: true,
+              child: PrimaryActionButton(
+                onPressed: () {
+                  if (shouldShowCvBottomSheet) {
+                    showPassEmploiBottomSheet(
+                      context: context,
+                      builder: (context) => PostulerOffreBottomSheet(
+                        onPostuler: () => _applyToOffer(context, url),
+                      ),
+                    );
+                  } else {
+                    _applyToOffer(context, url);
+                  }
+                },
+                label: Strings.postulerButtonTitle,
+                icon: shouldShowCvBottomSheet ? null : AppIcons.open_in_new_rounded,
+                iconLabel: shouldShowCvBottomSheet ? null : Strings.link,
+              ),
             ),
           ),
           SizedBox(width: Margins.spacing_base),
@@ -446,7 +452,12 @@ class OffreEmploiDetailsPage extends StatelessWidget {
             onFavoriRemoved: popPageWhenFavoriIsRemoved ? () => Navigator.pop(context) : null,
           ),
           SizedBox(width: Margins.spacing_base),
-          ShareButton(url, title, () => _shareOffer(context)),
+          ShareButton(
+            textToShare: url,
+            semanticsLabel: Strings.a11yPartagerOffreLabel,
+            subjectForEmail: title,
+            onPressed: () => _shareOffer(context),
+          ),
         ],
       ),
     );

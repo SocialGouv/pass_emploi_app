@@ -14,12 +14,13 @@ class BoiteAOutilsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Semantics(
-      button: true,
+      button: outil.redirectMode is OutilInternalRedirectMode,
       child: BaseCard(
         title: outil.title,
         body: outil.description,
         imagePath: outil.imagePath,
         pressedTip: outil.actionLabel != null ? PressedTip.externalLink(outil.actionLabel!) : null,
+        semanticsAlreadyHandled: true,
         onTap: () {
           return switch (outil.redirectMode) {
             final OutilExternalRedirectMode redirect => _launchExternalRedirect(redirect.url),
