@@ -25,6 +25,7 @@ class BaseCard extends StatelessWidget {
   final void Function()? onLongPress;
   final PressedTip? pressedTip;
   final String? imagePath;
+  final bool semanticsAlreadyHandled;
 
   const BaseCard({
     required this.title,
@@ -41,6 +42,7 @@ class BaseCard extends StatelessWidget {
     this.onLongPress,
     this.pressedTip,
     this.imagePath,
+    this.semanticsAlreadyHandled = false,
   });
 
   @override
@@ -48,7 +50,7 @@ class BaseCard extends StatelessWidget {
     assert(pillule == null || iconButton == null, "A BaseCard can't have both a pillule and an iconButton.");
     final bool isSimpleCard = tag == null && pillule == null;
     return Semantics(
-      button: onTap != null ? true : null,
+      button: semanticsAlreadyHandled ? null : (onTap != null ? true : null),
       child: Stack(
         children: [
           CardContainer(
