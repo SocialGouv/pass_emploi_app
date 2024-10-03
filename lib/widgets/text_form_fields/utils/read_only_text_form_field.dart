@@ -14,8 +14,7 @@ class ReadOnlyTextFormField extends StatefulWidget {
   final Function() onTextTap;
   final Function() onDeleteTap;
   final String a11ySuppressionLabel;
-  final String a11yLabel;
-  final String? hint;
+  final String hint;
   final String? initialValue;
   final Widget? prefixIcon;
 
@@ -28,8 +27,7 @@ class ReadOnlyTextFormField extends StatefulWidget {
     required this.onTextTap,
     required this.onDeleteTap,
     required this.a11ySuppressionLabel,
-    required this.a11yLabel,
-    this.hint,
+    required this.hint,
     this.initialValue,
     this.prefixIcon,
   });
@@ -40,7 +38,6 @@ class ReadOnlyTextFormField extends StatefulWidget {
 
 class _ReadOnlyTextFormFieldState extends State<ReadOnlyTextFormField> {
   late final FocusNode _focusNode;
-  late final GlobalKey _textFieldGlobalKey;
 
   @override
   void initState() {
@@ -60,7 +57,10 @@ class _ReadOnlyTextFormFieldState extends State<ReadOnlyTextFormField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Semantics(header: true, child: Text(widget.title, style: TextStyles.textBaseBold)),
-        if (widget.hint != null) Text(widget.hint!, style: TextStyles.textSRegularWithColor(AppColors.contentColor)),
+        Semantics(
+          excludeSemantics: true,
+          child: Text(widget.hint, style: TextStyles.textSRegularWithColor(AppColors.contentColor)),
+        ),
         SizedBox(height: Margins.spacing_base),
         Stack(
           alignment: Alignment.centerRight,
@@ -69,8 +69,7 @@ class _ReadOnlyTextFormFieldState extends State<ReadOnlyTextFormField> {
               tag: widget.heroTag,
               child: Semantics(
                 button: true,
-                label:
-                    widget.initialValue != null ? "${Strings.chosenValue} ${widget.initialValue!}" : widget.a11yLabel,
+                label: widget.initialValue != null ? "${Strings.chosenValue} ${widget.initialValue!}" : widget.hint,
                 child: Material(
                   type: MaterialType.transparency,
                   child: BaseTextField(

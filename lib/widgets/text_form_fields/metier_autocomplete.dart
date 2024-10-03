@@ -25,13 +25,13 @@ const _heroTag = 'metier';
 
 class MetierAutocomplete extends StatefulWidget {
   final String title;
-  final String? hint;
+  final String hint;
   final Function(Metier? location) onMetierSelected;
   final Metier? initialValue;
 
   const MetierAutocomplete({
     required this.title,
-    this.hint,
+    required this.hint,
     required this.onMetierSelected,
     this.initialValue,
   });
@@ -55,7 +55,6 @@ class _MetierAutocompleteState extends State<MetierAutocomplete> {
       title: widget.title,
       hint: widget.hint,
       a11ySuppressionLabel: Strings.a11YMetierSuppressionLabel,
-      a11yLabel: Strings.a11YMetierLabel,
       heroTag: _heroTag,
       textFormFieldKey: Key(_selectedMetier.toString()),
       withDeleteButton: _selectedMetier != null,

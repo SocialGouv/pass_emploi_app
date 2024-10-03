@@ -25,14 +25,14 @@ const _heroTag = 'location';
 
 class LocationAutocomplete extends StatefulWidget {
   final String title;
-  final String? hint;
+  final String hint;
   final Function(Location? location) onLocationSelected;
   final bool villesOnly;
   final Location? initialValue;
 
   const LocationAutocomplete({
     required this.title,
-    this.hint,
+    required this.hint,
     required this.onLocationSelected,
     this.villesOnly = false,
     this.initialValue,
@@ -57,7 +57,6 @@ class _LocationAutocompleteState extends State<LocationAutocomplete> {
       title: widget.title,
       hint: widget.hint,
       a11ySuppressionLabel: Strings.a11YLocationSuppressionLabel,
-      a11yLabel: Strings.a11YLocationLabel,
       heroTag: _heroTag,
       textFormFieldKey: Key(_selectedLocation.toString()),
       withDeleteButton: _selectedLocation != null,

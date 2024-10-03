@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/analytics/ignore_tracking_context_provider.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/widgets/a11y/auto_focus.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/keyword_text_form_field_page.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/utils/read_only_text_form_field.dart';
 
@@ -25,6 +26,7 @@ class KeywordTextFormField extends StatefulWidget {
 
 class _KeywordTextFormFieldState extends State<KeywordTextFormField> {
   String? _selectedKeyword;
+  final GlobalKey globalKey = GlobalKey();
 
   @override
   void initState() {
@@ -35,10 +37,10 @@ class _KeywordTextFormFieldState extends State<KeywordTextFormField> {
   @override
   Widget build(BuildContext context) {
     return ReadOnlyTextFormField(
+      key: globalKey,
       title: widget.title,
       hint: widget.hint,
       a11ySuppressionLabel: Strings.a11YKeywordSuppressionLabel,
-      a11yLabel: Strings.a11YKeywordLabel,
       heroTag: _heroTag,
       textFormFieldKey: Key(_selectedKeyword.toString()),
       withDeleteButton: _selectedKeyword != null,
@@ -51,6 +53,7 @@ class _KeywordTextFormFieldState extends State<KeywordTextFormField> {
   void _updateKeyword(String? keyword) {
     setState(() => _selectedKeyword = keyword);
     widget.onKeywordSelected(keyword);
+    globalKey.requestFocusDelayed(duration: const Duration(milliseconds: 300));
   }
 
   void _onTap(BuildContext context) {

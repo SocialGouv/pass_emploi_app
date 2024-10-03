@@ -858,11 +858,8 @@ class Strings {
   static String infoOffrePartageChat = "L’offre d’emploi sera partagée à votre conseiller dans la messagerie";
   static String partagerOffreEmploi = "Partager l’offre d’emploi";
   static String a11YLocationSuppressionLabel = "Supprimer la localisation";
-  static String a11YLocationLabel = "Sélectionner une localisation";
   static String a11YKeywordSuppressionLabel = "Supprimer le mot clé";
-  static String a11YKeywordLabel = "Saisir un mot clé";
   static String a11YMetierSuppressionLabel = "Supprimer le métier";
-  static String a11YMetierLabel = "Sélectionner un métier";
   static String a11YLocationWithDepartmentsExplanationLabel =
       "Commencez à saisir un nom de ville ou de département. Une liste de choix s'affiche directement sous le champ et se met à jour au fur et à mesure. Puis sélectionnez une ville ou un département dans lequel vous cherchez un emploi";
   static String a11YLocationWithoutDepartmentExplanationLabel =
