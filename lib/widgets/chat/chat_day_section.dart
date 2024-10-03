@@ -10,10 +10,13 @@ class ChatDaySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text(
-        dayLabel,
-        style: TextStyles.textSRegular(),
-        semanticsLabel: dayLabel.toDateForScreenReaders(),
+      child: Semantics(
+        header: true,
+        child: Text(
+          dayLabel,
+          style: TextStyles.textSRegular(),
+          semanticsLabel: dayLabel.toDateForScreenReaders(),
+        ),
       ),
     );
   }
