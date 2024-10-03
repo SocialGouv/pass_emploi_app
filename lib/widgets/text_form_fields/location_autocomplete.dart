@@ -53,27 +53,25 @@ class _LocationAutocompleteState extends State<LocationAutocomplete> {
 
   @override
   Widget build(BuildContext context) {
-    return Semantics(
-      button: true,
-      child: ReadOnlyTextFormField(
-        title: widget.title,
-        hint: widget.hint,
-        a11ySuppressionLabel: Strings.a11YLocationSuppressionLabel,
-        heroTag: _heroTag,
-        textFormFieldKey: Key(_selectedLocation.toString()),
-        withDeleteButton: _selectedLocation != null,
-        onTextTap: () => Navigator.push(
-          IgnoreTrackingContext.of(context).nonTrackingContext,
-          _LocationAutocompletePage.materialPageRoute(
-            title: widget.title,
-            hint: widget.hint,
-            villesOnly: widget.villesOnly,
-            selectedLocation: _selectedLocation,
-          ),
-        ).then((location) => _updateLocation(location)),
-        onDeleteTap: () => _updateLocation(null),
-        initialValue: _selectedLocation?.displayableLabel(),
-      ),
+    return ReadOnlyTextFormField(
+      title: widget.title,
+      hint: widget.hint,
+      a11ySuppressionLabel: Strings.a11YLocationSuppressionLabel,
+      a11yLabel: Strings.a11YLocationLabel,
+      heroTag: _heroTag,
+      textFormFieldKey: Key(_selectedLocation.toString()),
+      withDeleteButton: _selectedLocation != null,
+      onTextTap: () => Navigator.push(
+        IgnoreTrackingContext.of(context).nonTrackingContext,
+        _LocationAutocompletePage.materialPageRoute(
+          title: widget.title,
+          hint: widget.hint,
+          villesOnly: widget.villesOnly,
+          selectedLocation: _selectedLocation,
+        ),
+      ).then((location) => _updateLocation(location)),
+      onDeleteTap: () => _updateLocation(null),
+      initialValue: _selectedLocation?.displayableLabel(),
     );
   }
 

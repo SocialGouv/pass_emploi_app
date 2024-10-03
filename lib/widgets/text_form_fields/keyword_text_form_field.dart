@@ -34,32 +34,34 @@ class _KeywordTextFormFieldState extends State<KeywordTextFormField> {
 
   @override
   Widget build(BuildContext context) {
-    return Semantics(
-      button: true,
-      child: ReadOnlyTextFormField(
-        title: widget.title,
-        hint: widget.hint,
-        a11ySuppressionLabel: Strings.a11YKeywordSuppressionLabel,
-        heroTag: _heroTag,
-        textFormFieldKey: Key(_selectedKeyword.toString()),
-        withDeleteButton: _selectedKeyword != null,
-        onTextTap: () => Navigator.push(
-          IgnoreTrackingContext.of(context).nonTrackingContext,
-          KeywordTextFormFieldPage.materialPageRoute(
-            heroTag: _heroTag,
-            title: widget.title,
-            hint: widget.hint,
-            selectedKeyword: _selectedKeyword,
-          ),
-        ).then((keyword) => _updateKeyword(keyword)),
-        onDeleteTap: () => _updateKeyword(null),
-        initialValue: _selectedKeyword,
-      ),
+    return ReadOnlyTextFormField(
+      title: widget.title,
+      hint: widget.hint,
+      a11ySuppressionLabel: Strings.a11YKeywordSuppressionLabel,
+      a11yLabel: Strings.a11YKeywordLabel,
+      heroTag: _heroTag,
+      textFormFieldKey: Key(_selectedKeyword.toString()),
+      withDeleteButton: _selectedKeyword != null,
+      onTextTap: () => _onTap(context),
+      onDeleteTap: () => _updateKeyword(null),
+      initialValue: _selectedKeyword,
     );
   }
 
   void _updateKeyword(String? keyword) {
     setState(() => _selectedKeyword = keyword);
     widget.onKeywordSelected(keyword);
+  }
+
+  void _onTap(BuildContext context) {
+    Navigator.push(
+      IgnoreTrackingContext.of(context).nonTrackingContext,
+      KeywordTextFormFieldPage.materialPageRoute(
+        heroTag: _heroTag,
+        title: widget.title,
+        hint: widget.hint,
+        selectedKeyword: _selectedKeyword,
+      ),
+    ).then((keyword) => _updateKeyword(keyword));
   }
 }
