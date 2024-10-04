@@ -365,11 +365,12 @@ class _ConseillerPart extends StatelessWidget {
             style: TextStyles.textBaseBoldWithColor(viewModel.conseillerPresenceColor),
           ),
         if (_withSepLine()) SepLine(Margins.spacing_m, Margins.spacing_m),
-        if (viewModel.commentTitle != null) Text("viewModel.commentTitle!", style: TextStyles.textBaseBold),
+        if (viewModel.commentTitle != null)
+          Semantics(header: true, child: Text(viewModel.commentTitle!, style: TextStyles.textBaseBold)),
         if (viewModel.comment != null)
           Padding(
             padding: const EdgeInsets.only(top: Margins.spacing_s),
-            child: TextWithClickableLinks("viewModel.comment!", style: TextStyles.textBaseRegular),
+            child: TextWithClickableLinks(viewModel.comment!, style: TextStyles.textBaseRegular),
           ),
         if (_withEndSepLine()) SepLine(Margins.spacing_m, Margins.spacing_m),
       ],
@@ -388,7 +389,10 @@ class _InformIfAbsent extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(Strings.cannotGoToRendezvous, style: TextStyles.textBaseBold),
+        Semantics(
+          header: true,
+          child: Text(Strings.cannotGoToRendezvous, style: TextStyles.textBaseBold),
+        ),
         SizedBox(height: Margins.spacing_s),
         Text(Strings.shouldInformConseiller, style: TextStyles.textBaseRegular),
       ],

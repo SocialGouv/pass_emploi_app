@@ -248,29 +248,26 @@ class _MailCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Semantics(
-      header: true,
-      child: CardContainer(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(Strings.personalInformation, style: TextStyles.textMBold),
-            SizedBox(height: Margins.spacing_m),
-            Wrap(
-              alignment: WrapAlignment.spaceBetween,
-              children: [
-                Text(Strings.emailAddressLabel, style: TextStyles.textBaseRegular),
-                Text(
-                  userEmail,
-                  textAlign: TextAlign.right,
-                  style: TextStyles.textBaseBold.copyWith(
-                    color: AppColors.primary,
-                  ),
+    return CardContainer(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Semantics(header: true, child: Text(Strings.personalInformation, style: TextStyles.textMBold)),
+          SizedBox(height: Margins.spacing_m),
+          Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            children: [
+              Text(Strings.emailAddressLabel, style: TextStyles.textBaseRegular),
+              Text(
+                userEmail,
+                textAlign: TextAlign.right,
+                style: TextStyles.textBaseBold.copyWith(
+                  color: AppColors.primary,
                 ),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

@@ -51,22 +51,28 @@ class _DeleteAlertDialogState extends State<DeleteAlertDialog> {
                 ),
               ),
               SizedBox(height: Margins.spacing_m),
-              Text(
-                Strings.lastWarningBeforeSuppression,
-                style: TextStyles.textBaseBold,
-                textAlign: TextAlign.center,
+              Semantics(
+                excludeSemantics: true,
+                child: Text(
+                  Strings.lastWarningBeforeSuppression,
+                  style: TextStyles.textBaseBold,
+                  textAlign: TextAlign.center,
+                ),
               ),
               SizedBox(height: Margins.spacing_m),
-              _DeleteAlertTextField(
-                controller: _inputController,
-                getFieldContent: () => _fieldContent,
-                onChanged: (value) {
-                  setState(() {
-                    _fieldContent = value;
-                    _showError = false;
-                  });
-                },
-                showError: _showError,
+              Semantics(
+                label: Strings.lastWarningBeforeSuppression,
+                child: _DeleteAlertTextField(
+                  controller: _inputController,
+                  getFieldContent: () => _fieldContent,
+                  onChanged: (value) {
+                    setState(() {
+                      _fieldContent = value;
+                      _showError = false;
+                    });
+                  },
+                  showError: _showError,
+                ),
               ),
               SizedBox(height: Margins.spacing_m),
               Row(
