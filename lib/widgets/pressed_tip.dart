@@ -3,7 +3,6 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class PressedTip extends StatelessWidget {
@@ -19,7 +18,7 @@ class PressedTip extends StatelessWidget {
 
   PressedTip.externalLink(this.tip, {this.textColor = AppColors.contentColor})
       : icon = AppIcons.open_in_new_rounded,
-        iconLabel = Strings.link,
+        iconLabel = null,
         iconLeading = true;
 
   @override

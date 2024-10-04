@@ -41,29 +41,26 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Semantics(
-      button: true,
-      child: BaseCard(
-        onTap: onTap,
-        title: viewModel.title,
-        tag: CardTag.evenement(text: viewModel.tag),
-        pillule: viewModel.isAnnule ? CardPillule.evenementCanceled() : null,
-        complements: [
-          CardComplement.dateTime(text: viewModel.date),
-          if (viewModel.place != null) CardComplement.place(text: viewModel.place!)
-        ],
-        secondaryTags: [
-          if (viewModel.inscriptionStatus == InscriptionStatus.inscrit)
-            CardTag.secondary(
-              text: Strings.eventVousEtesDejaInscrit,
-              icon: AppIcons.check_circle_outline_rounded,
-            ),
-          if (viewModel.inscriptionStatus == InscriptionStatus.notInscrit)
-            CardTag.secondary(
-              text: Strings.eventInscrivezVousPourParticiper,
-            )
-        ],
-      ),
+    return BaseCard(
+      onTap: onTap,
+      title: viewModel.title,
+      tag: CardTag.evenement(text: viewModel.tag),
+      pillule: viewModel.isAnnule ? CardPillule.evenementCanceled() : null,
+      complements: [
+        CardComplement.dateTime(text: viewModel.date),
+        if (viewModel.place != null) CardComplement.place(text: viewModel.place!)
+      ],
+      secondaryTags: [
+        if (viewModel.inscriptionStatus == InscriptionStatus.inscrit)
+          CardTag.secondary(
+            text: Strings.eventVousEtesDejaInscrit,
+            icon: AppIcons.check_circle_outline_rounded,
+          ),
+        if (viewModel.inscriptionStatus == InscriptionStatus.notInscrit)
+          CardTag.secondary(
+            text: Strings.eventInscrivezVousPourParticiper,
+          )
+      ],
     );
   }
 }
