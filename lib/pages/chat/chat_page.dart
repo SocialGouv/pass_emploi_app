@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/presentation/chat/chat_item.dart';
 import 'package:pass_emploi_app/presentation/chat/chat_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/a11y/auto_focus.dart';
 import 'package:pass_emploi_app/widgets/apparition_animation.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/chat_message_bottom_sheet.dart';
@@ -118,6 +119,13 @@ class ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
               key: ValueKey(item.messageId),
               child: SizedBox(
                 width: double.infinity,
+                child: widget,
+              ),
+            );
+          } else if (index == 0) {
+            return AutoFocusA11y(
+              child: Semantics(
+                label: Strings.chatA11yLastMessage,
                 child: widget,
               ),
             );

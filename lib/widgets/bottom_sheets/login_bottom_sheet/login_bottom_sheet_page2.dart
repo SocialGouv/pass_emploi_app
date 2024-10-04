@@ -136,6 +136,9 @@ class _OpenInNewDescription extends StatelessWidget {
 class _NoAccount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Text(Strings.loginNoAccount, style: TextStyles.textBaseRegular);
+    return Semantics(
+      header: true,
+      child: Text(Strings.loginNoAccount, style: TextStyles.textBaseRegular),
+    );
   }
 }

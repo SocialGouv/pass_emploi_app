@@ -63,21 +63,24 @@ class _PartageCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const border = RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8)));
-    return Material(
-      shape: border,
-      child: InkWell(
-        onTap: () => _onTap(context),
-        splashColor: AppColors.primaryLighten,
-        customBorder: border,
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(item.titrePartage, style: TextStyles.textBaseBold),
-              SizedBox(height: Margins.spacing_s),
-              _SeeSharedDetails(item),
-            ],
+    return Semantics(
+      button: true,
+      child: Material(
+        shape: border,
+        child: InkWell(
+          onTap: () => _onTap(context),
+          splashColor: AppColors.primaryLighten,
+          customBorder: border,
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(item.titrePartage, style: TextStyles.textBaseBold),
+                SizedBox(height: Margins.spacing_s),
+                _SeeSharedDetails(item),
+              ],
+            ),
           ),
         ),
       ),

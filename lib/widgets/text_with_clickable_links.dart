@@ -21,6 +21,7 @@ class TextWithClickableLinks extends StatelessWidget {
         PassEmploiMatomoTracker.instance.trackOutlink(baseUrl);
         launchExternalUrl(link.url);
       },
+      textScaleFactor: MediaQuery.of(context).textScaler.scale(1.0),
       options: LinkifyOptions(
         humanize: true,
         looseUrl: true,

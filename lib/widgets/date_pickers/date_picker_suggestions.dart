@@ -24,7 +24,7 @@ class DatePickerSuggestions extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: TextStyles.textBaseBold),
+        Semantics(header: true, child: Text(title, style: TextStyles.textBaseBold)),
         const SizedBox(height: Margins.spacing_s),
         DatePicker(
           onDateSelected: (date) => onDateChanged(DateFromPicker(date)),

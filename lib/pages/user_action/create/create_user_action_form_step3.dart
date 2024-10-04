@@ -35,9 +35,19 @@ class CreateUserActionFormStep3 extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: Margins.spacing_s),
-              UserActionStepperTexts(index: 3),
-              const SizedBox(height: Margins.spacing_s),
-              Text(Strings.userActionTitleStep3, style: TextStyles.textMBold.copyWith(color: AppColors.contentColor)),
+              Semantics(
+                container: true,
+                header: true,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    UserActionStepperTexts(index: 3),
+                    const SizedBox(height: Margins.spacing_s),
+                    Text(Strings.userActionTitleStep3,
+                        style: TextStyles.textMBold.copyWith(color: AppColors.contentColor)),
+                  ],
+                ),
+              ),
               const SizedBox(height: Margins.spacing_m),
               MandatoryFieldsLabel.all(),
               const SizedBox(height: Margins.spacing_m),

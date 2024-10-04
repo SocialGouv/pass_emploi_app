@@ -25,14 +25,14 @@ const _heroTag = 'location';
 
 class LocationAutocomplete extends StatefulWidget {
   final String title;
-  final String? hint;
+  final String hint;
   final Function(Location? location) onLocationSelected;
   final bool villesOnly;
   final Location? initialValue;
 
   const LocationAutocomplete({
     required this.title,
-    this.hint,
+    required this.hint,
     required this.onLocationSelected,
     this.villesOnly = false,
     this.initialValue,
@@ -53,27 +53,24 @@ class _LocationAutocompleteState extends State<LocationAutocomplete> {
 
   @override
   Widget build(BuildContext context) {
-    return Semantics(
-      button: true,
-      child: ReadOnlyTextFormField(
-        title: widget.title,
-        hint: widget.hint,
-        a11ySuppressionLabel: Strings.a11YLocationSuppressionLabel,
-        heroTag: _heroTag,
-        textFormFieldKey: Key(_selectedLocation.toString()),
-        withDeleteButton: _selectedLocation != null,
-        onTextTap: () => Navigator.push(
-          IgnoreTrackingContext.of(context).nonTrackingContext,
-          _LocationAutocompletePage.materialPageRoute(
-            title: widget.title,
-            hint: widget.hint,
-            villesOnly: widget.villesOnly,
-            selectedLocation: _selectedLocation,
-          ),
-        ).then((location) => _updateLocation(location)),
-        onDeleteTap: () => _updateLocation(null),
-        initialValue: _selectedLocation?.displayableLabel(),
-      ),
+    return ReadOnlyTextFormField(
+      title: widget.title,
+      hint: widget.hint,
+      a11ySuppressionLabel: Strings.a11YLocationSuppressionLabel,
+      heroTag: _heroTag,
+      textFormFieldKey: Key(_selectedLocation.toString()),
+      withDeleteButton: _selectedLocation != null,
+      onTextTap: () => Navigator.push(
+        IgnoreTrackingContext.of(context).nonTrackingContext,
+        _LocationAutocompletePage.materialPageRoute(
+          title: widget.title,
+          hint: widget.hint,
+          villesOnly: widget.villesOnly,
+          selectedLocation: _selectedLocation,
+        ),
+      ).then((location) => _updateLocation(location)),
+      onDeleteTap: () => _updateLocation(null),
+      initialValue: _selectedLocation?.displayableLabel(),
     );
   }
 

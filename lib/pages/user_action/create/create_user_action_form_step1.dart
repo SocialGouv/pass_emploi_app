@@ -32,9 +32,19 @@ class CreateUserActionFormStep1 extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: Margins.spacing_s),
-              UserActionStepperTexts(index: 1),
-              const SizedBox(height: Margins.spacing_s),
-              Text(Strings.userActionTitleStep1, style: TextStyles.textMBold.copyWith(color: AppColors.contentColor)),
+              Semantics(
+                container: true,
+                header: true,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    UserActionStepperTexts(index: 1),
+                    const SizedBox(height: Margins.spacing_s),
+                    Text(Strings.userActionTitleStep1,
+                        style: TextStyles.textMBold.copyWith(color: AppColors.contentColor)),
+                  ],
+                ),
+              ),
               const SizedBox(height: Margins.spacing_m),
               Semantics(
                 sortKey: const OrdinalSortKey(1),
@@ -123,10 +133,12 @@ class ActionCategoryCard extends StatelessWidget {
               style: TextStyles.textBaseBold.copyWith(color: AppColors.primary),
             ),
             const SizedBox(height: Margins.spacing_s),
-            Text(
-              description,
-              textAlign: TextAlign.center,
-              style: TextStyles.textSRegular(color: AppColors.grey800),
+            Flexible(
+              child: Text(
+                description,
+                textAlign: TextAlign.center,
+                style: TextStyles.textSRegular(color: AppColors.grey800),
+              ),
             ),
           ],
         ),

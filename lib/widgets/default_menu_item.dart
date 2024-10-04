@@ -36,9 +36,13 @@ class DefaultMenuItem extends StatelessWidget {
           ],
         ),
         SizedBox(height: Margins.spacing_s),
-        Text(
-          label,
-          style: TextStyles.textXsMedium(color: color).copyWith(fontWeight: isActive ? FontWeight.bold : null),
+        Semantics(
+          // To avoid reading the label twice
+          excludeSemantics: true,
+          child: Text(
+            label,
+            style: TextStyles.textXsMedium(color: color).copyWith(fontWeight: isActive ? FontWeight.bold : null),
+          ),
         ),
       ],
     );

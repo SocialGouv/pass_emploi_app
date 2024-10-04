@@ -135,18 +135,27 @@ class _Button extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PrimaryActionButton(
-      label: viewModel.displayState(params.fileId) == DisplayState.FAILURE ? Strings.retry : Strings.open,
-      icon: AppIcons.download_rounded,
-      onPressed: () => switch (params) {
-        final PieceJointeTypeIdParams params => viewModel.onDownloadTypeId(params.fileId, params.filename),
-        final PieceJointeTypeUrlParams params => viewModel.onDownloadTypeUrl(
-            params.url,
-            params.fileId,
-            params.filename,
-          ),
-      },
-      heightPadding: 2,
+    return Semantics(
+      label:
+          viewModel.displayState(params.fileId) == DisplayState.FAILURE ? Strings.retry : Strings.chatOpenPieceJointe,
+      button: true,
+      container: true,
+      child: Semantics(
+        excludeSemantics: true,
+        child: PrimaryActionButton(
+          label: viewModel.displayState(params.fileId) == DisplayState.FAILURE ? Strings.retry : Strings.open,
+          icon: AppIcons.download_rounded,
+          onPressed: () => switch (params) {
+            final PieceJointeTypeIdParams params => viewModel.onDownloadTypeId(params.fileId, params.filename),
+            final PieceJointeTypeUrlParams params => viewModel.onDownloadTypeUrl(
+                params.url,
+                params.fileId,
+                params.filename,
+              ),
+          },
+          heightPadding: 2,
+        ),
+      ),
     );
   }
 }

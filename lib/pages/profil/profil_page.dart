@@ -187,17 +187,20 @@ class _DiscoverDiagorienteCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const Color textColor = Colors.white;
-    return CardContainer(
-      backgroundColor: AppColors.primary,
-      splashColor: AppColors.primaryDarken,
-      onTap: () => Navigator.push(context, DiagorienteEntryPage.materialPageRoute()),
-      child: Column(
-        children: [
-          Text(Strings.diagorienteDiscoverCardTitle, style: TextStyles.textMBold.copyWith(color: textColor)),
-          SizedBox(height: Margins.spacing_m),
-          Text(Strings.diagorienteDiscoverCardSubtitle, style: TextStyles.textBaseRegularWithColor(textColor)),
-          PressedTip(Strings.diagorienteDiscoverCardPressedTip, textColor: textColor),
-        ],
+    return Semantics(
+      button: true,
+      child: CardContainer(
+        backgroundColor: AppColors.primary,
+        splashColor: AppColors.primaryDarken,
+        onTap: () => Navigator.push(context, DiagorienteEntryPage.materialPageRoute()),
+        child: Column(
+          children: [
+            Text(Strings.diagorienteDiscoverCardTitle, style: TextStyles.textMBold.copyWith(color: textColor)),
+            SizedBox(height: Margins.spacing_m),
+            Text(Strings.diagorienteDiscoverCardSubtitle, style: TextStyles.textBaseRegularWithColor(textColor)),
+            PressedTip(Strings.diagorienteDiscoverCardPressedTip, textColor: textColor),
+          ],
+        ),
       ),
     );
   }
@@ -245,29 +248,26 @@ class _MailCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Semantics(
-      header: true,
-      child: CardContainer(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(Strings.personalInformation, style: TextStyles.textMBold),
-            SizedBox(height: Margins.spacing_m),
-            Wrap(
-              alignment: WrapAlignment.spaceBetween,
-              children: [
-                Text(Strings.emailAddressLabel, style: TextStyles.textBaseRegular),
-                Text(
-                  userEmail,
-                  textAlign: TextAlign.right,
-                  style: TextStyles.textBaseBold.copyWith(
-                    color: AppColors.primary,
-                  ),
+    return CardContainer(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Semantics(header: true, child: Text(Strings.personalInformation, style: TextStyles.textMBold)),
+          SizedBox(height: Margins.spacing_m),
+          Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            children: [
+              Text(Strings.emailAddressLabel, style: TextStyles.textBaseRegular),
+              Text(
+                userEmail,
+                textAlign: TextAlign.right,
+                style: TextStyles.textBaseBold.copyWith(
+                  color: AppColors.primary,
                 ),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -291,24 +291,27 @@ class _ListTileCard extends StatelessWidget {
               .map(
                 (data) {
                   return [
-                    ListTile(
-                      onTap: data.onTap,
-                      title: Text(data.title, style: TextStyles.textBaseRegular),
-                      leading: externalRedirect
-                          ? Icon(
-                              AppIcons.open_in_new_rounded,
-                              size: Dimens.icon_size_base,
-                              color: AppColors.contentColor,
-                            )
-                          : null,
-                      trailing: !externalRedirect
-                          ? Icon(
-                              AppIcons.chevron_right_rounded,
-                              semanticLabel: Strings.openInNewTab,
-                              size: Dimens.icon_size_m,
-                              color: AppColors.contentColor,
-                            )
-                          : Semantics(label: Strings.link),
+                    Semantics(
+                      link: externalRedirect,
+                      button: !externalRedirect,
+                      child: ListTile(
+                        onTap: data.onTap,
+                        title: Text(data.title, style: TextStyles.textBaseRegular),
+                        leading: externalRedirect
+                            ? Icon(
+                                AppIcons.open_in_new_rounded,
+                                size: Dimens.icon_size_base,
+                                color: AppColors.contentColor,
+                              )
+                            : null,
+                        trailing: externalRedirect
+                            ? SizedBox()
+                            : Icon(
+                                AppIcons.chevron_right_rounded,
+                                size: Dimens.icon_size_m,
+                                color: AppColors.contentColor,
+                              ),
+                      ),
                     ),
                     Divider(color: AppColors.grey100, height: 0),
                   ];

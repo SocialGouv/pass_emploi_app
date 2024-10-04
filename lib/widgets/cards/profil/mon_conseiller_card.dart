@@ -22,7 +22,7 @@ class MonConseillerCard extends StatelessWidget {
   Widget _build(BuildContext context, ConseillerProfilePageViewModel vm) {
     final displayState = vm.displayState;
     if (displayState == DisplayState.CONTENT) {
-      return _contentCard(vm.sinceDate, vm.name);
+      return _contentCard(vm, context);
     } else if (displayState == DisplayState.LOADING) {
       return _loading();
     }
@@ -39,30 +39,28 @@ class MonConseillerCard extends StatelessWidget {
     );
   }
 
-  Widget _contentCard(String sinceDate, String name) {
-    return Semantics(
-      header: true,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          CardContainer(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(Strings.yourConseiller, style: TextStyles.textMBold),
-                SizedBox(height: Margins.spacing_m),
-                Text(sinceDate, style: TextStyles.textBaseRegular),
-                SizedBox(height: Margins.spacing_s),
-                Text(
-                  name,
-                  style: TextStyles.textBaseBold.copyWith(color: AppColors.primary),
-                ),
-              ],
-            ),
+  Widget _contentCard(ConseillerProfilePageViewModel vm, BuildContext context) {
+    final bool isA11yEnabled = MediaQuery.of(context).accessibleNavigation;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        CardContainer(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Semantics(header: true, child: Text(Strings.yourConseiller, style: TextStyles.textMBold)),
+              SizedBox(height: Margins.spacing_m),
+              Text(isA11yEnabled ? vm.sinceDateA11y : vm.sinceDate, style: TextStyles.textBaseRegular),
+              SizedBox(height: Margins.spacing_s),
+              Text(
+                vm.name,
+                style: TextStyles.textBaseBold.copyWith(color: AppColors.primary),
+              ),
+            ],
           ),
-          SizedBox(height: Margins.spacing_m),
-        ],
-      ),
+        ),
+        SizedBox(height: Margins.spacing_m),
+      ],
     );
   }
 }

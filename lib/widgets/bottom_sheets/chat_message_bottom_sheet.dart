@@ -20,6 +20,7 @@ class ChatMessageBottomSheet extends StatelessWidget {
   static void show(BuildContext context, ChatItem chatItem) {
     showModalBottomSheet(
       context: context,
+      barrierLabel: Strings.bottomSheetBarrierLabel,
       isScrollControlled: true,
       builder: (context) => ChatMessageBottomSheet(chatItem: chatItem),
     );

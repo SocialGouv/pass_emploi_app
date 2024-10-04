@@ -43,17 +43,20 @@ class _Body extends StatelessWidget {
   Widget build(BuildContext context) {
     if (viewModel.hasSuggestionsRecherche) {
       return ApparitionAnimation(
-        child: Padding(
-          padding: padding ?? EdgeInsets.zero,
-          child: _Bandeau(
-            onTapShowSuggestions: onTapShowSuggestions,
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                _Icon(),
-                _Text(),
-                _Chevron(),
-              ],
+        child: Semantics(
+          button: true,
+          child: Padding(
+            padding: padding ?? EdgeInsets.zero,
+            child: _Bandeau(
+              onTapShowSuggestions: onTapShowSuggestions,
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  _Icon(),
+                  _Text(),
+                  _Chevron(),
+                ],
+              ),
             ),
           ),
         ),

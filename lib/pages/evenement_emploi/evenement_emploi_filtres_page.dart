@@ -171,7 +171,7 @@ class _Filtres extends StatelessWidget {
               initialDateFin: currentDateFin,
             ),
             if (viewModel.displayState.isFailure()) ErrorText(Strings.genericError),
-            SizedBox(height: 160),
+            SizedBox(height: 200),
           ],
         ),
       ),

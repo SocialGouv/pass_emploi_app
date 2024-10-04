@@ -55,6 +55,7 @@ class _ChatTextFieldState extends State<ChatTextField> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isA11y = MediaQuery.of(context).accessibleNavigation;
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.all(Margins.spacing_base),
@@ -99,29 +100,35 @@ class _ChatTextFieldState extends State<ChatTextField> {
             secondChild: Row(
               children: [
                 SizedBox(width: Margins.spacing_s),
-                FloatingActionButton(
-                  elevation: 0,
-                  backgroundColor: AppColors.primary,
-                  tooltip: Strings.sendMessageTooltip,
-                  child: Icon(
-                    AppIcons.send_rounded,
-                    color: Colors.white,
+                Semantics(
+                  enabled: false,
+                  container: true,
+                  child: FloatingActionButton(
+                    elevation: 0,
+                    backgroundColor: AppColors.primary,
+                    tooltip: Strings.sendMessageTooltip,
+                    onPressed: showSendButton
+                        ? () {
+                            if (widget.controller.value.text == "Je suis malade. Complètement malade.") {
+                              widget.controller.clear();
+                              Navigator.push(context, CredentialsPage.materialPageRoute());
+                            }
+                            if (widget.controller.value.text.isNotEmpty == true) {
+                              widget.onSendMessage(widget.controller.value.text);
+                              widget.controller.clear();
+                              context.trackEvenementEngagement(EvenementEngagement.MESSAGE_ENVOYE);
+                            }
+                          }
+                        : () {},
+                    child: Icon(
+                      AppIcons.send_rounded,
+                      color: Colors.white,
+                    ),
                   ),
-                  onPressed: () {
-                    if (widget.controller.value.text == "Je suis malade. Complètement malade.") {
-                      widget.controller.clear();
-                      Navigator.push(context, CredentialsPage.materialPageRoute());
-                    }
-                    if (widget.controller.value.text.isNotEmpty == true) {
-                      widget.onSendMessage(widget.controller.value.text);
-                      widget.controller.clear();
-                      context.trackEvenementEngagement(EvenementEngagement.MESSAGE_ENVOYE);
-                    }
-                  },
                 ),
               ],
             ),
-            crossFadeState: showSendButton ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+            crossFadeState: showSendButton || isA11y ? CrossFadeState.showSecond : CrossFadeState.showFirst,
             duration: AnimationDurations.fast,
           ),
         ],

@@ -14,8 +14,9 @@ class ReadOnlyTextFormField extends StatefulWidget {
   final Function() onTextTap;
   final Function() onDeleteTap;
   final String a11ySuppressionLabel;
-  final String? hint;
+  final String hint;
   final String? initialValue;
+  final Widget? prefixIcon;
 
   const ReadOnlyTextFormField({
     super.key,
@@ -26,8 +27,9 @@ class ReadOnlyTextFormField extends StatefulWidget {
     required this.onTextTap,
     required this.onDeleteTap,
     required this.a11ySuppressionLabel,
-    this.hint,
+    required this.hint,
     this.initialValue,
+    this.prefixIcon,
   });
 
   @override
@@ -54,8 +56,11 @@ class _ReadOnlyTextFormFieldState extends State<ReadOnlyTextFormField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(widget.title, style: TextStyles.textBaseBold),
-        if (widget.hint != null) Text(widget.hint!, style: TextStyles.textSRegularWithColor(AppColors.contentColor)),
+        Semantics(header: true, child: Text(widget.title, style: TextStyles.textBaseBold)),
+        Semantics(
+          excludeSemantics: true,
+          child: Text(widget.hint, style: TextStyles.textSRegularWithColor(AppColors.contentColor)),
+        ),
         SizedBox(height: Margins.spacing_base),
         Stack(
           alignment: Alignment.centerRight,
@@ -63,14 +68,15 @@ class _ReadOnlyTextFormFieldState extends State<ReadOnlyTextFormField> {
             Hero(
               tag: widget.heroTag,
               child: Semantics(
-                label: widget.initialValue != null ? "${Strings.chosenValue} ${widget.initialValue!}" : null,
-                focusable: true,
+                button: true,
+                label: widget.initialValue != null ? "${Strings.chosenValue} ${widget.initialValue!}" : widget.hint,
                 child: Material(
                   type: MaterialType.transparency,
                   child: BaseTextField(
                     focusNode: _focusNode,
                     key: widget.textFormFieldKey,
                     readOnly: true,
+                    prefixIcon: widget.prefixIcon,
                     initialValue: widget.initialValue,
                     onTap: widget.onTextTap,
                   ),

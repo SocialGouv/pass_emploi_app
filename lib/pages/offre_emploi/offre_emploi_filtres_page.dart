@@ -191,7 +191,7 @@ class _FiltersState extends State<_Filters> {
             ),
           ],
           if (widget.viewModel.displayState.isFailure()) ErrorText(Strings.genericError),
-          SizedBox(height: 100),
+          SizedBox(height: 200),
         ],
       ),
     );

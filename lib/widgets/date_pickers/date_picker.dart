@@ -7,9 +7,10 @@ import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
+import 'package:pass_emploi_app/widgets/a11y/auto_focus.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
 
-class DatePicker extends StatelessWidget {
+class DatePicker extends StatefulWidget {
   final Function(DateTime) onDateSelected;
   final Function()? onDateDeleted;
   final DateTime? initialDateValue;
@@ -29,27 +30,38 @@ class DatePicker extends StatelessWidget {
   });
 
   @override
+  State<DatePicker> createState() => _DatePickerState();
+}
+
+class _DatePickerState extends State<DatePicker> {
+  final dateGlobalKey = GlobalKey();
+
+  @override
   Widget build(BuildContext context) {
     return BaseTextField(
-      enabled: isActiveDate,
+      enabled: widget.isActiveDate,
       keyboardType: TextInputType.none,
       onTap: () => openDatePicker(context),
       showCursor: false,
       readOnly: true,
       prefixIcon: IconButton(
+        key: dateGlobalKey,
         onPressed: () => openDatePicker(context),
         tooltip: Strings.selectDateTooltip,
         icon: Icon(AppIcons.today_rounded, color: AppColors.grey800),
       ),
-      suffixIcon: onDateDeleted != null && initialDateValue != null
+      suffixIcon: widget.onDateDeleted != null && widget.initialDateValue != null
           ? IconButton(
-              onPressed: onDateDeleted,
+              onPressed: () {
+                dateGlobalKey.requestFocusDelayed();
+                widget.onDateDeleted?.call();
+              },
               tooltip: Strings.removeDateTooltip,
               icon: Icon(AppIcons.cancel_rounded, color: AppColors.grey800),
             )
           : null,
       hintText: _hintText(),
-      errorText: errorText,
+      errorText: widget.errorText,
     );
   }
 
@@ -76,11 +88,11 @@ class DatePicker extends StatelessWidget {
             ),
             Flexible(
               child: CupertinoDatePicker(
-                  initialDateTime: initialDateValue ?? DateTime.now(),
-                  minimumDate: firstDate,
+                  initialDateTime: widget.initialDateValue ?? DateTime.now(),
+                  minimumDate: widget.firstDate,
                   mode: CupertinoDatePickerMode.date,
                   onDateTimeChanged: (value) {
-                    onDateSelected(value);
+                    widget.onDateSelected(value);
                   }),
             ),
           ],
@@ -92,18 +104,18 @@ class DatePicker extends StatelessWidget {
   Future<void> _androidDatePicker(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      firstDate: firstDate ?? DateTime(2020),
+      firstDate: widget.firstDate ?? DateTime(2020),
       lastDate: DateTime(2101),
-      initialDate: initialDateValue ?? DateTime.now(),
+      initialDate: widget.initialDateValue ?? DateTime.now(),
       locale: const Locale("fr", "FR"),
     );
-    if (picked != null && picked != initialDateValue) {
-      onDateSelected(picked);
+    if (picked != null && picked != widget.initialDateValue) {
+      widget.onDateSelected(picked);
     }
   }
 
   String _hintText() {
-    if (showInitialDate) return initialDateValue != null ? initialDateValue!.toDay() : '';
+    if (widget.showInitialDate) return widget.initialDateValue != null ? widget.initialDateValue!.toDay() : '';
     return '';
   }
 }

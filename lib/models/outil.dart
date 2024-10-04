@@ -28,7 +28,7 @@ class Outil extends Equatable {
   static Outil mesAidesFt = Outil(
     title: "Je découvre Mes aides France Travail",
     description:
-        "Besoin d'une une aide financière, de conseils ? Permis, voiture, vélo, logement... Consultez les aides qui existent pour vos projets. ",
+        "Besoin d'une aide financière, de conseils ? Permis, voiture, vélo, logement... Consultez les aides qui existent pour vos projets. ",
     actionLabel: "En savoir plus sur Mes aides",
     redirectMode: OutilExternalRedirectMode(ExternalLinks.boiteAOutilsMesAidesFt),
     imagePath: "boite_a_outils/mes_aides_ft.webp",

@@ -22,6 +22,7 @@ class OnboardingNavigationBottomSheet extends StatelessWidget {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      barrierLabel: Strings.bottomSheetBarrierLabel,
       builder: (context) => const OnboardingNavigationBottomSheet(),
       isDismissible: false,
       enableDrag: false,

@@ -3,8 +3,8 @@ import 'package:pass_emploi_app/features/details_jeune/details_jeune_state.dart'
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/profil/conseiller_profil_page_view_model.dart';
 
-import '../doubles/fixtures.dart';
-import '../utils/test_setup.dart';
+import '../../doubles/fixtures.dart';
+import '../../utils/test_setup.dart';
 
 void main() {
   test('should display loading', () {
@@ -34,6 +34,7 @@ void main() {
     // Then
     expect(viewModel.displayState, DisplayState.CONTENT);
     expect(viewModel.sinceDate, "Depuis le 03/01/2005");
+    expect(viewModel.sinceDateA11y, "Depuis le 3 janvier 2005");
     expect(viewModel.name, "Perceval de Galles");
   });
 

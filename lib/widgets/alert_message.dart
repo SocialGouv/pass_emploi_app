@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 
 class AlertMessageRetry {
   final String message;
   final void Function() onRetry;
+  final bool link;
 
-  AlertMessageRetry({required this.message, required this.onRetry});
+  AlertMessageRetry({required this.message, required this.onRetry, this.link = false});
 }
 
 class AlertMessage extends StatelessWidget {
@@ -42,9 +44,22 @@ class AlertMessage extends StatelessWidget {
           if (retryMessage != null)
             Align(
               alignment: Alignment.centerRight,
-              child: TextButton(
-                onPressed: retryMessage!.onRetry,
-                child: Text(retryMessage!.message, style: TextStyles.textSBoldWithColor(contentColor)),
+              child: Semantics(
+                container: true,
+                child: TextButton(
+                  onPressed: retryMessage!.onRetry,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (retryMessage!.link) ...[
+                        Icon(AppIcons.open_in_new_rounded, color: contentColor),
+                        SizedBox(width: Margins.spacing_xs),
+                      ],
+                      Text(retryMessage!.message, style: TextStyles.textSBoldWithColor(contentColor)),
+                      if (retryMessage!.link) Semantics(label: Strings.link, child: SizedBox.shrink())
+                    ],
+                  ),
+                ),
               ),
             ),
         ],

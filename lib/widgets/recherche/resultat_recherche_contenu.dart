@@ -52,7 +52,7 @@ class ResultatRechercheContenuState<Result> extends State<ResultatRechercheConte
         child: ListView.separated(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
-          padding: const EdgeInsets.only(top: Margins.spacing_base, bottom: 120),
+          padding: const EdgeInsets.only(top: Margins.spacing_base, bottom: 200),
           controller: _scrollController,
           itemCount: widget.viewModel.items.length,
           itemBuilder: (context, index) {

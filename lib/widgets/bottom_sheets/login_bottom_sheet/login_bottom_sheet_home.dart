@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/presentation/login_bottom_sheet_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/login_bottom_sheet/login_bottom_sheet_page1.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/login_bottom_sheet/login_bottom_sheet_page2.dart';
@@ -13,6 +14,7 @@ class LoginBottomSheet extends StatefulWidget {
   static void show(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      barrierLabel: Strings.bottomSheetBarrierLabel,
       isScrollControlled: true,
       builder: (context) => LoginBottomSheet(),
     );

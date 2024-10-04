@@ -124,6 +124,7 @@ class Strings {
 
   static String chatDeletedMessageContent = "(Message supprimé)";
 
+  static String chatOpenPieceJointe = "Ouvrir la pièce jointe";
   static String chatPieceJointeBottomSheetTitle = "Ajouter une pièce jointe";
   static String chatPieceJointeBottomSheetSubtitle =
       "Attention à ne pas partager vos données personnelles ou d’informations sensibles notamment votre numéro de Sécurité Sociale (ex : Carte Vitale, etc.)";
@@ -141,6 +142,7 @@ class Strings {
   static String chatPieceJointeOpenAppSettings = "Accéder aux paramètres";
   static String chatA11yMessageFromMe = "Mon message : ";
   static String chatA11yMessageFromMyConseiller = "Message de mon conseiller : ";
+  static String chatA11yLastMessage = "Dernier message : ";
 
   // Force Update
   static String updateTitle = "Mise à jour";
@@ -1109,15 +1111,15 @@ class Strings {
     "vos actions",
     "vos messages avec votre conseiller",
     "vos rendez-vous",
-    "vos recherches et offres sauvergardées"
+    "vos recherches et offres sauvegardées"
   ];
 
   static List<String> warningPointsPoleEmploi = [
     "vos messages avec votre conseiller",
-    "vos recherches et offres sauvergardées"
+    "vos recherches et offres sauvegardées"
   ];
   static String lastWarningBeforeSuppression = "Tapez “supprimer” pour confirmer la suppression de votre compte.";
-  static String mandatorySuppressionLabelError = "Vérifiez que vous avez bien tapé “supprimer”";
+  static String mandatorySuppressionLabelError = "Champs invalide. Vérifiez que vous avez bien tapé “supprimer”";
   static String accountDeletionSuccess =
       Brand.isCej() ? _CejStrings.accountDeletionSuccess : _PassEmploiStrings.accountDeletionSuccess;
 
@@ -1423,6 +1425,8 @@ class Strings {
   static String selectedRadioButton = "Sélectionné";
   static String unselectedRadioButton = "Non sélectionné";
 
+  static String deleteSelection = "Supprimer la sélection";
+
   static String iconAlternativeLocation = "Localisation";
   static String iconAlternativeContractType = "Type de contrat";
   static String iconAlternativeSalary = "Salaire";
@@ -1465,6 +1469,8 @@ class Strings {
   static String loadingAnnouncement = "Chargement en cours";
   static String closeDialog = "Fermer la boîte de dialogue";
   static String chosenValue = "Valeur choisie :";
+  static String buttonRole = "bouton";
+  static String bottomSheetBarrierLabel = "$closeDialog, $buttonRole";
 
   static String removeDistance(int value) => 'Diminuer la distance de $value km';
 
