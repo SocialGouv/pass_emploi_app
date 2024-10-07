@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/presentation/rating_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -86,7 +87,18 @@ void _sendStoreReview(BuildContext context, RatingViewModel viewModel) async {
   final isAvailable = await inAppReview.isAvailable();
   if (isAvailable) inAppReview.requestReview();
   if (!context.mounted) return;
-  isAvailable ? _ratingDone(context, viewModel, true) : showSnackBarWithSystemError(context);
+  isAvailable ? _ratingDone(context, viewModel, true) : openAppStore(context);
+}
+
+void openAppStore(BuildContext context) async {
+  try {
+    await inAppReview.openStoreListing(
+      appStoreId: Brand.getAppStoreIdiOS(),
+    );
+  } catch (e) {
+    if (!context.mounted) return;
+    showSnackBarWithSystemError(context);
+  }
 }
 
 void _sendEmailReview(BuildContext context, RatingViewModel viewModel) async {
