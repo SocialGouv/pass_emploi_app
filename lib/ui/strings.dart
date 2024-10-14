@@ -118,6 +118,7 @@ class Strings {
   static String chatDeleteMessage = "Supprimer";
   static String chatEditMessage = "Modifier";
 
+  static String chatExpiredPjMessage = "Pièce jointe expirée";
   static String chatDeletedMessage = "Message supprimé";
   static String chatEditMessageAppBar = "Modifier le message";
   static String editMessageSave = "Modifier";

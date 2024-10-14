@@ -126,7 +126,7 @@ void main() {
     expect(viewModel.displayState, DisplayState.CONTENT);
     expect(viewModel.items, [
       DayItem('Le 01/01/2021'),
-      DeletedMessageItem("id0", Sender.jeune),
+      DeletedMessageItem("id0", Sender.jeune, "Message supprimé"),
       TextMessageItem(messageId: "id1", content: '1', caption: '12:30 · Lu', sender: Sender.jeune),
       TextMessageItem(messageId: "id2", content: '2', caption: '15:30 · Modifié', sender: Sender.conseiller),
       DayItem('Le 02/01/2021'),
@@ -169,7 +169,7 @@ void main() {
       type: MessageType.messagePj,
       sendingStatus: MessageSendingStatus.sent,
       contentStatus: MessageContentStatus.content,
-      pieceJointes: [PieceJointe("id-1", "super.pdf")],
+      pieceJointes: [PieceJointe("id-1", "super.pdf", PieceJointeAnalyseStatut.aFaire)],
     );
 
     final store = givenState()
@@ -212,7 +212,7 @@ void main() {
           type: MessageType.messagePj,
           sendingStatus: MessageSendingStatus.sent,
           contentStatus: MessageContentStatus.content,
-          pieceJointes: [PieceJointe("1", "a.pdf")],
+          pieceJointes: [PieceJointe("1", "a.pdf", PieceJointeAnalyseStatut.aFaire)],
         ),
       ]),
     );
@@ -231,7 +231,7 @@ void main() {
         pieceJointeId: "1",
         message: null,
         filename: "a.pdf",
-        caption: "12:30",
+        caption: "12:30 · Envoi en cours",
         captionColor: null,
         shouldAnimate: false,
       ),
@@ -250,7 +250,7 @@ void main() {
           type: MessageType.messagePj,
           sendingStatus: MessageSendingStatus.sent,
           contentStatus: MessageContentStatus.content,
-          pieceJointes: [PieceJointe("1", "a.png")],
+          pieceJointes: [PieceJointe("1", "a.png", PieceJointeAnalyseStatut.valide)],
         ),
       ]),
     );
@@ -287,7 +287,7 @@ void main() {
           type: MessageType.localImagePj,
           sendingStatus: MessageSendingStatus.sending,
           contentStatus: MessageContentStatus.content,
-          pieceJointes: [PieceJointe("1", "a.png")],
+          pieceJointes: [PieceJointe("1", "a.png", PieceJointeAnalyseStatut.aFaire)],
         ),
       ]),
     );
@@ -324,7 +324,7 @@ void main() {
           type: MessageType.localFilePj,
           sendingStatus: MessageSendingStatus.sending,
           contentStatus: MessageContentStatus.content,
-          pieceJointes: [PieceJointe("1", "a.pdf")],
+          pieceJointes: [PieceJointe("1", "a.pdf", PieceJointeAnalyseStatut.aFaire)],
         ),
       ]),
     );
@@ -914,6 +914,237 @@ void main() {
 
       // Then
       expect(viewModel.messageImportant, "Je veux revoir les montages Gandalf");
+    });
+  });
+
+  group('piece jointe analyse statut', () {
+    test('when is aFaire, should display loading caption even if last conseiller reading is after', () {
+      // Given
+      final store = givenState()
+          .chatSuccess([
+            mockMessage(
+              type: MessageType.messagePj,
+              pieceJointe: PieceJointe("1", "a.pdf", PieceJointeAnalyseStatut.aFaire),
+            ),
+          ])
+          .copyWith(
+            chatStatusState: ChatStatusSuccessState(
+              hasUnreadMessages: false,
+              lastConseillerReading: DateTime(2030),
+            ),
+          )
+          .store();
+
+      // When
+      final viewModel = ChatPageViewModel.create(store);
+
+      // Then
+      expect(
+        viewModel.items[1],
+        isA<PieceJointeItem>().having(
+          (e) => e.caption,
+          "caption",
+          "12:30 · Envoi en cours",
+        ),
+      );
+    });
+
+    test('when is enCours, should display loading caption even if last conseiller reading is after', () {
+      // Given
+      final store = givenState()
+          .chatSuccess([
+            mockMessage(
+              type: MessageType.messagePj,
+              pieceJointe: PieceJointe("1", "a.pdf", PieceJointeAnalyseStatut.enCours),
+            ),
+          ])
+          .copyWith(
+            chatStatusState: ChatStatusSuccessState(
+              hasUnreadMessages: false,
+              lastConseillerReading: DateTime(2030),
+            ),
+          )
+          .store();
+
+      // When
+      final viewModel = ChatPageViewModel.create(store);
+
+      // Then
+      expect(
+        viewModel.items[1],
+        isA<PieceJointeItem>().having(
+          (e) => e.caption,
+          "caption",
+          "12:30 · Envoi en cours",
+        ),
+      );
+    });
+
+    test('when is valide and message is not read, should display success caption', () {
+      // Given
+      final store = givenState()
+          .chatSuccess([
+            mockMessage(
+              type: MessageType.messagePj,
+              pieceJointe: PieceJointe("1", "a.pdf", PieceJointeAnalyseStatut.valide),
+            ),
+          ])
+          .copyWith(
+            chatStatusState: ChatStatusSuccessState(
+              hasUnreadMessages: false,
+              lastConseillerReading: DateTime(2010),
+            ),
+          )
+          .store();
+
+      // When
+      final viewModel = ChatPageViewModel.create(store);
+
+      // Then
+      expect(
+        viewModel.items[1],
+        isA<PieceJointeItem>().having(
+          (e) => e.caption,
+          "caption",
+          "12:30 · Envoyé",
+        ),
+      );
+    });
+
+    test('when is valide and message is read, should display success caption', () {
+      // Given
+      final store = givenState()
+          .chatSuccess([
+            mockMessage(
+              type: MessageType.messagePj,
+              pieceJointe: PieceJointe("1", "a.pdf", PieceJointeAnalyseStatut.valide),
+            ),
+          ])
+          .copyWith(
+            chatStatusState: ChatStatusSuccessState(
+              hasUnreadMessages: false,
+              lastConseillerReading: DateTime(2030),
+            ),
+          )
+          .store();
+
+      // When
+      final viewModel = ChatPageViewModel.create(store);
+
+      // Then
+      expect(
+        viewModel.items[1],
+        isA<PieceJointeItem>().having(
+          (e) => e.caption,
+          "caption",
+          "12:30 · Lu",
+        ),
+      );
+    });
+
+    test('when is nonValide, should display erreur caption even if conseiller has read', () {
+      // Given
+      final store = givenState()
+          .chatSuccess([
+            mockMessage(
+              type: MessageType.messagePj,
+              pieceJointe: PieceJointe("1", "a.pdf", PieceJointeAnalyseStatut.nonValide),
+            ),
+          ])
+          .copyWith(
+            chatStatusState: ChatStatusSuccessState(
+              hasUnreadMessages: false,
+              lastConseillerReading: DateTime(2030),
+            ),
+          )
+          .store();
+
+      // When
+      final viewModel = ChatPageViewModel.create(store);
+
+      // Then
+      expect(
+        viewModel.items[1],
+        isA<PieceJointeItem>()
+            .having(
+              (e) => e.captionColor,
+              "captionColor",
+              AppColors.warning,
+            )
+            .having(
+              (e) => e.caption,
+              "caption",
+              "12:30 · L'envoi a échoué",
+            ),
+      );
+    });
+
+    test('when is erreur, should display erreur caption', () {
+      // Given
+      final store = givenState()
+          .chatSuccess([
+            mockMessage(
+              type: MessageType.messagePj,
+              pieceJointe: PieceJointe("1", "a.pdf", PieceJointeAnalyseStatut.erreur),
+            ),
+          ])
+          .copyWith(
+            chatStatusState: ChatStatusSuccessState(
+              hasUnreadMessages: false,
+              lastConseillerReading: DateTime(2030),
+            ),
+          )
+          .store();
+
+      // When
+      final viewModel = ChatPageViewModel.create(store);
+
+      // Then
+      expect(
+        viewModel.items[1],
+        isA<PieceJointeItem>()
+            .having(
+              (e) => e.captionColor,
+              "captionColor",
+              AppColors.warning,
+            )
+            .having(
+              (e) => e.caption,
+              "caption",
+              "12:30 · L'envoi a échoué",
+            ),
+      );
+    });
+
+    test('when is expiree, should display deleted item', () {
+      // Given
+      final store = givenState()
+          .chatSuccess([
+            mockMessage(
+              type: MessageType.messagePj,
+              pieceJointe: PieceJointe("1", "a.pdf", PieceJointeAnalyseStatut.expiree),
+            ),
+          ])
+          .copyWith(
+            chatStatusState: ChatStatusSuccessState(
+              hasUnreadMessages: false,
+              lastConseillerReading: DateTime(2030),
+            ),
+          )
+          .store();
+
+      // When
+      final viewModel = ChatPageViewModel.create(store);
+
+      // Then
+      expect(
+        viewModel.items[1],
+        isA<DeletedMessageItem>().having(
+          (e) => e.content,
+          "content",
+          "Pièce jointe expirée",
+        ),
+      );
     });
   });
 }

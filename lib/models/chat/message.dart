@@ -261,11 +261,31 @@ extension DecryptString on String {
   }
 }
 
+enum PieceJointeAnalyseStatut {
+  aFaire,
+  enCours,
+  valide,
+  nonValide,
+  erreur,
+  expiree;
+
+  static PieceJointeAnalyseStatut? fromJson(String? jsonType) => switch (jsonType) {
+        "analyse_en_cours" => PieceJointeAnalyseStatut.enCours,
+        "analyse_a_faire" => PieceJointeAnalyseStatut.aFaire,
+        "valide" => PieceJointeAnalyseStatut.valide,
+        "erreur_analyse" => PieceJointeAnalyseStatut.erreur,
+        "non_valide" => PieceJointeAnalyseStatut.nonValide,
+        "expiree" => PieceJointeAnalyseStatut.expiree,
+        _ => null,
+      };
+}
+
 class PieceJointe extends Equatable {
   final String id;
   final String nom;
+  final PieceJointeAnalyseStatut? analyseStatut;
 
-  PieceJointe(this.id, this.nom);
+  PieceJointe(this.id, this.nom, this.analyseStatut);
 
   @override
   List<Object?> get props => [id, nom];
@@ -273,15 +293,18 @@ class PieceJointe extends Equatable {
   static PieceJointe? fromEncryptedJson(dynamic json, ChatCrypto chatCrypto, Crashlytics crashlytics, String? iv) {
     final id = json["id"] as String;
     final encryptedNom = json["nom"] as String;
+    final analyseStatut = PieceJointeAnalyseStatut.fromJson(json["statut"] as String?);
+
     final nom = encryptedNom.decrypt(chatCrypto, crashlytics, iv);
     if (nom == null) return null;
-    return PieceJointe(id, nom);
+    return PieceJointe(id, nom, analyseStatut);
   }
 
   static PieceJointe fromJson(dynamic json) {
     final id = json["id"] as String;
     final nom = json["nom"] as String;
-    return PieceJointe(id, nom);
+    final analyseStatut = PieceJointeAnalyseStatut.fromJson(json["statut"] as String?);
+    return PieceJointe(id, nom, analyseStatut);
   }
 }
 
