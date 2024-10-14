@@ -89,7 +89,11 @@ List<ChatItem> _messagesToChatItems(List<Message> messages, DateTime lastConseil
       final message = element as Message;
 
       if (message.contentStatus == MessageContentStatus.deleted) {
-        return DeletedMessageItem(message.id, message.sentBy);
+        return DeletedMessageItem(message.id, message.sentBy, Strings.chatDeletedMessage);
+      }
+
+      if (message.pieceJointes.firstOrNull?.analyseStatut == PieceJointeAnalyseStatut.expiree) {
+        return DeletedMessageItem(message.id, message.sentBy, Strings.chatExpiredPjMessage);
       }
 
       return switch (message.type) {
@@ -185,7 +189,7 @@ ChatItem _pieceJointeItem(Message message, DateTime lastConseillerReading) {
     pieceJointeId: message.pieceJointes[0].id,
     message: message.sentBy.isJeune ? null : message.content,
     filename: message.pieceJointes.first.nom,
-    caption: message.creationDate.toHour(),
+    caption: _caption(message, lastConseillerReading),
     captionColor: _captionColor(message),
     shouldAnimate: _shouldAnimate(message),
   );
@@ -216,6 +220,11 @@ ChatItem _localFilePieceJointeItem(Message message) {
 }
 
 Color? _captionColor(Message message) {
+  if ([PieceJointeAnalyseStatut.nonValide, PieceJointeAnalyseStatut.erreur]
+      .contains(message.pieceJointes.firstOrNull?.analyseStatut)) {
+    return AppColors.warning;
+  }
+
   return switch (message.sendingStatus) {
     MessageSendingStatus.sending => null,
     MessageSendingStatus.sent => null,
@@ -235,12 +244,22 @@ String _caption(Message message, DateTime lastConseillerReading) {
   if (message.contentStatus == MessageContentStatus.edited) {
     return "$hourLabel · ${Strings.edited}";
   } else if (message.sentBy == Sender.jeune) {
+    final String? pjStatut = switch (message.pieceJointes.firstOrNull?.analyseStatut) {
+      PieceJointeAnalyseStatut.aFaire => Strings.sending,
+      PieceJointeAnalyseStatut.enCours => Strings.sending,
+      PieceJointeAnalyseStatut.valide => null,
+      PieceJointeAnalyseStatut.nonValide => Strings.sendingFailed,
+      PieceJointeAnalyseStatut.erreur => Strings.sendingFailed,
+      PieceJointeAnalyseStatut.expiree => null,
+      null => null,
+    };
+
     final status = switch (message.sendingStatus) {
       MessageSendingStatus.sending => Strings.sending,
       MessageSendingStatus.sent => lastConseillerReading.isAfter(message.creationDate) ? Strings.read : Strings.sent,
       MessageSendingStatus.failed => Strings.sendingFailed,
     };
-    return "$hourLabel · $status";
+    return "$hourLabel · ${pjStatut ?? status}";
   } else {
     return hourLabel;
   }

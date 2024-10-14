@@ -1,4 +1,5 @@
 {
   "id": "id-1",
-  "nom": "nom-1"
+  "nom": "nom-1",
+  "statut": "analyse_en_cours"
 }

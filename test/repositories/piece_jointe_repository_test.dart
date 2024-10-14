@@ -49,7 +49,13 @@ void main() {
       });
 
       test('response should be valid', () async {
-        await sut.expectResult<PieceJointe?>((result) => expect(result, PieceJointe("id-1", "nom-1")));
+        await sut.expectResult<PieceJointe?>((result) => expect(
+            result,
+            PieceJointe(
+              "id-1",
+              "nom-1",
+              PieceJointeAnalyseStatut.enCours,
+            )));
       });
     });
 

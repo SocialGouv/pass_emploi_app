@@ -405,4 +405,4 @@ class _MockPieceJointeUseCase extends Mock implements PieceJointeUseCase {
   }
 }
 
-final PieceJointe _dummyPieceJointe = PieceJointe("id", "nom");
+final PieceJointe _dummyPieceJointe = PieceJointe("id", "nom", PieceJointeAnalyseStatut.aFaire);

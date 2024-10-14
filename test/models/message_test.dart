@@ -53,7 +53,11 @@ void main() {
         "iv": "ivvv",
         "sentBy": "jeune",
         "piecesJointes": [
-          {"id": "id-pj-343", "nom": "nom-secretement-chiffré"},
+          {
+            "id": "id-pj-343",
+            "nom": "nom-secretement-chiffré",
+            "statut": "analyse_en_cours",
+          },
         ]
       },
       chatCryptoSpy,
@@ -75,6 +79,7 @@ void main() {
             PieceJointe(
               "id-pj-343",
               "nom-secretement-chiffré-déchiffré",
+              PieceJointeAnalyseStatut.enCours,
             )
           ],
         ));
@@ -381,6 +386,79 @@ void main() {
 
     // Then
     expect(message, isNull);
+  });
+
+  group('PieceJointeAnalyseStatut', () {
+    test('should return piece jointe statut enCours', () {
+      // Given
+      const String statut = "analyse_en_cours";
+
+      // When
+      final result = PieceJointeAnalyseStatut.fromJson(statut);
+
+      // Then
+      expect(result, PieceJointeAnalyseStatut.enCours);
+    });
+    test('should return piece jointe statut aFaire', () {
+      // Given
+      const String statut = "analyse_a_faire";
+
+      // When
+      final result = PieceJointeAnalyseStatut.fromJson(statut);
+
+      // Then
+      expect(result, PieceJointeAnalyseStatut.aFaire);
+    });
+    test('should return piece jointe statut valide', () {
+      // Given
+      const String statut = "valide";
+
+      // When
+      final result = PieceJointeAnalyseStatut.fromJson(statut);
+
+      // Then
+      expect(result, PieceJointeAnalyseStatut.valide);
+    });
+    test('should return piece jointe statut erreur', () {
+      // Given
+      const String statut = "erreur_analyse";
+
+      // When
+      final result = PieceJointeAnalyseStatut.fromJson(statut);
+
+      // Then
+      expect(result, PieceJointeAnalyseStatut.erreur);
+    });
+    test('should return piece jointe statut nonValide', () {
+      // Given
+      const String statut = "non_valide";
+
+      // When
+      final result = PieceJointeAnalyseStatut.fromJson(statut);
+
+      // Then
+      expect(result, PieceJointeAnalyseStatut.nonValide);
+    });
+    test('should return piece jointe statut expire', () {
+      // Given
+      const String statut = "expiree";
+
+      // When
+      final result = PieceJointeAnalyseStatut.fromJson(statut);
+
+      // Then
+      expect(result, PieceJointeAnalyseStatut.expiree);
+    });
+    test('should not return piece jointe status', () {
+      // Given
+      const String statut = "ineiaonhfei";
+
+      // When
+      final result = PieceJointeAnalyseStatut.fromJson(statut);
+
+      // Then
+      expect(result, null);
+    });
   });
 }
 

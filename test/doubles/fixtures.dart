@@ -1340,3 +1340,21 @@ MessageImportant dummyMessageImportant({
       dateDebut: dateDebut ?? DateTime(2023),
       dateFin: dateFin ?? DateTime(2024),
     );
+
+message.Message mockMessage({
+  String id = "123",
+  Sender sentBy = Sender.jeune,
+  message.MessageType type = message.MessageType.message,
+  message.PieceJointe? pieceJointe,
+}) {
+  return message.Message(
+    id: id,
+    content: "content $id",
+    creationDate: DateTime.utc(2022, 1, 1, 12, 30),
+    sentBy: sentBy,
+    type: type,
+    sendingStatus: message.MessageSendingStatus.sent,
+    contentStatus: message.MessageContentStatus.content,
+    pieceJointes: pieceJointe != null ? [pieceJointe] : [],
+  );
+}

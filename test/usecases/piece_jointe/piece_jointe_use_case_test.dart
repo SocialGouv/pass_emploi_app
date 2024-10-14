@@ -122,4 +122,4 @@ Message _mockMessage([String id = '1']) {
   );
 }
 
-final PieceJointe _dummyPieceJointe = PieceJointe("id", "nom");
+final PieceJointe _dummyPieceJointe = PieceJointe("id", "nom", PieceJointeAnalyseStatut.enCours);

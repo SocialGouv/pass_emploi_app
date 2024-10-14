@@ -33,9 +33,10 @@ class InformationItem extends ChatItem {
 }
 
 class DeletedMessageItem extends ChatItem {
-  DeletedMessageItem(super.messageId, this.sender);
+  DeletedMessageItem(super.messageId, this.sender, this.content);
 
   final Sender sender;
+  final String content;
 
   @override
   List<Object?> get props => [messageId];
