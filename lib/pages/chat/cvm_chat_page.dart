@@ -124,6 +124,7 @@ extension on CvmPieceJointeConseillerMessageItem {
       filename: fileName,
       fileId: fileId,
       url: url,
+      captionColor: null,
     );
   }
 }

@@ -16,6 +16,7 @@ sealed class PieceJointeParams {
   final Sender sender;
   final String? content;
   final String caption;
+  final Color? captionColor;
   final String filename;
   final String fileId;
 
@@ -23,6 +24,7 @@ sealed class PieceJointeParams {
     required this.sender,
     required this.content,
     required this.caption,
+    required this.captionColor,
     required this.filename,
     required this.fileId,
   });
@@ -33,6 +35,7 @@ class PieceJointeTypeIdParams extends PieceJointeParams {
     required super.sender,
     super.content,
     required super.caption,
+    required super.captionColor,
     required super.filename,
     required super.fileId,
   });
@@ -44,6 +47,7 @@ class PieceJointeTypeUrlParams extends PieceJointeParams {
   PieceJointeTypeUrlParams({
     required super.sender,
     required super.caption,
+    required super.captionColor,
     required super.filename,
     required super.fileId,
     required this.url,
@@ -76,7 +80,7 @@ class ChatPieceJointe extends StatelessWidget {
       isPj: true,
       isMyMessage: params.sender.isJeune,
       caption: params.caption,
-      captionColor: null,
+      captionColor: params.captionColor,
     );
   }
 }

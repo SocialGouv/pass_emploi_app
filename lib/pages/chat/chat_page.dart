@@ -188,6 +188,7 @@ extension on PieceJointeMessageItem {
       filename: filename,
       caption: caption,
       content: message,
+      captionColor: captionColor,
     );
   }
 }
