@@ -146,3 +146,31 @@ extension DemarcheList on List<Demarche> {
       ..insert(0, updatedDemarche);
   }
 }
+
+extension DemarcheExt on Demarche {
+  bool get isDemarchePersonnalisee => titre == "Action issue de l’application CEJ";
+
+  Demarche transformDemarchePersonnalisee() {
+    if (isDemarchePersonnalisee) {
+      final vraiTitre = attributs.firstOrNull?.value;
+      return Demarche(
+        id: id,
+        content: vraiTitre,
+        titre: vraiTitre,
+        label: label,
+        status: status,
+        possibleStatus: possibleStatus,
+        endDate: endDate,
+        deletionDate: deletionDate,
+        modificationDate: modificationDate,
+        createdByAdvisor: createdByAdvisor,
+        modifiedByAdvisor: modifiedByAdvisor,
+        sousTitre: sousTitre,
+        attributs: [],
+        creationDate: creationDate,
+      );
+    }
+
+    return this;
+  }
+}
