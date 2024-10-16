@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_actions.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/models/date/interval.dart';
+import 'package:pass_emploi_app/models/demarche.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../doubles/mocks.dart';
@@ -57,6 +58,15 @@ final nextPeriodSuiviMilo = mockMonSuivi(
 final suiviPe = mockMonSuivi(
   demarches: [mockDemarche(endDate: lundi29Janvier00h00)],
   rendezvous: [mockRendezvous(date: dimanche3Mars23h59)],
+);
+
+final suiviPeDemarchePersonnalisee = mockMonSuivi(
+  demarches: [
+    mockDemarche(
+        endDate: lundi29Janvier00h00,
+        titre: "Action issue de l’application CEJ",
+        attributs: [DemarcheAttribut(key: "key", value: "Titre de la démarche")])
+  ],
 );
 
 void main() {
@@ -215,6 +225,27 @@ void main() {
           });
         });
 
+        test('should transform demarche personnalisee with proper title', () {
+          withClock(Clock.fixed(mercredi14Fevrier12h00), () {
+            when(() => monSuiviRepository.getMonSuiviPoleEmploi('id', samedi30Decembre2023))
+                .thenAnswer((_) async => suiviPeDemarchePersonnalisee);
+
+            sut.givenStore = givenState() //
+                .loggedInPoleEmploiUser()
+                .store(
+                  (f) => {
+                    f.monSuiviRepository = monSuiviRepository,
+                    f.remoteConfigRepository = remoteConfigRepository,
+                  },
+                );
+
+            sut.thenExpectChangingStatesThroughOrder([
+              _shouldLoad(),
+              _shouldSucceedForPeWithProperTitleOnDemarchePersonnalisee(),
+            ]);
+          });
+        });
+
         test('should load then fail when request fails', () {
           withClock(Clock.fixed(mercredi14Fevrier12h00), () {
             when(() => monSuiviRepository.getMonSuiviPoleEmploi('id', samedi30Decembre2023))
@@ -283,6 +314,28 @@ Matcher _shouldSucceedForPeOnPeriod() {
   return StateIs<MonSuiviSuccessState>(
     (state) => state.monSuiviState,
     (state) => expect(state, MonSuiviSuccessState(currentPeriodIntervalPe, suiviPe)),
+  );
+}
+
+Matcher _shouldSucceedForPeWithProperTitleOnDemarchePersonnalisee() {
+  return StateIs<MonSuiviSuccessState>(
+    (state) => state.monSuiviState,
+    (state) => expect(
+      state,
+      MonSuiviSuccessState(
+        currentPeriodIntervalPe,
+        mockMonSuivi(
+          demarches: [
+            mockDemarche(
+              endDate: lundi29Janvier00h00,
+              titre: "Titre de la démarche",
+              content: "Titre de la démarche",
+              attributs: [],
+            )
+          ],
+        ),
+      ),
+    ),
   );
 }
 

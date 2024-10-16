@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_actions.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/models/date/interval.dart';
+import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/mon_suivi.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/mon_suivi_repository.dart';
@@ -48,7 +49,19 @@ class MonSuiviMiddleware extends MiddlewareClass<AppState> {
   }
 
   Future<MonSuivi?> _getMonSuivi(Store<AppState> store, String userId, Interval interval) async {
-    if (store.state.isPeLoginMode()) return _monSuiviRepository.getMonSuiviPoleEmploi(userId, interval.debut);
+    if (store.state.isPeLoginMode()) {
+      final monSuivi = await _monSuiviRepository.getMonSuiviPoleEmploi(userId, interval.debut);
+      return monSuivi != null
+          ? MonSuivi(
+              actions: [],
+              sessionsMilo: [],
+              errorOnSessionMiloRetrieval: false,
+              demarches: monSuivi.demarches.map((demarche) => demarche.transformDemarchePersonnalisee()).toList(),
+              rendezvous: monSuivi.rendezvous,
+              dateDerniereMiseAJourPoleEmploi: monSuivi.dateDerniereMiseAJourPoleEmploi,
+            )
+          : null;
+    }
     return _monSuiviRepository.getMonSuiviMilo(userId, interval);
   }
 
