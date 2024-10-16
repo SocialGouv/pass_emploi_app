@@ -86,7 +86,22 @@ class Demarche extends Equatable {
   }
 
   @override
-  List<Object?> get props => [id, content, status, endDate, deletionDate, createdByAdvisor];
+  List<Object?> get props => [
+        id,
+        content,
+        label,
+        titre,
+        sousTitre,
+        status,
+        possibleStatus,
+        endDate,
+        deletionDate,
+        modificationDate,
+        createdByAdvisor,
+        modifiedByAdvisor,
+        attributs,
+        creationDate,
+      ];
 }
 
 DemarcheStatus _statusFromString({required String statusString}) {
