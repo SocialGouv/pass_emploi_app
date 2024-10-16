@@ -54,7 +54,7 @@ class _Body extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.grey100,
-      appBar: PrimaryAppBar(title: Strings.eventAppBarTitle),
+      appBar: PrimaryAppBar(title: Strings.eventAppBarTitle, withAutofocusA11y: true),
       body: ConnectivityContainer(
         child: DefaultTabController(
           initialIndex: viewModel.tabs._index(initialTab),

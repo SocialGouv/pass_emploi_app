@@ -14,9 +14,10 @@ extension GlobayKeyA11yExt on GlobalKey {
 }
 
 class AutoFocusA11y extends StatefulWidget {
-  const AutoFocusA11y({super.key, required this.child});
+  const AutoFocusA11y({super.key, required this.child, this.enabled = true});
 
   final Widget child;
+  final bool enabled;
 
   @override
   State<AutoFocusA11y> createState() => _AutoFocusA11yState();
@@ -28,7 +29,9 @@ class _AutoFocusA11yState extends State<AutoFocusA11y> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => globalKey.requestFocusDelayed());
+    if (widget.enabled) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => globalKey.requestFocusDelayed());
+    }
   }
 
   @override

@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/a11y/auto_focus.dart';
 import 'package:pass_emploi_app/widgets/profile_button.dart';
 
 class PrimarySliverAppbar extends StatelessWidget {
@@ -53,13 +54,15 @@ class PrimarySliverAppbar extends StatelessWidget {
                       child: Tooltip(
                         message: title,
                         excludeFromSemantics: true,
-                        child: Text(
-                          title,
-                          style: TextStyles.primaryAppBar
-                              .copyWith(fontSize: FontSizes.huge)
-                              .copyWith(color: Brand.isCej() ? AppColors.primary : AppColors.grey100),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
+                        child: AutoFocusA11y(
+                          child: Text(
+                            title,
+                            style: TextStyles.primaryAppBar
+                                .copyWith(fontSize: FontSizes.huge)
+                                .copyWith(color: Brand.isCej() ? AppColors.primary : AppColors.grey100),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
                         ),
                       ),
                     ),
@@ -100,16 +103,18 @@ class _BottomBorder extends StatelessWidget implements PreferredSizeWidget {
 
 class PrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
-  final bool withProfileButton;
   final bool canPop;
   final IconButton? actionButton;
+  final bool withProfileButton;
+  final bool withAutofocusA11y;
 
   const PrimaryAppBar({
     super.key,
     required this.title,
-    this.withProfileButton = true,
     this.canPop = false,
     this.actionButton,
+    this.withProfileButton = true,
+    this.withAutofocusA11y = false,
   });
 
   @override
@@ -122,13 +127,17 @@ class PrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Brand.isCej() ? AppColors.grey100 : AppColors.primary,
       title: Semantics(
         header: true,
+        focusable: withAutofocusA11y,
         child: Tooltip(
           message: title,
           excludeFromSemantics: true,
-          child: Text(
-            title,
-            style: TextStyles.primaryAppBar.copyWith(color: Brand.isCej() ? AppColors.primary : AppColors.grey100),
-            overflow: TextOverflow.fade,
+          child: AutoFocusA11y(
+            enabled: withAutofocusA11y,
+            child: Text(
+              title,
+              style: TextStyles.primaryAppBar.copyWith(color: Brand.isCej() ? AppColors.primary : AppColors.grey100),
+              overflow: TextOverflow.fade,
+            ),
           ),
         ),
       ),
