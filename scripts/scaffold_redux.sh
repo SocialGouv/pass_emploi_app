@@ -69,7 +69,7 @@ notInitState="${feature_camel_case}NotInitializedState"
 echo "Creating folder for feature_snake_case: $feature_snake_case"
 
 mkdir -p "lib/features/$feature_snake_case"
-mkdir -p "test/feature/$feature_snake_case"
+mkdir -p "test/features/$feature_snake_case"
 
 
 
@@ -334,7 +334,7 @@ EOM
 
 
 echo "Creating redux test…"
-cat > "test/feature/${feature_snake_case}/${feature_snake_case}_test.dart" <<- EOM
+cat > "test/features/${feature_snake_case}/${feature_snake_case}_test.dart" <<- EOM
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 ${actionImport}
