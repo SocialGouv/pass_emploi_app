@@ -14,6 +14,8 @@ import 'package:pass_emploi_app/widgets/radio_list_tile.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
 
+const maxAnswerLength = 255;
+
 class CampagneQuestionPage extends StatefulWidget {
   final int questionOffset;
 
@@ -76,6 +78,7 @@ class _CampagneQuestionPageState extends State<CampagneQuestionPage> {
                 textInputAction: TextInputAction.newline,
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
+                maxLength: maxAnswerLength,
               ),
             ),
             Padding(
