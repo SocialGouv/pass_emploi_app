@@ -6,7 +6,6 @@ import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/pages/immersion/immersion_details_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi/offre_emploi_details_page.dart';
-import 'package:pass_emploi_app/pages/offre_favoris_page.dart';
 import 'package:pass_emploi_app/pages/service_civique/service_civique_detail_page.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -58,13 +57,18 @@ class _AvecFavoris extends StatelessWidget {
           children: item.favoris.map((favori) => _FavorisCard(favori)).toList(),
         ),
         SizedBox(height: Margins.spacing_s),
-        SecondaryButton(label: Strings.accueilVoirMesFavoris, onPressed: () => _goToFavoris(context)),
+        SecondaryButton(label: Strings.accueilVoirMesFavoris, onPressed: () => _goToOffresEnregistrees(context)),
       ],
     );
   }
 
-  void _goToFavoris(BuildContext context) {
-    Navigator.push(context, OffreFavorisPage.materialPageRoute());
+  void _goToOffresEnregistrees(BuildContext context) {
+    StoreProvider.of<AppState>(context).dispatch(
+      HandleDeepLinkAction(
+        OffresEnregistreesDeepLink(),
+        DeepLinkOrigin.inAppNavigation,
+      ),
+    );
   }
 }
 
@@ -132,24 +136,20 @@ class _FavorisCard extends StatelessWidget {
   }
 
   MaterialPageRoute<void> _route(Favori favori) {
-    switch (favori.type) {
-      case OffreType.emploi:
-        return OffreEmploiDetailsPage.materialPageRoute(
+    return switch (favori.type) {
+      OffreType.emploi => OffreEmploiDetailsPage.materialPageRoute(
           favori.id,
           fromAlternance: false,
           popPageWhenFavoriIsRemoved: true,
-        );
-      case OffreType.alternance:
-        return OffreEmploiDetailsPage.materialPageRoute(
+        ),
+      OffreType.alternance => OffreEmploiDetailsPage.materialPageRoute(
           favori.id,
           fromAlternance: true,
           popPageWhenFavoriIsRemoved: true,
-        );
-      case OffreType.immersion:
-        return ImmersionDetailsPage.materialPageRoute(favori.id, popPageWhenFavoriIsRemoved: true);
-      case OffreType.serviceCivique:
-        return ServiceCiviqueDetailPage.materialPageRoute(favori.id, true);
-    }
+        ),
+      OffreType.immersion => ImmersionDetailsPage.materialPageRoute(favori.id, popPageWhenFavoriIsRemoved: true),
+      OffreType.serviceCivique => ServiceCiviqueDetailPage.materialPageRoute(favori.id, true)
+    };
   }
 
   void _goToFavori(BuildContext context, Favori favori) {

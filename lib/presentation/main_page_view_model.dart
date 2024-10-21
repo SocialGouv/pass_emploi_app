@@ -12,6 +12,7 @@ enum MainPageDisplayState {
   chat,
   evenements,
   solutionsRecherche,
+  solutionsOffresEnregistrees,
   solutionsOutils,
   actualisationPoleEmploi,
 }

@@ -18,8 +18,8 @@ class DeepLinkFactory {
       _DeepLink.eventList => EventListDeepLink(),
       _DeepLink.actualisationPe => ActualisationPeDeepLink(),
       _DeepLink.monSuivi => MonSuiviDeepLink(),
-      _DeepLink.favoris => FavorisDeepLink(),
-      _DeepLink.savedSearches => AlertesDeepLink(),
+      _DeepLink.offresEnregistrees => OffresEnregistreesDeepLink(),
+      _DeepLink.alertes => AlertesDeepLink(),
       _DeepLink.recherche => RechercheDeepLink(),
       _DeepLink.outils => OutilsDeepLink(),
       _DeepLink.benevolat => BenevolatDeepLink(),
@@ -40,14 +40,13 @@ enum _DeepLink {
   eventList(["EVENT_LIST"]),
   actualisationPe(["ACTUALISATION_PE"]),
   monSuivi(["MON_SUIVI"]),
-  favoris(["FAVORIS"]),
-  savedSearches(["SAVED_SEARCHES"]),
+  offresEnregistrees(["OFFRES_ENREGISTREES"]),
+  alertes(["SAVED_SEARCHES"]),
   recherche(["RECHERCHE"]),
   outils(["OUTILS"]),
   benevolat(["BENEVOLAT"]),
   rappelCreationDemarche(["RAPPEL_CREATION_DEMARCHE"]),
-  rappelCreationAction(["RAPPEL_CREATION_ACTION"]),
-  ;
+  rappelCreationAction(["RAPPEL_CREATION_ACTION"]);
 
   final List<String> possibleTypes;
 

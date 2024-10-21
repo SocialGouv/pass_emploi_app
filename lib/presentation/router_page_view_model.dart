@@ -97,6 +97,7 @@ MainPageDisplayState _toMainPageDisplayStateByDeepLink(DeepLink deepLink) {
     NouveauMessageDeepLink() => MainPageDisplayState.chat,
     EventListDeepLink() => MainPageDisplayState.evenements,
     RechercheDeepLink() => MainPageDisplayState.solutionsRecherche,
+    OffresEnregistreesDeepLink() => MainPageDisplayState.solutionsOffresEnregistrees,
     OutilsDeepLink() => MainPageDisplayState.solutionsOutils,
     _ => MainPageDisplayState.accueil,
   };

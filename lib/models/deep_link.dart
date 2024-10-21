@@ -56,12 +56,11 @@ class ActualisationPeDeepLink extends DeepLink {}
 
 class MonSuiviDeepLink extends DeepLink {}
 
-class FavorisDeepLink extends DeepLink {}
-
 class AlertesDeepLink extends DeepLink {}
 
-// TODO(refonte favoris) : à supprimer ?
 class RechercheDeepLink extends DeepLink {}
+
+class OffresEnregistreesDeepLink extends DeepLink {}
 
 class OutilsDeepLink extends DeepLink {}
 

@@ -306,17 +306,6 @@ void main() {
         expect(viewModel.shouldResetDeeplink, isTrue);
       });
 
-      test('FavorisDeepLink > no double opening of pages required', () {
-        // Given
-        final store = givenState().withHandleDeepLink(FavorisDeepLink()).store();
-
-        // When
-        final viewModel = AccueilViewModel.create(store);
-
-        // Then
-        expect(viewModel.shouldResetDeeplink, isTrue);
-      });
-
       test('AlertesDeepLink > no double opening of pages required', () {
         // Given
         final store = givenState().withHandleDeepLink(AlertesDeepLink()).store();
