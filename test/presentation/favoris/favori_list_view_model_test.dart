@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_actions.dart';
-import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/favori_list_view_model.dart';
 
@@ -76,58 +75,5 @@ void main() {
 
     // Then
     expect(store.dispatchedAction, isA<FavoriListRequestAction>());
-  });
-
-  group('Favoris filtered', () {
-    final favoris = [
-      mockFavori('offre-emploi', OffreType.emploi),
-      mockFavori('alternance', OffreType.alternance),
-      mockFavori('immersion', OffreType.immersion),
-      mockFavori('service-civique', OffreType.serviceCivique),
-    ];
-
-    test('getOffresEmploi should return favoris of type Offre Emploi', () {
-      // Given
-      final store = givenState().favoriListSuccessState(favoris).store();
-
-      // When
-      final viewModel = FavoriListViewModel.create(store);
-
-      // Then
-      expect(viewModel.getOffresEmploi(), [mockFavori('offre-emploi', OffreType.emploi)]);
-    });
-
-    test('getOffresAlternance should return favoris of type Alternance', () {
-      // Given
-      final store = givenState().favoriListSuccessState(favoris).store();
-
-      // When
-      final viewModel = FavoriListViewModel.create(store);
-
-      // Then
-      expect(viewModel.getOffresAlternance(), [mockFavori('alternance', OffreType.alternance)]);
-    });
-
-    test('getOffresImmersion should return favoris of type Immersion', () {
-      // Given
-      final store = givenState().favoriListSuccessState(favoris).store();
-
-      // When
-      final viewModel = FavoriListViewModel.create(store);
-
-      // Then
-      expect(viewModel.getOffresImmersion(), [mockFavori('immersion', OffreType.immersion)]);
-    });
-
-    test('getOffresServiceCivique should return favoris of type Service Civique ', () {
-      // Given
-      final store = givenState().favoriListSuccessState(favoris).store();
-
-      // When
-      final viewModel = FavoriListViewModel.create(store);
-
-      // Then
-      expect(viewModel.getOffresServiceCivique(), [mockFavori('service-civique', OffreType.serviceCivique)]);
-    });
   });
 }

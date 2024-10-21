@@ -846,9 +846,10 @@ class Strings {
   static String jobEvenementEmploiHint = "Sélectionnez une ville dans laquelle vous cherchez un événement.";
   static String searchButton = "Rechercher";
   static String offreDetails = "Détails de l'offre";
-  static String offresTabTitle = "Offres";
+  static String rechercheTabTitle = "Recherche";
+  static String offresEnregistreesTabTitle = "Offres enregistrées";
   static String boiteAOutilsTabTitle = "Boîte à outils";
-  static String solutionsAppBarTitle = "Recherche";
+  static String solutionsAppBarTitle = "Offres";
   static String partagerOffreConseiller = "Partager l’offre à mon conseiller";
   static String partageOffreNavTitle = "Partage de l’offre d’emploi";
   static String souhaitDePartagerOffre = "L’offre que vous souhaitez partager";
