@@ -29,9 +29,6 @@ import 'package:redux/redux.dart';
 
 class OffreFavorisPage extends StatelessWidget {
   final _scrollController = ScrollController();
-  static MaterialPageRoute<void> materialPageRoute() {
-    return MaterialPageRoute(builder: (context) => OffreFavorisPage());
-  }
 
   @override
   Widget build(BuildContext context) {

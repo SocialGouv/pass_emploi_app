@@ -138,6 +138,7 @@ class MainPageState extends State<MainPage> with WidgetsBindingObserver {
 
   SolutionsTab? _initialSolutionsTab() {
     return switch (widget.displayState) {
+      MainPageDisplayState.solutionsOffresEnregistrees => SolutionsTab.offresEnregistrees,
       MainPageDisplayState.solutionsOutils => SolutionsTab.outils,
       _ => null,
     };
@@ -152,8 +153,9 @@ class MainPageState extends State<MainPage> with WidgetsBindingObserver {
       MainPageDisplayState.actualisationPoleEmploi => tabs.indexOf(MainTab.accueil),
       MainPageDisplayState.monSuivi => tabs.indexOf(MainTab.monSuivi),
       MainPageDisplayState.chat => tabs.indexOf(MainTab.chat),
-      MainPageDisplayState.solutionsOutils => tabs.indexOf(MainTab.solutions),
       MainPageDisplayState.solutionsRecherche => tabs.indexOf(MainTab.solutions),
+      MainPageDisplayState.solutionsOffresEnregistrees => tabs.indexOf(MainTab.solutions),
+      MainPageDisplayState.solutionsOutils => tabs.indexOf(MainTab.solutions),
       MainPageDisplayState.evenements => tabs.indexOf(MainTab.evenements),
     };
     _selectedIndex = initialIndex != -1 ? initialIndex : 0;
