@@ -1458,9 +1458,9 @@ class Strings {
   static String a11yStatus = "Statut : ";
 
   // textes alternatifs
-  static String favoriHeartRemove(String offre) => "Retirer l'offre $offre des offres enregistrées";
+  static String offreEnregistreeRemove(String offre) => "Retirer l'offre $offre des offres enregistrées";
 
-  static String favoriHeartAdd(String offre) => "Mettre l'offre $offre des offres enregistrées";
+  static String offreEnregistreeAdd(String offre) => "Mettre l'offre $offre des offres enregistrées";
   static String link = "Lien";
   static String openInNewTab = "Ouvrir dans un nouvel onglet";
   static String semanticsLabelInformation = "Information";
