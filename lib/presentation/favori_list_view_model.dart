@@ -2,7 +2,6 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_actions.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/models/favori.dart';
-import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
@@ -28,16 +27,6 @@ class FavoriListViewModel extends Equatable {
 
   @override
   List<Object?> get props => [displayState, favoris];
-
-  List<Favori> getOffresEmploi() => _getFavoriFiltered(OffreType.emploi);
-
-  List<Favori> getOffresAlternance() => _getFavoriFiltered(OffreType.alternance);
-
-  List<Favori> getOffresImmersion() => _getFavoriFiltered(OffreType.immersion);
-
-  List<Favori> getOffresServiceCivique() => _getFavoriFiltered(OffreType.serviceCivique);
-
-  List<Favori> _getFavoriFiltered(OffreType type) => favoris.where((favori) => favori.type == type).toList();
 }
 
 DisplayState _displayState(Store<AppState> store) {
