@@ -141,8 +141,6 @@ class _ThematicCard extends StatelessWidget {
 }
 
 class _TopDemarcheCard extends StatelessWidget {
-  const _TopDemarcheCard();
-
   @override
   Widget build(BuildContext context) {
     return _DemarcheCardBase(

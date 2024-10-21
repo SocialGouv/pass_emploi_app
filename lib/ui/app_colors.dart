@@ -47,6 +47,4 @@ class AppColors {
   static const Color additional4 = Color(0xFF2186C7);
   static const Color additional5Lighten = Color(0xFFCEF0F1);
   static const Color additional5 = Color(0xFF49BBBF);
-
-  static const Color favorite = Color(0xFFA44C66);
 }
