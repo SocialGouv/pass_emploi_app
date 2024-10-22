@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/accessibility_utils.dart';
 import 'package:pass_emploi_app/widgets/a11y/auto_focus.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 
@@ -29,7 +30,6 @@ class OnboardingNavigationBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final withTextScale = MediaQuery.of(context).textScaler.scale(1.0) > 1.0;
     return Tracker(
       tracking: AnalyticsScreenNames.onboardingNavigation,
       child: BottomSheetWrapper(
@@ -72,7 +72,7 @@ class OnboardingNavigationBottomSheet extends StatelessWidget {
                             style: TextStyles.textBaseRegular,
                           ),
                         ),
-                        if (withTextScale) SizedBox(height: Margins.spacing_x_huge),
+                        if (A11yUtils.withTextScale(context)) SizedBox(height: Margins.spacing_x_huge),
                       ],
                     ),
                   )

@@ -70,7 +70,7 @@ class _SecteurActiviteField extends StatelessWidget {
             child: GestureDetector(
               onTap: onFieldTap,
               child: Container(
-                height: 56,
+                constraints: BoxConstraints(minHeight: 56),
                 width: double.maxFinite,
                 alignment: Alignment.centerLeft,
                 decoration: BoxDecoration(
@@ -95,7 +95,7 @@ class _SelectedSecteurActivite extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base, vertical: 12),
+      padding: const EdgeInsets.all(Margins.spacing_s),
       child: Wrap(
         children: [
           Container(
@@ -107,8 +107,6 @@ class _SelectedSecteurActivite extends StatelessWidget {
             child: Text(
               label,
               style: TextStyles.textSMedium(color: AppColors.primary),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],
