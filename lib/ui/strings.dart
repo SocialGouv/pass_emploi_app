@@ -487,7 +487,7 @@ class Strings {
   static const String userActionSanteDescription = 'Rendez-vous médicaux';
 
   static const String userActionConfirmationTitle = "Action créée";
-  static const String userActionConfirmatioSubtitle =
+  static const String userActionConfirmationSubtitle =
       "L’action est en route vers votre conseiller. Vous pourrez en discuter ensemble lors de votre prochain rendez-vous\u{00A0}!";
 
   static const String userActionConfirmationSeeDetailButton = "Consulter mon action";

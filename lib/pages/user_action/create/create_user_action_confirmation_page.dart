@@ -69,7 +69,7 @@ class _Body extends StatelessWidget {
             ),
             SizedBox(height: Margins.spacing_s),
             Text(
-              Strings.userActionConfirmatioSubtitle,
+              Strings.userActionConfirmationSubtitle,
               style: TextStyles.textSRegular(),
             ),
             SizedBox(height: Margins.spacing_xx_huge),
