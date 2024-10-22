@@ -523,7 +523,7 @@ class _EmptyDayItem extends StatefulWidget {
 }
 
 class _EmptyDayItemState extends State<_EmptyDayItem> {
-  Color _color = AppColors.disabled;
+  Color _color = AppColors.grey800;
 
   @override
   Widget build(BuildContext context) {
@@ -532,7 +532,7 @@ class _EmptyDayItemState extends State<_EmptyDayItem> {
       child: Focus(
         onFocusChange: (focused) {
           setState(() {
-            _color = focused ? AppColors.primaryDarken : AppColors.disabled;
+            _color = focused ? AppColors.primaryDarken : _color;
           });
         },
         child: DashedBox(
