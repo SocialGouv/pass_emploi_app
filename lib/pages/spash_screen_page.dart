@@ -16,7 +16,7 @@ class SplashScreenPage extends StatelessWidget {
           body: Stack(
             children: [
               BiseauBackground(),
-              Center(child: AppLogo()),
+              Center(child: ExcludeSemantics(child: AppLogo())),
               if (appVersion != null) _AppVersion(appVersion),
             ],
           ),
