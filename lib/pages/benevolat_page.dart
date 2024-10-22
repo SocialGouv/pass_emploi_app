@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+import 'package:pass_emploi_app/widgets/a11y/string_a11y_extensions.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -33,12 +34,22 @@ class BenevolatPage extends StatelessWidget {
                   imagePath: BenevolatAssets.imageCard1Path,
                   title: BenevolatAssets.card1Title,
                   spans: [
-                    TextSpan(text: BenevolatAssets.card1Part1, style: TextStyles.textBaseRegular),
+                    TextSpan(
+                      text: BenevolatAssets.card1Part1,
+                      semanticsLabel: BenevolatAssets.card1Part1.removeIconsForScreenReaders(),
+                      style: TextStyles.textBaseRegular,
+                    ),
                     TextSpan(
                       text: BenevolatAssets.link,
-                      style: TextStyles.textBaseRegular.copyWith(decoration: TextDecoration.underline),
+                      style: TextStyles.textBaseRegular.copyWith(
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
-                    TextSpan(text: BenevolatAssets.card1Part2, style: TextStyles.textBaseRegular),
+                    TextSpan(
+                      text: BenevolatAssets.card1Part2,
+                      semanticsLabel: BenevolatAssets.card1Part2.removeIconsForScreenReaders(),
+                      style: TextStyles.textBaseRegular,
+                    ),
                   ],
                 ),
                 SizedBox(height: Margins.spacing_m),
@@ -48,23 +59,41 @@ class BenevolatPage extends StatelessWidget {
                   imagePath: BenevolatAssets.imageCard3Path,
                   title: BenevolatAssets.card2Title,
                   spans: [
-                    TextSpan(text: BenevolatAssets.card2Part1, style: TextStyles.textBaseRegular),
+                    TextSpan(
+                      text: BenevolatAssets.card2Part1,
+                      semanticsLabel: BenevolatAssets.card2Part1.removeIconsForScreenReaders(),
+                      style: TextStyles.textBaseRegular,
+                    ),
                     TextSpan(
                       text: BenevolatAssets.link,
-                      style: TextStyles.textBaseRegular.copyWith(decoration: TextDecoration.underline),
+                      style: TextStyles.textBaseRegular.copyWith(
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
-                    TextSpan(text: BenevolatAssets.card2Part2, style: TextStyles.textBaseRegular),
+                    TextSpan(
+                      text: BenevolatAssets.card2Part2,
+                      semanticsLabel: BenevolatAssets.card2Part2.removeIconsForScreenReaders(),
+                      style: TextStyles.textBaseRegular,
+                    ),
                   ],
                 ),
                 SizedBox(height: Margins.spacing_m),
                 _InformationCard(
                   imagePath: BenevolatAssets.imageCard4Path,
+                  imageSemanticLabel: BenevolatAssets.imageCard4SemanticLabel,
                   title: BenevolatAssets.card3Title,
                   spans: [
-                    TextSpan(text: BenevolatAssets.card3Part1, style: TextStyles.textBaseRegular),
+                    TextSpan(
+                      text: BenevolatAssets.card3Part1,
+                      semanticsLabel: BenevolatAssets.card3Part1.removeIconsForScreenReaders(),
+                      style: TextStyles.textBaseRegular,
+                    ),
                     TextSpan(
                       text: BenevolatAssets.card3Part2,
-                      style: TextStyles.textBaseMediumBold().copyWith(decoration: TextDecoration.underline),
+                      semanticsLabel: BenevolatAssets.card3Part2.removeIconsForScreenReaders(),
+                      style: TextStyles.textBaseMediumBold().copyWith(
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
                   ],
                 ),
@@ -82,35 +111,49 @@ class _InformationCard extends StatelessWidget {
   final String imagePath;
   final String title;
   final List<InlineSpan> spans;
+  final String? imageSemanticLabel;
 
-  _InformationCard({required this.imagePath, required this.title, required this.spans});
+  _InformationCard({
+    required this.imagePath,
+    required this.title,
+    required this.spans,
+    this.imageSemanticLabel,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Focus(
-      child: GestureDetector(
-        onTap: () => _launchExternalRedirect(),
-        child: CardContainer(
-          padding: EdgeInsets.zero,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: double.infinity,
-                child: Image.asset(imagePath, fit: BoxFit.fitWidth),
-              ),
-              SizedBox(height: Margins.spacing_m),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-                child: Text(title, style: TextStyles.textBaseBold),
-              ),
-              SizedBox(height: Margins.spacing_s),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-                child: Text.rich(TextSpan(children: spans)),
-              ),
-              SizedBox(height: Margins.spacing_m),
-            ],
+      child: Semantics(
+        link: true,
+        child: GestureDetector(
+          onTap: () => _launchExternalRedirect(),
+          child: CardContainer(
+            padding: EdgeInsets.zero,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: double.infinity,
+                  child: Image.asset(
+                    imagePath,
+                    fit: BoxFit.fitWidth,
+                    semanticLabel: imageSemanticLabel,
+                    excludeFromSemantics: imageSemanticLabel == null,
+                  ),
+                ),
+                SizedBox(height: Margins.spacing_m),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+                  child: Text(title, style: TextStyles.textBaseBold),
+                ),
+                SizedBox(height: Margins.spacing_s),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+                  child: Text.rich(TextSpan(children: spans)),
+                ),
+                SizedBox(height: Margins.spacing_m),
+              ],
+            ),
           ),
         ),
       ),
@@ -122,48 +165,52 @@ class _VerbatimCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Focus(
-      child: GestureDetector(
-        onTap: () => _launchExternalRedirect(),
-        child: CardContainer(
-          padding: EdgeInsets.zero,
-          backgroundColor: Color(0xFF0A0E93),
-          child: Column(
-            children: [
-              SizedBox(height: Margins.spacing_m),
-              Image.asset(BenevolatAssets.imageVerbatimPath, width: 64),
-              SizedBox(height: Margins.spacing_base),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-                child: Text(
-                  BenevolatAssets.verbatimPart1,
-                  style: TextStyles.textMRegular.copyWith(color: Colors.white),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              SizedBox(height: Margins.spacing_s),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-                child: Text.rich(
-                  textAlign: TextAlign.center,
-                  TextSpan(
-                    children: [
-                      TextSpan(
-                        text: BenevolatAssets.verbatimPart2,
-                        style: TextStyles.textBaseRegular.copyWith(color: Colors.white),
-                      ),
-                      TextSpan(
-                        text: BenevolatAssets.link,
-                        style: TextStyles.textBaseRegular.copyWith(
-                          color: Colors.white,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                    ],
+      child: Semantics(
+        link: true,
+        child: GestureDetector(
+          onTap: () => _launchExternalRedirect(),
+          child: CardContainer(
+            padding: EdgeInsets.zero,
+            backgroundColor: Color(0xFF0A0E93),
+            child: Column(
+              children: [
+                SizedBox(height: Margins.spacing_m),
+                Image.asset(BenevolatAssets.imageVerbatimPath, width: 64, excludeFromSemantics: true),
+                SizedBox(height: Margins.spacing_base),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+                  child: Text(
+                    BenevolatAssets.verbatimPart1,
+                    style: TextStyles.textMRegular.copyWith(color: Colors.white),
+                    textAlign: TextAlign.center,
                   ),
                 ),
-              ),
-              SizedBox(height: Margins.spacing_m),
-            ],
+                SizedBox(height: Margins.spacing_s),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+                  child: Text.rich(
+                    textAlign: TextAlign.center,
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: BenevolatAssets.verbatimPart2,
+                          semanticsLabel: BenevolatAssets.verbatimPart2.removeIconsForScreenReaders(),
+                          style: TextStyles.textBaseRegular.copyWith(color: Colors.white),
+                        ),
+                        TextSpan(
+                          text: BenevolatAssets.link,
+                          style: TextStyles.textBaseRegular.copyWith(
+                            color: Colors.white,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: Margins.spacing_m),
+              ],
+            ),
           ),
         ),
       ),
