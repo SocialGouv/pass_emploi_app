@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 
@@ -48,16 +48,25 @@ class AlertMessage extends StatelessWidget {
                 container: true,
                 child: TextButton(
                   onPressed: retryMessage!.onRetry,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (retryMessage!.link) ...[
-                        Icon(AppIcons.open_in_new_rounded, color: contentColor),
-                        SizedBox(width: Margins.spacing_xs),
-                      ],
-                      Text(retryMessage!.message, style: TextStyles.textSBoldWithColor(contentColor)),
-                      if (retryMessage!.link) Semantics(label: Strings.link, child: SizedBox.shrink())
-                    ],
+                  child: Semantics(
+                    link: retryMessage!.link ? true : null,
+                    child: Text.rich(
+                      TextSpan(
+                        children: [
+                          if (retryMessage!.link) ...[
+                            WidgetSpan(
+                              child: Icon(
+                                AppIcons.open_in_new_rounded,
+                                color: contentColor,
+                                size: Dimens.icon_size_base,
+                              ),
+                            ),
+                            WidgetSpan(child: SizedBox(width: Margins.spacing_xs)),
+                          ],
+                          TextSpan(text: retryMessage!.message, style: TextStyles.textSBoldWithColor(contentColor)),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               ),
