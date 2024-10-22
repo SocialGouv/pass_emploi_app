@@ -201,17 +201,16 @@ class _Modality extends StatelessWidget {
           if (viewModel.modality != null)
             Padding(
               padding: const EdgeInsets.only(bottom: Margins.spacing_xs),
-              child: Text(viewModel.modality!, style: TextStyles.textBaseBold),
-            ),
-          if (viewModel.conseiller != null)
-            Padding(
-              padding: const EdgeInsets.only(top: Margins.spacing_s, bottom: Margins.spacing_xs),
-              child: Row(
-                children: [
-                  Text(Strings.withConseiller, style: TextStyles.textBaseRegular),
-                  SizedBox(width: Margins.spacing_xs),
-                  Text(viewModel.conseiller!, style: TextStyles.textBaseBold),
-                ],
+              child: Text.rich(
+                TextSpan(
+                  children: [
+                    TextSpan(text: viewModel.modality!, style: TextStyles.textBaseBold),
+                    if (viewModel.conseiller != null) ...[
+                      TextSpan(text: Strings.withConseiller, style: TextStyles.textBaseRegular),
+                      TextSpan(text: viewModel.conseiller!, style: TextStyles.textBaseBold),
+                    ],
+                  ],
+                ),
               ),
             ),
           if (viewModel.createur != null)

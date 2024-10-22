@@ -411,7 +411,7 @@ class Strings {
   static String seeVisio = 'Accéder à la visio';
   static String rendezvousVisioModalityMessage =
       'Le rendez-vous se fera en visio. La visio sera disponible le jour du rendez-vous.';
-  static String withConseiller = "avec";
+  static String withConseiller = " avec ";
   static String individualInterview = "Entretien individuel conseiller";
   static String publicInfo = "Information collective";
   static String shareToConseiller = "Partager à mon conseiller";
