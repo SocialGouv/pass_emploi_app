@@ -106,10 +106,7 @@ class _InformationCard extends StatelessWidget {
             SizedBox(height: Margins.spacing_s),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-              child: RichText(
-                textScaler: MediaQuery.of(context).textScaler,
-                text: TextSpan(children: spans),
-              ),
+              child: Text.rich(TextSpan(children: spans)),
             ),
             SizedBox(height: Margins.spacing_m),
           ],
@@ -143,10 +140,9 @@ class _VerbatimCard extends StatelessWidget {
             SizedBox(height: Margins.spacing_s),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-              child: RichText(
-                textScaler: MediaQuery.of(context).textScaler,
+              child: Text.rich(
                 textAlign: TextAlign.center,
-                text: TextSpan(
+                TextSpan(
                   children: [
                     TextSpan(
                       text: BenevolatAssets.verbatimPart2,

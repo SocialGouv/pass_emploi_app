@@ -34,9 +34,8 @@ class DateEcheanceInDetail extends StatelessWidget {
             );
           }),
           Expanded(
-            child: RichText(
-              textScaler: MediaQuery.of(context).textScaler,
-              text: TextSpan(
+            child: Text.rich(
+              TextSpan(
                 children: formattedTexts.map((text) {
                   return TextSpan(
                     text: text.value,

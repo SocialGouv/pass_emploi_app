@@ -104,9 +104,8 @@ class _BodyState extends State<_Body> {
                       Expanded(
                         child: GestureDetector(
                           onTap: _launchExternalRedirect,
-                          child: RichText(
-                            textScaler: MediaQuery.of(context).textScaler,
-                            text: TextSpan(
+                          child: Text.rich(
+                            TextSpan(
                               children: [
                                 TextSpan(
                                   text: neverAccepted
@@ -200,9 +199,8 @@ class _CguNeverAcceptedContent extends StatelessWidget {
         SizedBox(height: Margins.spacing_m),
         GestureDetector(
           onTap: _launchExternalRedirect,
-          child: RichText(
-            textScaler: MediaQuery.of(context).textScaler,
-            text: TextSpan(
+          child: Text.rich(
+            TextSpan(
               children: [
                 TextSpan(
                   text: Strings.cguNeverAcceptedDescription[0],
@@ -252,9 +250,8 @@ class _CguUpdateRequiredContent extends StatelessWidget {
         SizedBox(height: Margins.spacing_m),
         GestureDetector(
           onTap: _launchExternalRedirect,
-          child: RichText(
-            textScaler: MediaQuery.of(context).textScaler,
-            text: TextSpan(
+          child: Text.rich(
+            TextSpan(
               children: [
                 TextSpan(
                   text: Strings.cguUpdateRequiredDescription[0] +

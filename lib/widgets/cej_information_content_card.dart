@@ -29,8 +29,8 @@ class CejInformationFirstContentCard extends StatelessWidget {
               child: Image.asset("assets/illustrations/puzzle2.webp"),
             ),
           ),
-          RichText(
-            text: TextSpan(
+          Text.rich(
+            TextSpan(
               children: [
                 TextSpan(text: Strings.whoIsConcernedFirstRichText[0], style: TextStyles.textBaseRegular),
                 TextSpan(text: Strings.whoIsConcernedFirstRichText[1], style: TextStyles.textBaseBold),
@@ -41,8 +41,8 @@ class CejInformationFirstContentCard extends StatelessWidget {
             ),
           ),
           SizedBox(height: Margins.spacing_m),
-          RichText(
-            text: TextSpan(
+          Text.rich(
+            TextSpan(
               children: [
                 TextSpan(text: Strings.whoIsConcernedSecondRichText[0], style: TextStyles.textBaseRegular),
                 TextSpan(text: Strings.whoIsConcernedSecondRichText[1], style: TextStyles.textBaseBold),

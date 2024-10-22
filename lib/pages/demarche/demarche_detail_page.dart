@@ -380,9 +380,8 @@ class _Historique extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (viewModel.modificationDate != null)
-            RichText(
-              textScaler: MediaQuery.of(context).textScaler,
-              text: TextSpan(
+            Text.rich(
+              TextSpan(
                 children: [
                   TextSpan(text: Strings.modifiedBy, style: TextStyles.textBaseRegular),
                   TextSpan(text: viewModel.modificationDate, style: TextStyles.textBaseBold),
@@ -393,9 +392,8 @@ class _Historique extends StatelessWidget {
               ),
             ),
           if (viewModel.creationDate != null)
-            RichText(
-              textScaler: MediaQuery.of(context).textScaler,
-              text: TextSpan(
+            Text.rich(
+              TextSpan(
                 children: [
                   TextSpan(text: Strings.createdBy, style: TextStyles.textBaseRegular),
                   TextSpan(text: viewModel.creationDate, style: TextStyles.textBaseBold),
@@ -413,6 +411,7 @@ class _Historique extends StatelessWidget {
 
 class _MoreButton extends StatelessWidget {
   const _MoreButton({required this.demarcheId});
+
   final String demarcheId;
 
   @override

@@ -198,9 +198,8 @@ class _LocationListTile extends StatelessWidget {
               Icon(AppIcons.schedule_rounded, size: Dimens.icon_size_base, color: AppColors.grey800),
               SizedBox(width: Margins.spacing_s),
             ],
-            RichText(
-              textScaler: MediaQuery.of(context).textScaler,
-              text: TextSpan(
+            Text.rich(
+              TextSpan(
                 text: location.libelle,
                 style: TextStyles.textBaseBold,
                 children: [
