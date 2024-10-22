@@ -87,29 +87,31 @@ class _InformationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => _launchExternalRedirect(),
-      child: CardContainer(
-        padding: EdgeInsets.zero,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: double.infinity,
-              child: Image.asset(imagePath, fit: BoxFit.fitWidth),
-            ),
-            SizedBox(height: Margins.spacing_m),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-              child: Text(title, style: TextStyles.textBaseBold),
-            ),
-            SizedBox(height: Margins.spacing_s),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-              child: Text.rich(TextSpan(children: spans)),
-            ),
-            SizedBox(height: Margins.spacing_m),
-          ],
+    return Focus(
+      child: GestureDetector(
+        onTap: () => _launchExternalRedirect(),
+        child: CardContainer(
+          padding: EdgeInsets.zero,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: double.infinity,
+                child: Image.asset(imagePath, fit: BoxFit.fitWidth),
+              ),
+              SizedBox(height: Margins.spacing_m),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+                child: Text(title, style: TextStyles.textBaseBold),
+              ),
+              SizedBox(height: Margins.spacing_s),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+                child: Text.rich(TextSpan(children: spans)),
+              ),
+              SizedBox(height: Margins.spacing_m),
+            ],
+          ),
         ),
       ),
     );
@@ -119,48 +121,50 @@ class _InformationCard extends StatelessWidget {
 class _VerbatimCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => _launchExternalRedirect(),
-      child: CardContainer(
-        padding: EdgeInsets.zero,
-        backgroundColor: Color(0xFF0A0E93),
-        child: Column(
-          children: [
-            SizedBox(height: Margins.spacing_m),
-            Image.asset(BenevolatAssets.imageVerbatimPath, width: 64),
-            SizedBox(height: Margins.spacing_base),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-              child: Text(
-                BenevolatAssets.verbatimPart1,
-                style: TextStyles.textMRegular.copyWith(color: Colors.white),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            SizedBox(height: Margins.spacing_s),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-              child: Text.rich(
-                textAlign: TextAlign.center,
-                TextSpan(
-                  children: [
-                    TextSpan(
-                      text: BenevolatAssets.verbatimPart2,
-                      style: TextStyles.textBaseRegular.copyWith(color: Colors.white),
-                    ),
-                    TextSpan(
-                      text: BenevolatAssets.link,
-                      style: TextStyles.textBaseRegular.copyWith(
-                        color: Colors.white,
-                        decoration: TextDecoration.underline,
-                      ),
-                    ),
-                  ],
+    return Focus(
+      child: GestureDetector(
+        onTap: () => _launchExternalRedirect(),
+        child: CardContainer(
+          padding: EdgeInsets.zero,
+          backgroundColor: Color(0xFF0A0E93),
+          child: Column(
+            children: [
+              SizedBox(height: Margins.spacing_m),
+              Image.asset(BenevolatAssets.imageVerbatimPath, width: 64),
+              SizedBox(height: Margins.spacing_base),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+                child: Text(
+                  BenevolatAssets.verbatimPart1,
+                  style: TextStyles.textMRegular.copyWith(color: Colors.white),
+                  textAlign: TextAlign.center,
                 ),
               ),
-            ),
-            SizedBox(height: Margins.spacing_m),
-          ],
+              SizedBox(height: Margins.spacing_s),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+                child: Text.rich(
+                  textAlign: TextAlign.center,
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text: BenevolatAssets.verbatimPart2,
+                        style: TextStyles.textBaseRegular.copyWith(color: Colors.white),
+                      ),
+                      TextSpan(
+                        text: BenevolatAssets.link,
+                        style: TextStyles.textBaseRegular.copyWith(
+                          color: Colors.white,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: Margins.spacing_m),
+            ],
+          ),
         ),
       ),
     );
