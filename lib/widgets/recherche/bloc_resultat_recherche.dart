@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_state.dart';
+import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/presentation/recherche/bloc_resultat_recherche_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/recherche/recherche_message_placeholder.dart';
 import 'package:pass_emploi_app/widgets/recherche/resultat_recherche_contenu.dart';
@@ -65,12 +67,20 @@ class _BlocResultatRechercheState<Result> extends State<BlocResultatRecherche<Re
             duration: Duration(milliseconds: 200),
             child: AbsorbPointer(
               absorbing: withOpacity,
-              child: ResultatRechercheContenu<Result>(
-                key: widget.listResultatKey,
-                analyticsType: widget.analyticsType,
-                viewModel: viewModel,
-                favorisState: widget.favorisState,
-                buildResultItem: widget.buildResultItem,
+              child: Focus(
+                onFocusChange: (hasFocus) {
+                  if (hasFocus) {
+                    // A11y - to close bandeau recherche when focus goes to the list
+                    context.dispatch(RechercheCloseCriteresAction<Result>());
+                  }
+                },
+                child: ResultatRechercheContenu<Result>(
+                  key: widget.listResultatKey,
+                  analyticsType: widget.analyticsType,
+                  viewModel: viewModel,
+                  favorisState: widget.favorisState,
+                  buildResultItem: widget.buildResultItem,
+                ),
               ),
             ),
           ),
