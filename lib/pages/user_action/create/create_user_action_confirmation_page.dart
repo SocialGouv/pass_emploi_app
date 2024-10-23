@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/a11y/auto_focus.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -94,9 +95,11 @@ class _Buttons extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          PrimaryActionButton(
-            label: Strings.userActionConfirmationSeeDetailButton,
-            onPressed: onGoActionDetail,
+          AutoFocusA11y(
+            child: PrimaryActionButton(
+              label: Strings.userActionConfirmationSeeDetailButton,
+              onPressed: onGoActionDetail,
+            ),
           ),
           const SizedBox(height: Margins.spacing_base),
           SecondaryButton(
