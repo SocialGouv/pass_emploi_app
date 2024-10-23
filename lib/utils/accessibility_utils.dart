@@ -11,6 +11,10 @@ class A11yUtils {
   }
 
   static bool withTextScale(BuildContext context) {
-    return MediaQuery.of(context).textScaler.scale(1.0) > 1.0;
+    return MediaQuery.textScalerOf(context).scale(1.0) > 1.0;
+  }
+
+  static bool withScreenReader(BuildContext context) {
+    return MediaQuery.of(context).accessibleNavigation;
   }
 }

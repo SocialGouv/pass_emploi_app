@@ -1264,7 +1264,6 @@ class Strings {
   static String nouvellesSuggestionsDeRechercheDescription =
       "Sur la base de votre profil France Travail, voici des suggestions d'alertes à sauvegarder";
   static String voirSuggestionsDeRecherche = "Voir les suggestions";
-  static String suggestionsDeRechercheTitlePage = "Vos suggestions d'alertes";
   static String suggestionsDeRechercheHeader =
       "Vos suggestions peuvent venir de différentes sources. Après l’ajout, vous serez notifié si une nouvelle offre est disponible.";
   static String suggestionSourcePoleEmploi = "Profil France Travail";
@@ -1472,6 +1471,7 @@ class Strings {
   static String chosenValue = "Valeur choisie :";
   static String buttonRole = "bouton";
   static String bottomSheetBarrierLabel = "$closeDialog, $buttonRole";
+  static String source = "Source : ";
 
   static String removeDistance(int value) => 'Diminuer la distance de $value km';
 

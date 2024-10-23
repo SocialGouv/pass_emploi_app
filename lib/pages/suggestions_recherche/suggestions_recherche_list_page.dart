@@ -93,7 +93,7 @@ class _Scaffold extends StatelessWidget {
     const backgroundColor = AppColors.grey100;
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: SecondaryAppBar(title: Strings.suggestionsDeRechercheTitlePage, backgroundColor: backgroundColor),
+      appBar: SecondaryAppBar(title: Strings.vosSuggestionsAlertes, backgroundColor: backgroundColor),
       body: _Body(viewModel: viewModel),
     );
   }
@@ -215,7 +215,7 @@ class _Card extends StatelessWidget {
       tag: viewModel.type.toCardTag(),
       complements: [if (viewModel.localisation != null) CardComplement.place(text: viewModel.localisation!)],
       secondaryTags: [
-        if (source != null) CardTag.secondary(text: source),
+        if (source != null) CardTag.secondary(text: source, semanticsLabel: Strings.source + source),
       ],
       actions: [
         _Buttons(

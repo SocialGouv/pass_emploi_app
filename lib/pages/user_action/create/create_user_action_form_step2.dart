@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/accessibility_utils.dart';
 import 'package:pass_emploi_app/widgets/a11y/mandatory_fields_label.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_chip.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
@@ -82,8 +83,7 @@ class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
                 onSelected: (value) {
                   widget.onTitleChanged(value);
                   // ensure the description field is visible
-                  final bool isA11y = MediaQuery.of(context).accessibleNavigation;
-                  if (!value.isFromUserInput && !isA11y) {
+                  if (!value.isFromUserInput && !A11yUtils.withScreenReader(context)) {
                     Future.delayed(AnimationDurations.fast, () {
                       descriptionFocusNode.requestFocus();
                       if (context.mounted) _scrollToDescription(context);

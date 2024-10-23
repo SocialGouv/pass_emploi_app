@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/accessibility_utils.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 
 class MonConseillerCard extends StatelessWidget {
@@ -40,7 +41,6 @@ class MonConseillerCard extends StatelessWidget {
   }
 
   Widget _contentCard(ConseillerProfilePageViewModel vm, BuildContext context) {
-    final bool isA11yEnabled = MediaQuery.of(context).accessibleNavigation;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -50,7 +50,10 @@ class MonConseillerCard extends StatelessWidget {
             children: [
               Semantics(header: true, child: Text(Strings.yourConseiller, style: TextStyles.textMBold)),
               SizedBox(height: Margins.spacing_m),
-              Text(isA11yEnabled ? vm.sinceDateA11y : vm.sinceDate, style: TextStyles.textBaseRegular),
+              Text(
+                A11yUtils.withScreenReader(context) ? vm.sinceDateA11y : vm.sinceDate,
+                style: TextStyles.textBaseRegular,
+              ),
               SizedBox(height: Margins.spacing_s),
               Text(
                 vm.name,

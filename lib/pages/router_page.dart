@@ -17,6 +17,7 @@ import 'package:pass_emploi_app/presentation/router_page_view_model.dart';
 import 'package:pass_emploi_app/push/deep_link_factory.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/utils/accessibility_utils.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
@@ -143,16 +144,17 @@ class _RouterPageState extends State<RouterPage> with WidgetsBindingObserver {
   }
 
   void _trackA11y() {
-    final withScreenReader = MediaQuery.of(context).accessibleNavigation;
-    final withTextScale = MediaQuery.textScalerOf(context).scale(1) > 1.0;
-
     PassEmploiMatomoTracker.instance.trackEvent(
       eventCategory: AnalyticsEventNames.a11yCategory,
-      action: withScreenReader ? AnalyticsEventNames.a11yWithScreenReader : AnalyticsEventNames.a11yWithoutScreenReader,
+      action: A11yUtils.withScreenReader(context)
+          ? AnalyticsEventNames.a11yWithScreenReader
+          : AnalyticsEventNames.a11yWithoutScreenReader,
     );
     PassEmploiMatomoTracker.instance.trackEvent(
       eventCategory: AnalyticsEventNames.a11yCategory,
-      action: withTextScale ? AnalyticsEventNames.a11yWithTextScale : AnalyticsEventNames.a11yWithoutTextScale,
+      action: A11yUtils.withTextScale(context)
+          ? AnalyticsEventNames.a11yWithTextScale
+          : AnalyticsEventNames.a11yWithoutTextScale,
     );
   }
 }
