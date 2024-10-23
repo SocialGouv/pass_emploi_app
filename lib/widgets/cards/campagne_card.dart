@@ -12,16 +12,19 @@ class CampagneCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CardContainer(
-      onTap: onTap,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(titre, style: TextStyles.textBaseBold),
-          SizedBox(height: Margins.spacing_s),
-          Text(description, style: TextStyles.textSRegular()),
-        ],
+    return Semantics(
+      button: true,
+      child: CardContainer(
+        onTap: onTap,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(titre, style: TextStyles.textBaseBold),
+            SizedBox(height: Margins.spacing_s),
+            Text(description, style: TextStyles.textSRegular()),
+          ],
+        ),
       ),
     );
   }

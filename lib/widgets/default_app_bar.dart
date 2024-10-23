@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/accessibility_utils.dart';
 import 'package:pass_emploi_app/widgets/a11y/auto_focus.dart';
 import 'package:pass_emploi_app/widgets/profile_button.dart';
 
@@ -58,10 +59,8 @@ class PrimarySliverAppbar extends StatelessWidget {
                           child: Text(
                             title,
                             style: TextStyles.primaryAppBar
-                                .copyWith(fontSize: FontSizes.huge)
+                                .copyWith(fontSize: A11yUtils.withTextScale(context) ? FontSizes.semi : FontSizes.huge)
                                 .copyWith(color: Brand.isCej() ? AppColors.primary : AppColors.grey100),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
                           ),
                         ),
                       ),

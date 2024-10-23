@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/a11y/auto_focus.dart';
 
 final GlobalKey<ScaffoldMessengerState> snackBarKey = GlobalKey<ScaffoldMessengerState>();
 final GlobalKey<ScaffoldMessengerState> modeDemoSnackBarKey = GlobalKey<ScaffoldMessengerState>();
@@ -67,27 +68,31 @@ void _showSnackBar({
       duration: Duration(minutes: 1),
       behavior: SnackBarBehavior.floating,
       backgroundColor: backgroundColor,
-      content: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(icon, color: textColor),
-          SizedBox(width: Margins.spacing_s),
-          Expanded(
-            child: Text(label, style: TextStyles.textSMedium(color: textColor)),
-          ),
-          SizedBox(width: Margins.spacing_s),
-          if (onActionTap == null)
-            Focus(
-              child: GestureDetector(
-                child: Icon(
-                  AppIcons.close_rounded,
-                  color: textColor,
-                  semanticLabel: Strings.closeDialog,
-                ),
-                onTap: () => clearAllSnackBars(),
-              ),
+      content: AutoFocusA11y(
+        // a11y : 11.1 - bloquant: Pour s'assurer que le focus reste sur la snackbar même en cas de changement d'écran
+        duration: Duration(milliseconds: 500),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(icon, color: textColor),
+            SizedBox(width: Margins.spacing_s),
+            Expanded(
+              child: Text(label, style: TextStyles.textSMedium(color: textColor)),
             ),
-        ],
+            SizedBox(width: Margins.spacing_s),
+            if (onActionTap == null)
+              Focus(
+                child: GestureDetector(
+                  child: Icon(
+                    AppIcons.close_rounded,
+                    color: textColor,
+                    semanticLabel: Strings.closeDialog,
+                  ),
+                  onTap: () => clearAllSnackBars(),
+                ),
+              ),
+          ],
+        ),
       ),
       action: onActionTap != null
           ? SnackBarAction(

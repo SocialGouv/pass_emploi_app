@@ -23,6 +23,7 @@ class PrimaryActionButton extends StatelessWidget {
   final bool underlined;
   final Widget? suffix;
   final String? iconLabel;
+  final String? semanticsLabel;
 
   PrimaryActionButton({
     super.key,
@@ -43,6 +44,7 @@ class PrimaryActionButton extends StatelessWidget {
     this.underlined = false,
     this.suffix,
     this.iconLabel,
+    this.semanticsLabel,
   }) : backgroundColor = backgroundColor ?? AppColors.primary;
 
   @override
@@ -73,13 +75,13 @@ class PrimaryActionButton extends StatelessWidget {
         onPressed: onPressed,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: widthPadding, vertical: heightPadding),
-          child: _getRow(),
+          child: _getWrap(),
         ),
       );
     });
   }
 
-  Widget _getRow() {
+  Widget _getWrap() {
     return Wrap(
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
@@ -94,6 +96,7 @@ class PrimaryActionButton extends StatelessWidget {
           ),
         Text(
           label,
+          semanticsLabel: semanticsLabel,
           textAlign: TextAlign.center,
           style: TextStyles.textPrimaryButton.copyWith(color: textColor),
         ),

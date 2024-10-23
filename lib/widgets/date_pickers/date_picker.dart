@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/accessibility_utils.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:pass_emploi_app/widgets/a11y/auto_focus.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
@@ -60,7 +61,7 @@ class _DatePickerState extends State<DatePicker> {
               icon: Icon(AppIcons.cancel_rounded, color: AppColors.grey800),
             )
           : null,
-      hintText: _hintText(),
+      hintText: _hintText(context),
       errorText: widget.errorText,
     );
   }
@@ -114,8 +115,12 @@ class _DatePickerState extends State<DatePicker> {
     }
   }
 
-  String _hintText() {
-    if (widget.showInitialDate) return widget.initialDateValue != null ? widget.initialDateValue!.toDay() : '';
+  String _hintText(BuildContext context) {
+    if (widget.showInitialDate) {
+      if (widget.initialDateValue == null) return '';
+      if (A11yUtils.withScreenReader(context)) return widget.initialDateValue!.toDayWithFullMonth();
+      return widget.initialDateValue!.toDay();
+    }
     return '';
   }
 }

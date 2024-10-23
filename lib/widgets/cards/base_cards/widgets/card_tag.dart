@@ -8,27 +8,31 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class CardTag extends StatelessWidget {
-  final IconData? icon;
-  final Color backgroundColor;
   final String text;
+  final Color backgroundColor;
   final Color contentColor;
+  final IconData? icon;
+  final String? semanticsLabel;
 
   const CardTag({
-    this.icon,
     required this.backgroundColor,
     required this.text,
     required this.contentColor,
+    this.icon,
+    this.semanticsLabel,
   });
 
   CardTag.evenement({
     required this.text,
   })  : icon = AppIcons.event,
         backgroundColor = AppColors.accent1Lighten,
-        contentColor = AppColors.additional3;
+        contentColor = AppColors.additional3,
+        semanticsLabel = null;
 
   CardTag.secondary({
-    this.icon,
     required this.text,
+    this.icon,
+    this.semanticsLabel,
   })  : backgroundColor = AppColors.primaryLighten,
         contentColor = AppColors.primary;
 
@@ -36,31 +40,36 @@ class CardTag extends StatelessWidget {
       : icon = Icons.business_center_outlined,
         backgroundColor = AppColors.additional2Lighten,
         text = Strings.emploiTag,
-        contentColor = AppColors.accent3;
+        contentColor = AppColors.accent3,
+        semanticsLabel = null;
 
   CardTag.alternance()
       : icon = Icons.business_center_outlined,
         backgroundColor = AppColors.additional4Lighten,
         text = Strings.alternanceTag,
-        contentColor = AppColors.accent3;
+        contentColor = AppColors.accent3,
+        semanticsLabel = null;
 
   CardTag.immersion()
       : icon = Icons.business_center_outlined,
         backgroundColor = AppColors.accent3Lighten,
         text = Strings.immersionTag,
-        contentColor = AppColors.accent3;
+        contentColor = AppColors.accent3,
+        semanticsLabel = null;
 
   CardTag.serviceCivique()
       : icon = Icons.business_center_outlined,
         backgroundColor = AppColors.additional5Lighten,
         text = Strings.serviceCiviqueTag,
-        contentColor = AppColors.accent3;
+        contentColor = AppColors.accent3,
+        semanticsLabel = null;
 
   CardTag.entrepriseAccueillante()
       : icon = Icons.volunteer_activism,
         backgroundColor = AppColors.additional1Lighten,
         text = Strings.entrepriseAccueillante,
-        contentColor = AppColors.accent2;
+        contentColor = AppColors.accent2,
+        semanticsLabel = null;
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +85,11 @@ class CardTag extends StatelessWidget {
               SizedBox(width: Margins.spacing_xs),
             ],
             Flexible(
-              child: Text(text, style: TextStyles.textXsBold().copyWith(color: contentColor)),
+              child: Text(
+                text,
+                semanticsLabel: semanticsLabel,
+                style: TextStyles.textXsBold().copyWith(color: contentColor),
+              ),
             )
           ],
         ),
@@ -87,15 +100,11 @@ class CardTag extends StatelessWidget {
 
 extension OffreTypeTagExt on OffreType {
   CardTag toCardTag() {
-    switch (this) {
-      case OffreType.emploi:
-        return CardTag.emploi();
-      case OffreType.alternance:
-        return CardTag.alternance();
-      case OffreType.immersion:
-        return CardTag.immersion();
-      case OffreType.serviceCivique:
-        return CardTag.serviceCivique();
-    }
+    return switch (this) {
+      OffreType.emploi => CardTag.emploi(),
+      OffreType.alternance => CardTag.alternance(),
+      OffreType.immersion => CardTag.immersion(),
+      OffreType.serviceCivique => CardTag.serviceCivique()
+    };
   }
 }

@@ -411,7 +411,7 @@ class Strings {
   static String seeVisio = 'Accéder à la visio';
   static String rendezvousVisioModalityMessage =
       'Le rendez-vous se fera en visio. La visio sera disponible le jour du rendez-vous.';
-  static String withConseiller = "avec";
+  static String withConseiller = " avec ";
   static String individualInterview = "Entretien individuel conseiller";
   static String publicInfo = "Information collective";
   static String shareToConseiller = "Partager à mon conseiller";
@@ -487,7 +487,7 @@ class Strings {
   static const String userActionSanteDescription = 'Rendez-vous médicaux';
 
   static const String userActionConfirmationTitle = "Action créée";
-  static const String userActionConfirmatioSubtitle =
+  static const String userActionConfirmationSubtitle =
       "L’action est en route vers votre conseiller. Vous pourrez en discuter ensemble lors de votre prochain rendez-vous\u{00A0}!";
 
   static const String userActionConfirmationSeeDetailButton = "Consulter mon action";
@@ -1264,7 +1264,6 @@ class Strings {
   static String nouvellesSuggestionsDeRechercheDescription =
       "Sur la base de votre profil France Travail, voici des suggestions d'alertes à sauvegarder";
   static String voirSuggestionsDeRecherche = "Voir les suggestions";
-  static String suggestionsDeRechercheTitlePage = "Vos suggestions d'alertes";
   static String suggestionsDeRechercheHeader =
       "Vos suggestions peuvent venir de différentes sources. Après l’ajout, vous serez notifié si une nouvelle offre est disponible.";
   static String suggestionSourcePoleEmploi = "Profil France Travail";
@@ -1472,6 +1471,7 @@ class Strings {
   static String chosenValue = "Valeur choisie :";
   static String buttonRole = "bouton";
   static String bottomSheetBarrierLabel = "$closeDialog, $buttonRole";
+  static String source = "Source : ";
 
   static String removeDistance(int value) => 'Diminuer la distance de $value km';
 

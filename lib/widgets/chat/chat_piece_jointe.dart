@@ -61,26 +61,28 @@ class ChatPieceJointe extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChatMessageContainer(
-      content: Padding(
-        padding: const EdgeInsets.all(Margins.spacing_s),
-        child: Column(
-          crossAxisAlignment: params.sender.isJeune ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-          children: [
-            if (params.content != null) ...[
-              SelectableText(params.content!, style: TextStyles.textSRegular()),
-              SizedBox(height: Margins.spacing_s),
+    return Focus(
+      child: ChatMessageContainer(
+        content: Padding(
+          padding: const EdgeInsets.all(Margins.spacing_s),
+          child: Column(
+            crossAxisAlignment: params.sender.isJeune ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+            children: [
+              if (params.content != null) ...[
+                SelectableText(params.content!, style: TextStyles.textSRegular()),
+                SizedBox(height: Margins.spacing_s),
+              ],
+              _PieceJointeName(params.filename, params.sender),
+              SizedBox(height: Margins.spacing_base),
+              _DownloadButton(params),
             ],
-            _PieceJointeName(params.filename, params.sender),
-            SizedBox(height: Margins.spacing_base),
-            _DownloadButton(params),
-          ],
+          ),
         ),
+        isPj: true,
+        isMyMessage: params.sender.isJeune,
+        caption: params.caption,
+        captionColor: params.captionColor,
       ),
-      isPj: true,
-      isMyMessage: params.sender.isJeune,
-      caption: params.caption,
-      captionColor: params.captionColor,
     );
   }
 }
@@ -139,27 +141,20 @@ class _Button extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Semantics(
-      label:
-          viewModel.displayState(params.fileId) == DisplayState.FAILURE ? Strings.retry : Strings.chatOpenPieceJointe,
-      button: true,
-      container: true,
-      child: Semantics(
-        excludeSemantics: true,
-        child: PrimaryActionButton(
-          label: viewModel.displayState(params.fileId) == DisplayState.FAILURE ? Strings.retry : Strings.open,
-          icon: AppIcons.download_rounded,
-          onPressed: () => switch (params) {
-            final PieceJointeTypeIdParams params => viewModel.onDownloadTypeId(params.fileId, params.filename),
-            final PieceJointeTypeUrlParams params => viewModel.onDownloadTypeUrl(
-                params.url,
-                params.fileId,
-                params.filename,
-              ),
-          },
-          heightPadding: 2,
-        ),
-      ),
+    final success = viewModel.displayState(params.fileId) != DisplayState.FAILURE;
+    return PrimaryActionButton(
+      label: success ? Strings.open : Strings.retry,
+      semanticsLabel: success ? "${Strings.open} ${params.filename}" : Strings.retry,
+      icon: AppIcons.download_rounded,
+      onPressed: () => switch (params) {
+        final PieceJointeTypeIdParams params => viewModel.onDownloadTypeId(params.fileId, params.filename),
+        final PieceJointeTypeUrlParams params => viewModel.onDownloadTypeUrl(
+            params.url,
+            params.fileId,
+            params.filename,
+          ),
+      },
+      heightPadding: 2,
     );
   }
 }

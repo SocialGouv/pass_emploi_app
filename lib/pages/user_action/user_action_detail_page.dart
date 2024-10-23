@@ -24,6 +24,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+import 'package:pass_emploi_app/widgets/a11y/string_a11y_extensions.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
@@ -206,7 +207,11 @@ class _Content extends StatelessWidget {
                       SizedBox(height: Margins.spacing_l),
                       _DateAndCategory(viewModel),
                       SizedBox(height: Margins.spacing_l),
-                      Text(viewModel.creationDetails, style: TextStyles.textSRegular(color: AppColors.grey800)),
+                      Text(
+                        viewModel.creationDetails,
+                        semanticsLabel: viewModel.creationDetails.toDateForScreenReaders(),
+                        style: TextStyles.textSRegular(color: AppColors.grey800),
+                      ),
                       SizedBox(height: Margins.spacing_m),
                       _Separator(),
                       if (viewModel.withComments) ...[
@@ -515,21 +520,24 @@ class _DateAndCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      spacing: Margins.spacing_m,
-      runSpacing: Margins.spacing_s,
-      children: [
-        _section(
-          sectionIcon: AppIcons.event,
-          sectionTitle: Strings.userActionDate,
-          value: viewModel.date,
-        ),
-        _section(
-          sectionIcon: Icons.account_tree_rounded,
-          sectionTitle: Strings.userActionCategory,
-          value: viewModel.category,
-        ),
-      ],
+    return Semantics(
+      container: true,
+      child: Wrap(
+        spacing: Margins.spacing_m,
+        runSpacing: Margins.spacing_s,
+        children: [
+          _section(
+            sectionIcon: AppIcons.event,
+            sectionTitle: Strings.userActionDate,
+            value: viewModel.date,
+          ),
+          _section(
+            sectionIcon: Icons.account_tree_rounded,
+            sectionTitle: Strings.userActionCategory,
+            value: viewModel.category,
+          ),
+        ],
+      ),
     );
   }
 

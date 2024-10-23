@@ -16,36 +16,38 @@ class EmptyStatePlaceholder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      return Padding(
-        padding: const EdgeInsets.all(Margins.spacing_m),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            if (constraints.maxHeight > 200) ...[
-              ConstrainedBox(
-                constraints: BoxConstraints(maxHeight: 130, maxWidth: 130),
-                child: illustration,
-              ),
-              SizedBox(height: Margins.spacing_xl),
-            ],
-            Text(
-              title,
-              style: TextStyles.textBaseBold,
-              textAlign: TextAlign.center,
-            ),
-            if (subtitle != null) ...[
-              SizedBox(height: Margins.spacing_base),
+    return Focus(
+      child: LayoutBuilder(builder: (context, constraints) {
+        return Padding(
+          padding: const EdgeInsets.all(Margins.spacing_m),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              if (constraints.maxHeight > 200) ...[
+                ConstrainedBox(
+                  constraints: BoxConstraints(maxHeight: 130, maxWidth: 130),
+                  child: illustration,
+                ),
+                SizedBox(height: Margins.spacing_xl),
+              ],
               Text(
-                subtitle!,
-                style: TextStyles.textBaseRegular,
+                title,
+                style: TextStyles.textBaseBold,
                 textAlign: TextAlign.center,
               ),
-            ]
-          ],
-        ),
-      );
-    });
+              if (subtitle != null) ...[
+                SizedBox(height: Margins.spacing_base),
+                Text(
+                  subtitle!,
+                  style: TextStyles.textBaseRegular,
+                  textAlign: TextAlign.center,
+                ),
+              ]
+            ],
+          ),
+        );
+      }),
+    );
   }
 }

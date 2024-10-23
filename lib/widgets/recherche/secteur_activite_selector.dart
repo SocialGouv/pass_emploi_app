@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pass_emploi_app/analytics/ignore_tracking_context_provider.dart';
 import 'package:pass_emploi_app/models/evenement_emploi/secteur_activite.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -47,7 +48,7 @@ class _SecteurActiviteSelectorState extends State<SecteurActiviteSelector> {
   }
 }
 
-class _SecteurActiviteField extends StatelessWidget {
+class _SecteurActiviteField extends StatefulWidget {
   final Function() onFieldTap;
   final SecteurActivite? value;
 
@@ -55,6 +56,25 @@ class _SecteurActiviteField extends StatelessWidget {
     required this.onFieldTap,
     required this.value,
   });
+
+  @override
+  State<_SecteurActiviteField> createState() => _SecteurActiviteFieldState();
+}
+
+class _SecteurActiviteFieldState extends State<_SecteurActiviteField> {
+  late final FocusNode _focusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode = FocusNode(onKeyEvent: (node, event) {
+      if (event is KeyDownEvent && event.logicalKey == LogicalKeyboardKey.enter) {
+        widget.onFieldTap();
+        return KeyEventResult.handled;
+      }
+      return KeyEventResult.ignored;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,17 +87,18 @@ class _SecteurActiviteField extends StatelessWidget {
           SizedBox(height: Margins.spacing_base),
           // A11y - GestureDetector is not focusable by itself
           Focus(
+            focusNode: _focusNode,
             child: GestureDetector(
-              onTap: onFieldTap,
+              onTap: widget.onFieldTap,
               child: Container(
-                height: 56,
+                constraints: BoxConstraints(minHeight: 56),
                 width: double.maxFinite,
                 alignment: Alignment.centerLeft,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(Dimens.radius_base),
                   border: Border.all(color: AppColors.contentColor),
                 ),
-                child: _SelectedSecteurActivite(value?.label ?? Strings.secteurActiviteAll),
+                child: _SelectedSecteurActivite(widget.value?.label ?? Strings.secteurActiviteAll),
               ),
             ),
           ),
@@ -95,7 +116,7 @@ class _SelectedSecteurActivite extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base, vertical: 12),
+      padding: const EdgeInsets.all(Margins.spacing_s),
       child: Wrap(
         children: [
           Container(
@@ -107,8 +128,6 @@ class _SelectedSecteurActivite extends StatelessWidget {
             child: Text(
               label,
               style: TextStyles.textSMedium(color: AppColors.primary),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],

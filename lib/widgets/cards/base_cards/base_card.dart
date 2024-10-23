@@ -25,7 +25,6 @@ class BaseCard extends StatelessWidget {
   final void Function()? onLongPress;
   final PressedTip? pressedTip;
   final String? imagePath;
-  final bool buttonRole;
   final bool linkRole;
 
   const BaseCard({
@@ -43,7 +42,6 @@ class BaseCard extends StatelessWidget {
     this.onLongPress,
     this.pressedTip,
     this.imagePath,
-    this.buttonRole = false,
     this.linkRole = false,
   });
 
@@ -52,12 +50,8 @@ class BaseCard extends StatelessWidget {
     assert(pillule == null || iconButton == null, "A BaseCard can't have both a pillule and an iconButton.");
     final bool isSimpleCard = tag == null && pillule == null;
     return Semantics(
-      button: linkRole
-          ? null
-          : buttonRole
-              ? null
-              : (onTap != null ? true : null),
-      link: linkRole,
+      button: !linkRole && onTap != null ? true : null,
+      link: linkRole ? true : null,
       child: Stack(
         children: [
           CardContainer(

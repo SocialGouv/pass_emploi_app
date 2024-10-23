@@ -13,14 +13,12 @@ class BoiteAOutilsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isLink = outil.redirectMode is OutilExternalRedirectMode;
     return BaseCard(
       title: outil.title,
       body: outil.description,
       imagePath: outil.imagePath,
       pressedTip: outil.actionLabel != null ? PressedTip.externalLink(outil.actionLabel!) : null,
-      buttonRole: !isLink,
-      linkRole: isLink,
+      linkRole: outil.redirectMode is OutilExternalRedirectMode,
       onTap: () {
         return switch (outil.redirectMode) {
           final OutilExternalRedirectMode redirect => _launchExternalRedirect(redirect.url),

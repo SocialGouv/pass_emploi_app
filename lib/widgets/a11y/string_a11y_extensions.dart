@@ -34,4 +34,8 @@ extension A11yStringExtensions on String {
         .replaceAll("/12", Strings.a11yDecember)
         .replaceAll("/", "");
   }
+
+  String removeIconsForScreenReaders() {
+    return replaceAll('↗', '');
+  }
 }

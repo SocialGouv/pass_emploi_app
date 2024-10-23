@@ -102,25 +102,26 @@ class _BodyState extends State<_Body> {
                   Row(
                     children: [
                       Expanded(
-                        child: GestureDetector(
-                          onTap: _launchExternalRedirect,
-                          child: RichText(
-                            textScaler: MediaQuery.of(context).textScaler,
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: neverAccepted
-                                      ? Strings.cguNeverAcceptedSwitch[0]
-                                      : Strings.cguUpdateRequiredSwitch[0],
-                                  style: _cguSwitchTestStyle(),
-                                ),
-                                TextSpan(
-                                  text: neverAccepted
-                                      ? Strings.cguNeverAcceptedSwitch[1]
-                                      : Strings.cguUpdateRequiredSwitch[1],
-                                  style: _cguSwitchTestStyle(underlined: true),
-                                ),
-                              ],
+                        child: Focus(
+                          child: GestureDetector(
+                            onTap: _launchExternalRedirect,
+                            child: Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: neverAccepted
+                                        ? Strings.cguNeverAcceptedSwitch[0]
+                                        : Strings.cguUpdateRequiredSwitch[0],
+                                    style: _cguSwitchTestStyle(),
+                                  ),
+                                  TextSpan(
+                                    text: neverAccepted
+                                        ? Strings.cguNeverAcceptedSwitch[1]
+                                        : Strings.cguUpdateRequiredSwitch[1],
+                                    style: _cguSwitchTestStyle(underlined: true),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -198,36 +199,37 @@ class _CguNeverAcceptedContent extends StatelessWidget {
           style: TextStyles.textLBold(color: AppColors.primary),
         ),
         SizedBox(height: Margins.spacing_m),
-        GestureDetector(
-          onTap: _launchExternalRedirect,
-          child: RichText(
-            textScaler: MediaQuery.of(context).textScaler,
-            text: TextSpan(
-              children: [
-                TextSpan(
-                  text: Strings.cguNeverAcceptedDescription[0],
-                  style: TextStyles.textBaseRegular,
-                ),
-                TextSpan(
-                  text: Strings.cguNeverAcceptedDescription[1],
-                  style: TextStyles.textBaseRegular.copyWith(
-                    color: AppColors.contentColor,
-                    decoration: TextDecoration.underline,
+        Focus(
+          child: GestureDetector(
+            onTap: _launchExternalRedirect,
+            child: Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(
+                    text: Strings.cguNeverAcceptedDescription[0],
+                    style: TextStyles.textBaseRegular,
                   ),
-                ),
-                TextSpan(
-                  text: Strings.cguNeverAcceptedDescription[2],
-                  style: TextStyles.textBaseRegular,
-                ),
-                TextSpan(
-                  text: Strings.cguNeverAcceptedDescription[3],
-                  style: TextStyles.textBaseBold,
-                ),
-                TextSpan(
-                  text: Strings.cguNeverAcceptedDescription[4],
-                  style: TextStyles.textBaseRegular,
-                ),
-              ],
+                  TextSpan(
+                    text: Strings.cguNeverAcceptedDescription[1],
+                    style: TextStyles.textBaseRegular.copyWith(
+                      color: AppColors.contentColor,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                  TextSpan(
+                    text: Strings.cguNeverAcceptedDescription[2],
+                    style: TextStyles.textBaseRegular,
+                  ),
+                  TextSpan(
+                    text: Strings.cguNeverAcceptedDescription[3],
+                    style: TextStyles.textBaseBold,
+                  ),
+                  TextSpan(
+                    text: Strings.cguNeverAcceptedDescription[4],
+                    style: TextStyles.textBaseRegular,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -250,35 +252,36 @@ class _CguUpdateRequiredContent extends StatelessWidget {
           style: TextStyles.textLBold(color: AppColors.primary),
         ),
         SizedBox(height: Margins.spacing_m),
-        GestureDetector(
-          onTap: _launchExternalRedirect,
-          child: RichText(
-            textScaler: MediaQuery.of(context).textScaler,
-            text: TextSpan(
-              children: [
-                TextSpan(
-                  text: Strings.cguUpdateRequiredDescription[0] +
-                      displayState.lastUpdateLabel +
-                      Strings.cguUpdateRequiredDescription[1],
-                  style: TextStyles.textBaseRegular,
-                ),
-                TextSpan(
-                  text: Strings.cguUpdateRequiredDescription[2],
-                  style: TextStyles.textBaseRegular.copyWith(
-                    color: AppColors.contentColor,
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
-                TextSpan(
-                  text: Strings.cguUpdateRequiredDescription[3],
-                  style: TextStyles.textBaseRegular,
-                ),
-                for (var change in displayState.changes)
+        Focus(
+          child: GestureDetector(
+            onTap: _launchExternalRedirect,
+            child: Text.rich(
+              TextSpan(
+                children: [
                   TextSpan(
-                    text: " • $change\n",
+                    text: Strings.cguUpdateRequiredDescription[0] +
+                        displayState.lastUpdateLabel +
+                        Strings.cguUpdateRequiredDescription[1],
                     style: TextStyles.textBaseRegular,
                   ),
-              ],
+                  TextSpan(
+                    text: Strings.cguUpdateRequiredDescription[2],
+                    style: TextStyles.textBaseRegular.copyWith(
+                      color: AppColors.contentColor,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                  TextSpan(
+                    text: Strings.cguUpdateRequiredDescription[3],
+                    style: TextStyles.textBaseRegular,
+                  ),
+                  for (var change in displayState.changes)
+                    TextSpan(
+                      text: " • $change\n",
+                      style: TextStyles.textBaseRegular,
+                    ),
+                ],
+              ),
             ),
           ),
         ),

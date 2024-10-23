@@ -21,6 +21,7 @@ import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/accessibility_utils.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/a11y/auto_focus.dart';
@@ -345,7 +346,7 @@ class _TodayCenteredMonSuiviList extends StatelessWidget {
       padding: EdgeInsets.only(
         left: Margins.spacing_base,
         right: Margins.spacing_base,
-        bottom: MediaQuery.of(context).accessibleNavigation ? Margins.spacing_x_huge : 0,
+        bottom: A11yUtils.withScreenReader(context) ? Margins.spacing_x_huge : 0,
       ),
       child: CustomScrollView(
         center: _StateProvider.maybeOf(context)?.centerKey,
@@ -416,12 +417,12 @@ class _TodayCenteredMonSuiviList extends StatelessWidget {
   }
 
   bool _shouldAutomaticallyLoadNextPeriod(BuildContext context, int index, bool loadingNextPeriod) {
-    if (MediaQuery.of(context).accessibleNavigation) return false;
+    if (A11yUtils.withScreenReader(context)) return false;
     return viewModel.withPagination && index > presentAndFutureItems.length - 2 && !loadingNextPeriod;
   }
 
   bool _shouldAutomaticallyLoadPreviousPeriod(BuildContext context, int index, bool loadingPreviousPeriod) {
-    if (MediaQuery.of(context).accessibleNavigation) return false;
+    if (A11yUtils.withScreenReader(context)) return false;
     return viewModel.withPagination && index > pastItems.length - 2 && !loadingPreviousPeriod;
   }
 
@@ -523,7 +524,7 @@ class _EmptyDayItem extends StatefulWidget {
 }
 
 class _EmptyDayItemState extends State<_EmptyDayItem> {
-  Color _color = AppColors.disabled;
+  Color _color = AppColors.grey800;
 
   @override
   Widget build(BuildContext context) {
@@ -532,7 +533,7 @@ class _EmptyDayItemState extends State<_EmptyDayItem> {
       child: Focus(
         onFocusChange: (focused) {
           setState(() {
-            _color = focused ? AppColors.primaryDarken : AppColors.disabled;
+            _color = focused ? AppColors.primaryDarken : _color;
           });
         },
         child: DashedBox(
@@ -707,7 +708,7 @@ class _Pagination extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).accessibleNavigation
+    return A11yUtils.withScreenReader(context)
         ? _LoadPeriodButton(label: label, onPressed: onPressed)
         : _PaginationLoader();
   }

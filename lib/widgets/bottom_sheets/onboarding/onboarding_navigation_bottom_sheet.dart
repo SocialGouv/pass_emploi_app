@@ -12,18 +12,17 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/accessibility_utils.dart';
 import 'package:pass_emploi_app/widgets/a11y/auto_focus.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 
 class OnboardingNavigationBottomSheet extends StatelessWidget {
-  const OnboardingNavigationBottomSheet({super.key});
-
   static Future<void> show(BuildContext context) {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       barrierLabel: Strings.bottomSheetBarrierLabel,
-      builder: (context) => const OnboardingNavigationBottomSheet(),
+      builder: (context) => OnboardingNavigationBottomSheet(),
       isDismissible: false,
       enableDrag: false,
     );
@@ -39,43 +38,46 @@ class OnboardingNavigationBottomSheet extends StatelessWidget {
         maxHeightFactor: 0.9,
         body: Stack(
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Semantics(
-                  excludeSemantics: true,
-                  child: Image.asset(
-                    Drawables.illustrationNavigationBottomSheet,
-                    fit: BoxFit.fitWidth,
+            SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Semantics(
+                    excludeSemantics: true,
+                    child: Image.asset(
+                      Drawables.illustrationNavigationBottomSheet,
+                      fit: BoxFit.fitWidth,
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      const SizedBox(height: Margins.spacing_xl),
-                      AutoFocusA11y(
-                        child: Semantics(
-                          focusable: true,
-                          child: Text(
-                            Strings.onboardingNavigationTitle,
-                            style: TextStyles.textMBold,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const SizedBox(height: Margins.spacing_xl),
+                        AutoFocusA11y(
+                          child: Semantics(
+                            focusable: true,
+                            child: Text(
+                              Strings.onboardingNavigationTitle,
+                              style: TextStyles.textMBold,
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(height: Margins.spacing_m),
-                      Semantics(
-                        focusable: true,
-                        child: Text(
-                          Strings.onboardingNavigationBody,
-                          style: TextStyles.textBaseRegular,
+                        SizedBox(height: Margins.spacing_m),
+                        Semantics(
+                          focusable: true,
+                          child: Text(
+                            Strings.onboardingNavigationBody,
+                            style: TextStyles.textBaseRegular,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
+                        if (A11yUtils.withTextScale(context)) SizedBox(height: Margins.spacing_x_huge),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
             Align(
               alignment: Alignment.bottomCenter,

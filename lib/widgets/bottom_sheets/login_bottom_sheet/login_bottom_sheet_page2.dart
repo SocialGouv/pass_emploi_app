@@ -91,9 +91,8 @@ class _HighlightInformations extends StatelessWidget {
         ),
         const SizedBox(width: Margins.spacing_s),
         Expanded(
-          child: RichText(
-            textScaler: MediaQuery.of(context).textScaler,
-            text: TextSpan(
+          child: Text.rich(
+            TextSpan(
               style: TextStyles.textBaseRegular,
               children: [
                 TextSpan(text: boldText, style: TextStyles.textBaseBold),
