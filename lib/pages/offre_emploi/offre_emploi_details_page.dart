@@ -440,7 +440,6 @@ class OffreEmploiDetailsPage extends StatelessWidget {
                 },
                 label: Strings.postulerButtonTitle,
                 icon: shouldShowCvBottomSheet ? null : AppIcons.open_in_new_rounded,
-                iconLabel: shouldShowCvBottomSheet ? null : Strings.link,
               ),
             ),
           ),
