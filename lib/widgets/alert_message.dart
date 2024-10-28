@@ -48,6 +48,7 @@ class AlertMessage extends StatelessWidget {
                 container: true,
                 child: TextButton(
                   onPressed: retryMessage!.onRetry,
+                  isSemanticButton: retryMessage!.link ? false : null,
                   child: Semantics(
                     link: retryMessage!.link ? true : null,
                     child: Text.rich(
