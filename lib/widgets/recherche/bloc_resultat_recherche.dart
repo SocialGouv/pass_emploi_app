@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/presentation/recherche/bloc_resultat_recherche_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/utils/accessibility_utils.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/recherche/recherche_message_placeholder.dart';
@@ -63,7 +64,7 @@ class _BlocResultatRechercheState<Result> extends State<BlocResultatRecherche<Re
         return GestureDetector(
           onTapDown: (_) => viewModel.onListWithOpacityTouch(),
           child: AnimatedOpacity(
-            opacity: withOpacity ? 0.2 : 1,
+            opacity: withOpacity && !A11yUtils.withScreenReader(context) ? 0.2 : 1,
             duration: Duration(milliseconds: 200),
             child: AbsorbPointer(
               absorbing: withOpacity,
