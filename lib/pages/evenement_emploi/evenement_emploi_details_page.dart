@@ -197,7 +197,7 @@ class _FooterButtons extends StatelessWidget {
           Expanded(
             child: PrimaryActionButton(
               icon: AppIcons.open_in_new_rounded,
-              iconLabel: Strings.link,
+              semanticsRoleLink: true,
               iconSize: Dimens.icon_size_base,
               label: Strings.eventEmploiDetailsInscription,
               onPressed: () => _openInscriptionUrl(context),

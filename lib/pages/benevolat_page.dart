@@ -5,7 +5,6 @@ import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/benevolat_assets.dart';
 import 'package:pass_emploi_app/ui/external_links.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
@@ -224,7 +223,7 @@ class _Button extends StatelessWidget {
         underlined: true,
         widthPadding: Margins.spacing_xl,
         icon: AppIcons.open_in_new_rounded,
-        iconLabel: Strings.link,
+        semanticsRoleLink: true,
         onPressed: () => _launchExternalRedirect(),
       ),
     );

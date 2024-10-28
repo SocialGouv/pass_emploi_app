@@ -254,7 +254,7 @@ class ServiceCiviqueDetailPage extends StatelessWidget {
                   }
                 },
                 icon: shouldShowCvBottomSheet ? null : AppIcons.open_in_new_rounded,
-                iconLabel: Strings.link,
+                semanticsRoleLink: true,
               ),
             ),
           ),

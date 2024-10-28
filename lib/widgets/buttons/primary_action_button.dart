@@ -22,7 +22,7 @@ class PrimaryActionButton extends StatelessWidget {
   final double widthPadding;
   final bool underlined;
   final Widget? suffix;
-  final String? iconLabel;
+  final bool? semanticsRoleLink;
   final String? semanticsLabel;
 
   PrimaryActionButton({
@@ -43,7 +43,7 @@ class PrimaryActionButton extends StatelessWidget {
     this.widthPadding = Margins.spacing_m,
     this.underlined = false,
     this.suffix,
-    this.iconLabel,
+    this.semanticsRoleLink,
     this.semanticsLabel,
   }) : backgroundColor = backgroundColor ?? AppColors.primary;
 
@@ -55,6 +55,7 @@ class PrimaryActionButton extends StatelessWidget {
     final usedTextStyle = fontSize != null ? baseTextStyle.copyWith(fontSize: fontSize) : baseTextStyle;
     return FocusedBorderBuilder(builder: (focusNode) {
       return TextButton(
+        isSemanticButton: semanticsRoleLink == null,
         focusNode: focusNode,
         style: ButtonStyle(
           padding: WidgetStateProperty.all(EdgeInsets.zero),
@@ -82,33 +83,33 @@ class PrimaryActionButton extends StatelessWidget {
   }
 
   Widget _getWrap() {
-    return Wrap(
-      crossAxisAlignment: WrapCrossAlignment.center,
-      children: [
-        if (icon != null)
-          Padding(
-            padding: EdgeInsets.only(right: iconRightPadding),
-            child: Icon(
-              icon,
-              size: iconSize,
-              color: iconColor,
+    return Semantics(
+      link: semanticsRoleLink,
+      child: Wrap(
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: [
+          if (icon != null)
+            Padding(
+              padding: EdgeInsets.only(right: iconRightPadding),
+              child: Icon(
+                icon,
+                size: iconSize,
+                color: iconColor,
+              ),
             ),
+          Text(
+            label,
+            semanticsLabel: semanticsLabel,
+            textAlign: TextAlign.center,
+            style: TextStyles.textPrimaryButton.copyWith(color: textColor),
           ),
-        Text(
-          label,
-          semanticsLabel: semanticsLabel,
-          textAlign: TextAlign.center,
-          style: TextStyles.textPrimaryButton.copyWith(color: textColor),
-        ),
-        Semantics(
-          label: iconLabel,
-        ),
-        if (suffix != null)
-          Padding(
-            padding: EdgeInsets.only(left: Margins.spacing_base),
-            child: suffix!,
-          ),
-      ],
+          if (suffix != null)
+            Padding(
+              padding: EdgeInsets.only(left: Margins.spacing_base),
+              child: suffix!,
+            ),
+        ],
+      ),
     );
   }
 }

@@ -39,11 +39,7 @@ class _SecondaryButtonState extends State<SecondaryButton> {
       return OutlinedButton(
         focusNode: focusNode,
         onPressed: widget.onPressed,
-        onHover: (hover) {
-          setState(() {
-            isHovered = hover;
-          });
-        },
+        onHover: (hover) => setState(() => isHovered = hover),
         style: OutlinedButton.styleFrom(
           shape: StadiumBorder(),
           backgroundColor: Color.alphaBlend(
