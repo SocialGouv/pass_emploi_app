@@ -80,7 +80,6 @@ class BenevolatPage extends StatelessWidget {
                 SizedBox(height: Margins.spacing_m),
                 _InformationCard(
                   imagePath: BenevolatAssets.imageCard4Path,
-                  imageSemanticLabel: BenevolatAssets.imageCard4SemanticLabel,
                   title: BenevolatAssets.card3Title,
                   spans: [
                     TextSpan(
@@ -111,13 +110,11 @@ class _InformationCard extends StatelessWidget {
   final String imagePath;
   final String title;
   final List<InlineSpan> spans;
-  final String? imageSemanticLabel;
 
   _InformationCard({
     required this.imagePath,
     required this.title,
     required this.spans,
-    this.imageSemanticLabel,
   });
 
   @override
@@ -137,8 +134,7 @@ class _InformationCard extends StatelessWidget {
                   child: Image.asset(
                     imagePath,
                     fit: BoxFit.fitWidth,
-                    semanticLabel: imageSemanticLabel,
-                    excludeFromSemantics: imageSemanticLabel == null,
+                    excludeFromSemantics: true,
                   ),
                 ),
                 SizedBox(height: Margins.spacing_m),

@@ -33,7 +33,4 @@ class BenevolatAssets {
   static String imageVerbatimPath = "assets/benevolat/benevolat_page_card_2.webp";
   static String imageCard3Path = "assets/benevolat/benevolat_page_card_3.webp";
   static String imageCard4Path = "assets/benevolat/benevolat_page_card_4.webp";
-
-  static String imageCard4SemanticLabel =
-      "Partenaires bénévolat : France Terre d’Asile, Entourage, Emmaüs France, la SPA, OXFAM, CCFD Terre Solidaire";
 }
