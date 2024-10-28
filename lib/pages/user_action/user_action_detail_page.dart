@@ -282,26 +282,28 @@ class _PopUpConfirmationDescription extends StatelessWidget {
       titlePadding: EdgeInsets.all(Margins.spacing_m),
       surfaceTintColor: Colors.white,
       backgroundColor: Colors.white,
-      title: Column(
-        children: [
-          Align(
-            alignment: Alignment.centerRight,
-            child: IconButton(
-              icon: Icon(Icons.close_rounded),
-              onPressed: () => Navigator.pop(context, false),
+      title: SingleChildScrollView(
+        child: Column(
+          children: [
+            Align(
+              alignment: Alignment.centerRight,
+              child: IconButton(
+                icon: Icon(Icons.close_rounded),
+                onPressed: () => Navigator.pop(context, false),
+              ),
             ),
-          ),
-          SizedBox.square(
-            dimension: 100,
-            child: Illustration.grey(AppIcons.checklist_rounded),
-          ),
-          SizedBox(height: Margins.spacing_m),
-          Text(Strings.userActionDescriptionConfirmationTitle,
-              style: TextStyles.textBaseBold, textAlign: TextAlign.center),
-          SizedBox(height: Margins.spacing_m),
-          Text(Strings.userActionDescriptionConfirmationSubtitle,
-              style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
-        ],
+            SizedBox.square(
+              dimension: 100,
+              child: Illustration.grey(AppIcons.checklist_rounded),
+            ),
+            SizedBox(height: Margins.spacing_m),
+            Text(Strings.userActionDescriptionConfirmationTitle,
+                style: TextStyles.textBaseBold, textAlign: TextAlign.center),
+            SizedBox(height: Margins.spacing_m),
+            Text(Strings.userActionDescriptionConfirmationSubtitle,
+                style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
+          ],
+        ),
       ),
       actions: [
         SizedBox(
