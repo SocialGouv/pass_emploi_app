@@ -9,10 +9,12 @@ class AppLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SvgPicture.asset(
-      Drawables.appLogo,
-      semanticsLabel: Strings.logoDescription,
-      width: width,
+    return ExcludeSemantics(
+      child: SvgPicture.asset(
+        Drawables.appLogo,
+        semanticsLabel: Strings.logoDescription,
+        width: width,
+      ),
     );
   }
 }
