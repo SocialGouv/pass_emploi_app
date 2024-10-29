@@ -47,7 +47,7 @@ class _SecteurActiviteSelectionPageState extends State<SecteurActiviteSelectionP
           Expanded(
             child: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.only(bottom: Margins.spacing_huge),
+                padding: const EdgeInsets.only(bottom: Margins.spacing_x_huge),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <SecteurActivite?>[null, ...SecteurActivite.values]
