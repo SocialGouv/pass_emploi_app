@@ -61,13 +61,14 @@ class _BlocResultatRechercheState<Result> extends State<BlocResultatRecherche<Re
       case BlocResultatRechercheDisplayState.results:
       case BlocResultatRechercheDisplayState.editRecherche:
         final bool withOpacity = viewModel.displayState == BlocResultatRechercheDisplayState.editRecherche;
+        final bool disabled = withOpacity && !A11yUtils.withScreenReader(context);
         return GestureDetector(
           onTapDown: (_) => viewModel.onListWithOpacityTouch(),
           child: AnimatedOpacity(
-            opacity: withOpacity && !A11yUtils.withScreenReader(context) ? 0.2 : 1,
+            opacity: disabled ? 0.2 : 1,
             duration: Duration(milliseconds: 200),
             child: AbsorbPointer(
-              absorbing: withOpacity,
+              absorbing: disabled,
               child: Focus(
                 onFocusChange: (hasFocus) {
                   if (hasFocus) {
