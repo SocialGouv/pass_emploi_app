@@ -826,7 +826,7 @@ class Strings {
   static String rechercheCriteresActifsZero = "0 critère actif";
   static String rechercheCriteresActifsOne = "(1) critère actif";
 
-  static String rechercheCriteresActifsTooltip(bool isOpen) => "Bandeau de recherche ${isOpen ? 'ouvert' : 'fermé'}";
+  static String rechercheCriteresActifsTooltip(bool isOpen) => "Formulaire de recherche ${isOpen ? 'ouvert' : 'fermé'}";
 
   static String rechercheCriteresActifsPlural(int count) => "($count) critères actifs";
 
