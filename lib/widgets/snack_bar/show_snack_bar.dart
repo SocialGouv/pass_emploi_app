@@ -81,15 +81,15 @@ void _showSnackBar({
             ),
             SizedBox(width: Margins.spacing_s),
             if (onActionTap == null)
-              Focus(
-                child: GestureDetector(
-                  child: Icon(
-                    AppIcons.close_rounded,
-                    color: textColor,
-                    semanticLabel: Strings.closeDialog,
-                  ),
-                  onTap: () => clearAllSnackBars(),
+              IconButton(
+                icon: Icon(
+                  AppIcons.close_rounded,
+                  color: textColor,
+                  semanticLabel: Strings.closeDialog,
                 ),
+                onPressed: () => clearAllSnackBars(),
+                alignment: Alignment.topRight,
+                padding: EdgeInsets.zero,
               ),
           ],
         ),
