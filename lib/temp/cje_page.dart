@@ -14,13 +14,16 @@ import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class CjePage extends StatelessWidget {
-  static MaterialPageRoute<void> materialPageRoute() => MaterialPageRoute(builder: (context) => CjePage());
+  static MaterialPageRoute<void> materialPageRoute() => MaterialPageRoute(
+        builder: (context) => CjePage(),
+        fullscreenDialog: true,
+      );
 
   @override
   Widget build(BuildContext context) {
     final userId = StoreProvider.of<AppState>(context).state.user()!.id;
     return Scaffold(
-      body: _BottomSheetWrapper(child: Center(child: _FutureBuilder(userId))),
+      body: SafeArea(child: _BottomSheetWrapper(child: Center(child: _FutureBuilder(userId)))),
     );
   }
 }
