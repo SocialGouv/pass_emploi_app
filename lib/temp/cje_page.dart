@@ -4,6 +4,9 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/app_initializer.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/utils/log.dart';
@@ -17,7 +20,45 @@ class CjePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final userId = StoreProvider.of<AppState>(context).state.user()!.id;
     return Scaffold(
-      body: SafeArea(child: Center(child: _FutureBuilder(userId))),
+      body: _BottomSheetWrapper(child: Center(child: _FutureBuilder(userId))),
+    );
+  }
+}
+
+class _BottomSheetWrapper extends StatelessWidget {
+  final Widget child;
+
+  const _BottomSheetWrapper({required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Container(color: AppColors.primary),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: IconButton(
+                onPressed: Navigator.of(context).pop,
+                icon: Icon(
+                  AppIcons.close_rounded,
+                  size: Dimens.icon_size_m,
+                  semanticLabel: Strings.close,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            Expanded(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(Dimens.radius_l),
+                child: Material(color: Colors.white, child: child),
+              ),
+            )
+          ],
+        ),
+      ],
     );
   }
 }
