@@ -33,6 +33,11 @@ class RemoteConfigRepository {
     return _firebaseRemoteConfig.getBool('use_cvm');
   }
 
+  bool withCje() {
+    if (_firebaseRemoteConfig == null) return false;
+    return _firebaseRemoteConfig.getBool('with_cje');
+  }
+
   List<String> getIdsConseillerCvmEarlyAdopters() {
     if (_firebaseRemoteConfig == null) return [];
     return _firebaseRemoteConfig.getString('ids_conseiller_cvm_early_adopters').split(',');

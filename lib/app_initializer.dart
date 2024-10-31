@@ -108,6 +108,7 @@ class AppInitializer {
   // TODO-CJE(31/10/24): remove when feature deleted
   static late final Dio dio;
   static late final Crashlytics firebaseCrashlytics;
+  static late final FlutterSecureStorage preferences;
 
   Future<Widget> initializeApp() async {
     await Firebase.initializeApp();
@@ -169,6 +170,7 @@ class AppInitializer {
     final securedPreferences = SecureStorageExceptionHandlerDecorator(
       FlutterSecureStorage(aOptions: AndroidOptions(encryptedSharedPreferences: true)),
     );
+    preferences = securedPreferences;
     final remoteConfigRepository = RemoteConfigRepository(firebaseRemoteConfig);
     final logoutRepository = LogoutRepository(
       authIssuer: configuration.authIssuer,
