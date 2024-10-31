@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor_file_store/dio_cache_interceptor_file_store.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -104,6 +105,10 @@ import 'package:redux/redux.dart';
 import 'package:synchronized/synchronized.dart';
 
 class AppInitializer {
+  // TODO-CJE(31/10/24): remove when feature deleted
+  static late final Dio dio;
+  static late final Crashlytics firebaseCrashlytics;
+
   Future<Widget> initializeApp() async {
     await Firebase.initializeApp();
     await _initializeCrashlytics();
@@ -159,6 +164,7 @@ class AppInitializer {
     FirebaseRemoteConfig? firebaseRemoteConfig,
   ) async {
     final crashlytics = CrashlyticsWithFirebase(FirebaseCrashlytics.instance);
+    firebaseCrashlytics = crashlytics;
     final pushNotificationManager = PushNotificationManager();
     final securedPreferences = SecureStorageExceptionHandlerDecorator(
       FlutterSecureStorage(aOptions: AndroidOptions(encryptedSharedPreferences: true)),
@@ -194,6 +200,7 @@ class AppInitializer {
       authAccessChecker: authAccessChecker,
       monitoringInterceptor: monitoringInterceptor,
     ).build();
+    dio = dioClient;
     logoutRepository.setHttpClient(dioClient);
     logoutRepository.setCacheManager(requestCacheManager);
     final chatCrypto = ChatCrypto();
