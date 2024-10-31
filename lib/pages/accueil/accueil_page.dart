@@ -18,6 +18,7 @@ import 'package:pass_emploi_app/pages/accueil/accueil_rating_app.dart';
 import 'package:pass_emploi_app/pages/alerte_page.dart';
 import 'package:pass_emploi_app/pages/benevolat_page.dart';
 import 'package:pass_emploi_app/pages/campagne/campagne_details_page.dart';
+import 'package:pass_emploi_app/pages/cje/cje_page.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_step1_page.dart';
 import 'package:pass_emploi_app/pages/offre_favoris_page.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_details_page.dart';
@@ -197,6 +198,10 @@ class _Blocs extends StatelessWidget {
       final AccueilFavorisItem item => AccueilFavoris(item),
       final AccueilOutilsItem item => AccueilOutils(item),
       RatingAppItem() => AccueilRatingAppCard(),
+      CjeItem() => TextButton(
+          onPressed: () => Navigator.of(context).push(CjePage.materialPageRoute()),
+          child: Text("CJE full page"),
+        ),
     };
   }
 }

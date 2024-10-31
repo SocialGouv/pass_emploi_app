@@ -78,6 +78,7 @@ List<AccueilItem> _items(Store<AppState> store) {
   if (accueilState is! AccueilSuccessState || user == null) return [];
 
   return [
+    CjeItem(),
     _ratingAppItem(store.state),
     _campagneRecrutementItem(store, store.state),
     _campagneEvaluationItem(store.state),
