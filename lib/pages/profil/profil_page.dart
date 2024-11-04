@@ -14,9 +14,11 @@ import 'package:pass_emploi_app/pages/profil/matomo_logging_page.dart';
 import 'package:pass_emploi_app/pages/suppression_compte_page.dart';
 import 'package:pass_emploi_app/presentation/profil/profil_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/temp/cje_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -73,7 +75,21 @@ class _Scaffold extends StatelessWidget {
               children: [
                 _UsernameTitle(userName: viewModel.userName, onTitleTap: viewModel.onTitleTap),
                 SizedBox(height: Margins.spacing_base),
-                _DiscoverDiagorienteCard(),
+                if (viewModel.withCje) ...[
+                  _OutilCard(
+                    title: "Ma carte “jeune engagé”",
+                    subtitle: "Accéder à toutes mes réductions",
+                    imagePath: "assets/cje/logo.webp",
+                    onTap: () => Navigator.push(context, CjePage.materialPageRoute()),
+                  ),
+                  SizedBox(height: Margins.spacing_base),
+                ],
+                _OutilCard(
+                  title: Strings.diagorienteDiscoverCardTitle,
+                  subtitle: Strings.diagorienteDiscoverCardSubtitle,
+                  imagePath: Drawables.diagorienteLogo,
+                  onTap: () => Navigator.push(context, DiagorienteEntryPage.materialPageRoute()),
+                ),
                 SizedBox(height: Margins.spacing_base),
                 if (viewModel.withDownloadCv) ...[
                   _CurriculumVitaeCard(),
@@ -181,24 +197,41 @@ class _SectionTitle extends StatelessWidget {
   }
 }
 
-class _DiscoverDiagorienteCard extends StatelessWidget {
-  const _DiscoverDiagorienteCard();
+class _OutilCard extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final String imagePath;
+  final VoidCallback onTap;
+
+  const _OutilCard({
+    required this.title,
+    required this.subtitle,
+    required this.imagePath,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    const Color textColor = Colors.white;
     return Semantics(
       button: true,
       child: CardContainer(
-        backgroundColor: AppColors.primary,
-        splashColor: AppColors.primaryDarken,
-        onTap: () => Navigator.push(context, DiagorienteEntryPage.materialPageRoute()),
-        child: Column(
+        onTap: onTap,
+        child: Row(
           children: [
-            Text(Strings.diagorienteDiscoverCardTitle, style: TextStyles.textMBold.copyWith(color: textColor)),
-            SizedBox(height: Margins.spacing_m),
-            Text(Strings.diagorienteDiscoverCardSubtitle, style: TextStyles.textBaseRegularWithColor(textColor)),
-            PressedTip(Strings.diagorienteDiscoverCardPressedTip, textColor: textColor),
+            Image.asset(imagePath, width: 42, height: 42),
+            SizedBox(width: Margins.spacing_s),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title, style: TextStyles.textBaseBold),
+                  SizedBox(height: Margins.spacing_xs),
+                  Text(subtitle, style: TextStyles.textSRegular()),
+                ],
+              ),
+            ),
+            SizedBox(width: Margins.spacing_s),
+            Icon(AppIcons.chevron_right_rounded),
           ],
         ),
       ),
@@ -207,8 +240,6 @@ class _DiscoverDiagorienteCard extends StatelessWidget {
 }
 
 class _CurriculumVitaeCard extends StatelessWidget {
-  const _CurriculumVitaeCard();
-
   @override
   Widget build(BuildContext context) {
     return CardContainer(

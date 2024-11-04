@@ -14,6 +14,7 @@ class ProfilPageViewModel extends Equatable {
   final bool displayMonConseiller;
   final bool displayDeveloperOptions;
   final bool withDownloadCv;
+  final bool withCje;
   final Function() onTitleTap;
 
   ProfilPageViewModel({
@@ -22,6 +23,7 @@ class ProfilPageViewModel extends Equatable {
     required this.displayMonConseiller,
     required this.displayDeveloperOptions,
     required this.withDownloadCv,
+    required this.withCje,
     required this.onTitleTap,
   });
 
@@ -34,6 +36,7 @@ class ProfilPageViewModel extends Equatable {
       displayMonConseiller: _shouldDisplayMonConseiller(store.state.detailsJeuneState),
       displayDeveloperOptions: store.state.developerOptionsState is DeveloperOptionsActivatedState,
       withDownloadCv: user?.loginMode.isPe() ?? false,
+      withCje: store.state.featureFlipState.featureFlip.withCje,
       onTitleTap: () => store.dispatch(DeveloperOptionsActivationRequestAction()),
     );
   }
@@ -50,5 +53,6 @@ class ProfilPageViewModel extends Equatable {
         displayMonConseiller,
         displayDeveloperOptions,
         withDownloadCv,
+        withCje,
       ];
 }

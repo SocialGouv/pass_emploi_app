@@ -1349,10 +1349,8 @@ class Strings {
       "Une erreur est survenue. Vérifiez votre connexion ou réessayez plus tard.";
   static String diagorienteChatBotPageTitle = "Découvrir des métiers";
   static String diagorienteMetiersFavorisPageTitle = "Mes métiers favoris";
-  static String diagorienteDiscoverCardTitle =
-      "Découvrez de nouveaux métiers et retrouvez vos métiers favoris\u{00A0}!";
-  static String diagorienteDiscoverCardSubtitle = "Explorez les métiers qui correspondent à vos centres d’intérêt.";
-  static String diagorienteDiscoverCardPressedTip = "En savoir plus";
+  static String diagorienteDiscoverCardTitle = "Diagoriente";
+  static String diagorienteDiscoverCardSubtitle = "Explorer les métiers qui correspondent à mes centres d’intérêt";
   static String diagorienteMetiersFavorisCardTitle = "Retrouvez vos métiers favoris";
   static String diagorienteMetiersFavorisCardSubtitle = "Mes métiers favoris";
   static String diagorienteMetiersFavorisCardPressedTip = "Voir";
