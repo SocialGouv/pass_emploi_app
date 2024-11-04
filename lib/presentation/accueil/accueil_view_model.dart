@@ -78,6 +78,7 @@ List<AccueilItem> _items(Store<AppState> store) {
   if (accueilState is! AccueilSuccessState || user == null) return [];
 
   return [
+    _cjeItem(store.state),
     _ratingAppItem(store.state),
     _campagneRecrutementItem(store, store.state),
     _campagneEvaluationItem(store.state),
@@ -163,6 +164,10 @@ AccueilItem? _outilsItem(AccueilSuccessState successState, Accompagnement accomp
         Outil.formation.withoutImage(),
       ]),
   };
+}
+
+AccueilItem? _cjeItem(AppState state) {
+  return state.featureFlipState.featureFlip.withCje ? CjeItem() : null;
 }
 
 AccueilItem? _ratingAppItem(AppState state) {
