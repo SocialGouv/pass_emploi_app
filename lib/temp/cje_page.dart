@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/app_initializer.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -13,18 +14,27 @@ import 'package:pass_emploi_app/utils/log.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-// TODO-CJE(04/11/24): remove when feature deleted
+// TODO-CJE(04/11/24): remove file when feature deleted
+enum CjePageSource { accueil, boite_a_outils, profil }
+
 class CjePage extends StatelessWidget {
-  static MaterialPageRoute<void> materialPageRoute() => MaterialPageRoute(
-        builder: (context) => CjePage(),
+  final CjePageSource source;
+
+  const CjePage(this.source);
+
+  static MaterialPageRoute<void> materialPageRoute(CjePageSource source) => MaterialPageRoute(
+        builder: (context) => CjePage(source),
         fullscreenDialog: true,
       );
 
   @override
   Widget build(BuildContext context) {
     final userId = StoreProvider.of<AppState>(context).state.user()!.id;
-    return Scaffold(
-      body: SafeArea(child: _BottomSheetWrapper(child: Center(child: _FutureBuilder(userId)))),
+    return Tracker(
+      tracking: "cje_webview/${source.toString().replaceAll("CjePageSource.", "")}",
+      child: Scaffold(
+        body: SafeArea(child: _BottomSheetWrapper(child: Center(child: _FutureBuilder(userId)))),
+      ),
     );
   }
 }

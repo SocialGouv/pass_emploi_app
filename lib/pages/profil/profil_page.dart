@@ -80,7 +80,7 @@ class _Scaffold extends StatelessWidget {
                     title: "Ma carte “jeune engagé”",
                     subtitle: "Accéder à toutes mes réductions",
                     imagePath: "assets/cje/logo.webp",
-                    onTap: () => Navigator.push(context, CjePage.materialPageRoute()),
+                    onTap: () => Navigator.push(context, CjePage.materialPageRoute(CjePageSource.profil)),
                   ),
                   SizedBox(height: Margins.spacing_base),
                 ],

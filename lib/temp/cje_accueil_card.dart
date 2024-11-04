@@ -6,11 +6,12 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 
 const _dismissedKey = "cje_dismissed";
 
-// TODO-CJE(04/11/24): remove when feature deleted
+// TODO-CJE(04/11/24): remove file when feature deleted
 class CjeAccueilCard extends StatefulWidget {
   @override
   State<CjeAccueilCard> createState() => _CjeAccueilCardState();
@@ -44,6 +45,9 @@ class _CardState extends State<_Card> {
 
   @override
   Widget build(BuildContext context) {
+    if (_visible) {
+      PassEmploiMatomoTracker.instance.trackEvent(eventCategory: "Card CJE - accueil", action: "Affichage");
+    }
     return AnimatedCrossFade(
       duration: AnimationDurations.fast,
       firstChild: SizedBox.shrink(),
@@ -56,7 +60,7 @@ class _CardState extends State<_Card> {
             backgroundColor: AppColors.primary,
             splashColor: AppColors.primaryDarken.withOpacity(0.5),
             padding: EdgeInsets.zero,
-            onTap: () => Navigator.of(context).push(CjePage.materialPageRoute()),
+            onTap: () => Navigator.of(context).push(CjePage.materialPageRoute(CjePageSource.accueil)),
             child: Stack(
               children: [
                 Padding(
@@ -120,6 +124,10 @@ class _CardState extends State<_Card> {
                     tooltip: "Fermer la boîte de dialogue Carte jeune engagé",
                     onPressed: () async {
                       await AppInitializer.preferences.write(key: _dismissedKey, value: "true");
+                      PassEmploiMatomoTracker.instance.trackEvent(
+                        eventCategory: "Card CJE - accueil",
+                        action: "Fermeture",
+                      );
                       setState(() => _visible = false);
                     },
                     icon: Icon(AppIcons.close_rounded, color: Colors.white),

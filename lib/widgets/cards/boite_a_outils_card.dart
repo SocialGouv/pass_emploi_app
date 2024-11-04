@@ -37,7 +37,7 @@ class BoiteAOutilsCard extends StatelessWidget {
   Future<void> _pushInternalRedirect(BuildContext context, OutilInternalLink internalLink) {
     return switch (internalLink) {
       OutilInternalLink.benevolat => Navigator.of(context).push(BenevolatPage.materialPageRoute()),
-      OutilInternalLink.cje => Navigator.of(context).push(CjePage.materialPageRoute()),
+      OutilInternalLink.cje => Navigator.of(context).push(CjePage.materialPageRoute(CjePageSource.boite_a_outils)),
     };
   }
 }
