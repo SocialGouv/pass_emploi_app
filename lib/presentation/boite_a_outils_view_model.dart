@@ -13,7 +13,7 @@ class BoiteAOutilsViewModel extends Equatable {
 
   static BoiteAOutilsViewModel create(Store<AppState> store) {
     return BoiteAOutilsViewModel(
-      outils: _getOutils(store.state.accompagnement()),
+      outils: _getOutils(store.state.accompagnement(), store.state.featureFlipState.featureFlip.withCje),
     );
   }
 
@@ -21,9 +21,10 @@ class BoiteAOutilsViewModel extends Equatable {
   List<Object?> get props => [outils];
 }
 
-List<Outil> _getOutils(Accompagnement accompagnement) {
+List<Outil> _getOutils(Accompagnement accompagnement, bool withCje) {
   return switch (accompagnement) {
     Accompagnement.cej => [
+        if (withCje) Outil.cje,
         Outil.mesAidesFt,
         Outil.benevolatCej,
         Outil.formation,

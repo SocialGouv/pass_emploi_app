@@ -13,6 +13,7 @@ import 'package:pass_emploi_app/utils/log.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+// TODO-CJE(04/11/24): remove when feature deleted
 class CjePage extends StatelessWidget {
   static MaterialPageRoute<void> materialPageRoute() => MaterialPageRoute(
         builder: (context) => CjePage(),

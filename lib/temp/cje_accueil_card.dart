@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 
 const _dismissedKey = "cje_dismissed";
 
+// TODO-CJE(04/11/24): remove when feature deleted
 class CjeAccueilCard extends StatefulWidget {
   @override
   State<CjeAccueilCard> createState() => _CjeAccueilCardState();
