@@ -10,8 +10,8 @@ import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
-import 'package:pass_emploi_app/utils/log.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
+import 'package:pass_emploi_app/wrappers/package_info_wrapper.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 // TODO-CJE(04/11/24): remove file when feature deleted
@@ -129,9 +129,9 @@ class _FutureBuilderState extends State<_FutureBuilder> {
 }
 
 class _WebView extends StatelessWidget {
-  final String token;
+  final String url;
 
-  const _WebView(this.token);
+  const _WebView(this.url);
 
   @override
   Widget build(BuildContext context) {
@@ -140,8 +140,7 @@ class _WebView extends StatelessWidget {
       ..setNavigationDelegate(
         NavigationDelegate(
           onNavigationRequest: (NavigationRequest request) {
-            Log.i('[CJE web view] Navigate to ${request.url}');
-            if (request.url.contains('signup') || request.url.contains('login-widget')) {
+            if (request.url.contains('login-widget')) {
               final navigator = Navigator.of(context);
               launchExternalUrl(request.url).then((value) => navigator.pop());
               return NavigationDecision.prevent;
@@ -150,8 +149,7 @@ class _WebView extends StatelessWidget {
           },
         ),
       )
-      // TODO-CJE(31/10/24): replace with conditional prod/preprod url
-      ..loadRequest(Uri.parse("https://cje-preprod.ovh.fabrique.social.gouv.fr/widget?widgetToken=$token"));
+      ..loadRequest(Uri.parse(url));
     return Scaffold(
       body: SafeArea(child: WebViewWidget(controller: controller)),
     );
@@ -168,10 +166,16 @@ class _Repository {
     final url = "/jeunes/$userId/cje/token";
     try {
       final response = await _httpClient.get(url);
-      return response.data["widgetToken"] as String;
+      return await _webViewUrl(response.data["widgetToken"] as String);
     } catch (e, stack) {
       _crashlytics.recordNonNetworkExceptionUrl(e, stack, url);
     }
     return null;
+  }
+
+  Future<String> _webViewUrl(String token) async {
+    return (await PackageInfoWrapper.getPackageName()).contains("staging")
+        ? "https://cje-preprod.ovh.fabrique.social.gouv.fr/widget?widgetToken=$token"
+        : "https://cje.fabrique.social.gouv.fr/widget?widgetToken=$token";
   }
 }
