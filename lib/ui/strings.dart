@@ -360,7 +360,7 @@ class Strings {
   static String accueilOffresEnregistreesSection = "Offres enregistrées";
   static String accueilVoirOffresEnregistrees = "Voir toutes mes offres enregistrées";
   static String accueilPasDeFavorisDescription = "Retrouvez ici les offres que vous avez enregistrées";
-  static String accueilPasDeFavorisBouton = "Commencer une recherche";
+  static String accueilPasDOffresEnregistreesBouton = "Rechercher une offre";
   static String accueilOutilsSection = "Boîte à outils";
   static String accueilOutilsSectionDescription = "Découvrez des outils pour vous aider dans vos projets";
   static String accueilVoirLesOutils = "Voir tous les outils";

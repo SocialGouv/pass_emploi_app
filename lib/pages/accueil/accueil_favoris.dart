@@ -99,7 +99,7 @@ class _SansFavori extends StatelessWidget {
           ),
           SizedBox(height: Margins.spacing_base),
           PrimaryActionButton(
-            label: Strings.accueilPasDeFavorisBouton,
+            label: Strings.accueilPasDOffresEnregistreesBouton,
             onPressed: () => goToRecherche(context),
           ),
         ],
