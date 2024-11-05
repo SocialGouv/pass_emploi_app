@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/presentation/cgu_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -162,6 +163,12 @@ class _BodyState extends State<_Body> {
           child: PrimaryActionButton(
             label: Strings.cguAccept,
             onPressed: () {
+              final controller = PrimaryScrollController.of(context);
+              controller.animateTo(
+                controller.position.maxScrollExtent,
+                duration: AnimationDurations.medium,
+                curve: Curves.easeInOut,
+              );
               setState(() => _acceptCguButtonClicked = true);
               if (_cguAccepted) widget.viewModel.onAccept();
             },
