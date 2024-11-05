@@ -1032,21 +1032,17 @@ class Strings {
   static String deleteOffreFromFavori = "Supprimer des favoris";
   static String interim = "Intérim";
 
-  // Favoris
-  static String mesFavorisPageTitle = "Mes favoris";
+  // Offres enregistrées
   static String mesAlertesPageTitle = "Mes alertes";
   static String miscellaneousErrorRetry = "Une erreur est survenue. Veuillez réessayer";
 
   static String offreDetailNumber(String offreId) => "Offre n°$offreId";
 
   static String offreDetailLastUpdate(String lastUpdate) => "Actualisée le $lastUpdate";
-  static String favorisListEmptyTitle = "Vous n’avez pas encore d’offre en favori";
-  static String favorisListEmptySubtitle =
-      "Découvrez et sauvegardez des offres d’emploi, alternance, immersion et service civique qui vous intéressent";
-  static String favorisListEmptyButton = "Rechercher une offre";
-  static String favorisFilteredListEmptyTitle = "Aucun favori ne correspond à vos critères";
-  static String favorisFilteredListEmptySubtitle = "Essayez de modifier vos filtres";
-  static String favorisError = "Erreur lors de la récupération de vos favoris";
+  static String offresEnregistreesEmptySubtitle =
+      "Pour faciliter votre suivi de candidatures, retrouvez ici toutes vos offres enregistrées.";
+  static String offresEnregistreesEmptyButton = "Rechercher une offre";
+  static String offresEnregistreesError = "Erreur lors de la récupération de vos offres enregistrées";
   static String favorisUnknownContractType = 'Type de contrat inconnu';
   static String favorisUnknownSecteur = 'Secteur d\'activité inconnu';
 

@@ -17,9 +17,11 @@ import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/favori_list_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/animated_list_loader.dart';
+import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/favori_card.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 import 'package:pass_emploi_app/widgets/illustration/empty_state_placeholder.dart';
@@ -48,9 +50,9 @@ class OffreFavorisPage extends StatelessWidget {
       child: AnimatedSwitcher(
         duration: AnimationDurations.fast,
         child: switch (viewModel.displayState) {
-          DisplayState.LOADING => _OffreFavorisLoading(),
-          DisplayState.FAILURE => Retry(Strings.favorisError, () => viewModel.onRetry()),
-          DisplayState.EMPTY => _EmptyListPlaceholder.noFavori(),
+          DisplayState.LOADING => _Loading(),
+          DisplayState.FAILURE => Retry(Strings.offresEnregistreesError, () => viewModel.onRetry()),
+          DisplayState.EMPTY => _Empty(),
           DisplayState.CONTENT => _favoris(viewModel),
         },
       ),
@@ -58,7 +60,6 @@ class OffreFavorisPage extends StatelessWidget {
   }
 
   Widget _favoris(FavoriListViewModel viewModel) {
-    if (viewModel.favoris.isEmpty) return _EmptyListPlaceholder.noFavoriFiltered();
     return ListView.separated(
       padding: const EdgeInsets.all(Margins.spacing_base),
       itemCount: viewModel.favoris.length,
@@ -138,41 +139,24 @@ class OffreFavorisPage extends StatelessWidget {
   }
 }
 
-class _EmptyListPlaceholder extends StatelessWidget {
-  final String title;
-  final String subtitle;
-
-  _EmptyListPlaceholder({required this.title, required this.subtitle});
-
-  factory _EmptyListPlaceholder.noFavori() {
-    return _EmptyListPlaceholder(
-      title: Strings.favorisListEmptyTitle,
-      subtitle: Strings.favorisListEmptySubtitle,
-    );
-  }
-
-  factory _EmptyListPlaceholder.noFavoriFiltered() {
-    return _EmptyListPlaceholder(
-      title: Strings.favorisFilteredListEmptyTitle,
-      subtitle: Strings.favorisFilteredListEmptySubtitle,
-    );
-  }
-
+class _Empty extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
       child: EmptyStatePlaceholder(
-        illustration: Illustration.grey(Icons.search, withWhiteBackground: true),
-        title: title,
-        subtitle: subtitle,
+        illustration: Illustration.blue(AppIcons.bookmark),
+        subtitle: Strings.offresEnregistreesEmptySubtitle,
+        action: SecondaryButton(
+          label: Strings.offresEnregistreesEmptyButton,
+          backgroundColor: Colors.transparent,
+          onPressed: () => DefaultTabController.of(context).animateTo(0),
+        ),
       ),
     );
   }
 }
 
-class _OffreFavorisLoading extends StatelessWidget {
-  const _OffreFavorisLoading();
-
+class _Loading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
