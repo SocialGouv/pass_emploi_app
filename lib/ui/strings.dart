@@ -357,8 +357,8 @@ class Strings {
   static String accueilPasDalerteDescription =
       "Créez des alertes lors de vos recherches et recevez les offres qui vous correspondent";
   static String accueilPasDalerteBouton = "Commencer une recherche";
-  static String accueilMesFavorisSection = "Mes favoris";
-  static String accueilVoirMesFavoris = "Voir tous mes favoris";
+  static String accueilOffresEnregistreesSection = "Offres enregistrées";
+  static String accueilVoirOffresEnregistrees = "Voir toutes mes offres enregistrées";
   static String accueilPasDeFavorisDescription = "Retrouvez ici les offres que vous avez enregistrées";
   static String accueilPasDeFavorisBouton = "Commencer une recherche";
   static String accueilOutilsSection = "Boîte à outils";

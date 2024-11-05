@@ -33,7 +33,7 @@ class AccueilFavoris extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        LargeSectionTitle(Strings.accueilMesFavorisSection),
+        LargeSectionTitle(Strings.accueilOffresEnregistreesSection),
         SizedBox(height: Margins.spacing_base),
         if (hasContent) _AvecFavoris(item),
         if (!hasContent) _SansFavori(),
@@ -57,7 +57,10 @@ class _AvecFavoris extends StatelessWidget {
           children: item.favoris.map((favori) => _FavorisCard(favori)).toList(),
         ),
         SizedBox(height: Margins.spacing_s),
-        SecondaryButton(label: Strings.accueilVoirMesFavoris, onPressed: () => _goToOffresEnregistrees(context)),
+        SecondaryButton(
+          label: Strings.accueilVoirOffresEnregistrees,
+          onPressed: () => _goToOffresEnregistrees(context),
+        ),
       ],
     );
   }

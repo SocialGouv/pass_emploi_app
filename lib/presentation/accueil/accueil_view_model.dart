@@ -84,9 +84,9 @@ List<AccueilItem> _items(Store<AppState> store) {
     _campagneEvaluationItem(store.state),
     _cetteSemaineItem(user, accueilState),
     _prochainRendezvousItem(accueilState),
+    _favorisItem(accueilState),
     _evenementsItem(accueilState),
     _alertesItem(accueilState),
-    _favorisItem(accueilState),
     _outilsItem(accueilState, user.accompagnement),
   ].whereNotNull().toList();
 }

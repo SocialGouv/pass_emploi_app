@@ -78,12 +78,12 @@ void main() {
             actionsOuDemarchesLabel: "Action",
           ),
           AccueilProchainRendezvousItem(mockRendezvousMiloCV().id),
+          AccueilFavorisItem(mock3Favoris()),
           AccueilEvenementsItem([
             (mockAnimationCollective().id, AccueilEvenementsType.animationCollective),
             (mockSessionMiloAtelierDecouverte().id, AccueilEvenementsType.sessionMilo),
           ]),
           AccueilAlertesItem(getMockedAlerte()),
-          AccueilFavorisItem(mock3Favoris()),
           AccueilOutilsItem([
             Outil.mesAidesFt.withoutImage(),
             Outil.benevolatCej.withoutImage(),
@@ -126,12 +126,12 @@ void main() {
             actionsOuDemarchesLabel: "Actions",
           ),
           AccueilProchaineSessionMiloItem(sessionMilo.id),
+          AccueilFavorisItem(mock3Favoris()),
           AccueilEvenementsItem([
             (mockAnimationCollective().id, AccueilEvenementsType.animationCollective),
             (mockSessionMiloAtelierDecouverte().id, AccueilEvenementsType.sessionMilo),
           ]),
           AccueilAlertesItem(getMockedAlerte()),
-          AccueilFavorisItem(mock3Favoris()),
           AccueilOutilsItem([
             Outil.mesAidesFt.withoutImage(),
             Outil.benevolatCej.withoutImage(),
@@ -167,8 +167,8 @@ void main() {
             actionsOuDemarchesLabel: "Démarche",
           ),
           AccueilProchainRendezvousItem(mockRendezvousPoleEmploi().id),
-          AccueilAlertesItem(getMockedAlerte()),
           AccueilFavorisItem(mock3Favoris()),
+          AccueilAlertesItem(getMockedAlerte()),
           AccueilOutilsItem([
             Outil.mesAidesFt.withoutImage(),
             Outil.benevolatCej.withoutImage(),
