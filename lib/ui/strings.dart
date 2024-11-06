@@ -358,8 +358,8 @@ class Strings {
   static String accueilPasDalerteDescription =
       "Créez des alertes lors de vos recherches et recevez les offres qui vous correspondent";
   static String accueilPasDalerteBouton = "Commencer une recherche";
-  static String accueilMesFavorisSection = "Mes offres enregistrées";
-  static String accueilVoirMesFavoris = "Voir toutes mes offres enregistrées";
+  static String accueilOffresEnregistreesSection = "Mes offres enregistrées";
+  static String accueilVoirOffresEnregistrees = "Voir toutes mes offres enregistrées";
   static String accueilPasDeFavorisDescription = "Retrouvez ici les offres que vous avez enregistrées";
   static String accueilPasDOffresEnregistreesBouton = "Rechercher une offre";
   static String accueilOutilsSection = "Boîte à outils";
@@ -1041,13 +1041,10 @@ class Strings {
   static String offreDetailNumber(String offreId) => "Offre n°$offreId";
 
   static String offreDetailLastUpdate(String lastUpdate) => "Actualisée le $lastUpdate";
-  static String favorisListEmptyTitle = "Vous n’avez pas encore d'offre enregistrée";
-  static String favorisListEmptySubtitle =
-      "Découvrez et sauvegardez des offres d’emploi, alternance, immersion et service civique qui vous intéressent";
-  static String favorisListEmptyButton = "Rechercher une offre";
-  static String favorisFilteredListEmptyTitle = "Aucune offre enregistrée ne correspond à vos critères";
-  static String favorisFilteredListEmptySubtitle = "Essayez de modifier vos filtres";
-  static String favorisError = "Erreur lors de la récupération de vos offres enregistrées";
+  static String offresEnregistreesEmptySubtitle =
+      "Pour faciliter votre suivi de candidatures, retrouvez ici toutes vos offres enregistrées.";
+  static String offresEnregistreesEmptyButton = "Rechercher une offre";
+  static String offresEnregistreesError = "Erreur lors de la récupération de vos offres enregistrées";
   static String favorisUnknownContractType = 'Type de contrat inconnu';
   static String favorisUnknownSecteur = 'Secteur d\'activité inconnu';
 
