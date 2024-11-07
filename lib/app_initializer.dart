@@ -98,6 +98,7 @@ import 'package:pass_emploi_app/utils/compress_image.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 /*AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-IMPORT*/
 import 'package:pass_emploi_app/utils/secure_storage_exception_handler_decorator.dart';
+import 'package:pass_emploi_app/utils/secure_storage_in_memory_decorator.dart';
 import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
 import 'package:pass_emploi_app/wrappers/package_info_wrapper.dart';
 import 'package:path_provider/path_provider.dart';
@@ -167,8 +168,10 @@ class AppInitializer {
     final crashlytics = CrashlyticsWithFirebase(FirebaseCrashlytics.instance);
     firebaseCrashlytics = crashlytics;
     final pushNotificationManager = PushNotificationManager();
-    final securedPreferences = SecureStorageExceptionHandlerDecorator(
-      FlutterSecureStorage(aOptions: AndroidOptions(encryptedSharedPreferences: true)),
+    final securedPreferences = SecureStorageInMemoryDecorator(
+      SecureStorageExceptionHandlerDecorator(
+        FlutterSecureStorage(aOptions: AndroidOptions(encryptedSharedPreferences: true)),
+      ),
     );
     preferences = securedPreferences;
     final remoteConfigRepository = RemoteConfigRepository(firebaseRemoteConfig);
