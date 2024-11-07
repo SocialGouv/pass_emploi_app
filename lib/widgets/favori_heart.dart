@@ -65,7 +65,7 @@ class FavoriHeart<T> extends StatelessWidget {
       ),
       onTap: () {
         if (viewModel.withOnboarding) {
-          OnboardingBottomSheet.show(context, source: OnboardingSource.offreEnregistree);
+          OnboardingBottomSheet.show(context, source: OnboardingSource.offresEnregistrees);
         }
         viewModel.update(viewModel.isFavori ? FavoriStatus.removed : FavoriStatus.added);
         _sendTracking(viewModel.isFavori);

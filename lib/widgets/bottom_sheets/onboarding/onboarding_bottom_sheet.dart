@@ -16,7 +16,7 @@ enum OnboardingSource {
   chat,
   reherche,
   evenements,
-  offreEnregistree,
+  offresEnregistrees,
 }
 
 class OnboardingBottomSheet extends StatelessWidget {
@@ -59,7 +59,7 @@ class OnboardingBottomSheet extends StatelessWidget {
       OnboardingSource.chat => AnalyticsScreenNames.onboardingChat,
       OnboardingSource.reherche => AnalyticsScreenNames.onboardingRecherche,
       OnboardingSource.evenements => AnalyticsScreenNames.onboardingEvenements,
-      OnboardingSource.offreEnregistree => AnalyticsScreenNames.onboardingoffreEnregistree,
+      OnboardingSource.offresEnregistrees => AnalyticsScreenNames.onboardingoffreEnregistree,
     };
   }
 }

@@ -152,7 +152,7 @@ void main() {
         final store = givenState().loggedInMiloUser().store();
 
         // When
-        final viewModel = OnboardingViewModel.create(store, OnboardingSource.offreEnregistree);
+        final viewModel = OnboardingViewModel.create(store, OnboardingSource.offresEnregistrees);
 
         // Then
         expect(

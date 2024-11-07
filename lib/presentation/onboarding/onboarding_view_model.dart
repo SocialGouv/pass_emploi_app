@@ -60,7 +60,7 @@ String _illustration(OnboardingSource source) {
     OnboardingSource.chat => Drawables.onboardingChatIllustration,
     OnboardingSource.reherche => Drawables.onboardingRechercheIllustration,
     OnboardingSource.evenements => Drawables.onboardingEvenementsIllustration,
-    OnboardingSource.offreEnregistree => Drawables.onboardingOffreEnregistreeIllustration,
+    OnboardingSource.offresEnregistrees => Drawables.onboardingOffreEnregistreeIllustration,
   };
 }
 
@@ -70,7 +70,7 @@ String _title(OnboardingSource source) {
     OnboardingSource.chat => Strings.onboardingChatTitle,
     OnboardingSource.reherche => Strings.onboardingRechercheTitle,
     OnboardingSource.evenements => Strings.onboardingEvenementsTitle,
-    OnboardingSource.offreEnregistree => Strings.onboardingOffreEnregistreeTitle,
+    OnboardingSource.offresEnregistrees => Strings.onboardingOffreEnregistreeTitle,
   };
 }
 
@@ -80,24 +80,21 @@ String _body(bool isPe, OnboardingSource source) {
     OnboardingSource.chat => Strings.onboardingChatBody,
     OnboardingSource.reherche => isPe ? Strings.onboardingRechercheBodyPe : Strings.onboardingRechercheBodyCej,
     OnboardingSource.evenements => Strings.onboardingEvenementsBody,
-    OnboardingSource.offreEnregistree => Strings.onboardingOffreEnregistreeBody,
+    OnboardingSource.offresEnregistrees => Strings.onboardingOffreEnregistreeBody,
   };
 }
 
 String _primaryButtonText(OnboardingSource source) {
   return switch (source) {
-    OnboardingSource.offreEnregistree => Strings.discover,
+    OnboardingSource.offresEnregistrees => Strings.discover,
     _ => Strings.gotIt,
   };
 }
 
 bool _canClose(OnboardingSource source) {
   return switch (source) {
-    OnboardingSource.monSuivi => false,
-    OnboardingSource.chat => false,
-    OnboardingSource.reherche => false,
-    OnboardingSource.evenements => false,
-    OnboardingSource.offreEnregistree => true,
+    OnboardingSource.offresEnregistrees => true,
+    _ => false,
   };
 }
 
@@ -107,7 +104,7 @@ void Function() _onGotIt(Store<AppState> store, OnboardingSource source) {
     OnboardingSource.chat => () => store.dispatch(OnboardingChatSaveAction()),
     OnboardingSource.reherche => () => store.dispatch(OnboardingRechercheSaveAction()),
     OnboardingSource.evenements => () => store.dispatch(OnboardingEvenementsSaveAction()),
-    OnboardingSource.offreEnregistree => () {
+    OnboardingSource.offresEnregistrees => () {
         store.dispatch(OnboardingOffreEnregistreeSaveAction());
         store.dispatch(
           HandleDeepLinkAction(
@@ -121,7 +118,7 @@ void Function() _onGotIt(Store<AppState> store, OnboardingSource source) {
 
 Function()? _onClose(Store<AppState> store, OnboardingSource source) {
   return switch (source) {
-    OnboardingSource.offreEnregistree => () => store.dispatch(OnboardingOffreEnregistreeSaveAction()),
+    OnboardingSource.offresEnregistrees => () => store.dispatch(OnboardingOffreEnregistreeSaveAction()),
     _ => null,
   };
 }
