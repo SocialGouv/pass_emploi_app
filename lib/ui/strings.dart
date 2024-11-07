@@ -1461,7 +1461,7 @@ class Strings {
   // textes alternatifs
   static String offreEnregistreeRemove(String offre) => "Retirer l'offre $offre des offres enregistrées";
 
-  static String offreEnregistreeAdd(String offre) => "Mettre l'offre $offre des offres enregistrées";
+  static String offreEnregistreeAdd(String offre) => "Enregistrer l'offre $offre";
   static String link = "Lien";
   static String openInNewTab = "Ouvrir dans un nouvel onglet";
   static String semanticsLabelInformation = "Information";
