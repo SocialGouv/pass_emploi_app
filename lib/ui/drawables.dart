@@ -22,6 +22,8 @@ class Drawables {
   static String onboardingChatIllustration = "${_assets}onboarding/illustration_onboarding_chat.webp";
   static String onboardingRechercheIllustration = "${_assets}onboarding/illustration_onboarding_recherche.webp";
   static String onboardingEvenementsIllustration = "${_assets}onboarding/illustration_onboarding_evenements.webp";
+  static String onboardingOffreEnregistreeIllustration =
+      "${_assets}onboarding/illustration_onboarding_offre_enregistree.webp";
 
   static String campagneRecrutementBg = "${_assets}campagne_recrutement_bg.webp";
 

@@ -18,11 +18,13 @@ void main() {
         expect(
           viewModel,
           OnboardingViewModel(
+            primaryButtonText: "C'est compris",
             illustration: "assets/onboarding/illustration_onboarding_mon_suivi.webp",
             title: "Pas à pas, trouvez un emploi stable",
             body:
                 "Mon suivi vous permet de créer et visualiser les différentes actions ou rendez-vous à réaliser. Votre conseiller peut aussi ajouter des actions dans cette section !",
-            onGotIt: () {},
+            onPrimaryButton: () {},
+            canClose: false,
           ),
         );
       });
@@ -38,11 +40,13 @@ void main() {
         expect(
           viewModel,
           OnboardingViewModel(
+            primaryButtonText: "C'est compris",
             illustration: "assets/onboarding/illustration_onboarding_mon_suivi.webp",
             title: "Pas à pas, trouvez un emploi stable",
             body:
                 "Mon suivi vous permet de créer et visualiser les différentes démarches ou rendez-vous à réaliser. Votre conseiller peut aussi ajouter des démarches dans cette section !",
-            onGotIt: () {},
+            onPrimaryButton: () {},
+            canClose: false,
           ),
         );
       });
@@ -60,11 +64,13 @@ void main() {
         expect(
           viewModel,
           OnboardingViewModel(
+            primaryButtonText: "C'est compris",
             illustration: "assets/onboarding/illustration_onboarding_chat.webp",
             title: "Gardez contact avec votre conseiller à tout moment",
             body:
                 "Échangez sur la messagerie instantanée avec votre conseiller pour construire votre projet, partager des offres, vous inscrire à des évènements, etc.",
-            onGotIt: () {},
+            onPrimaryButton: () {},
+            canClose: false,
           ),
         );
       });
@@ -82,11 +88,13 @@ void main() {
         expect(
           viewModel,
           OnboardingViewModel(
+            primaryButtonText: "C'est compris",
             illustration: "assets/onboarding/illustration_onboarding_recherche.webp",
             title: "Trouvez des offres qui vous intéressent",
             body:
-                "L’espace recherche vous permet de retrouver les offres d’emploi d’alternance, d’immersion et de service civique, et de les ajouter à vos favoris.",
-            onGotIt: () {},
+                "L’espace recherche vous permet de retrouver les offres d’emploi d’alternance, d’immersion et de service civique, et de les ajouter à vos offres enregistrées.",
+            onPrimaryButton: () {},
+            canClose: false,
           ),
         );
       });
@@ -102,11 +110,13 @@ void main() {
         expect(
           viewModel,
           OnboardingViewModel(
+            primaryButtonText: "C'est compris",
             illustration: "assets/onboarding/illustration_onboarding_recherche.webp",
             title: "Trouvez des offres qui vous intéressent",
             body:
-                "L’espace recherche vous permet de retrouver les offres d’emploi qui vous intéressent et de les ajouter à vos favoris.",
-            onGotIt: () {},
+                "L’espace recherche vous permet de retrouver les offres d’emploi qui vous intéressent et de les ajouter à vos offres enregistrées.",
+            onPrimaryButton: () {},
+            canClose: false,
           ),
         );
       });
@@ -124,11 +134,36 @@ void main() {
         expect(
           viewModel,
           OnboardingViewModel(
+            primaryButtonText: "C'est compris",
             illustration: "assets/onboarding/illustration_onboarding_evenements.webp",
             title: "Participez à des événements en lien avec votre recherche",
             body:
                 "Découvrez les événements à ne pas manquer en lien avec votre recherche et inscrivez-vous pour y participer.",
-            onGotIt: () {},
+            onPrimaryButton: () {},
+            canClose: false,
+          ),
+        );
+      });
+    });
+
+    group('when onboarding is offre enregistré', () {
+      test("create should properly display infos", () {
+        // Given
+        final store = givenState().loggedInMiloUser().store();
+
+        // When
+        final viewModel = OnboardingViewModel.create(store, OnboardingSource.offreEnregistree);
+
+        // Then
+        expect(
+          viewModel,
+          OnboardingViewModel(
+            primaryButtonText: "Découvrir",
+            illustration: "assets/onboarding/illustration_onboarding_offre_enregistree.webp",
+            title: "Nouveau !",
+            body: "Retrouvez maintenant vos favoris dans l’onglet “Offres enregistrées",
+            onPrimaryButton: () {},
+            canClose: true,
           ),
         );
       });

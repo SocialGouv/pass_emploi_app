@@ -9,6 +9,7 @@ class AnalyticsScreenNames {
   static const onboardingChat = "onboarding/chat";
   static const onboardingRecherche = "onboarding/recherche";
   static const onboardingEvenements = "onboarding/evenements";
+  static const onboardingoffreEnregistree = "onboarding/offreEnregistree";
 
   static const login = "login";
   static const forceUpdate = "force_update";

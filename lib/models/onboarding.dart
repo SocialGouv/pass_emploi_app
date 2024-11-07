@@ -6,6 +6,7 @@ class Onboarding extends Equatable {
   final bool showChatOnboarding;
   final bool showRechercheOnboarding;
   final bool showEvenementsOnboarding;
+  final bool showOffreEnregistreeOnboarding;
 
   Onboarding({
     this.showAccueilOnboarding = true,
@@ -13,6 +14,7 @@ class Onboarding extends Equatable {
     this.showChatOnboarding = true,
     this.showRechercheOnboarding = true,
     this.showEvenementsOnboarding = true,
+    this.showOffreEnregistreeOnboarding = true,
   });
 
   factory Onboarding.initial() {
@@ -22,6 +24,7 @@ class Onboarding extends Equatable {
       showChatOnboarding: true,
       showRechercheOnboarding: true,
       showEvenementsOnboarding: true,
+      showOffreEnregistreeOnboarding: true,
     );
   }
 
@@ -32,6 +35,7 @@ class Onboarding extends Equatable {
         showChatOnboarding,
         showRechercheOnboarding,
         showEvenementsOnboarding,
+        showOffreEnregistreeOnboarding,
       ];
 
   factory Onboarding.fromJson(Map<String, dynamic> json) {
@@ -41,6 +45,7 @@ class Onboarding extends Equatable {
       showChatOnboarding: json['showChatOnboarding'] as bool? ?? true,
       showRechercheOnboarding: json['showRechercheOnboarding'] as bool? ?? true,
       showEvenementsOnboarding: json['showEvenementsOnboarding'] as bool? ?? true,
+      showOffreEnregistreeOnboarding: json['showOffreEnregistreeOnboarding'] as bool? ?? true,
     );
   }
 
@@ -51,6 +56,7 @@ class Onboarding extends Equatable {
       'showChatOnboarding': showChatOnboarding,
       'showRechercheOnboarding': showRechercheOnboarding,
       'showEvenementsOnboarding': showEvenementsOnboarding,
+      'showOffreEnregistreeOnboarding': showOffreEnregistreeOnboarding,
     };
   }
 
@@ -60,6 +66,7 @@ class Onboarding extends Equatable {
     bool? showChatOnboarding,
     bool? showRechercheOnboarding,
     bool? showEvenementsOnboarding,
+    bool? showOffreEnregistreeOnboarding,
   }) {
     return Onboarding(
       showAccueilOnboarding: showAccueilOnboarding ?? this.showAccueilOnboarding,
@@ -67,6 +74,7 @@ class Onboarding extends Equatable {
       showChatOnboarding: showChatOnboarding ?? this.showChatOnboarding,
       showRechercheOnboarding: showRechercheOnboarding ?? this.showRechercheOnboarding,
       showEvenementsOnboarding: showEvenementsOnboarding ?? this.showEvenementsOnboarding,
+      showOffreEnregistreeOnboarding: showOffreEnregistreeOnboarding ?? this.showOffreEnregistreeOnboarding,
     );
   }
 }
