@@ -3,7 +3,9 @@ import 'package:pass_emploi_app/features/date_consultation_offre/date_consultati
 
 DateConsultationOffreState dateConsultationOffreReducer(DateConsultationOffreState current, dynamic action) {
   if (action is DateConsultationUpdateAction) {
-    return DateConsultationOffreState(Map<String, DateTime>.from(action.offreIdToDateConsultation));
+    return DateConsultationOffreState(
+      offreIdToDateConsultation: Map<String, DateTime>.from(action.offreIdToDateConsultation),
+    );
   }
   return current;
 }

@@ -18,6 +18,7 @@ class DateConsultationOffreRepository {
   Future<void> set(String offreId, DateTime date) async {
     final dates = await get();
     dates[offreId] = date;
+    // TODO: gérer la limite de stockage à 100 offres
     await secureStorage.write(key: _key, value: dates.serialize());
   }
 }
@@ -33,7 +34,7 @@ extension on Map<String, DateTime> {
 
 extension on String {
   Map<String, DateTime> deserialize() {
-    final Map<String, String> offreIdToDateIso8601 = json.decode(this) as Map<String, String>;
+    final offreIdToDateIso8601 = Map<String, String>.from(json.decode(this) as Map<String, dynamic>);
     return offreIdToDateIso8601.map((key, value) {
       return MapEntry(key, DateTime.parse(value));
     });
