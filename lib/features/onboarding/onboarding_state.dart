@@ -12,6 +12,8 @@ sealed class OnboardingState extends Equatable {
 
   bool get showEvenementsOnboarding => _onboarding?.showEvenementsOnboarding == true;
 
+  bool get showOffreEnregistreeOnboarding => _onboarding?.showOffreEnregistreeOnboarding == true;
+
   @override
   List<Object?> get props => [];
 

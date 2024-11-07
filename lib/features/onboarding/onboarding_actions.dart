@@ -19,3 +19,5 @@ class OnboardingChatSaveAction extends OnboardingSaveAction {}
 class OnboardingRechercheSaveAction extends OnboardingSaveAction {}
 
 class OnboardingEvenementsSaveAction extends OnboardingSaveAction {}
+
+class OnboardingOffreEnregistreeSaveAction extends OnboardingSaveAction {}

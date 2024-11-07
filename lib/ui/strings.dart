@@ -208,11 +208,13 @@ class Strings {
   static String skip = "Passer";
   static String continueLabel = "Continuer";
   static String gotIt = "C'est compris";
+  static String discover = "Découvrir";
 
   static String onboardingMonSuiviTitle = "Pas à pas, trouvez un emploi stable";
   static String onboardingChatTitle = "Gardez contact avec votre conseiller à tout moment";
   static String onboardingRechercheTitle = "Trouvez des offres qui vous intéressent";
   static String onboardingEvenementsTitle = "Participez à des événements en lien avec votre recherche";
+  static String onboardingOffreEnregistreeTitle = "Nouveau\u{00A0}!";
 
   static String onboardingMonSuiviBodyCej =
       "Mon suivi vous permet de créer et visualiser les différentes actions ou rendez-vous à réaliser. Votre conseiller peut aussi ajouter des actions dans cette section !";
@@ -221,11 +223,12 @@ class Strings {
   static String onboardingChatBody =
       "Échangez sur la messagerie instantanée avec votre conseiller pour construire votre projet, partager des offres, vous inscrire à des évènements, etc.";
   static String onboardingRechercheBodyCej =
-      "L’espace recherche vous permet de retrouver les offres d’emploi d’alternance, d’immersion et de service civique, et de les ajouter à vos favoris.";
+      "L’espace recherche vous permet de retrouver les offres d’emploi d’alternance, d’immersion et de service civique, et de les ajouter à vos offres enregistrées.";
   static String onboardingRechercheBodyPe =
-      "L’espace recherche vous permet de retrouver les offres d’emploi qui vous intéressent et de les ajouter à vos favoris.";
+      "L’espace recherche vous permet de retrouver les offres d’emploi qui vous intéressent et de les ajouter à vos offres enregistrées.";
   static String onboardingEvenementsBody =
       "Découvrez les événements à ne pas manquer en lien avec votre recherche et inscrivez-vous pour y participer.";
+  static String onboardingOffreEnregistreeBody = "Retrouvez maintenant vos favoris dans l’onglet “Offres enregistrées";
 
   static String takeRdvWithConseiller =
       "Prenez rendez-vous avec votre conseiller qui procédera à la création de votre compte.";
@@ -358,10 +361,10 @@ class Strings {
   static String accueilPasDalerteDescription =
       "Créez des alertes lors de vos recherches et recevez les offres qui vous correspondent";
   static String accueilPasDalerteBouton = "Commencer une recherche";
-  static String accueilMesFavorisSection = "Mes favoris";
-  static String accueilVoirMesFavoris = "Voir tous mes favoris";
+  static String accueilOffresEnregistreesSection = "Mes offres enregistrées";
+  static String accueilVoirOffresEnregistrees = "Voir toutes mes offres enregistrées";
   static String accueilPasDeFavorisDescription = "Retrouvez ici les offres que vous avez enregistrées";
-  static String accueilPasDeFavorisBouton = "Commencer une recherche";
+  static String accueilPasDOffresEnregistreesBouton = "Rechercher une offre";
   static String accueilOutilsSection = "Boîte à outils";
   static String accueilOutilsSectionDescription = "Découvrez des outils pour vous aider dans vos projets";
   static String accueilVoirLesOutils = "Voir tous les outils";
@@ -847,9 +850,10 @@ class Strings {
   static String jobEvenementEmploiHint = "Sélectionnez une ville dans laquelle vous cherchez un événement.";
   static String searchButton = "Rechercher";
   static String offreDetails = "Détails de l'offre";
-  static String offresTabTitle = "Offres";
+  static String rechercheTabTitle = "Recherche";
+  static String offresEnregistreesTabTitle = "Offres enregistrées";
   static String boiteAOutilsTabTitle = "Boîte à outils";
-  static String solutionsAppBarTitle = "Recherche";
+  static String solutionsAppBarTitle = "Offres";
   static String partagerOffreConseiller = "Partager l’offre à mon conseiller";
   static String partageOffreNavTitle = "Partage de l’offre d’emploi";
   static String souhaitDePartagerOffre = "L’offre que vous souhaitez partager";
@@ -1028,25 +1032,22 @@ class Strings {
   static String requiredIcon = "Obligatoire";
   static String offreNotFoundError = "Cette offre n’existe plus ou est momentanément suspendue";
   static String offreNotFoundExplaination =
-      "Vous pouvez décider de la supprimer ou bien de la conserver dans vos favoris.";
-  static String deleteOffreFromFavori = "Supprimer des favoris";
+      "Vous pouvez décider de la supprimer ou bien de la conserver dans vos offres enregistrées.";
+  static String deleteOffreFromFavori = "Supprimer des offres enregistrées";
   static String interim = "Intérim";
 
   // Favoris
-  static String mesFavorisPageTitle = "Mes favoris";
+  static String mesFavorisPageTitle = "Mes offres enregistrées";
   static String mesAlertesPageTitle = "Mes alertes";
   static String miscellaneousErrorRetry = "Une erreur est survenue. Veuillez réessayer";
 
   static String offreDetailNumber(String offreId) => "Offre n°$offreId";
 
   static String offreDetailLastUpdate(String lastUpdate) => "Actualisée le $lastUpdate";
-  static String favorisListEmptyTitle = "Vous n’avez pas encore d’offre en favori";
-  static String favorisListEmptySubtitle =
-      "Découvrez et sauvegardez des offres d’emploi, alternance, immersion et service civique qui vous intéressent";
-  static String favorisListEmptyButton = "Rechercher une offre";
-  static String favorisFilteredListEmptyTitle = "Aucun favori ne correspond à vos critères";
-  static String favorisFilteredListEmptySubtitle = "Essayez de modifier vos filtres";
-  static String favorisError = "Erreur lors de la récupération de vos favoris";
+  static String offresEnregistreesEmptySubtitle =
+      "Pour faciliter votre suivi de candidatures, retrouvez ici toutes vos offres enregistrées.";
+  static String offresEnregistreesEmptyButton = "Rechercher une offre";
+  static String offresEnregistreesError = "Erreur lors de la récupération de vos offres enregistrées";
   static String favorisUnknownContractType = 'Type de contrat inconnu';
   static String favorisUnknownSecteur = 'Secteur d\'activité inconnu';
 
@@ -1098,7 +1099,7 @@ class Strings {
   static String notificationsLabel = "Gérer vos notifications";
 
   static String partageFavorisEnabled(bool enabled) =>
-      enabled ? "Désactiver le partage de mes favoris" : "Activer le partage de mes favoris";
+      enabled ? "Désactiver le partage de mes offres enregistrées" : "Activer le partage de mes offres enregistrées";
   static String activityShareDescription =
       "Autorisez le partage pour permettre au conseiller d’avoir un suivi de votre activité.";
   static String warning = "Attention";
@@ -1125,7 +1126,7 @@ class Strings {
   static String accountDeletionSuccess =
       Brand.isCej() ? _CejStrings.accountDeletionSuccess : _PassEmploiStrings.accountDeletionSuccess;
 
-  static String shareFavoriteLabel = "Partager mes favoris";
+  static String shareFavoriteLabel = "Partager mes offres enregistrées";
 
   static String helpTitle = "Besoin d’aide ?";
   static String ratingAppLabel = "Partager votre avis sur l'application";
@@ -1271,7 +1272,7 @@ class Strings {
   static String suggestionSourceConseiller = "Conseiller";
   static String suggestionSourceDiagoriente = "Métiers favoris";
   static String suggestionRechercheAjoutee = "Recherche ajoutée";
-  static String suggestionRechercheAjouteeDescription = "La recherche a été ajoutée à vos favoris";
+  static String suggestionRechercheAjouteeDescription = "La recherche a été ajoutée à vos offres enregistrées";
   static String voirResultatsSuggestion = "Voir les résultats";
   static String emptySuggestionAlerteListTitre = "Vous n’avez pas encore de suggestions d’alerte";
   static String emptySuggestionAlerteListDescriptionMilo =
@@ -1458,9 +1459,9 @@ class Strings {
   static String a11yStatus = "Statut : ";
 
   // textes alternatifs
-  static String favoriHeartRemove(String offre) => "Retirer l'offre $offre des favoris";
+  static String offreEnregistreeRemove(String offre) => "Retirer l'offre $offre des offres enregistrées";
 
-  static String favoriHeartAdd(String offre) => "Mettre l'offre $offre en favoris";
+  static String offreEnregistreeAdd(String offre) => "Mettre l'offre $offre des offres enregistrées";
   static String link = "Lien";
   static String openInNewTab = "Ouvrir dans un nouvel onglet";
   static String semanticsLabelInformation = "Information";

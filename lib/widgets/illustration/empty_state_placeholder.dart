@@ -7,12 +7,15 @@ class EmptyStatePlaceholder extends StatelessWidget {
   const EmptyStatePlaceholder({
     super.key,
     required this.illustration,
-    required this.title,
+    this.title,
     this.subtitle,
+    this.action,
   });
+
   final Illustration illustration;
-  final String title;
+  final String? title;
   final String? subtitle;
+  final Widget? action;
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +24,7 @@ class EmptyStatePlaceholder extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.all(Margins.spacing_m),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -31,18 +35,23 @@ class EmptyStatePlaceholder extends StatelessWidget {
                 ),
                 SizedBox(height: Margins.spacing_xl),
               ],
-              Text(
-                title,
-                style: TextStyles.textBaseBold,
-                textAlign: TextAlign.center,
-              ),
-              if (subtitle != null) ...[
+              if (title != null) ...[
+                Text(
+                  title!,
+                  style: TextStyles.textBaseBold,
+                  textAlign: TextAlign.center,
+                ),
                 SizedBox(height: Margins.spacing_base),
+              ],
+              if (subtitle != null)
                 Text(
                   subtitle!,
                   style: TextStyles.textBaseRegular,
                   textAlign: TextAlign.center,
                 ),
+              if (action != null) ...[
+                SizedBox(height: Margins.spacing_m),
+                action!,
               ]
             ],
           ),

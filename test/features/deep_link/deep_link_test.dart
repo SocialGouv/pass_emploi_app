@@ -156,6 +156,12 @@ void main() {
         );
 
         assertStateWithJson(
+          {"type": "OFFRES_ENREGISTREES"},
+          OffresEnregistreesDeepLink(),
+          DeepLinkOrigin.pushNotification,
+        );
+
+        assertStateWithJson(
           {"type": "OUTILS"},
           OutilsDeepLink(),
           DeepLinkOrigin.inAppNavigation,
@@ -163,12 +169,6 @@ void main() {
       });
 
       group('Unknown… Kept "just in case"', () {
-        assertStateWithJson(
-          {"type": "FAVORIS"},
-          FavorisDeepLink(),
-          DeepLinkOrigin.pushNotification,
-        );
-
         assertStateWithJson(
           {"type": "SAVED_SEARCHES"},
           AlertesDeepLink(),

@@ -78,12 +78,12 @@ void main() {
             actionsOuDemarchesLabel: "Action",
           ),
           AccueilProchainRendezvousItem(mockRendezvousMiloCV().id),
+          AccueilFavorisItem(mock3Favoris()),
           AccueilEvenementsItem([
             (mockAnimationCollective().id, AccueilEvenementsType.animationCollective),
             (mockSessionMiloAtelierDecouverte().id, AccueilEvenementsType.sessionMilo),
           ]),
           AccueilAlertesItem(getMockedAlerte()),
-          AccueilFavorisItem(mock3Favoris()),
           AccueilOutilsItem([
             Outil.mesAidesFt.withoutImage(),
             Outil.benevolatCej.withoutImage(),
@@ -126,12 +126,12 @@ void main() {
             actionsOuDemarchesLabel: "Actions",
           ),
           AccueilProchaineSessionMiloItem(sessionMilo.id),
+          AccueilFavorisItem(mock3Favoris()),
           AccueilEvenementsItem([
             (mockAnimationCollective().id, AccueilEvenementsType.animationCollective),
             (mockSessionMiloAtelierDecouverte().id, AccueilEvenementsType.sessionMilo),
           ]),
           AccueilAlertesItem(getMockedAlerte()),
-          AccueilFavorisItem(mock3Favoris()),
           AccueilOutilsItem([
             Outil.mesAidesFt.withoutImage(),
             Outil.benevolatCej.withoutImage(),
@@ -167,8 +167,8 @@ void main() {
             actionsOuDemarchesLabel: "Démarche",
           ),
           AccueilProchainRendezvousItem(mockRendezvousPoleEmploi().id),
-          AccueilAlertesItem(getMockedAlerte()),
           AccueilFavorisItem(mock3Favoris()),
+          AccueilAlertesItem(getMockedAlerte()),
           AccueilOutilsItem([
             Outil.mesAidesFt.withoutImage(),
             Outil.benevolatCej.withoutImage(),
@@ -298,17 +298,6 @@ void main() {
       test('SessionMiloDeepLink > no double opening of pages required', () {
         // Given
         final store = givenState().withHandleDeepLink(SessionMiloDeepLink('id')).store();
-
-        // When
-        final viewModel = AccueilViewModel.create(store);
-
-        // Then
-        expect(viewModel.shouldResetDeeplink, isTrue);
-      });
-
-      test('FavorisDeepLink > no double opening of pages required', () {
-        // Given
-        final store = givenState().withHandleDeepLink(FavorisDeepLink()).store();
 
         // When
         final viewModel = AccueilViewModel.create(store);

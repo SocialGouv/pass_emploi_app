@@ -181,17 +181,16 @@ void main() {
       expect(viewModel.mainPageDisplayState, MainPageDisplayState.accueil);
     });
 
-    test('…and deep link is set to favoris should display main page with accueil display state', () {
+    test('…and deep link is set to offres enregistrees should display main page with accueil display state', () {
       final store = givenState() //
           .loggedIn()
           .withFirstLaunchOnboardingSuccessState(false)
-          .withHandleDeepLink(FavorisDeepLink())
+          .withHandleDeepLink(OffresEnregistreesDeepLink())
           .store();
 
       final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
 
-      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.main);
-      expect(viewModel.mainPageDisplayState, MainPageDisplayState.accueil);
+      expect(viewModel.mainPageDisplayState, MainPageDisplayState.solutionsOffresEnregistrees);
     });
 
     test('…and deep link is set to alertes should display main page with accueil display state', () {

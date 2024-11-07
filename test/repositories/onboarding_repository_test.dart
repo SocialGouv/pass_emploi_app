@@ -51,4 +51,5 @@ final _jsonOnboarding = jsonEncode({
   'showChatOnboarding': true,
   'showRechercheOnboarding': true,
   'showEvenementsOnboarding': true,
+  'showOffreEnregistreeOnboarding': true,
 });

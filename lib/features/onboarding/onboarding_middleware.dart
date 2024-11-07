@@ -37,5 +37,6 @@ Onboarding _updateOnboarding(OnboardingSaveAction action, Onboarding onboarding)
     OnboardingChatSaveAction() => onboarding.copyWith(showChatOnboarding: false),
     OnboardingRechercheSaveAction() => onboarding.copyWith(showRechercheOnboarding: false),
     OnboardingEvenementsSaveAction() => onboarding.copyWith(showEvenementsOnboarding: false),
+    OnboardingOffreEnregistreeSaveAction() => onboarding.copyWith(showOffreEnregistreeOnboarding: false),
   };
 }

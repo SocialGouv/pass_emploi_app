@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/debounced_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_icon_button.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
@@ -36,7 +37,7 @@ class FavoriHeart<T> extends StatelessWidget {
         store,
         context.dependOnInheritedWidgetOfExactType<FavorisStateContext<T>>()!.selectState(store),
       ),
-      builder: (context, viewModel) => _buildHeart(context, viewModel),
+      builder: (context, viewModel) => _buildOffreEnregistreButton(context, viewModel),
       distinct: true,
       onDidChange: (_, viewModel) {
         if (viewModel.withError) {
@@ -52,16 +53,20 @@ class FavoriHeart<T> extends StatelessWidget {
     );
   }
 
-  Widget _buildHeart(BuildContext context, FavoriHeartViewModel<T> viewModel) {
+  Widget _buildOffreEnregistreButton(BuildContext context, FavoriHeartViewModel<T> viewModel) {
     return DebouncedButton(
       childBuilder: (onTapDebounced) => SecondaryIconButton(
-        icon: viewModel.isFavori ? AppIcons.favorite_rounded : AppIcons.favorite_outline_rounded,
-        tooltip: viewModel.isFavori ? Strings.favoriHeartRemove(a11yLabel) : Strings.favoriHeartAdd(a11yLabel),
-        iconColor: AppColors.favorite,
+        icon: viewModel.isFavori ? AppIcons.bookmark_remove : AppIcons.bookmark,
+        tooltip:
+            viewModel.isFavori ? Strings.offreEnregistreeRemove(a11yLabel) : Strings.offreEnregistreeAdd(a11yLabel),
+        iconColor: AppColors.success,
         borderColor: withBorder ? AppColors.primary : Colors.transparent,
         onTap: onTapDebounced,
       ),
       onTap: () {
+        if (viewModel.withOnboarding) {
+          OnboardingBottomSheet.show(context, source: OnboardingSource.offresEnregistrees);
+        }
         viewModel.update(viewModel.isFavori ? FavoriStatus.removed : FavoriStatus.added);
         _sendTracking(viewModel.isFavori);
       },

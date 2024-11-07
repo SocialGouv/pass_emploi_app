@@ -9,12 +9,14 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 
 enum OnboardingSource {
   monSuivi,
   chat,
   reherche,
   evenements,
+  offresEnregistrees,
 }
 
 class OnboardingBottomSheet extends StatelessWidget {
@@ -56,7 +58,8 @@ class OnboardingBottomSheet extends StatelessWidget {
       OnboardingSource.monSuivi => AnalyticsScreenNames.onboardingMonSuivi,
       OnboardingSource.chat => AnalyticsScreenNames.onboardingChat,
       OnboardingSource.reherche => AnalyticsScreenNames.onboardingRecherche,
-      OnboardingSource.evenements => AnalyticsScreenNames.onboardingEvenements
+      OnboardingSource.evenements => AnalyticsScreenNames.onboardingEvenements,
+      OnboardingSource.offresEnregistrees => AnalyticsScreenNames.onboardingoffreEnregistree,
     };
   }
 }
@@ -84,12 +87,22 @@ class _Body extends StatelessWidget {
                 _OnboardingBodyText(viewModel.body),
                 SizedBox(height: Margins.spacing_xl),
                 PrimaryActionButton(
-                  label: Strings.gotIt,
+                  label: viewModel.primaryButtonText,
                   onPressed: () {
                     Navigator.of(context).pop();
-                    viewModel.onGotIt();
+                    viewModel.onPrimaryButton();
                   },
                 ),
+                if (viewModel.canClose) ...[
+                  SizedBox(height: Margins.spacing_base),
+                  SecondaryButton(
+                    label: Strings.skip,
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      viewModel.onClose?.call();
+                    },
+                  ),
+                ]
               ],
             ),
           ),
