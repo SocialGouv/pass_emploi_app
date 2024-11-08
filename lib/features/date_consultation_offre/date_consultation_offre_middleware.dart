@@ -21,7 +21,8 @@ class DateConsultationOffreMiddleware extends MiddlewareClass<AppState> {
     if (action is DateConsultationWriteOffreAction) {
       final date = DateTime.now();
       await _repository.set(action.offreId, date);
-      final offreIdToDateConsultation = store.state.dateConsultationOffreState.offreIdToDateConsultation;
+      final offreIdToDateConsultation =
+          Map<String, DateTime>.from(store.state.dateConsultationOffreState.offreIdToDateConsultation);
       offreIdToDateConsultation[action.offreId] = date;
       store.dispatch(DateConsultationUpdateAction(offreIdToDateConsultation));
     }

@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:pass_emploi_app/features/bootstrap/bootstrap_action.dart';
 import 'package:pass_emploi_app/features/date_consultation_offre/date_consultation_offre_actions.dart';
 import 'package:pass_emploi_app/features/date_consultation_offre/date_consultation_offre_state.dart';
 
@@ -13,41 +14,41 @@ void main() {
     final sut = StoreSut();
     final repository = MockDateConsultationOffreRepository();
 
-    group("when requesting", () {
-      sut.whenDispatchingAction(() => DateConsultationReadOffreRequestAction());
+    group("when bootstraping", () {
+      sut.whenDispatchingAction(() => BootstrapAction());
 
-      test('should load then succeed when request succeeds', () {
-        when(() => repository.get()).thenAnswer((_) async => true);
+      test('should load offres dates', () {
+        when(() => repository.get()).thenAnswer((_) async => {"offreId": DateTime(2024, 1, 1)});
 
         sut.givenStore = givenState() //
             .loggedInUser()
             .store((f) => {f.dateConsultationOffreRepository = repository});
 
-        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed()]);
+        sut.thenExpectAtSomePoint(_shouldSucceed());
       });
+    });
 
-      test('should load then fail when request fails', () {
-        when(() => repository.get()).thenAnswer((_) async => null);
+    group("when writing date", () {
+      sut.whenDispatchingAction(() => DateConsultationWriteOffreAction("offreId"));
+
+      test('should write date', () {
+        when(() => repository.set("offreId", any())).thenAnswer((_) async {});
 
         sut.givenStore = givenState() //
             .loggedInUser()
             .store((f) => {f.dateConsultationOffreRepository = repository});
 
-        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
+        sut.thenExpectAtSomePoint(_shouldSucceed());
       });
     });
   });
 }
 
-Matcher _shouldLoad() => StateIs<DateConsultationOffreLoadingState>((state) => state.dateConsultationOffreState);
-
-Matcher _shouldFail() => StateIs<DateConsultationOffreFailureState>((state) => state.dateConsultationOffreState);
-
 Matcher _shouldSucceed() {
-  return StateIs<DateConsultationOffreSuccessState>(
+  return StateIs<DateConsultationOffreState>(
     (state) => state.dateConsultationOffreState,
     (state) {
-      expect(state.result, true);
+      expect(state.offreIdToDateConsultation, {"offreId": isA<DateTime>()});
     },
   );
 }
