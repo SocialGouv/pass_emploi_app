@@ -228,7 +228,7 @@ class Strings {
       "L’espace recherche vous permet de retrouver les offres d’emploi qui vous intéressent et de les ajouter à vos offres enregistrées.";
   static String onboardingEvenementsBody =
       "Découvrez les événements à ne pas manquer en lien avec votre recherche et inscrivez-vous pour y participer.";
-  static String onboardingOffreEnregistreeBody = "Retrouvez maintenant vos favoris dans l’onglet “Offres enregistrées";
+  static String onboardingOffreEnregistreeBody = "Retrouvez maintenant vos favoris dans l’onglet “Offres enregistrées”";
 
   static String takeRdvWithConseiller =
       "Prenez rendez-vous avec votre conseiller qui procédera à la création de votre compte.";
