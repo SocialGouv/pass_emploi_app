@@ -72,6 +72,7 @@ class AppIcons {
   static const IconData people_outline_rounded = Icons.people_outline_rounded;
   static const IconData hotel_class = Icons.hotel_class_outlined;
   static const IconData warning_rounded = Icons.warning_rounded;
+  static const IconData visibility_outlined = Icons.visibility_outlined;
 
   // Solution
   static const IconData immersion = AppIconsAdditional.immersion;

@@ -30,8 +30,11 @@ void main() {
   test("getDetails when state is success should set display state properly and convert data to view model", () {
     // Given
     final detailedOffer = mockOffreEmploiDetails();
-    final store =
-        givenState().loggedInPoleEmploiUser().offreEmploiDetailsSuccess(offreEmploiDetails: detailedOffer).store();
+    final store = givenState()
+        .loggedInPoleEmploiUser()
+        .offreDateDerniereConsultation({detailedOffer.id: DateTime(2024, 1, 1)})
+        .offreEmploiDetailsSuccess(offreEmploiDetails: detailedOffer)
+        .store();
 
     // When
     final viewModel = OffreEmploiDetailsPageViewModel.create(store);
@@ -43,6 +46,7 @@ void main() {
     expect(viewModel.urlRedirectPourPostulation, detailedOffer.urlRedirectPourPostulation);
     expect(viewModel.companyName, detailedOffer.companyName);
     expect(viewModel.contractType, detailedOffer.contractType);
+    expect(viewModel.dateDerniereConsultation, DateTime(2024, 1, 1));
     expect(viewModel.duration, detailedOffer.duration);
     expect(viewModel.location, detailedOffer.location);
     expect(viewModel.salary, detailedOffer.salary);
