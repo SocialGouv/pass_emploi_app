@@ -1,3 +1,4 @@
+import 'package:pass_emploi_app/features/date_consultation_offre/date_derniere_consultation_store_extension.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_state.dart';
 import 'package:pass_emploi_app/models/login_mode.dart';
@@ -12,22 +13,26 @@ class ServiceCiviqueDetailViewModel {
   final bool shouldShowCvBottomSheet;
   final ServiceCiviqueDetail? detail;
   final ServiceCivique? serviceCivique;
+  final DateTime? dateDerniereConsultation;
 
   ServiceCiviqueDetailViewModel._({
     required this.displayState,
     required this.shouldShowCvBottomSheet,
     this.serviceCivique,
     this.detail,
+    this.dateDerniereConsultation,
   });
 
   factory ServiceCiviqueDetailViewModel.create(Store<AppState> store) {
     final ServiceCiviqueDetailState state = store.state.serviceCiviqueDetailState;
     final loginState = store.state.loginState;
+    final detail = _detail(state);
     return ServiceCiviqueDetailViewModel._(
       displayState: _displayState(state),
       shouldShowCvBottomSheet: loginState is LoginSuccessState ? loginState.user.loginMode.isPe() : false,
-      detail: _detail(state),
+      detail: detail,
       serviceCivique: _serviceCivique(state),
+      dateDerniereConsultation: store.getOffreDateDerniereConsultationOrNull(detail?.id ?? ""),
     );
   }
 

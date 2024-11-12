@@ -14,6 +14,7 @@ import 'package:pass_emploi_app/utils/platform.dart';
 import 'package:redux/redux.dart';
 
 import '../../doubles/spies.dart';
+import '../../dsl/app_state_dsl.dart';
 
 void main() {
   test('create when state is loading should set display state properly', () {
@@ -59,7 +60,9 @@ void main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: AppState.initialState().copyWith(
+      initialState: AppState.initialState() //
+          .offreDateDerniereConsultation({"10298": DateTime(2024, 1, 1)}) //
+          .copyWith(
         immersionDetailsState: ImmersionDetailsIncompleteDataState(Immersion(
           id: "10298",
           metier: "incomplete-metier",
@@ -80,6 +83,7 @@ void main() {
     expect(viewModel.companyName, "incomplete-nom");
     expect(viewModel.secteurActivite, "incomplete-secteur");
     expect(viewModel.ville, "incomplete-ville");
+    expect(viewModel.dateDerniereConsultation, DateTime(2024, 1, 1));
     expect(viewModel.address, isNull);
     expect(viewModel.fromEntrepriseAccueillante, isFalse);
     expect(viewModel.contactLabel, isNull);

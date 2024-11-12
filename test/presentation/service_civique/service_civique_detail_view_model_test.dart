@@ -43,6 +43,22 @@ void main() {
     expect(viewModel.detail, detail);
   });
 
+  test("create when date derniere consultation is provided", () {
+    // Given
+    final ServiceCiviqueDetail detail = mockServiceCiviqueDetail();
+    final store = givenState()
+        .loggedIn()
+        .offreDateDerniereConsultation({"123DXPM": DateTime(2024, 1, 1)})
+        .serviceCiviqueDetailsSuccess(serviceCiviqueDetail: detail)
+        .store();
+
+    // When
+    final viewModel = ServiceCiviqueDetailViewModel.create(store);
+
+    // Then
+    expect(viewModel.dateDerniereConsultation, DateTime(2024, 1, 1));
+  });
+
   test("create when state is error should display un error", () {
     // Given
     final store = givenState().loggedIn().serviceCiviqueDetailsFailure().store();

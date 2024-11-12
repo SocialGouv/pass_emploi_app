@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
+import 'package:pass_emploi_app/features/date_consultation_offre/date_consultation_offre_actions.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_actions.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
@@ -29,6 +30,7 @@ import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 import 'package:pass_emploi_app/widgets/info_card.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
+import 'package:pass_emploi_app/widgets/tags/date_derniere_consultation_tag.dart';
 import 'package:pass_emploi_app/widgets/tags/immersion_tags.dart';
 import 'package:pass_emploi_app/widgets/title_section.dart';
 
@@ -57,7 +59,10 @@ class ImmersionDetailsPage extends StatelessWidget {
         onInitialBuild: (_) {
           context.trackEvenementEngagement(EvenementEngagement.OFFRE_IMMERSION_AFFICHEE);
         },
-        onDispose: (store) => store.dispatch(ImmersionDetailsResetAction()),
+        onDispose: (store) {
+          store.dispatch(ImmersionDetailsResetAction());
+          store.dispatch(DateConsultationWriteOffreAction(_immersionId));
+        },
         converter: (store) => ImmersionDetailsViewModel.create(store, platform),
         builder: (context, viewModel) => FavorisStateContext(
           selectState: (store) => store.state.immersionFavorisIdsState,
@@ -103,6 +108,10 @@ class ImmersionDetailsPage extends StatelessWidget {
                 Text(viewModel.companyName, style: TextStyles.textBaseRegular),
                 SizedBox(height: Margins.spacing_base),
                 ImmersionTags(secteurActivite: viewModel.secteurActivite, ville: viewModel.ville),
+                if (viewModel.dateDerniereConsultation != null) ...[
+                  SizedBox(height: Margins.spacing_base),
+                  DateDerniereConsultationTag(viewModel.dateDerniereConsultation!),
+                ],
                 SizedBox(height: Margins.spacing_base),
                 if (viewModel.displayState == ImmersionDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS)
                   FavoriNotFoundError()

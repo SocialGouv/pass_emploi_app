@@ -67,16 +67,17 @@ class OffreEmploiDetailsPage extends StatelessWidget {
     return Tracker(
       tracking: _fromAlternance ? AnalyticsScreenNames.alternanceDetails : AnalyticsScreenNames.emploiDetails,
       child: StoreConnector<AppState, OffreEmploiDetailsPageViewModel>(
-          onInit: (store) => store.dispatch(OffreEmploiDetailsRequestAction(_offreId)),
-          onInitialBuild: (_) {
-            context.trackEvenementEngagement(_offreAfficheeEvent());
-          },
-          converter: (store) => OffreEmploiDetailsPageViewModel.create(store),
-          builder: (context, viewModel) => FavorisStateContext<OffreEmploi>(
-                selectState: (store) => store.state.offreEmploiFavorisIdsState,
-                child: _scaffold(_body(context, viewModel), context),
-              ),
-          onDispose: (store) => store.dispatch(DateConsultationWriteOffreAction(_offreId))),
+        onInit: (store) => store.dispatch(OffreEmploiDetailsRequestAction(_offreId)),
+        onInitialBuild: (_) {
+          context.trackEvenementEngagement(_offreAfficheeEvent());
+        },
+        converter: (store) => OffreEmploiDetailsPageViewModel.create(store),
+        builder: (context, viewModel) => FavorisStateContext<OffreEmploi>(
+          selectState: (store) => store.state.offreEmploiFavorisIdsState,
+          child: _scaffold(_body(context, viewModel), context),
+        ),
+        onDispose: (store) => store.dispatch(DateConsultationWriteOffreAction(_offreId)),
+      ),
     );
   }
 
