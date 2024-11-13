@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
+import 'package:pass_emploi_app/utils/date_derniere_consultation_provider.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/base_card.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_complement.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_tag.dart';
@@ -34,27 +35,32 @@ class DataCard<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<String> nonEmptyDataTags = dataTag.where((element) => element.isNotEmpty).toList();
-    return BaseCard(
-      onTap: onTap,
-      title: titre,
-      subtitle: sousTitre,
-      complements: [
-        if (lieu != null && lieu!.isNotEmpty) CardComplement.place(text: lieu!),
-        if (date != null && date!.isNotEmpty) CardComplement.date(text: date!),
-      ],
-      secondaryTags: [
-        if (category != null && category!.isNotEmpty) CardTag.secondary(text: category!),
-        ...nonEmptyDataTags.map((e) => CardTag.secondary(text: e)),
-      ],
-      iconButton: (id != null && from != null)
-          ? FavoriHeart<T>(
-              offreId: id!,
-              a11yLabel: sousTitre != null ? '$titre ${sousTitre!}' : titre,
-              withBorder: false,
-              from: from!,
-            )
-          : null,
-      additionalChild: additionalChild,
-    );
+    return DateDerniereConsultationProvider(
+        id: id ?? "",
+        builder: (dateDerniereConsultation) {
+          return BaseCard(
+            onTap: onTap,
+            title: titre,
+            subtitle: sousTitre,
+            complements: [
+              if (lieu != null && lieu!.isNotEmpty) CardComplement.place(text: lieu!),
+              if (date != null && date!.isNotEmpty) CardComplement.date(text: date!),
+              if (dateDerniereConsultation != null) CardComplement.dateDerniereConsultation(dateDerniereConsultation),
+            ],
+            secondaryTags: [
+              if (category != null && category!.isNotEmpty) CardTag.secondary(text: category!),
+              ...nonEmptyDataTags.map((e) => CardTag.secondary(text: e)),
+            ],
+            iconButton: (id != null && from != null)
+                ? FavoriHeart<T>(
+                    offreId: id!,
+                    a11yLabel: sousTitre != null ? '$titre ${sousTitre!}' : titre,
+                    withBorder: false,
+                    from: from!,
+                  )
+                : null,
+            additionalChild: additionalChild,
+          );
+        });
   }
 }

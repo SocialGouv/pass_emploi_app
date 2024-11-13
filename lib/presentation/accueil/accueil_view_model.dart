@@ -3,7 +3,6 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
 import 'package:pass_emploi_app/features/campagne_recrutement/campagne_recrutement_actions.dart';
-import 'package:pass_emploi_app/features/date_consultation_offre/date_derniere_consultation_store_extension.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/rating/rating_state.dart';
@@ -147,10 +146,8 @@ AccueilItem? _favorisItem(
   Store<AppState> store,
 ) {
   final favoris = successState.accueil.favoris;
-  final favorisAndDateDerniereConsultation =
-      favoris?.map((favori) => (favori, store.getOffreDateDerniereConsultationOrNull(favori.id))).toList();
 
-  return favorisAndDateDerniereConsultation != null ? AccueilFavorisItem(favorisAndDateDerniereConsultation) : null;
+  return favoris != null ? AccueilFavorisItem(favoris) : null;
 }
 
 AccueilItem? _outilsItem(AccueilSuccessState successState, Accompagnement accompagnement) {

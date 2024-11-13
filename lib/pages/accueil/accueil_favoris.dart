@@ -14,6 +14,7 @@ import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/date_derniere_consultation_provider.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/base_card.dart';
@@ -54,7 +55,7 @@ class _AvecFavoris extends StatelessWidget {
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: item.favoris.map((favori) => _FavorisCard(favori.$1, favori.$2)).toList(),
+          children: item.favoris.map((favori) => _FavorisCard(favori)).toList(),
         ),
         SizedBox(height: Margins.spacing_s),
         SecondaryButton(
@@ -119,24 +120,28 @@ class _SansFavori extends StatelessWidget {
 
 class _FavorisCard extends StatelessWidget {
   final Favori favori;
-  final DateTime? dateDerniereConsultation;
 
-  _FavorisCard(this.favori, this.dateDerniereConsultation);
+  _FavorisCard(this.favori);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        BaseCard(
-          title: favori.titre,
-          subtitle: favori.organisation,
-          tag: favori.type.toCardTag(),
-          onTap: () => _goToFavori(context, favori),
-          complements: [
-            if (favori.localisation != null) CardComplement.place(text: favori.localisation!),
-            if (dateDerniereConsultation != null) CardComplement.dateDerniereConsultation(dateDerniereConsultation!)
-          ],
-        ),
+        DateDerniereConsultationProvider(
+            id: favori.id,
+            builder: (dateDerniereConsultation) {
+              return BaseCard(
+                title: favori.titre,
+                subtitle: favori.organisation,
+                tag: favori.type.toCardTag(),
+                onTap: () => _goToFavori(context, favori),
+                complements: [
+                  if (favori.localisation != null) CardComplement.place(text: favori.localisation!),
+                  if (dateDerniereConsultation != null)
+                    CardComplement.dateDerniereConsultation(dateDerniereConsultation)
+                ],
+              );
+            }),
         SizedBox(height: Margins.spacing_base),
       ],
     );
