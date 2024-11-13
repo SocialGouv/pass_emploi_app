@@ -12,8 +12,6 @@ class DateDerniereConsultationProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, DateTime?>(
         converter: (store) => store.getOffreDateDerniereConsultationOrNull(id),
-        builder: (context, dateDerniereConsultation) {
-          return builder(dateDerniereConsultation);
-        });
+        builder: (context, dateDerniereConsultation) => builder(dateDerniereConsultation));
   }
 }

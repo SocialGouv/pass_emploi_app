@@ -84,7 +84,7 @@ List<AccueilItem> _items(Store<AppState> store) {
     _campagneEvaluationItem(store.state),
     _cetteSemaineItem(user, accueilState),
     _prochainRendezvousItem(accueilState),
-    _favorisItem(accueilState, store),
+    _favorisItem(accueilState),
     _evenementsItem(accueilState),
     _alertesItem(accueilState),
     _outilsItem(accueilState, user.accompagnement),
@@ -141,12 +141,8 @@ AccueilItem? _alertesItem(AccueilSuccessState successState) {
   return alertes != null ? AccueilAlertesItem(alertes) : null;
 }
 
-AccueilItem? _favorisItem(
-  AccueilSuccessState successState,
-  Store<AppState> store,
-) {
+AccueilItem? _favorisItem(AccueilSuccessState successState) {
   final favoris = successState.accueil.favoris;
-
   return favoris != null ? AccueilFavorisItem(favoris) : null;
 }
 
