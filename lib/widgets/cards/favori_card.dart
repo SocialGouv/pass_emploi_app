@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/utils/date_derniere_consultation_provider.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/base_card.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_complement.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_tag.dart';
@@ -15,6 +16,7 @@ class FavoriCard<T> extends StatelessWidget {
   final String? company;
   final String? place;
   final String? date;
+  final String? offreId;
   final void Function()? onTap;
 
   FavoriCard({
@@ -26,6 +28,7 @@ class FavoriCard<T> extends StatelessWidget {
     this.date,
     required this.offreType,
     this.specialAction,
+    this.offreId,
   });
 
   FavoriCard.likable({
@@ -38,7 +41,8 @@ class FavoriCard<T> extends StatelessWidget {
     required this.offreType,
     required String id,
     required OffrePage from,
-  }) : specialAction = FavoriHeart<T>(
+  })  : offreId = id,
+        specialAction = FavoriHeart<T>(
           offreId: id,
           a11yLabel: title,
           withBorder: false,
@@ -54,7 +58,8 @@ class FavoriCard<T> extends StatelessWidget {
     this.date,
     required this.offreType,
     required void Function() onDelete,
-  }) : specialAction = IconButton(
+  })  : offreId = null,
+        specialAction = IconButton(
           icon: Icon(AppIcons.delete),
           onPressed: onDelete,
           color: AppColors.primary,
@@ -62,13 +67,20 @@ class FavoriCard<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BaseCard(
-      onTap: onTap,
-      title: title,
-      tag: offreType.toCardTag(),
-      iconButton: specialAction,
-      complements: [if (place != null) CardComplement.place(text: place!)],
-      secondaryTags: [if (company != null) CardTag.secondary(text: company!)],
-    );
+    return DateDerniereConsultationProvider(
+        id: offreId ?? "",
+        builder: (dateDerniereConsultation) {
+          return BaseCard(
+            onTap: onTap,
+            title: title,
+            tag: offreType.toCardTag(),
+            iconButton: specialAction,
+            complements: [
+              if (place != null) CardComplement.place(text: place!),
+              if (dateDerniereConsultation != null) CardComplement.dateDerniereConsultation(dateDerniereConsultation),
+            ],
+            secondaryTags: [if (company != null) CardTag.secondary(text: company!)],
+          );
+        });
   }
 }

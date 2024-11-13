@@ -20,6 +20,7 @@ import 'package:pass_emploi_app/utils/platform.dart';
 import 'package:pass_emploi_app/widgets/buttons/delete_favori_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
+import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_complement.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_tag.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
@@ -30,7 +31,6 @@ import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 import 'package:pass_emploi_app/widgets/info_card.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
-import 'package:pass_emploi_app/widgets/tags/date_derniere_consultation_tag.dart';
 import 'package:pass_emploi_app/widgets/tags/immersion_tags.dart';
 import 'package:pass_emploi_app/widgets/title_section.dart';
 
@@ -110,7 +110,7 @@ class ImmersionDetailsPage extends StatelessWidget {
                 ImmersionTags(secteurActivite: viewModel.secteurActivite, ville: viewModel.ville),
                 if (viewModel.dateDerniereConsultation != null) ...[
                   SizedBox(height: Margins.spacing_base),
-                  DateDerniereConsultationTag(viewModel.dateDerniereConsultation!),
+                  CardComplement.dateDerniereConsultation(viewModel.dateDerniereConsultation!),
                 ],
                 SizedBox(height: Margins.spacing_base),
                 if (viewModel.displayState == ImmersionDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS)

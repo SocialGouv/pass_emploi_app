@@ -14,6 +14,7 @@ import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/date_derniere_consultation_provider.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/base_card.dart';
@@ -126,13 +127,21 @@ class _FavorisCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        BaseCard(
-          title: favori.titre,
-          tag: favori.type.toCardTag(),
-          onTap: () => _goToFavori(context, favori),
-          subtitle: favori.organisation,
-          complements: [if (favori.localisation != null) CardComplement.place(text: favori.localisation!)],
-        ),
+        DateDerniereConsultationProvider(
+            id: favori.id,
+            builder: (dateDerniereConsultation) {
+              return BaseCard(
+                title: favori.titre,
+                subtitle: favori.organisation,
+                tag: favori.type.toCardTag(),
+                onTap: () => _goToFavori(context, favori),
+                complements: [
+                  if (favori.localisation != null) CardComplement.place(text: favori.localisation!),
+                  if (dateDerniereConsultation != null)
+                    CardComplement.dateDerniereConsultation(dateDerniereConsultation)
+                ],
+              );
+            }),
         SizedBox(height: Margins.spacing_base),
       ],
     );
