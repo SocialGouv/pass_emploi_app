@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+const _maxLength = 100;
+
 class DateConsultationOffreRepository {
   static const _key = "date_consultation_offre";
 
@@ -18,8 +20,8 @@ class DateConsultationOffreRepository {
   Future<void> set(String offreId, DateTime date) async {
     final dates = await get();
     dates[offreId] = date;
-    // TODO: gérer la limite de stockage à 100 offres
-    await secureStorage.write(key: _key, value: dates.serialize());
+    final newDates = dates.removeOldestEntryIfRequired();
+    await secureStorage.write(key: _key, value: newDates.serialize());
   }
 }
 
@@ -29,6 +31,15 @@ extension on Map<String, DateTime> {
       return MapEntry(key, value.toIso8601String());
     });
     return json.encode(offreIdToDateIso8601);
+  }
+
+  Map<String, DateTime> removeOldestEntryIfRequired() {
+    final copy = Map<String, DateTime>.from(this);
+    while (copy.length > _maxLength) {
+      final sortedDates = copy.entries.toList()..sort((entryA, entryB) => entryA.value.compareTo(entryB.value));
+      copy.remove(sortedDates.first.key);
+    }
+    return copy;
   }
 }
 

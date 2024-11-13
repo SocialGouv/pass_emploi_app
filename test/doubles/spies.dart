@@ -38,8 +38,11 @@ class StoreSpy extends Store<AppState> {
 }
 
 class SharedPreferencesSpy extends FlutterSecureStorage {
+  final Duration delay;
   final Map<String, String> _storedValues = {};
   void reset() => _storedValues.clear();
+
+  SharedPreferencesSpy({this.delay = const Duration(milliseconds: 10)});
 
   @override
   Future<void> write({
@@ -97,7 +100,7 @@ class SharedPreferencesSpy extends FlutterSecureStorage {
     return _storedValues;
   }
 
-  Future<void> simulateIoOperation() async => await Future.delayed(Duration(milliseconds: 10));
+  Future<void> simulateIoOperation() async => await Future.delayed(delay);
 }
 
 class SpyPassEmploiCacheManager extends PassEmploiCacheManager {

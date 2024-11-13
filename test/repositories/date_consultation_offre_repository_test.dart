@@ -1,59 +1,46 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/repositories/date_consultation_offre_repository.dart';
 
-import '../doubles/mocks.dart';
+import '../doubles/spies.dart';
 
 void main() {
-  late MockFlutterSecureStorage mockFlutterSecureStorage;
+  late SharedPreferencesSpy secureStorage;
   late DateConsultationOffreRepository repository;
 
   setUp(() {
-    mockFlutterSecureStorage = MockFlutterSecureStorage();
-    repository = DateConsultationOffreRepository(mockFlutterSecureStorage);
+    secureStorage = SharedPreferencesSpy(delay: Duration.zero);
+    repository = DateConsultationOffreRepository(secureStorage);
   });
 
-  group('DateConsultationOffreRepository', () {
-    group('get', () {
-      test('should retorun empty map when key is not registered', () async {
-        // Given
-        mockFlutterSecureStorage.withAnyRead(null);
+  test('full integration test', () async {
+    // Given
+    await repository.set("offre1", DateTime.utc(2022, 1, 1));
+    await repository.set("offre2", DateTime.utc(2022, 1, 2));
 
-        // When
-        final result = await repository.get();
+    // When
+    final result = await repository.get();
 
-        // Then
-        expect(result, equals({}));
-      });
+    // Then
+    expect(
+      result,
+      equals({
+        "offre1": DateTime.utc(2022, 1, 1),
+        "offre2": DateTime.utc(2022, 1, 2),
+      }),
+    );
+  });
 
-      test('should return map when key is registered', () async {
-        // Given
-        mockFlutterSecureStorage.withAnyRead('{"offreId": "2022-01-01T00:00:00.000Z"}');
+  test('should just keep a maximum of 100 values, deleting oldest ones', () async {
+    // Given
+    for (var i = 0; i <= 101; i++) {
+      await repository.set("offre-$i", DateTime.utc(2022, 1, 1).add(Duration(days: i)));
+    }
 
-        // When
-        final result = await repository.get();
+    // When
+    final result = await repository.get();
 
-        // Then
-        expect(result, equals({"offreId": DateTime.utc(2022, 1, 1)}));
-      });
-    });
-
-    group('set', () {
-      test('should add offre', () async {
-        // Given
-        mockFlutterSecureStorage.withAnyRead('{"offreId": "2022-01-01T00:00:00.000Z"}');
-
-        // When
-        await repository.set("offreId", DateTime.utc(2022, 1, 1));
-
-        // Then
-        verify(
-          () => mockFlutterSecureStorage.write(
-            key: "date_consultation_offre",
-            value: '{"offreId":"2022-01-01T00:00:00.000Z"}',
-          ),
-        );
-      });
-    });
+    // Then
+    expect(result["offre-0"], isNull);
+    expect(result["offre-101"], isNotNull);
   });
 }
