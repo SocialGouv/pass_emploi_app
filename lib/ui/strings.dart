@@ -1,5 +1,6 @@
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/ui/immersion_contacts_strings.dart';
+import 'package:pass_emploi_app/utils/date_extensions.dart';
 
 class _PassEmploiStrings {
   static String appName = "pass emploi";
@@ -1016,6 +1017,7 @@ class Strings {
   // Offre emploi details
   static String offreDetailsError = "Erreur lors de la récupération de l'offre";
   static String offreDetailsTitle = "Détail de l'offre";
+  static String offreLastSeen(DateTime date) => "Offre vue le ${date.toDay()}";
   static String profileTitle = "Profil souhaité";
   static String experienceTitle = "Expérience";
   static String companyDescriptionTitle = "Détail de l'entreprise";

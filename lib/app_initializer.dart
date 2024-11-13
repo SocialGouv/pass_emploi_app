@@ -51,6 +51,7 @@ import 'package:pass_emploi_app/repositories/cvm/cvm_alerting_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_bridge.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_event_factory.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_token_repository.dart';
+import 'package:pass_emploi_app/repositories/date_consultation_offre_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
@@ -292,6 +293,7 @@ class AppInitializer {
       FirstLaunchOnboardingRepository(securedPreferences),
       PieceJointeUseCase(chatRepository, pieceJointeRepository, ImageCompressor()),
       MatchingDemarcheRepository(thematiqueDemarcheRepository),
+      DateConsultationOffreRepository(securedPreferences),
       /*AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-CONSTRUCTOR*/
     ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);

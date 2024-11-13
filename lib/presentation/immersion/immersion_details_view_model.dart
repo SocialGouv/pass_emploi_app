@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/date_consultation_offre/date_derniere_consultation_store_extension.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_actions.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
@@ -21,6 +22,7 @@ class ImmersionDetailsViewModel extends Equatable {
   final String title;
   final String companyName;
   final String secteurActivite;
+  final DateTime? dateDerniereConsultation;
   final bool fromEntrepriseAccueillante;
   final String ville;
   final String? address;
@@ -38,6 +40,7 @@ class ImmersionDetailsViewModel extends Equatable {
     required this.title,
     required this.companyName,
     required this.secteurActivite,
+    this.dateDerniereConsultation,
     required this.fromEntrepriseAccueillante,
     required this.ville,
     this.address,
@@ -62,10 +65,15 @@ class ImmersionDetailsViewModel extends Equatable {
         secondaryCallToActions,
         store,
         withContactForm,
+        store.getOffreDateDerniereConsultationOrNull(immersionDetails.id),
       );
     } else if (state is ImmersionDetailsIncompleteDataState) {
       final immersion = state.immersion;
-      return _incompleteViewModel(immersion, store);
+      return _incompleteViewModel(
+        immersion,
+        store,
+        store.getOffreDateDerniereConsultationOrNull(immersion.id),
+      );
     } else {
       return _otherCasesViewModel(state, store);
     }
@@ -103,6 +111,7 @@ ImmersionDetailsViewModel _successViewModel(
   List<CallToAction> secondaryCallToActions,
   Store<AppState> store,
   bool withContactForm,
+  DateTime? dateDerniereConsultation,
 ) {
   return ImmersionDetailsViewModel._(
     displayState: _displayState(state),
@@ -110,6 +119,7 @@ ImmersionDetailsViewModel _successViewModel(
     title: immersionDetails.metier,
     companyName: immersionDetails.companyName,
     secteurActivite: immersionDetails.secteurActivite,
+    dateDerniereConsultation: dateDerniereConsultation,
     fromEntrepriseAccueillante: immersionDetails.fromEntrepriseAccueillante,
     ville: immersionDetails.ville,
     address: immersionDetails.address,
@@ -123,13 +133,18 @@ ImmersionDetailsViewModel _successViewModel(
   );
 }
 
-ImmersionDetailsViewModel _incompleteViewModel(Immersion immersion, Store<AppState> store) {
+ImmersionDetailsViewModel _incompleteViewModel(
+  Immersion immersion,
+  Store<AppState> store,
+  DateTime? dateDerniereConsultation,
+) {
   return ImmersionDetailsViewModel._(
     displayState: ImmersionDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS,
     id: immersion.id,
     title: immersion.metier,
     companyName: immersion.nomEtablissement,
     secteurActivite: immersion.secteurActivite,
+    dateDerniereConsultation: dateDerniereConsultation,
     fromEntrepriseAccueillante: immersion.fromEntrepriseAccueillante,
     ville: immersion.ville,
     withContactForm: false,

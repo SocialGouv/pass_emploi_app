@@ -17,6 +17,7 @@ import 'package:pass_emploi_app/features/connectivity/connectivity_state.dart';
 import 'package:pass_emploi_app/features/contact_immersion/contact_immersion_state.dart';
 import 'package:pass_emploi_app/features/cv/cv_state.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_state.dart';
+import 'package:pass_emploi_app/features/date_consultation_offre/date_consultation_offre_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_state.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
@@ -145,6 +146,7 @@ class AppState extends Equatable {
   final MessageImportantState messageImportantState;
   final MatchingDemarcheState matchingDemarcheState;
   final CguState cguState;
+  final DateConsultationOffreState dateConsultationOffreState;
   /*AUTOGENERATE-REDUX-APP-STATE-PROPERTY*/
 
   AppState({
@@ -218,6 +220,7 @@ class AppState extends Equatable {
     required this.messageImportantState,
     required this.matchingDemarcheState,
     required this.cguState,
+    required this.dateConsultationOffreState,
     /*AUTOGENERATE-REDUX-APP-STATE-CONSTRUCTOR*/
   });
 
@@ -292,6 +295,7 @@ class AppState extends Equatable {
     final MessageImportantState? messageImportantState,
     final MatchingDemarcheState? matchingDemarcheState,
     final CguState? cguState,
+    final DateConsultationOffreState? dateConsultationOffreState,
     /*AUTOGENERATE-REDUX-APP-STATE-COPYPARAM*/
   }) {
     return AppState(
@@ -365,6 +369,7 @@ class AppState extends Equatable {
       messageImportantState: messageImportantState ?? this.messageImportantState,
       matchingDemarcheState: matchingDemarcheState ?? this.matchingDemarcheState,
       cguState: cguState ?? this.cguState,
+      dateConsultationOffreState: dateConsultationOffreState ?? this.dateConsultationOffreState,
       /*AUTOGENERATE-REDUX-APP-STATE-COPYBODY*/
     );
   }
@@ -441,6 +446,7 @@ class AppState extends Equatable {
       messageImportantState: MessageImportantNotInitializedState(),
       matchingDemarcheState: MatchingDemarcheNotInitializedState(),
       cguState: CguNotInitializedState(),
+      dateConsultationOffreState: DateConsultationOffreState(),
       /*AUTOGENERATE-REDUX-APP-STATE-FACTORY*/
     );
   }
@@ -510,6 +516,7 @@ class AppState extends Equatable {
         messageImportantState,
         matchingDemarcheState,
         cguState,
+        dateConsultationOffreState,
         /*AUTOGENERATE-REDUX-APP-STATE-EQUATABLE*/
       ];
 

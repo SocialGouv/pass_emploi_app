@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
+import 'package:pass_emploi_app/features/date_consultation_offre/date_consultation_offre_actions.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_actions.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/service_civique/domain.dart';
@@ -28,6 +29,7 @@ import 'package:pass_emploi_app/widgets/errors/favori_not_found_error.dart';
 import 'package:pass_emploi_app/widgets/external_link.dart';
 import 'package:pass_emploi_app/widgets/favori_heart.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
+import 'package:pass_emploi_app/widgets/tags/date_derniere_consultation_tag.dart';
 import 'package:pass_emploi_app/widgets/tags/tags.dart';
 import 'package:pass_emploi_app/widgets/title_section.dart';
 
@@ -59,6 +61,7 @@ class ServiceCiviqueDetailPage extends StatelessWidget {
             selectState: (store) => store.state.serviceCiviqueFavorisIdsState,
           );
         },
+        onDispose: (store) => store.dispatch(DateConsultationWriteOffreAction(idOffre)),
       ),
     );
   }
@@ -119,6 +122,10 @@ class ServiceCiviqueDetailPage extends StatelessWidget {
                   child: Text(organisation, style: TextStyles.textBaseRegular),
                 ),
                 if (detail != null) _tags(detail),
+                if (viewModel.dateDerniereConsultation != null) ...[
+                  DateDerniereConsultationTag(viewModel.dateDerniereConsultation!),
+                  SizedBox(height: Margins.spacing_base),
+                ],
                 if (detail != null) _description(detail),
                 if (detail != null) _organisation(detail),
                 if (detail != null) _spacer(60),

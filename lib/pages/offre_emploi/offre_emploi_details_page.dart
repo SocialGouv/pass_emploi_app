@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
+import 'package:pass_emploi_app/features/date_consultation_offre/date_consultation_offre_actions.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_actions.dart';
 import 'package:pass_emploi_app/models/chat/message.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -32,6 +33,7 @@ import 'package:pass_emploi_app/widgets/favori_heart.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 import 'package:pass_emploi_app/widgets/help_tooltip.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
+import 'package:pass_emploi_app/widgets/tags/date_derniere_consultation_tag.dart';
 import 'package:pass_emploi_app/widgets/tags/tags.dart';
 import 'package:pass_emploi_app/widgets/title_section.dart';
 
@@ -74,6 +76,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
           selectState: (store) => store.state.offreEmploiFavorisIdsState,
           child: _scaffold(_body(context, viewModel), context),
         ),
+        onDispose: (store) => store.dispatch(DateConsultationWriteOffreAction(_offreId)),
       ),
     );
   }
@@ -141,6 +144,10 @@ class OffreEmploiDetailsPage extends StatelessWidget {
                     child: Text(companyName, style: TextStyles.textBaseRegular),
                   ),
                 _tags(viewModel),
+                if (viewModel.dateDerniereConsultation != null) ...[
+                  DateDerniereConsultationTag(viewModel.dateDerniereConsultation!),
+                  SizedBox(height: Margins.spacing_base),
+                ],
                 if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_DETAILS)
                   _PartageOffre(isAlternance: _fromAlternance),
                 _spacer(Margins.spacing_l),
@@ -203,7 +210,6 @@ class OffreEmploiDetailsPage extends StatelessWidget {
               label: duration,
               iconSemantics: IconWithSemantics(AppIcons.schedule_rounded, Strings.iconAlternativeDuration)),
         ),
-      _spacer(Margins.spacing_m)
     ]);
   }
 

@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/repositories/configuration_application_repositor
 import 'package:pass_emploi_app/repositories/cvm/cvm_alerting_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_bridge.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_token_repository.dart';
+import 'package:pass_emploi_app/repositories/date_consultation_offre_repository.dart';
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/developer_option_repository.dart';
 import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_repository.dart';
@@ -243,4 +244,11 @@ class MockPieceJointeUseCase extends Mock implements PieceJointeUseCase {}
 class MockMatchingDemarcheRepository extends Mock implements MatchingDemarcheRepository {}
 
 class MockPreferencesRepository extends Mock implements PreferencesRepository {}
+
+class MockDateConsultationOffreRepository extends Mock implements DateConsultationOffreRepository {
+  MockDateConsultationOffreRepository() {
+    when(() => get()).thenAnswer((_) async => {});
+    when(() => set(any(), any())).thenAnswer((_) async {});
+  }
+}
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-DECLARATION*/
