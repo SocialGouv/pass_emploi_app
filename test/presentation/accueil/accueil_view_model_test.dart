@@ -56,11 +56,6 @@ void main() {
       // Given
       final store = givenState() //
           .loggedInMiloUser()
-          .offreDateDerniereConsultation({
-            "1": DateTime(2024, 1, 1),
-            "2": DateTime(2024, 1, 1),
-            "3": DateTime(2024, 1, 1),
-          })
           .showRating()
           .withAccueilMiloSuccess()
           .withFeatureFlip(withCampagneRecrutement: true)
@@ -104,11 +99,6 @@ void main() {
       final sessionMilo = mockSessionMilo(dateDeDebut: DateTime(2025));
       final store = givenState() //
           .loggedInMiloUser()
-          .offreDateDerniereConsultation({
-            "1": DateTime(2024, 1, 1),
-            "2": DateTime(2024, 1, 1),
-            "3": DateTime(2024, 1, 1),
-          })
           .withAccueilMiloSuccess(
             mockAccueilMilo().copyWith(
               prochainRendezVous: rdv,
@@ -156,11 +146,6 @@ void main() {
     test('should have all items', () {
       // Given
       final store = givenState() //
-          .offreDateDerniereConsultation({
-            "1": DateTime(2024, 1, 1),
-            "2": DateTime(2024, 1, 1),
-            "3": DateTime(2024, 1, 1),
-          })
           .loggedInPoleEmploiUser()
           .withAccueilPoleEmploiSuccess()
           .withFeatureFlip(withCampagneRecrutement: true)
