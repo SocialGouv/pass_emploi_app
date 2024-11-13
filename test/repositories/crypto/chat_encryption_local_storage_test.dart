@@ -8,7 +8,7 @@ void main() {
   late ChatEncryptionLocalStorage cryptoStorage;
 
   setUp(() {
-    cryptoStorage = ChatEncryptionLocalStorage(storage: SharedPreferencesSpy());
+    cryptoStorage = ChatEncryptionLocalStorage(storage: FlutterSecureStorageSpy());
   });
 
   group('integration test should work whatever user ID is', () {

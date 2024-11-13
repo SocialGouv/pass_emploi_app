@@ -4,8 +4,7 @@ import 'package:pass_emploi_app/repositories/rating_repository.dart';
 import '../doubles/spies.dart';
 
 void main() {
-  final SharedPreferencesSpy prefs = SharedPreferencesSpy();
-  final RatingRepository repository = RatingRepository(prefs);
+  final RatingRepository repository = RatingRepository(FlutterSecureStorageSpy());
 
   test("Show rating if user didn't rate it yet", () async {
     // When

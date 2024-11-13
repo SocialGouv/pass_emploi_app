@@ -5,12 +5,12 @@ import '../doubles/fixtures.dart';
 import '../doubles/spies.dart';
 
 void main() {
-  late SharedPreferencesSpy preferences;
+  late FlutterSecureStorageSpy secureStorage;
   late UserActionPendingCreationRepository repository;
 
   setUp(() {
-    preferences = SharedPreferencesSpy();
-    repository = UserActionPendingCreationRepository(preferences);
+    secureStorage = FlutterSecureStorageSpy();
+    repository = UserActionPendingCreationRepository(secureStorage);
   });
 
   test('Integration test', () async {

@@ -4,11 +4,11 @@ import 'package:pass_emploi_app/repositories/date_consultation_offre_repository.
 import '../doubles/spies.dart';
 
 void main() {
-  late SharedPreferencesSpy secureStorage;
+  late FlutterSecureStorageSpy secureStorage;
   late DateConsultationOffreRepository repository;
 
   setUp(() {
-    secureStorage = SharedPreferencesSpy(delay: Duration.zero);
+    secureStorage = FlutterSecureStorageSpy(delay: Duration.zero);
     repository = DateConsultationOffreRepository(secureStorage);
   });
 

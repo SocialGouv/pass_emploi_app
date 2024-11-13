@@ -37,12 +37,12 @@ class StoreSpy extends Store<AppState> {
   }
 }
 
-class SharedPreferencesSpy extends FlutterSecureStorage {
+class FlutterSecureStorageSpy extends FlutterSecureStorage {
   final Duration delay;
   final Map<String, String> _storedValues = {};
   void reset() => _storedValues.clear();
 
-  SharedPreferencesSpy({this.delay = const Duration(milliseconds: 10)});
+  FlutterSecureStorageSpy({this.delay = const Duration(milliseconds: 10)});
 
   @override
   Future<void> write({

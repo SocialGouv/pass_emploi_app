@@ -114,7 +114,7 @@ void main() {
         late UserActionPendingCreationRepository pendingRepository;
 
         setUp(() async {
-          pendingRepository = UserActionPendingCreationRepository(SharedPreferencesSpy());
+          pendingRepository = UserActionPendingCreationRepository(FlutterSecureStorageSpy());
           await pendingRepository.save(request1);
           await pendingRepository.save(request2);
 

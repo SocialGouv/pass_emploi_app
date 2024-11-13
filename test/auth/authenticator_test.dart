@@ -17,16 +17,16 @@ import '../doubles/spies.dart';
 
 void main() {
   late MockAuthWrapper wrapper;
-  late SharedPreferencesSpy prefs;
+  late FlutterSecureStorageSpy secureStorage;
   late Authenticator authenticator;
   late LogoutRepository logoutRepository;
 
   setUp(() {
     wrapper = MockAuthWrapper();
-    prefs = SharedPreferencesSpy();
+    secureStorage = FlutterSecureStorageSpy();
     logoutRepository = DummyLogoutRepository();
     logoutRepository.setCacheManager(DummyPassEmploiCacheManager());
-    authenticator = Authenticator(wrapper, logoutRepository, configuration(), prefs);
+    authenticator = Authenticator(wrapper, logoutRepository, configuration(), secureStorage);
   });
 
   group('Login tests', () {
@@ -39,9 +39,9 @@ void main() {
 
       // Then
       expect(result, isA<SuccessAuthenticatorResponse>());
-      expect(await prefs.read(key: "idToken"), authTokenResponse().idToken);
-      expect(await prefs.read(key: "accessToken"), authTokenResponse().accessToken);
-      expect(await prefs.read(key: "refreshToken"), authTokenResponse().refreshToken);
+      expect(await secureStorage.read(key: "idToken"), authTokenResponse().idToken);
+      expect(await secureStorage.read(key: "accessToken"), authTokenResponse().accessToken);
+      expect(await secureStorage.read(key: "refreshToken"), authTokenResponse().refreshToken);
     });
 
     test('token is saved and returned when login in SIMILO mode is successful', () async {
@@ -54,9 +54,9 @@ void main() {
 
       // Then
       expect(result, isA<SuccessAuthenticatorResponse>());
-      expect(await prefs.read(key: "idToken"), authTokenResponse().idToken);
-      expect(await prefs.read(key: "accessToken"), authTokenResponse().accessToken);
-      expect(await prefs.read(key: "refreshToken"), authTokenResponse().refreshToken);
+      expect(await secureStorage.read(key: "idToken"), authTokenResponse().idToken);
+      expect(await secureStorage.read(key: "accessToken"), authTokenResponse().accessToken);
+      expect(await secureStorage.read(key: "refreshToken"), authTokenResponse().refreshToken);
     });
 
     test('token is saved and returned when login in POLE_EMPLOI mode is successful', () async {
@@ -69,9 +69,9 @@ void main() {
 
       // Then
       expect(result, isA<SuccessAuthenticatorResponse>());
-      expect(await prefs.read(key: "idToken"), authTokenResponse().idToken);
-      expect(await prefs.read(key: "accessToken"), authTokenResponse().accessToken);
-      expect(await prefs.read(key: "refreshToken"), authTokenResponse().refreshToken);
+      expect(await secureStorage.read(key: "idToken"), authTokenResponse().idToken);
+      expect(await secureStorage.read(key: "accessToken"), authTokenResponse().accessToken);
+      expect(await secureStorage.read(key: "refreshToken"), authTokenResponse().refreshToken);
     });
 
     test('token is null when login has failed', () async {
@@ -111,7 +111,8 @@ void main() {
     test('isLoggedIn is TRUE when login is successful', () async {
       // Given
       final wrapper = MockAuthWrapper();
-      final authenticator = Authenticator(wrapper, logoutRepository, configuration(brand: Brand.passEmploi), prefs);
+      final authenticator =
+          Authenticator(wrapper, logoutRepository, configuration(brand: Brand.passEmploi), secureStorage);
       when(() => wrapper.login(_tokenRequest())).thenAnswer((_) async =>
           AuthTokenResponse(accessToken: 'accessToken', idToken: realPassEmploiIdToken, refreshToken: 'refreshToken'));
 
@@ -148,9 +149,9 @@ void main() {
 
       // Then
       expect(result, RefreshTokenStatus.SUCCESSFUL);
-      expect(await prefs.read(key: "idToken"), "idToken2");
-      expect(await prefs.read(key: "accessToken"), "accessToken2");
-      expect(await prefs.read(key: "refreshToken"), "refreshToken2");
+      expect(await secureStorage.read(key: "idToken"), "idToken2");
+      expect(await secureStorage.read(key: "accessToken"), "accessToken2");
+      expect(await secureStorage.read(key: "refreshToken"), "refreshToken2");
     });
 
     test('refresh token returns NETWORK_UNREACHABLE when user is logged in but network is unreachable', () async {

@@ -7,12 +7,12 @@ import '../doubles/spies.dart';
 import '../utils/test_assets.dart';
 
 void main() {
-  late SharedPreferencesSpy prefs;
+  late FlutterSecureStorageSpy secureStorage;
   late RecherchesRecentesRepository repository;
 
   setUp(() {
-    prefs = SharedPreferencesSpy();
-    repository = RecherchesRecentesRepository(prefs);
+    secureStorage = FlutterSecureStorageSpy();
+    repository = RecherchesRecentesRepository(secureStorage);
   });
 
   group('RecherchesRecentesRepository', () {
@@ -27,7 +27,7 @@ void main() {
 
       test('should return alertes when data exist', () async {
         // Given
-        prefs.write(key: 'recent_searches', value: loadTestAssets("alertes.json"));
+        secureStorage.write(key: 'recent_searches', value: loadTestAssets("alertes.json"));
 
         // When
         final result = await repository.get();

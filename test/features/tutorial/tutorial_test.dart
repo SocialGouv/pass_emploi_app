@@ -73,7 +73,7 @@ void main() {
 }
 
 class TutorialRepositoryStub extends TutorialRepository {
-  TutorialRepositoryStub() : super(SharedPreferencesSpy());
+  TutorialRepositoryStub() : super(FlutterSecureStorageSpy());
 
   @override
   List<TutorialPage> getMiloTutorial() => miloTutorials;

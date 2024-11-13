@@ -7,7 +7,7 @@ void main() {
   late InstallationIdRepository repository;
 
   setUp(() {
-    repository = InstallationIdRepository(SharedPreferencesSpy());
+    repository = InstallationIdRepository(FlutterSecureStorageSpy());
   });
 
   test('getInstallationId should return a UUID', () async {

@@ -5,11 +5,11 @@ import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import '../doubles/spies.dart';
 
 void main() {
-  final SharedPreferencesSpy prefs = SharedPreferencesSpy();
-  final TutorialRepository repository = TutorialRepository(prefs);
+  final FlutterSecureStorageSpy secureStorage = FlutterSecureStorageSpy();
+  final TutorialRepository repository = TutorialRepository(secureStorage);
 
   setUp(() {
-    prefs.reset();
+    secureStorage.reset();
   });
 
   test("getMiloTutorial returns tutorial pages for MILO", () {
@@ -38,7 +38,7 @@ void main() {
 
   test("shouldShowTutorial returns true when not on first launch and user did not already saw it", () async {
     // Given
-    await prefs.write(key: 'tutorialRead-111', value: 'read');
+    await secureStorage.write(key: 'tutorialRead-111', value: 'read');
 
     // When
     final shouldShowTutorial = await repository.shouldShowTutorial();
