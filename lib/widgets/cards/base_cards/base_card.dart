@@ -80,9 +80,9 @@ class BaseCard extends StatelessWidget {
                     ),
                   if (!isSimpleCard && iconButton != null)
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        if (tag != null) tag!,
-                        Expanded(child: SizedBox.shrink()),
+                        if (tag != null) Flexible(child: tag!),
                         iconButton!,
                       ],
                     ),
@@ -92,7 +92,7 @@ class BaseCard extends StatelessWidget {
                       child: _CardIllustration(imagePath: imagePath!),
                     ),
                   if (title.isNotEmpty) ...[
-                    if (!isSimpleCard || imagePath != null) SizedBox(height: Margins.spacing_m),
+                    if ((!isSimpleCard && iconButton == null) || imagePath != null) SizedBox(height: Margins.spacing_m),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

@@ -23,37 +23,39 @@ class EmptyStatePlaceholder extends StatelessWidget {
       child: LayoutBuilder(builder: (context, constraints) {
         return Padding(
           padding: const EdgeInsets.all(Margins.spacing_m),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              if (constraints.maxHeight > 200) ...[
-                ConstrainedBox(
-                  constraints: BoxConstraints(maxHeight: 130, maxWidth: 130),
-                  child: illustration,
-                ),
-                SizedBox(height: Margins.spacing_xl),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                if (constraints.maxHeight > 200) ...[
+                  ConstrainedBox(
+                    constraints: BoxConstraints(maxHeight: 130, maxWidth: 130),
+                    child: illustration,
+                  ),
+                  SizedBox(height: Margins.spacing_xl),
+                ],
+                if (title != null) ...[
+                  Text(
+                    title!,
+                    style: TextStyles.textBaseBold,
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: Margins.spacing_base),
+                ],
+                if (subtitle != null)
+                  Text(
+                    subtitle!,
+                    style: TextStyles.textBaseRegular,
+                    textAlign: TextAlign.center,
+                  ),
+                if (action != null) ...[
+                  SizedBox(height: Margins.spacing_m),
+                  action!,
+                ]
               ],
-              if (title != null) ...[
-                Text(
-                  title!,
-                  style: TextStyles.textBaseBold,
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: Margins.spacing_base),
-              ],
-              if (subtitle != null)
-                Text(
-                  subtitle!,
-                  style: TextStyles.textBaseRegular,
-                  textAlign: TextAlign.center,
-                ),
-              if (action != null) ...[
-                SizedBox(height: Margins.spacing_m),
-                action!,
-              ]
-            ],
+            ),
           ),
         );
       }),
