@@ -24,12 +24,12 @@ import 'package:pass_emploi_app/widgets/bottom_sheets/postuler_offre_bottom_shee
 import 'package:pass_emploi_app/widgets/buttons/delete_favori_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/share_button.dart';
+import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_complement.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/errors/favori_not_found_error.dart';
 import 'package:pass_emploi_app/widgets/external_link.dart';
 import 'package:pass_emploi_app/widgets/favori_heart.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
-import 'package:pass_emploi_app/widgets/tags/date_derniere_consultation_tag.dart';
 import 'package:pass_emploi_app/widgets/tags/tags.dart';
 import 'package:pass_emploi_app/widgets/title_section.dart';
 
@@ -123,7 +123,7 @@ class ServiceCiviqueDetailPage extends StatelessWidget {
                 ),
                 if (detail != null) _tags(detail),
                 if (viewModel.dateDerniereConsultation != null) ...[
-                  DateDerniereConsultationTag(viewModel.dateDerniereConsultation!),
+                  CardComplement.dateDerniereConsultation(viewModel.dateDerniereConsultation!),
                   SizedBox(height: Margins.spacing_base),
                 ],
                 if (detail != null) _description(detail),

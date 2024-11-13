@@ -78,7 +78,7 @@ class AccueilAlertesItem extends AccueilItem {
 }
 
 class AccueilFavorisItem extends AccueilItem {
-  final List<Favori> favoris;
+  final List<(Favori, DateTime? dateDerniereConsultation)> favoris;
 
   AccueilFavorisItem(this.favoris);
 

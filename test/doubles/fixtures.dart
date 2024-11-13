@@ -1038,6 +1038,10 @@ List<Favori> mock3Favoris() {
   ];
 }
 
+List<(Favori, DateTime)> mock3FavorisWithDateDerniereConsultation() {
+  return mock3Favoris().map((favori) => (favori, DateTime(2024, 1, 1))).toList();
+}
+
 EvenementEmploiAlerte mockEvenementEmploiAlerte() {
   return EvenementEmploiAlerte(id: "id-117", titre: "Ermont", location: mockLocation());
 }

@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class CardComplement extends StatelessWidget {
@@ -37,6 +38,12 @@ class CardComplement extends StatelessWidget {
       : icon = AppIcons.event,
         color = AppColors.warning,
         bold = true;
+
+  CardComplement.dateDerniereConsultation(DateTime date)
+      : text = Strings.offreLastSeen(date),
+        icon = AppIcons.visibility_outlined,
+        color = AppColors.grey800,
+        bold = false;
 
   @override
   Widget build(BuildContext context) {

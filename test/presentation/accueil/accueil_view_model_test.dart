@@ -56,6 +56,11 @@ void main() {
       // Given
       final store = givenState() //
           .loggedInMiloUser()
+          .offreDateDerniereConsultation({
+            "1": DateTime(2024, 1, 1),
+            "2": DateTime(2024, 1, 1),
+            "3": DateTime(2024, 1, 1),
+          })
           .showRating()
           .withAccueilMiloSuccess()
           .withFeatureFlip(withCampagneRecrutement: true)
@@ -78,7 +83,7 @@ void main() {
             actionsOuDemarchesLabel: "Action",
           ),
           AccueilProchainRendezvousItem(mockRendezvousMiloCV().id),
-          AccueilFavorisItem(mock3Favoris()),
+          AccueilFavorisItem(mock3FavorisWithDateDerniereConsultation()),
           AccueilEvenementsItem([
             (mockAnimationCollective().id, AccueilEvenementsType.animationCollective),
             (mockSessionMiloAtelierDecouverte().id, AccueilEvenementsType.sessionMilo),
@@ -99,6 +104,11 @@ void main() {
       final sessionMilo = mockSessionMilo(dateDeDebut: DateTime(2025));
       final store = givenState() //
           .loggedInMiloUser()
+          .offreDateDerniereConsultation({
+            "1": DateTime(2024, 1, 1),
+            "2": DateTime(2024, 1, 1),
+            "3": DateTime(2024, 1, 1),
+          })
           .withAccueilMiloSuccess(
             mockAccueilMilo().copyWith(
               prochainRendezVous: rdv,
@@ -126,7 +136,7 @@ void main() {
             actionsOuDemarchesLabel: "Actions",
           ),
           AccueilProchaineSessionMiloItem(sessionMilo.id),
-          AccueilFavorisItem(mock3Favoris()),
+          AccueilFavorisItem(mock3FavorisWithDateDerniereConsultation()),
           AccueilEvenementsItem([
             (mockAnimationCollective().id, AccueilEvenementsType.animationCollective),
             (mockSessionMiloAtelierDecouverte().id, AccueilEvenementsType.sessionMilo),
@@ -146,6 +156,11 @@ void main() {
     test('should have all items', () {
       // Given
       final store = givenState() //
+          .offreDateDerniereConsultation({
+            "1": DateTime(2024, 1, 1),
+            "2": DateTime(2024, 1, 1),
+            "3": DateTime(2024, 1, 1),
+          })
           .loggedInPoleEmploiUser()
           .withAccueilPoleEmploiSuccess()
           .withFeatureFlip(withCampagneRecrutement: true)
@@ -167,7 +182,7 @@ void main() {
             actionsOuDemarchesLabel: "Démarche",
           ),
           AccueilProchainRendezvousItem(mockRendezvousPoleEmploi().id),
-          AccueilFavorisItem(mock3Favoris()),
+          AccueilFavorisItem(mock3FavorisWithDateDerniereConsultation()),
           AccueilAlertesItem(getMockedAlerte()),
           AccueilOutilsItem([
             Outil.mesAidesFt.withoutImage(),

@@ -54,7 +54,7 @@ class _AvecFavoris extends StatelessWidget {
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: item.favoris.map((favori) => _FavorisCard(favori)).toList(),
+          children: item.favoris.map((favori) => _FavorisCard(favori.$1, favori.$2)).toList(),
         ),
         SizedBox(height: Margins.spacing_s),
         SecondaryButton(
@@ -119,8 +119,9 @@ class _SansFavori extends StatelessWidget {
 
 class _FavorisCard extends StatelessWidget {
   final Favori favori;
+  final DateTime? dateDerniereConsultation;
 
-  _FavorisCard(this.favori);
+  _FavorisCard(this.favori, this.dateDerniereConsultation);
 
   @override
   Widget build(BuildContext context) {
@@ -128,10 +129,13 @@ class _FavorisCard extends StatelessWidget {
       children: [
         BaseCard(
           title: favori.titre,
+          subtitle: favori.organisation,
           tag: favori.type.toCardTag(),
           onTap: () => _goToFavori(context, favori),
-          subtitle: favori.organisation,
-          complements: [if (favori.localisation != null) CardComplement.place(text: favori.localisation!)],
+          complements: [
+            if (favori.localisation != null) CardComplement.place(text: favori.localisation!),
+            if (dateDerniereConsultation != null) CardComplement.dateDerniereConsultation(dateDerniereConsultation!)
+          ],
         ),
         SizedBox(height: Margins.spacing_base),
       ],

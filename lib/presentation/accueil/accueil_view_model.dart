@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
 import 'package:pass_emploi_app/features/campagne_recrutement/campagne_recrutement_actions.dart';
+import 'package:pass_emploi_app/features/date_consultation_offre/date_derniere_consultation_store_extension.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/rating/rating_state.dart';
@@ -84,7 +85,7 @@ List<AccueilItem> _items(Store<AppState> store) {
     _campagneEvaluationItem(store.state),
     _cetteSemaineItem(user, accueilState),
     _prochainRendezvousItem(accueilState),
-    _favorisItem(accueilState),
+    _favorisItem(accueilState, store),
     _evenementsItem(accueilState),
     _alertesItem(accueilState),
     _outilsItem(accueilState, user.accompagnement),
@@ -141,9 +142,15 @@ AccueilItem? _alertesItem(AccueilSuccessState successState) {
   return alertes != null ? AccueilAlertesItem(alertes) : null;
 }
 
-AccueilItem? _favorisItem(AccueilSuccessState successState) {
+AccueilItem? _favorisItem(
+  AccueilSuccessState successState,
+  Store<AppState> store,
+) {
   final favoris = successState.accueil.favoris;
-  return favoris != null ? AccueilFavorisItem(favoris) : null;
+  final favorisAndDateDerniereConsultation =
+      favoris?.map((favori) => (favori, store.getOffreDateDerniereConsultationOrNull(favori.id))).toList();
+
+  return favorisAndDateDerniereConsultation != null ? AccueilFavorisItem(favorisAndDateDerniereConsultation) : null;
 }
 
 AccueilItem? _outilsItem(AccueilSuccessState successState, Accompagnement accompagnement) {
