@@ -8,7 +8,7 @@ Celles-ci sont spécifiées dans le fichier [`CONTRIBUTING.md`](CONTRIBUTING.md)
 
 Créer un fichier dans le répertoire `env` intitulé `env.staging` en vous inspirant du
 fichier `env.template` situé à la racine du projet. Y insérer toutes les bonnes valeurs. Elles se
-trouvent dans les notes partagées Dashlane (`[APP MOBILE] .env.staging` ou `[APP MOBILE] .env.prod`).
+trouvent dans les notes partagées Vaultwarden (`[APP MOBILE] .env.staging` ou `[APP MOBILE] .env.prod`).
 
 ## Lancer l'application
 
@@ -163,7 +163,7 @@ En se basant sur https://pub.dev/packages/flutter_native_splash
 A chaque push sur la branche main, un build et un déploiement sont faits sur Firebase App
 Distribution. Lorsque des variables d'environnement sont modifiées/ajoutées, il faut les ajouter
 dans les secrets github. Le fichier `ci/.env.template` permet de lister les variables nécessaires.
-Pour rappel, elles sont stockées dans les notes partagées Dashlane (`[APP MOBILE] .env.staging`
+Pour rappel, elles sont stockées dans les notes partagées Vaultwarden (`[APP MOBILE] .env.staging`
 ou `[APP MOBILE] .env.prod`).
 
 #### Ajouter un appareil iOS pour les tests internes
@@ -177,7 +177,7 @@ ou `[APP MOBILE] .env.prod`).
 #### Mettre à jour ou insérer de nouvelles variables d'environnement dans Github Action
 
 1. Assurer vous d'avoir mis la ou les nouvelles variables d'environnement dans le fichier
-   local `env/.env.staging` et `env/.env.prod` et dans Dashlane (pour la postérité).
+   local `env/.env.staging` et `env/.env.prod` et dans Vaultwarden (pour la postérité).
 2. Lancer le script `bash scripts/generate_env_ci.sh`
 3. Récupérer les valeurs de `STAGING_RUNTIME_ENV_B64` et de `PROD_RUNTIME_ENV_B64` dans le
    fichier `ci/env.ci`.
