@@ -29,6 +29,17 @@ class ServiceCivique extends Equatable {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      "id": id,
+      "titre": title,
+      "domaine": domain,
+      "organisation": companyName,
+      "ville": location,
+      "dateDeDebut": startDate,
+    };
+  }
+
   @override
   List<Object?> get props => [id, title, domain, companyName, location, startDate];
 }

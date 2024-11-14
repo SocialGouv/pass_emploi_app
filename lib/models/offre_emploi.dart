@@ -31,6 +31,18 @@ class OffreEmploi extends Equatable {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      "id": id,
+      "titre": title,
+      "nomEntreprise": companyName,
+      "typeContrat": contractType,
+      "alternance": isAlternance,
+      "localisation": {"nom": location},
+      "duree": duration,
+    };
+  }
+
   @override
   List<Object?> get props => [id, title, companyName, contractType, isAlternance, location, duration];
 }

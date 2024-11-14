@@ -38,6 +38,7 @@ import 'package:pass_emploi_app/utils/compress_image.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
 
+import 'package:pass_emploi_app/repositories/derniere_offre_consultee_repository.dart';
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-IMPORT*/
 
 import 'dio_mock.dart';
@@ -251,4 +252,6 @@ class MockDateConsultationOffreRepository extends Mock implements DateConsultati
     when(() => set(any(), any())).thenAnswer((_) async {});
   }
 }
+
+class MockDerniereOffreConsulteeRepository extends Mock implements DerniereOffreConsulteeRepository {}
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-DECLARATION*/

@@ -44,7 +44,7 @@ List<Message> modeDemoChat() => [
         sendingStatus: MessageSendingStatus.sent,
         contentStatus: MessageContentStatus.content,
         pieceJointes: [],
-        offre: Offre(
+        offre: MessageOffre(
           "132WNLT",
           "Employé / Employée de rayon libre-service (H/F)",
           OffreType.emploi,

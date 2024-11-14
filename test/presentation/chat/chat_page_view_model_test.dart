@@ -361,7 +361,7 @@ void main() {
           sendingStatus: MessageSendingStatus.sent,
           contentStatus: MessageContentStatus.content,
           pieceJointes: [],
-          offre: Offre(
+          offre: MessageOffre(
             "343",
             "Chevalier",
             OffreType.emploi,
@@ -401,7 +401,7 @@ void main() {
           sendingStatus: MessageSendingStatus.sent,
           contentStatus: MessageContentStatus.content,
           pieceJointes: [],
-          offre: Offre("343", "Chevalier", OffreType.emploi),
+          offre: MessageOffre("343", "Chevalier", OffreType.emploi),
         )
       ];
       final store = givenState().chatSuccess(messages).store();

@@ -46,7 +46,7 @@ class Message extends Equatable {
   final MessageType type;
   final List<PieceJointe> pieceJointes;
   final String? localPieceJointePath;
-  final Offre? offre;
+  final MessageOffre? offre;
   final Event? event;
   final ChatEvenementEmploi? evenementEmploi;
   final ChatSessionMilo? sessionMilo;
@@ -114,7 +114,7 @@ class Message extends Equatable {
     MessageType? type,
     List<PieceJointe>? pieceJointes,
     String? localPieceJointePath,
-    Offre? offre,
+    MessageOffre? offre,
     Event? event,
     ChatEvenementEmploi? evenementEmploi,
     ChatSessionMilo? sessionMilo,
@@ -170,10 +170,10 @@ class Message extends Equatable {
     };
   }
 
-  static Offre? _offre(dynamic json) {
+  static MessageOffre? _offre(dynamic json) {
     final offreJson = json["offre"];
     if (offreJson == null) return null;
-    return Offre.fromJson(offreJson);
+    return MessageOffre.fromJson(offreJson);
   }
 
   static Event? _event(dynamic json) {
@@ -327,22 +327,22 @@ class Event extends Equatable {
   }
 }
 
-class Offre extends Equatable {
+class MessageOffre extends Equatable {
   final String id;
   final String titre;
   final OffreType type;
 
-  Offre(this.id, this.titre, this.type);
+  MessageOffre(this.id, this.titre, this.type);
 
   @override
   List<Object?> get props => [id, titre, type];
 
-  static Offre? fromJson(dynamic json) {
+  static MessageOffre? fromJson(dynamic json) {
     final id = json['id'] as String?;
     final titre = json['titre'] as String?;
     final type = _type(json);
     if (id == null || titre == null || type == null) return null;
-    return Offre(id, titre, type);
+    return MessageOffre(id, titre, type);
   }
 
   static OffreType? _type(dynamic json) {
