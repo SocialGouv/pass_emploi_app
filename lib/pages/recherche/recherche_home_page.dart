@@ -53,12 +53,7 @@ class _RechercheHomePageState extends State<RechercheHomePage> {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(Margins.spacing_base),
-        child: Column(
-          children: [
-            RecherchesRecentes(),
-            _NosOffres(offreTypes: viewModel.offreTypes),
-          ],
-        ),
+        child: _NosOffres(offreTypes: viewModel.offreTypes),
       ),
     );
   }
@@ -82,6 +77,7 @@ class _NosOffres extends StatelessWidget {
             Navigator.push(context, SuggestionsRechercheListPage.materialPageRoute());
           },
         ),
+        RecherchesRecentesBandeau(paddingIfExists: EdgeInsets.only(top: Margins.spacing_base)),
         SizedBox(height: Margins.spacing_base),
         if (offreTypes.contains(OffreType.emploi)) ...[
           _BlocSolution(
