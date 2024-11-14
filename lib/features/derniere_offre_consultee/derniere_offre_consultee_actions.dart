@@ -1,10 +1,10 @@
 import 'package:pass_emploi_app/models/derniere_offre_consultee.dart';
 
-class DerniereOffreConsulteeWriteAction {
-  final DerniereOffreConsultee offre;
+class DerniereOffreEmploiConsulteeWriteAction {}
 
-  DerniereOffreConsulteeWriteAction(this.offre);
-}
+class DerniereOffreImmersionConsulteeWriteAction {}
+
+class DerniereOffreServiceCiviqueConsulteeWriteAction {}
 
 class DerniereOffreConsulteeUpdateAction {
   final DerniereOffreConsultee offre;

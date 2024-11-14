@@ -17,7 +17,7 @@ void main() {
   group('offre emploi', () {
     test('should set and get', () async {
       // Given
-      final offre = DerniereRechercheOffreEmploi(mockOffreEmploi());
+      final offre = DerniereOffreEmploiConsultee(mockOffreEmploi());
       await repository.set(offre);
 
       // When
@@ -31,7 +31,7 @@ void main() {
   group('immersion', () {
     test('should set and get', () async {
       // Given
-      final offre = DerniereRechercheImmersion(mockImmersion());
+      final offre = DerniereOffreImmersionConsultee(mockImmersion());
       await repository.set(offre);
 
       // When
@@ -45,7 +45,7 @@ void main() {
   group('service civique', () {
     test('should set and get', () async {
       // Given
-      final offre = DerniereRechercheServiceCivique(mockServiceCivique());
+      final offre = DerniereOffreServiceCiviqueConsultee(mockServiceCivique());
       await repository.set(offre);
 
       // When

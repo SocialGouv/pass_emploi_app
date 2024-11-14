@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/date_consultation_offre/date_consultation_offre_actions.dart';
+import 'package:pass_emploi_app/features/derniere_offre_consultee/derniere_offre_consultee_actions.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_actions.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
@@ -62,6 +63,7 @@ class ImmersionDetailsPage extends StatelessWidget {
         onDispose: (store) {
           store.dispatch(ImmersionDetailsResetAction());
           store.dispatch(DateConsultationWriteOffreAction(_immersionId));
+          store.dispatch(DerniereOffreImmersionConsulteeWriteAction());
         },
         converter: (store) => ImmersionDetailsViewModel.create(store, platform),
         builder: (context, viewModel) => FavorisStateContext(

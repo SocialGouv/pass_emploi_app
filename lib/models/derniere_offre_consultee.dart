@@ -8,11 +8,11 @@ sealed class DerniereOffreConsultee extends Equatable {
     final String type = json['type'] as String;
     switch (type) {
       case 'offre_emploi':
-        return DerniereRechercheOffreEmploi(OffreEmploi.fromJson(json['data']));
+        return DerniereOffreEmploiConsultee(OffreEmploi.fromJson(json['data']));
       case 'immersion':
-        return DerniereRechercheImmersion(Immersion.fromJson(json['data']));
+        return DerniereOffreImmersionConsultee(Immersion.fromJson(json['data']));
       case 'service_civique':
-        return DerniereRechercheServiceCivique(ServiceCivique.fromJson(json['data']));
+        return DerniereOffreServiceCiviqueConsultee(ServiceCivique.fromJson(json['data']));
       default:
         throw Exception('Unknown type $type');
     }
@@ -21,41 +21,41 @@ sealed class DerniereOffreConsultee extends Equatable {
   Map<String, dynamic> toJson() {
     return {
       "type": switch (this) {
-        DerniereRechercheOffreEmploi() => "offre_emploi",
-        DerniereRechercheImmersion() => "immersion",
-        DerniereRechercheServiceCivique() => "service_civique",
+        DerniereOffreEmploiConsultee() => "offre_emploi",
+        DerniereOffreImmersionConsultee() => "immersion",
+        DerniereOffreServiceCiviqueConsultee() => "service_civique",
       },
       "data": switch (this) {
-        final DerniereRechercheOffreEmploi offre => offre.offreEmploi.toJson(),
-        final DerniereRechercheImmersion offre => offre.immersion.toJson(),
-        final DerniereRechercheServiceCivique offre => offre.serviceCivique.toJson(),
+        final DerniereOffreEmploiConsultee offre => offre.offreEmploi.toJson(),
+        final DerniereOffreImmersionConsultee offre => offre.immersion.toJson(),
+        final DerniereOffreServiceCiviqueConsultee offre => offre.serviceCivique.toJson(),
       },
     };
   }
 }
 
-class DerniereRechercheOffreEmploi extends DerniereOffreConsultee {
+class DerniereOffreEmploiConsultee extends DerniereOffreConsultee {
   final OffreEmploi offreEmploi;
 
-  DerniereRechercheOffreEmploi(this.offreEmploi);
+  DerniereOffreEmploiConsultee(this.offreEmploi);
 
   @override
   List<Object?> get props => [offreEmploi];
 }
 
-class DerniereRechercheImmersion extends DerniereOffreConsultee {
+class DerniereOffreImmersionConsultee extends DerniereOffreConsultee {
   final Immersion immersion;
 
-  DerniereRechercheImmersion(this.immersion);
+  DerniereOffreImmersionConsultee(this.immersion);
 
   @override
   List<Object?> get props => [immersion];
 }
 
-class DerniereRechercheServiceCivique extends DerniereOffreConsultee {
+class DerniereOffreServiceCiviqueConsultee extends DerniereOffreConsultee {
   final ServiceCivique serviceCivique;
 
-  DerniereRechercheServiceCivique(this.serviceCivique);
+  DerniereOffreServiceCiviqueConsultee(this.serviceCivique);
 
   @override
   List<Object?> get props => [serviceCivique];
