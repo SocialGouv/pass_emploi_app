@@ -136,7 +136,7 @@ void main() {
             viewModel.preferredLoginMode,
             PreferredLoginModeViewModel(
               title: 'France travail',
-              logo: Drawables.poleEmploiLogo,
+              logo: Drawables.franceTravailLogo,
             ));
       });
 

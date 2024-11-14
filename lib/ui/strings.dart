@@ -1038,6 +1038,8 @@ class Strings {
   static String deleteOffreFromFavori = "Supprimer des offres enregistrées";
   static String interim = "Intérim";
 
+  static String origin(String label) => "Source : $label";
+
   // Favoris
   static String mesFavorisPageTitle = "Mes offres enregistrées";
   static String mesAlertesPageTitle = "Mes alertes";

@@ -33,6 +33,7 @@ import 'package:pass_emploi_app/widgets/external_link.dart';
 import 'package:pass_emploi_app/widgets/favori_heart.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 import 'package:pass_emploi_app/widgets/help_tooltip.dart';
+import 'package:pass_emploi_app/widgets/offre_emploi_origin.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/tags/tags.dart';
 import 'package:pass_emploi_app/widgets/title_section.dart';
@@ -82,15 +83,12 @@ class OffreEmploiDetailsPage extends StatelessWidget {
   }
 
   Widget _body(BuildContext context, OffreEmploiDetailsPageViewModel viewModel) {
-    switch (viewModel.displayState) {
-      case OffreEmploiDetailsPageDisplayState.SHOW_DETAILS:
-      case OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS:
-        return _content(context, viewModel);
-      case OffreEmploiDetailsPageDisplayState.SHOW_LOADER:
-        return _loading();
-      case OffreEmploiDetailsPageDisplayState.SHOW_ERROR:
-        return _error();
-    }
+    return switch (viewModel.displayState) {
+      OffreEmploiDetailsPageDisplayState.SHOW_DETAILS => _content(context, viewModel),
+      OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS => _content(context, viewModel),
+      OffreEmploiDetailsPageDisplayState.SHOW_LOADER => _loading(),
+      OffreEmploiDetailsPageDisplayState.SHOW_ERROR => _error()
+    };
   }
 
   Scaffold _scaffold(Widget body, BuildContext context) {
@@ -129,7 +127,14 @@ class OffreEmploiDetailsPage extends StatelessWidget {
                       style: TextStyles.textSRegular(),
                     ),
                   ),
-                _spacer(Margins.spacing_base),
+                _spacer(Margins.spacing_s),
+                // TODO-GAD : temp
+                OffreEmploiOrigin(
+                  label: "France Travail",
+                  url: "",
+                  size: OffreEmploiOriginSize.small,
+                ),
+                _spacer(Margins.spacing_s),
                 if (title != null)
                   Padding(
                     padding: const EdgeInsets.only(bottom: Margins.spacing_m),

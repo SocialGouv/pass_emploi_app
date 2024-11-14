@@ -76,7 +76,7 @@ class PreferredLoginModeViewModel extends Equatable {
     return switch (state.loginMode) {
       LoginMode.POLE_EMPLOI => PreferredLoginModeViewModel(
           title: Strings.loginBottomSeetFranceTravailButton,
-          logo: Drawables.poleEmploiLogo,
+          logo: Drawables.franceTravailLogo,
         ),
       LoginMode.MILO => PreferredLoginModeViewModel(
           title: Strings.loginBottomSeetMissionLocaleButton,
