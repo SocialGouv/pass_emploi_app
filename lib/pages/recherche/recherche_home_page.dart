@@ -4,6 +4,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/models/offre_type.dart';
+import 'package:pass_emploi_app/pages/recherche/derniere_offre_consultee.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_emploi_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_immersion_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_service_civique_page.dart';
@@ -53,7 +54,12 @@ class _RechercheHomePageState extends State<RechercheHomePage> {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(Margins.spacing_base),
-        child: _NosOffres(offreTypes: viewModel.offreTypes),
+        child: Column(
+          children: [
+            DerniereOffreConsultee(),
+            _NosOffres(offreTypes: viewModel.offreTypes),
+          ],
+        ),
       ),
     );
   }
@@ -69,7 +75,7 @@ class _NosOffres extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        LargeSectionTitle(Strings.rechercheHomeNosOffres),
+        MediumSectionTitle(Strings.rechercheHomeNosOffres),
         SizedBox(height: Margins.spacing_base),
         VoirSuggestionsRechercheBandeau(
           onTapShowSuggestions: () {

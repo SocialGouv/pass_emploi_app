@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class LargeSectionTitle extends StatelessWidget {
@@ -24,7 +25,7 @@ class MediumSectionTitle extends StatelessWidget {
       header: true,
       child: Text(
         title,
-        style: TextStyles.textMRegular,
+        style: TextStyles.textMBold.copyWith(color: AppColors.primary),
       ),
     );
   }
