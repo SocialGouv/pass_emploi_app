@@ -66,6 +66,7 @@ void main() {
               isAlternance: false,
               location: "75 - PARIS 10",
               duration: "Temps plein",
+              origin: null,
             ),
           );
           final offreWithoutLocation = result.results[3];
@@ -79,6 +80,7 @@ void main() {
               companyName: "SUPER TAXI",
               title: "Chauffeur / Chauffeuse de taxi (H/F)",
               isAlternance: false,
+              origin: null,
             ),
           );
         });

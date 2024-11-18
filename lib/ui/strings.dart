@@ -73,7 +73,7 @@ class Strings {
 
   // Login mode
   static const String milo = "Mission Locale";
-  static const String poleEmploi = "France Travail";
+  static const String franceTravail = "France Travail";
 
   // Menu
   static String menuAccueil = "Accueil";

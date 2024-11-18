@@ -165,6 +165,7 @@ OffreEmploi _offreWithPartialData() {
     isAlternance: false,
     location: "Paris",
     title: "title",
+    origin: null,
   );
 }
 
@@ -177,5 +178,6 @@ OffreEmploi _offreWithFullData({required bool isAlternance}) {
     isAlternance: isAlternance,
     location: "Marseille",
     title: "otherTitle",
+    origin: null,
   );
 }
