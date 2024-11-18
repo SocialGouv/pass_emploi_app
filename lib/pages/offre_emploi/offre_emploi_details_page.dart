@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/date_consultation_offre/date_consultation_offre_actions.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_actions.dart';
 import 'package:pass_emploi_app/models/chat/message.dart';
+import 'package:pass_emploi_app/models/image_path.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
@@ -15,6 +16,7 @@ import 'package:pass_emploi_app/presentation/offre_emploi/offre_emploi_details_p
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -130,8 +132,15 @@ class OffreEmploiDetailsPage extends StatelessWidget {
                 _spacer(Margins.spacing_s),
                 // TODO-GAD : temp
                 OffreEmploiOrigin(
+                  label: "Meteojob",
+                  path: NetworkImagePath(
+                      "https://cdn.prod.website-files.com/6262d0e912ed03ea98f01f38/66f425f5441e26f8f8c62dcb_66f1408f48d93c9276487790_meteojob.png"),
+                  size: OffreEmploiOriginSize.small,
+                ),
+                _spacer(Margins.spacing_s),
+                OffreEmploiOrigin(
                   label: "France Travail",
-                  url: "",
+                  path: AssetImagePath(Drawables.franceTravailLogo),
                   size: OffreEmploiOriginSize.small,
                 ),
                 _spacer(Margins.spacing_s),
