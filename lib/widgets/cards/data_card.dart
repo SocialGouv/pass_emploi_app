@@ -17,6 +17,7 @@ class DataCard<T> extends StatelessWidget {
   final String? id;
   final OffrePage? from;
   final Widget? additionalChild;
+  final bool withFavori;
 
   const DataCard({
     super.key,
@@ -30,6 +31,7 @@ class DataCard<T> extends StatelessWidget {
     this.from,
     this.category,
     this.additionalChild,
+    this.withFavori = true,
   });
 
   @override
@@ -51,7 +53,7 @@ class DataCard<T> extends StatelessWidget {
               if (category != null && category!.isNotEmpty) CardTag.secondary(text: category!),
               ...nonEmptyDataTags.map((e) => CardTag.secondary(text: e)),
             ],
-            iconButton: (id != null && from != null)
+            iconButton: (withFavori && id != null && from != null)
                 ? FavoriHeart<T>(
                     offreId: id!,
                     a11yLabel: sousTitre != null ? '$titre ${sousTitre!}' : titre,

@@ -1,4 +1,4 @@
-import 'package:pass_emploi_app/models/derniere_offre_consultee.dart';
+import 'package:pass_emploi_app/models/offre_dto.dart';
 
 class DerniereOffreEmploiConsulteeWriteAction {}
 
@@ -7,7 +7,7 @@ class DerniereOffreImmersionConsulteeWriteAction {}
 class DerniereOffreServiceCiviqueConsulteeWriteAction {}
 
 class DerniereOffreConsulteeUpdateAction {
-  final DerniereOffreConsultee offre;
+  final OffreDto offre;
 
   DerniereOffreConsulteeUpdateAction(this.offre);
 }

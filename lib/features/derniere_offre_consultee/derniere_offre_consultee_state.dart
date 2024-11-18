@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/models/derniere_offre_consultee.dart';
+import 'package:pass_emploi_app/models/offre_dto.dart';
 
 class DerniereOffreConsulteeState extends Equatable {
-  final DerniereOffreConsultee? offre;
+  final OffreDto? offre;
 
   DerniereOffreConsulteeState({this.offre});
 

@@ -56,7 +56,7 @@ class _RechercheHomePageState extends State<RechercheHomePage> {
         padding: const EdgeInsets.all(Margins.spacing_base),
         child: Column(
           children: [
-            DerniereOffreConsultee(),
+            DerniereOffreConsulteeSection(),
             _NosOffres(offreTypes: viewModel.offreTypes),
           ],
         ),

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/models/derniere_offre_consultee.dart';
+import 'package:pass_emploi_app/models/offre_dto.dart';
 import 'package:pass_emploi_app/repositories/derniere_offre_consultee_repository.dart';
 
 import '../doubles/fixtures.dart';
@@ -17,7 +17,7 @@ void main() {
   group('offre emploi', () {
     test('should set and get', () async {
       // Given
-      final offre = DerniereOffreEmploiConsultee(mockOffreEmploi());
+      final offre = OffreEmploiDto(mockOffreEmploi());
       await repository.set(offre);
 
       // When
@@ -31,7 +31,7 @@ void main() {
   group('immersion', () {
     test('should set and get', () async {
       // Given
-      final offre = DerniereOffreImmersionConsultee(mockImmersion());
+      final offre = OffreImmersionDto(mockImmersion());
       await repository.set(offre);
 
       // When
@@ -45,7 +45,7 @@ void main() {
   group('service civique', () {
     test('should set and get', () async {
       // Given
-      final offre = DerniereOffreServiceCiviqueConsultee(mockServiceCivique());
+      final offre = OffreServiceCiviqueDto(mockServiceCivique());
       await repository.set(offre);
 
       // When

@@ -4,6 +4,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/models/login_mode.dart';
+import 'package:pass_emploi_app/models/offre_dto.dart';
 import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/repositories/campagne_recrutement_repository.dart';
@@ -12,6 +13,7 @@ import 'package:pass_emploi_app/repositories/cvm/cvm_alerting_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_bridge.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_token_repository.dart';
 import 'package:pass_emploi_app/repositories/date_consultation_offre_repository.dart';
+import 'package:pass_emploi_app/repositories/derniere_offre_consultee_repository.dart';
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/developer_option_repository.dart';
 import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_repository.dart';
@@ -38,7 +40,6 @@ import 'package:pass_emploi_app/utils/compress_image.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
 
-import 'package:pass_emploi_app/repositories/derniere_offre_consultee_repository.dart';
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-IMPORT*/
 
 import 'dio_mock.dart';
@@ -253,5 +254,13 @@ class MockDateConsultationOffreRepository extends Mock implements DateConsultati
   }
 }
 
-class MockDerniereOffreConsulteeRepository extends Mock implements DerniereOffreConsulteeRepository {}
+class FakeOffreEmploiDto extends Mock implements OffreEmploiDto {}
+
+class MockDerniereOffreConsulteeRepository extends Mock implements DerniereOffreConsulteeRepository {
+  MockDerniereOffreConsulteeRepository() {
+    registerFallbackValue(FakeOffreEmploiDto());
+    when(() => get()).thenAnswer((_) async => null);
+    when(() => set(any())).thenAnswer((_) async {});
+  }
+}
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-DECLARATION*/

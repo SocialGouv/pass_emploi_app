@@ -61,9 +61,8 @@ class ImmersionDetailsPage extends StatelessWidget {
           context.trackEvenementEngagement(EvenementEngagement.OFFRE_IMMERSION_AFFICHEE);
         },
         onDispose: (store) {
-          store.dispatch(ImmersionDetailsResetAction());
-          store.dispatch(DateConsultationWriteOffreAction(_immersionId));
           store.dispatch(DerniereOffreImmersionConsulteeWriteAction());
+          store.dispatch(DateConsultationWriteOffreAction(_immersionId));
         },
         converter: (store) => ImmersionDetailsViewModel.create(store, platform),
         builder: (context, viewModel) => FavorisStateContext(

@@ -63,27 +63,12 @@ void main() {
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceedWithIncompleteData()]);
       });
     });
-
-    group('when resetting', () {
-      sut.whenDispatchingAction(() => ImmersionDetailsResetAction());
-
-      test('should reset state', () {
-        sut.givenStore = givenState() //
-            .loggedIn()
-            .copyWith(immersionDetailsState: ImmersionDetailsSuccessState(_MockImmersionDetails.instance))
-            .store((f) => {f.immersionDetailsRepository = repository});
-
-        sut.thenExpectChangingStatesThroughOrder([_shouldReset()]);
-      });
-    });
   });
 }
 
 Matcher _shouldLoad() => StateIs<ImmersionDetailsLoadingState>((state) => state.immersionDetailsState);
 
 Matcher _shouldFail() => StateIs<ImmersionDetailsFailureState>((state) => state.immersionDetailsState);
-
-Matcher _shouldReset() => StateIs<ImmersionDetailsNotInitializedState>((state) => state.immersionDetailsState);
 
 Matcher _shouldSucceed() {
   return StateIs<ImmersionDetailsSuccessState>(

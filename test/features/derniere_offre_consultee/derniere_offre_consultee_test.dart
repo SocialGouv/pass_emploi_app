@@ -3,8 +3,8 @@ import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/features/bootstrap/bootstrap_action.dart';
 import 'package:pass_emploi_app/features/derniere_offre_consultee/derniere_offre_consultee_actions.dart';
 import 'package:pass_emploi_app/features/derniere_offre_consultee/derniere_offre_consultee_state.dart';
-import 'package:pass_emploi_app/models/derniere_offre_consultee.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
+import 'package:pass_emploi_app/models/offre_dto.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
 
@@ -15,7 +15,7 @@ import '../../dsl/matchers.dart';
 import '../../dsl/sut_redux.dart';
 
 void main() {
-  setUpAll(() => registerFallbackValue(DerniereOffreEmploiConsultee(mockOffreEmploi())));
+  setUpAll(() => registerFallbackValue(OffreEmploiDto(mockOffreEmploi())));
   group('DerniereOffreConsultee', () {
     final sut = StoreSut();
     final repository = MockDerniereOffreConsulteeRepository();
@@ -24,8 +24,7 @@ void main() {
       sut.whenDispatchingAction(() => BootstrapAction());
 
       test('should load offres dates', () {
-        when(() => repository.get())
-            .thenAnswer((_) async => DerniereOffreEmploiConsultee(mockOffreEmploiDetails().toOffreEmploi));
+        when(() => repository.get()).thenAnswer((_) async => OffreEmploiDto(mockOffreEmploiDetails().toOffreEmploi));
 
         sut.givenStore = givenState() //
             .loggedInUser()
@@ -86,7 +85,7 @@ Matcher _shouldSucceedOffreEmploi() {
   return StateIs<DerniereOffreConsulteeState>(
     (state) => state.derniereOffreConsulteeState,
     (state) {
-      expect(state.offre, DerniereOffreEmploiConsultee(mockOffreEmploiDetails().toOffreEmploi));
+      expect(state.offre, OffreEmploiDto(mockOffreEmploiDetails().toOffreEmploi));
     },
   );
 }
@@ -95,7 +94,7 @@ Matcher _shouldSucceedOffreImmersion() {
   return StateIs<DerniereOffreConsulteeState>(
     (state) => state.derniereOffreConsulteeState,
     (state) {
-      expect(state.offre, DerniereOffreImmersionConsultee(mockImmersionDetails().toImmersion));
+      expect(state.offre, OffreImmersionDto(mockImmersionDetails().toImmersion));
     },
   );
 }
@@ -104,7 +103,7 @@ Matcher _shouldSucceedOffreServiceCivique() {
   return StateIs<DerniereOffreConsulteeState>(
     (state) => state.derniereOffreConsulteeState,
     (state) {
-      expect(state.offre, DerniereOffreServiceCiviqueConsultee(mockServiceCiviqueDetail().toServiceCivique));
+      expect(state.offre, OffreServiceCiviqueDto(mockServiceCiviqueDetail().toServiceCivique));
     },
   );
 }

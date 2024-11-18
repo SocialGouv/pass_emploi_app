@@ -3,8 +3,8 @@ import 'package:pass_emploi_app/features/derniere_offre_consultee/derniere_offre
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_state.dart';
-import 'package:pass_emploi_app/models/derniere_offre_consultee.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
+import 'package:pass_emploi_app/models/offre_dto.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -30,7 +30,7 @@ class DerniereOffreConsulteeMiddleware extends MiddlewareClass<AppState> {
     if (action is DerniereOffreEmploiConsulteeWriteAction) {
       final offreEmploiDetailState = store.state.offreEmploiDetailsState;
       if (offreEmploiDetailState is OffreEmploiDetailsSuccessState) {
-        final offre = DerniereOffreEmploiConsultee(offreEmploiDetailState.offre.toOffreEmploi);
+        final offre = OffreEmploiDto(offreEmploiDetailState.offre.toOffreEmploi);
         await _repository.set(offre);
         store.dispatch(DerniereOffreConsulteeUpdateAction(offre));
       }
@@ -39,7 +39,7 @@ class DerniereOffreConsulteeMiddleware extends MiddlewareClass<AppState> {
     if (action is DerniereOffreImmersionConsulteeWriteAction) {
       final offreImmersionDetailState = store.state.immersionDetailsState;
       if (offreImmersionDetailState is ImmersionDetailsSuccessState) {
-        final offre = DerniereOffreImmersionConsultee(offreImmersionDetailState.immersion.toImmersion);
+        final offre = OffreImmersionDto(offreImmersionDetailState.immersion.toImmersion);
         await _repository.set(offre);
         store.dispatch(DerniereOffreConsulteeUpdateAction(offre));
       }
@@ -48,7 +48,7 @@ class DerniereOffreConsulteeMiddleware extends MiddlewareClass<AppState> {
     if (action is DerniereOffreServiceCiviqueConsulteeWriteAction) {
       final offreServiceCiviqueDetailState = store.state.serviceCiviqueDetailState;
       if (offreServiceCiviqueDetailState is ServiceCiviqueDetailSuccessState) {
-        final offre = DerniereOffreServiceCiviqueConsultee(offreServiceCiviqueDetailState.detail.toServiceCivique);
+        final offre = OffreServiceCiviqueDto(offreServiceCiviqueDetailState.detail.toServiceCivique);
         await _repository.set(offre);
         store.dispatch(DerniereOffreConsulteeUpdateAction(offre));
       }

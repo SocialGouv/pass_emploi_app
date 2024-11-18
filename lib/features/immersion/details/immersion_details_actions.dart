@@ -22,5 +22,3 @@ class ImmersionDetailsIncompleteDataAction {
 }
 
 class ImmersionDetailsFailureAction {}
-
-class ImmersionDetailsResetAction {}

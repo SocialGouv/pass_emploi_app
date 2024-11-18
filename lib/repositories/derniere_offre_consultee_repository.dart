@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:pass_emploi_app/models/derniere_offre_consultee.dart';
+import 'package:pass_emploi_app/models/offre_dto.dart';
 
 class DerniereOffreConsulteeRepository {
   static const _key = "derniere_offre_consultee";
@@ -10,13 +10,13 @@ class DerniereOffreConsulteeRepository {
 
   DerniereOffreConsulteeRepository(this.secureStorage);
 
-  Future<DerniereOffreConsultee?> get() async {
+  Future<OffreDto?> get() async {
     final result = await secureStorage.read(key: _key);
     if (result == null) return null;
-    return DerniereOffreConsultee.fromJson(json.decode(result));
+    return OffreDto.fromJson(json.decode(result));
   }
 
-  Future<void> set(DerniereOffreConsultee offre) async {
+  Future<void> set(OffreDto offre) async {
     final String serializedOffre = json.encode(offre);
     await secureStorage.write(key: _key, value: serializedOffre);
   }
