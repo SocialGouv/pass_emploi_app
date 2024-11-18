@@ -69,7 +69,6 @@ import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/models/user_action_type.dart';
 import 'package:pass_emploi_app/models/version.dart';
 import 'package:pass_emploi_app/presentation/immersion/immersion_contact_form_view_model.dart';
-import 'package:pass_emploi_app/presentation/offre_emploi/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 
 import '../features/campagne/campagne_test.dart';
@@ -179,7 +178,12 @@ OffreEmploiDetails mockOffreEmploiDetails({Origin? origin}) => OffreEmploiDetail
       origin: origin ?? FranceTravailOrigin(),
     );
 
-OffreEmploi mockOffreEmploi({String id = "123DXPM", bool isAlternance = false, String contractType = 'MIS'}) {
+OffreEmploi mockOffreEmploi({
+  String id = "123DXPM",
+  bool isAlternance = false,
+  String contractType = 'MIS',
+  Origin? origin,
+}) {
   return OffreEmploi(
     id: id,
     title: "Technicien / Technicienne en froid et climatisation",
@@ -188,22 +192,11 @@ OffreEmploi mockOffreEmploi({String id = "123DXPM", bool isAlternance = false, S
     isAlternance: isAlternance,
     location: "77 - LOGNES",
     duration: "Temps plein",
-    origin: FranceTravailOrigin(),
+    origin: origin,
   );
 }
 
 List<OffreEmploi> mockOffresEmploi10() => List.generate(10, (index) => mockOffreEmploi());
-
-OffreEmploiItemViewModel mockOffreEmploiItemViewModel({String id = '123DXPM'}) {
-  return OffreEmploiItemViewModel(
-    id: id,
-    title: 'Technicien / Technicienne en froid et climatisation',
-    companyName: 'RH TT INTERIM',
-    contractType: 'MIS',
-    duration: 'Temps plein',
-    location: '77 - LOGNES',
-  );
-}
 
 AuthTokenResponse authTokenResponse() => AuthTokenResponse(
       accessToken: 'accessToken',

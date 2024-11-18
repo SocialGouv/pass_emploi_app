@@ -12,7 +12,7 @@ import 'package:pass_emploi_app/widgets/pressed_tip.dart';
 
 class BaseCard extends StatelessWidget {
   final String title;
-  final CardTag? tag;
+  final Widget? tag;
   final CardPillule? pillule;
   final Widget? iconButton;
   final String? subtitle;

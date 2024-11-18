@@ -66,7 +66,7 @@ void main() {
               isAlternance: false,
               location: "75 - PARIS 10",
               duration: "Temps plein",
-              origin: null,
+              origin: FranceTravailOrigin(),
             ),
           );
           final offreWithoutLocation = result.results[3];
@@ -80,7 +80,7 @@ void main() {
               companyName: "SUPER TAXI",
               title: "Chauffeur / Chauffeuse de taxi (H/F)",
               isAlternance: false,
-              origin: null,
+              origin: PartenaireOrigin(name: "Indeed", logoUrl: "https://www.indeed.fr/logo.png"),
             ),
           );
         });
