@@ -11,7 +11,7 @@ class Drawables {
   static String badge = "${_assets}ic_badge$_svg";
 
   static String missionLocaleLogo = "${_assets}logo-mission-locale.webp";
-  static String poleEmploiLogo = "${_assets}logo-france-travail.webp";
+  static String franceTravailLogo = "${_assets}logo-france-travail.webp";
   static String diagorienteLogo = "${_assets}logo_diagoriente.webp";
 
   static String accueilOnboardingIllustration1 = "${_assets}onboarding/illustration_onboarding_1.webp";

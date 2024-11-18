@@ -15,6 +15,9 @@
         "nom": "75 - PARIS 10",
         "codePostal": "75010",
         "commune": "75110"
+      },
+      "origine": {
+        "nom": "France Travail"
       }
     },
     {
@@ -24,6 +27,9 @@
       "alternance": false,
       "localisation": {
         "nom": "75 - Paris (Dept.)"
+      },
+      "origine": {
+        "nom": "France Travail"
       }
     },
     {
@@ -33,6 +39,9 @@
       "alternance": false,
       "localisation": {
         "nom": "75 - Paris (Dept.)"
+      },
+      "origine": {
+        "nom": "France Travail"
       }
     },
     {
@@ -46,7 +55,11 @@
       },
       "typeContrat": "CDI",
       "nomEntreprise": "SUPER TAXI",
-      "titre": "Chauffeur / Chauffeuse de taxi (H/F)"
+      "titre": "Chauffeur / Chauffeuse de taxi (H/F)",
+      "origine": {
+        "nom": "Indeed",
+        "logo": "https://www.indeed.fr/logo.png"
+      }
     }
   ]
 }

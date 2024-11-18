@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/pages/offre_emploi/offre_emploi_filtres_page.dar
 import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/pages/recherche/recherche_offre_page.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi/offre_emploi_item_view_model.dart';
+import 'package:pass_emploi_app/presentation/offre_emploi/offre_emploi_origin_view_model.dart';
 import 'package:pass_emploi_app/presentation/recherche/actions_recherche_view_model.dart';
 import 'package:pass_emploi_app/presentation/recherche/bloc_resultat_recherche_view_model.dart';
 import 'package:pass_emploi_app/presentation/recherche/emploi/actions_recherche_emploi_view_model.dart';
@@ -15,6 +16,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/offre_emploi_alerte_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/cards/data_card.dart';
+import 'package:pass_emploi_app/widgets/offre_emploi_origin.dart';
 import 'package:pass_emploi_app/widgets/recherche/criteres_recherche_emploi_contenu.dart';
 import 'package:redux/redux.dart';
 
@@ -81,6 +83,7 @@ class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
   ) {
     final viewModel = OffreEmploiItemViewModel.create(item);
     return DataCard<OffreEmploi>(
+      tag: viewModel.originViewModel?.toWidget(),
       titre: viewModel.title,
       sousTitre: viewModel.companyName,
       lieu: viewModel.location,
@@ -93,5 +96,15 @@ class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
 
   void _showOffreDetailsPage(BuildContext context, String offreId) {
     Navigator.push(context, OffreEmploiDetailsPage.materialPageRoute(offreId, fromAlternance: onlyAlternance));
+  }
+}
+
+extension on OffreEmploiOriginViewModel {
+  OffreEmploiOrigin toWidget() {
+    return OffreEmploiOrigin(
+      label: name,
+      source: source,
+      size: OffreEmploiOriginSize.small,
+    );
   }
 }

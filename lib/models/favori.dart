@@ -47,6 +47,7 @@ extension FavoriExt on Favori {
         isAlternance: false,
         location: localisation,
         duration: null,
+        origin: null,
       );
 
   Immersion get toImmersion => Immersion(

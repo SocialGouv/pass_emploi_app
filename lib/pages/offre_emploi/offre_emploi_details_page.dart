@@ -33,6 +33,7 @@ import 'package:pass_emploi_app/widgets/external_link.dart';
 import 'package:pass_emploi_app/widgets/favori_heart.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 import 'package:pass_emploi_app/widgets/help_tooltip.dart';
+import 'package:pass_emploi_app/widgets/offre_emploi_origin.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/tags/tags.dart';
 import 'package:pass_emploi_app/widgets/title_section.dart';
@@ -82,15 +83,12 @@ class OffreEmploiDetailsPage extends StatelessWidget {
   }
 
   Widget _body(BuildContext context, OffreEmploiDetailsPageViewModel viewModel) {
-    switch (viewModel.displayState) {
-      case OffreEmploiDetailsPageDisplayState.SHOW_DETAILS:
-      case OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS:
-        return _content(context, viewModel);
-      case OffreEmploiDetailsPageDisplayState.SHOW_LOADER:
-        return _loading();
-      case OffreEmploiDetailsPageDisplayState.SHOW_ERROR:
-        return _error();
-    }
+    return switch (viewModel.displayState) {
+      OffreEmploiDetailsPageDisplayState.SHOW_DETAILS => _content(context, viewModel),
+      OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS => _content(context, viewModel),
+      OffreEmploiDetailsPageDisplayState.SHOW_LOADER => _loading(),
+      OffreEmploiDetailsPageDisplayState.SHOW_ERROR => _error()
+    };
   }
 
   Scaffold _scaffold(Widget body, BuildContext context) {
@@ -129,7 +127,15 @@ class OffreEmploiDetailsPage extends StatelessWidget {
                       style: TextStyles.textSRegular(),
                     ),
                   ),
-                _spacer(Margins.spacing_base),
+                SizedBox(height: Margins.spacing_s),
+                if (viewModel.originViewModel != null) ...[
+                  OffreEmploiOrigin(
+                    label: viewModel.originViewModel!.name,
+                    source: viewModel.originViewModel!.source,
+                    size: OffreEmploiOriginSize.medium,
+                  ),
+                  SizedBox(height: Margins.spacing_s),
+                ],
                 if (title != null)
                   Padding(
                     padding: const EdgeInsets.only(bottom: Margins.spacing_m),
@@ -150,7 +156,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
                 ],
                 if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_DETAILS)
                   _PartageOffre(isAlternance: _fromAlternance),
-                _spacer(Margins.spacing_l),
+                SizedBox(height: Margins.spacing_l),
                 if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_DETAILS) _description(viewModel),
                 if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_DETAILS)
                   _profileDescription(viewModel),
@@ -158,7 +164,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
                   if (viewModel.companyName != null) _companyDescription(viewModel),
                 if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS)
                   FavoriNotFoundError(),
-                _spacer(60),
+                SizedBox(height: 60),
               ],
             ),
           ),
@@ -225,7 +231,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _descriptionTitle(title: Strings.offreDetailsTitle),
-        _spacer(Margins.spacing_m),
+        SizedBox(height: Margins.spacing_m),
         ...paragraphs.map((paragraph) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -234,7 +240,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
             ],
           );
         }),
-        _spacer(Margins.spacing_l),
+        SizedBox(height: Margins.spacing_l),
       ],
     );
   }
@@ -250,9 +256,9 @@ class OffreEmploiDetailsPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _descriptionTitle(title: Strings.profileTitle),
-        _spacer(Margins.spacing_m),
+        SizedBox(height: Margins.spacing_m),
         Text(Strings.experienceTitle, style: TextStyles.textBaseBold),
-        _spacer(Margins.spacing_base),
+        SizedBox(height: Margins.spacing_base),
         if (experience != null) _setRequiredElement(element: experience, criteria: viewModel.requiredExperience),
         SepLine(Margins.spacing_m, Margins.spacing_m),
         if (skills != null) skills,
@@ -273,17 +279,15 @@ class OffreEmploiDetailsPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _descriptionTitle(title: Strings.companyTitle),
-        _spacer(Margins.spacing_m),
+        SizedBox(height: Margins.spacing_m),
         if (companyName != null) _companyName(companyName: companyName, companyUrl: viewModel.companyUrl),
         if (companyAdapted) _blueTag(tagTitle: Strings.companyAdaptedTitle),
         if (companyAccessibility) _blueTag(tagTitle: Strings.companyAccessibilityTitle),
-        _spacer(Margins.spacing_m),
+        SizedBox(height: Margins.spacing_m),
         if (companyDescription != null) _companyDescriptionBlock(content: companyDescription),
       ],
     );
   }
-
-  Widget _spacer(double height) => SizedBox(height: height);
 
   Widget _descriptionTitle({required String title}) {
     return TitleSection(label: title);
@@ -292,7 +296,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
   Widget _companyDescriptionBlock({required String content}) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(Strings.companyDescriptionTitle, style: TextStyles.textBaseBold),
-      _spacer(Margins.spacing_base),
+      SizedBox(height: Margins.spacing_base),
       Text(content, style: TextStyles.textSRegular()),
       SepLine(Margins.spacing_base, Margins.spacing_m),
     ]);
@@ -304,7 +308,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(Strings.skillsTitle, style: TextStyles.textBaseBold),
-        _spacer(Margins.spacing_base),
+        SizedBox(height: Margins.spacing_base),
         for (final skill in skills) _setRequiredElement(element: skill.description, criteria: skill.requirement),
         SepLine(Margins.spacing_m, Margins.spacing_m),
       ],
@@ -317,7 +321,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(Strings.softSkillsTitle, style: TextStyles.textBaseBold),
-        _spacer(Margins.spacing_base),
+        SizedBox(height: Margins.spacing_base),
         for (final soft in softSkills)
           Padding(
             padding: const EdgeInsets.only(bottom: Margins.spacing_m),
@@ -334,7 +338,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(Strings.educationTitle, style: TextStyles.textBaseBold),
-        _spacer(Margins.spacing_base),
+        SizedBox(height: Margins.spacing_base),
         for (final education in educations)
           _setRequiredElement(element: education.label, criteria: education.requirement),
         SepLine(Margins.spacing_m, Margins.spacing_m),
@@ -348,7 +352,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(Strings.languageTitle, style: TextStyles.textBaseBold),
-        _spacer(Margins.spacing_base),
+        SizedBox(height: Margins.spacing_base),
         for (final language in languages) _setRequiredElement(element: language.type, criteria: language.requirement),
         SepLine(Margins.spacing_m, Margins.spacing_m),
       ],
@@ -361,7 +365,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(Strings.driverLicenceTitle, style: TextStyles.textBaseBold),
-        _spacer(Margins.spacing_base),
+        SizedBox(height: Margins.spacing_base),
         for (final licence in driverLicences)
           _setRequiredElement(element: licence.category, criteria: licence.requirement),
         SepLine(Margins.spacing_m, Margins.spacing_m),
@@ -373,7 +377,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _spacer(Margins.spacing_base),
+        SizedBox(height: Margins.spacing_base),
         DataTag(label: tagTitle),
       ],
     );
@@ -509,7 +513,9 @@ class _PartageOffre extends StatelessWidget {
       width: double.infinity,
       child: SecondaryButton(
         onPressed: () => ChatPartageBottomSheet.show(
-            context, ChatPartageOffreEmploiSource(isAlternance ? OffreType.alternance : OffreType.emploi)),
+          context,
+          ChatPartageOffreEmploiSource(isAlternance ? OffreType.alternance : OffreType.emploi),
+        ),
         label: Strings.partagerOffreConseiller,
       ),
     );

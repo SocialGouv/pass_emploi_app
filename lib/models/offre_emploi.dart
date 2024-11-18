@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 
 class OffreEmploi extends Equatable {
   final String id;
@@ -8,6 +9,7 @@ class OffreEmploi extends Equatable {
   final bool isAlternance;
   final String? location;
   final String? duration;
+  final Origin? origin;
 
   OffreEmploi({
     required this.id,
@@ -17,6 +19,7 @@ class OffreEmploi extends Equatable {
     required this.isAlternance,
     required this.location,
     required this.duration,
+    required this.origin,
   });
 
   factory OffreEmploi.fromJson(dynamic json) {
@@ -28,11 +31,48 @@ class OffreEmploi extends Equatable {
       isAlternance: json['alternance'] as bool,
       location: _getLocation(json),
       duration: json["duree"] as String?,
+      origin: Origin.fromJson(json),
     );
   }
 
   @override
-  List<Object?> get props => [id, title, companyName, contractType, isAlternance, location, duration];
+  List<Object?> get props => [
+        id,
+        title,
+        companyName,
+        contractType,
+        isAlternance,
+        location,
+        duration,
+        origin,
+      ];
+}
+
+sealed class Origin extends Equatable {
+  static Origin? fromJson(dynamic json) {
+    final origin = json["origine"];
+    if (origin == null) return null;
+    if (origin["nom"] == Strings.franceTravail) return FranceTravailOrigin();
+    return PartenaireOrigin(
+      name: origin["nom"] as String,
+      logoUrl: origin["logo"] as String,
+    );
+  }
+}
+
+class PartenaireOrigin extends Origin {
+  final String name;
+  final String logoUrl;
+
+  PartenaireOrigin({required this.name, required this.logoUrl});
+
+  @override
+  List<Object?> get props => [name, logoUrl];
+}
+
+class FranceTravailOrigin extends Origin {
+  @override
+  List<Object?> get props => [];
 }
 
 String? _getLocation(dynamic json) {

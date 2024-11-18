@@ -97,5 +97,6 @@ OffreEmploi _incompleteOffre() {
     isAlternance: false,
     location: 'l',
     duration: null,
+    origin: null,
   );
 }

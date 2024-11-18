@@ -44,12 +44,12 @@ extension on User {
     return switch (accompagnement) {
       Accompagnement.cej => switch (loginMode) {
           LoginMode.MILO => Strings.milo,
-          LoginMode.POLE_EMPLOI => Strings.poleEmploi,
+          LoginMode.POLE_EMPLOI => Strings.franceTravail,
           _ => '',
         },
-      Accompagnement.rsaFranceTravail => '${Strings.poleEmploi} - RSA',
+      Accompagnement.rsaFranceTravail => '${Strings.franceTravail} - RSA',
       Accompagnement.rsaConseilsDepartementaux => '${Strings.contactConseilsDepartementaux} - RSA',
-      Accompagnement.aij => '${Strings.poleEmploi} - AIJ',
+      Accompagnement.aij => '${Strings.franceTravail} - AIJ',
     };
   }
 }

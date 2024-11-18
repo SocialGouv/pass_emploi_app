@@ -73,7 +73,7 @@ class Strings {
 
   // Login mode
   static const String milo = "Mission Locale";
-  static const String poleEmploi = "France Travail";
+  static const String franceTravail = "France Travail";
 
   // Menu
   static String menuAccueil = "Accueil";
@@ -1037,6 +1037,8 @@ class Strings {
       "Vous pouvez décider de la supprimer ou bien de la conserver dans vos offres enregistrées.";
   static String deleteOffreFromFavori = "Supprimer des offres enregistrées";
   static String interim = "Intérim";
+
+  static String origin(String label) => "Source : $label";
 
   // Favoris
   static String mesFavorisPageTitle = "Mes offres enregistrées";

@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
+import 'package:pass_emploi_app/presentation/offre_emploi/offre_emploi_origin_view_model.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 
 const String _missionInterimCode = 'MIS';
@@ -11,6 +12,7 @@ class OffreEmploiItemViewModel extends Equatable {
   final String contractType;
   final String? duration;
   final String? location;
+  final OffreEmploiOriginViewModel? originViewModel;
 
   OffreEmploiItemViewModel({
     required this.id,
@@ -19,6 +21,7 @@ class OffreEmploiItemViewModel extends Equatable {
     required this.contractType,
     required this.duration,
     required this.location,
+    required this.originViewModel,
   });
 
   factory OffreEmploiItemViewModel.create(OffreEmploi offre) {
@@ -29,6 +32,7 @@ class OffreEmploiItemViewModel extends Equatable {
       contractType: _contractType(offre),
       duration: offre.duration,
       location: offre.location,
+      originViewModel: OffreEmploiOriginViewModel.from(offre.origin),
     );
   }
 
@@ -40,6 +44,7 @@ class OffreEmploiItemViewModel extends Equatable {
         contractType,
         location,
         duration,
+        originViewModel,
       ];
 }
 

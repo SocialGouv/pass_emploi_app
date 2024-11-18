@@ -7,8 +7,8 @@ import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_tag.dart';
 import 'package:pass_emploi_app/widgets/favori_heart.dart';
 
 class DataCard<T> extends StatelessWidget {
-  final String? category;
   final String titre;
+  final String? category;
   final String? sousTitre;
   final String? lieu;
   final String? date;
@@ -16,6 +16,7 @@ class DataCard<T> extends StatelessWidget {
   final VoidCallback onTap;
   final String? id;
   final OffrePage? from;
+  final Widget? tag;
   final Widget? additionalChild;
 
   const DataCard({
@@ -29,6 +30,7 @@ class DataCard<T> extends StatelessWidget {
     this.id,
     this.from,
     this.category,
+    this.tag,
     this.additionalChild,
   });
 
@@ -42,6 +44,7 @@ class DataCard<T> extends StatelessWidget {
             onTap: onTap,
             title: titre,
             subtitle: sousTitre,
+            tag: tag,
             complements: [
               if (lieu != null && lieu!.isNotEmpty) CardComplement.place(text: lieu!),
               if (date != null && date!.isNotEmpty) CardComplement.date(text: date!),

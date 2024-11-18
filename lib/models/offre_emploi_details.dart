@@ -25,6 +25,7 @@ class OffreEmploiDetails extends Equatable {
   final List<Skill>? skills;
   final List<String>? softSkills;
   final List<DriverLicence>? driverLicences;
+  final Origin? origin;
 
   OffreEmploiDetails({
     required this.id,
@@ -49,6 +50,7 @@ class OffreEmploiDetails extends Equatable {
     required this.companyAccessibility,
     required this.isAlternance,
     required this.requiredExperience,
+    required this.origin,
   });
 
   factory OffreEmploiDetails.fromJson(Map<String, dynamic> json, String urlRedirectPourPostulation) {
@@ -75,6 +77,7 @@ class OffreEmploiDetails extends Equatable {
       companyAdapted: json["entreprise"]?["entrepriseAdaptee"] as bool?,
       companyAccessibility: json["accessibleTH"] as bool,
       isAlternance: json["alternance"] as bool? ?? false,
+      origin: Origin.fromJson(json),
     );
   }
 
@@ -101,6 +104,7 @@ class OffreEmploiDetails extends Equatable {
         skills,
         softSkills,
         driverLicences,
+        origin,
       ];
 }
 
@@ -255,5 +259,6 @@ extension OffreEmploiDetailsExt on OffreEmploiDetails {
         isAlternance: isAlternance,
         location: location,
         duration: duration,
+        origin: origin,
       );
 }
