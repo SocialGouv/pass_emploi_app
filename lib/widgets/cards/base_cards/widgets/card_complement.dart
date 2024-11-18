@@ -11,8 +11,14 @@ class CardComplement extends StatelessWidget {
   final Color? color;
   final bool bold;
   final IconData icon;
+  final String? semanticsReplacement;
 
-  const CardComplement({required this.text, required this.icon, this.color = AppColors.grey800, this.bold = false});
+  const CardComplement(
+      {required this.text,
+      required this.icon,
+      this.color = AppColors.grey800,
+      this.bold = false,
+      this.semanticsReplacement});
 
   factory CardComplement.place({required String text}) => CardComplement(
         text: text,
@@ -37,29 +43,38 @@ class CardComplement extends StatelessWidget {
   const CardComplement.dateLate({required this.text})
       : icon = AppIcons.event,
         color = AppColors.warning,
-        bold = true;
+        bold = true,
+        semanticsReplacement = null;
 
   CardComplement.dateDerniereConsultation(DateTime date)
       : text = Strings.offreLastSeen(date),
         icon = AppIcons.visibility_outlined,
         color = AppColors.grey800,
-        bold = false;
+        bold = false,
+        semanticsReplacement = Strings.offreLastSeenA11y(date);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(icon, size: Dimens.icon_size_base, color: color),
-        SizedBox(width: Margins.spacing_xs),
-        Flexible(
-            fit: FlexFit.loose,
-            child: Text(
-              text,
-              style: (bold ? TextStyles.textXsBold() : TextStyles.textXsRegular()).copyWith(color: color),
-            ))
-      ],
+    return Semantics(
+      label: semanticsReplacement ?? text,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(icon, size: Dimens.icon_size_base, color: color),
+          SizedBox(width: Margins.spacing_xs),
+          ExcludeSemantics(
+            excluding: semanticsReplacement != null,
+            child: Flexible(
+              fit: FlexFit.loose,
+              child: Text(
+                text,
+                style: (bold ? TextStyles.textXsBold() : TextStyles.textXsRegular()).copyWith(color: color),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
