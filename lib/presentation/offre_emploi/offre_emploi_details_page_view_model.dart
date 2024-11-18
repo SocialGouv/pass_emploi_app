@@ -2,10 +2,14 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/date_consultation_offre/date_derniere_consultation_store_extension.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
+import 'package:pass_emploi_app/models/image_path.dart';
 import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
+import 'package:pass_emploi_app/presentation/offre_emploi/offre_emploi_origin_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:redux/redux.dart';
 
@@ -31,6 +35,7 @@ class OffreEmploiDetailsPageViewModel {
   final bool? companyAccessibility;
   final String? companyDescription;
   final String? lastUpdate;
+  final OffreEmploiOriginViewModel? originViewModel;
   final List<Skill>? skills;
   final List<String>? softSkills;
   final List<EducationViewModel>? educations;
@@ -57,6 +62,7 @@ class OffreEmploiDetailsPageViewModel {
     this.companyAccessibility,
     this.companyDescription,
     this.lastUpdate,
+    this.originViewModel,
     this.skills,
     this.softSkills,
     this.educations,
@@ -135,6 +141,7 @@ OffreEmploiDetailsPageViewModel _viewModelFromDetails(
     companyAccessibility: offreDetails?.companyAccessibility,
     companyDescription: offreDetails?.companyDescription,
     lastUpdate: offreDetails?.lastUpdate?.toDayWithFullMonth(),
+    originViewModel: _originViewModel(offreDetails?.origin),
     skills: offreDetails?.skills,
     softSkills: offreDetails?.softSkills,
     educations: offreDetails?.educations?.map((e) => _toViewModel(e)).toList(),
@@ -169,4 +176,15 @@ OffreEmploiDetailsPageViewModel _viewModelForOtherCases(
     displayState: _displayState(state),
     shouldShowCvBottomSheet: loginMode.isPe(),
   );
+}
+
+OffreEmploiOriginViewModel? _originViewModel(Origin? origin) {
+  return switch (origin) {
+    final PartenaireOrigin origin => OffreEmploiOriginViewModel(origin.name, NetworkImagePath(origin.logoUrl)),
+    FranceTravailOrigin() => OffreEmploiOriginViewModel(
+        Strings.franceTravail,
+        AssetsImagePath(Drawables.franceTravailLogo),
+      ),
+    null => null,
+  };
 }

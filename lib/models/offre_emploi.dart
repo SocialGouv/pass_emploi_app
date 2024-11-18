@@ -53,18 +53,21 @@ sealed class Origin extends Equatable {
     final origin = json["origine"];
     if (origin == null) return null;
     if (origin["nom"] == Strings.franceTravail) return FranceTravailOrigin();
-    return PartenaireOrigin(origin["nom"] as String, origin["logo"] as String);
+    return PartenaireOrigin(
+      name: origin["nom"] as String,
+      logoUrl: origin["logo"] as String,
+    );
   }
 }
 
 class PartenaireOrigin extends Origin {
   final String name;
-  final String logo;
+  final String logoUrl;
 
-  PartenaireOrigin(this.name, this.logo);
+  PartenaireOrigin({required this.name, required this.logoUrl});
 
   @override
-  List<Object?> get props => [name, logo];
+  List<Object?> get props => [name, logoUrl];
 }
 
 class FranceTravailOrigin extends Origin {

@@ -1,5 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/models/image_path.dart';
+import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi/offre_emploi_details_page_view_model.dart';
+import 'package:pass_emploi_app/presentation/offre_emploi/offre_emploi_origin_view_model.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../dsl/app_state_dsl.dart';
@@ -68,8 +71,10 @@ void main() {
   test("getDetails when state is incomplete data should set display state properly and convert data to view model", () {
     // Given
     final offreEmploi = mockOffreEmploi();
-    final store =
-        givenState().loggedInPoleEmploiUser().offreEmploiDetailsIncompleteData(offreEmploi: offreEmploi).store();
+    final store = givenState() //
+        .loggedInPoleEmploiUser()
+        .offreEmploiDetailsIncompleteData(offreEmploi: offreEmploi)
+        .store();
 
     // When
     final viewModel = OffreEmploiDetailsPageViewModel.create(store);
@@ -120,6 +125,57 @@ void main() {
 
       // Then
       expect(viewModel.shouldShowCvBottomSheet, true);
+    });
+  });
+
+  group("origin", () {
+    test('when origin is France Travail', () {
+      // Given
+      final store = givenState() //
+          .loggedInPoleEmploiUser()
+          .offreEmploiDetailsSuccess(
+            offreEmploiDetails: mockOffreEmploiDetails(origin: FranceTravailOrigin()),
+          )
+          .store();
+
+      // When
+      final viewModel = OffreEmploiDetailsPageViewModel.create(store);
+
+      // Then
+      expect(
+        viewModel.originViewModel,
+        OffreEmploiOriginViewModel(
+          "France Travail",
+          AssetsImagePath("assets/logo-france-travail.webp"),
+        ),
+      );
+    });
+
+    test('when origin is partenaire', () {
+      // Given
+      final store = givenState() //
+          .loggedInPoleEmploiUser()
+          .offreEmploiDetailsSuccess(
+            offreEmploiDetails: mockOffreEmploiDetails(
+              origin: PartenaireOrigin(
+                name: "Indeed",
+                logoUrl: "http://logo-indeed.jpg",
+              ),
+            ),
+          )
+          .store();
+
+      // When
+      final viewModel = OffreEmploiDetailsPageViewModel.create(store);
+
+      // Then
+      expect(
+        viewModel.originViewModel,
+        OffreEmploiOriginViewModel(
+          "Indeed",
+          NetworkImagePath("http://logo-indeed.jpg"),
+        ),
+      );
     });
   });
 }

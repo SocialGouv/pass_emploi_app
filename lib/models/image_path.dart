@@ -1,13 +1,21 @@
-sealed class ImagePath {}
+import 'package:equatable/equatable.dart';
+
+sealed class ImagePath extends Equatable {}
 
 class NetworkImagePath extends ImagePath {
   final String url;
 
   NetworkImagePath(this.url);
+
+  @override
+  List<Object?> get props => [url];
 }
 
-class AssetImagePath extends ImagePath {
+class AssetsImagePath extends ImagePath {
   final String path;
 
-  AssetImagePath(this.path);
+  AssetsImagePath(this.path);
+
+  @override
+  List<Object?> get props => [path];
 }

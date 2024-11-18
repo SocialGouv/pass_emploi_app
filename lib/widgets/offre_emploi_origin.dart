@@ -27,7 +27,7 @@ class OffreEmploiOrigin extends StatelessWidget {
         ExcludeSemantics(
           child: switch (path) {
             final NetworkImagePath networkPath => _NetworkImage(networkPath.url, size),
-            final AssetImagePath assetPath => _AssetsImage(assetPath.path, size),
+            final AssetsImagePath assetPath => _AssetsImage(assetPath.path, size),
           },
         ),
         SizedBox(width: Margins.spacing_s),

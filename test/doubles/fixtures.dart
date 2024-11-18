@@ -138,7 +138,7 @@ AppState loggedInMiloState() => AppState.initialState().copyWith(loginState: suc
 
 AppState loggedInPoleEmploiState() => AppState.initialState().copyWith(loginState: successPoleEmploiCejUserState());
 
-OffreEmploiDetails mockOffreEmploiDetails() => OffreEmploiDetails(
+OffreEmploiDetails mockOffreEmploiDetails({Origin? origin}) => OffreEmploiDetails(
       id: "123TZKB",
       title: "Technicien / Technicienne d'installation de réseaux câblés  (H/F)",
       urlRedirectPourPostulation: "https://candidat.pole-emploi.fr/offres/recherche/detail/123TZKB",
@@ -176,7 +176,7 @@ OffreEmploiDetails mockOffreEmploiDetails() => OffreEmploiDetails(
       softSkills: ["Autonomie", "Capacité de décision", "Persévérance"],
       lastUpdate: parseDateTimeUtcWithCurrentTimeZone("2021-11-22T14:47:29.000Z"),
       isAlternance: false,
-      origin: FranceTravailOrigin(),
+      origin: origin ?? FranceTravailOrigin(),
     );
 
 OffreEmploi mockOffreEmploi({String id = "123DXPM", bool isAlternance = false, String contractType = 'MIS'}) {
