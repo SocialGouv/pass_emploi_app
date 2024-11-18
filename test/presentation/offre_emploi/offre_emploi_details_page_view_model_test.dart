@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/models/image_path.dart';
+import 'package:pass_emploi_app/models/image_source.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi/offre_emploi_details_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi/offre_emploi_origin_view_model.dart';
@@ -146,7 +146,7 @@ void main() {
         viewModel.originViewModel,
         OffreEmploiOriginViewModel(
           "France Travail",
-          AssetsImagePath("assets/logo-france-travail.webp"),
+          AssetsImageSource("assets/logo-france-travail.webp"),
         ),
       );
     });
@@ -173,7 +173,7 @@ void main() {
         viewModel.originViewModel,
         OffreEmploiOriginViewModel(
           "Indeed",
-          NetworkImagePath("http://logo-indeed.jpg"),
+          NetworkImageSource("http://logo-indeed.jpg"),
         ),
       );
     });

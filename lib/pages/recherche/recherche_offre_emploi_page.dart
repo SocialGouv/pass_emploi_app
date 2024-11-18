@@ -103,7 +103,7 @@ extension on OffreEmploiOriginViewModel {
   OffreEmploiOrigin toWidget() {
     return OffreEmploiOrigin(
       label: name,
-      path: imagePath,
+      source: source,
       size: OffreEmploiOriginSize.small,
     );
   }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/models/image_path.dart';
+import 'package:pass_emploi_app/models/image_source.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -10,12 +10,12 @@ enum OffreEmploiOriginSize { small, medium }
 
 class OffreEmploiOrigin extends StatelessWidget {
   final String label;
-  final ImagePath path;
+  final ImageSource source;
   final OffreEmploiOriginSize size;
 
   const OffreEmploiOrigin({
     required this.label,
-    required this.path,
+    required this.source,
     required this.size,
   });
 
@@ -25,9 +25,9 @@ class OffreEmploiOrigin extends StatelessWidget {
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         ExcludeSemantics(
-          child: switch (path) {
-            final NetworkImagePath networkPath => _NetworkImage(networkPath.url, size),
-            final AssetsImagePath assetPath => _AssetsImage(assetPath.path, size),
+          child: switch (source) {
+            final NetworkImageSource networkPath => _NetworkImage(networkPath.url, size),
+            final AssetsImageSource assetPath => _AssetsImage(assetPath.path, size),
           },
         ),
         SizedBox(width: Margins.spacing_s),

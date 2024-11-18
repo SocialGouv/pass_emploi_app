@@ -131,7 +131,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
                 if (viewModel.originViewModel != null) ...[
                   OffreEmploiOrigin(
                     label: viewModel.originViewModel!.name,
-                    path: viewModel.originViewModel!.imagePath,
+                    source: viewModel.originViewModel!.source,
                     size: OffreEmploiOriginSize.medium,
                   ),
                   SizedBox(height: Margins.spacing_s),
