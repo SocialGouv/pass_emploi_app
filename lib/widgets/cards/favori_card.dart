@@ -73,13 +73,13 @@ class FavoriCard<T> extends StatelessWidget {
           return BaseCard(
             onTap: onTap,
             title: title,
+            subtitle: company,
             tag: offreType.toCardTag(),
             iconButton: specialAction,
             complements: [
               if (place != null) CardComplement.place(text: place!),
               if (dateDerniereConsultation != null) CardComplement.dateDerniereConsultation(dateDerniereConsultation),
             ],
-            secondaryTags: [if (company != null) CardTag.secondary(text: company!)],
           );
         });
   }
