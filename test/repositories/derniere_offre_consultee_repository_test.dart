@@ -10,7 +10,7 @@ void main() {
   late DerniereOffreConsulteeRepository repository;
 
   setUp(() {
-    secureStorage = FlutterSecureStorageSpy(delay: Duration.zero);
+    secureStorage = FlutterSecureStorageSpy();
     repository = DerniereOffreConsulteeRepository(secureStorage);
   });
 
