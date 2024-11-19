@@ -13,7 +13,7 @@ import 'package:pass_emploi_app/widgets/cards/base_cards/base_card.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_complement.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_tag.dart';
 import 'package:pass_emploi_app/widgets/offre_emploi_origin.dart';
-import 'package:pass_emploi_app/widgets/tags/tags.dart';
+import 'package:pass_emploi_app/widgets/tags/data_tag.dart';
 import 'package:pass_emploi_app/widgets/textes.dart';
 
 class DerniereOffreConsulteeSection extends StatelessWidget {

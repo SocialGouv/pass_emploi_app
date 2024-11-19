@@ -21,7 +21,7 @@ import 'package:pass_emploi_app/widgets/cards/base_cards/base_card.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_complement.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_tag.dart';
 import 'package:pass_emploi_app/widgets/dashed_box.dart';
-import 'package:pass_emploi_app/widgets/tags/tags.dart';
+import 'package:pass_emploi_app/widgets/tags/data_tag.dart';
 import 'package:pass_emploi_app/widgets/textes.dart';
 
 class AccueilFavoris extends StatelessWidget {

@@ -36,7 +36,7 @@ import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 import 'package:pass_emploi_app/widgets/help_tooltip.dart';
 import 'package:pass_emploi_app/widgets/offre_emploi_origin.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
-import 'package:pass_emploi_app/widgets/tags/tags.dart';
+import 'package:pass_emploi_app/widgets/tags/data_tag.dart';
 import 'package:pass_emploi_app/widgets/title_section.dart';
 
 class OffreEmploiDetailsPage extends StatelessWidget {
