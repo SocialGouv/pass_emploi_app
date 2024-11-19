@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
+import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 
 class OffreDetailsResponse<T> {
@@ -25,9 +26,10 @@ class OffreEmploiDetailsRepository {
         return OffreDetailsResponse(
           isGenericFailure: false,
           isOffreNotFound: false,
-          details: OffreEmploiDetails.fromJson(
+          details: OffreEmploiDetails.from(
             json["data"] as Map<String, dynamic>,
             json["urlRedirectPourPostulation"] as String,
+            Origin.fromJson(json),
           ),
         );
       }

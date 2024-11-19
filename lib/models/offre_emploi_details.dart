@@ -53,7 +53,7 @@ class OffreEmploiDetails extends Equatable {
     required this.origin,
   });
 
-  factory OffreEmploiDetails.fromJson(Map<String, dynamic> json, String urlRedirectPourPostulation) {
+  factory OffreEmploiDetails.from(Map<String, dynamic> json, String urlRedirectPourPostulation, Origin? origin) {
     return OffreEmploiDetails(
       id: json["id"] as String,
       title: json["intitule"] as String,
@@ -77,7 +77,7 @@ class OffreEmploiDetails extends Equatable {
       companyAdapted: json["entreprise"]?["entrepriseAdaptee"] as bool?,
       companyAccessibility: json["accessibleTH"] as bool,
       isAlternance: json["alternance"] as bool? ?? false,
-      origin: Origin.fromJson(json),
+      origin: origin,
     );
   }
 
