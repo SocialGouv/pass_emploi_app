@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/offre_dto.dart';
 import 'package:pass_emploi_app/models/offre_type.dart';
+import 'package:pass_emploi_app/presentation/offre_emploi/offre_emploi_origin_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
@@ -10,6 +11,7 @@ class DerniereOffreConsulteeViewModel extends Equatable {
   final OffreType type;
   final String? organisation;
   final String? localisation;
+  final OffreEmploiOriginViewModel? originViewModel;
 
   DerniereOffreConsulteeViewModel({
     required this.id,
@@ -17,6 +19,7 @@ class DerniereOffreConsulteeViewModel extends Equatable {
     required this.type,
     required this.organisation,
     this.localisation,
+    this.originViewModel,
   });
 
   static DerniereOffreConsulteeViewModel create(Store<AppState> store) {
@@ -57,11 +60,15 @@ class DerniereOffreConsulteeViewModel extends Equatable {
         final OffreImmersionDto offreDto => offreDto.immersion.ville,
         final OffreServiceCiviqueDto offreDto => offreDto.serviceCivique.location,
       },
+      originViewModel: switch (offre) {
+        final OffreEmploiDto offreDto => OffreEmploiOriginViewModel.from(offreDto.offreEmploi.origin),
+        _ => null,
+      },
     );
   }
 
   bool get isEmpty => id.isEmpty;
 
   @override
-  List<Object?> get props => [id, titre, type, organisation, localisation];
+  List<Object?> get props => [id, titre, type, organisation, localisation, originViewModel];
 }

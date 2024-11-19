@@ -44,6 +44,7 @@ class OffreEmploi extends Equatable {
       "alternance": isAlternance,
       "localisation": {"nom": location},
       "duree": duration,
+      if (origin != null) "origine": origin!.toJson(),
     };
   }
 
@@ -69,6 +70,13 @@ sealed class Origin extends Equatable {
       name: origin["nom"] as String,
       logoUrl: origin["logo"] as String,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return switch (this) {
+      FranceTravailOrigin() => {"nom": Strings.franceTravail},
+      final PartenaireOrigin origin => {"nom": origin.name, "logo": origin.logoUrl},
+    };
   }
 }
 
