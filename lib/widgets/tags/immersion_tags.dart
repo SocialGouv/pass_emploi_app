@@ -11,8 +11,8 @@ class ImmersionTags extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Wrap(
-      spacing: Margins.spacing_base,
-      runSpacing: Margins.spacing_base,
+      spacing: Margins.spacing_s,
+      runSpacing: Margins.spacing_s,
       children: [
         DataTag(label: secteurActivite),
         DataTag.location(ville),

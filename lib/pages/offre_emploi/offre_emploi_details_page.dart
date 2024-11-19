@@ -192,29 +192,23 @@ class OffreEmploiDetailsPage extends StatelessWidget {
     final contractType = viewModel.contractType;
     final salary = viewModel.salary;
     final duration = viewModel.duration;
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      if (location != null)
-        Padding(
-          padding: const EdgeInsets.only(bottom: Margins.spacing_base),
-          child: DataTag.location(location),
-        ),
-      if (contractType != null)
-        Padding(
-          padding: const EdgeInsets.only(bottom: Margins.spacing_base),
-          child: DataTag.contractType(contractType),
-        ),
-      if (salary != null)
-        Padding(
-          padding: const EdgeInsets.only(bottom: Margins.spacing_base),
-          child: DataTag(
-              label: salary, iconSemantics: IconWithSemantics(AppIcons.euro_rounded, Strings.iconAlternativeSalary)),
-        ),
-      if (duration != null)
-        Padding(
-          padding: const EdgeInsets.only(bottom: Margins.spacing_base),
-          child: DataTag.duration(duration),
-        ),
-    ]);
+    return Padding(
+      padding: const EdgeInsets.only(bottom: Margins.spacing_base),
+      child: Wrap(
+        spacing: Margins.spacing_s,
+        runSpacing: Margins.spacing_s,
+        children: [
+          if (location != null) DataTag.location(location),
+          if (contractType != null) DataTag.contractType(contractType),
+          if (salary != null)
+            DataTag(
+              label: salary,
+              iconSemantics: IconWithSemantics(AppIcons.euro_rounded, Strings.iconAlternativeSalary),
+            ),
+          if (duration != null) DataTag.duration(duration),
+        ],
+      ),
+    );
   }
 
   Widget _description(OffreEmploiDetailsPageViewModel viewModel) {
