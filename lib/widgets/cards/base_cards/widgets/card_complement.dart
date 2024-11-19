@@ -63,10 +63,10 @@ class CardComplement extends StatelessWidget {
         children: [
           Icon(icon, size: Dimens.icon_size_base, color: color),
           SizedBox(width: Margins.spacing_xs),
-          ExcludeSemantics(
-            excluding: semanticsReplacement != null,
-            child: Flexible(
-              fit: FlexFit.loose,
+          Flexible(
+            fit: FlexFit.loose,
+            child: ExcludeSemantics(
+              excluding: semanticsReplacement != null,
               child: Text(
                 text,
                 style: (bold ? TextStyles.textXsBold() : TextStyles.textXsRegular()).copyWith(color: color),
