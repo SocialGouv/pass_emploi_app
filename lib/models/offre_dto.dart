@@ -6,16 +6,12 @@ import 'package:pass_emploi_app/models/service_civique.dart';
 sealed class OffreDto extends Equatable {
   static OffreDto fromJson(dynamic json) {
     final String type = json['type'] as String;
-    switch (type) {
-      case 'offre_emploi':
-        return OffreEmploiDto(OffreEmploi.fromJson(json['data']));
-      case 'immersion':
-        return OffreImmersionDto(Immersion.fromJson(json['data']));
-      case 'service_civique':
-        return OffreServiceCiviqueDto(ServiceCivique.fromJson(json['data']));
-      default:
-        throw Exception('Unknown type $type');
-    }
+    return switch (type) {
+      'offre_emploi' => OffreEmploiDto(OffreEmploi.fromJson(json['data'])),
+      'immersion' => OffreImmersionDto(Immersion.fromJson(json['data'])),
+      'service_civique' => OffreServiceCiviqueDto(ServiceCivique.fromJson(json['data'])),
+      _ => throw Exception('Unknown type $type')
+    };
   }
 
   Map<String, dynamic> toJson() {
