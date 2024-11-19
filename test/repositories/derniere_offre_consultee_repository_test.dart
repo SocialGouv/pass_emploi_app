@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/offre_dto.dart';
+import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/repositories/derniere_offre_consultee_repository.dart';
 
 import '../doubles/fixtures.dart';
@@ -17,7 +18,7 @@ void main() {
   group('offre emploi', () {
     test('should set and get', () async {
       // Given
-      final offre = OffreEmploiDto(mockOffreEmploi());
+      final offre = OffreEmploiDto(mockOffreEmploi(origin: PartenaireOrigin(name: 'Indeed', logoUrl: 'url')));
       await repository.set(offre);
 
       // When

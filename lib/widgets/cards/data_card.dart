@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/widgets/cards/base_cards/base_card.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_complement.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_tag.dart';
 import 'package:pass_emploi_app/widgets/favori_heart.dart';
+import 'package:pass_emploi_app/widgets/tags/data_tag.dart';
 
 class DataCard<T> extends StatelessWidget {
   final String titre;
@@ -12,7 +13,9 @@ class DataCard<T> extends StatelessWidget {
   final String? sousTitre;
   final String? lieu;
   final String? date;
-  final List<String> dataTag;
+  final String? contractType;
+  final String? duration;
+  final String? secteurActivite;
   final VoidCallback onTap;
   final String? id;
   final OffrePage? from;
@@ -25,20 +28,21 @@ class DataCard<T> extends StatelessWidget {
     required this.titre,
     required this.sousTitre,
     required this.lieu,
-    required this.dataTag,
     required this.onTap,
     this.date,
     this.id,
     this.from,
     this.category,
     this.tag,
+    this.contractType,
+    this.duration,
+    this.secteurActivite,
     this.additionalChild,
     this.withFavori = true,
   });
 
   @override
   Widget build(BuildContext context) {
-    final List<String> nonEmptyDataTags = dataTag.where((element) => element.isNotEmpty).toList();
     return DateDerniereConsultationProvider(
         id: id ?? "",
         builder: (dateDerniereConsultation) {
@@ -48,13 +52,18 @@ class DataCard<T> extends StatelessWidget {
             subtitle: sousTitre,
             tag: tag,
             complements: [
-              if (lieu != null && lieu!.isNotEmpty) CardComplement.place(text: lieu!),
               if (date != null && date!.isNotEmpty) CardComplement.date(text: date!),
               if (dateDerniereConsultation != null) CardComplement.dateDerniereConsultation(dateDerniereConsultation),
             ],
             secondaryTags: [
-              if (category != null && category!.isNotEmpty) CardTag.secondary(text: category!),
-              ...nonEmptyDataTags.map((e) => CardTag.secondary(text: e)),
+              if (category?.isNotEmpty == true) CardTag.secondary(text: category!),
+              if (lieu?.isNotEmpty == true) DataTag.location(lieu!),
+              if (contractType?.isNotEmpty == true) DataTag.contractType(contractType!),
+              if (duration?.isNotEmpty == true) DataTag.duration(duration!),
+              if (secteurActivite?.isNotEmpty == true)
+                DataTag(
+                  label: secteurActivite!,
+                ),
             ],
             iconButton: (withFavori && id != null && from != null)
                 ? FavoriHeart<T>(

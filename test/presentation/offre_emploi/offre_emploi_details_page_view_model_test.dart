@@ -104,6 +104,41 @@ void main() {
     expect(viewModel.driverLicences, null);
   });
 
+  test("getDetails should remove new line from duration field", () {
+    // Given
+    final store = givenState() //
+        .loggedInPoleEmploiUser()
+        .offreEmploiDetailsIncompleteData(offreEmploi: mockOffreEmploi(duration: '35h\nTravail en journée'))
+        .store();
+
+    // When
+    final viewModel = OffreEmploiDetailsPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS);
+    expect(viewModel.id, "123DXPM");
+    expect(viewModel.title, "Technicien / Technicienne en froid et climatisation");
+    expect(viewModel.urlRedirectPourPostulation, null);
+    expect(viewModel.companyName, "RH TT INTERIM");
+    expect(viewModel.contractType, "MIS");
+    expect(viewModel.duration, "35h - Travail en journée");
+    expect(viewModel.location, "77 - LOGNES");
+    expect(viewModel.salary, null);
+    expect(viewModel.description, null);
+    expect(viewModel.experience, null);
+    expect(viewModel.requiredExperience, null);
+    expect(viewModel.companyUrl, null);
+    expect(viewModel.companyAdapted, null);
+    expect(viewModel.companyAccessibility, null);
+    expect(viewModel.companyDescription, null);
+    expect(viewModel.lastUpdate, null);
+    expect(viewModel.skills, null);
+    expect(viewModel.softSkills, null);
+    expect(viewModel.educations, null);
+    expect(viewModel.languages, null);
+    expect(viewModel.driverLicences, null);
+  });
+
   group("shouldShowCvBottomSheet", () {
     test("is false with Milo account", () {
       // Given

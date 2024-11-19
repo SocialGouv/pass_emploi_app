@@ -31,7 +31,7 @@ import 'package:pass_emploi_app/widgets/errors/favori_not_found_error.dart';
 import 'package:pass_emploi_app/widgets/external_link.dart';
 import 'package:pass_emploi_app/widgets/favori_heart.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
-import 'package:pass_emploi_app/widgets/tags/tags.dart';
+import 'package:pass_emploi_app/widgets/tags/data_tag.dart';
 import 'package:pass_emploi_app/widgets/title_section.dart';
 
 class ServiceCiviqueDetailPage extends StatelessWidget {
@@ -80,15 +80,12 @@ class ServiceCiviqueDetailPage extends StatelessWidget {
   }
 
   Widget _body(BuildContext context, ServiceCiviqueDetailViewModel viewModel) {
-    switch (viewModel.displayState) {
-      case DisplayState.CONTENT:
-      case DisplayState.EMPTY:
-        return _content(context, viewModel);
-      case DisplayState.LOADING:
-        return _loading();
-      case DisplayState.FAILURE:
-        return _error();
-    }
+    return switch (viewModel.displayState) {
+      DisplayState.EMPTY => _content(context, viewModel),
+      DisplayState.CONTENT => _content(context, viewModel),
+      DisplayState.LOADING => _loading(),
+      DisplayState.FAILURE => _error()
+    };
   }
 
   Widget _loading() => Center(child: CircularProgressIndicator(color: AppColors.primary));
@@ -154,30 +151,26 @@ class ServiceCiviqueDetailPage extends StatelessWidget {
   Widget _spacer(double height) => SizedBox(height: height);
 
   Widget _tags(ServiceCiviqueDetail detail) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: Margins.spacing_base),
-          child: DataTag(
-              label: detail.codeDepartement != null ? "${detail.codeDepartement} - ${detail.ville}" : detail.ville,
-              iconSemantics: IconWithSemantics(AppIcons.place_outlined, Strings.iconAlternativeLocation)),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: Margins.spacing_base),
-          child: DataTag(
-              label: "Commence le ${detail.dateDeDebut}",
-              iconSemantics: IconWithSemantics(AppIcons.today_rounded, Strings.iconAlternativeDateDeDebut)),
-        ),
-        if (detail.dateDeFin != null)
-          Padding(
-            padding: const EdgeInsets.only(bottom: Margins.spacing_base),
-            child: DataTag(
-                label: "Termine le ${detail.dateDeFin}",
-                iconSemantics: IconWithSemantics(AppIcons.today_rounded, Strings.iconAlternativeDateDeFin)),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: Margins.spacing_base),
+      child: Wrap(
+        runSpacing: Margins.spacing_s,
+        spacing: Margins.spacing_s,
+        children: [
+          DataTag.location(
+            detail.codeDepartement != null ? "${detail.codeDepartement} - ${detail.ville}" : detail.ville,
           ),
-      ],
+          DataTag(
+            label: "Commence le ${detail.dateDeDebut}",
+            iconSemantics: IconWithSemantics(AppIcons.today_rounded, Strings.iconAlternativeDateDeDebut),
+          ),
+          if (detail.dateDeFin != null)
+            DataTag(
+              label: "Termine le ${detail.dateDeFin}",
+              iconSemantics: IconWithSemantics(AppIcons.today_rounded, Strings.iconAlternativeDateDeFin),
+            ),
+        ],
+      ),
     );
   }
 

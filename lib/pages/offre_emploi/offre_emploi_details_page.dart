@@ -36,7 +36,7 @@ import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 import 'package:pass_emploi_app/widgets/help_tooltip.dart';
 import 'package:pass_emploi_app/widgets/offre_emploi_origin.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
-import 'package:pass_emploi_app/widgets/tags/tags.dart';
+import 'package:pass_emploi_app/widgets/tags/data_tag.dart';
 import 'package:pass_emploi_app/widgets/title_section.dart';
 
 class OffreEmploiDetailsPage extends StatelessWidget {
@@ -192,35 +192,23 @@ class OffreEmploiDetailsPage extends StatelessWidget {
     final contractType = viewModel.contractType;
     final salary = viewModel.salary;
     final duration = viewModel.duration;
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      if (location != null)
-        Padding(
-          padding: const EdgeInsets.only(bottom: Margins.spacing_base),
-          child: DataTag(
-              label: location,
-              iconSemantics: IconWithSemantics(AppIcons.place_outlined, Strings.iconAlternativeLocation)),
-        ),
-      if (contractType != null)
-        Padding(
-          padding: const EdgeInsets.only(bottom: Margins.spacing_base),
-          child: DataTag(
-              label: contractType,
-              iconSemantics: IconWithSemantics(AppIcons.description_rounded, Strings.iconAlternativeContractType)),
-        ),
-      if (salary != null)
-        Padding(
-          padding: const EdgeInsets.only(bottom: Margins.spacing_base),
-          child: DataTag(
-              label: salary, iconSemantics: IconWithSemantics(AppIcons.euro_rounded, Strings.iconAlternativeSalary)),
-        ),
-      if (duration != null)
-        Padding(
-          padding: const EdgeInsets.only(bottom: Margins.spacing_base),
-          child: DataTag(
-              label: duration,
-              iconSemantics: IconWithSemantics(AppIcons.schedule_rounded, Strings.iconAlternativeDuration)),
-        ),
-    ]);
+    return Padding(
+      padding: const EdgeInsets.only(bottom: Margins.spacing_base),
+      child: Wrap(
+        spacing: Margins.spacing_s,
+        runSpacing: Margins.spacing_s,
+        children: [
+          if (location != null) DataTag.location(location),
+          if (contractType != null) DataTag.contractType(contractType),
+          if (salary != null)
+            DataTag(
+              label: salary,
+              iconSemantics: IconWithSemantics(AppIcons.euro_rounded, Strings.iconAlternativeSalary),
+            ),
+          if (duration != null) DataTag.duration(duration),
+        ],
+      ),
+    );
   }
 
   Widget _description(OffreEmploiDetailsPageViewModel viewModel) {

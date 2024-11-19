@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/widgets/tags/tags.dart';
+import 'package:pass_emploi_app/widgets/tags/data_tag.dart';
 
 class ImmersionTags extends StatelessWidget {
   final String secteurActivite;
@@ -13,14 +11,11 @@ class ImmersionTags extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Wrap(
-      spacing: Margins.spacing_base,
-      runSpacing: Margins.spacing_base,
+      spacing: Margins.spacing_s,
+      runSpacing: Margins.spacing_s,
       children: [
         DataTag(label: secteurActivite),
-        DataTag(
-          label: ville,
-          iconSemantics: IconWithSemantics(AppIcons.place_outlined, Strings.iconAlternativeLocation),
-        ),
+        DataTag.location(ville),
       ],
     );
   }

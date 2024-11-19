@@ -121,9 +121,9 @@
     "origineOffre": {
       "origine": "1",
       "urlOrigine": "https://candidat.pole-emploi.fr/offres/recherche/detail/123TZKB"
-    },
-    "origine": {
-      "nom": "France Travail"
     }
+  },
+  "origine": {
+    "nom": "France Travail"
   }
 }

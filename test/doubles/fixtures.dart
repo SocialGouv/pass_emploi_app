@@ -182,6 +182,7 @@ OffreEmploi mockOffreEmploi({
   String id = "123DXPM",
   bool isAlternance = false,
   String contractType = 'MIS',
+  String duration = 'Temps plein',
   Origin? origin,
 }) {
   return OffreEmploi(
@@ -191,7 +192,7 @@ OffreEmploi mockOffreEmploi({
     contractType: contractType,
     isAlternance: isAlternance,
     location: "77 - LOGNES",
-    duration: "Temps plein",
+    duration: duration,
     origin: origin,
   );
 }

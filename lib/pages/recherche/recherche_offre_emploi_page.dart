@@ -88,7 +88,8 @@ class RechercheOffreEmploiPage extends RechercheOffrePage<OffreEmploi> {
       sousTitre: viewModel.companyName,
       lieu: viewModel.location,
       id: viewModel.id,
-      dataTag: [viewModel.contractType, viewModel.duration ?? ''],
+      contractType: viewModel.contractType,
+      duration: viewModel.duration,
       onTap: () => _showOffreDetailsPage(context, viewModel.id),
       from: onlyAlternance ? OffrePage.alternanceResults : OffrePage.emploiResults,
     );
