@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/widgets/cards/base_cards/base_card.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_complement.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_tag.dart';
 import 'package:pass_emploi_app/widgets/favori_heart.dart';
+import 'package:pass_emploi_app/widgets/tags/tags.dart';
 
 class FavoriCard<T> extends StatelessWidget {
   final OffreType offreType;
@@ -77,8 +78,10 @@ class FavoriCard<T> extends StatelessWidget {
             tag: offreType.toCardTag(),
             iconButton: specialAction,
             complements: [
-              if (place != null) CardComplement.place(text: place!),
               if (dateDerniereConsultation != null) CardComplement.dateDerniereConsultation(dateDerniereConsultation),
+            ],
+            secondaryTags: [
+              if (place != null) DataTag.location(place!),
             ],
           );
         });

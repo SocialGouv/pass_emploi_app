@@ -5,7 +5,6 @@ import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_body.dart'
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_complement.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_pillule.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_subtitle.dart';
-import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_tag.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_title.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/pressed_tip.dart';
@@ -17,8 +16,8 @@ class BaseCard extends StatelessWidget {
   final Widget? iconButton;
   final String? subtitle;
   final String? body;
+  final List<Widget>? secondaryTags;
   final List<CardComplement>? complements;
-  final List<CardTag>? secondaryTags;
   final List<Widget>? actions;
   final Widget? additionalChild;
   final void Function()? onTap;
@@ -34,8 +33,8 @@ class BaseCard extends StatelessWidget {
     this.tag,
     this.pillule,
     this.iconButton,
-    this.complements,
     this.secondaryTags,
+    this.complements,
     this.actions,
     this.additionalChild,
     this.onTap,
@@ -111,10 +110,6 @@ class BaseCard extends StatelessWidget {
                     SizedBox(height: Margins.spacing_base),
                     CardBodyText(body!),
                   ],
-                  if (complements != null && complements!.isNotEmpty) ...[
-                    SizedBox(height: Margins.spacing_base),
-                    Wrap(spacing: Margins.spacing_base, runSpacing: Margins.spacing_s, children: complements!),
-                  ],
                   if (secondaryTags != null && secondaryTags!.isNotEmpty) ...[
                     SizedBox(height: Margins.spacing_base),
                     Wrap(
@@ -122,6 +117,10 @@ class BaseCard extends StatelessWidget {
                       runSpacing: Margins.spacing_s,
                       children: secondaryTags!,
                     ),
+                  ],
+                  if (complements != null && complements!.isNotEmpty) ...[
+                    SizedBox(height: Margins.spacing_base),
+                    Wrap(spacing: Margins.spacing_base, runSpacing: Margins.spacing_s, children: complements!),
                   ],
                   if (additionalChild != null) ...[
                     SizedBox(height: Margins.spacing_base),
