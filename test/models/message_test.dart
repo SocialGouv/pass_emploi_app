@@ -190,7 +190,7 @@ void main() {
               sendingStatus: MessageSendingStatus.sent,
               contentStatus: MessageContentStatus.content,
               pieceJointes: [],
-              offre: Offre(
+              offre: MessageOffre(
                 "343",
                 "Chevalier",
                 offreType,

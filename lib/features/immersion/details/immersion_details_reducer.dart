@@ -6,6 +6,5 @@ ImmersionDetailsState immersionDetailsReducer(ImmersionDetailsState current, dyn
   if (action is ImmersionDetailsLoadingAction) return ImmersionDetailsLoadingState();
   if (action is ImmersionDetailsFailureAction) return ImmersionDetailsFailureState();
   if (action is ImmersionDetailsSuccessAction) return ImmersionDetailsSuccessState(action.immersion);
-  if (action is ImmersionDetailsResetAction) return ImmersionDetailsNotInitializedState();
   return current;
 }

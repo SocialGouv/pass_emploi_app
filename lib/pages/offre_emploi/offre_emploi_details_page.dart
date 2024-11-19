@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/date_consultation_offre/date_consultation_offre_actions.dart';
+import 'package:pass_emploi_app/features/derniere_offre_consultee/derniere_offre_consultee_actions.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_actions.dart';
 import 'package:pass_emploi_app/models/chat/message.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -77,7 +78,10 @@ class OffreEmploiDetailsPage extends StatelessWidget {
           selectState: (store) => store.state.offreEmploiFavorisIdsState,
           child: _scaffold(_body(context, viewModel), context),
         ),
-        onDispose: (store) => store.dispatch(DateConsultationWriteOffreAction(_offreId)),
+        onDispose: (store) {
+          store.dispatch(DateConsultationWriteOffreAction(_offreId));
+          store.dispatch(DerniereOffreEmploiConsulteeWriteAction());
+        },
       ),
     );
   }

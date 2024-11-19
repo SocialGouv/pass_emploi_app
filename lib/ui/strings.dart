@@ -811,6 +811,7 @@ class Strings {
   static String dernieresRecherches = "Dernières recherches";
   static String vosPreferencesMetiers = "Vos préférences métiers";
   static String rechercheHomeNosOffres = "Nos offres";
+  static String rechercheDerniereOffreConsultee = "Dernière offre consultée";
   static String rechercheHomeOffresEmploiTitle = "Offres d’emploi";
   static String rechercheHomeOffresEmploiSubtitle = "Trouvez un emploi qui vous correspond.";
   static String rechercheHomeOffresAlternanceTitle = "Offres d’alternance";

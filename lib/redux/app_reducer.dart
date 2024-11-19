@@ -78,6 +78,7 @@ import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/features/date_consultation_offre/date_consultation_offre_reducer.dart';
+import 'package:pass_emploi_app/features/derniere_offre_consultee/derniere_offre_consultee_reducer.dart';
 /*AUTOGENERATE-REDUX-APP-REDUCER-IMPORT*/
 
 AppState reducer(AppState current, dynamic action) {
@@ -187,6 +188,7 @@ AppState reducer(AppState current, dynamic action) {
     matchingDemarcheState: matchingDemarcheReducer(current.matchingDemarcheState, action),
     cguState: cguReducer(current.cguState, action),
     dateConsultationOffreState: dateConsultationOffreReducer(current.dateConsultationOffreState, action),
+    derniereOffreConsulteeState: derniereOffreConsulteeReducer(current.derniereOffreConsulteeState, action),
     /*AUTOGENERATE-REDUX-APP-REDUCER-STATE*/
   );
 }

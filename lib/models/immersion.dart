@@ -28,6 +28,17 @@ class Immersion extends Equatable {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      "id": id,
+      "metier": metier,
+      "nomEtablissement": nomEtablissement,
+      "secteurActivite": secteurActivite,
+      "ville": ville,
+      "estVolontaire": fromEntrepriseAccueillante,
+    };
+  }
+
   @override
   List<Object?> get props => [id, metier, nomEtablissement, secteurActivite, ville, fromEntrepriseAccueillante];
 }
