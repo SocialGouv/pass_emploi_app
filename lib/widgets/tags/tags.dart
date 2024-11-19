@@ -41,6 +41,13 @@ class DataTag extends StatelessWidget {
     );
   }
 
+  factory DataTag.duration(String duration) {
+    return DataTag(
+      label: duration,
+      iconSemantics: IconWithSemantics(AppIcons.schedule_rounded, Strings.iconAlternativeDuration),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(

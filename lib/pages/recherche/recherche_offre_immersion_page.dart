@@ -70,7 +70,7 @@ class RechercheOffreImmersionPage extends RechercheOffrePage<Immersion> {
       titre: item.metier,
       sousTitre: item.nomEtablissement,
       lieu: item.ville,
-      dataTag: [item.secteurActivite],
+      secteurActivite: item.secteurActivite,
       onTap: () => _showOffreDetailsPage(context, item.id),
       from: OffrePage.immersionResults,
       id: item.id,

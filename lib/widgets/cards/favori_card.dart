@@ -70,19 +70,15 @@ class FavoriCard<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return DateDerniereConsultationProvider(
         id: offreId ?? "",
-        builder: (dateDerniereConsultation) {
+        builder: (dateConsultation) {
           return BaseCard(
             onTap: onTap,
             title: title,
             subtitle: company,
             tag: offreType.toCardTag(),
             iconButton: specialAction,
-            complements: [
-              if (dateDerniereConsultation != null) CardComplement.dateDerniereConsultation(dateDerniereConsultation),
-            ],
-            secondaryTags: [
-              if (place != null) DataTag.location(place!),
-            ],
+            secondaryTags: [if (place != null) DataTag.location(place!)],
+            complements: [if (dateConsultation != null) CardComplement.dateDerniereConsultation(dateConsultation)],
           );
         });
   }

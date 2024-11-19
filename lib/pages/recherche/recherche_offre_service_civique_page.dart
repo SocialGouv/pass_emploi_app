@@ -73,7 +73,6 @@ class RechercheOffreServiceCiviquePage extends RechercheOffrePage<ServiceCivique
       lieu: item.location,
       id: item.id,
       date: item.startDate?.toDateTimeUtcOnLocalTimeZone().toDayWithFullMonth(),
-      dataTag: [],
       from: OffrePage.serviceCiviqueResults,
       onTap: () => _showOffreDetailsPage(context, item.id),
     );

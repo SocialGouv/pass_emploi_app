@@ -127,7 +127,7 @@ OffreEmploiDetailsPageViewModel _viewModelFromDetails(
     companyName: offreDetails?.companyName,
     contractType: offreDetails?.contractType,
     dateDerniereConsultation: dateDerniereConsultation,
-    duration: offreDetails?.duration,
+    duration: offreDetails?.duration?.removeNewLine(),
     location: offreDetails?.location,
     salary: offreDetails?.salary,
     description: offreDetails?.description,
@@ -158,7 +158,7 @@ OffreEmploiDetailsPageViewModel _viewModelFromIncompleteData(
     title: offreEmploi.title,
     location: offreEmploi.location,
     id: offreEmploi.id,
-    duration: offreEmploi.duration,
+    duration: offreEmploi.duration?.removeNewLine(),
     companyName: offreEmploi.companyName,
     contractType: offreEmploi.contractType,
     dateDerniereConsultation: dateDerniereConsultation,
@@ -173,4 +173,10 @@ OffreEmploiDetailsPageViewModel _viewModelForOtherCases(
     displayState: _displayState(state),
     shouldShowCvBottomSheet: loginMode.isPe(),
   );
+}
+
+extension on String? {
+  String? removeNewLine() {
+    return this?.replaceAll('\n', ' - ');
+  }
 }

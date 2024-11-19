@@ -212,9 +212,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
       if (duration != null)
         Padding(
           padding: const EdgeInsets.only(bottom: Margins.spacing_base),
-          child: DataTag(
-              label: duration,
-              iconSemantics: IconWithSemantics(AppIcons.schedule_rounded, Strings.iconAlternativeDuration)),
+          child: DataTag.duration(duration),
         ),
     ]);
   }
