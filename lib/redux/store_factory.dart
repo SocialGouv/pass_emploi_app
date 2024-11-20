@@ -25,9 +25,11 @@ import 'package:pass_emploi_app/features/connectivity/connectivity_middleware.da
 import 'package:pass_emploi_app/features/contact_immersion/contact_immersion_middleware.dart';
 import 'package:pass_emploi_app/features/cv/cv_middleware.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_middleware.dart';
+import 'package:pass_emploi_app/features/date_consultation_offre/date_consultation_offre_middleware.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_middleware.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_middleware.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_middleware.dart';
+import 'package:pass_emploi_app/features/derniere_offre_consultee/derniere_offre_consultee_middleware.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_middleware.dart';
 import 'package:pass_emploi_app/features/developer_option/activation/developer_options_middleware.dart';
 import 'package:pass_emploi_app/features/developer_option/matomo/matomo_logging_middleware.dart';
@@ -41,6 +43,7 @@ import 'package:pass_emploi_app/features/favori/update/favori_update_middleware.
 import 'package:pass_emploi_app/features/feature_flip/feature_flip_middleware.dart';
 import 'package:pass_emploi_app/features/first_launch_onboarding/first_launch_onboarding_middleware.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_middleware.dart';
+import 'package:pass_emploi_app/features/in_app_feedback/in_app_feedback_middleware.dart';
 import 'package:pass_emploi_app/features/location/search_location_middleware.dart';
 import 'package:pass_emploi_app/features/login/login_middleware.dart';
 import 'package:pass_emploi_app/features/matching_demarche/matching_demarche_middleware.dart';
@@ -80,8 +83,6 @@ import 'package:pass_emploi_app/features/user_action/create/user_action_create_m
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/details/user_action_details_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_middleware.dart';
-import 'package:pass_emploi_app/features/date_consultation_offre/date_consultation_offre_middleware.dart';
-import 'package:pass_emploi_app/features/derniere_offre_consultee/derniere_offre_consultee_middleware.dart';
 /*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-MIDDLEWARE*/
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -110,9 +111,11 @@ import 'package:pass_emploi_app/repositories/cv_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_alerting_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_bridge.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_token_repository.dart';
+import 'package:pass_emploi_app/repositories/date_consultation_offre_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
+import 'package:pass_emploi_app/repositories/derniere_offre_consultee_repository.dart';
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/developer_option_repository.dart';
 import 'package:pass_emploi_app/repositories/diagoriente_metiers_favoris_repository.dart';
@@ -127,6 +130,7 @@ import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_rep
 import 'package:pass_emploi_app/repositories/first_launch_onboarding_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion/immersion_repository.dart';
+import 'package:pass_emploi_app/repositories/in_app_feedback_repository.dart';
 import 'package:pass_emploi_app/repositories/matching_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
 import 'package:pass_emploi_app/repositories/mon_suivi_repository.dart';
@@ -154,8 +158,6 @@ import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/usecases/piece_jointe/piece_jointe_use_case.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
-import 'package:pass_emploi_app/repositories/date_consultation_offre_repository.dart';
-import 'package:pass_emploi_app/repositories/derniere_offre_consultee_repository.dart';
 /*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-REPOSITORY*/
 import 'package:redux/redux.dart' as redux;
 
@@ -231,9 +233,9 @@ class StoreFactory {
   final FirstLaunchOnboardingRepository firstLaunchOnboardingRepository;
   final PieceJointeUseCase pieceJointeUseCase;
   final MatchingDemarcheRepository matchingDemarcheRepository;
-
   final DateConsultationOffreRepository dateConsultationOffreRepository;
   final DerniereOffreConsulteeRepository derniereOffreConsulteeRepository;
+  final InAppFeedbackRepository inAppFeedbackRepository;
   /*AUTOGENERATE-REDUX-STOREFACTORY-PROPERTY-REPOSITORY*/
 
   StoreFactory(
@@ -310,6 +312,7 @@ class StoreFactory {
     this.matchingDemarcheRepository,
     this.dateConsultationOffreRepository,
     this.derniereOffreConsulteeRepository,
+    this.inAppFeedbackRepository,
     /*AUTOGENERATE-REDUX-STOREFACTORY-CONSTRUCTOR-REPOSITORY*/
   );
 
@@ -405,6 +408,7 @@ class StoreFactory {
         CguMiddleware(detailsJeuneRepository, remoteConfigRepository).call,
         DateConsultationOffreMiddleware(dateConsultationOffreRepository).call,
         DerniereOffreConsulteeMiddleware(derniereOffreConsulteeRepository).call,
+        InAppFeedbackMiddleware(inAppFeedbackRepository).call,
         /*AUTOGENERATE-REDUX-STOREFACTORY-ADD-MIDDLEWARE*/
         ..._debugMiddlewares(),
         ..._stagingMiddlewares(initialState.configurationState.getFlavor()),
