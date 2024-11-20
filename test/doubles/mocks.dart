@@ -224,7 +224,7 @@ class MockRemoteConfigRepository extends Mock implements RemoteConfigRepository 
   MockRemoteConfigRepository() {
     when(() => maxLivingTimeInSecondsForMilo()).thenReturn(null);
     when(() => lastCampagneRecrutementId()).thenReturn(null);
-    when(() => useCvm()).thenReturn(false);
+    when(() => cvmActivationByAccompagnement()).thenReturn({});
     when(() => getIdsConseillerCvmEarlyAdopters()).thenReturn([]);
     when(() => monSuiviPoleEmploiStartDateInMonths()).thenReturn(1);
     when(() => withCje()).thenReturn(false);

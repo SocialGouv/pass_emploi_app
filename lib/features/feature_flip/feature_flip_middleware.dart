@@ -17,7 +17,7 @@ class FeatureFlipMiddleware extends MiddlewareClass<AppState> {
   void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     if (action is LoginSuccessAction) {
-      if (action.user.loginMode.isPe() && action.user.accompagnement == Accompagnement.cej) {
+      if (action.user.loginMode.isPe()) {
         _handleCvmFeatureFlip(store, action.user.id);
       }
       if (action.user.accompagnement == Accompagnement.cej) {
@@ -27,7 +27,8 @@ class FeatureFlipMiddleware extends MiddlewareClass<AppState> {
   }
 
   Future<void> _handleCvmFeatureFlip(Store<AppState> store, String userId) async {
-    if (_remoteConfigRepository.useCvm()) {
+    final cvmByAccompagnement = _remoteConfigRepository.cvmActivationByAccompagnement();
+    if (cvmByAccompagnement[store.state.user()?.accompagnement] == true) {
       store.dispatch(FeatureFlipUseCvmAction(true));
     } else {
       final idsConseiller = _remoteConfigRepository.getIdsConseillerCvmEarlyAdopters();

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:pass_emploi_app/models/accompagnement.dart';
 import 'package:pass_emploi_app/models/cgu.dart';
 
 class RemoteConfigRepository {
@@ -28,9 +29,18 @@ class RemoteConfigRepository {
     return value > DateTime.now().millisecondsSinceEpoch ? value.toString() : null;
   }
 
-  bool useCvm() {
-    if (_firebaseRemoteConfig == null) return false;
-    return _firebaseRemoteConfig.getBool('use_cvm');
+  Map<Accompagnement, bool> cvmActivationByAccompagnement() {
+    if (_firebaseRemoteConfig == null) return {};
+    final String cvmAsString = _firebaseRemoteConfig.getString('cvm');
+    // Despite Remote config documentation, Firebase returns "null" string value when key is not found
+    if (cvmAsString.isEmpty || cvmAsString == "null") return {};
+    final cvmAsJson = json.decode(cvmAsString);
+    return {
+      Accompagnement.cej: cvmAsJson['cej'] as bool,
+      Accompagnement.rsaFranceTravail: cvmAsJson['rsaFranceTravail'] as bool,
+      Accompagnement.rsaConseilsDepartementaux: cvmAsJson['rsaConseilsDepartementaux'] as bool,
+      Accompagnement.aij: cvmAsJson['aij'] as bool,
+    };
   }
 
   bool withCje() {
