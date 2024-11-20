@@ -275,3 +275,20 @@ class LocalFileMessageItem extends ChatItem {
   @override
   List<Object?> get props => [messageId, caption, fileName, showLoading, captionColor, shouldAnimate];
 }
+
+class ActionMessageItem extends PartageMessageItem {
+  ActionMessageItem({
+    required String messageId,
+    required String content,
+    required String caption,
+    required Sender sender,
+    required String idPartage,
+    required String titrePartage,
+    Color? captionColor,
+    bool shouldAnimate = false,
+  }) : super(messageId, shouldAnimate, content, caption, captionColor, idPartage, titrePartage, sender);
+
+  @override
+  List<Object?> get props =>
+      [messageId, content, caption, captionColor, shouldAnimate, sender, idPartage, titrePartage];
+}

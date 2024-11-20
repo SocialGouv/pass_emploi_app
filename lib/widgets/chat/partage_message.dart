@@ -6,8 +6,10 @@ import 'package:pass_emploi_app/pages/immersion/immersion_details_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi/offre_emploi_details_page.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_details_page.dart';
 import 'package:pass_emploi_app/pages/service_civique/service_civique_detail_page.dart';
+import 'package:pass_emploi_app/pages/user_action/update/update_user_action_page.dart';
 import 'package:pass_emploi_app/presentation/chat/chat_item.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -97,6 +99,8 @@ class _PartageCard extends StatelessWidget {
       _showEvenementEmploiDetailsPage(context, item);
     } else if (item is SessionMiloMessageItem) {
       _showSessionMiloDetailsPage(context, item);
+    } else if (item is ActionMessageItem) {
+      Navigator.push(context, UpdateUserActionPage.route(UserActionStateSource.noSource, item.idPartage));
     }
   }
 
