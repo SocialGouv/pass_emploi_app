@@ -42,6 +42,8 @@ class OffreEmploiFavorisRepository extends FavorisRepository<OffreEmploi> {
             favori.isAlternance,
             favori.location,
             favori.duration,
+            favori.origin.name,
+            favori.origin.logoUrl,
           ),
         ),
       );

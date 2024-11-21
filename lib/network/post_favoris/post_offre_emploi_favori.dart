@@ -8,6 +8,8 @@ class PostOffreEmploiFavori implements JsonSerializable {
   final bool isAlternance;
   final String? location;
   final String? duration;
+  final String? originName;
+  final String? originLogo;
 
   PostOffreEmploiFavori(
     this.id,
@@ -17,6 +19,8 @@ class PostOffreEmploiFavori implements JsonSerializable {
     this.isAlternance,
     this.location,
     this.duration,
+    this.originName,
+    this.originLogo,
   );
 
   @override
@@ -30,5 +34,7 @@ class PostOffreEmploiFavori implements JsonSerializable {
         },
         "alternance": isAlternance,
         "duree": duration,
+        "origineNom": originName,
+        "origineLogo": originLogo,
       };
 }
