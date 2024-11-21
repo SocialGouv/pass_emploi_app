@@ -110,10 +110,24 @@ List<ChatItem> _messagesToChatItems(List<Message> messages, DateTime lastConseil
         MessageType.event => _eventMessageItem(message, lastConseillerReading),
         MessageType.evenementEmploi => _evenementEmploiItem(message, lastConseillerReading),
         MessageType.sessionMilo => _sessionMiloItem(message, lastConseillerReading),
+        MessageType.messageAction => _chatActionItem(message, lastConseillerReading),
         MessageType.inconnu => InformationItem(Strings.unknownTypeTitle, Strings.unknownTypeDescription)
       };
     }
   }).toList();
+}
+
+ChatItem _chatActionItem(Message message, DateTime lastConseillerReading) {
+  return ActionMessageItem(
+    messageId: message.id,
+    content: message.content,
+    sender: message.sentBy,
+    caption: _caption(message, lastConseillerReading),
+    captionColor: _captionColor(message),
+    shouldAnimate: _shouldAnimate(message),
+    idPartage: message.action?.id ?? "",
+    titrePartage: message.action?.titre ?? "",
+  );
 }
 
 ChatItem _sessionMiloItem(Message message, DateTime lastConseillerReading) {

@@ -12,6 +12,7 @@ enum MessageType {
   nouveauConseiller,
   nouveauConseillerTemporaire,
   messagePj,
+  messageAction,
   localImagePj,
   localFilePj,
   offre,
@@ -52,6 +53,7 @@ class Message extends Equatable {
   final ChatSessionMilo? sessionMilo;
   final MessageSendingStatus sendingStatus;
   final MessageContentStatus contentStatus;
+  final MessageAction? action;
 
   Message({
     required this.id,
@@ -68,6 +70,7 @@ class Message extends Equatable {
     this.event,
     this.evenementEmploi,
     this.sessionMilo,
+    this.action,
   });
 
   factory Message.fromText(String text) {
@@ -120,6 +123,7 @@ class Message extends Equatable {
     ChatSessionMilo? sessionMilo,
     MessageSendingStatus? sendingStatus,
     MessageContentStatus? contentStatus,
+    MessageAction? action,
   }) {
     return Message(
       id: id ?? this.id,
@@ -136,6 +140,7 @@ class Message extends Equatable {
       event: event ?? this.event,
       evenementEmploi: evenementEmploi ?? this.evenementEmploi,
       sessionMilo: sessionMilo ?? this.sessionMilo,
+      action: action ?? this.action,
     );
   }
 
@@ -158,6 +163,7 @@ class Message extends Equatable {
       event: _event(json),
       evenementEmploi: _evenementEmploi(json),
       sessionMilo: _sessionMilo(json),
+      action: MessageAction.fromJson(json['action']),
     );
   }
 
@@ -215,26 +221,18 @@ class Message extends Equatable {
     // Because Firebase object throws a StateError when attempting to get an absent value.
     try {
       final type = json['type'] as String;
-      switch (type) {
-        case "MESSAGE":
-          return MessageType.message;
-        case "NOUVEAU_CONSEILLER":
-          return MessageType.nouveauConseiller;
-        case "NOUVEAU_CONSEILLER_TEMPORAIRE":
-          return MessageType.nouveauConseillerTemporaire;
-        case "MESSAGE_PJ":
-          return MessageType.messagePj;
-        case "MESSAGE_OFFRE":
-          return MessageType.offre;
-        case "MESSAGE_EVENEMENT":
-          return MessageType.event;
-        case "MESSAGE_EVENEMENT_EMPLOI":
-          return MessageType.evenementEmploi;
-        case "MESSAGE_SESSION_MILO":
-          return MessageType.sessionMilo;
-        default:
-          return MessageType.inconnu;
-      }
+      return switch (type) {
+        "MESSAGE" => MessageType.message,
+        "NOUVEAU_CONSEILLER" => MessageType.nouveauConseiller,
+        "NOUVEAU_CONSEILLER_TEMPORAIRE" => MessageType.nouveauConseillerTemporaire,
+        "MESSAGE_PJ" => MessageType.messagePj,
+        "MESSAGE_OFFRE" => MessageType.offre,
+        "MESSAGE_EVENEMENT" => MessageType.event,
+        "MESSAGE_EVENEMENT_EMPLOI" => MessageType.evenementEmploi,
+        "MESSAGE_SESSION_MILO" => MessageType.sessionMilo,
+        "MESSAGE_ACTION" => MessageType.messageAction,
+        _ => MessageType.inconnu
+      };
     } catch (e) {
       return MessageType.message;
     }
@@ -400,6 +398,21 @@ class ChatSessionMilo extends Equatable {
 
   @override
   List<Object?> get props => [id, titre];
+}
+
+class MessageAction {
+  final String id;
+  final String titre;
+
+  MessageAction(this.id, this.titre);
+
+  static MessageAction? fromJson(dynamic json) {
+    if (json == null) return null;
+    final id = json['id'] as String?;
+    final titre = json['titre'] as String?;
+    if (id == null || titre == null) return null;
+    return MessageAction(id, titre);
+  }
 }
 
 OffreType _defaultForRetrocompatibility() => OffreType.emploi;
