@@ -66,6 +66,7 @@ class _ChatTextFieldState extends State<ChatTextField> {
             secondChild: Row(
               children: [
                 FloatingActionButton(
+                  // to avoir hero animation bug
                   heroTag: "chat",
                   elevation: 0,
                   backgroundColor: AppColors.primaryLighten,
