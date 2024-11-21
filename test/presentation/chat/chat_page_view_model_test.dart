@@ -499,6 +499,43 @@ void main() {
       ]);
     });
   });
+  group('Action partagé', () {
+    test('should display action partagé', () {
+      // Given
+      final messages = [
+        Message(
+          id: "uid",
+          content: 'Super action',
+          creationDate: todayAtNoon,
+          sentBy: Sender.conseiller,
+          type: MessageType.messageAction,
+          sendingStatus: MessageSendingStatus.sent,
+          contentStatus: MessageContentStatus.content,
+          pieceJointes: [],
+          action: MessageAction("action_id", "Salon de l'emploi"),
+        ),
+      ];
+
+      final store = givenState().chatSuccess(messages).store();
+
+      // When
+      final viewModel = ChatPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.items, [
+        DayItem('Aujourd\'hui'),
+        ActionMessageItem(
+          messageId: "uid",
+          content: "Super action",
+          idPartage: "action_id",
+          titrePartage: "Salon de l'emploi",
+          sender: Sender.conseiller,
+          caption: "12:00",
+        ),
+      ]);
+    });
+  });
 
   group('Event partagé', () {
     test('should display event partagé from jeune', () {
