@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/in_app_feedback/in_app_feedback_actions.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';
@@ -9,33 +10,34 @@ import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/context_extensions.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 
-// TODO Set proper analytics events
 enum _Feedback {
   moodBad(
     icon: AppIcons.mood_bad,
     semantics: Strings.moodBad,
-    analyticsEvent: Strings.moodBad,
+    analyticsEvent: AnalyticsEventNames.feedback1Action,
   ),
   sentimentDissatisfied(
     icon: AppIcons.sentiment_dissatisfied,
     semantics: Strings.sentimentDissatisfied,
-    analyticsEvent: Strings.sentimentDissatisfied,
+    analyticsEvent: AnalyticsEventNames.feedback2Action,
   ),
   sentimentNeutral(
     icon: AppIcons.sentiment_neutral,
     semantics: Strings.sentimentNeutral,
-    analyticsEvent: Strings.sentimentNeutral,
+    analyticsEvent: AnalyticsEventNames.feedback3Action,
   ),
   sentimentSatisfied(
     icon: AppIcons.sentiment_satisfied,
     semantics: Strings.sentimentSatisfied,
-    analyticsEvent: Strings.sentimentSatisfied,
+    analyticsEvent: AnalyticsEventNames.feedback4Action,
   ),
   mood(
     icon: AppIcons.mood,
     semantics: Strings.mood,
-    analyticsEvent: Strings.mood,
+    analyticsEvent: AnalyticsEventNames.feedback5Action,
   );
 
   final IconData icon;
@@ -138,8 +140,11 @@ class _InAppFeedbackWidgetState extends State<_InAppFeedbackWidget> {
                       _FeedbackOptionsGroup(
                         onOptionTap: (feedback) {
                           setState(() => state = _WidgetState.thanks);
-                          // TODO: send analytics event
-                          // TODO: dispatch action to close feedback
+                          PassEmploiMatomoTracker.instance.trackEvent(
+                            eventCategory: AnalyticsEventNames.feedbackCategory(widget.feature),
+                            action: feedback.analyticsEvent,
+                          );
+                          context.dispatch(InAppFeedbackDismissAction(widget.feature));
                         },
                       ),
                       SizedBox(height: 12),
@@ -150,7 +155,7 @@ class _InAppFeedbackWidgetState extends State<_InAppFeedbackWidget> {
                 ),
                 _CloseButton(onPressed: () {
                   setState(() => state = _WidgetState.closed);
-                  // TODO: dispatch action to close feedback
+                  context.dispatch(InAppFeedbackDismissAction(widget.feature));
                 })
               ],
             ),

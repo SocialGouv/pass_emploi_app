@@ -299,6 +299,13 @@ class AnalyticsEventNames {
   static const a11yWithoutScreenReader = "Sans lecteur d'écran";
   static const a11yWithTextScale = "Avec agrandissement de texte";
   static const a11yWithoutTextScale = "Sans agrandissement de texte";
+
+  static String feedbackCategory(String feature) => "Feedback pour la fonctionnalité : $feature";
+  static const feedback1Action = "Note 1/5";
+  static const feedback2Action = "Note 2/5";
+  static const feedback3Action = "Note 3/5";
+  static const feedback4Action = "Note 4/5";
+  static const feedback5Action = "Note 5/5";
 }
 
 class AnalyticsCustomDimensions {
