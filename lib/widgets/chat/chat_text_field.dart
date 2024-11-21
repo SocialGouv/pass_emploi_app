@@ -66,6 +66,7 @@ class _ChatTextFieldState extends State<ChatTextField> {
             secondChild: Row(
               children: [
                 FloatingActionButton(
+                  heroTag: "chat",
                   elevation: 0,
                   backgroundColor: AppColors.primaryLighten,
                   tooltip: Strings.sendAttachmentTooltip,
