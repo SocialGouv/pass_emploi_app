@@ -145,32 +145,26 @@ class Message extends Equatable {
   }
 
   static Message? fromJson(String id, dynamic json, ChatCrypto chatCrypto, Crashlytics crashlytics) {
-    try {
-      final creationDateValue = json['creationDate'];
-      final creationDate = creationDateValue is Timestamp ? creationDateValue.toDate() : DateTime.now();
-      final content = _content(json, chatCrypto, crashlytics);
-      if (content == null) return null;
-      return Message(
-        id: id,
-        iv: json['iv'] as String,
-        content: content,
-        creationDate: creationDate,
-        sentBy: json['sentBy'] as String == 'jeune' ? Sender.jeune : Sender.conseiller,
-        type: _type(json),
-        sendingStatus: MessageSendingStatus.sent,
-        contentStatus: _contentStatus(json),
-        pieceJointes: _pieceJointes(json, chatCrypto, crashlytics),
-        offre: _offre(json),
-        event: _event(json),
-        evenementEmploi: _evenementEmploi(json),
-        sessionMilo: _sessionMilo(json),
-        action: MessageAction.fromJson(json['action']),
-      );
-    } catch (e, stack) {
-      print(e);
-      print(stack);
-      return null;
-    }
+    final creationDateValue = json['creationDate'];
+    final creationDate = creationDateValue is Timestamp ? creationDateValue.toDate() : DateTime.now();
+    final content = _content(json, chatCrypto, crashlytics);
+    if (content == null) return null;
+    return Message(
+      id: id,
+      iv: json['iv'] as String,
+      content: content,
+      creationDate: creationDate,
+      sentBy: json['sentBy'] as String == 'jeune' ? Sender.jeune : Sender.conseiller,
+      type: _type(json),
+      sendingStatus: MessageSendingStatus.sent,
+      contentStatus: _contentStatus(json),
+      pieceJointes: _pieceJointes(json, chatCrypto, crashlytics),
+      offre: _offre(json),
+      event: _event(json),
+      evenementEmploi: _evenementEmploi(json),
+      sessionMilo: _sessionMilo(json),
+      action: MessageAction.fromJson(json['action']),
+    );
   }
 
   static MessageContentStatus _contentStatus(dynamic json) {
