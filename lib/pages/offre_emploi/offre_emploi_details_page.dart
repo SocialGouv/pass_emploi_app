@@ -34,6 +34,7 @@ import 'package:pass_emploi_app/widgets/external_link.dart';
 import 'package:pass_emploi_app/widgets/favori_heart.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 import 'package:pass_emploi_app/widgets/help_tooltip.dart';
+import 'package:pass_emploi_app/widgets/in_app_feedback.dart';
 import 'package:pass_emploi_app/widgets/offre_emploi_origin.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/tags/data_tag.dart';
@@ -122,6 +123,11 @@ class OffreEmploiDetailsPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                InAppFeedback(
+                  feature: 'provenance-offre',
+                  label: Strings.feedbackProvenanceOffre,
+                  padding: const EdgeInsets.only(bottom: Margins.spacing_m),
+                ),
                 if (id != null) Text(Strings.offreDetailNumber(id), style: TextStyles.textXsRegular()),
                 if (lastUpdate != null)
                   Padding(

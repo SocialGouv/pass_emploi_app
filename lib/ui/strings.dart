@@ -1019,7 +1019,9 @@ class Strings {
   // Offre emploi details
   static String offreDetailsError = "Erreur lors de la récupération de l'offre";
   static String offreDetailsTitle = "Détail de l'offre";
+
   static String offreLastSeen(DateTime date) => "Vue le ${date.toDay()}";
+
   static String offreLastSeenA11y(DateTime date) => "Vue le ${date.toDay().toDateForScreenReaders()}";
   static String profileTitle = "Profil souhaité";
   static String experienceTitle = "Expérience";
@@ -1428,6 +1430,13 @@ class Strings {
 
   static String cguSwitchLabel(bool accepted) => accepted ? "Refuser les cgu" : "Accepter les cgu";
 
+  // In-app feedback
+  static String feedbackBad = "Pas d’accord";
+  static String feedbackNeutral = "Neutre";
+  static String feedbackGood = "D’accord";
+  static String feedbackThanks = "Merci pour votre retour !";
+  static String feedbackProvenanceOffre = "Connaître la source d’une offre ([Provenance], etc) m’intéresse.";
+
   // a11y
   static String selectedRadioButton = "Sélectionné";
   static String unselectedRadioButton = "Non sélectionné";
@@ -1479,6 +1488,11 @@ class Strings {
   static String buttonRole = "bouton";
   static String bottomSheetBarrierLabel = "$closeDialog, $buttonRole";
   static String source = "Source : ";
+  static const String moodBad = "Emoticone pas d’accord du tout";
+  static const String sentimentDissatisfied = "Emoticone plutôt pas d’accord";
+  static const String sentimentNeutral = "Emoticone neutre";
+  static const String sentimentSatisfied = "Emoticone plutôt d’accord";
+  static const String mood = "Emoticone d’accord";
 
   static String removeDistance(int value) => 'Diminuer la distance de $value km';
 
