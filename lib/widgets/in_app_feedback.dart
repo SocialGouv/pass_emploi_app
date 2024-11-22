@@ -14,27 +14,27 @@ import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 
 enum _Feedback {
-  moodBad(
+  feedback1(
     icon: AppIcons.mood_bad,
     semantics: Strings.moodBad,
     analyticsEvent: AnalyticsEventNames.feedback1Action,
   ),
-  sentimentDissatisfied(
+  feedback2(
     icon: AppIcons.sentiment_dissatisfied,
     semantics: Strings.sentimentDissatisfied,
     analyticsEvent: AnalyticsEventNames.feedback2Action,
   ),
-  sentimentNeutral(
+  feedback3(
     icon: AppIcons.sentiment_neutral,
     semantics: Strings.sentimentNeutral,
     analyticsEvent: AnalyticsEventNames.feedback3Action,
   ),
-  sentimentSatisfied(
+  feedback4(
     icon: AppIcons.sentiment_satisfied,
     semantics: Strings.sentimentSatisfied,
     analyticsEvent: AnalyticsEventNames.feedback4Action,
   ),
-  mood(
+  feedback5(
     icon: AppIcons.mood,
     semantics: Strings.mood,
     analyticsEvent: AnalyticsEventNames.feedback5Action,
@@ -94,7 +94,7 @@ class _InAppFeedbackState extends State<InAppFeedback> with TickerProviderStateM
   Widget build(BuildContext context) {
     return StoreConnector<AppState, bool>(
       onInit: (store) => store.dispatch(InAppFeedbackRequestAction(widget.feature)),
-      rebuildOnChange: false, // to avoid animation are stopped when state changes
+      rebuildOnChange: false, // later layout changes are made via stateful widget
       converter: (store) => store.state.inAppFeedbackState.feedbackActivationForFeatures[widget.feature] ?? false,
       builder: _builder,
     );
@@ -187,7 +187,7 @@ class _InAppFeedbackWidgetState extends State<_InAppFeedbackWidget> {
               onPressed: () => setState(() => state = _WidgetState.closed),
             ),
           ),
-        _WidgetState.closed => SizedBox.shrink(key: ValueKey<int>(2)),
+        _WidgetState.closed => SizedBox.shrink(),
       },
     );
   }
@@ -228,29 +228,29 @@ class _FeedbackOptionsGroup extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _FeedbackOption(
-            feedback: _Feedback.moodBad,
+            feedback: _Feedback.feedback1,
             backgroundColor: backgroundColor,
-            onTap: () => onOptionTap(_Feedback.moodBad),
+            onTap: () => onOptionTap(_Feedback.feedback1),
           ),
           _FeedbackOption(
-            feedback: _Feedback.sentimentDissatisfied,
+            feedback: _Feedback.feedback2,
             backgroundColor: backgroundColor,
-            onTap: () => onOptionTap(_Feedback.sentimentDissatisfied),
+            onTap: () => onOptionTap(_Feedback.feedback2),
           ),
           _FeedbackOption(
-            feedback: _Feedback.sentimentNeutral,
+            feedback: _Feedback.feedback3,
             backgroundColor: backgroundColor,
-            onTap: () => onOptionTap(_Feedback.sentimentNeutral),
+            onTap: () => onOptionTap(_Feedback.feedback3),
           ),
           _FeedbackOption(
-            feedback: _Feedback.sentimentSatisfied,
+            feedback: _Feedback.feedback4,
             backgroundColor: backgroundColor,
-            onTap: () => onOptionTap(_Feedback.sentimentSatisfied),
+            onTap: () => onOptionTap(_Feedback.feedback4),
           ),
           _FeedbackOption(
-            feedback: _Feedback.mood,
+            feedback: _Feedback.feedback5,
             backgroundColor: backgroundColor,
-            onTap: () => onOptionTap(_Feedback.mood),
+            onTap: () => onOptionTap(_Feedback.feedback5),
           ),
         ],
       ),
