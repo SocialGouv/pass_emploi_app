@@ -57,8 +57,14 @@ class InAppFeedback extends StatefulWidget {
   final String feature;
   final String label;
   final EdgeInsetsGeometry padding;
+  final Color backgroundColor;
 
-  const InAppFeedback({required this.feature, required this.label, this.padding = EdgeInsets.zero});
+  const InAppFeedback({
+    required this.feature,
+    required this.label,
+    this.padding = EdgeInsets.zero,
+    this.backgroundColor = AppColors.primaryLighten,
+  });
 
   @override
   State<InAppFeedback> createState() => _InAppFeedbackState();
@@ -98,7 +104,12 @@ class _InAppFeedbackState extends State<InAppFeedback> with TickerProviderStateM
     return switch (display) {
       true => AnimatedBuilder(
           animation: _animation,
-          child: _InAppFeedbackWidget(feature: widget.feature, label: widget.label, padding: widget.padding),
+          child: _InAppFeedbackWidget(
+            feature: widget.feature,
+            label: widget.label,
+            padding: widget.padding,
+            backgroundColor: widget.backgroundColor,
+          ),
           builder: (context, child) => Transform.scale(scale: _animation.value, child: child)),
       false => SizedBox.shrink(),
     };
@@ -109,8 +120,14 @@ class _InAppFeedbackWidget extends StatefulWidget {
   final String feature;
   final String label;
   final EdgeInsetsGeometry padding;
+  final Color backgroundColor;
 
-  const _InAppFeedbackWidget({required this.feature, required this.label, required this.padding});
+  const _InAppFeedbackWidget({
+    required this.feature,
+    required this.label,
+    required this.padding,
+    required this.backgroundColor,
+  });
 
   @override
   State<_InAppFeedbackWidget> createState() => _InAppFeedbackWidgetState();
@@ -133,11 +150,13 @@ class _InAppFeedbackWidgetState extends State<_InAppFeedbackWidget> {
             child: Stack(
               children: [
                 _BorderedContainer(
+                  backgroundColor: widget.backgroundColor,
                   child: Column(
                     children: [
                       _Description(icon: AppIcons.help, label: widget.label),
                       SizedBox(height: Margins.spacing_m),
                       _FeedbackOptionsGroup(
+                        backgroundColor: widget.backgroundColor,
                         onOptionTap: (feedback) {
                           setState(() => state = _WidgetState.thanks);
                           PassEmploiMatomoTracker.instance.trackEvent(
@@ -163,7 +182,10 @@ class _InAppFeedbackWidgetState extends State<_InAppFeedbackWidget> {
         _WidgetState.thanks => Padding(
             key: ValueKey<int>(1),
             padding: widget.padding,
-            child: _Thanks(onPressed: () => setState(() => state = _WidgetState.closed)),
+            child: _Thanks(
+              backgroundColor: widget.backgroundColor,
+              onPressed: () => setState(() => state = _WidgetState.closed),
+            ),
           ),
         _WidgetState.closed => SizedBox.shrink(key: ValueKey<int>(2)),
       },
@@ -193,45 +215,59 @@ class _Description extends StatelessWidget {
 }
 
 class _FeedbackOptionsGroup extends StatelessWidget {
+  final Color backgroundColor;
   final Function(_Feedback) onOptionTap;
 
-  const _FeedbackOptionsGroup({required this.onOptionTap});
+  const _FeedbackOptionsGroup({required this.backgroundColor, required this.onOptionTap});
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        _FeedbackOption(
-          feedback: _Feedback.moodBad,
-          onTap: () => onOptionTap(_Feedback.moodBad),
-        ),
-        _FeedbackOption(
-          feedback: _Feedback.sentimentDissatisfied,
-          onTap: () => onOptionTap(_Feedback.sentimentDissatisfied),
-        ),
-        _FeedbackOption(
-          feedback: _Feedback.sentimentNeutral,
-          onTap: () => onOptionTap(_Feedback.sentimentNeutral),
-        ),
-        _FeedbackOption(
-          feedback: _Feedback.sentimentSatisfied,
-          onTap: () => onOptionTap(_Feedback.sentimentSatisfied),
-        ),
-        _FeedbackOption(
-          feedback: _Feedback.mood,
-          onTap: () => onOptionTap(_Feedback.mood),
-        ),
-      ],
+    return Semantics(
+      container: true,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _FeedbackOption(
+            feedback: _Feedback.moodBad,
+            backgroundColor: backgroundColor,
+            onTap: () => onOptionTap(_Feedback.moodBad),
+          ),
+          _FeedbackOption(
+            feedback: _Feedback.sentimentDissatisfied,
+            backgroundColor: backgroundColor,
+            onTap: () => onOptionTap(_Feedback.sentimentDissatisfied),
+          ),
+          _FeedbackOption(
+            feedback: _Feedback.sentimentNeutral,
+            backgroundColor: backgroundColor,
+            onTap: () => onOptionTap(_Feedback.sentimentNeutral),
+          ),
+          _FeedbackOption(
+            feedback: _Feedback.sentimentSatisfied,
+            backgroundColor: backgroundColor,
+            onTap: () => onOptionTap(_Feedback.sentimentSatisfied),
+          ),
+          _FeedbackOption(
+            feedback: _Feedback.mood,
+            backgroundColor: backgroundColor,
+            onTap: () => onOptionTap(_Feedback.mood),
+          ),
+        ],
+      ),
     );
   }
 }
 
 class _FeedbackOption extends StatelessWidget {
   final _Feedback feedback;
+  final Color backgroundColor;
   final VoidCallback onTap;
 
-  const _FeedbackOption({required this.feedback, required this.onTap});
+  const _FeedbackOption({
+    required this.feedback,
+    required this.backgroundColor,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -240,7 +276,7 @@ class _FeedbackOption extends StatelessWidget {
         label: feedback.semantics,
         button: true,
         child: Material(
-          color: AppColors.primaryLighten,
+          color: backgroundColor,
           clipBehavior: Clip.hardEdge,
           borderRadius: BorderRadius.circular(Dimens.radius_base),
           child: InkWell(
@@ -327,15 +363,17 @@ class _CloseButton extends StatelessWidget {
 }
 
 class _Thanks extends StatelessWidget {
+  final Color backgroundColor;
   final VoidCallback onPressed;
 
-  const _Thanks({required this.onPressed});
+  const _Thanks({required this.backgroundColor, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         _BorderedContainer(
+          backgroundColor: backgroundColor,
           child: _Description(icon: AppIcons.check_circle_outline_rounded, label: Strings.feedbackThanks),
         ),
         _CloseButton(onPressed: onPressed),
@@ -346,14 +384,15 @@ class _Thanks extends StatelessWidget {
 
 class _BorderedContainer extends StatelessWidget {
   final Widget child;
+  final Color backgroundColor;
 
-  const _BorderedContainer({required this.child});
+  const _BorderedContainer({required this.child, required this.backgroundColor});
 
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.primaryLighten,
+        color: backgroundColor,
         borderRadius: BorderRadius.circular(Dimens.radius_base),
       ),
       child: Padding(
