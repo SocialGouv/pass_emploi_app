@@ -35,6 +35,7 @@ import 'package:pass_emploi_app/features/favori/update/favori_update_state.dart'
 import 'package:pass_emploi_app/features/feature_flip/feature_flip_state.dart';
 import 'package:pass_emploi_app/features/first_launch_onboarding/first_launch_onboarding_state.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_state.dart';
+import 'package:pass_emploi_app/features/in_app_feedback/in_app_feedback_state.dart';
 import 'package:pass_emploi_app/features/location/search_location_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/matching_demarche/matching_demarche_state.dart';
@@ -149,6 +150,7 @@ class AppState extends Equatable {
   final CguState cguState;
   final DateConsultationOffreState dateConsultationOffreState;
   final DerniereOffreConsulteeState derniereOffreConsulteeState;
+  final InAppFeedbackState inAppFeedbackState;
   /*AUTOGENERATE-REDUX-APP-STATE-PROPERTY*/
 
   AppState({
@@ -224,6 +226,7 @@ class AppState extends Equatable {
     required this.cguState,
     required this.dateConsultationOffreState,
     required this.derniereOffreConsulteeState,
+    required this.inAppFeedbackState,
     /*AUTOGENERATE-REDUX-APP-STATE-CONSTRUCTOR*/
   });
 
@@ -300,6 +303,7 @@ class AppState extends Equatable {
     final CguState? cguState,
     final DateConsultationOffreState? dateConsultationOffreState,
     final DerniereOffreConsulteeState? derniereOffreConsulteeState,
+    final InAppFeedbackState? inAppFeedbackState,
     /*AUTOGENERATE-REDUX-APP-STATE-COPYPARAM*/
   }) {
     return AppState(
@@ -375,6 +379,7 @@ class AppState extends Equatable {
       cguState: cguState ?? this.cguState,
       dateConsultationOffreState: dateConsultationOffreState ?? this.dateConsultationOffreState,
       derniereOffreConsulteeState: derniereOffreConsulteeState ?? this.derniereOffreConsulteeState,
+      inAppFeedbackState: inAppFeedbackState ?? this.inAppFeedbackState,
       /*AUTOGENERATE-REDUX-APP-STATE-COPYBODY*/
     );
   }
@@ -453,6 +458,7 @@ class AppState extends Equatable {
       cguState: CguNotInitializedState(),
       dateConsultationOffreState: DateConsultationOffreState(),
       derniereOffreConsulteeState: DerniereOffreConsulteeState(),
+      inAppFeedbackState: InAppFeedbackState(),
       /*AUTOGENERATE-REDUX-APP-STATE-FACTORY*/
     );
   }
@@ -524,6 +530,7 @@ class AppState extends Equatable {
         cguState,
         dateConsultationOffreState,
         derniereOffreConsulteeState,
+        inAppFeedbackState,
         /*AUTOGENERATE-REDUX-APP-STATE-EQUATABLE*/
       ];
 

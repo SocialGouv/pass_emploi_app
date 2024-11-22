@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:pass_emploi_app/models/accompagnement.dart';
 import 'package:pass_emploi_app/models/cgu.dart';
+import 'package:pass_emploi_app/models/feedback_for_feature.dart';
 
 class RemoteConfigRepository {
   final FirebaseRemoteConfig? _firebaseRemoteConfig;
@@ -59,5 +60,15 @@ class RemoteConfigRepository {
     // Despite Remote config documentation, Firebase returns "null" string value when key is not found
     if (cguAsString.isEmpty || cguAsString == "null") return null;
     return Cgu.fromJson(json.decode(cguAsString));
+  }
+
+  FeedbackForFeature? inAppFeedbackForFeature(String feature) {
+    if (_firebaseRemoteConfig == null) return null;
+    final String inAppFeedbackAsString = _firebaseRemoteConfig.getString('in_app_feedback_for_feature');
+    // Despite Remote config documentation, Firebase returns "null" string value when key is not found
+    if (inAppFeedbackAsString.isEmpty || inAppFeedbackAsString == "null") return null;
+    final inAppFeedbackAsJson = json.decode(inAppFeedbackAsString);
+    final feedbackForFeatureAsJson = inAppFeedbackAsJson[feature];
+    return feedbackForFeatureAsJson != null ? FeedbackForFeature.fromJson(feedbackForFeatureAsJson) : null;
   }
 }

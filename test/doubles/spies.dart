@@ -40,6 +40,7 @@ class StoreSpy extends Store<AppState> {
 class FlutterSecureStorageSpy extends FlutterSecureStorage {
   final Duration delay;
   final Map<String, String> _storedValues = {};
+
   void reset() => _storedValues.clear();
 
   FlutterSecureStorageSpy({this.delay = const Duration(milliseconds: 10)});
@@ -55,7 +56,7 @@ class FlutterSecureStorageSpy extends FlutterSecureStorage {
     MacOsOptions? mOptions,
     WindowsOptions? wOptions,
   }) async {
-    await simulateIoOperation();
+    if (delay != Duration.zero) await simulateIoOperation();
     _storedValues[key] = value!;
   }
 
@@ -69,7 +70,7 @@ class FlutterSecureStorageSpy extends FlutterSecureStorage {
     MacOsOptions? mOptions,
     WindowsOptions? wOptions,
   }) async {
-    await simulateIoOperation();
+    if (delay != Duration.zero) await simulateIoOperation();
     return _storedValues[key];
   }
 
@@ -83,7 +84,7 @@ class FlutterSecureStorageSpy extends FlutterSecureStorage {
     MacOsOptions? mOptions,
     WindowsOptions? wOptions,
   }) async {
-    await simulateIoOperation();
+    if (delay != Duration.zero) await simulateIoOperation();
     _storedValues.remove(key);
   }
 
@@ -96,7 +97,7 @@ class FlutterSecureStorageSpy extends FlutterSecureStorage {
     MacOsOptions? mOptions,
     WindowsOptions? wOptions,
   }) async {
-    await simulateIoOperation();
+    if (delay != Duration.zero) await simulateIoOperation();
     return _storedValues;
   }
 

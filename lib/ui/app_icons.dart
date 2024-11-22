@@ -73,6 +73,12 @@ class AppIcons {
   static const IconData hotel_class = Icons.hotel_class_outlined;
   static const IconData warning_rounded = Icons.warning_rounded;
   static const IconData visibility_outlined = Icons.visibility_outlined;
+  static const IconData help = Icons.help;
+  static const IconData mood_bad = Icons.mood_bad;
+  static const IconData sentiment_dissatisfied = Icons.sentiment_dissatisfied;
+  static const IconData sentiment_neutral = Icons.sentiment_neutral;
+  static const IconData sentiment_satisfied = Icons.sentiment_satisfied;
+  static const IconData mood = Icons.mood;
 
   // Solution
   static const IconData immersion = AppIconsAdditional.immersion;

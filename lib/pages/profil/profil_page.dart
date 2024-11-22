@@ -30,6 +30,7 @@ import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/cards/profil/mon_conseiller_card.dart';
 import 'package:pass_emploi_app/widgets/contact_page.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/in_app_feedback.dart';
 import 'package:pass_emploi_app/widgets/pressed_tip.dart';
 import 'package:pass_emploi_app/widgets/rating_page.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
@@ -73,6 +74,13 @@ class _Scaffold extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                // TODO(22-11-2024): Remove after PO review
+                InAppFeedback(
+                  feature: 'raclette',
+                  label: "Manger une raclette 🧀 avec mes collègues sur ma pause déjeuner me rend heureux.",
+                  backgroundColor: Colors.white,
+                  padding: EdgeInsets.only(bottom: Margins.spacing_base),
+                ),
                 _UsernameTitle(userName: viewModel.userName, onTitleTap: viewModel.onTitleTap),
                 SizedBox(height: Margins.spacing_base),
                 if (viewModel.withCje) ...[
