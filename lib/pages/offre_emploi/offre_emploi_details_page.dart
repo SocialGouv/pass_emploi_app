@@ -123,11 +123,6 @@ class OffreEmploiDetailsPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                InAppFeedback(
-                  feature: 'provenance-offre',
-                  label: Strings.feedbackProvenanceOffre,
-                  padding: const EdgeInsets.only(bottom: Margins.spacing_m),
-                ),
                 if (id != null) Text(Strings.offreDetailNumber(id), style: TextStyles.textXsRegular()),
                 if (lastUpdate != null)
                   Padding(
@@ -139,6 +134,11 @@ class OffreEmploiDetailsPage extends StatelessWidget {
                   ),
                 SizedBox(height: Margins.spacing_s),
                 if (viewModel.originViewModel != null) ...[
+                  InAppFeedback(
+                    feature: 'provenance-offre',
+                    label: Strings.feedbackProvenanceOffre,
+                    padding: const EdgeInsets.only(top: Margins.spacing_s, bottom: Margins.spacing_m),
+                  ),
                   OffreEmploiOrigin(
                     label: viewModel.originViewModel!.name,
                     source: viewModel.originViewModel!.source,
