@@ -1,1 +1,1 @@
-enum UserActionStateSource { monSuivi, noSource }
+enum UserActionStateSource { monSuivi, noSource, chatPartage }

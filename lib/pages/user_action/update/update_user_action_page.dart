@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
+import 'package:pass_emploi_app/features/user_action/details/user_action_details_actions.dart';
+import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/pages/user_action/edit/edit_user_action_form.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/user_action/update_form/update_user_action_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 class UpdateUserActionPage extends StatelessWidget {
@@ -28,6 +32,17 @@ class UpdateUserActionPage extends StatelessWidget {
     return Tracker(
       tracking: AnalyticsScreenNames.userActionUpdate,
       child: StoreConnector<AppState, UpdateUserActionViewModel>(
+        onInit: (store) {
+          if (source == UserActionStateSource.chatPartage) {
+            store.dispatch(UserActionDetailsRequestAction(userActionId));
+          }
+        },
+        onDispose: (store) {
+          if (source == UserActionStateSource.chatPartage) {
+            store.dispatch(UserActionDetailsResetAction());
+            store.dispatch(UserActionUpdateResetAction());
+          }
+        },
         converter: (store) => UpdateUserActionViewModel.create(store, source, userActionId),
         builder: (context, viewModel) => _Body(viewModel),
         onDidChange: (previousViewModel, viewModel) => _popOnUpdateSuccess(context, previousViewModel, viewModel),
@@ -45,6 +60,38 @@ class UpdateUserActionPage extends StatelessWidget {
   }
 }
 
+class _DisplayState extends StatelessWidget {
+  const _DisplayState(this.viewModel);
+  final UpdateUserActionViewModel viewModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return switch (viewModel.displayState) {
+      DisplayState.LOADING => Center(child: CircularProgressIndicator()),
+      DisplayState.CONTENT => Padding(
+          padding: const EdgeInsets.all(Margins.spacing_base),
+          child: EditUserActionForm(
+            requireUpdate: true,
+            confirmationLabel: Strings.updateUserActionSaveButton,
+            actionDto: EditUserActionFormDto(
+              date: viewModel.date,
+              title: viewModel.title,
+              description: viewModel.description,
+              type: viewModel.type,
+            ),
+            onSaved: (actionDto) => viewModel.save(
+              actionDto.date,
+              actionDto.title,
+              actionDto.description,
+              actionDto.type,
+            ),
+          ),
+        ),
+      _ => Retry(Strings.userActionDetailsError, viewModel.onRety),
+    };
+  }
+}
+
 class _Body extends StatelessWidget {
   const _Body(this.viewModel);
 
@@ -56,31 +103,12 @@ class _Body extends StatelessWidget {
     return Stack(
       children: [
         Scaffold(
-          backgroundColor: bgColor,
-          appBar: SecondaryAppBar(
-            title: Strings.updateUserActionPageTitle,
             backgroundColor: bgColor,
-          ),
-          body: Padding(
-            padding: const EdgeInsets.all(Margins.spacing_base),
-            child: EditUserActionForm(
-              requireUpdate: true,
-              confirmationLabel: Strings.updateUserActionSaveButton,
-              actionDto: EditUserActionFormDto(
-                date: viewModel.date,
-                title: viewModel.title,
-                description: viewModel.description,
-                type: viewModel.type,
-              ),
-              onSaved: (actionDto) => viewModel.save(
-                actionDto.date,
-                actionDto.title,
-                actionDto.description,
-                actionDto.type,
-              ),
+            appBar: SecondaryAppBar(
+              title: Strings.updateUserActionPageTitle,
+              backgroundColor: bgColor,
             ),
-          ),
-        ),
+            body: _DisplayState(viewModel)),
         if (viewModel.showLoading)
           ColoredBox(
             color: Colors.white.withOpacity(0.5),

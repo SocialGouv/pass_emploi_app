@@ -6,7 +6,7 @@ import 'package:pass_emploi_app/pages/immersion/immersion_details_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi/offre_emploi_details_page.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_details_page.dart';
 import 'package:pass_emploi_app/pages/service_civique/service_civique_detail_page.dart';
-import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
+import 'package:pass_emploi_app/pages/user_action/update/update_user_action_page.dart';
 import 'package:pass_emploi_app/presentation/chat/chat_item.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
@@ -107,9 +107,9 @@ class _PartageCard extends StatelessWidget {
   void _showUserActionDetailPage(BuildContext context, ActionMessageItem item) {
     Navigator.push(
       context,
-      UserActionDetailPage.materialPageRoute(
+      UpdateUserActionPage.route(
+        UserActionStateSource.chatPartage,
         item.idPartage,
-        UserActionStateSource.noSource,
       ),
     );
   }

@@ -8,17 +8,25 @@ import 'package:redux/redux.dart';
 
 extension UserActionStoreExtension on Store<AppState> {
   UserAction? getAction(UserActionStateSource stateSource, String actionId) {
-    switch (stateSource) {
-      case UserActionStateSource.monSuivi:
-        final state = this.state.monSuiviState;
-        if (state is MonSuiviSuccessState) {
-          return state.monSuivi.actions.firstWhereOrNull((e) => e.id == actionId);
-        }
-      case UserActionStateSource.noSource:
-        final state = this.state.userActionDetailsState;
-        if (state is UserActionDetailsSuccessState && state.result.id == actionId) return state.result;
-        return null;
-    }
-    return null;
+    return switch (stateSource) {
+      UserActionStateSource.monSuivi => _getActionFromMonSuivi(state.monSuiviState, actionId),
+      UserActionStateSource.noSource ||
+      UserActionStateSource.chatPartage =>
+        _getActionFromDetails(state.userActionDetailsState, actionId),
+    };
   }
+}
+
+UserAction? _getActionFromMonSuivi(MonSuiviState state, String actionId) {
+  if (state is MonSuiviSuccessState) {
+    return state.monSuivi.actions.firstWhereOrNull((e) => e.id == actionId);
+  }
+  return null;
+}
+
+UserAction? _getActionFromDetails(UserActionDetailsState state, String actionId) {
+  if (state is UserActionDetailsSuccessState && state.result.id == actionId) {
+    return state.result;
+  }
+  return null;
 }

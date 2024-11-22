@@ -1,10 +1,13 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
+import 'package:pass_emploi_app/features/user_action/details/user_action_details_actions.dart';
+import 'package:pass_emploi_app/features/user_action/details/user_action_details_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
 import 'package:pass_emploi_app/models/requests/user_action_update_request.dart';
 import 'package:pass_emploi_app/models/user_action_type.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/user_action/update_form/update_user_action_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 
@@ -139,5 +142,80 @@ void main() {
     // Then
     expect(store.dispatchedAction, isA<UserActionDeleteRequestAction>());
     expect((store.dispatchedAction as UserActionDeleteRequestAction).actionId, 'id');
+  });
+
+  group('display state', () {
+    group('when source is chat partage', () {
+      test('should display loading when detail state is not initialized', () {
+        // Given
+        final store = givenState().copyWith(userActionDetailsState: UserActionDetailsNotInitializedState()).store();
+
+        // When
+        final viewModel = UpdateUserActionViewModel.create(store, UserActionStateSource.chatPartage, 'id');
+
+        // Then
+        expect(viewModel.displayState, DisplayState.LOADING);
+      });
+
+      test('should display loading when detail state is loading', () {
+        // Given
+        final store = givenState().copyWith(userActionDetailsState: UserActionDetailsLoadingState()).store();
+
+        // When
+        final viewModel = UpdateUserActionViewModel.create(store, UserActionStateSource.chatPartage, 'id');
+
+        // Then
+        expect(viewModel.displayState, DisplayState.LOADING);
+      });
+
+      test('should display failure when detail state is loading', () {
+        // Given
+        final store = givenState().copyWith(userActionDetailsState: UserActionDetailsFailureState()).store();
+
+        // When
+        final viewModel = UpdateUserActionViewModel.create(store, UserActionStateSource.chatPartage, 'id');
+
+        // Then
+        expect(viewModel.displayState, DisplayState.FAILURE);
+      });
+
+      test('should display content when detail state is success', () {
+        // Given
+        final store =
+            givenState().copyWith(userActionDetailsState: UserActionDetailsSuccessState(mockUserAction())).store();
+
+        // When
+        final viewModel = UpdateUserActionViewModel.create(store, UserActionStateSource.chatPartage, 'id');
+
+        // Then
+        expect(viewModel.displayState, DisplayState.CONTENT);
+      });
+    });
+
+    group('when source is not chatPartage', () {
+      test('should display content', () {
+        // Given
+        final store = StoreSpy.withState(givenState().withAction(mockUserAction(id: 'id')));
+
+        // When
+        final viewModel = UpdateUserActionViewModel.create(store, UserActionStateSource.noSource, 'id');
+
+        // Then
+        expect(viewModel.displayState, DisplayState.CONTENT);
+      });
+    });
+
+    test('onRetry should dispatch UserActionDetailsRequestAction', () {
+      // Given
+      final store = StoreSpy.withState(givenState().withAction(mockUserAction(id: 'id')));
+      final viewModel = UpdateUserActionViewModel.create(store, UserActionStateSource.noSource, 'id');
+
+      // When
+      viewModel.onRety();
+
+      // Then
+      expect(store.dispatchedAction, isA<UserActionDetailsRequestAction>());
+      expect((store.dispatchedAction as UserActionDetailsRequestAction).userActionId, 'id');
+    });
   });
 }

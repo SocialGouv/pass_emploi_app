@@ -54,8 +54,16 @@ class CacheInvalidatorMiddleware extends MiddlewareClass<AppState> {
       await cacheManager.removeResource(CachedResource.preferences, userId);
     }
 
+    if (_shouldInvalidateUserAction(action)) {
+      await cacheManager.removeResource(CachedResource.userAction, userId);
+    }
+
     next(action);
   }
+}
+
+bool _shouldInvalidateUserAction(dynamic action) {
+  return action is UserActionUpdateSuccessAction;
 }
 
 bool _shouldInvalidateAccueil(Store<AppState> store, dynamic action) {

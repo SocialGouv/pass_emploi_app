@@ -56,7 +56,8 @@ enum CachedResource {
   favorisImmersion,
   favorisServiceCivique,
   alerte,
-  preferences;
+  preferences,
+  userAction;
 
   static CachedResource? fromUrl(String url) {
     if (url.contains('/accueil')) return accueil;
@@ -70,6 +71,7 @@ enum CachedResource {
     if (url.contains('/milo') && url.endsWith('sessions')) return sessionsMiloList;
     if (url.contains('/milo') && url.endsWith('sessions?filtrerEstInscrit=true')) return sessionsMiloInscrit;
     if (url.contains('/milo') && url.endsWith('sessions?filtrerEstInscrit=false')) return sessionsMiloNonInscrit;
+    if (url.contains('/actions')) return userAction;
     return null;
   }
 }
