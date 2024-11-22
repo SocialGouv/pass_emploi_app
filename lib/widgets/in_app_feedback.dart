@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/media_sizes.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
@@ -306,7 +307,7 @@ class _FeedbackOption extends StatelessWidget {
 class _FeedbackCaption extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    const maxWidthForLargeTextScale = 100.0;
+    final maxWidthForLargeTextScale = MediaQuery.of(context).size.width < MediaSizes.width_s ? 60.0 : 100.0;
     return Stack(
       children: [
         Align(
