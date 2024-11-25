@@ -39,7 +39,6 @@ class FavoriLikeableCard<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final originViewModel = OffreEmploiOriginViewModel.from(origin);
     return DateDerniereConsultationProvider(
       id: id,
       builder: (dateConsultation) {
@@ -47,13 +46,7 @@ class FavoriLikeableCard<T> extends StatelessWidget {
           onTap: onTap,
           title: title,
           subtitle: company,
-          tag: originViewModel != null
-              ? OffreEmploiOrigin(
-                  label: originViewModel.name,
-                  source: originViewModel.source,
-                  size: OffreEmploiOriginSize.small,
-                )
-              : null,
+          tag: OffreEmploiOriginViewModel.from(origin)?.toWidget(OffreEmploiOriginSize.small),
           iconButton: specialAction,
           secondaryTags: [
             offreType.toCardTag(),

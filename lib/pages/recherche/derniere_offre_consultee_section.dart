@@ -37,13 +37,7 @@ class DerniereOffreConsulteeSection extends StatelessWidget {
                 return BaseCard(
                   title: viewModel.titre,
                   subtitle: viewModel.organisation,
-                  tag: viewModel.originViewModel != null
-                      ? OffreEmploiOrigin(
-                          label: viewModel.originViewModel!.name,
-                          source: viewModel.originViewModel!.source,
-                          size: OffreEmploiOriginSize.small,
-                        )
-                      : null,
+                  tag: viewModel.originViewModel?.toWidget(OffreEmploiOriginSize.small),
                   onTap: () => switch (viewModel.type) {
                     OffreType.emploi => Navigator.of(context).push(
                         OffreEmploiDetailsPage.materialPageRoute(

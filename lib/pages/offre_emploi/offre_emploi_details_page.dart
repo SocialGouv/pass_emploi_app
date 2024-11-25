@@ -139,11 +139,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
                     label: Strings.feedbackProvenanceOffre,
                     padding: const EdgeInsets.only(top: Margins.spacing_s, bottom: Margins.spacing_m),
                   ),
-                  OffreEmploiOrigin(
-                    label: viewModel.originViewModel!.name,
-                    source: viewModel.originViewModel!.source,
-                    size: OffreEmploiOriginSize.medium,
-                  ),
+                  viewModel.originViewModel!.toWidget(OffreEmploiOriginSize.medium),
                   SizedBox(height: Margins.spacing_s),
                 ],
                 if (title != null)

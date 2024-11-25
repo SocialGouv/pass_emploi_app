@@ -128,7 +128,6 @@ class _FavorisCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final originViewModel = OffreEmploiOriginViewModel.from(favori.origin);
     return Column(
       children: [
         DateDerniereConsultationProvider(
@@ -137,13 +136,7 @@ class _FavorisCard extends StatelessWidget {
             return BaseCard(
               title: favori.titre,
               subtitle: favori.organisation,
-              tag: originViewModel != null
-                  ? OffreEmploiOrigin(
-                      label: originViewModel.name,
-                      source: originViewModel.source,
-                      size: OffreEmploiOriginSize.small,
-                    )
-                  : null,
+              tag: OffreEmploiOriginViewModel.from(favori.origin)?.toWidget(OffreEmploiOriginSize.small),
               onTap: () => _goToFavori(context, favori),
               secondaryTags: [
                 favori.type.toCardTag(),
