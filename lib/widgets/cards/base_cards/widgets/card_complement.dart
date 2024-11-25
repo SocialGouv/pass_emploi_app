@@ -57,7 +57,7 @@ class CardComplement extends StatelessWidget {
         bold = false,
         semanticsReplacement = Strings.offreLastSeenA11y(date),
         // Required as icon is not centered vertically
-        iconPadding = const EdgeInsets.only(top: 2.5);
+        iconPadding = const EdgeInsets.only(top: 2);
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +65,7 @@ class CardComplement extends StatelessWidget {
       label: semanticsReplacement ?? text,
       child: Row(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: iconPadding,
