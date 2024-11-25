@@ -4,14 +4,21 @@
     "titre": "titre-1",
     "type": "OFFRE_EMPLOI",
     "organisation": "organisation-1",
-    "localisation": "localisation-1"
+    "localisation": "localisation-1",
+    "origine": {
+      "nom": "Indeed",
+      "logo": "https://indeed.com/logo.png"
+    }
   },
   {
     "idOffre": "2",
     "titre": "titre-2",
     "type": "OFFRE_ALTERNANCE",
     "organisation": "organisation-2",
-    "localisation": "localisation-2"
+    "localisation": "localisation-2",
+    "origine": {
+      "nom": "France Travail"
+    }
   },
   {
     "idOffre": "3",

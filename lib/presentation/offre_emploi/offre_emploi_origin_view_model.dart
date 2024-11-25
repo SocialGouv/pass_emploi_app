@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/models/image_source.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/widgets/offre_emploi_origin.dart';
 
 class OffreEmploiOriginViewModel extends Equatable {
   final String name;
@@ -23,4 +24,12 @@ class OffreEmploiOriginViewModel extends Equatable {
 
   @override
   List<Object?> get props => [name, source];
+
+  OffreEmploiOrigin toWidget(OffreEmploiOriginSize size) {
+    return OffreEmploiOrigin(
+      label: name,
+      source: source,
+      size: size,
+    );
+  }
 }

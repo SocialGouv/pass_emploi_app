@@ -30,7 +30,7 @@ import 'package:pass_emploi_app/utils/store_extensions.dart';
 import 'package:pass_emploi_app/widgets/animated_list_loader.dart';
 import 'package:pass_emploi_app/widgets/buttons/filtre_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
-import 'package:pass_emploi_app/widgets/cards/favori_card.dart';
+import 'package:pass_emploi_app/widgets/cards/alerte_deletable_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/dialogs/alerte_delete_dialog.dart';
 import 'package:pass_emploi_app/widgets/illustration/empty_state_placeholder.dart';
@@ -179,7 +179,7 @@ class _AlertePageState extends State<AlertePage> {
 
   Widget _buildEmploiCard(BuildContext context, OffreEmploiAlerte offreEmploi, AlerteListViewModel viewModel) {
     final type = offreEmploi.onlyAlternance ? AlerteType.ALTERNANCE : AlerteType.EMPLOI;
-    return FavoriCard.deletable(
+    return AlerteDeletableCard(
       offreType: offreEmploi.onlyAlternance ? OffreType.alternance : OffreType.emploi,
       onTap: () => viewModel.offreEmploiSelected(offreEmploi),
       onDelete: () => _showDeleteDialog(viewModel, offreEmploi.id, type),
@@ -193,7 +193,7 @@ class _AlertePageState extends State<AlertePage> {
     ImmersionAlerte alertesImmersion,
     AlerteListViewModel viewModel,
   ) {
-    return FavoriCard.deletable(
+    return AlerteDeletableCard(
       offreType: OffreType.immersion,
       onTap: () => viewModel.offreImmersionSelected(alertesImmersion),
       onDelete: () => _showDeleteDialog(viewModel, alertesImmersion.id, AlerteType.IMMERSION),
@@ -207,7 +207,7 @@ class _AlertePageState extends State<AlertePage> {
     ServiceCiviqueAlerte alertesServiceCivique,
     AlerteListViewModel viewModel,
   ) {
-    return FavoriCard.deletable(
+    return AlerteDeletableCard(
       offreType: OffreType.serviceCivique,
       onTap: () => viewModel.offreServiceCiviqueSelected(alertesServiceCivique),
       onDelete: () => _showDeleteDialog(viewModel, alertesServiceCivique.id, AlerteType.SERVICE_CIVIQUE),

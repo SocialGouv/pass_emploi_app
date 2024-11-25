@@ -85,7 +85,15 @@ void main() {
     group("with full data in request", () {
       void expectValidRequestAndResponse({required bool isAlternance}) {
         group("isAlternance : $isAlternance", () {
-          sut.when((repository) => repository.postFavori("jeuneId", _offreWithFullData(isAlternance: isAlternance)));
+          sut.when(
+            (repository) => repository.postFavori(
+              "jeuneId",
+              _offreWithFullData(
+                isAlternance: isAlternance,
+                origin: FranceTravailOrigin(),
+              ),
+            ),
+          );
 
           group('when response is valid', () {
             sut.givenResponseCode(201);
@@ -102,6 +110,7 @@ void main() {
                   "alternance": isAlternance,
                   'duree': "duration",
                   'nomEntreprise': "companyName",
+                  'origineNom': "France Travail"
                 },
               );
             });
@@ -117,6 +126,40 @@ void main() {
 
       expectValidRequestAndResponse(isAlternance: true);
       expectValidRequestAndResponse(isAlternance: false);
+    });
+
+    group("with partenaire origin", () {
+      sut.when(
+        (repository) => repository.postFavori(
+          "jeuneId",
+          _offreWithFullData(
+            isAlternance: true,
+            origin: PartenaireOrigin(name: 'Indeed', logoUrl: 'https://indeed.com/logo.png'),
+          ),
+        ),
+      );
+
+      group('when response is valid', () {
+        sut.givenResponseCode(201);
+
+        test('request should be valid', () async {
+          await sut.expectRequestBody(
+            method: HttpMethod.post,
+            url: "/jeunes/jeuneId/favoris/offres-emploi",
+            jsonBody: {
+              "idOffre": "offreId2",
+              "titre": "otherTitle",
+              "typeContrat": "otherContractType",
+              "localisation": {"nom": "Marseille"},
+              "alternance": true,
+              'duree': "duration",
+              'nomEntreprise': "companyName",
+              'origineNom': "Indeed",
+              'origineLogo': "https://indeed.com/logo.png",
+            },
+          );
+        });
+      });
     });
   });
 
@@ -169,7 +212,7 @@ OffreEmploi _offreWithPartialData() {
   );
 }
 
-OffreEmploi _offreWithFullData({required bool isAlternance}) {
+OffreEmploi _offreWithFullData({required bool isAlternance, required Origin origin}) {
   return OffreEmploi(
     id: "offreId2",
     duration: "duration",
@@ -178,6 +221,6 @@ OffreEmploi _offreWithFullData({required bool isAlternance}) {
     isAlternance: isAlternance,
     location: "Marseille",
     title: "otherTitle",
-    origin: null,
+    origin: origin,
   );
 }

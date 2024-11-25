@@ -91,14 +91,21 @@
         "titre": "Employé / Employée de rayon libre-service (H/F)",
         "type": "OFFRE_EMPLOI",
         "organisation": "AUCHAN",
-        "localisation": "69 - DARDILLY"
+        "localisation": "69 - DARDILLY",
+        "origine": {
+          "nom": "France Travail"
+        }
       },
       {
         "idOffre": "132XPKY",
         "titre": "Vendeur / Vendeuse en électroménager   (H/F)",
         "type": "OFFRE_ALTERNANCE",
         "organisation": "DUCRETET",
-        "localisation": "69 - LYON 01"
+        "localisation": "69 - LYON 01",
+        "origine": {
+          "nom": "Indeed",
+          "logo": "https://prod.statics.indeed.com/eml/assets/images/logo/indeed_logo_1200x630.png"
+        }
       }
     ],
     "campagne": {

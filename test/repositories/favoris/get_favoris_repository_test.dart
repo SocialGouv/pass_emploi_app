@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/favori.dart';
+import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart';
 
@@ -35,9 +36,20 @@ void main() {
                 titre: 'titre-1',
                 organisation: 'organisation-1',
                 localisation: 'localisation-1',
+                origin: PartenaireOrigin(name: 'Indeed', logoUrl: 'https://indeed.com/logo.png'),
               ),
             );
-            expect(result[1].type, OffreType.alternance);
+            expect(
+              result[1],
+              Favori(
+                id: '2',
+                type: OffreType.alternance,
+                titre: 'titre-2',
+                organisation: 'organisation-2',
+                localisation: 'localisation-2',
+                origin: FranceTravailOrigin(),
+              ),
+            );
             expect(result[2].type, OffreType.immersion);
             expect(result[3].type, OffreType.serviceCivique);
           });
