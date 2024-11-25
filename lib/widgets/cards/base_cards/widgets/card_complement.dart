@@ -12,13 +12,16 @@ class CardComplement extends StatelessWidget {
   final bool bold;
   final IconData icon;
   final String? semanticsReplacement;
+  final EdgeInsetsGeometry iconPadding;
 
-  const CardComplement(
-      {required this.text,
-      required this.icon,
-      this.color = AppColors.grey800,
-      this.bold = false,
-      this.semanticsReplacement});
+  const CardComplement({
+    required this.text,
+    required this.icon,
+    this.color = AppColors.grey800,
+    this.bold = false,
+    this.semanticsReplacement,
+    this.iconPadding = EdgeInsets.zero,
+  });
 
   factory CardComplement.place({required String text}) => CardComplement(
         text: text,
@@ -44,14 +47,17 @@ class CardComplement extends StatelessWidget {
       : icon = AppIcons.event,
         color = AppColors.warning,
         bold = true,
-        semanticsReplacement = null;
+        semanticsReplacement = null,
+        iconPadding = EdgeInsets.zero;
 
   CardComplement.dateDerniereConsultation(DateTime date)
       : text = Strings.offreLastSeen(date),
         icon = AppIcons.visibility_outlined,
         color = AppColors.grey800,
         bold = false,
-        semanticsReplacement = Strings.offreLastSeenA11y(date);
+        semanticsReplacement = Strings.offreLastSeenA11y(date),
+        // Required as icon is not centered vertically
+        iconPadding = const EdgeInsets.only(top: 2.5);
 
   @override
   Widget build(BuildContext context) {
@@ -59,9 +65,12 @@ class CardComplement extends StatelessWidget {
       label: semanticsReplacement ?? text,
       child: Row(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(icon, size: Dimens.icon_size_base, color: color),
+          Padding(
+            padding: iconPadding,
+            child: Icon(icon, size: Dimens.icon_size_base, color: color),
+          ),
           SizedBox(width: Margins.spacing_xs),
           Flexible(
             fit: FlexFit.loose,
