@@ -11,7 +11,6 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/media_sizes.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 
 enum _Feedback {
@@ -74,6 +73,7 @@ class InAppFeedback extends StatefulWidget {
 class _InAppFeedbackState extends State<InAppFeedback> with TickerProviderStateMixin {
   late final AnimationController _controller;
   late Animation<double> _animation;
+  bool _shouldDismiss = false;
 
   @override
   void initState() {
@@ -95,9 +95,11 @@ class _InAppFeedbackState extends State<InAppFeedback> with TickerProviderStateM
   Widget build(BuildContext context) {
     return StoreConnector<AppState, bool>(
       onInit: (store) => store.dispatch(InAppFeedbackRequestAction(widget.feature)),
-      rebuildOnChange: false, // later layout changes are made via stateful widget
       converter: (store) => store.state.inAppFeedbackState.feedbackActivationForFeatures[widget.feature] ?? false,
       builder: _builder,
+      onDispose: (store) {
+        if (_shouldDismiss) store.dispatch(InAppFeedbackDismissAction(widget.feature));
+      },
     );
   }
 
@@ -110,6 +112,7 @@ class _InAppFeedbackState extends State<InAppFeedback> with TickerProviderStateM
             label: widget.label,
             padding: widget.padding,
             backgroundColor: widget.backgroundColor,
+            onDismiss: () => _shouldDismiss = true,
           ),
           builder: (context, child) => Transform.scale(scale: _animation.value, child: child)),
       false => SizedBox.shrink(),
@@ -122,12 +125,14 @@ class _InAppFeedbackWidget extends StatefulWidget {
   final String label;
   final EdgeInsetsGeometry padding;
   final Color backgroundColor;
+  final VoidCallback onDismiss;
 
   const _InAppFeedbackWidget({
     required this.feature,
     required this.label,
     required this.padding,
     required this.backgroundColor,
+    required this.onDismiss,
   });
 
   @override
@@ -146,7 +151,7 @@ class _InAppFeedbackWidgetState extends State<_InAppFeedbackWidget> {
       transitionBuilder: (child, animation) => SizeTransition(sizeFactor: animation, child: child),
       child: switch (state) {
         _WidgetState.feedback => Padding(
-            key: ValueKey<int>(0),
+            key: ValueKey<String>('${widget.feature}-0'),
             padding: widget.padding,
             child: Stack(
               children: [
@@ -159,12 +164,12 @@ class _InAppFeedbackWidgetState extends State<_InAppFeedbackWidget> {
                       _FeedbackOptionsGroup(
                         backgroundColor: widget.backgroundColor,
                         onOptionTap: (feedback) {
+                          widget.onDismiss();
                           setState(() => state = _WidgetState.thanks);
                           PassEmploiMatomoTracker.instance.trackEvent(
                             eventCategory: AnalyticsEventNames.feedbackCategory(widget.feature),
                             action: feedback.analyticsEvent,
                           );
-                          context.dispatch(InAppFeedbackDismissAction(widget.feature));
                         },
                       ),
                       SizedBox(height: 12),
@@ -175,13 +180,13 @@ class _InAppFeedbackWidgetState extends State<_InAppFeedbackWidget> {
                 ),
                 _CloseButton(onPressed: () {
                   setState(() => state = _WidgetState.closed);
-                  context.dispatch(InAppFeedbackDismissAction(widget.feature));
+                  widget.onDismiss();
                 })
               ],
             ),
           ),
         _WidgetState.thanks => Padding(
-            key: ValueKey<int>(1),
+            key: ValueKey<String>('${widget.feature}-1'),
             padding: widget.padding,
             child: _Thanks(
               backgroundColor: widget.backgroundColor,
