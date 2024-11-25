@@ -1,4 +1,6 @@
+import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/network/json_serializable.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 
 class PostOffreEmploiFavori implements JsonSerializable {
   final String id;
@@ -8,6 +10,7 @@ class PostOffreEmploiFavori implements JsonSerializable {
   final bool isAlternance;
   final String? location;
   final String? duration;
+  final Origin? origin;
 
   PostOffreEmploiFavori(
     this.id,
@@ -17,6 +20,7 @@ class PostOffreEmploiFavori implements JsonSerializable {
     this.isAlternance,
     this.location,
     this.duration,
+    this.origin,
   );
 
   @override
@@ -30,5 +34,8 @@ class PostOffreEmploiFavori implements JsonSerializable {
         },
         "alternance": isAlternance,
         "duree": duration,
+        if (origin is FranceTravailOrigin) "origineNom": Strings.franceTravail,
+        if (origin is PartenaireOrigin) "origineNom": (origin! as PartenaireOrigin).name,
+        if (origin is PartenaireOrigin) "origineLogo": (origin! as PartenaireOrigin).logoUrl,
       };
 }
