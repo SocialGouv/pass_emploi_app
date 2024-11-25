@@ -136,7 +136,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
                 if (viewModel.originViewModel != null) ...[
                   InAppFeedback(
                     feature: 'provenance-offre',
-                    label: Strings.feedbackProvenanceOffre,
+                    label: Strings.feedbackProvenanceOffre(viewModel.originViewModel!.name),
                     padding: const EdgeInsets.only(top: Margins.spacing_s, bottom: Margins.spacing_m),
                   ),
                   viewModel.originViewModel!.toWidget(OffreEmploiOriginSize.medium),

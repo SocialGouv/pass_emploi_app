@@ -1435,7 +1435,9 @@ class Strings {
   static String feedbackNeutral = "Neutre";
   static String feedbackGood = "D’accord";
   static String feedbackThanks = "Merci pour votre retour !";
-  static String feedbackProvenanceOffre = "Connaître la source d’une offre ([Provenance], etc) m’intéresse.";
+
+  static String feedbackProvenanceOffre(String provenance) =>
+      "Connaître la source d’une offre ($provenance, etc) m’intéresse.";
 
   // a11y
   static String selectedRadioButton = "Sélectionné";
