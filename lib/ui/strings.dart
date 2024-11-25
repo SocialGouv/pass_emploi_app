@@ -905,7 +905,7 @@ class Strings {
   // Session milo partage
   static String partageSessionMiloNavTitle = "Partage d’événement";
   static String souhaitDePartagerSessionMilo = "Ce que vous souhaitez partager";
-  static String partageSessionMiloDefaultMessage = "Bonjour, je vous partage un événement afin d’avoir votre avis";
+  static String partageSessionMiloDefaultMessage = "Bonjour, pouvez-vous m'inscrire à cet événement ?";
   static String partageSessionMiloSuccess =
       "L’événement a été partagé à votre conseiller sur la messagerie de l’application";
   static String infoSessionMiloPartageChat = "L’événement sera partagé à votre conseiller dans la messagerie";
