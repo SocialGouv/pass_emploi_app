@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/pages/immersion/immersion_details_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi/offre_emploi_details_page.dart';
 import 'package:pass_emploi_app/pages/service_civique/service_civique_detail_page.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
+import 'package:pass_emploi_app/presentation/offre_emploi/offre_emploi_origin_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
@@ -21,6 +22,7 @@ import 'package:pass_emploi_app/widgets/cards/base_cards/base_card.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_complement.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_tag.dart';
 import 'package:pass_emploi_app/widgets/dashed_box.dart';
+import 'package:pass_emploi_app/widgets/offre_emploi_origin.dart';
 import 'package:pass_emploi_app/widgets/tags/data_tag.dart';
 import 'package:pass_emploi_app/widgets/textes.dart';
 
@@ -126,6 +128,7 @@ class _FavorisCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final originViewModel = OffreEmploiOriginViewModel.from(favori.origin);
     return Column(
       children: [
         DateDerniereConsultationProvider(
@@ -134,9 +137,18 @@ class _FavorisCard extends StatelessWidget {
             return BaseCard(
               title: favori.titre,
               subtitle: favori.organisation,
-              tag: favori.type.toCardTag(),
+              tag: originViewModel != null
+                  ? OffreEmploiOrigin(
+                      label: originViewModel.name,
+                      source: originViewModel.source,
+                      size: OffreEmploiOriginSize.small,
+                    )
+                  : null,
               onTap: () => _goToFavori(context, favori),
-              secondaryTags: [if (favori.localisation != null) DataTag.location(favori.localisation!)],
+              secondaryTags: [
+                favori.type.toCardTag(),
+                if (favori.localisation != null) DataTag.location(favori.localisation!),
+              ],
               complements: [if (dateConsultation != null) CardComplement.dateDerniereConsultation(dateConsultation)],
             );
           },

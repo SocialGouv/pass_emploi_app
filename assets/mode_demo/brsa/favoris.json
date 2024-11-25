@@ -11,7 +11,10 @@
     "titre": "Employé / Employée de rayon libre-service (H/F)",
     "type": "OFFRE_EMPLOI",
     "organisation": "AUCHAN",
-    "localisation": "69 - DARDILLY"
+    "localisation": "69 - DARDILLY",
+    "origine": {
+      "nom": "France Travail"
+    }
   },
   {
     "idOffre": "48950012400024-D1502",

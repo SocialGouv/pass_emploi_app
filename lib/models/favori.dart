@@ -13,6 +13,7 @@ class Favori extends Equatable {
   final String titre;
   final String? organisation;
   final String? localisation;
+  final Origin? origin;
 
   Favori({
     required this.id,
@@ -20,6 +21,7 @@ class Favori extends Equatable {
     required this.titre,
     required this.organisation,
     required this.localisation,
+    this.origin,
   });
 
   static Favori? fromJson(dynamic json) {
@@ -31,11 +33,12 @@ class Favori extends Equatable {
       titre: json['titre'] as String,
       organisation: json['organisation'] as String?,
       localisation: json['localisation'] as String?,
+      origin: Origin.fromJson(json),
     );
   }
 
   @override
-  List<Object?> get props => [id, type, titre, organisation, localisation];
+  List<Object?> get props => [id, type, titre, organisation, localisation, origin];
 }
 
 extension FavoriExt on Favori {
@@ -47,7 +50,7 @@ extension FavoriExt on Favori {
         isAlternance: false,
         location: localisation,
         duration: null,
-        origin: null,
+        origin: origin,
       );
 
   Immersion get toImmersion => Immersion(

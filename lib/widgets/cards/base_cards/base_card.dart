@@ -79,10 +79,10 @@ class BaseCard extends StatelessWidget {
                     ),
                   if (!isSimpleCard && iconButton != null)
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         if (tag != null) Flexible(child: tag!),
-                        iconButton!,
+                        // This is a hack to make the iconButton appear aligned on the right of the title
+                        SizedBox.square(dimension: kMinInteractiveDimension),
                       ],
                     ),
                   if (imagePath != null)
@@ -140,7 +140,7 @@ class BaseCard extends StatelessWidget {
               ),
             ),
           ),
-          if (isSimpleCard && iconButton != null)
+          if (iconButton != null)
             Positioned(
               top: 0,
               right: 0,
