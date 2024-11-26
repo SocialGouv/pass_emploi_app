@@ -36,7 +36,8 @@ class CardContainer extends StatelessWidget {
       padding: padding,
       child: child,
     );
-    return DecoratedBox(
+    return Container(
+      clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: cardBorderRadius,

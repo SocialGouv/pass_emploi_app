@@ -24,6 +24,7 @@ class BoiteAOutilsViewModel extends Equatable {
 List<Outil> _getOutils(Accompagnement accompagnement, bool withCje) {
   return switch (accompagnement) {
     Accompagnement.cej => [
+        Outil.laBonneAlternance,
         if (withCje) Outil.cje,
         Outil.mesAidesFt,
         Outil.benevolatCej,
@@ -38,6 +39,7 @@ List<Outil> _getOutils(Accompagnement accompagnement, bool withCje) {
         Outil.mesAides1J1S,
       ],
     Accompagnement.aij => [
+        Outil.laBonneAlternance,
         Outil.mesAidesFt,
         Outil.benevolatPassEmploi,
         Outil.formation,

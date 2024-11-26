@@ -76,6 +76,14 @@ class Outil extends Equatable {
     imagePath: "boite_a_outils/benevolat.webp",
   );
 
+  static Outil laBonneAlternance = Outil(
+    title: "La bonne alternance",
+    description:
+        "Le service qui réunit toute l’offre de formation ainsi que de nombreuses opportunités d’emploi en alternance.",
+    redirectMode: OutilInternalRedirectMode(OutilInternalLink.laBonneAlternance),
+    imagePath: "boite_a_outils/la_bonne_alternance.webp",
+  );
+
   static Outil formation = Outil(
     title: "Trouver une formation",
     description: "Trouvez la formation qui vous intéresse pour réaliser votre projet professionnel.",
@@ -140,7 +148,7 @@ class Outil extends Equatable {
   List<Object?> get props => [title, description, actionLabel, redirectMode, imagePath];
 }
 
-enum OutilInternalLink { benevolat, cje }
+enum OutilInternalLink { benevolat, cje, laBonneAlternance }
 
 sealed class OutilRedirectMode extends Equatable {}
 
