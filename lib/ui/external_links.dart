@@ -9,8 +9,6 @@ class ExternalLinks {
   static const String boiteAOutilsDiagoriente = "https://app.diagoriente.beta.gouv.fr/register";
   static const String boiteAOutilsMesAidesFt =
       "https://mes-aides.francetravail.fr/?at_medium=CMP&at_campaign=DEUDMA&at_cmp_indicateur1=CEJ&at_cmp_indicateur2=APP&at_cmp_indicateur3=jeunes&at_cmp_indicateur4=BRSA0824";
-  static const String boiteAOutilsMesAides1J1S =
-      "https://mes-aides.1jeune1solution.beta.gouv.fr/simulation/individu/demandeur/date_naissance";
   static const String boiteAOutilsMentor = "https://www.1jeune1mentor.fr/formulaire?1jeune1solution";
   static final String boiteAOutilsBenevolat = Brand.isCej()
       ? "http://api.api-engagement.beta.gouv.fr/r/campaign/64ddc9185331346074141cb1"
