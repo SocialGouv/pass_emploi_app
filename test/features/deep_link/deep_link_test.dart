@@ -128,6 +128,12 @@ void main() {
           BenevolatDeepLink(),
           DeepLinkOrigin.pushNotification,
         );
+
+        assertStateWithJson(
+          {"type": "LA_BONNE_ALTERNANCE"},
+          LaBonneAlternanceDeepLink(),
+          DeepLinkOrigin.pushNotification,
+        );
       });
 
       group('In app', () {
