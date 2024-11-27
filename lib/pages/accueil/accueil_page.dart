@@ -19,6 +19,7 @@ import 'package:pass_emploi_app/pages/alerte_page.dart';
 import 'package:pass_emploi_app/pages/benevolat_page.dart';
 import 'package:pass_emploi_app/pages/campagne/campagne_details_page.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_step1_page.dart';
+import 'package:pass_emploi_app/pages/la_bonne_alternance_page.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_details_page.dart';
 import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
@@ -97,6 +98,7 @@ class _AccueilPageState extends State<AccueilPage> {
         AlerteDeepLink() => AlertePage.materialPageRoute(),
         AlertesDeepLink() => AlertePage.materialPageRoute(),
         BenevolatDeepLink() => BenevolatPage.materialPageRoute(),
+        LaBonneAlternanceDeepLink() => LaBonneAlternancePage.materialPageRoute(),
         _ => null,
       };
 

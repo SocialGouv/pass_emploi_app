@@ -15,6 +15,7 @@ void main() {
 
     // Then
     expect(viewModel.outils, [
+      Outil.laBonneAlternance,
       Outil.mesAidesFt,
       Outil.benevolatCej,
       Outil.formation,
@@ -25,7 +26,6 @@ void main() {
       Outil.laBonneBoite,
       Outil.alternance,
       Outil.diagoriente,
-      Outil.mesAides1J1S,
     ]);
   });
 
@@ -38,6 +38,7 @@ void main() {
 
     // Then
     expect(viewModel.outils, [
+      Outil.laBonneAlternance,
       Outil.mesAidesFt,
       Outil.benevolatPassEmploi,
       Outil.formation,
@@ -48,7 +49,6 @@ void main() {
       Outil.laBonneBoite,
       Outil.alternance,
       Outil.diagoriente,
-      Outil.mesAides1J1S,
     ]);
   });
 
@@ -66,7 +66,6 @@ void main() {
       Outil.emploiStore,
       Outil.emploiSolidaire,
       Outil.laBonneBoite,
-      Outil.mesAides1J1S,
     ]);
   });
 }

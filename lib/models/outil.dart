@@ -43,15 +43,6 @@ class Outil extends Equatable {
     imagePath: "boite_a_outils/mes_aides_ft.webp",
   );
 
-  static Outil mesAides1J1S = Outil(
-    title: "J'accède à mes aides",
-    description:
-        "Trouvez en quelques clics les aides auxquelles vous avez droit : logement, santé, mobilité, emploi, culture, etc.",
-    actionLabel: "Lancer ma simulation",
-    redirectMode: OutilExternalRedirectMode(ExternalLinks.boiteAOutilsMesAides1J1S),
-    imagePath: "boite_a_outils/mes_aides_1j1s.webp",
-  );
-
   static Outil mentor = Outil(
     title: "Trouver un mentor avec 1 jeune, 1 mentor",
     description:
@@ -74,6 +65,14 @@ class Outil extends Equatable {
     description: "Trouvez une mission de bénévolat à distance ou en présentiel sur JeVeuxAider.gouv.fr",
     redirectMode: OutilInternalRedirectMode(OutilInternalLink.benevolat),
     imagePath: "boite_a_outils/benevolat.webp",
+  );
+
+  static Outil laBonneAlternance = Outil(
+    title: "La bonne alternance",
+    description:
+        "Le service qui réunit toute l’offre de formation ainsi que de nombreuses opportunités d’emploi en alternance.",
+    redirectMode: OutilInternalRedirectMode(OutilInternalLink.laBonneAlternance),
+    imagePath: "boite_a_outils/la_bonne_alternance.webp",
   );
 
   static Outil formation = Outil(
@@ -140,7 +139,7 @@ class Outil extends Equatable {
   List<Object?> get props => [title, description, actionLabel, redirectMode, imagePath];
 }
 
-enum OutilInternalLink { benevolat, cje }
+enum OutilInternalLink { benevolat, cje, laBonneAlternance }
 
 sealed class OutilRedirectMode extends Equatable {}
 

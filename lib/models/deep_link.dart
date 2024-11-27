@@ -66,6 +66,8 @@ class OutilsDeepLink extends DeepLink {}
 
 class BenevolatDeepLink extends DeepLink {}
 
+class LaBonneAlternanceDeepLink extends DeepLink {}
+
 class RappelCreationDemarcheDeepLink extends DeepLink {}
 
 class RappelCreationActionDeepLink extends DeepLink {}

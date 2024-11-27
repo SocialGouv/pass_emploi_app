@@ -23,6 +23,7 @@ class DeepLinkFactory {
       _DeepLink.recherche => RechercheDeepLink(),
       _DeepLink.outils => OutilsDeepLink(),
       _DeepLink.benevolat => BenevolatDeepLink(),
+      _DeepLink.laBonneAlternance => LaBonneAlternanceDeepLink(),
       _DeepLink.rappelCreationDemarche => RappelCreationDemarcheDeepLink(),
       _DeepLink.rappelCreationAction => RappelCreationActionDeepLink(),
       null => null,
@@ -45,6 +46,7 @@ enum _DeepLink {
   recherche(["RECHERCHE"]),
   outils(["OUTILS"]),
   benevolat(["BENEVOLAT"]),
+  laBonneAlternance(["LA_BONNE_ALTERNANCE"]),
   rappelCreationDemarche(["RAPPEL_CREATION_DEMARCHE"]),
   rappelCreationAction(["RAPPEL_CREATION_ACTION"]);
 
