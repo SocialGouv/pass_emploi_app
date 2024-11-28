@@ -12,7 +12,6 @@ class CardComplement extends StatelessWidget {
   final bool bold;
   final IconData icon;
   final String? semanticsReplacement;
-  final EdgeInsetsGeometry iconPadding;
 
   const CardComplement({
     required this.text,
@@ -20,7 +19,6 @@ class CardComplement extends StatelessWidget {
     this.color = AppColors.grey800,
     this.bold = false,
     this.semanticsReplacement,
-    this.iconPadding = EdgeInsets.zero,
   });
 
   factory CardComplement.place({required String text}) => CardComplement(
@@ -47,17 +45,14 @@ class CardComplement extends StatelessWidget {
       : icon = AppIcons.event,
         color = AppColors.warning,
         bold = true,
-        semanticsReplacement = null,
-        iconPadding = EdgeInsets.zero;
+        semanticsReplacement = null;
 
   CardComplement.dateDerniereConsultation(DateTime date)
       : text = Strings.offreLastSeen(date),
         icon = AppIcons.visibility_outlined,
         color = AppColors.grey800,
         bold = false,
-        semanticsReplacement = Strings.offreLastSeenA11y(date),
-        // Required as icon is not centered vertically
-        iconPadding = const EdgeInsets.only(top: 2);
+        semanticsReplacement = Strings.offreLastSeenA11y(date);
 
   @override
   Widget build(BuildContext context) {
@@ -67,10 +62,7 @@ class CardComplement extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: iconPadding,
-            child: Icon(icon, size: Dimens.icon_size_base, color: color),
-          ),
+          Icon(icon, size: Dimens.icon_size_base, color: color),
           SizedBox(width: Margins.spacing_xs),
           Flexible(
             fit: FlexFit.loose,
@@ -78,10 +70,10 @@ class CardComplement extends StatelessWidget {
               excluding: semanticsReplacement != null,
               child: Text(
                 text,
-                style: (bold ? TextStyles.textXsBold() : TextStyles.textXsRegular()).copyWith(color: color),
+                style: (bold ? TextStyles.textXsBold() : TextStyles.textXsRegular()).copyWith(color: color, height: 1),
               ),
             ),
-          )
+          ),
         ],
       ),
     );
