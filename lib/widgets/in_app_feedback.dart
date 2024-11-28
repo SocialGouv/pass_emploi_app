@@ -145,7 +145,7 @@ class _InAppFeedbackWidgetState extends State<_InAppFeedbackWidget> {
   @override
   Widget build(BuildContext context) {
     return AnimatedSwitcher(
-      duration: AnimationDurations.fast,
+      duration: AnimationDurations.medium3,
       switchInCurve: Curves.easeInBack,
       switchOutCurve: Curves.easeOutBack,
       transitionBuilder: (child, animation) => SizeTransition(sizeFactor: animation, child: child),
