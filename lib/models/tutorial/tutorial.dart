@@ -1,14 +1,21 @@
 import 'package:pass_emploi_app/models/tutorial/tutorial_page.dart';
 
 class Tutorial {
-  static const String versionTimestamp = '1718704180';
+  static const String versionTimestamp = '1718704181';
   static List<TutorialPage> milo = [
     TutorialPage(
-      title: "Partagez des pièces-jointes à votre conseiller\u{00A0}!",
+      title: "Vos favoris font peaux neuves\u{00A0}!",
       description:
-          "Rendez-vous dans votre messagerie puis appuyez sur le trombone à gauche de l'encart message pour partager une photo ou un fichier.",
-      image: "assets/tuto/img_pj_tuto.webp",
+          "Enregistrez vos offres et retrouvez les facilement dans l'onglet ”Offres enregistrées” présent dans la page ”Offre”",
+      image: "assets/tuto/img_offres_enregistrees_tuto.webp",
     ),
   ];
-  static List<TutorialPage> pe = [];
+  static List<TutorialPage> pe = [
+    TutorialPage(
+      title: "Vos favoris font peaux neuves\u{00A0}!",
+      description:
+          "Enregistrez vos offres et retrouvez les facilement dans l'onglet ”Offres enregistrées” présent dans la page ”Offre”",
+      image: "assets/tuto/img_offres_enregistrees_tuto.webp",
+    ),
+  ];
 }
