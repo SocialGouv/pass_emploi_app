@@ -36,6 +36,7 @@ List<Outil> _getOutils(Accompagnement accompagnement, bool withCje) {
         Outil.laBonneBoite,
         Outil.alternance,
         Outil.diagoriente,
+        Outil.mesAides1J1S,
       ],
     Accompagnement.aij => [
         Outil.laBonneAlternance,
@@ -49,6 +50,7 @@ List<Outil> _getOutils(Accompagnement accompagnement, bool withCje) {
         Outil.laBonneBoite,
         Outil.alternance,
         Outil.diagoriente,
+        Outil.mesAides1J1S,
       ],
     Accompagnement.rsaFranceTravail || Accompagnement.rsaConseilsDepartementaux => [
         Outil.mesAidesFt,
@@ -56,6 +58,7 @@ List<Outil> _getOutils(Accompagnement accompagnement, bool withCje) {
         Outil.emploiStore,
         Outil.emploiSolidaire,
         Outil.laBonneBoite,
+        Outil.mesAides1J1S,
       ],
   };
 }

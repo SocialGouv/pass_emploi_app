@@ -43,6 +43,15 @@ class Outil extends Equatable {
     imagePath: "boite_a_outils/mes_aides_ft.webp",
   );
 
+  static Outil mesAides1J1S = Outil(
+    title: "J'accède à mes aides",
+    description:
+        "Trouvez en quelques clics les aides auxquelles vous avez droit : logement, santé, mobilité, emploi, culture, etc.",
+    actionLabel: "Lancer ma simulation",
+    redirectMode: OutilExternalRedirectMode(ExternalLinks.boiteAOutilsMesAides1J1S),
+    imagePath: "boite_a_outils/mes_aides_1j1s.webp",
+  );
+
   static Outil mentor = Outil(
     title: "Trouver un mentor avec 1 jeune, 1 mentor",
     description:
