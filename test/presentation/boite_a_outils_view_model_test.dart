@@ -24,7 +24,6 @@ void main() {
       Outil.emploiStore,
       Outil.emploiSolidaire,
       Outil.laBonneBoite,
-      Outil.alternance,
       Outil.diagoriente,
       Outil.mesAides1J1S,
     ]);
@@ -48,7 +47,6 @@ void main() {
       Outil.emploiStore,
       Outil.emploiSolidaire,
       Outil.laBonneBoite,
-      Outil.alternance,
       Outil.diagoriente,
       Outil.mesAides1J1S,
     ]);

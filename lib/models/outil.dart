@@ -126,14 +126,6 @@ class Outil extends Equatable {
     imagePath: null,
   );
 
-  static Outil alternance = Outil(
-    title: "Alternance avec 1 jeune, 1 solution",
-    description: "Trouvez la formation et l’entreprise pour réaliser votre projet d’alternance.",
-    actionLabel: "Je recherche une altenance",
-    redirectMode: OutilExternalRedirectMode(ExternalLinks.boiteAOutilsAlternance),
-    imagePath: null,
-  );
-
   Outil withoutImage() {
     return Outil(
       title: title,
