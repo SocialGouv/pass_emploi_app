@@ -47,7 +47,10 @@ class _Content extends StatelessWidget {
       tag: CardTag.evenement(text: viewModel.tag),
       pillule: viewModel.isAnnule ? CardPillule.evenementCanceled() : null,
       complements: [
-        CardComplement.dateTime(text: viewModel.date),
+        switch (viewModel.dateTime) {
+          final RendezVousDateTimeDate date => CardComplement.date(text: date.dateTime),
+          final RendezVousDateTimeHour hour => CardComplement.hour(text: hour.hour),
+        },
         if (viewModel.place != null) CardComplement.place(text: viewModel.place!)
       ],
       secondaryTags: [

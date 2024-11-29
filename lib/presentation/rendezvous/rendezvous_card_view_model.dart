@@ -13,7 +13,7 @@ enum InscriptionStatus { inscrit, notInscrit, hidden }
 class RendezvousCardViewModel extends Equatable {
   final String id;
   final String tag;
-  final String date;
+  final RendezVousDateTime dateTime;
   final InscriptionStatus inscriptionStatus;
   final bool isAnnule;
   final String title;
@@ -23,7 +23,7 @@ class RendezvousCardViewModel extends Equatable {
   RendezvousCardViewModel({
     required this.id,
     required this.tag,
-    required this.date,
+    required this.dateTime,
     required this.inscriptionStatus,
     required this.isAnnule,
     required this.title,
@@ -36,7 +36,7 @@ class RendezvousCardViewModel extends Equatable {
     return RendezvousCardViewModel(
       id: rdv.id,
       tag: rdv.type.label,
-      date: rdv.date.toHourWithHSeparator(),
+      dateTime: _dateTime(rdv, source),
       inscriptionStatus: _inscription(rdv, source),
       isAnnule: rdv.isAnnule,
       title: rdv.title ?? '',
@@ -47,8 +47,20 @@ class RendezvousCardViewModel extends Equatable {
 
   @override
   List<Object?> get props {
-    return [id, tag, date, inscriptionStatus, isAnnule, title, description, place];
+    return [id, tag, dateTime, inscriptionStatus, isAnnule, title, description, place];
   }
+}
+
+RendezVousDateTime _dateTime(Rendezvous rdv, RendezvousStateSource source) {
+  if (source.isFromEvenements) {
+    final date = rdv.date.toDayWithFullMonthContextualized();
+    final heureDebut = rdv.date.toHourWithHSeparator();
+    final heureFin =
+        rdv.duration != null ? rdv.date.add(Duration(minutes: rdv.duration!)).toHourWithHSeparator() : null;
+    final period = "$heureDebut${heureFin != null ? " - $heureFin" : ""}";
+    return RendezVousDateTimeDate("$date, $period");
+  }
+  return RendezVousDateTimeHour(rdv.date.toHourWithHSeparator());
 }
 
 InscriptionStatus _inscription(Rendezvous rdv, RendezvousStateSource source) {
@@ -67,4 +79,24 @@ String? _place(Rendezvous rdv) {
     return Strings.rendezvousModalityCardMessage(modality, '${conseiller.firstName} ${conseiller.lastName}');
   }
   return modality;
+}
+
+sealed class RendezVousDateTime extends Equatable {}
+
+class RendezVousDateTimeHour extends RendezVousDateTime {
+  final String hour;
+
+  RendezVousDateTimeHour(this.hour);
+
+  @override
+  List<Object?> get props => [hour];
+}
+
+class RendezVousDateTimeDate extends RendezVousDateTime {
+  final String dateTime;
+
+  RendezVousDateTimeDate(this.dateTime);
+
+  @override
+  List<Object?> get props => [dateTime];
 }

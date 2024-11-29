@@ -110,7 +110,7 @@ void main() {
         );
 
         // Then
-        expect(viewModel.hourAndDuration, '12:30');
+        expect(viewModel.hourAndDuration, '12h30');
       });
 
       test('and duration is less than one hour', () {
@@ -126,7 +126,7 @@ void main() {
         );
 
         // Then
-        expect(viewModel.hourAndDuration, '12:30 (30min)');
+        expect(viewModel.hourAndDuration, '12h30 - 13h');
       });
 
       test('and duration is more than one hour', () {
@@ -142,7 +142,7 @@ void main() {
         );
 
         // Then
-        expect(viewModel.hourAndDuration, '12:30 (2h30)');
+        expect(viewModel.hourAndDuration, '12h30 - 15h');
       });
 
       test('and conseiller is present', () {
@@ -870,7 +870,7 @@ void main() {
             id: "1",
             tag: "Entretien Partenaire",
             date: '01 mars 2022',
-            hourAndDuration: '00:00 (30min)',
+            hourAndDuration: '00h - 00h30',
             conseillerPresenceLabel: 'Votre conseiller sera présent',
             conseillerPresenceColor: AppColors.success,
             isInscrit: false,
@@ -939,7 +939,7 @@ void main() {
               id: "1",
               tag: "Atelier",
               date: '01 mars 2022',
-              hourAndDuration: '00:00 (0min)',
+              hourAndDuration: '00h',
               conseillerPresenceLabel: 'Votre conseiller ne sera pas présent',
               conseillerPresenceColor: AppColors.warning,
               isInscrit: true,

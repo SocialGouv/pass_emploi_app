@@ -18,9 +18,9 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
-import 'package:pass_emploi_app/widgets/a11y/string_a11y_extensions.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
+import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_complement.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_tag.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/info_card.dart';
@@ -114,11 +114,18 @@ class _RendezvousDetailsPageState extends State<RendezvousDetailsPage> {
               InfoCard(message: viewModel.withDateDerniereMiseAJour!),
               SizedBox(height: Margins.spacing_base),
             ],
-            if (viewModel.isInscrit) ...[
-              _InscritTag(),
-              SizedBox(height: Margins.spacing_base),
-            ],
-            CardTag.evenement(text: viewModel.tag),
+            Wrap(
+              spacing: Margins.spacing_base,
+              children: [
+                CardTag.evenement(text: viewModel.tag),
+                if (viewModel.isInscrit) ...[
+                  CardTag.secondary(
+                    text: Strings.eventVousEtesDejaInscrit,
+                    icon: AppIcons.check_circle_outline_rounded,
+                  ),
+                ],
+              ],
+            ),
             SizedBox(height: Margins.spacing_base),
             _Header(viewModel),
             if (viewModel.withModalityPart) _Modality(viewModel),
@@ -162,21 +169,11 @@ class _Header extends StatelessWidget {
         if (viewModel.isAnnule) _Annule(),
         if (viewModel.title != null) Text(viewModel.title!, style: TextStyles.textLBold()),
         SizedBox(height: Margins.spacing_m),
-        Row(
+        Wrap(
+          spacing: Margins.spacing_base,
           children: [
-            Icon(AppIcons.today_rounded, color: AppColors.grey800),
-            SizedBox(width: Margins.spacing_s),
-            Flexible(child: Text(viewModel.date, style: TextStyles.textBaseBold)),
-            Expanded(child: SizedBox()),
-            Icon(AppIcons.schedule_rounded, color: AppColors.grey800),
-            SizedBox(width: Margins.spacing_s),
-            Flexible(
-              child: Text(
-                viewModel.hourAndDuration,
-                style: TextStyles.textBaseBold,
-                semanticsLabel: viewModel.hourAndDuration.toTimeAndDurationForScreenReaders(),
-              ),
-            ),
+            CardComplement.date(text: viewModel.date),
+            CardComplement.hour(text: viewModel.hourAndDuration),
           ],
         ),
       ],
@@ -252,17 +249,7 @@ class _Modality extends StatelessWidget {
           if (viewModel.address != null)
             Padding(
               padding: const EdgeInsets.only(top: Margins.spacing_xs),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: Margins.spacing_xs),
-                    child: Icon(AppIcons.place_outlined, color: AppColors.grey800),
-                  ),
-                  SizedBox(width: Margins.spacing_s),
-                  Expanded(child: Text(viewModel.address!, style: TextStyles.textBaseRegular)),
-                ],
-              ),
+              child: CardComplement.place(text: viewModel.address!),
             ),
           if (viewModel.addressRedirectUri != null)
             Padding(
@@ -469,27 +456,6 @@ class _Share extends StatelessWidget {
             label: buttonTitle ?? Strings.shareToConseiller,
             onPressed: () => ChatPartageBottomSheet.show(context, source),
           ),
-        ],
-      ),
-    );
-  }
-}
-
-class _InscritTag extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(Dimens.radius_l),
-        border: Border.all(color: AppColors.accent1),
-      ),
-      padding: const EdgeInsets.symmetric(vertical: Margins.spacing_xs, horizontal: Margins.spacing_base),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(AppIcons.today_rounded, color: AppColors.accent1),
-          SizedBox(width: Margins.spacing_s),
-          Text(Strings.eventVousEtesDejaInscrit, style: TextStyles.textSRegularWithColor(AppColors.accent1)),
         ],
       ),
     );

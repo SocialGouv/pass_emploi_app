@@ -66,7 +66,7 @@ void main() {
       final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.monSuivi, '1');
 
       // Then
-      expect(viewModel.date, "10h20");
+      expect(viewModel.dateTime, RendezVousDateTimeHour("10h20"));
     });
 
     group("place", () {
@@ -179,7 +179,7 @@ void main() {
         RendezvousCardViewModel(
           id: '1',
           tag: 'Atelier',
-          date: '10h20',
+          dateTime: RendezVousDateTimeHour("10h20"),
           inscriptionStatus: InscriptionStatus.hidden,
           isAnnule: false,
           title: 'Super bio',
@@ -248,6 +248,48 @@ void main() {
 
         // Then
         expect(viewModel.inscriptionStatus, InscriptionStatus.notInscrit);
+      });
+    });
+
+    group('date and time', () {
+      test('should return a full date and period when source is from evenements', () {
+        // Given
+        final rdv = mockRendezvous(
+          id: '1',
+          source: RendezvousSource.passEmploi,
+          estInscrit: false,
+          date: DateTime(2021, 12, 23, 10, 20),
+          duration: 60,
+        );
+        final store = givenState().loggedIn().succeedEventList(animationsCollectives: [rdv]).store();
+
+        // When
+        final viewModel = RendezvousCardViewModel.create(
+          store,
+          RendezvousStateSource.eventListAnimationsCollectives,
+          '1',
+        );
+
+        // Then
+        expect(viewModel.dateTime, RendezVousDateTimeDate("23 décembre 2021, 10h20 - 11h20"));
+      });
+
+      test('should return a hour when source is from mon suivi', () {
+        // Given
+        final rdv = mockRendezvous(
+          id: '1',
+          source: RendezvousSource.passEmploi,
+          estInscrit: false,
+          date: DateTime(2021, 12, 23, 10, 20),
+          duration: 60,
+        );
+        final store = givenState().loggedIn().monSuivi(monSuivi: mockMonSuivi(rendezvous: [rdv])).store();
+
+        // When
+        final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.monSuivi, '1');
+
+        // Then
+        expect(viewModel.dateTime, RendezVousDateTimeHour("10h20"));
       });
     });
   });

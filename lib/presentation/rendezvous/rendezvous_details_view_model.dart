@@ -26,7 +26,7 @@ class RendezvousDetailsViewModel extends Equatable {
   final String id;
   final String tag;
   final String date;
-  final String hourAndDuration;
+  final String hourAndDuration; // TODO: Mettre à jour la date comme dans la card
   final String conseillerPresenceLabel;
   final Color conseillerPresenceColor;
   final bool isAnnule;
@@ -113,7 +113,7 @@ class RendezvousDetailsViewModel extends Equatable {
       id: rdv.id,
       tag: _takeTypeLabelOrPrecision(rdv),
       date: rdv.date.toDayWithFullMonthContextualized(),
-      hourAndDuration: _hourAndDuration(rdv),
+      hourAndDuration: _hours(rdv),
       modality: _modality(rdv),
       conseiller: _conseiller(rdv),
       createur: _createur(source, rdv),
@@ -266,17 +266,13 @@ String _takeTypeLabelOrPrecision(Rendezvous rdv) {
   return (rdv.type.code == RendezvousTypeCode.AUTRE && rdv.precision != null) ? rdv.precision! : rdv.type.label;
 }
 
-String _hourAndDuration(Rendezvous rdv) {
-  final hour = rdv.date.toHour();
-  return rdv.duration != null ? "$hour (${_toDuration(rdv.duration!)})" : hour;
-}
-
-String _toDuration(int duration) {
-  final hours = duration ~/ 60;
-  final minutes = duration % 60;
-  if (hours == 0) return '${minutes}min';
-  if (minutes == 0) return '${hours}h';
-  return '${hours}h$minutes';
+String _hours(Rendezvous rdv) {
+  final heureDebut = rdv.date.toHourWithHSeparator();
+  final heureFin = rdv.duration != null && rdv.duration != 0
+      ? rdv.date.add(Duration(minutes: rdv.duration!)).toHourWithHSeparator()
+      : null;
+  final period = "$heureDebut${heureFin != null ? " - $heureFin" : ""}";
+  return period;
 }
 
 String? _commentTitle(RendezvousStateSource source, Rendezvous rdv, String? comment) {
