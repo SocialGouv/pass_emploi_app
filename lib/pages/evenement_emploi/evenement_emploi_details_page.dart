@@ -21,6 +21,7 @@ import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/share_button.dart';
+import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_complement.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_tag.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
@@ -123,25 +124,15 @@ class _Header extends StatelessWidget {
         ],
         Text(viewModel.titre, style: TextStyles.textLBold()),
         SizedBox(height: Margins.spacing_base),
-        Row(
+        Wrap(
+          spacing: Margins.spacing_base,
           children: [
-            Icon(AppIcons.today_outlined, color: AppColors.primary, size: Dimens.icon_size_base),
-            SizedBox(width: Margins.spacing_xs),
-            Text(viewModel.date, style: TextStyles.textBaseBold),
-            Expanded(child: SizedBox.shrink()),
-            Icon(AppIcons.schedule, color: AppColors.primary, size: Dimens.icon_size_base),
-            SizedBox(width: Margins.spacing_xs),
-            Text(viewModel.heure, style: TextStyles.textBaseBold),
+            CardComplement.date(text: viewModel.date),
+            CardComplement.hour(text: viewModel.heure),
           ],
         ),
-        SizedBox(height: Margins.spacing_s),
-        Row(
-          children: [
-            Icon(AppIcons.place_outlined, color: AppColors.primary, size: Dimens.icon_size_base),
-            SizedBox(width: Margins.spacing_xs),
-            Text(viewModel.lieu, style: TextStyles.textBaseRegular),
-          ],
-        ),
+        SizedBox(height: Margins.spacing_base),
+        CardComplement.place(text: viewModel.lieu),
         SizedBox(height: Margins.spacing_base),
         SizedBox(
           width: double.infinity,
