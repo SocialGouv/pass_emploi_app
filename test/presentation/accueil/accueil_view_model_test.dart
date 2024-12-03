@@ -410,4 +410,23 @@ void main() {
     // Then
     expect(store.dispatchedAction, isA<AccueilRequestAction>());
   });
+
+  test('should not show cetteSemaine and prochainRendezVous items when accompagnement is Avenir Pro', () {
+    // Given
+    final store =
+        givenState().loggedInUser(accompagnement: Accompagnement.avenirPro).withAccueilPoleEmploiSuccess().store();
+
+    // When
+    final viewModel = AccueilViewModel.create(store);
+
+    // Then
+    expect(
+      viewModel.items.whereType<AccueilCetteSemaineItem>().isEmpty,
+      isTrue,
+    );
+    expect(
+      viewModel.items.whereType<AccueilProchainRendezvousItem>().isEmpty,
+      isTrue,
+    );
+  });
 }
