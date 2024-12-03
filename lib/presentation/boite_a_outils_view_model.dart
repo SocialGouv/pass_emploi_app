@@ -37,7 +37,7 @@ List<Outil> _getOutils(Accompagnement accompagnement, bool withCje) {
         Outil.diagoriente,
         Outil.mesAides1J1S,
       ],
-    Accompagnement.aij => [
+    Accompagnement.aij || Accompagnement.avenirPro => [
         Outil.laBonneAlternance,
         Outil.mesAidesFt,
         Outil.benevolatPassEmploi,

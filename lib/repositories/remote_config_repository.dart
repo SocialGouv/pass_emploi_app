@@ -41,6 +41,7 @@ class RemoteConfigRepository {
       Accompagnement.rsaFranceTravail: cvmAsJson['rsaFranceTravail'] as bool,
       Accompagnement.rsaConseilsDepartementaux: cvmAsJson['rsaConseilsDepartementaux'] as bool,
       Accompagnement.aij: cvmAsJson['aij'] as bool,
+      Accompagnement.avenirPro: cvmAsJson['avenirPro'] as bool,
     };
   }
 

@@ -158,6 +158,29 @@ void main() {
       });
     });
 
+    group('with mode POLE_EMPLOI in Avenir Pro accompagnement', () {
+      sut.whenDispatchingAction(() => RequestLoginAction(LoginMode.POLE_EMPLOI));
+
+      test('user is properly logged in with POLE_EMPLOI authentication mode', () async {
+        // Given
+        when(() => authenticator.login(AuthenticationMode.POLE_EMPLOI))
+            .thenAnswer((_) async => SuccessAuthenticatorResponse());
+        when(() => authenticator.idToken()).thenAnswer((_) async => authIdToken('AVENIR_PRO'));
+        sut.givenStore = givenState().store((f) {
+          f.authenticator = authenticator;
+          f.matomoTracker = matomoTracker;
+          f.preferredLoginModeRepository = preferredLoginModeRepository;
+        });
+
+        // Then
+        sut.thenExpectChangingStatesThroughOrder([
+          _shouldLoad(),
+          _shouldBeLoggedInWith(mode: LoginMode.POLE_EMPLOI, accompagnement: Accompagnement.avenirPro),
+        ]);
+        preferredLoginModeRepository.verifySaveCalled();
+      });
+    });
+
     group('with mode POLE_EMPLOI in AIJ accompagnement', () {
       sut.whenDispatchingAction(() => RequestLoginAction(LoginMode.POLE_EMPLOI));
 

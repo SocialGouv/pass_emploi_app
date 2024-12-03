@@ -52,6 +52,29 @@ void main() {
     ]);
   });
 
+  test('create when accompagnement is AVENIR_PRO', () {
+    // Given
+    final store = givenState().loggedInUser(accompagnement: Accompagnement.avenirPro).store();
+
+    // When
+    final viewModel = BoiteAOutilsViewModel.create(store);
+
+    // Then
+    expect(viewModel.outils, [
+      Outil.laBonneAlternance,
+      Outil.mesAidesFt,
+      Outil.benevolatPassEmploi,
+      Outil.formation,
+      Outil.mentor,
+      Outil.evenement,
+      Outil.emploiStore,
+      Outil.emploiSolidaire,
+      Outil.laBonneBoite,
+      Outil.diagoriente,
+      Outil.mesAides1J1S,
+    ]);
+  });
+
   test('create when accompagnement is RSA', () {
     // Given
     final store = givenState().loggedInUser(accompagnement: Accompagnement.rsaFranceTravail).store();

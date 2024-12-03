@@ -93,6 +93,24 @@ void main() {
       verify(() => tracker.setDimension('matomoDimensionProduitId', 'Conseil départemental BRSA')).called(1);
     });
 
+    test('with POLE_EMPLOI in Avenir Pro accompagnement user should properly set structure and produit dimension',
+        () async {
+      // Given
+      final store = givenState(configuration()).store((f) => f.matomoTracker = tracker);
+
+      // When
+      await store.dispatch(
+        LoginSuccessAction(mockUser(
+          loginMode: LoginMode.POLE_EMPLOI,
+          accompagnement: Accompagnement.avenirPro,
+        )),
+      );
+
+      // Then
+      verify(() => tracker.setDimension('2', 'Pôle emploi')).called(1);
+      verify(() => tracker.setDimension('matomoDimensionProduitId', 'Avenir Pro')).called(1);
+    });
+
     test('with POLE_EMPLOI in AIJ accompagnement user should properly set structure and produit dimension', () async {
       // Given
       final store = givenState(configuration()).store((f) => f.matomoTracker = tracker);

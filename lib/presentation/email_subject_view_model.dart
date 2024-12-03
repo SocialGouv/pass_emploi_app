@@ -50,6 +50,7 @@ extension on User {
       Accompagnement.rsaFranceTravail => '${Strings.franceTravail} - RSA',
       Accompagnement.rsaConseilsDepartementaux => '${Strings.contactConseilsDepartementaux} - RSA',
       Accompagnement.aij => '${Strings.franceTravail} - AIJ',
+      Accompagnement.avenirPro => '${Strings.franceTravail} - Avenir Pro',
     };
   }
 }

@@ -85,6 +85,22 @@ void main() {
               "France Travail - AIJ - Prise de contact avec l’équipe de l’application pass emploi");
         });
       });
+
+      group('when accompagnement is AVENIR_PRO and app is pass emploi', () {
+        test('should return expected email subject for login mode POLE_EMPLOI', () {
+          // Given
+          final store = givenPassEmploiState() //
+              .loggedInUser(accompagnement: Accompagnement.avenirPro)
+              .store();
+
+          // When
+          final viewModel = EmailObjectViewModel.create(store);
+
+          // Then
+          expect(viewModel.contactEmailObject,
+              "France Travail - Avenir Pro - Prise de contact avec l’équipe de l’application pass emploi");
+        });
+      });
     });
 
     group('ratingEmailObject', () {

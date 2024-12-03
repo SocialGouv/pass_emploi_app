@@ -64,6 +64,7 @@ extension on User {
       Accompagnement.rsaFranceTravail => 'BRSA',
       Accompagnement.rsaConseilsDepartementaux => 'Conseil départemental BRSA',
       Accompagnement.aij => 'AIJ',
+      Accompagnement.avenirPro => 'Avenir Pro',
     };
   }
 }

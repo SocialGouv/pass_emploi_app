@@ -158,7 +158,7 @@ AccueilItem? _outilsItem(AccueilSuccessState successState, Accompagnement accomp
         Outil.emploiSolidaire.withoutImage(),
         Outil.emploiStore.withoutImage(),
       ]),
-    Accompagnement.aij => AccueilOutilsItem([
+    Accompagnement.avenirPro || Accompagnement.aij => AccueilOutilsItem([
         Outil.mesAidesFt.withoutImage(),
         Outil.benevolatPassEmploi.withoutImage(),
         Outil.formation.withoutImage(),

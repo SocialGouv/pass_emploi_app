@@ -73,6 +73,7 @@ extension on User {
           Accompagnement.rsaFranceTravail => 'POLE_EMPLOI_BRSA',
           Accompagnement.rsaConseilsDepartementaux => 'CONSEIL_DEPARTEMENTAL_BRSA',
           Accompagnement.aij => 'POLE_EMPLOI_AIJ',
+          Accompagnement.avenirPro => 'AVENIR_PRO',
         },
       LoginMode.MILO => 'MILO',
       LoginMode.DEMO_PE => 'DEMO',
