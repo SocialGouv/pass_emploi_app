@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
+import 'package:pass_emploi_app/models/accompagnement.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
@@ -34,10 +35,12 @@ class MainPageViewModel extends Equatable {
 
   factory MainPageViewModel.create(Store<AppState> store) {
     final chatStatusState = store.state.chatStatusState;
+    final user = store.state.user();
+
     return MainPageViewModel(
       tabs: [
         MainTab.accueil,
-        MainTab.monSuivi,
+        if (user?.accompagnement != Accompagnement.avenirPro) MainTab.monSuivi,
         MainTab.chat,
         MainTab.solutions,
         MainTab.evenements,
