@@ -83,7 +83,7 @@ List<AccueilItem> _items(Store<AppState> store) {
     _campagneRecrutementItem(store, store.state),
     _campagneEvaluationItem(store.state),
     _cetteSemaineItem(user, accueilState),
-    _prochainRendezvousItem(accueilState),
+    _prochainRendezvousItem(user, accueilState),
     _favorisItem(accueilState),
     _evenementsItem(accueilState),
     _alertesItem(accueilState),
@@ -92,6 +92,7 @@ List<AccueilItem> _items(Store<AppState> store) {
 }
 
 AccueilItem? _cetteSemaineItem(User user, AccueilSuccessState successState) {
+  if (user.accompagnement == Accompagnement.avenirPro) return null;
   final cetteSemaine = successState.accueil.cetteSemaine;
   if (cetteSemaine == null) return null;
   final bool withRendezvousCount =
@@ -104,7 +105,8 @@ AccueilItem? _cetteSemaineItem(User user, AccueilSuccessState successState) {
   );
 }
 
-AccueilItem? _prochainRendezvousItem(AccueilSuccessState successState) {
+AccueilItem? _prochainRendezvousItem(User user, AccueilSuccessState successState) {
+  if (user.accompagnement == Accompagnement.avenirPro) return null;
   final prochainRendezVous = successState.accueil.prochainRendezVous;
   final prochaineSessionMilo = successState.accueil.prochaineSessionMilo;
 
@@ -158,7 +160,7 @@ AccueilItem? _outilsItem(AccueilSuccessState successState, Accompagnement accomp
         Outil.emploiSolidaire.withoutImage(),
         Outil.emploiStore.withoutImage(),
       ]),
-    Accompagnement.aij => AccueilOutilsItem([
+    Accompagnement.avenirPro || Accompagnement.aij => AccueilOutilsItem([
         Outil.mesAidesFt.withoutImage(),
         Outil.benevolatPassEmploi.withoutImage(),
         Outil.formation.withoutImage(),

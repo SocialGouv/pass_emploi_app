@@ -247,6 +247,29 @@ void main() {
       );
     });
 
+    test('on AVENIR_PRO accompagnement should highlight Mes Aides FT, Benevolat Pass emploi and Formations', () {
+      // Given
+      final store = givenState() //
+          .loggedInUser(accompagnement: Accompagnement.avenirPro)
+          .withAccueilPoleEmploiSuccess()
+          .store();
+      final viewModel = AccueilViewModel.create(store);
+
+      // When
+      final outilsItem = viewModel.items.firstWhereOrNull((item) => item is AccueilOutilsItem);
+
+      // Then
+      expect(outilsItem, isNotNull);
+      expect(
+        (outilsItem as AccueilOutilsItem).outils,
+        [
+          Outil.mesAidesFt.withoutImage(),
+          Outil.benevolatPassEmploi.withoutImage(),
+          Outil.formation.withoutImage(),
+        ],
+      );
+    });
+
     test('on RSA accompagnement should highlight Mes Aides FT, Emploi solidaire and Emploi store', () {
       // Given
       final store = givenState() //
@@ -386,5 +409,24 @@ void main() {
 
     // Then
     expect(store.dispatchedAction, isA<AccueilRequestAction>());
+  });
+
+  test('should not show cetteSemaine and prochainRendezVous items when accompagnement is Avenir Pro', () {
+    // Given
+    final store =
+        givenState().loggedInUser(accompagnement: Accompagnement.avenirPro).withAccueilPoleEmploiSuccess().store();
+
+    // When
+    final viewModel = AccueilViewModel.create(store);
+
+    // Then
+    expect(
+      viewModel.items.whereType<AccueilCetteSemaineItem>().isEmpty,
+      isTrue,
+    );
+    expect(
+      viewModel.items.whereType<AccueilProchainRendezvousItem>().isEmpty,
+      isTrue,
+    );
   });
 }

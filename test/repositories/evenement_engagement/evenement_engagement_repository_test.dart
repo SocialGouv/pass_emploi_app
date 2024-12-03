@@ -158,6 +158,46 @@ void main() {
       });
     });
 
+    group('For Pôle emploi user in Avenir Pro accompagnement', () {
+      sut.when(
+        (repository) => repository.send(
+          user: mockUser(
+            id: 'userId',
+            loginMode: LoginMode.POLE_EMPLOI,
+            accompagnement: Accompagnement.avenirPro,
+          ),
+          event: EvenementEngagement.MESSAGE_ENVOYE,
+        ),
+      );
+
+      group('when response is valid', () {
+        sut.givenResponseCode(201);
+
+        test('request should be valid', () async {
+          await sut.expectRequestBody(
+            method: HttpMethod.post,
+            url: "/evenements",
+            jsonBody: {
+              'type': 'MESSAGE_ENVOYE',
+              'emetteur': {'type': 'JEUNE', 'structure': 'AVENIR_PRO', 'id': 'userId'}
+            },
+          );
+        });
+
+        test('response should be valid', () async {
+          await sut.expectTrueAsResult();
+        });
+      });
+
+      group('when response is invalid', () {
+        sut.givenResponseCode(500);
+
+        test('response should be null', () async {
+          await sut.expectFalseAsResult();
+        });
+      });
+    });
+
     group('For Pôle emploi user in AIJ accompagnement', () {
       sut.when(
         (repository) => repository.send(

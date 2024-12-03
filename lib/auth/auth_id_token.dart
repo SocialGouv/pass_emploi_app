@@ -70,6 +70,7 @@ class AuthIdToken extends Equatable {
       'POLE_EMPLOI_AIJ' => LoginMode.POLE_EMPLOI,
       'POLE_EMPLOI_BRSA' => LoginMode.POLE_EMPLOI,
       'CONSEIL_DEPT' => LoginMode.POLE_EMPLOI,
+      'AVENIR_PRO' => LoginMode.POLE_EMPLOI,
       _ => throw Exception('Unknown login mode'),
     };
   }
@@ -79,6 +80,7 @@ class AuthIdToken extends Equatable {
       'POLE_EMPLOI_AIJ' => Accompagnement.aij,
       'POLE_EMPLOI_BRSA' => Accompagnement.rsaFranceTravail,
       'CONSEIL_DEPT' => Accompagnement.rsaConseilsDepartementaux,
+      'AVENIR_PRO' => Accompagnement.avenirPro,
       _ => Accompagnement.cej,
     };
   }

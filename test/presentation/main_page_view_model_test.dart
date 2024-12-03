@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
+import 'package:pass_emploi_app/models/accompagnement.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
 
 import '../doubles/spies.dart';
@@ -93,6 +94,22 @@ void main() {
         MainTab.evenements,
       ]);
     });
+  });
+
+  test('should not display mon suivi tab when accompagnement is Avenir Pro', () {
+    // Given
+    final store = givenState().loggedInUser(accompagnement: Accompagnement.avenirPro).store();
+
+    // When
+    final viewModel = MainPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.tabs, [
+      MainTab.accueil,
+      MainTab.chat,
+      MainTab.solutions,
+      MainTab.evenements,
+    ]);
   });
 
   group('useCvm', () {
