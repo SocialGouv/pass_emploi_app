@@ -7,6 +7,7 @@ class Outil extends Equatable {
   final OutilRedirectMode redirectMode;
   final String? actionLabel;
   final String? imagePath;
+  final String? imageAlt;
 
   Outil({
     required this.title,
@@ -14,6 +15,7 @@ class Outil extends Equatable {
     required this.redirectMode,
     this.actionLabel,
     this.imagePath,
+    this.imageAlt,
   });
 
   // TODO-CJE(04/11/24): remove when feature deleted
@@ -63,6 +65,7 @@ class Outil extends Equatable {
 
   static Outil benevolatCej = Outil(
     title: "Je m’engage bénévolement",
+    imageAlt: "Je veux plus de solidarité, Devez bénévole",
     description:
         "Trouvez une mission de bénévolat à distance ou en présentiel, comptabilisée dans vos heures d’activités CEJ, sur JeVeuxAider.gouv.fr",
     redirectMode: OutilInternalRedirectMode(OutilInternalLink.benevolat),
