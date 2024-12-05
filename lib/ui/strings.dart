@@ -1495,6 +1495,7 @@ class Strings {
   static const String sentimentNeutral = "Emoticone neutre";
   static const String sentimentSatisfied = "Emoticone plutôt d’accord";
   static const String mood = "Emoticone d’accord";
+  static const String emptyDate = "Aucune date sélectionnée";
 
   static String removeDistance(int value) => 'Diminuer la distance de $value km';
 

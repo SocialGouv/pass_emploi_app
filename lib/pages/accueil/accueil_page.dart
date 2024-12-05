@@ -34,7 +34,6 @@ import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/widgets/a11y/auto_focus.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_accueil_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_navigation_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/cards/campagne_card.dart';
@@ -52,19 +51,17 @@ class _AccueilPageState extends State<AccueilPage> {
 
   @override
   Widget build(BuildContext context) {
-    return AutoFocusA11y(
-      child: Tracker(
-        tracking: AnalyticsScreenNames.accueil,
-        child: StoreConnector<AppState, AccueilViewModel>(
-          onInit: (store) => store.dispatch(AccueilRequestAction()),
-          converter: (store) => AccueilViewModel.create(store, releaseMode: kReleaseMode),
-          builder: _builder,
-          onDidChange: (previousViewModel, viewModel) {
-            _handleOnboarding(viewModel);
-            _handleDeeplink(previousViewModel, viewModel);
-          },
-          distinct: true,
-        ),
+    return Tracker(
+      tracking: AnalyticsScreenNames.accueil,
+      child: StoreConnector<AppState, AccueilViewModel>(
+        onInit: (store) => store.dispatch(AccueilRequestAction()),
+        converter: (store) => AccueilViewModel.create(store, releaseMode: kReleaseMode),
+        builder: _builder,
+        onDidChange: (previousViewModel, viewModel) {
+          _handleOnboarding(viewModel);
+          _handleDeeplink(previousViewModel, viewModel);
+        },
+        distinct: true,
       ),
     );
   }

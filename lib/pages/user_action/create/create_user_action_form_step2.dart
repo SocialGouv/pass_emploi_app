@@ -68,7 +68,7 @@ class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
                 ),
               ),
               const SizedBox(height: Margins.spacing_m),
-              Semantics(excludeSemantics: true, child: MandatoryFieldsLabel.some()),
+              MandatoryFieldsLabel.some(),
               const SizedBox(height: Margins.spacing_m),
               Semantics(
                 label: Strings.mandatoryField,

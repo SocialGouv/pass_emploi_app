@@ -35,40 +35,43 @@ class PrimarySliverAppbar extends StatelessWidget {
         automaticallyImplyLeading: false,
         elevation: 0.2,
         backgroundColor: Brand.isCej() ? _expandedCejColor(constraints.scrollOffset) : AppColors.primary,
-        flexibleSpace: ClipRRect(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(
-              sigmaX: Brand.isCej() ? 8 : 0,
-              sigmaY: Brand.isCej() ? 8 : 0,
-            ),
-            child: FlexibleSpaceBar(
-              titlePadding: EdgeInsetsDirectional.only(
-                start: 0,
-                bottom: Margins.spacing_base,
+        flexibleSpace: AutoFocusA11y(
+          child: ClipRRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(
+                sigmaX: Brand.isCej() ? 8 : 0,
+                sigmaY: Brand.isCej() ? 8 : 0,
               ),
-              expandedTitleScale: FontSizes.xl / FontSizes.huge,
-              title: Padding(
-                padding: EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Tooltip(
-                        message: title,
-                        excludeFromSemantics: true,
-                        child: AutoFocusA11y(
-                          child: Text(
-                            title,
-                            style: TextStyles.primaryAppBar
-                                .copyWith(fontSize: A11yUtils.withTextScale(context) ? FontSizes.semi : FontSizes.huge)
-                                .copyWith(color: Brand.isCej() ? AppColors.primary : AppColors.grey100),
+              child: FlexibleSpaceBar(
+                titlePadding: EdgeInsetsDirectional.only(
+                  start: 0,
+                  bottom: Margins.spacing_base,
+                ),
+                expandedTitleScale: FontSizes.xl / FontSizes.huge,
+                title: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Tooltip(
+                          message: title,
+                          excludeFromSemantics: true,
+                          child: AutoFocusA11y(
+                            child: Text(
+                              title,
+                              style: TextStyles.primaryAppBar
+                                  .copyWith(
+                                      fontSize: A11yUtils.withTextScale(context) ? FontSizes.semi : FontSizes.huge)
+                                  .copyWith(color: Brand.isCej() ? AppColors.primary : AppColors.grey100),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    if (withProfileButton) ...[
-                      ProfileButton(isDarkColor: Brand.isCej()),
-                    ]
-                  ],
+                      if (withProfileButton) ...[
+                        ProfileButton(isDarkColor: Brand.isCej()),
+                      ]
+                    ],
+                  ),
                 ),
               ),
             ),

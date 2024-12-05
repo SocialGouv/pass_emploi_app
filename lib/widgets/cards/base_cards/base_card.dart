@@ -24,6 +24,7 @@ class BaseCard extends StatelessWidget {
   final void Function()? onLongPress;
   final PressedTip? pressedTip;
   final String? imagePath;
+  final String? imageAlt;
   final bool linkRole;
 
   const BaseCard({
@@ -41,6 +42,7 @@ class BaseCard extends StatelessWidget {
     this.onLongPress,
     this.pressedTip,
     this.imagePath,
+    this.imageAlt,
     this.linkRole = false,
   });
 
@@ -87,7 +89,9 @@ class BaseCard extends StatelessWidget {
                     ),
                   if (imagePath != null)
                     Semantics(
-                      excludeSemantics: true,
+                      excludeSemantics: imageAlt != null ? false : true,
+                      image: true,
+                      label: imageAlt,
                       child: _CardIllustration(imagePath: imagePath!),
                     ),
                   if (title.isNotEmpty) ...[

@@ -150,9 +150,10 @@ class _ScrollAwareAppBarState extends State<_ScrollAwareAppBar> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isScreenReader = A11yUtils.withScreenReader(context);
     return PrimaryAppBar(
       title: Strings.monSuiviTitle,
-      actionButton: withActionButton
+      actionButton: withActionButton || isScreenReader
           ? IconButton(
               onPressed: () => _StateProvider.maybeOf(context)?.scrollController.animateTo(
                     0,

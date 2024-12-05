@@ -39,30 +39,33 @@ class _DatePickerState extends State<DatePicker> {
 
   @override
   Widget build(BuildContext context) {
-    return BaseTextField(
-      enabled: widget.isActiveDate,
-      keyboardType: TextInputType.none,
-      onTap: () => openDatePicker(context),
-      showCursor: false,
-      readOnly: true,
-      prefixIcon: IconButton(
-        key: dateGlobalKey,
-        onPressed: () => openDatePicker(context),
-        tooltip: Strings.selectDateTooltip,
-        icon: Icon(AppIcons.today_rounded, color: AppColors.grey800),
+    return Semantics(
+      label: widget.initialDateValue == null ? Strings.emptyDate : null,
+      child: BaseTextField(
+        enabled: widget.isActiveDate,
+        keyboardType: TextInputType.none,
+        onTap: () => openDatePicker(context),
+        showCursor: false,
+        readOnly: true,
+        prefixIcon: IconButton(
+          key: dateGlobalKey,
+          onPressed: () => openDatePicker(context),
+          tooltip: Strings.selectDateTooltip,
+          icon: Icon(AppIcons.today_rounded, color: AppColors.grey800),
+        ),
+        suffixIcon: widget.onDateDeleted != null && widget.initialDateValue != null
+            ? IconButton(
+                onPressed: () {
+                  dateGlobalKey.requestFocusDelayed();
+                  widget.onDateDeleted?.call();
+                },
+                tooltip: Strings.removeDateTooltip,
+                icon: Icon(AppIcons.cancel_rounded, color: AppColors.grey800),
+              )
+            : null,
+        hintText: _hintText(context),
+        errorText: widget.errorText,
       ),
-      suffixIcon: widget.onDateDeleted != null && widget.initialDateValue != null
-          ? IconButton(
-              onPressed: () {
-                dateGlobalKey.requestFocusDelayed();
-                widget.onDateDeleted?.call();
-              },
-              tooltip: Strings.removeDateTooltip,
-              icon: Icon(AppIcons.cancel_rounded, color: AppColors.grey800),
-            )
-          : null,
-      hintText: _hintText(context),
-      errorText: widget.errorText,
     );
   }
 

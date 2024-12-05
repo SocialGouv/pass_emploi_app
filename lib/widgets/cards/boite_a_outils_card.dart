@@ -19,6 +19,7 @@ class BoiteAOutilsCard extends StatelessWidget {
       title: outil.title,
       body: outil.description,
       imagePath: outil.imagePath,
+      imageAlt: outil.imageAlt,
       pressedTip: outil.actionLabel != null ? PressedTip.externalLink(outil.actionLabel!) : null,
       linkRole: outil.redirectMode is OutilExternalRedirectMode,
       onTap: () {
