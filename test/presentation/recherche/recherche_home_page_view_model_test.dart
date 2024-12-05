@@ -35,6 +35,20 @@ void main() {
     );
   });
 
+  test('create when accompagnement is Avenir Pro should return all solutions types', () {
+    // Given
+    final store = givenState().loggedInUser(accompagnement: Accompagnement.avenirPro).store();
+
+    // When
+    final viewModel = RechercheHomePageViewModel.create(store);
+
+    // Then
+    expect(
+      viewModel.offreTypes,
+      [OffreType.emploi, OffreType.alternance, OffreType.immersion, OffreType.serviceCivique],
+    );
+  });
+
   test('create when accompagnement is RSA should only return OffreEmploi and Alternance', () {
     // Given
     final store = givenState().loggedInUser(accompagnement: Accompagnement.rsaFranceTravail).store();

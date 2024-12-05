@@ -15,9 +15,11 @@ class RechercheHomePageViewModel extends Equatable {
     return RechercheHomePageViewModel(
       offreTypes: [
         OffreType.emploi,
-        if ([Accompagnement.cej, Accompagnement.aij].contains(accompagnement)) OffreType.alternance,
+        if ([Accompagnement.cej, Accompagnement.aij, Accompagnement.avenirPro].contains(accompagnement))
+          OffreType.alternance,
         OffreType.immersion,
-        if ([Accompagnement.cej, Accompagnement.aij].contains(accompagnement)) OffreType.serviceCivique,
+        if ([Accompagnement.cej, Accompagnement.aij, Accompagnement.avenirPro].contains(accompagnement))
+          OffreType.serviceCivique,
       ],
       shouldShowOnboarding: _shouldShowOnboarding(store, releaseMode),
     );
