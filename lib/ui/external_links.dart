@@ -15,7 +15,8 @@ class ExternalLinks {
   static final String boiteAOutilsBenevolat = Brand.isCej()
       ? "http://api.api-engagement.beta.gouv.fr/r/campaign/64ddc9185331346074141cb1"
       : "http://api.api-engagement.beta.gouv.fr/r/campaign/64ddca09533134607414370b";
-  static const String laBonneAlternance = "https://labonnealternance.apprentissage.beta.gouv.fr/";
+  static const String laBonneAlternance =
+      "https://labonnealternance.apprentissage.beta.gouv.fr/?utm_source=cej&utm_medium=appli-cej&utm_campaign=cej_candidats_boite-a-outils-appli-du-cej";
   static const String boiteAOutilsFormation = "https://www.1jeune1solution.gouv.fr/formations";
   static const String boiteAOutilsEvenementRecrutement = "https://www.1jeune1solution.gouv.fr/evenements";
   static const String boiteAOutilsEmploiStore = "https://www.emploi-store.fr/portail/accueil";
