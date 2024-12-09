@@ -89,6 +89,7 @@ class AnalyticsScreenNames {
 
   static const toolbox = "recherche/boite_a_outils";
   static const benevolat = "benevolat";
+  static const laBonneAlternance = "la_bonne_alternance";
 
   static const eventList = "events/list";
 
