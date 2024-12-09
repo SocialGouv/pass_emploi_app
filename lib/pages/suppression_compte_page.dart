@@ -128,6 +128,7 @@ class _DeleteAccountButton extends StatelessWidget {
 
   void _showDeleteDialog(BuildContext context) => showDialog(
         context: context,
+        barrierLabel: Strings.closeDialog,
         builder: (_) {
           PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.suppressionAccountConfirmation);
           return DeleteAlertDialog();

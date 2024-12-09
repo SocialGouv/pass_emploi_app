@@ -65,7 +65,7 @@ void _showSnackBar({
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       // a11y : 11.1 - bloquant: Le message de succès disparaît automatiquement après quelques secondes
-      duration: Duration(minutes: 1),
+      duration: Duration(minutes: 60),
       behavior: SnackBarBehavior.floating,
       backgroundColor: backgroundColor,
       content: AutoFocusA11y(
@@ -85,7 +85,7 @@ void _showSnackBar({
                 icon: Icon(
                   AppIcons.close_rounded,
                   color: textColor,
-                  semanticLabel: Strings.closeDialog,
+                  semanticLabel: Strings.closeInformationMessage,
                 ),
                 onPressed: () => clearAllSnackBars(),
                 alignment: Alignment.topRight,

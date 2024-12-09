@@ -325,7 +325,10 @@ class _AnimateurPart extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(Strings.withAnimateurTitle, style: TextStyles.textBaseBold),
+        Semantics(
+          header: true,
+          child: Text(Strings.withAnimateurTitle, style: TextStyles.textBaseBold),
+        ),
         Padding(
           padding: const EdgeInsets.only(top: Margins.spacing_s),
           child: TextWithClickableLinks(withAnimateur, style: TextStyles.textBaseRegular),
