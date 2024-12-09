@@ -89,7 +89,7 @@ class BaseCard extends StatelessWidget {
                     ),
                   if (imagePath != null)
                     Semantics(
-                      excludeSemantics: imageAlt != null ? false : true,
+                      excludeSemantics: imageAlt != null,
                       image: true,
                       label: imageAlt,
                       child: _CardIllustration(imagePath: imagePath!),

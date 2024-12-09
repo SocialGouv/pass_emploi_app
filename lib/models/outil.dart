@@ -65,7 +65,7 @@ class Outil extends Equatable {
 
   static Outil benevolatCej = Outil(
     title: "Je m’engage bénévolement",
-    imageAlt: "Je veux plus de solidarité, Devez bénévole",
+    imageAlt: "Je veux plus de solidarité, Devenez bénévole",
     description:
         "Trouvez une mission de bénévolat à distance ou en présentiel, comptabilisée dans vos heures d’activités CEJ, sur JeVeuxAider.gouv.fr",
     redirectMode: OutilInternalRedirectMode(OutilInternalLink.benevolat),
