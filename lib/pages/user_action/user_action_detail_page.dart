@@ -196,7 +196,10 @@ class _Content extends StatelessWidget {
                       SizedBox(height: Margins.spacing_m),
                       _Separator(),
                       SizedBox(height: Margins.spacing_m),
-                      Text(Strings.userActionDetailsSection, style: TextStyles.textBaseBold),
+                      Semantics(
+                        header: true,
+                        child: Text(Strings.userActionDetailsSection, style: TextStyles.textBaseBold),
+                      ),
                       if (viewModel.withSubtitle) ...[
                         SizedBox(height: Margins.spacing_base),
                         _Description(

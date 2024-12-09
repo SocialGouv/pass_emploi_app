@@ -98,7 +98,8 @@ class ActionCategorySelector extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     final textScaleFactor = MediaQuery.textScalerOf(context).scale(1);
     if (height < MediaSizes.height_xs) return textScaleFactor > 1 ? 0.5 : 2 / 3;
-    return min(1, 1 / textScaleFactor);
+    // manualy ajusted for a11y at 235%
+    return min(1, 0.8 / textScaleFactor);
   }
 }
 

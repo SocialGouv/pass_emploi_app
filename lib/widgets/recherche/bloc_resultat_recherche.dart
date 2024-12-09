@@ -62,26 +62,29 @@ class _BlocResultatRechercheState<Result> extends State<BlocResultatRecherche<Re
       case BlocResultatRechercheDisplayState.editRecherche:
         final bool withOpacity = viewModel.displayState == BlocResultatRechercheDisplayState.editRecherche;
         final bool disabled = withOpacity && !A11yUtils.withScreenReader(context);
-        return GestureDetector(
-          onTapDown: (_) => viewModel.onListWithOpacityTouch(),
-          child: AnimatedOpacity(
-            opacity: disabled ? 0.2 : 1,
-            duration: Duration(milliseconds: 200),
-            child: AbsorbPointer(
-              absorbing: disabled,
-              child: Focus(
-                onFocusChange: (hasFocus) {
-                  if (hasFocus) {
-                    // A11y - to close bandeau recherche when focus goes to the list
-                    context.dispatch(RechercheCloseCriteresAction<Result>());
-                  }
-                },
-                child: ResultatRechercheContenu<Result>(
-                  key: widget.listResultatKey,
-                  analyticsType: widget.analyticsType,
-                  viewModel: viewModel,
-                  favorisState: widget.favorisState,
-                  buildResultItem: widget.buildResultItem,
+        return Semantics(
+          label: Strings.listOffres,
+          child: GestureDetector(
+            onTapDown: (_) => viewModel.onListWithOpacityTouch(),
+            child: AnimatedOpacity(
+              opacity: disabled ? 0.2 : 1,
+              duration: Duration(milliseconds: 200),
+              child: AbsorbPointer(
+                absorbing: disabled,
+                child: Focus(
+                  onFocusChange: (hasFocus) {
+                    if (hasFocus) {
+                      // A11y - to close bandeau recherche when focus goes to the list
+                      context.dispatch(RechercheCloseCriteresAction<Result>());
+                    }
+                  },
+                  child: ResultatRechercheContenu<Result>(
+                    key: widget.listResultatKey,
+                    analyticsType: widget.analyticsType,
+                    viewModel: viewModel,
+                    favorisState: widget.favorisState,
+                    buildResultItem: widget.buildResultItem,
+                  ),
                 ),
               ),
             ),

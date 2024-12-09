@@ -1486,6 +1486,7 @@ class Strings {
   static String invalidField = "Champ invalide";
   static String loadingAnnouncement = "Chargement en cours";
   static String closeDialog = "Fermer la boîte de dialogue";
+  static String closeInformationMessage = "Fermer le message d'information";
   static String chosenValue = "Valeur choisie :";
   static String buttonRole = "bouton";
   static String bottomSheetBarrierLabel = "$closeDialog, $buttonRole";
@@ -1495,10 +1496,13 @@ class Strings {
   static const String sentimentNeutral = "Emoticone neutre";
   static const String sentimentSatisfied = "Emoticone plutôt d’accord";
   static const String mood = "Emoticone d’accord";
+  static const String emptyDate = "Aucune date sélectionnée";
 
   static String removeDistance(int value) => 'Diminuer la distance de $value km';
 
   static String addDistance(int value) => 'Augmenter la distance de $value km';
 
   static String distanceUpdated(int value) => 'Distance mise à jour à $value km';
+
+  static String listOffres = "Liste des offres";
 }

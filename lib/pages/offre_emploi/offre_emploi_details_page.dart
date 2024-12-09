@@ -301,7 +301,10 @@ class OffreEmploiDetailsPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(Strings.skillsTitle, style: TextStyles.textBaseBold),
+        Semantics(
+          header: true,
+          child: Text(Strings.skillsTitle, style: TextStyles.textBaseBold),
+        ),
         SizedBox(height: Margins.spacing_base),
         for (final skill in skills) _setRequiredElement(element: skill.description, criteria: skill.requirement),
         SepLine(Margins.spacing_m, Margins.spacing_m),

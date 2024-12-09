@@ -94,21 +94,24 @@ class _ActionStatusRadios extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        _PassEmploiRadio<bool>(
-          title: Strings.userActionStatusRadioCompletedStep3,
-          value: true,
-          groupValue: isCompleted,
-          onPressed: _onStatusChanged,
-        ),
-        _PassEmploiRadio<bool>(
-          title: Strings.userActionStatusRadioTodoStep3,
-          value: false,
-          groupValue: isCompleted,
-          onPressed: _onStatusChanged,
-        ),
-      ],
+    return Semantics(
+      container: true,
+      child: Column(
+        children: [
+          _PassEmploiRadio<bool>(
+            title: Strings.userActionStatusRadioCompletedStep3,
+            value: true,
+            groupValue: isCompleted,
+            onPressed: _onStatusChanged,
+          ),
+          _PassEmploiRadio<bool>(
+            title: Strings.userActionStatusRadioTodoStep3,
+            value: false,
+            groupValue: isCompleted,
+            onPressed: _onStatusChanged,
+          ),
+        ],
+      ),
     );
   }
 

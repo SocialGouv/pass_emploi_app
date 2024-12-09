@@ -69,7 +69,7 @@ class _ReadOnlyTextFormFieldState extends State<ReadOnlyTextFormField> {
               tag: widget.heroTag,
               child: Semantics(
                 button: true,
-                label: widget.initialValue != null ? "${Strings.chosenValue} ${widget.initialValue!}" : widget.hint,
+                label: widget.hint + (widget.initialValue != null ? Strings.chosenValue : ""),
                 child: Material(
                   type: MaterialType.transparency,
                   child: BaseTextField(
