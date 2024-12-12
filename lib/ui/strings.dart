@@ -1418,11 +1418,11 @@ class Strings {
   ];
   static List<String> cguNeverAcceptedSwitch = [
     "J’ai lu et j’accepte les",
-    "  ↗ Conditions Générales d’Utilisation",
+    " ↗ Conditions Générales d’Utilisation",
   ];
   static List<String> cguUpdateRequiredSwitch = [
     "J’ai lu et j’accepte les nouvelles",
-    "  ↗ CGU",
+    " ↗ CGU",
   ];
   static String cguSwitchError = "Acceptez les Conditions Générales d’Utilisation pour utiliser l’application.";
   static String cguAccept = "Valider";
