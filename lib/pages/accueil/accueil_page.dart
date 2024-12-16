@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
@@ -55,7 +54,7 @@ class _AccueilPageState extends State<AccueilPage> {
       tracking: AnalyticsScreenNames.accueil,
       child: StoreConnector<AppState, AccueilViewModel>(
         onInit: (store) => store.dispatch(AccueilRequestAction()),
-        converter: (store) => AccueilViewModel.create(store, releaseMode: kReleaseMode),
+        converter: (store) => AccueilViewModel.create(store),
         builder: _builder,
         onDidChange: (previousViewModel, viewModel) {
           _handleOnboarding(viewModel);
@@ -124,12 +123,12 @@ class _AccueilPageState extends State<AccueilPage> {
     );
   }
 
-  void _handleOnboarding(AccueilViewModel newViewModel) {
+  void _handleOnboarding(AccueilViewModel viewModel) {
     final context = this.context;
-    if (newViewModel.shouldShowOnboarding && !_onboardingShown) {
+    if (viewModel.shouldShowOnboarding && !_onboardingShown) {
       _onboardingShown = true;
       OnboardingAccueilBottomSheet.show(context).then((_) {
-        if (context.mounted) OnboardingNavigationBottomSheet.show(context);
+        if (viewModel.shouldShowNavigationBottomSheet && context.mounted) OnboardingNavigationBottomSheet.show(context);
       });
     }
   }

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/pages/event_list_page.dart';
@@ -30,7 +29,7 @@ class _EventsTabPageState extends State<EventsTabPage> {
     return AutoFocusA11y(
       child: StoreConnector<AppState, EventsTabPageViewModel>(
         builder: (context, viewModel) => _Body(viewModel, widget.initialTab),
-        converter: (store) => EventsTabPageViewModel.create(store, releaseMode: kReleaseMode),
+        converter: (store) => EventsTabPageViewModel.create(store),
         onDidChange: (_, newVm) => _handleOnboarding(newVm),
       ),
     );

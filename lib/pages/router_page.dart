@@ -1,5 +1,4 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
@@ -66,7 +65,7 @@ class _RouterPageState extends State<RouterPage> with WidgetsBindingObserver {
         store.dispatch(BootstrapAction());
         store.dispatch(SubscribeToConnectivityUpdatesAction());
       },
-      converter: (store) => RouterPageViewModel.create(store, platform, releaseMode: kReleaseMode),
+      converter: (store) => RouterPageViewModel.create(store, platform),
       builder: (context, viewModel) => _content(viewModel),
       ignoreChange: (state) => state.deepLinkState is UsedDeepLinkState,
       onWillChange: _onWillChange,
