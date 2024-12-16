@@ -29,9 +29,9 @@ class RouterPageViewModel extends Equatable {
     required this.onAppStoreOpened,
   });
 
-  static RouterPageViewModel create(Store<AppState> store, Platform platform, {bool releaseMode = true}) {
+  static RouterPageViewModel create(Store<AppState> store, Platform platform) {
     return RouterPageViewModel(
-      routerPageDisplayState: _routerPageDisplayState(store, releaseMode),
+      routerPageDisplayState: _routerPageDisplayState(store),
       mainPageDisplayState: _toMainPageDisplayState(store),
       deepLinkKey: store.state.deepLinkState.deepLinkOpenedAt.hashCode,
       storeUrl: _storeUrl(store, platform),
@@ -55,7 +55,7 @@ String? _storeUrl(Store<AppState> store, Platform platform) {
   return null;
 }
 
-RouterPageDisplayState _routerPageDisplayState(Store<AppState> store, bool releaseMode) {
+RouterPageDisplayState _routerPageDisplayState(Store<AppState> store) {
   final loginState = store.state.loginState;
   final tutoState = store.state.tutorialState;
   final onboardingState = store.state.firstLaunchOnboardingState;
@@ -75,7 +75,7 @@ RouterPageDisplayState _routerPageDisplayState(Store<AppState> store, bool relea
     }
   }
 
-  if (onboardingState is FirstLaunchOnboardingSuccessState && onboardingState.showOnboarding && releaseMode) {
+  if (onboardingState is FirstLaunchOnboardingSuccessState && onboardingState.showOnboarding) {
     return RouterPageDisplayState.onboarding;
   }
 

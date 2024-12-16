@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -82,7 +81,7 @@ class ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
             store.dispatch(SubscribeToChatAction());
           },
           onDispose: _onDispose,
-          converter: (store) => ChatPageViewModel.create(store, releaseMode: kReleaseMode),
+          converter: (store) => ChatPageViewModel.create(store),
           builder: _builder,
           onDidChange: (_, newVm) {
             StoreProvider.of<AppState>(context).dispatch(LastMessageSeenAction());

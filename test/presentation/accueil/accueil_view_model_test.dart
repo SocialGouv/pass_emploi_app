@@ -2,10 +2,12 @@ import 'package:collection/collection.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
+import 'package:pass_emploi_app/features/onboarding/onboarding_state.dart';
 import 'package:pass_emploi_app/models/accompagnement.dart';
 import 'package:pass_emploi_app/models/accueil/accueil.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/models/login_mode.dart';
+import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/models/outil.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_view_model.dart';
@@ -428,5 +430,73 @@ void main() {
       viewModel.items.whereType<AccueilProchainRendezvousItem>().isEmpty,
       isTrue,
     );
+  });
+
+  group('shouldShowOnboarding', () {
+    test('should show onboarding when showAccueilOnboarding is true', () {
+      // Given
+      final store = givenState()
+          .withAccueilPoleEmploiSuccess()
+          .copyWith(onboardingState: OnboardingSuccessState(Onboarding(showAccueilOnboarding: true)))
+          .store();
+
+      // When
+      final viewModel = AccueilViewModel.create(store);
+
+      // Then
+      expect(
+        viewModel.shouldShowOnboarding,
+        isTrue,
+      );
+    });
+
+    test('should not show onboarding when showAccueilOnboarding is true', () {
+      // Given
+      final store = givenState()
+          .withAccueilPoleEmploiSuccess()
+          .copyWith(onboardingState: OnboardingSuccessState(Onboarding(showAccueilOnboarding: false)))
+          .store();
+
+      // When
+      final viewModel = AccueilViewModel.create(store);
+
+      // Then
+      expect(
+        viewModel.shouldShowOnboarding,
+        isFalse,
+      );
+    });
+  });
+
+  group('shouldShowNavigationBottomSheet', () {
+    test('should not show navigation onboarding when accompagnement is avenir pro', () {
+      // Given
+      final store =
+          givenState().withAccueilPoleEmploiSuccess().loggedInUser(accompagnement: Accompagnement.avenirPro).store();
+
+      // When
+      final viewModel = AccueilViewModel.create(store);
+
+      // Then
+      expect(
+        viewModel.shouldShowNavigationBottomSheet,
+        isFalse,
+      );
+    });
+
+    test('should show navigation onboarding when accompagnement is not avenir pro', () {
+      // Given
+      final store =
+          givenState().withAccueilPoleEmploiSuccess().loggedInUser(accompagnement: Accompagnement.cej).store();
+
+      // When
+      final viewModel = AccueilViewModel.create(store);
+
+      // Then
+      expect(
+        viewModel.shouldShowNavigationBottomSheet,
+        isTrue,
+      );
+    });
   });
 }

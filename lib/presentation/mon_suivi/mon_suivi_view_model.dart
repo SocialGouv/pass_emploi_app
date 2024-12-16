@@ -42,7 +42,7 @@ class MonSuiviViewModel extends Equatable {
     required this.onRetry,
   });
 
-  factory MonSuiviViewModel.create(Store<AppState> store, {bool releaseMode = true}) {
+  factory MonSuiviViewModel.create(Store<AppState> store) {
     final state = store.state.monSuiviState;
     final items = _items(store);
     return MonSuiviViewModel._(
@@ -55,7 +55,7 @@ class MonSuiviViewModel extends Equatable {
       withWarningOnWrongPoleEmploiDataRetrieval: _withWarningOnWrongPoleEmploiDataRetrieval(state),
       pendingActionCreations: store.state.userActionCreatePendingState.getPendingCreationsCount(),
       withPagination: store.state.isMiloLoginMode(),
-      shouldShowOnboarding: _shouldShowOnboarding(store, releaseMode),
+      shouldShowOnboarding: _shouldShowOnboarding(store),
       onLoadPreviousPeriod: () => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.previous)),
       onLoadNextPeriod: () => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.next)),
       onRetry: () {
@@ -276,6 +276,6 @@ class SessionMiloMonSuiviEntry extends MonSuiviEntry {
   List<Object?> get props => [id];
 }
 
-bool _shouldShowOnboarding(Store<AppState> store, bool releaseMode) {
-  return releaseMode && store.state.onboardingState.showMonSuiviOnboarding;
+bool _shouldShowOnboarding(Store<AppState> store) {
+  return store.state.onboardingState.showMonSuiviOnboarding;
 }

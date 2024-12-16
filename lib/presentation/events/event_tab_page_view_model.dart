@@ -15,7 +15,7 @@ class EventsTabPageViewModel extends Equatable {
     required this.shouldShowOnboarding,
   });
 
-  factory EventsTabPageViewModel.create(Store<AppState> store, {bool releaseMode = true}) {
+  factory EventsTabPageViewModel.create(Store<AppState> store) {
     final state = store.state.loginState;
     final user = state is LoginSuccessState ? state.user : null;
     final isMiLo = user?.loginMode.isMiLo() == true;
@@ -24,7 +24,7 @@ class EventsTabPageViewModel extends Equatable {
         if (isMiLo) EventTab.maMissionLocale,
         EventTab.rechercheExternes,
       ],
-      shouldShowOnboarding: _shouldShowOnboarding(store, releaseMode),
+      shouldShowOnboarding: _shouldShowOnboarding(store),
     );
   }
 
@@ -32,6 +32,6 @@ class EventsTabPageViewModel extends Equatable {
   List<Object?> get props => [tabs, shouldShowOnboarding];
 }
 
-bool _shouldShowOnboarding(Store<AppState> store, bool releaseMode) {
-  return releaseMode && store.state.onboardingState.showEvenementsOnboarding;
+bool _shouldShowOnboarding(Store<AppState> store) {
+  return store.state.onboardingState.showEvenementsOnboarding;
 }

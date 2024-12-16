@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
@@ -36,7 +35,7 @@ class _RechercheHomePageState extends State<RechercheHomePage> {
     return Tracker(
       tracking: AnalyticsScreenNames.rechercheHome,
       child: StoreConnector<AppState, RechercheHomePageViewModel>(
-        converter: (store) => RechercheHomePageViewModel.create(store, releaseMode: kReleaseMode),
+        converter: (store) => RechercheHomePageViewModel.create(store),
         builder: _builder,
         onDidChange: (_, newVm) => _handleOnboarding(newVm),
       ),

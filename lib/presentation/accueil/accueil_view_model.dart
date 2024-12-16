@@ -23,6 +23,7 @@ class AccueilViewModel extends Equatable {
   final DeepLink? deepLink;
   final bool shouldResetDeeplink;
   final bool shouldShowOnboarding;
+  final bool shouldShowNavigationBottomSheet;
   final Function() resetDeeplink;
   final Function() retry;
 
@@ -32,24 +33,26 @@ class AccueilViewModel extends Equatable {
     required this.deepLink,
     required this.shouldResetDeeplink,
     required this.shouldShowOnboarding,
+    required this.shouldShowNavigationBottomSheet,
     required this.resetDeeplink,
     required this.retry,
   });
 
-  factory AccueilViewModel.create(Store<AppState> store, {bool releaseMode = true}) {
+  factory AccueilViewModel.create(Store<AppState> store) {
     return AccueilViewModel(
       displayState: _displayState(store),
       items: _items(store),
       deepLink: store.getDeepLink(),
       shouldResetDeeplink: _shouldResetDeeplink(store),
-      shouldShowOnboarding: _shouldShowOnboarding(store, releaseMode),
+      shouldShowOnboarding: _shouldShowOnboarding(store),
+      shouldShowNavigationBottomSheet: _shouldShowNavigationBottomSheet(store),
       resetDeeplink: () => store.dispatch(ResetDeeplinkAction()),
       retry: () => store.dispatch(AccueilRequestAction(forceRefresh: true)),
     );
   }
 
   @override
-  List<Object?> get props => [displayState, items, deepLink, shouldShowOnboarding];
+  List<Object?> get props => [displayState, items, deepLink, shouldShowOnboarding, shouldShowNavigationBottomSheet];
 }
 
 DisplayState _displayState(Store<AppState> store) {
@@ -191,6 +194,13 @@ AccueilItem? _campagneRecrutementItem(Store<AppState> store, AppState state) {
   return null;
 }
 
-bool _shouldShowOnboarding(Store<AppState> store, bool releaseMode) {
-  return releaseMode && store.state.onboardingState.showAccueilOnboarding;
+bool _shouldShowOnboarding(Store<AppState> store) {
+  return store.state.onboardingState.showAccueilOnboarding;
+}
+
+bool _shouldShowNavigationBottomSheet(Store<AppState> store) {
+  final accueilState = store.state.accueilState;
+  final user = store.state.user();
+  if (accueilState is! AccueilSuccessState || user == null) return false;
+  return user.accompagnement != Accompagnement.avenirPro;
 }
