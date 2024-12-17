@@ -3,6 +3,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/features/in_app_notifications/in_app_notifications_actions.dart';
 import 'package:pass_emploi_app/features/in_app_notifications/in_app_notifications_state.dart';
 
+import '../../doubles/fixtures.dart';
 import '../../doubles/mocks.dart';
 import '../../dsl/app_state_dsl.dart';
 import '../../dsl/matchers.dart';
@@ -17,7 +18,7 @@ void main() {
       sut.whenDispatchingAction(() => InAppNotificationsRequestAction());
 
       test('should load then succeed when request succeeds', () {
-        when(() => repository.get("")).thenAnswer((_) async => true);
+        when(() => repository.get("")).thenAnswer((_) async => [mockInAppNotification()]);
 
         sut.givenStore = givenState() //
             .loggedInUser()
@@ -47,7 +48,7 @@ Matcher _shouldSucceed() {
   return StateIs<InAppNotificationsSuccessState>(
     (state) => state.inAppNotificationsState,
     (state) {
-      expect(state.result, true);
+      expect(state.result, [mockInAppNotification()]);
     },
   );
 }

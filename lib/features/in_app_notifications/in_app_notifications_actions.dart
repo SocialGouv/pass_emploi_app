@@ -11,5 +11,3 @@ class InAppNotificationsSuccessAction {
 }
 
 class InAppNotificationsFailureAction {}
-
-class InAppNotificationsResetAction {}

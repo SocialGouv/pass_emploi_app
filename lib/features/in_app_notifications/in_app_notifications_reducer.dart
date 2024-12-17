@@ -5,6 +5,5 @@ InAppNotificationsState inAppNotificationsReducer(InAppNotificationsState curren
   if (action is InAppNotificationsLoadingAction) return InAppNotificationsLoadingState();
   if (action is InAppNotificationsFailureAction) return InAppNotificationsFailureState();
   if (action is InAppNotificationsSuccessAction) return InAppNotificationsSuccessState(action.result);
-  if (action is InAppNotificationsResetAction) return InAppNotificationsNotInitializedState();
   return current;
 }

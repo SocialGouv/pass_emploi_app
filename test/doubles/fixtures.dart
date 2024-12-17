@@ -40,6 +40,7 @@ import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_contact.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
+import 'package:pass_emploi_app/models/in_app_notification.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/matching_demarche_du_referentiel.dart';
@@ -1255,6 +1256,16 @@ UserActionUpdateRequest mockUserActionUpdateRequest([UserActionStatus status = U
     description: "description",
     dateEcheance: DateTime(2024),
     type: UserActionReferentielType.emploi,
+  );
+}
+
+InAppNotification mockInAppNotification() {
+  return InAppNotification(
+    id: "id",
+    titre: "Titre de la notification",
+    description: "Description de la notification",
+    date: DateTime(2024),
+    type: InAppNotificationType.newRendezvous,
   );
 }
 
