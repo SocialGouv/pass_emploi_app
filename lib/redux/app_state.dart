@@ -75,6 +75,7 @@ import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/user.dart';
+import 'package:pass_emploi_app/features/in_app_notifications/in_app_notifications_state.dart';
 /*AUTOGENERATE-REDUX-APP-STATE-IMPORT*/
 
 class AppState extends Equatable {
@@ -151,6 +152,7 @@ class AppState extends Equatable {
   final DateConsultationOffreState dateConsultationOffreState;
   final DerniereOffreConsulteeState derniereOffreConsulteeState;
   final InAppFeedbackState inAppFeedbackState;
+  final InAppNotificationsState inAppNotificationsState;
   /*AUTOGENERATE-REDUX-APP-STATE-PROPERTY*/
 
   AppState({
@@ -227,6 +229,7 @@ class AppState extends Equatable {
     required this.dateConsultationOffreState,
     required this.derniereOffreConsulteeState,
     required this.inAppFeedbackState,
+    required this.inAppNotificationsState,
     /*AUTOGENERATE-REDUX-APP-STATE-CONSTRUCTOR*/
   });
 
@@ -304,6 +307,7 @@ class AppState extends Equatable {
     final DateConsultationOffreState? dateConsultationOffreState,
     final DerniereOffreConsulteeState? derniereOffreConsulteeState,
     final InAppFeedbackState? inAppFeedbackState,
+    final InAppNotificationsState? inAppNotificationsState,
     /*AUTOGENERATE-REDUX-APP-STATE-COPYPARAM*/
   }) {
     return AppState(
@@ -380,6 +384,7 @@ class AppState extends Equatable {
       dateConsultationOffreState: dateConsultationOffreState ?? this.dateConsultationOffreState,
       derniereOffreConsulteeState: derniereOffreConsulteeState ?? this.derniereOffreConsulteeState,
       inAppFeedbackState: inAppFeedbackState ?? this.inAppFeedbackState,
+      inAppNotificationsState: inAppNotificationsState ?? this.inAppNotificationsState,
       /*AUTOGENERATE-REDUX-APP-STATE-COPYBODY*/
     );
   }
@@ -459,6 +464,7 @@ class AppState extends Equatable {
       dateConsultationOffreState: DateConsultationOffreState(),
       derniereOffreConsulteeState: DerniereOffreConsulteeState(),
       inAppFeedbackState: InAppFeedbackState(),
+      inAppNotificationsState: InAppNotificationsNotInitializedState(),
       /*AUTOGENERATE-REDUX-APP-STATE-FACTORY*/
     );
   }
@@ -531,6 +537,7 @@ class AppState extends Equatable {
         dateConsultationOffreState,
         derniereOffreConsulteeState,
         inAppFeedbackState,
+        inAppNotificationsState,
         /*AUTOGENERATE-REDUX-APP-STATE-EQUATABLE*/
       ];
 

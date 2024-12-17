@@ -1,0 +1,23 @@
+[
+    {
+        "id": "1",
+        "date": "<NOW_LESS_10>",
+        "type": "DELETED_RENDEZVOUS",
+        "titre": "Rendez-vous supprimé",
+        "description": "Votre rendez-vous du 16/01/2024 a été supprime par votre conseiller."
+      },
+      {
+        "id": "2",
+        "date": "<NOW_LESS_10>",
+        "type": "UPDATED_RENDEZVOUS",
+        "titre": "Rendez-vous modifié",
+        "description": "Votre rendez-vous du 16/01/2024 a été modifié par votre conseiller."
+      },
+      {
+        "id": "3",
+        "date": "<NOW_LESS_10>",
+        "type": "NEW_RENDEZVOUS",
+        "titre": "Nouveau rendez-vous",
+        "description": "Votre conseiller à programmé un nouveau rendez-vous le 16/01/2024."
+      }
+]
