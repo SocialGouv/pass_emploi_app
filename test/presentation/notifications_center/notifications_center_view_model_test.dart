@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
+import 'package:pass_emploi_app/features/in_app_notifications/in_app_notifications_actions.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/models/in_app_notification.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -11,6 +12,22 @@ import '../../utils/expects.dart';
 
 void main() {
   group('NotificationsCenterViewModel', () {
+    test('should dispatch request action on retry', () {
+      // Given
+      final store = givenState() //
+          .loggedInMiloUser()
+          .withInAppNotificationsSuccess([]).spyStore();
+      final viewModel = NotificationsCenterViewModel.create(store);
+
+      // When
+      viewModel.retry();
+
+      // Then
+      expectTypeThen<InAppNotificationsRequestAction>(store.dispatchedAction, (action) {
+        expect(action, isA<InAppNotificationsRequestAction>());
+      });
+    });
+
     group('Display state', () {
       test('should display loader when in app notifications state is not initialized', () {
         // Given
