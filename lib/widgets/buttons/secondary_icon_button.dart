@@ -45,3 +45,39 @@ class SecondaryIconButton extends StatelessWidget {
     });
   }
 }
+
+class TertiaryIconButton extends StatelessWidget {
+  final IconData? icon;
+  final VoidCallback? onTap;
+  final Color iconColor;
+  final Color? borderColor;
+  final double iconSize;
+  final String? tooltip;
+
+  TertiaryIconButton({
+    super.key,
+    required this.icon,
+    required this.onTap,
+    Color? iconColor,
+    this.borderColor,
+    this.iconSize = Dimens.icon_size_m,
+    this.tooltip,
+  }) : iconColor = iconColor ?? AppColors.primary;
+
+  @override
+  Widget build(BuildContext context) {
+    return FocusedBorderBuilder(builder: (focusNode) {
+      return IconButton(
+        tooltip: tooltip,
+        focusNode: focusNode,
+        onPressed: onTap,
+        icon: Icon(
+          icon,
+          size: iconSize,
+          color: iconColor,
+        ),
+        padding: EdgeInsets.all(0),
+      );
+    });
+  }
+}

@@ -41,6 +41,7 @@ class InAppNotification extends Equatable {
   final String titre;
   final String description;
   final InAppNotificationType type;
+  final String? idObjet;
 
   InAppNotification({
     required this.id,
@@ -48,10 +49,11 @@ class InAppNotification extends Equatable {
     required this.titre,
     required this.description,
     required this.type,
+    this.idObjet,
   });
 
   @override
-  List<Object?> get props => [id, date, titre, description, type];
+  List<Object?> get props => [id, date, titre, description, type, idObjet];
 
   static InAppNotification fromJson(Map<String, dynamic> json) {
     return InAppNotification(
@@ -60,6 +62,7 @@ class InAppNotification extends Equatable {
       titre: json['titre'] as String,
       description: json['description'] as String,
       type: InAppNotificationType.fromString(json['type'] as String),
+      idObjet: json['idObjet'] as String?,
     );
   }
 }

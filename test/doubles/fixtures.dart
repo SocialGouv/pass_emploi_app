@@ -1259,13 +1259,14 @@ UserActionUpdateRequest mockUserActionUpdateRequest([UserActionStatus status = U
   );
 }
 
-InAppNotification mockInAppNotification() {
+InAppNotification mockInAppNotification({DateTime? date, InAppNotificationType? type}) {
   return InAppNotification(
     id: "id",
     titre: "Titre de la notification",
     description: "Description de la notification",
-    date: DateTime(2024),
-    type: InAppNotificationType.newRendezvous,
+    date: date ?? DateTime(2024),
+    type: type ?? InAppNotificationType.newRendezvous,
+    idObjet: "idObjet",
   );
 }
 

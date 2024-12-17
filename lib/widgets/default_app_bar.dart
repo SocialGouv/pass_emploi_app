@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/brand.dart';
+import 'package:pass_emploi_app/pages/notifications_center/notifications_center.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/font_sizes.dart';
@@ -11,15 +12,12 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/accessibility_utils.dart';
 import 'package:pass_emploi_app/widgets/a11y/auto_focus.dart';
+import 'package:pass_emploi_app/widgets/buttons/secondary_icon_button.dart';
 import 'package:pass_emploi_app/widgets/profile_button.dart';
 
 class PrimarySliverAppbar extends StatelessWidget {
   final String title;
-  final bool withProfileButton;
-  const PrimarySliverAppbar({
-    required this.title,
-    this.withProfileButton = true,
-  });
+  const PrimarySliverAppbar({required this.title});
 
   static double expandedHeight = 90.0;
 
@@ -67,9 +65,13 @@ class PrimarySliverAppbar extends StatelessWidget {
                           ),
                         ),
                       ),
-                      if (withProfileButton) ...[
-                        ProfileButton(isDarkColor: Brand.isCej()),
-                      ]
+                      TertiaryIconButton(
+                        icon: AppIcons.notifications_outlined,
+                        tooltip: Strings.notificationsCenterTooltip,
+                        onTap: () => Navigator.of(context).push(NotificationCenter.route()),
+                      ),
+                      SizedBox(width: Margins.spacing_s),
+                      ProfileButton(isDarkColor: Brand.isCej()),
                     ],
                   ),
                 ),

@@ -1439,6 +1439,10 @@ class Strings {
   static String feedbackProvenanceOffre(String provenance) =>
       "Connaître la source d’une offre ($provenance, etc) m’intéresse.";
 
+  // centre de notifications
+  static String notificationsCenterTooltip = "Centre de notifications";
+  static String notificationsCenterTitle = "Notifications";
+
   // a11y
   static String selectedRadioButton = "Sélectionné";
   static String unselectedRadioButton = "Non sélectionné";

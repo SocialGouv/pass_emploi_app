@@ -13,10 +13,10 @@ class InAppNotificationsLoadingState extends InAppNotificationsState {}
 class InAppNotificationsFailureState extends InAppNotificationsState {}
 
 class InAppNotificationsSuccessState extends InAppNotificationsState {
-  final List<InAppNotification> result;
+  final List<InAppNotification> notifications;
 
-  InAppNotificationsSuccessState(this.result);
+  InAppNotificationsSuccessState(this.notifications);
 
   @override
-  List<Object?> get props => [result];
+  List<Object?> get props => [notifications];
 }

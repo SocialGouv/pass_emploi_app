@@ -48,7 +48,7 @@ Matcher _shouldSucceed() {
   return StateIs<InAppNotificationsSuccessState>(
     (state) => state.inAppNotificationsState,
     (state) {
-      expect(state.result, [mockInAppNotification()]);
+      expect(state.notifications, [mockInAppNotification()]);
     },
   );
 }
