@@ -34,7 +34,6 @@ class NotificationCenter extends StatelessWidget {
         onInit: (store) => store.dispatch(InAppNotificationsRequestAction()),
         converter: (store) => NotificationsCenterViewModel.create(store),
         builder: (context, viewModel) => _DisplayState(viewModel),
-        distinct: true,
       ),
     );
   }

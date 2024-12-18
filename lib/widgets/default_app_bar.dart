@@ -3,7 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/brand.dart';
-import 'package:pass_emploi_app/pages/notifications_center/notifications_center.dart';
+import 'package:pass_emploi_app/pages/notifications_center/notifications_center_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/font_sizes.dart';
