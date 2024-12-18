@@ -21,10 +21,9 @@ class NotificationsCenterViewModel extends Equatable {
   final void Function() retry;
 
   factory NotificationsCenterViewModel.create(Store<AppState> store) {
-    final inAppNotificationsState = store.state.inAppNotificationsState;
     return NotificationsCenterViewModel(
-      displayState: _displayState(inAppNotificationsState),
-      notifications: _notifications(inAppNotificationsState, store),
+      displayState: _displayState(store.state.inAppNotificationsState),
+      notifications: _notifications(store),
       retry: () => store.dispatch(InAppNotificationsRequestAction()),
     );
   }
@@ -43,16 +42,16 @@ DisplayState _displayState(InAppNotificationsState inAppNotificationsState) {
   };
 }
 
-List<NotificationViewModel> _notifications(
-  InAppNotificationsState inAppNotificationsState,
-  Store<AppState> store,
-) {
+List<NotificationViewModel> _notifications(Store<AppState> store) {
+  final inAppNotificationsState = store.state.inAppNotificationsState;
+  final dateDerniereConsultation = store.state.dateConsultationNotificationState.date;
   if (inAppNotificationsState is! InAppNotificationsSuccessState) {
     return [];
   }
 
   return inAppNotificationsState.notifications
       .map((notification) => NotificationViewModel(
+            isNew: dateDerniereConsultation != null ? notification.date.isAfter(dateDerniereConsultation) : false,
             title: notification.titre,
             description: notification.description,
             date: notification.date.toDayWithFullMonthContextualized(),
@@ -70,17 +69,19 @@ List<NotificationViewModel> _notifications(
 
 class NotificationViewModel extends Equatable {
   NotificationViewModel({
+    required this.isNew,
     required this.title,
     required this.description,
     required this.date,
     this.onPressed,
   });
 
+  final bool isNew;
   final String title;
   final String description;
   final String date;
   final void Function()? onPressed;
 
   @override
-  List<Object?> get props => [title, description, date];
+  List<Object?> get props => [title, description, date, isNew];
 }

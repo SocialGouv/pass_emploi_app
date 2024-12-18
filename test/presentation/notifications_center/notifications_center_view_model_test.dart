@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/date_consultation_notification/date_consultation_notification_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/in_app_notifications/in_app_notifications_actions.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
@@ -106,6 +107,7 @@ void main() {
         // Then
         expect(viewModel.notifications, [
           NotificationViewModel(
+            isNew: false,
             title: "Titre de la notification",
             description: "Description de la notification",
             date: "Hier",
@@ -126,6 +128,7 @@ void main() {
         // Then
         expect(viewModel.notifications, [
           NotificationViewModel(
+            isNew: false,
             title: "Titre de la notification",
             description: "Description de la notification",
             date: "01 janvier 2024",
@@ -164,6 +167,52 @@ void main() {
         // Then
         expectTypeThen<HandleDeepLinkAction>(store.dispatchedAction, (action) {
           expect(action.deepLink, isA<RendezvousDeepLink>());
+        });
+      });
+
+      group('is new', () {
+        test('should be new when date notification is after last consultation date', () {
+          // Given
+          final yesterday = DateTime(2024);
+          final store = givenState() //
+              .loggedInMiloUser()
+              .copyWith(dateConsultationNotificationState: DateConsultationNotificationState(date: DateTime(1997)))
+              .withInAppNotificationsSuccess([mockInAppNotification(date: yesterday)]).store();
+
+          // When
+          final viewModel = NotificationsCenterViewModel.create(store);
+
+          // Then
+          expect(viewModel.notifications, [
+            NotificationViewModel(
+              isNew: true,
+              title: "Titre de la notification",
+              description: "Description de la notification",
+              date: "01 janvier 2024",
+            )
+          ]);
+        });
+
+        test('should not be new when date notification is before last consultation date', () {
+          // Given
+          final yesterday = DateTime(2024);
+          final store = givenState() //
+              .loggedInMiloUser()
+              .copyWith(dateConsultationNotificationState: DateConsultationNotificationState(date: DateTime(2025)))
+              .withInAppNotificationsSuccess([mockInAppNotification(date: yesterday)]).store();
+
+          // When
+          final viewModel = NotificationsCenterViewModel.create(store);
+
+          // Then
+          expect(viewModel.notifications, [
+            NotificationViewModel(
+              isNew: false,
+              title: "Titre de la notification",
+              description: "Description de la notification",
+              date: "01 janvier 2024",
+            )
+          ]);
         });
       });
     });

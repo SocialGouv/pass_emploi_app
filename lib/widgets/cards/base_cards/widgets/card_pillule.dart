@@ -56,6 +56,11 @@ class CardPillule extends StatelessWidget {
     required this.excludeSemantics,
   });
 
+  CardPillule.newNotification([this.excludeSemantics = false])
+      : text = Strings.newPillule,
+        contentColor = AppColors.warning,
+        backgroundColor = AppColors.warningLighten;
+
   CardPillule.actionTodo([this.excludeSemantics = false])
       : text = Strings.doingPillule,
         contentColor = AppColors.accent1,

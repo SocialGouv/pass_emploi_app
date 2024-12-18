@@ -326,6 +326,7 @@ class Strings {
   static const String donePillule = "Terminée";
   static const String latePillule = "En retard";
   static const String canceledPillule = "Annulée";
+  static const String newPillule = "Nouveau";
 
   // Onboarding
   static String accueilOnboardingTitle1(String prenom) => "Bienvenue ${prenom}dans votre espace dédié !";
