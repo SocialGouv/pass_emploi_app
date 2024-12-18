@@ -251,7 +251,10 @@ class OffreEmploiDetailsPage extends StatelessWidget {
       children: [
         _descriptionTitle(title: Strings.profileTitle),
         SizedBox(height: Margins.spacing_m),
-        Text(Strings.experienceTitle, style: TextStyles.textBaseBold),
+        Semantics(
+          header: true,
+          child: Text(Strings.experienceTitle, style: TextStyles.textBaseBold),
+        ),
         SizedBox(height: Margins.spacing_base),
         if (experience != null) _setRequiredElement(element: experience, criteria: viewModel.requiredExperience),
         SepLine(Margins.spacing_m, Margins.spacing_m),

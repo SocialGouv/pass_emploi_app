@@ -54,9 +54,14 @@ class CreateUserActionFormStep3 extends StatelessWidget {
               const SizedBox(height: Margins.spacing_base),
               Semantics(
                 container: true,
-                child: Text(Strings.userActionStatusRadioStep3, style: TextStyles.textBaseBold),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(Strings.userActionStatusRadioStep3, style: TextStyles.textBaseBold),
+                    _ActionStatusRadios(isCompleted: viewModel.estTerminee, onStatusChanged: onStatusChanged),
+                  ],
+                ),
               ),
-              _ActionStatusRadios(isCompleted: viewModel.estTerminee, onStatusChanged: onStatusChanged),
               const SizedBox(height: Margins.spacing_m),
               DatePickerSuggestions(
                 title: Strings.datePickerTitle,
