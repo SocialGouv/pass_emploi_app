@@ -75,6 +75,7 @@ import 'package:pass_emploi_app/usecases/piece_jointe/piece_jointe_use_case.dart
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
 import 'package:pass_emploi_app/repositories/in_app_notifications_repository.dart';
+import 'package:pass_emploi_app/repositories/date_consultation_notification_repository.dart';
 /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-IMPORT*/
 import 'package:redux/redux.dart';
 
@@ -158,6 +159,8 @@ class TestStoreFactory {
   DerniereOffreConsulteeRepository derniereOffreConsulteeRepository = MockDerniereOffreConsulteeRepository();
   InAppFeedbackRepository inAppFeedbackRepository = MockInAppFeedbackRepository();
   InAppNotificationsRepository inAppNotificationsRepository = MockInAppNotificationsRepository();
+  DateConsultationNotificationRepository dateConsultationNotificationRepository =
+      MockDateConsultationNotificationRepository();
   /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-PROPERTY*/
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -237,6 +240,7 @@ class TestStoreFactory {
       derniereOffreConsulteeRepository,
       inAppFeedbackRepository,
       inAppNotificationsRepository,
+      dateConsultationNotificationRepository,
       /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-CONSTRUCTOR*/
     ).initializeReduxStore(initialState: initialState);
   }
