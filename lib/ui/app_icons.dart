@@ -79,6 +79,7 @@ class AppIcons {
   static const IconData sentiment_neutral = Icons.sentiment_neutral;
   static const IconData sentiment_satisfied = Icons.sentiment_satisfied;
   static const IconData mood = Icons.mood;
+  static const IconData notifications_outlined = Icons.notifications_outlined;
 
   // Solution
   static const IconData immersion = AppIconsAdditional.immersion;

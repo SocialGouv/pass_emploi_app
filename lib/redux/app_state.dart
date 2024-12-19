@@ -17,6 +17,7 @@ import 'package:pass_emploi_app/features/connectivity/connectivity_state.dart';
 import 'package:pass_emploi_app/features/contact_immersion/contact_immersion_state.dart';
 import 'package:pass_emploi_app/features/cv/cv_state.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_state.dart';
+import 'package:pass_emploi_app/features/date_consultation_notification/date_consultation_notification_state.dart';
 import 'package:pass_emploi_app/features/date_consultation_offre/date_consultation_offre_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_state.dart';
@@ -36,6 +37,7 @@ import 'package:pass_emploi_app/features/feature_flip/feature_flip_state.dart';
 import 'package:pass_emploi_app/features/first_launch_onboarding/first_launch_onboarding_state.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_state.dart';
 import 'package:pass_emploi_app/features/in_app_feedback/in_app_feedback_state.dart';
+import 'package:pass_emploi_app/features/in_app_notifications/in_app_notifications_state.dart';
 import 'package:pass_emploi_app/features/location/search_location_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/matching_demarche/matching_demarche_state.dart';
@@ -151,6 +153,8 @@ class AppState extends Equatable {
   final DateConsultationOffreState dateConsultationOffreState;
   final DerniereOffreConsulteeState derniereOffreConsulteeState;
   final InAppFeedbackState inAppFeedbackState;
+  final InAppNotificationsState inAppNotificationsState;
+  final DateConsultationNotificationState dateConsultationNotificationState;
   /*AUTOGENERATE-REDUX-APP-STATE-PROPERTY*/
 
   AppState({
@@ -227,6 +231,8 @@ class AppState extends Equatable {
     required this.dateConsultationOffreState,
     required this.derniereOffreConsulteeState,
     required this.inAppFeedbackState,
+    required this.inAppNotificationsState,
+    required this.dateConsultationNotificationState,
     /*AUTOGENERATE-REDUX-APP-STATE-CONSTRUCTOR*/
   });
 
@@ -304,6 +310,8 @@ class AppState extends Equatable {
     final DateConsultationOffreState? dateConsultationOffreState,
     final DerniereOffreConsulteeState? derniereOffreConsulteeState,
     final InAppFeedbackState? inAppFeedbackState,
+    final InAppNotificationsState? inAppNotificationsState,
+    final DateConsultationNotificationState? dateConsultationNotificationState,
     /*AUTOGENERATE-REDUX-APP-STATE-COPYPARAM*/
   }) {
     return AppState(
@@ -380,6 +388,8 @@ class AppState extends Equatable {
       dateConsultationOffreState: dateConsultationOffreState ?? this.dateConsultationOffreState,
       derniereOffreConsulteeState: derniereOffreConsulteeState ?? this.derniereOffreConsulteeState,
       inAppFeedbackState: inAppFeedbackState ?? this.inAppFeedbackState,
+      inAppNotificationsState: inAppNotificationsState ?? this.inAppNotificationsState,
+      dateConsultationNotificationState: dateConsultationNotificationState ?? this.dateConsultationNotificationState,
       /*AUTOGENERATE-REDUX-APP-STATE-COPYBODY*/
     );
   }
@@ -459,6 +469,8 @@ class AppState extends Equatable {
       dateConsultationOffreState: DateConsultationOffreState(),
       derniereOffreConsulteeState: DerniereOffreConsulteeState(),
       inAppFeedbackState: InAppFeedbackState(),
+      inAppNotificationsState: InAppNotificationsNotInitializedState(),
+      dateConsultationNotificationState: DateConsultationNotificationState(),
       /*AUTOGENERATE-REDUX-APP-STATE-FACTORY*/
     );
   }
@@ -531,6 +543,8 @@ class AppState extends Equatable {
         dateConsultationOffreState,
         derniereOffreConsulteeState,
         inAppFeedbackState,
+        inAppNotificationsState,
+        dateConsultationNotificationState,
         /*AUTOGENERATE-REDUX-APP-STATE-EQUATABLE*/
       ];
 

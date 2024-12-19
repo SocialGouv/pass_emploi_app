@@ -326,6 +326,7 @@ class Strings {
   static const String donePillule = "Terminée";
   static const String latePillule = "En retard";
   static const String canceledPillule = "Annulée";
+  static const String newPillule = "Nouveau";
 
   // Onboarding
   static String accueilOnboardingTitle1(String prenom) => "Bienvenue ${prenom}dans votre espace dédié !";
@@ -1438,6 +1439,12 @@ class Strings {
 
   static String feedbackProvenanceOffre(String provenance) =>
       "Connaître la source d’une offre ($provenance, etc) m’intéresse.";
+
+  // centre de notifications
+  static String notificationsCenterTooltip = "Centre de notifications";
+  static String notificationsCenterTitle = "Notifications";
+  static String notificationsCenterError = "Erreur lors de la récupération des notifications";
+  static String notificationsCenterEmptyTitle = "Vous n’avez pas de nouvelle notification.";
 
   // a11y
   static String selectedRadioButton = "Sélectionné";

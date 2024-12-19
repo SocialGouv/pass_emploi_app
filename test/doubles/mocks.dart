@@ -41,6 +41,8 @@ import 'package:pass_emploi_app/utils/compress_image.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
 
+import 'package:pass_emploi_app/repositories/in_app_notifications_repository.dart';
+import 'package:pass_emploi_app/repositories/date_consultation_notification_repository.dart';
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-IMPORT*/
 
 import 'dio_mock.dart';
@@ -266,4 +268,8 @@ class MockDerniereOffreConsulteeRepository extends Mock implements DerniereOffre
 }
 
 class MockInAppFeedbackRepository extends Mock implements InAppFeedbackRepository {}
+
+class MockInAppNotificationsRepository extends Mock implements InAppNotificationsRepository {}
+
+class MockDateConsultationNotificationRepository extends Mock implements DateConsultationNotificationRepository {}
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-DECLARATION*/

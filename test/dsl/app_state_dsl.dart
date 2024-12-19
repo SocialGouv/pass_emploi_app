@@ -22,6 +22,7 @@ import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/feature_flip/feature_flip_state.dart';
 import 'package:pass_emploi_app/features/first_launch_onboarding/first_launch_onboarding_state.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_state.dart';
+import 'package:pass_emploi_app/features/in_app_notifications/in_app_notifications_state.dart';
 import 'package:pass_emploi_app/features/matching_demarche/matching_demarche_state.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
@@ -67,6 +68,7 @@ import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/feature_flip.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
+import 'package:pass_emploi_app/models/in_app_notification.dart';
 import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/matching_demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/metier.dart';
@@ -823,5 +825,21 @@ extension AppStateDSL on AppState {
 
   AppState withDerniereOffreEnregistree(OffreDto offre) {
     return copyWith(derniereOffreConsulteeState: DerniereOffreConsulteeState(offre: offre));
+  }
+
+  AppState withInAppNotificationsNotInitialized() {
+    return copyWith(inAppNotificationsState: InAppNotificationsNotInitializedState());
+  }
+
+  AppState withInAppNotificationsLoading() {
+    return copyWith(inAppNotificationsState: InAppNotificationsLoadingState());
+  }
+
+  AppState withInAppNotificationsSuccess(List<InAppNotification> notifications) {
+    return copyWith(inAppNotificationsState: InAppNotificationsSuccessState(notifications));
+  }
+
+  AppState withInAppNotificationsFailure() {
+    return copyWith(inAppNotificationsState: InAppNotificationsFailureState());
   }
 }

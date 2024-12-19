@@ -1,7 +1,6 @@
 import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:pass_emploi_app/utils/string_extensions.dart';
 
 final DateTime minDateTime = DateTime.fromMicrosecondsSinceEpoch(0);
 const String locale = 'fr';
@@ -22,12 +21,6 @@ extension DateExtensions on DateTime {
     return "$formattedDate$sign$hours:$minutes";
   }
 
-  String toDayAndHourContextualized() {
-    if (isTomorrow()) return "Demain ${DateFormat('à HH\'h\'mm').format(this)}";
-    if (isToday()) return "Aujourd'hui ${DateFormat('à HH\'h\'mm').format(this)}";
-    return DateFormat('dd/MM/yyyy à HH\'h\'mm').format(this);
-  }
-
   String toDayAndHour() => DateFormat("dd/MM/yyyy à HH'h'mm").format(this);
 
   String toDay() => DateFormat('dd/MM/yyyy').format(this);
@@ -41,16 +34,11 @@ extension DateExtensions on DateTime {
   String toDayWithFullMonthContextualized() {
     if (isTomorrow()) return "Demain";
     if (isToday()) return "Aujourd'hui";
+    if (isYesterday()) return "Hier";
     return toDayWithFullMonth();
   }
 
   String toDayOfWeekWithFullMonth() => DateFormat('EEEE d MMMM', locale).format(this);
-
-  String toDayOfWeekWithFullMonthContextualized() {
-    if (isTomorrow()) return "Demain";
-    if (isToday()) return "Aujourd'hui";
-    return toDayOfWeekWithFullMonth().firstLetterUpperCased();
-  }
 
   String toMonth() => DateFormat('MMMM', locale).format(this);
 
@@ -76,6 +64,8 @@ extension DateExtensions on DateTime {
   bool isToday() => isAtSameDayAs(clock.now());
 
   bool isTomorrow() => isAtSameDayAs(clock.now().add(Duration(days: 1)));
+
+  bool isYesterday() => isAtSameDayAs(clock.now().subtract(Duration(days: 1)));
 
   bool isSaturday() => weekday == 6;
 

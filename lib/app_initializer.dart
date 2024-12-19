@@ -51,6 +51,7 @@ import 'package:pass_emploi_app/repositories/cvm/cvm_alerting_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_bridge.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_event_factory.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_token_repository.dart';
+import 'package:pass_emploi_app/repositories/date_consultation_notification_repository.dart';
 import 'package:pass_emploi_app/repositories/date_consultation_offre_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
@@ -71,6 +72,7 @@ import 'package:pass_emploi_app/repositories/first_launch_onboarding_repository.
 import 'package:pass_emploi_app/repositories/immersion/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/in_app_feedback_repository.dart';
+import 'package:pass_emploi_app/repositories/in_app_notifications_repository.dart';
 import 'package:pass_emploi_app/repositories/installation_id_repository.dart';
 import 'package:pass_emploi_app/repositories/matching_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
@@ -298,6 +300,8 @@ class AppInitializer {
       DateConsultationOffreRepository(securedPreferences),
       DerniereOffreConsulteeRepository(securedPreferences),
       InAppFeedbackRepository(securedPreferences, remoteConfigRepository),
+      InAppNotificationsRepository(dioClient, crashlytics),
+      DateConsultationNotificationRepository(securedPreferences),
       /*AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-CONSTRUCTOR*/
     ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);
