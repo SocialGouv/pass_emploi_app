@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/features/date_consultation_notification/date_consultation_notification_actions.dart';
 import 'package:pass_emploi_app/features/in_app_notifications/in_app_notifications_actions.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/notifications_center/notifications_center_view_model.dart';
@@ -8,7 +9,6 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/base_card.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_complement.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_pillule.dart';
@@ -35,6 +35,7 @@ class NotificationCenter extends StatelessWidget {
         onInit: (store) => store.dispatch(InAppNotificationsRequestAction()),
         converter: (store) => NotificationsCenterViewModel.create(store),
         builder: (context, viewModel) => _DisplayState(viewModel),
+        onDispose: (store) => store.dispatch(DateConsultationNotificationWriteAction(DateTime.now())),
       ),
     );
   }
@@ -63,17 +64,10 @@ class _Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: viewModel.notifications.length + 1,
+      itemCount: viewModel.notifications.length,
       padding: const EdgeInsets.all(Margins.spacing_base),
       itemBuilder: (context, index) {
-        if (index == 0) {
-          return Padding(
-            padding: const EdgeInsets.only(bottom: Margins.spacing_m),
-            child: Text(Strings.notificationsCenterHeader, style: TextStyles.textBaseRegular),
-          );
-        }
-
-        final notification = viewModel.notifications[index - 1];
+        final notification = viewModel.notifications[index];
         return Padding(
           padding: const EdgeInsets.only(bottom: Margins.spacing_m),
           child: _NotificationTile(notification: notification),
@@ -89,7 +83,6 @@ class _Empty extends StatelessWidget {
     return EmptyStatePlaceholder(
       illustration: Illustration.grey(AppIcons.notifications_outlined),
       title: Strings.notificationsCenterEmptyTitle,
-      subtitle: Strings.notificationsCenterEmptySubtitle,
     );
   }
 }

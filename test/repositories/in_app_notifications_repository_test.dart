@@ -35,6 +35,7 @@ void main() {
                   description: "Votre rendez-vous du 16/01/2024 a été supprime par votre conseiller.",
                   date: parseDateTimeUtcWithCurrentTimeZone("2022-07-22T13:11:00.000Z"),
                   type: InAppNotificationType.deletedRendezvous,
+                  idObjet: "1",
                 ),
                 InAppNotification(
                   id: "2",
@@ -42,6 +43,7 @@ void main() {
                   description: "Votre rendez-vous du 16/01/2024 a été modifié par votre conseiller.",
                   date: parseDateTimeUtcWithCurrentTimeZone("2022-07-22T13:11:00.000Z"),
                   type: InAppNotificationType.updatedRendezvous,
+                  idObjet: "2",
                 ),
                 InAppNotification(
                   id: "3",
@@ -49,6 +51,7 @@ void main() {
                   description: "Votre conseiller à programmé un nouveau rendez-vous le 16/01/2024.",
                   date: parseDateTimeUtcWithCurrentTimeZone("2022-07-22T13:11:00.000Z"),
                   type: InAppNotificationType.newRendezvous,
+                  idObjet: "3",
                 ),
               ],
             );

@@ -46,6 +46,16 @@
                 "cejStaging"
             ],
         },
+        {
+            "name": "Dbg CEJ prod",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/cej_main.dart",
+            "args": [
+                "--flavor",
+                "cejProd"
+            ],
+        },
     ],
   "compounds": []
 }

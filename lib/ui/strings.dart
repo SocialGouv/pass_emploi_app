@@ -1445,10 +1445,6 @@ class Strings {
   static String notificationsCenterTitle = "Notifications";
   static String notificationsCenterError = "Erreur lors de la récupération des notifications";
   static String notificationsCenterEmptyTitle = "Vous n’avez pas de nouvelle notification.";
-  static String notificationsCenterEmptySubtitle =
-      "Retrouvez ici les notifications liées à la création, suppression ou modification de vos rendez-vous.";
-  static String notificationsCenterHeader =
-      "Retrouvez ici les notifications des 10 derniers jours concernant vos rendez-vous.";
 
   // a11y
   static String selectedRadioButton = "Sélectionné";
