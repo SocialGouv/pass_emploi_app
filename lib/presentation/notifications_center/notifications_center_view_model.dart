@@ -75,12 +75,12 @@ DeepLink? _fromInAppNotification(InAppNotificationType type, String? idObjet) {
     InAppNotificationType.rappelRendezvous => idObjet != null ? RendezvousDeepLink(idObjet) : null,
     InAppNotificationType.newRendezvous => idObjet != null ? RendezvousDeepLink(idObjet) : null,
     InAppNotificationType.updatedRendezvous => idObjet != null ? RendezvousDeepLink(idObjet) : null,
-    InAppNotificationType.deletedRendezvous => null,
     InAppNotificationType.nouvelleOffre => AlertesDeepLink(),
     InAppNotificationType.detailSessionMilo => idObjet != null ? SessionMiloDeepLink(idObjet) : null,
-    InAppNotificationType.deletedSessionMilo => null,
     InAppNotificationType.rappelCreationAction => RappelCreationActionDeepLink(),
     InAppNotificationType.rappelCreationDemarche => RappelCreationDemarcheDeepLink(),
+    InAppNotificationType.deletedSessionMilo => null,
+    InAppNotificationType.deletedRendezvous => null,
     InAppNotificationType.unknown => null,
   };
 }
