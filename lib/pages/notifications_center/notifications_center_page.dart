@@ -15,6 +15,7 @@ import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_pillule.da
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/illustration/empty_state_placeholder.dart';
 import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
+import 'package:pass_emploi_app/widgets/in_app_feedback.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
 class NotificationCenter extends StatelessWidget {
@@ -64,10 +65,19 @@ class _Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: viewModel.notifications.length,
+      itemCount: viewModel.notifications.length + 1,
       padding: const EdgeInsets.all(Margins.spacing_base),
       itemBuilder: (context, index) {
-        final notification = viewModel.notifications[index];
+        if (index == 0) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: Margins.spacing_m),
+            child: InAppFeedback(
+              feature: "centre-notif",
+              label: Strings.feedbackCentreNotification,
+            ),
+          );
+        }
+        final notification = viewModel.notifications[index - 1];
         return Padding(
           padding: const EdgeInsets.only(bottom: Margins.spacing_m),
           child: _NotificationTile(notification: notification),
