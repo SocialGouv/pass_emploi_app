@@ -74,6 +74,7 @@ class _Body extends StatelessWidget {
             child: InAppFeedback(
               feature: "centre-notif",
               label: Strings.feedbackCentreNotification,
+              backgroundColor: Colors.white,
             ),
           );
         }
