@@ -133,6 +133,11 @@ class AnalyticsScreenNames {
 
   static const cvListPage = "/cv/list";
   static const cguPage = "cgu";
+
+  static const centreNotification = "/centre-notification";
+
+  static String inAppFeedbackFeature(String feature) => "/feedback/$feature/affichage";
+  static String inAppFeedbackFeatureFermeture(String feature) => "/feedback/$feature/fermeture";
 }
 
 class AnalyticsActionNames {

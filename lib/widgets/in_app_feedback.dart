@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/in_app_feedback/in_app_feedback_actions.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';
@@ -163,6 +164,7 @@ class _InAppFeedbackWidgetState extends State<_InAppFeedbackWidget> {
                       SizedBox(height: Margins.spacing_m),
                       _FeedbackOptionsGroup(
                         backgroundColor: widget.backgroundColor,
+                        tracking: widget.feature,
                         onOptionTap: (feedback) {
                           widget.onDismiss();
                           setState(() => state = _WidgetState.thanks);
@@ -180,6 +182,8 @@ class _InAppFeedbackWidgetState extends State<_InAppFeedbackWidget> {
                 ),
                 _CloseButton(onPressed: () {
                   setState(() => state = _WidgetState.closed);
+                  PassEmploiMatomoTracker.instance
+                      .trackScreen(AnalyticsScreenNames.inAppFeedbackFeatureFermeture(widget.feature));
                   widget.onDismiss();
                 })
               ],
@@ -223,42 +227,46 @@ class _Description extends StatelessWidget {
 class _FeedbackOptionsGroup extends StatelessWidget {
   final Color backgroundColor;
   final Function(_Feedback) onOptionTap;
+  final String tracking;
 
-  const _FeedbackOptionsGroup({required this.backgroundColor, required this.onOptionTap});
+  const _FeedbackOptionsGroup({required this.backgroundColor, required this.onOptionTap, required this.tracking});
 
   @override
   Widget build(BuildContext context) {
-    return Semantics(
-      container: true,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          _FeedbackOption(
-            feedback: _Feedback.feedback1,
-            backgroundColor: backgroundColor,
-            onTap: () => onOptionTap(_Feedback.feedback1),
-          ),
-          _FeedbackOption(
-            feedback: _Feedback.feedback2,
-            backgroundColor: backgroundColor,
-            onTap: () => onOptionTap(_Feedback.feedback2),
-          ),
-          _FeedbackOption(
-            feedback: _Feedback.feedback3,
-            backgroundColor: backgroundColor,
-            onTap: () => onOptionTap(_Feedback.feedback3),
-          ),
-          _FeedbackOption(
-            feedback: _Feedback.feedback4,
-            backgroundColor: backgroundColor,
-            onTap: () => onOptionTap(_Feedback.feedback4),
-          ),
-          _FeedbackOption(
-            feedback: _Feedback.feedback5,
-            backgroundColor: backgroundColor,
-            onTap: () => onOptionTap(_Feedback.feedback5),
-          ),
-        ],
+    return Tracker(
+      tracking: AnalyticsScreenNames.inAppFeedbackFeature(tracking),
+      child: Semantics(
+        container: true,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            _FeedbackOption(
+              feedback: _Feedback.feedback1,
+              backgroundColor: backgroundColor,
+              onTap: () => onOptionTap(_Feedback.feedback1),
+            ),
+            _FeedbackOption(
+              feedback: _Feedback.feedback2,
+              backgroundColor: backgroundColor,
+              onTap: () => onOptionTap(_Feedback.feedback2),
+            ),
+            _FeedbackOption(
+              feedback: _Feedback.feedback3,
+              backgroundColor: backgroundColor,
+              onTap: () => onOptionTap(_Feedback.feedback3),
+            ),
+            _FeedbackOption(
+              feedback: _Feedback.feedback4,
+              backgroundColor: backgroundColor,
+              onTap: () => onOptionTap(_Feedback.feedback4),
+            ),
+            _FeedbackOption(
+              feedback: _Feedback.feedback5,
+              backgroundColor: backgroundColor,
+              onTap: () => onOptionTap(_Feedback.feedback5),
+            ),
+          ],
+        ),
       ),
     );
   }
