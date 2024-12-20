@@ -49,22 +49,40 @@ List<NotificationViewModel> _notifications(Store<AppState> store) {
     return [];
   }
 
-  return inAppNotificationsState.notifications
-      .map((notification) => NotificationViewModel(
-            isNew: dateDerniereConsultation != null ? notification.date.isAfter(dateDerniereConsultation) : false,
-            title: notification.titre,
-            description: notification.description,
-            date: notification.date.toDayWithFullMonthContextualized(),
-            onPressed: switch (notification.type) {
-              InAppNotificationType.newRendezvous || //
-              InAppNotificationType.updatedRendezvous =>
-                () => store.dispatch(
-                      HandleDeepLinkAction(RendezvousDeepLink(notification.idObjet!), DeepLinkOrigin.inAppNavigation),
-                    ),
-              _ => null
-            },
-          ))
-      .toList();
+  return inAppNotificationsState.notifications.map((notification) {
+    final deepLink = _fromInAppNotification(notification.type, notification.idObjet);
+    return NotificationViewModel(
+      isNew: dateDerniereConsultation != null ? notification.date.isAfter(dateDerniereConsultation) : false,
+      title: notification.titre,
+      description: notification.description,
+      date: notification.date.toDayWithFullMonthContextualized(),
+      onPressed: deepLink != null
+          ? () => store.dispatch(
+                HandleDeepLinkAction(
+                  deepLink,
+                  DeepLinkOrigin.inAppNavigation,
+                ),
+              )
+          : null,
+    );
+  }).toList();
+}
+
+DeepLink? _fromInAppNotification(InAppNotificationType type, String? idObjet) {
+  return switch (type) {
+    InAppNotificationType.newAction => idObjet != null ? ActionDeepLink(idObjet) : null,
+    InAppNotificationType.detailAction => idObjet != null ? ActionDeepLink(idObjet) : null,
+    InAppNotificationType.rappelRendezvous => idObjet != null ? RendezvousDeepLink(idObjet) : null,
+    InAppNotificationType.newRendezvous => idObjet != null ? RendezvousDeepLink(idObjet) : null,
+    InAppNotificationType.updatedRendezvous => idObjet != null ? RendezvousDeepLink(idObjet) : null,
+    InAppNotificationType.deletedRendezvous => null,
+    InAppNotificationType.nouvelleOffre => AlertesDeepLink(),
+    InAppNotificationType.detailSessionMilo => idObjet != null ? SessionMiloDeepLink(idObjet) : null,
+    InAppNotificationType.deletedSessionMilo => null,
+    InAppNotificationType.rappelCreationAction => RappelCreationActionDeepLink(),
+    InAppNotificationType.rappelCreationDemarche => RappelCreationDemarcheDeepLink(),
+    InAppNotificationType.unknown => null,
+  };
 }
 
 class NotificationViewModel extends Equatable {
