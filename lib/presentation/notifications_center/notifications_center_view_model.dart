@@ -75,7 +75,7 @@ DeepLink? _fromInAppNotification(InAppNotificationType type, String? idObjet) {
     InAppNotificationType.rappelRendezvous => idObjet != null ? RendezvousDeepLink(idObjet) : null,
     InAppNotificationType.newRendezvous => idObjet != null ? RendezvousDeepLink(idObjet) : null,
     InAppNotificationType.updatedRendezvous => idObjet != null ? RendezvousDeepLink(idObjet) : null,
-    InAppNotificationType.nouvelleOffre => AlertesDeepLink(),
+    InAppNotificationType.nouvelleOffre => idObjet != null ? AlerteDeepLink(idAlerte: idObjet) : null,
     InAppNotificationType.detailSessionMilo => idObjet != null ? SessionMiloDeepLink(idObjet) : null,
     InAppNotificationType.rappelCreationAction => RappelCreationActionDeepLink(),
     InAppNotificationType.rappelCreationDemarche => RappelCreationDemarcheDeepLink(),
