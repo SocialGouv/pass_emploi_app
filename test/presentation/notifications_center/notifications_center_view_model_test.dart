@@ -107,7 +107,7 @@ void main() {
         // Then
         expect(viewModel.notifications, [
           NotificationViewModel(
-            isNew: false,
+            isNew: true,
             title: "Titre de la notification",
             description: "Description de la notification",
             date: "Hier",
@@ -128,7 +128,7 @@ void main() {
         // Then
         expect(viewModel.notifications, [
           NotificationViewModel(
-            isNew: false,
+            isNew: true,
             title: "Titre de la notification",
             description: "Description de la notification",
             date: "01 janvier 2024",

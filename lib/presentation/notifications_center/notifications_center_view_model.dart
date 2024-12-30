@@ -51,8 +51,9 @@ List<NotificationViewModel> _notifications(Store<AppState> store) {
 
   return inAppNotificationsState.notifications.map((notification) {
     final deepLink = _fromInAppNotification(notification.type, notification.idObjet);
+    final isNew = dateDerniereConsultation != null ? notification.date.isAfter(dateDerniereConsultation) : true;
     return NotificationViewModel(
-      isNew: dateDerniereConsultation != null ? notification.date.isAfter(dateDerniereConsultation) : false,
+      isNew: isNew,
       title: notification.titre,
       description: notification.description,
       date: notification.date.toDayWithFullMonthContextualized(),

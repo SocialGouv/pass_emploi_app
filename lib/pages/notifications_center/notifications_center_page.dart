@@ -37,7 +37,10 @@ class NotificationCenter extends StatelessWidget {
         backgroundColor: AppColors.grey100,
         appBar: SecondaryAppBar(title: Strings.notificationsCenterTitle),
         body: StoreConnector<AppState, NotificationsCenterViewModel>(
-          onInit: (store) => store.dispatch(InAppNotificationsRequestAction()),
+          onInit: (store) {
+            store.dispatch(InAppNotificationsRequestAction());
+            store.dispatch(DateConsultationNotificationRequestAction());
+          },
           converter: (store) => NotificationsCenterViewModel.create(store),
           builder: (context, viewModel) => _DisplayState(viewModel),
           onDispose: (store) => store.dispatch(DateConsultationNotificationWriteAction(DateTime.now())),
