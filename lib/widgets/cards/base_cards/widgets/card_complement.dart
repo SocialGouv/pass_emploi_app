@@ -56,7 +56,7 @@ class CardComplement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Semantics(
-      label: semanticsReplacement ?? text,
+      label: semanticsReplacement,
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
