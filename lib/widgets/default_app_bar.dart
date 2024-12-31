@@ -183,6 +183,7 @@ class SecondaryAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       centerTitle: false,
       scrolledUnderElevation: 0,
+      surfaceTintColor: Colors.transparent,
       leading: leading,
       actions: actions,
       backgroundColor: backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
