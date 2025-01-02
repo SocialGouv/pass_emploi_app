@@ -74,6 +74,7 @@ import 'package:pass_emploi_app/repositories/immersion/immersion_repository.dart
 import 'package:pass_emploi_app/repositories/in_app_feedback_repository.dart';
 import 'package:pass_emploi_app/repositories/in_app_notifications_repository.dart';
 import 'package:pass_emploi_app/repositories/installation_id_repository.dart';
+import 'package:pass_emploi_app/repositories/localisation_persist_repository.dart';
 import 'package:pass_emploi_app/repositories/matching_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
 import 'package:pass_emploi_app/repositories/mon_suivi_repository.dart';
@@ -302,6 +303,7 @@ class AppInitializer {
       InAppFeedbackRepository(securedPreferences, remoteConfigRepository),
       InAppNotificationsRepository(dioClient, crashlytics),
       DateConsultationNotificationRepository(securedPreferences),
+      LocalisationPersistRepository(securedPreferences),
       /*AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-CONSTRUCTOR*/
     ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);

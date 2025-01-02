@@ -43,6 +43,7 @@ import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
 
 import 'package:pass_emploi_app/repositories/in_app_notifications_repository.dart';
 import 'package:pass_emploi_app/repositories/date_consultation_notification_repository.dart';
+import 'package:pass_emploi_app/repositories/localisation_persist_repository.dart';
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-IMPORT*/
 
 import 'dio_mock.dart';
@@ -272,4 +273,6 @@ class MockInAppFeedbackRepository extends Mock implements InAppFeedbackRepositor
 class MockInAppNotificationsRepository extends Mock implements InAppNotificationsRepository {}
 
 class MockDateConsultationNotificationRepository extends Mock implements DateConsultationNotificationRepository {}
+
+class MockLocalisationPersistRepository extends Mock implements LocalisationPersistRepository {}
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-DECLARATION*/

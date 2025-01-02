@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/localisation_persist/localisation_persist_state.dart';
 import 'package:pass_emploi_app/features/recherche/evenement_emploi/evenement_emploi_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/evenement_emploi/evenement_emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
@@ -12,6 +13,55 @@ import '../../../doubles/spies.dart';
 import '../../../dsl/app_state_dsl.dart';
 
 void main() {
+  group('on create', () {
+    test('should display last searched location when initialised', () {
+      // Given
+      final store = givenState()
+          .copyWith(localisationPersistState: LocalisationPersistSuccessState(mockCommuneLocation()))
+          .store();
+
+      // When
+      final viewModel = CriteresRechercheEvenementEmploiContenuViewModel.create(store);
+
+      // Then
+      expect(viewModel.initialLocation, mockCommuneLocation());
+    });
+
+    test('should not display last searched department when initialised', () {
+      // Given
+      final store =
+          givenState().copyWith(localisationPersistState: LocalisationPersistSuccessState(mockLocationParis())).store();
+
+      // When
+      final viewModel = CriteresRechercheEvenementEmploiContenuViewModel.create(store);
+
+      // Then
+      expect(viewModel.initialLocation, null);
+    });
+
+    test('should display last searched location when null', () {
+      // Given
+      final store = givenState().copyWith(localisationPersistState: LocalisationPersistSuccessState(null)).store();
+
+      // When
+      final viewModel = CriteresRechercheEvenementEmploiContenuViewModel.create(store);
+
+      // Then
+      expect(viewModel.initialLocation, null);
+    });
+
+    test('should not display last searched location when not initialised', () {
+      // Given
+      final store = givenState().copyWith(localisationPersistState: LocalisationPersistNotInitializedState()).store();
+
+      // When
+      final viewModel = CriteresRechercheEvenementEmploiContenuViewModel.create(store);
+
+      // Then
+      expect(viewModel.initialLocation, null);
+    });
+  });
+
   group('displayState', () {
     test('when recherche status is nouvelle recherche should display CONTENT', () {
       // Given
