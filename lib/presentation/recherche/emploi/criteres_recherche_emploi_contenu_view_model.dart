@@ -27,7 +27,8 @@ class CriteresRechercheEmploiContenuViewModel extends Equatable {
     return CriteresRechercheEmploiContenuViewModel(
       displayState: store.state.rechercheEmploiState.displayState(),
       initialKeyword: store.state.rechercheEmploiState.request?.criteres.keyword,
-      initialLocation: store.state.rechercheEmploiState.request?.criteres.location,
+      initialLocation:
+          store.state.rechercheEmploiState.request?.criteres.location, // TODO: ici charger la dernière location
       onSearchingRequest: (keyword, loc, onlyAlternance) => _onSearchingRequest(store, keyword, loc, onlyAlternance),
     );
   }
