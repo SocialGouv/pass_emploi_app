@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/repositories/configuration_application_repositor
 import 'package:pass_emploi_app/repositories/cvm/cvm_alerting_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_bridge.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_token_repository.dart';
+import 'package:pass_emploi_app/repositories/date_consultation_notification_repository.dart';
 import 'package:pass_emploi_app/repositories/date_consultation_offre_repository.dart';
 import 'package:pass_emploi_app/repositories/derniere_offre_consultee_repository.dart';
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
@@ -22,6 +23,8 @@ import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart
 import 'package:pass_emploi_app/repositories/first_launch_onboarding_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/in_app_feedback_repository.dart';
+import 'package:pass_emploi_app/repositories/in_app_notifications_repository.dart';
+import 'package:pass_emploi_app/repositories/localisation_persist_repository.dart';
 import 'package:pass_emploi_app/repositories/matching_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/mon_suivi_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
@@ -41,9 +44,6 @@ import 'package:pass_emploi_app/utils/compress_image.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
 
-import 'package:pass_emploi_app/repositories/in_app_notifications_repository.dart';
-import 'package:pass_emploi_app/repositories/date_consultation_notification_repository.dart';
-import 'package:pass_emploi_app/repositories/localisation_persist_repository.dart';
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-IMPORT*/
 
 import 'dio_mock.dart';
@@ -274,5 +274,9 @@ class MockInAppNotificationsRepository extends Mock implements InAppNotification
 
 class MockDateConsultationNotificationRepository extends Mock implements DateConsultationNotificationRepository {}
 
-class MockLocalisationPersistRepository extends Mock implements LocalisationPersistRepository {}
+class MockLocalisationPersistRepository extends Mock implements LocalisationPersistRepository {
+  MockLocalisationPersistRepository() {
+    when(() => get()).thenAnswer((_) async => null);
+  }
+}
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-DECLARATION*/
