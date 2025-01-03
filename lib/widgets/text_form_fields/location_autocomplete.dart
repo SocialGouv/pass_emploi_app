@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/ignore_tracking_context_provider.dart';
+import 'package:pass_emploi_app/features/localisation_persist/localisation_persist_actions.dart';
 import 'package:pass_emploi_app/features/location/search_location_actions.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/presentation/autocomplete/location_displayable_extension.dart';
@@ -76,6 +77,7 @@ class _LocationAutocompleteState extends State<LocationAutocomplete> {
 
   void _updateLocation(Location? location) {
     setState(() => _selectedLocation = location);
+    StoreProvider.of<AppState>(context).dispatch(LocalisationPersistWriteAction(location));
     widget.onLocationSelected(location);
   }
 }

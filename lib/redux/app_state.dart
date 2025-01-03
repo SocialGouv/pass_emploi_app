@@ -77,6 +77,7 @@ import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/user.dart';
+import 'package:pass_emploi_app/features/localisation_persist/localisation_persist_state.dart';
 /*AUTOGENERATE-REDUX-APP-STATE-IMPORT*/
 
 class AppState extends Equatable {
@@ -155,6 +156,7 @@ class AppState extends Equatable {
   final InAppFeedbackState inAppFeedbackState;
   final InAppNotificationsState inAppNotificationsState;
   final DateConsultationNotificationState dateConsultationNotificationState;
+  final LocalisationPersistState localisationPersistState;
   /*AUTOGENERATE-REDUX-APP-STATE-PROPERTY*/
 
   AppState({
@@ -233,6 +235,7 @@ class AppState extends Equatable {
     required this.inAppFeedbackState,
     required this.inAppNotificationsState,
     required this.dateConsultationNotificationState,
+    required this.localisationPersistState,
     /*AUTOGENERATE-REDUX-APP-STATE-CONSTRUCTOR*/
   });
 
@@ -312,6 +315,7 @@ class AppState extends Equatable {
     final InAppFeedbackState? inAppFeedbackState,
     final InAppNotificationsState? inAppNotificationsState,
     final DateConsultationNotificationState? dateConsultationNotificationState,
+    final LocalisationPersistState? localisationPersistState,
     /*AUTOGENERATE-REDUX-APP-STATE-COPYPARAM*/
   }) {
     return AppState(
@@ -390,6 +394,7 @@ class AppState extends Equatable {
       inAppFeedbackState: inAppFeedbackState ?? this.inAppFeedbackState,
       inAppNotificationsState: inAppNotificationsState ?? this.inAppNotificationsState,
       dateConsultationNotificationState: dateConsultationNotificationState ?? this.dateConsultationNotificationState,
+      localisationPersistState: localisationPersistState ?? this.localisationPersistState,
       /*AUTOGENERATE-REDUX-APP-STATE-COPYBODY*/
     );
   }
@@ -471,6 +476,7 @@ class AppState extends Equatable {
       inAppFeedbackState: InAppFeedbackState(),
       inAppNotificationsState: InAppNotificationsNotInitializedState(),
       dateConsultationNotificationState: DateConsultationNotificationState(),
+      localisationPersistState: LocalisationPersistNotInitializedState(),
       /*AUTOGENERATE-REDUX-APP-STATE-FACTORY*/
     );
   }
@@ -545,6 +551,7 @@ class AppState extends Equatable {
         inAppFeedbackState,
         inAppNotificationsState,
         dateConsultationNotificationState,
+        localisationPersistState,
         /*AUTOGENERATE-REDUX-APP-STATE-EQUATABLE*/
       ];
 

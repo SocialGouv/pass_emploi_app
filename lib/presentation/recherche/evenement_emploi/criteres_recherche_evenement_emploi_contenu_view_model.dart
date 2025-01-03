@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/localisation_persist/localisation_persist_state.dart';
 import 'package:pass_emploi_app/features/recherche/evenement_emploi/evenement_emploi_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/evenement_emploi/evenement_emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
@@ -26,7 +27,8 @@ class CriteresRechercheEvenementEmploiContenuViewModel extends Equatable {
   factory CriteresRechercheEvenementEmploiContenuViewModel.create(Store<AppState> store) {
     return CriteresRechercheEvenementEmploiContenuViewModel(
       displayState: store.state.rechercheEvenementEmploiState.displayState(),
-      initialLocation: store.state.rechercheEvenementEmploiState.request?.criteres.location,
+      initialLocation:
+          store.state.rechercheEvenementEmploiState.request?.criteres.location ?? store.getLastLocationSelected(),
       initialSecteurActivite: store.state.rechercheEvenementEmploiState.request?.criteres.secteurActivite,
       onSearchingRequest: (criteresRecherche) => _onSearchingRequest(store, criteresRecherche),
     );

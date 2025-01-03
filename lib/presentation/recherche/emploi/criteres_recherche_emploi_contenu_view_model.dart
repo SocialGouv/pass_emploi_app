@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/localisation_persist/localisation_persist_state.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
@@ -27,7 +28,8 @@ class CriteresRechercheEmploiContenuViewModel extends Equatable {
     return CriteresRechercheEmploiContenuViewModel(
       displayState: store.state.rechercheEmploiState.displayState(),
       initialKeyword: store.state.rechercheEmploiState.request?.criteres.keyword,
-      initialLocation: store.state.rechercheEmploiState.request?.criteres.location,
+      initialLocation: store.state.rechercheEmploiState.request?.criteres.location ??
+          store.getLastLocationSelected(allowDepartment: true),
       onSearchingRequest: (keyword, loc, onlyAlternance) => _onSearchingRequest(store, keyword, loc, onlyAlternance),
     );
   }
