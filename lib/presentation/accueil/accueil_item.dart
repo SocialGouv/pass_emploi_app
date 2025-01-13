@@ -113,8 +113,6 @@ class CampagneRecrutementItem extends AccueilItem {
 
 class RatingAppItem extends AccueilItem {}
 
-class CjeItem extends AccueilItem {}
-
 String _actionsOuDemarchesLabel(LoginMode loginMode, int actionsOuDemarches) {
   final usePlural = actionsOuDemarches > 1;
   if (loginMode.isPe()) {

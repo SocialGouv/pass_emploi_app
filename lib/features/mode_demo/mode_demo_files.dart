@@ -64,7 +64,6 @@ extension UrlExtensions on String {
         !contains('referentiels/metiers') &&
         !contains('/docnums/') &&
         !contains('/idp-token') &&
-        !contains('/cje/token') && // TODO-CJE(31/10/24): remove when feature deleted
         !contains('/actions/');
   }
 

@@ -9,9 +9,3 @@ class FeatureFlipCampagneRecrutementAction {
 
   FeatureFlipCampagneRecrutementAction(this.withCampagneRecrutement);
 }
-
-class FeatureFlipCjeAction {
-  final bool withCje;
-
-  FeatureFlipCjeAction(this.withCje);
-}

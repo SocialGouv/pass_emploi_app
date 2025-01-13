@@ -14,7 +14,6 @@ import 'package:pass_emploi_app/pages/profil/matomo_logging_page.dart';
 import 'package:pass_emploi_app/pages/suppression_compte_page.dart';
 import 'package:pass_emploi_app/presentation/profil/profil_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/temp/cje_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
@@ -75,15 +74,6 @@ class _Scaffold extends StatelessWidget {
               children: [
                 _UsernameTitle(userName: viewModel.userName, onTitleTap: viewModel.onTitleTap),
                 SizedBox(height: Margins.spacing_base),
-                if (viewModel.withCje) ...[
-                  _OutilCard(
-                    title: "Ma carte “jeune engagé”",
-                    subtitle: "Accéder à toutes mes réductions",
-                    imagePath: "assets/cje/logo.webp",
-                    onTap: () => Navigator.push(context, CjePage.materialPageRoute(CjePageSource.profil)),
-                  ),
-                  SizedBox(height: Margins.spacing_base),
-                ],
                 _OutilCard(
                   title: Strings.diagorienteDiscoverCardTitle,
                   subtitle: Strings.diagorienteDiscoverCardSubtitle,

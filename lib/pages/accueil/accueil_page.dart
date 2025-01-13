@@ -28,7 +28,6 @@ import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/temp/cje_accueil_card.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -177,7 +176,7 @@ class _Blocs extends StatelessWidget {
         itemCount: viewModel.items.length,
         addSemanticIndexes: false,
         itemBuilder: _itemBuilder,
-        separatorBuilder: (_, index) => SizedBox(height: viewModel.items[index] is CjeItem ? 0 : Margins.spacing_m),
+        separatorBuilder: (_, index) => SizedBox(height: Margins.spacing_m),
       ),
     );
   }
@@ -194,7 +193,6 @@ class _Blocs extends StatelessWidget {
       final AccueilFavorisItem item => AccueilFavoris(item),
       final AccueilOutilsItem item => AccueilOutils(item),
       RatingAppItem() => AccueilRatingAppCard(),
-      CjeItem() => CjeAccueilCard(),
     };
   }
 }

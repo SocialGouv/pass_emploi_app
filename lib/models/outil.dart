@@ -18,15 +18,6 @@ class Outil extends Equatable {
     this.imageAlt,
   });
 
-  // TODO-CJE(04/11/24): remove when feature deleted
-  static Outil cje = Outil(
-    title: "Ma carte “jeune engagé”",
-    description:
-        "Décathlon, Kiabi, Cdiscount, Cultura, retrouvez des codes de réduction à utiliser en ligne ou en magasin.",
-    redirectMode: OutilInternalRedirectMode(OutilInternalLink.cje),
-    imagePath: "cje/outil.webp",
-  );
-
   static Outil diagoriente = Outil(
     title: "Diagoriente",
     description:
@@ -143,7 +134,7 @@ class Outil extends Equatable {
   List<Object?> get props => [title, description, actionLabel, redirectMode, imagePath];
 }
 
-enum OutilInternalLink { benevolat, cje, laBonneAlternance }
+enum OutilInternalLink { benevolat, laBonneAlternance }
 
 sealed class OutilRedirectMode extends Equatable {}
 

@@ -26,7 +26,7 @@ class RendezvousDetailsViewModel extends Equatable {
   final String id;
   final String tag;
   final String date;
-  final String hourAndDuration; // TODO: Mettre à jour la date comme dans la card
+  final String hourAndDuration;
   final String conseillerPresenceLabel;
   final Color conseillerPresenceColor;
   final bool isAnnule;
