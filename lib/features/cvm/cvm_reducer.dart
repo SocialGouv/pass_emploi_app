@@ -18,12 +18,13 @@ CvmState cvmReducer(CvmState current, dynamic action) {
   if (action is CvmSuccessAction) {
     final messages = action.messages;
 
-    final filteredMessages = messages.fold<List<CvmMessage>>([], (messageList, message) {
-      if (messageList.any((e) => e.id == message.id)) {
-        return messageList;
+    final Map<String, CvmMessage> messagesMap = {};
+    for (final message in messages) {
+      if (!messagesMap.containsKey(message.id)) {
+        messagesMap[message.id] = message;
       }
-      return [...messageList, message];
-    });
+    }
+    final filteredMessages = messagesMap.values.toList();
 
     return CvmSuccessState(filteredMessages);
   }
