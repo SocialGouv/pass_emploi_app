@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_actions.dart';
+import 'package:pass_emploi_app/features/cvm/cvm_state.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/models/chat/sender.dart';
 
@@ -324,6 +325,52 @@ void main() {
 
           sut.thenExpectChangingStatesThroughOrder([
             _shouldHaveChatStatus(hasUnreadMessages: false, lastConseillerReading: DateTime(2022, 1, 3)),
+          ]);
+        });
+      });
+    });
+
+    group('single elements', () {
+      group('when there is no element should not display any message', () {
+        sut.whenDispatchingAction(() => CvmSuccessAction([]));
+
+        test('should not display any message', () {
+          sut.givenStore = givenState() //
+              .loggedInPoleEmploiUser()
+              .store();
+
+          sut.thenExpectChangingStatesThroughOrder([
+            StateIs<CvmSuccessState>(
+              (state) => state.cvmState,
+              (state) => expect(state.messages, []),
+            ),
+          ]);
+        });
+      });
+      group('when there is multiples messages wih same ID, should keep first ones', () {
+        sut.whenDispatchingAction(
+          () => CvmSuccessAction([
+            mockCvmTextMessage(id: '1', date: DateTime(2022, 1, 1), sentBy: Sender.jeune),
+            mockCvmTextMessage(id: '1', date: DateTime(2022, 1, 2), sentBy: Sender.jeune),
+            mockCvmTextMessage(id: '1', date: DateTime(2022, 1, 3), sentBy: Sender.jeune),
+            mockCvmTextMessage(id: '2', date: DateTime(2022, 1, 4), sentBy: Sender.jeune),
+            mockCvmTextMessage(id: '1', date: DateTime(2022, 1, 4), sentBy: Sender.jeune),
+          ]),
+        );
+
+        test('should keep only the first one', () {
+          sut.givenStore = givenState() //
+              .loggedInPoleEmploiUser()
+              .store();
+
+          sut.thenExpectChangingStatesThroughOrder([
+            StateIs<CvmSuccessState>(
+              (state) => state.cvmState,
+              (state) => expect(state.messages, [
+                mockCvmTextMessage(id: '1', date: DateTime(2022, 1, 1), sentBy: Sender.jeune),
+                mockCvmTextMessage(id: '2', date: DateTime(2022, 1, 4), sentBy: Sender.jeune),
+              ]),
+            ),
           ]);
         });
       });
