@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_actions.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_state.dart';
+import 'package:pass_emploi_app/models/chat/cvm_message.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 
 DateTime? _cvmBeginSetupDate;
@@ -14,7 +15,18 @@ CvmState cvmReducer(CvmState current, dynamic action) {
   _trackCvmState(current, action);
   if (action is CvmLoadingAction) return CvmLoadingState();
   if (action is CvmFailureAction) return CvmFailureState();
-  if (action is CvmSuccessAction) return CvmSuccessState(action.messages);
+  if (action is CvmSuccessAction) {
+    final messages = action.messages;
+
+    final filteredMessages = messages.fold<List<CvmMessage>>([], (messageList, message) {
+      if (messageList.any((e) => e.id == message.id)) {
+        return messageList;
+      }
+      return [...messageList, message];
+    });
+
+    return CvmSuccessState(filteredMessages);
+  }
   if (action is CvmResetAction) return CvmNotInitializedState();
   return current;
 }
