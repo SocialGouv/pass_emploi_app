@@ -99,8 +99,8 @@ void main() {
     group('preferredLoginMode', () {
       test('should not display preferred login mode when state is not success', () {
         // Given
-        final store = givenState()
-            .copyWith(preferredLoginModeState: PreferredLoginModeNotInitializedState()).loggedIn().store();
+        final store =
+            givenState().copyWith(preferredLoginModeState: PreferredLoginModeNotInitializedState()).loggedIn().store();
 
         // When
         final viewModel = LoginPageViewModel.create(store);
@@ -171,6 +171,36 @@ void main() {
 
         // Then
         expect(viewModel.preferredLoginMode, null);
+      });
+    });
+
+    group('accessibility level', () {
+      test('should display accessibility partially conform when brand is cej', () {
+        // Given
+        final store = givenState()
+            .copyWith(preferredLoginModeState: PreferredLoginModeSuccessState(LoginMode.MILO))
+            .loggedIn()
+            .store();
+
+        // When
+        final viewModel = LoginPageViewModel.create(store);
+
+        // Then
+        expect(viewModel.accessibilityLevelLabel, "Accessibilité : partiellement conforme");
+      });
+
+      test('should display accessibility not conform when brand is pass emploi', () {
+        // Given
+        final store = givenPassEmploiState()
+            .copyWith(preferredLoginModeState: PreferredLoginModeSuccessState(LoginMode.MILO))
+            .loggedIn()
+            .store();
+
+        // When
+        final viewModel = LoginPageViewModel.create(store);
+
+        // Then
+        expect(viewModel.accessibilityLevelLabel, "Accessibilité : non conforme");
       });
     });
   });

@@ -76,56 +76,66 @@ class _Scaffold extends StatelessWidget {
             bottom: false,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    _TopSpacer(),
-                    GestureDetector(
-                        child: AppLogo(width: 120),
-                        onDoubleTap: () => Navigator.push(context, ExplicationModeDemoPage.materialPageRoute())),
-                    SizedBox(height: shrink ? Margins.spacing_base : Margins.spacing_m),
-                    Welcome(),
-                    SizedBox(height: shrink ? 0 : Margins.spacing_xl),
-                    CardContainer(
-                      padding: EdgeInsets.only(
-                        left: Margins.spacing_m,
-                        right: Margins.spacing_m,
-                        top: Margins.spacing_m,
-                      ),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: CustomScrollView(
+                  shrinkWrap: true,
+                  physics: BouncingScrollPhysics(),
+                  slivers: [
+                    SliverToBoxAdapter(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          if (viewModel.preferredLoginMode != null) ...[
-                            _PreferredLoginMode(viewModel.preferredLoginMode!),
-                            SizedBox(height: Margins.spacing_base),
-                          ],
-                          _LoginButton(viewModel),
-                          SizedBox(height: Margins.spacing_m),
-                          if (viewModel.technicalErrorMessage != null) ...[
-                            _GenericError(viewModel.technicalErrorMessage!),
-                            SizedBox(height: Margins.spacing_m),
-                          ],
-                          if (viewModel.withWrongDeviceClockMessage) ...[
-                            _ErrorBanner(
-                              title: Strings.loginWrongDeviceClockError,
-                              description: Strings.loginWrongDeviceClockErrorDescription,
+                          GestureDetector(
+                              child: AppLogo(width: 120),
+                              onDoubleTap: () => Navigator.push(context, ExplicationModeDemoPage.materialPageRoute())),
+                          SizedBox(height: shrink ? Margins.spacing_base : Margins.spacing_m),
+                          Welcome(),
+                          SizedBox(height: shrink ? 0 : Margins.spacing_xl),
+                          CardContainer(
+                            padding: EdgeInsets.only(
+                              left: Margins.spacing_m,
+                              right: Margins.spacing_m,
+                              top: Margins.spacing_m,
                             ),
-                            SizedBox(height: Margins.spacing_m),
-                          ],
-                          Divider(
-                            height: 1,
-                            color: AppColors.primaryLighten,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                if (viewModel.preferredLoginMode != null) ...[
+                                  _PreferredLoginMode(viewModel.preferredLoginMode!),
+                                  SizedBox(height: Margins.spacing_base),
+                                ],
+                                _LoginButton(viewModel),
+                                SizedBox(height: Margins.spacing_m),
+                                if (viewModel.technicalErrorMessage != null) ...[
+                                  _GenericError(viewModel.technicalErrorMessage!),
+                                  SizedBox(height: Margins.spacing_m),
+                                ],
+                                if (viewModel.withWrongDeviceClockMessage) ...[
+                                  _ErrorBanner(
+                                    title: Strings.loginWrongDeviceClockError,
+                                    description: Strings.loginWrongDeviceClockErrorDescription,
+                                  ),
+                                  SizedBox(height: Margins.spacing_m),
+                                ],
+                                Divider(
+                                  height: 1,
+                                  color: AppColors.primaryLighten,
+                                ),
+                                _InformationsLegales(),
+                              ],
+                            ),
                           ),
-                          _InformationsLegales(),
+                          if (viewModel.withRequestAccountButton) ...[
+                            SizedBox(height: Margins.spacing_base),
+                            _AskAccount(),
+                          ],
+                          SizedBox(height: Margins.spacing_l),
+                          _AccessibilityIndicator(viewModel.accessibilityLevelLabel),
+                          SizedBox(height: Margins.spacing_xl),
                         ],
                       ),
-                    ),
-                    if (viewModel.withRequestAccountButton) ...[
-                      SizedBox(height: Margins.spacing_base),
-                      _AskAccount(),
-                    ],
-                    SizedBox(height: Margins.spacing_xl),
+                    )
                   ],
                 ),
               ),
@@ -134,20 +144,6 @@ class _Scaffold extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-class _TopSpacer extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) => SizedBox(height: _spacerHeight(context));
-
-  double _spacerHeight(BuildContext context) {
-    final deviceHeight = MediaQuery.of(context).size.height;
-    if (deviceHeight < MediaSizes.height_xs) return 16;
-    if (deviceHeight < MediaSizes.height_s) return 50;
-    if (deviceHeight < MediaSizes.height_m) return 100;
-    if (deviceHeight < MediaSizes.height_l) return 150;
-    return 200;
   }
 }
 
@@ -372,6 +368,21 @@ class _PreferredLoginMode extends StatelessWidget {
         ),
       ),
       suffix: Icon(AppIcons.chevron_right_rounded),
+    );
+  }
+}
+
+class _AccessibilityIndicator extends StatelessWidget {
+  final String accessibilityLevelLabel;
+
+  const _AccessibilityIndicator(this.accessibilityLevelLabel);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      accessibilityLevelLabel,
+      textAlign: TextAlign.center,
+      style: TextStyles.textXsRegular(color: Colors.white),
     );
   }
 }

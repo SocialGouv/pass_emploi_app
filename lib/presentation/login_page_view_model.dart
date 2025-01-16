@@ -13,6 +13,7 @@ class LoginPageViewModel extends Equatable {
   final bool withRequestAccountButton;
   final bool withLoading;
   final bool withWrongDeviceClockMessage;
+  final String accessibilityLevelLabel;
   final String? technicalErrorMessage;
   final PreferredLoginModeViewModel? preferredLoginMode;
   final void Function()? onLogin;
@@ -21,6 +22,7 @@ class LoginPageViewModel extends Equatable {
     required this.withRequestAccountButton,
     required this.withLoading,
     required this.withWrongDeviceClockMessage,
+    required this.accessibilityLevelLabel,
     required this.technicalErrorMessage,
     required this.preferredLoginMode,
     required this.onLogin,
@@ -33,6 +35,7 @@ class LoginPageViewModel extends Equatable {
       withRequestAccountButton: brand.isCej,
       withLoading: loginState is LoginLoadingState,
       withWrongDeviceClockMessage: loginState is LoginWrongDeviceClockState,
+      accessibilityLevelLabel: brand.isCej ? Strings.accessibilityPartiallyConform : Strings.accessibilityNotConform,
       technicalErrorMessage: loginState is LoginGenericFailureState ? loginState.message : null,
       preferredLoginMode: PreferredLoginModeViewModel.create(store),
       onLogin: _onLogin(store),
@@ -44,6 +47,7 @@ class LoginPageViewModel extends Equatable {
         withRequestAccountButton,
         withLoading,
         withWrongDeviceClockMessage,
+        accessibilityLevelLabel,
         technicalErrorMessage,
         preferredLoginMode,
       ];
