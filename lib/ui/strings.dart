@@ -205,6 +205,8 @@ class Strings {
   static String dontHaveAccount = "Vous n’avez pas de compte sur cette application ?";
 
   static String alreadyHaveAccount = "Vous avez déjà un compte\n sur cette application ?";
+  static String accessibilityPartiallyConform = "Accessibilité : partiellement conforme";
+  static String accessibilityNotConform = "Accessibilité : non conforme";
 
   // Onboarding
   static String skip = "Passer";
