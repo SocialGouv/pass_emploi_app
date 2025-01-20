@@ -140,6 +140,7 @@ class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
                                   controller: descriptionController,
                                   hintText: Strings.exampleHint + widget.viewModel.titleSource.descriptionHint,
                                   maxLines: 5,
+                                  maxLength: 1024,
                                   onChanged: (value) {
                                     widget.onDescriptionChanged(value);
                                     _scrollToDescription(context);
