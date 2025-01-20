@@ -68,6 +68,7 @@ class PrimarySliverAppbar extends StatelessWidget {
                       TertiaryIconButton(
                         icon: AppIcons.notifications_outlined,
                         tooltip: Strings.notificationsCenterTooltip,
+                        iconColor: Brand.isCej() ? AppColors.primary : Colors.white,
                         onTap: () => Navigator.of(context).push(NotificationCenter.route()),
                       ),
                       SizedBox(width: Margins.spacing_s),
