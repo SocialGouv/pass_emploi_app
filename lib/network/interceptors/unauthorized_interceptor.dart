@@ -35,7 +35,7 @@ class UnauthorizedInterceptor extends PassEmploiBaseInterceptor {
   }
 
   void _onUnauthorizedErrorCountExceeded() {
-    _store.dispatch(RequestLogoutAction(LogoutReason.apiResponse401));
+    _store.dispatch(RequestLogoutAction(LogoutReason.tooMany401));
   }
 
   void setStore(Store<AppState> store) => _store = store;
