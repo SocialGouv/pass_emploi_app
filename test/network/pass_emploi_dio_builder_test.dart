@@ -13,6 +13,7 @@ import 'package:pass_emploi_app/network/pass_emploi_dio_builder.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/app_version_repository.dart';
 import 'package:pass_emploi_app/repositories/installation_id_repository.dart';
+import 'package:pass_emploi_app/repositories/remote_config_repository.dart';
 import 'package:redux/redux.dart';
 
 void main() {
@@ -24,6 +25,7 @@ void main() {
   late MockModeDemoRepository modeDemoRepository;
   late MockAuthAccessTokenRetriever accessTokenRetriever;
   late MockAuthAccessChecker authAccessChecker;
+  late MockRemoteConfigRepository remoteConfigRepository;
   late MonitoringInterceptor monitoringInterceptor;
   late UnauthorizedInterceptor unauthorizedInterceptor;
 
@@ -34,7 +36,8 @@ void main() {
     accessTokenRetriever = MockAuthAccessTokenRetriever();
     authAccessChecker = MockAuthAccessChecker();
     monitoringInterceptor = DummyMonitoringInterceptor();
-    unauthorizedInterceptor = UnauthorizedInterceptor();
+    remoteConfigRepository = MockRemoteConfigRepository();
+    unauthorizedInterceptor = UnauthorizedInterceptor(remoteConfigRepository);
     dio = PassEmploiDioBuilder(
       baseUrl: "https://api.test.fr",
       cacheStore: cacheStore,
@@ -150,3 +153,5 @@ class MockAppVersionRepository extends Mock implements AppVersionRepository {
 class DummyStore extends Store<AppState> {
   DummyStore() : super((state, dynamic action) => state, initialState: AppState.initialState());
 }
+
+class MockRemoteConfigRepository extends Mock implements RemoteConfigRepository {}

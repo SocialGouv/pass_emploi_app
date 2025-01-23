@@ -197,7 +197,7 @@ class AppInitializer {
       InstallationIdRepository(securedPreferences),
       AppVersionRepository(),
     );
-    final unauthorizedInterceptor = UnauthorizedInterceptor();
+    final unauthorizedInterceptor = UnauthorizedInterceptor(remoteConfigRepository);
     _setTrustedCertificatesForOldDevices(configuration, crashlytics);
     final dioClient = PassEmploiDioBuilder(
       baseUrl: baseUrl,

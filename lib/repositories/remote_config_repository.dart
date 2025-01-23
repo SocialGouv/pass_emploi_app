@@ -17,6 +17,13 @@ class RemoteConfigRepository {
     return value > 0 ? value : null;
   }
 
+  int? maxUnauthorizedErrorsBeforeLogout() {
+    if (_firebaseRemoteConfig == null) return null;
+
+    final value = _firebaseRemoteConfig.getInt("app_max_unauthorized_errors_before_logout");
+    return value > 0 ? value : null;
+  }
+
   int monSuiviPoleEmploiStartDateInMonths() {
     if (_firebaseRemoteConfig == null) return 0;
     return _firebaseRemoteConfig.getInt("mon_suivi_ft_start_date_in_months");
