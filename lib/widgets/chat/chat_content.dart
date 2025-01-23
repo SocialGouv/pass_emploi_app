@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_list_view.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_text_field.dart';
 import 'package:pass_emploi_app/widgets/chat/empty_chat_placeholder.dart';
+import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 
 class ChatContent extends StatefulWidget {
   final List<dynamic> reversedItems;
@@ -115,6 +116,9 @@ class _MessageImportantItemState extends State<_MessageImportantItem> {
     if (isKeyboardVisible) {
       return SizedBox.shrink();
     }
+
+    final textSRegular = TextStyles.textSRegular(color: foregroundColor);
+
     return Container(
       padding: EdgeInsets.all(Margins.spacing_base),
       decoration: BoxDecoration(
@@ -125,7 +129,13 @@ class _MessageImportantItemState extends State<_MessageImportantItem> {
         children: [
           Icon(AppIcons.info_rounded, color: foregroundColor),
           SizedBox(width: Margins.spacing_s),
-          Expanded(child: Text(widget.message, style: TextStyles.textSRegular(color: foregroundColor))),
+          Expanded(
+            child: SelectableTextWithClickableLinks(
+              widget.message,
+              linkStyle: textSRegular,
+              style: textSRegular,
+            ),
+          ),
         ],
       ),
     );
