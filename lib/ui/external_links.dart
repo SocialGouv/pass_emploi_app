@@ -6,7 +6,7 @@ class ExternalLinks {
       : "https://tally.so/r/wbxAy1";
   static const String unJeuneUneSolution = "https://www.1jeune1solution.gouv.fr/contrat-engagement-jeune";
   static const String espaceCandidats = "https://candidat.pole-emploi.fr/espacepersonnel/";
-  static const String boiteAOutilsDiagoriente = "https://app.diagoriente.beta.gouv.fr/register";
+  static const String boiteAOutilsDiagoriente = "https://plateforme.diagoriente.beta.gouv.fr/";
   static const String boiteAOutilsMesAidesFt =
       "https://mes-aides.francetravail.fr/?at_medium=CMP&at_campaign=DEUDMA&at_cmp_indicateur1=CEJ&at_cmp_indicateur2=APP&at_cmp_indicateur3=jeunes&at_cmp_indicateur4=BRSA0824";
   static const String boiteAOutilsMesAides1J1S =
