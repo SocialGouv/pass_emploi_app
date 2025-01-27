@@ -40,9 +40,11 @@ class SelectableTextWithClickableLinks extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const openInNew = "↗";
+    final textWithOpenInNew = content.replaceAll(RegExp(r'https?://'), '$openInNew https://');
     return Linkify(
       textScaleFactor: MediaQuery.of(context).textScaler.scale(1.0),
-      text: content,
+      text: textWithOpenInNew,
       style: style,
       linkStyle: linkStyle ?? TextStyles.externalLink,
       onOpen: (link) {
