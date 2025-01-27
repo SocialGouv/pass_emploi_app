@@ -3,9 +3,10 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
-class BaseTextField extends StatelessWidget {
+class BaseTextField extends StatefulWidget {
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final bool enabled;
@@ -54,40 +55,69 @@ class BaseTextField extends StatelessWidget {
   });
 
   @override
+  State<BaseTextField> createState() => _BaseTextFieldState();
+}
+
+class _BaseTextFieldState extends State<BaseTextField> {
+  late TextEditingController _controller;
+  String? _errorText;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = widget.controller ?? TextEditingController();
+
+    _controller.addListener(_validateText);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: controller,
-      focusNode: focusNode,
-      autofocus: autofocus,
-      maxLength: maxLength,
-      initialValue: initialValue,
-      onTap: onTap,
-      onFieldSubmitted: onFieldSubmitted,
-      showCursor: showCursor,
-      readOnly: readOnly,
+      controller: widget.controller,
+      focusNode: widget.focusNode,
+      autofocus: widget.autofocus,
+      maxLength: widget.maxLength,
+      initialValue: widget.initialValue,
+      onTap: widget.onTap,
+      onFieldSubmitted: widget.onFieldSubmitted,
+      showCursor: widget.showCursor,
+      readOnly: widget.readOnly,
       decoration: InputDecoration(
-        hintText: hintText,
-        prefixIcon: prefixIcon,
-        suffixIcon: suffixIcon,
+        hintText: widget.hintText,
+        prefixIcon: widget.prefixIcon,
+        suffixIcon: widget.suffixIcon,
         semanticCounterText: "",
+        errorText: _errorText,
         hintStyle: TextStyles.textSRegular(color: AppColors.grey800),
         contentPadding: const EdgeInsets.all(Margins.spacing_base),
-        error: errorText != null ? _Error(errorText!) : null,
-        border: isInvalid ? _errorBorder() : _idleBorder(),
-        focusedBorder: isInvalid ? _errorBorder() : _focusedBorder(),
+        error: widget.errorText != null ? _Error(widget.errorText!) : null,
+        border: widget.isInvalid ? _errorBorder() : _idleBorder(),
+        focusedBorder: widget.isInvalid ? _errorBorder() : _focusedBorder(),
         errorBorder: _errorBorder(),
         focusedErrorBorder: _errorBorder(),
       ),
-      keyboardType: keyboardType,
-      textCapitalization: textCapitalization,
-      textInputAction: textInputAction,
+      keyboardType: widget.keyboardType,
+      textCapitalization: widget.textCapitalization,
+      textInputAction: widget.textInputAction,
       onTapOutside: (event) => FocusScope.of(context).unfocus(),
       style: TextStyles.textBaseRegular,
-      onChanged: onChanged,
-      enabled: enabled,
-      minLines: minLines,
-      maxLines: maxLines,
+      onChanged: widget.onChanged,
+      enabled: widget.enabled,
+      minLines: widget.minLines,
+      maxLines: widget.maxLines,
     );
+  }
+
+  void _validateText() {
+    final value = _controller.text;
+    setState(() {
+      if (widget.maxLength != null && value.length >= widget.maxLength!) {
+        _errorText = Strings.fieldMaxLengthExceeded(widget.maxLength!);
+      } else {
+        _errorText = null;
+      }
+    });
   }
 
   OutlineInputBorder _idleBorder() {

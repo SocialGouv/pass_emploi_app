@@ -508,6 +508,7 @@ class Strings {
   static const String userActionDescriptionConfirmationConfirmButton = "Ajouter une description";
   static const String userActionDescriptionConfirmationGoToDescriptionButton = "Créer l’action sans description";
   static const String userActionDescriptionConfirmationTerminer = "Terminer l'action sans description";
+  static String fieldMaxLengthExceeded(int maxLength) => "La limite de $maxLength caractères a été atteinte";
 
   // Emploi
   static const String faireMonCV = "Faire mon CV";
