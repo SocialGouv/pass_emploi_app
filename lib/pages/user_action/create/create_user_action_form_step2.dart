@@ -33,10 +33,12 @@ class CreateUserActionFormStep2 extends StatefulWidget {
 
 class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
   final descriptionFocusNode = FocusNode();
+  late final TextEditingController titleController;
   late final TextEditingController descriptionController;
 
   @override
   void initState() {
+    titleController = TextEditingController(text: widget.viewModel.titleSource.title);
     descriptionController = TextEditingController(text: widget.viewModel.description);
     super.initState();
   }
@@ -105,8 +107,9 @@ class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
                       ),
                       const SizedBox(height: Margins.spacing_s),
                       BaseTextField(
-                        initialValue: widget.viewModel.titleSource.title,
+                        controller: titleController,
                         maxLength: 1024,
+                        maxLines: 5,
                         onChanged: (value) => widget.onTitleChanged(CreateActionTitleFromUserInput(value)),
                       ),
                     ],

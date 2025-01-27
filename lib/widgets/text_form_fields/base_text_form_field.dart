@@ -88,10 +88,13 @@ class _BaseTextFieldState extends State<BaseTextField> {
         prefixIcon: widget.prefixIcon,
         suffixIcon: widget.suffixIcon,
         semanticCounterText: "",
-        errorText: _errorText,
         hintStyle: TextStyles.textSRegular(color: AppColors.grey800),
         contentPadding: const EdgeInsets.all(Margins.spacing_base),
-        error: widget.errorText != null ? _Error(widget.errorText!) : null,
+        error: widget.errorText != null
+            ? _Error(widget.errorText!)
+            : _errorText != null
+                ? _Error(_errorText!)
+                : null,
         border: widget.isInvalid ? _errorBorder() : _idleBorder(),
         focusedBorder: widget.isInvalid ? _errorBorder() : _focusedBorder(),
         errorBorder: _errorBorder(),
