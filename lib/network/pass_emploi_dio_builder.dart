@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/network/interceptors/cache_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/demo_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/expired_token_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/logging_interceptor.dart';
+import 'package:pass_emploi_app/network/interceptors/logout_after_too_many_401_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/monitoring_interceptor.dart';
 
 class PassEmploiDioBuilder {
@@ -18,6 +19,7 @@ class PassEmploiDioBuilder {
   final AuthAccessTokenRetriever accessTokenRetriever;
   final AuthAccessChecker authAccessChecker;
   final MonitoringInterceptor monitoringInterceptor;
+  final LogoutAfterTooMany401Interceptor unauthorizedInterceptor;
 
   PassEmploiDioBuilder({
     required this.baseUrl,
@@ -26,6 +28,7 @@ class PassEmploiDioBuilder {
     required this.accessTokenRetriever,
     required this.authAccessChecker,
     required this.monitoringInterceptor,
+    required this.unauthorizedInterceptor,
   });
 
   Dio build() {
@@ -42,7 +45,8 @@ class PassEmploiDioBuilder {
       ..add(AuthInterceptor(accessTokenRetriever))
       ..add(CacheInterceptor(DioCacheInterceptor(options: cacheOptions)))
       ..add(LoggingNetworkInterceptor())
-      ..add(ExpiredTokenInterceptor(authAccessChecker));
+      ..add(ExpiredTokenInterceptor(authAccessChecker))
+      ..add(unauthorizedInterceptor);
     return dioClient;
   }
 }

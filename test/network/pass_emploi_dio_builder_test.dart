@@ -7,11 +7,13 @@ import 'package:pass_emploi_app/auth/auth_access_checker.dart';
 import 'package:pass_emploi_app/auth/auth_access_token_retriever.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
+import 'package:pass_emploi_app/network/interceptors/logout_after_too_many_401_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/monitoring_interceptor.dart';
 import 'package:pass_emploi_app/network/pass_emploi_dio_builder.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/app_version_repository.dart';
 import 'package:pass_emploi_app/repositories/installation_id_repository.dart';
+import 'package:pass_emploi_app/repositories/remote_config_repository.dart';
 import 'package:redux/redux.dart';
 
 void main() {
@@ -23,7 +25,9 @@ void main() {
   late MockModeDemoRepository modeDemoRepository;
   late MockAuthAccessTokenRetriever accessTokenRetriever;
   late MockAuthAccessChecker authAccessChecker;
+  late MockRemoteConfigRepository remoteConfigRepository;
   late MonitoringInterceptor monitoringInterceptor;
+  late LogoutAfterTooMany401Interceptor unauthorizedInterceptor;
 
   setUp(() {
     TestWidgetsFlutterBinding.ensureInitialized();
@@ -32,6 +36,8 @@ void main() {
     accessTokenRetriever = MockAuthAccessTokenRetriever();
     authAccessChecker = MockAuthAccessChecker();
     monitoringInterceptor = DummyMonitoringInterceptor();
+    remoteConfigRepository = MockRemoteConfigRepository();
+    unauthorizedInterceptor = LogoutAfterTooMany401Interceptor(remoteConfigRepository);
     dio = PassEmploiDioBuilder(
       baseUrl: "https://api.test.fr",
       cacheStore: cacheStore,
@@ -39,6 +45,7 @@ void main() {
       accessTokenRetriever: accessTokenRetriever,
       authAccessChecker: authAccessChecker,
       monitoringInterceptor: monitoringInterceptor,
+      unauthorizedInterceptor: unauthorizedInterceptor,
     ).build();
     DioAdapter(dio: dio).onGet(path, (server) => server.reply(200, responseData));
   });
@@ -119,6 +126,12 @@ class MockAuthAccessTokenRetriever extends Mock implements AuthAccessTokenRetrie
 
 class MockAuthAccessChecker extends Mock implements AuthAccessChecker {}
 
+class MockUnauthorizedInterceptor extends Mock implements LogoutAfterTooMany401Interceptor {
+  MockUnauthorizedInterceptor() {
+    setStore(DummyStore());
+  }
+}
+
 class DummyMonitoringInterceptor extends MonitoringInterceptor {
   DummyMonitoringInterceptor() : super(MockInstallationIdRepository(), MockAppVersionRepository()) {
     setStore(DummyStore());
@@ -140,3 +153,5 @@ class MockAppVersionRepository extends Mock implements AppVersionRepository {
 class DummyStore extends Store<AppState> {
   DummyStore() : super((state, dynamic action) => state, initialState: AppState.initialState());
 }
+
+class MockRemoteConfigRepository extends Mock implements RemoteConfigRepository {}
