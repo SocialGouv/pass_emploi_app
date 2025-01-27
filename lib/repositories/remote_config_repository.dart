@@ -20,7 +20,7 @@ class RemoteConfigRepository {
   int? maxUnauthorizedErrorsBeforeLogout() {
     if (_firebaseRemoteConfig == null) return null;
 
-    final value = _firebaseRemoteConfig.getInt("app_max_unauthorized_errors_before_logout");
+    final value = _firebaseRemoteConfig.getInt("app_max_401_before_logout");
     return value > 0 ? value : null;
   }
 
