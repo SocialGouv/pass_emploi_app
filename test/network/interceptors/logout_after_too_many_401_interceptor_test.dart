@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
-import 'package:pass_emploi_app/network/interceptors/unauthorized_interceptor.dart';
+import 'package:pass_emploi_app/network/interceptors/logout_after_too_many_401_interceptor.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/remote_config_repository.dart';
 import 'package:redux/redux.dart';
@@ -20,14 +20,14 @@ class MockRemoteConfigRepository extends Mock implements RemoteConfigRepository 
 }
 
 void main() {
-  late UnauthorizedInterceptor interceptor;
+  late LogoutAfterTooMany401Interceptor interceptor;
   late MockInterceptorHandler interceptorHandler;
   late MockRemoteConfigRepository remoteConfigRepository;
   late MockStore mockStore;
 
   setUp(() {
     remoteConfigRepository = MockRemoteConfigRepository();
-    interceptor = UnauthorizedInterceptor(remoteConfigRepository);
+    interceptor = LogoutAfterTooMany401Interceptor(remoteConfigRepository);
     interceptorHandler = MockInterceptorHandler();
     mockStore = MockStore();
   });

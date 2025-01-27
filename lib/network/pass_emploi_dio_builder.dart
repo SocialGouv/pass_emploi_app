@@ -9,8 +9,8 @@ import 'package:pass_emploi_app/network/interceptors/cache_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/demo_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/expired_token_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/logging_interceptor.dart';
+import 'package:pass_emploi_app/network/interceptors/logout_after_too_many_401_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/monitoring_interceptor.dart';
-import 'package:pass_emploi_app/network/interceptors/unauthorized_interceptor.dart';
 
 class PassEmploiDioBuilder {
   final String baseUrl;
@@ -19,7 +19,7 @@ class PassEmploiDioBuilder {
   final AuthAccessTokenRetriever accessTokenRetriever;
   final AuthAccessChecker authAccessChecker;
   final MonitoringInterceptor monitoringInterceptor;
-  final UnauthorizedInterceptor unauthorizedInterceptor;
+  final LogoutAfterTooMany401Interceptor unauthorizedInterceptor;
 
   PassEmploiDioBuilder({
     required this.baseUrl,

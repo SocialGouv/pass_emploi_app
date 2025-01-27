@@ -5,10 +5,10 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/remote_config_repository.dart';
 import 'package:redux/redux.dart';
 
-class UnauthorizedInterceptor extends PassEmploiBaseInterceptor {
+class LogoutAfterTooMany401Interceptor extends PassEmploiBaseInterceptor {
   final RemoteConfigRepository _remoteConfigRepository;
 
-  UnauthorizedInterceptor(RemoteConfigRepository remoteConfigRepository)
+  LogoutAfterTooMany401Interceptor(RemoteConfigRepository remoteConfigRepository)
       : _remoteConfigRepository = remoteConfigRepository;
 
   late final Store<AppState> _store;

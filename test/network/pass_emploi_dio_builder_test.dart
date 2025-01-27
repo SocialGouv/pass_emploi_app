@@ -7,8 +7,8 @@ import 'package:pass_emploi_app/auth/auth_access_checker.dart';
 import 'package:pass_emploi_app/auth/auth_access_token_retriever.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
+import 'package:pass_emploi_app/network/interceptors/logout_after_too_many_401_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/monitoring_interceptor.dart';
-import 'package:pass_emploi_app/network/interceptors/unauthorized_interceptor.dart';
 import 'package:pass_emploi_app/network/pass_emploi_dio_builder.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/app_version_repository.dart';
@@ -27,7 +27,7 @@ void main() {
   late MockAuthAccessChecker authAccessChecker;
   late MockRemoteConfigRepository remoteConfigRepository;
   late MonitoringInterceptor monitoringInterceptor;
-  late UnauthorizedInterceptor unauthorizedInterceptor;
+  late LogoutAfterTooMany401Interceptor unauthorizedInterceptor;
 
   setUp(() {
     TestWidgetsFlutterBinding.ensureInitialized();
@@ -37,7 +37,7 @@ void main() {
     authAccessChecker = MockAuthAccessChecker();
     monitoringInterceptor = DummyMonitoringInterceptor();
     remoteConfigRepository = MockRemoteConfigRepository();
-    unauthorizedInterceptor = UnauthorizedInterceptor(remoteConfigRepository);
+    unauthorizedInterceptor = LogoutAfterTooMany401Interceptor(remoteConfigRepository);
     dio = PassEmploiDioBuilder(
       baseUrl: "https://api.test.fr",
       cacheStore: cacheStore,
@@ -126,7 +126,7 @@ class MockAuthAccessTokenRetriever extends Mock implements AuthAccessTokenRetrie
 
 class MockAuthAccessChecker extends Mock implements AuthAccessChecker {}
 
-class MockUnauthorizedInterceptor extends Mock implements UnauthorizedInterceptor {
+class MockUnauthorizedInterceptor extends Mock implements LogoutAfterTooMany401Interceptor {
   MockUnauthorizedInterceptor() {
     setStore(DummyStore());
   }

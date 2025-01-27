@@ -20,8 +20,8 @@ import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
+import 'package:pass_emploi_app/network/interceptors/logout_after_too_many_401_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/monitoring_interceptor.dart';
-import 'package:pass_emploi_app/network/interceptors/unauthorized_interceptor.dart';
 import 'package:pass_emploi_app/network/pass_emploi_dio_builder.dart';
 import 'package:pass_emploi_app/pages/force_update_page.dart';
 import 'package:pass_emploi_app/pass_emploi_app.dart';
@@ -197,7 +197,7 @@ class AppInitializer {
       InstallationIdRepository(securedPreferences),
       AppVersionRepository(),
     );
-    final unauthorizedInterceptor = UnauthorizedInterceptor(remoteConfigRepository);
+    final unauthorizedInterceptor = LogoutAfterTooMany401Interceptor(remoteConfigRepository);
     _setTrustedCertificatesForOldDevices(configuration, crashlytics);
     final dioClient = PassEmploiDioBuilder(
       baseUrl: baseUrl,
