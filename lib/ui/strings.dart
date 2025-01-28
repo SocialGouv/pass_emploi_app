@@ -1170,7 +1170,13 @@ class Strings {
       "Inscription, modification ou suppression par votre conseiller";
 
   static const String notificationsSettingsRappelsTitle = "Rappels";
-  static const String notificationsSettingsRappelsSubtitle = "Rappel de complétion des actions (1 fois par semaine)";
+
+  static String notificationsSettingsRappelsSubtitle(bool isMilo) =>
+      isMilo ? notificationsSettingsRappelsSubtitleMilo : notificationsSettingsRappelsSubtitleFT;
+  static const String notificationsSettingsRappelsSubtitleMilo =
+      "Rappel de complétion des actions (1 fois par semaine)";
+  static const String notificationsSettingsRappelsSubtitleFT =
+      "Rappel de complétion des démarches (1 fois par semaine)";
 
   static const String notificationsSettingsTitle = "Paramètres système";
   static const String openNotificationsSettings = "Ouvrir les paramètres de notifications";

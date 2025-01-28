@@ -111,7 +111,7 @@ class _Content extends StatelessWidget {
             SizedBox(height: Margins.spacing_base),
             _NotificationSwitch(
               title: Strings.notificationsSettingsRappelsTitle,
-              description: Strings.notificationsSettingsRappelsSubtitle,
+              description: Strings.notificationsSettingsRappelsSubtitle(viewModel.withMiloWording),
               enabled: viewModel.withRappelActions,
               onChanged: viewModel.onRappelActionsChanged,
             ),
