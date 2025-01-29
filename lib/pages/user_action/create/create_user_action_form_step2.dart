@@ -108,7 +108,7 @@ class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
                       const SizedBox(height: Margins.spacing_s),
                       BaseTextField(
                         controller: titleController,
-                        maxLength: 1024,
+                        maxLength: 60,
                         maxLines: 5,
                         onChanged: (value) => widget.onTitleChanged(CreateActionTitleFromUserInput(value)),
                       ),
