@@ -109,7 +109,7 @@ class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
                       BaseTextField(
                         controller: titleController,
                         maxLength: 60,
-                        maxLines: 5,
+                        maxLines: 1,
                         onChanged: (value) => widget.onTitleChanged(CreateActionTitleFromUserInput(value)),
                       ),
                     ],
