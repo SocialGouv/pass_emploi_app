@@ -86,10 +86,13 @@ class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
                   widget.onTitleChanged(value);
                   // ensure the description field is visible
                   if (!value.isFromUserInput && !A11yUtils.withScreenReader(context)) {
-                    Future.delayed(AnimationDurations.fast, () {
-                      descriptionFocusNode.requestFocus();
-                      if (context.mounted) _scrollToDescription(context);
-                    });
+                    Future.delayed(
+                      AnimationDurations.fast,
+                      () {
+                        descriptionFocusNode.requestFocus();
+                        if (context.mounted) _scrollToDescription(context);
+                      },
+                    );
                   }
                 },
                 actionType: widget.actionType,
