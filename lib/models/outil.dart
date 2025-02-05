@@ -120,6 +120,14 @@ class Outil extends Equatable {
     imagePath: null,
   );
 
+  static Outil ressourceFormation = Outil(
+    title: "J’accède à Mes Ressources Formation",
+    description:
+        "Découvrez le montant de votre rémunération de formation et son impact sur vos aides et allocations si vous entrez en formation !",
+    redirectMode: OutilInternalRedirectMode(OutilInternalLink.ressourceFormation),
+    imagePath: "boite_a_outils/ressource_formation.webp",
+  );
+
   Outil withoutImage() {
     return Outil(
       title: title,
@@ -134,7 +142,7 @@ class Outil extends Equatable {
   List<Object?> get props => [title, description, actionLabel, redirectMode, imagePath];
 }
 
-enum OutilInternalLink { benevolat, laBonneAlternance }
+enum OutilInternalLink { benevolat, laBonneAlternance, ressourceFormation }
 
 sealed class OutilRedirectMode extends Equatable {}
 

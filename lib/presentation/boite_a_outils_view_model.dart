@@ -24,6 +24,7 @@ class BoiteAOutilsViewModel extends Equatable {
 List<Outil> _getOutils(Accompagnement accompagnement) {
   return switch (accompagnement) {
     Accompagnement.cej => [
+        Outil.ressourceFormation,
         Outil.laBonneAlternance,
         Outil.mesAidesFt,
         Outil.benevolatCej,
@@ -50,6 +51,7 @@ List<Outil> _getOutils(Accompagnement accompagnement) {
         Outil.mesAides1J1S,
       ],
     Accompagnement.rsaFranceTravail || Accompagnement.rsaConseilsDepartementaux => [
+        Outil.ressourceFormation,
         Outil.mesAidesFt,
         Outil.benevolatPassEmploi,
         Outil.emploiStore,

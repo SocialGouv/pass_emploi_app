@@ -15,6 +15,7 @@ void main() {
 
     // Then
     expect(viewModel.outils, [
+      Outil.ressourceFormation,
       Outil.laBonneAlternance,
       Outil.mesAidesFt,
       Outil.benevolatCej,
@@ -84,6 +85,7 @@ void main() {
 
     // Then
     expect(viewModel.outils, [
+      Outil.ressourceFormation,
       Outil.mesAidesFt,
       Outil.benevolatPassEmploi,
       Outil.emploiStore,

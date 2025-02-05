@@ -90,6 +90,7 @@ flutter:
     - assets/boite_a_outils/
     - assets/benevolat/
     - assets/la_bonne_alternance/
+    - assets/ressource_formation/
     - assets/mode_demo/
     - assets/mode_demo/brsa/
     - assets/mode_demo/cej/
