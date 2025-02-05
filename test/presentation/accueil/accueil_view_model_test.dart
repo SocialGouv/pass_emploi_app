@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
+import 'package:pass_emploi_app/features/date_consultation_notification/date_consultation_notification_state.dart';
 import 'package:pass_emploi_app/features/onboarding/onboarding_state.dart';
 import 'package:pass_emploi_app/models/accompagnement.dart';
 import 'package:pass_emploi_app/models/accueil/accueil.dart';
@@ -497,6 +498,72 @@ void main() {
         viewModel.shouldShowNavigationBottomSheet,
         isTrue,
       );
+    });
+
+    group('withNewNotifications', () {
+      test('should not show new notifications when in app notifications is not success state', () {
+        // Given
+        final store = givenState().loggedInMiloUser().withInAppNotificationsLoading().store();
+
+        // When
+        final viewModel = AccueilViewModel.create(store);
+
+        // Then
+        expect(
+          viewModel.withNewNotifications,
+          isFalse,
+        );
+      });
+
+      test('should not show new notifications when there is no notification', () {
+        // Given
+        final store = givenState() //
+            .loggedInMiloUser()
+            .withInAppNotificationsSuccess([]).store();
+
+        // When
+        final viewModel = AccueilViewModel.create(store);
+
+        // Then
+        expect(
+          viewModel.withNewNotifications,
+          isFalse,
+        );
+      });
+
+      test('should not show new notifications when notification is older than last consultation date', () {
+        // Given
+        final store = givenState() //
+            .loggedInMiloUser()
+            .copyWith(dateConsultationNotificationState: DateConsultationNotificationState(date: DateTime(2025)))
+            .withInAppNotificationsSuccess([mockInAppNotification(date: DateTime(2024))]).store();
+
+        // When
+        final viewModel = AccueilViewModel.create(store);
+
+        // Then
+        expect(
+          viewModel.withNewNotifications,
+          isFalse,
+        );
+      });
+
+      test('should show new notifications when notification is newer than last consultation date', () {
+        // Given
+        final store = givenState() //
+            .loggedInMiloUser()
+            .copyWith(dateConsultationNotificationState: DateConsultationNotificationState(date: DateTime(2024)))
+            .withInAppNotificationsSuccess([mockInAppNotification(date: DateTime(2025))]).store();
+
+        // When
+        final viewModel = AccueilViewModel.create(store);
+
+        // Then
+        expect(
+          viewModel.withNewNotifications,
+          isTrue,
+        );
+      });
     });
   });
 }
