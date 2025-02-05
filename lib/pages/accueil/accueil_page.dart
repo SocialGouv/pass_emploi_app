@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
+import 'package:pass_emploi_app/features/date_consultation_notification/date_consultation_notification_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/in_app_notifications/in_app_notifications_actions.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
@@ -56,6 +57,7 @@ class _AccueilPageState extends State<AccueilPage> {
         onInit: (store) {
           store.dispatch(AccueilRequestAction());
           store.dispatch(InAppNotificationsRequestAction());
+          store.dispatch(DateConsultationNotificationRequestAction());
         },
         converter: (store) => AccueilViewModel.create(store),
         builder: _builder,
