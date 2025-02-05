@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
+import 'package:pass_emploi_app/features/in_app_notifications/in_app_notifications_actions.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_alertes.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_campagne_recrutement.dart';
@@ -52,7 +53,10 @@ class _AccueilPageState extends State<AccueilPage> {
     return Tracker(
       tracking: AnalyticsScreenNames.accueil,
       child: StoreConnector<AppState, AccueilViewModel>(
-        onInit: (store) => store.dispatch(AccueilRequestAction()),
+        onInit: (store) {
+          store.dispatch(AccueilRequestAction());
+          store.dispatch(InAppNotificationsRequestAction());
+        },
         converter: (store) => AccueilViewModel.create(store),
         builder: _builder,
         onDidChange: (previousViewModel, viewModel) {
@@ -144,6 +148,7 @@ class _Body extends StatelessWidget {
       slivers: [
         PrimarySliverAppbar(
           title: Strings.accueilAppBarTitle,
+          withNewNotifications: viewModel.withNewNotifications,
         ),
         SliverToBoxAdapter(
           child: AnimatedSwitcher(

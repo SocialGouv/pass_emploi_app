@@ -3,7 +3,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/date_consultation_notification/date_consultation_notification_actions.dart';
-import 'package:pass_emploi_app/features/in_app_notifications/in_app_notifications_actions.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/notifications_center/notifications_center_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -37,10 +36,7 @@ class NotificationCenter extends StatelessWidget {
         backgroundColor: AppColors.grey100,
         appBar: SecondaryAppBar(title: Strings.notificationsCenterTitle),
         body: StoreConnector<AppState, NotificationsCenterViewModel>(
-          onInit: (store) {
-            store.dispatch(InAppNotificationsRequestAction());
-            store.dispatch(DateConsultationNotificationRequestAction());
-          },
+          onInit: (store) => store.dispatch(DateConsultationNotificationRequestAction()),
           converter: (store) => NotificationsCenterViewModel.create(store),
           builder: (context, viewModel) => _DisplayState(viewModel),
           onDispose: (store) => store.dispatch(DateConsultationNotificationWriteAction(DateTime.now())),

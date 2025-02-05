@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
 import 'package:pass_emploi_app/features/campagne_recrutement/campagne_recrutement_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
+import 'package:pass_emploi_app/features/in_app_notifications/in_app_notifications_state.dart';
 import 'package:pass_emploi_app/features/rating/rating_state.dart';
 import 'package:pass_emploi_app/models/accompagnement.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
@@ -24,6 +25,7 @@ class AccueilViewModel extends Equatable {
   final bool shouldResetDeeplink;
   final bool shouldShowOnboarding;
   final bool shouldShowNavigationBottomSheet;
+  final bool withNewNotifications;
   final Function() resetDeeplink;
   final Function() retry;
 
@@ -34,6 +36,7 @@ class AccueilViewModel extends Equatable {
     required this.shouldResetDeeplink,
     required this.shouldShowOnboarding,
     required this.shouldShowNavigationBottomSheet,
+    required this.withNewNotifications,
     required this.resetDeeplink,
     required this.retry,
   });
@@ -46,6 +49,7 @@ class AccueilViewModel extends Equatable {
       shouldResetDeeplink: _shouldResetDeeplink(store),
       shouldShowOnboarding: _shouldShowOnboarding(store),
       shouldShowNavigationBottomSheet: _shouldShowNavigationBottomSheet(store),
+      withNewNotifications: _withNewNotifications(store),
       resetDeeplink: () => store.dispatch(ResetDeeplinkAction()),
       retry: () => store.dispatch(AccueilRequestAction(forceRefresh: true)),
     );
@@ -198,4 +202,22 @@ bool _shouldShowNavigationBottomSheet(Store<AppState> store) {
   final user = store.state.user();
   if (accueilState is! AccueilSuccessState || user == null) return false;
   return user.accompagnement != Accompagnement.avenirPro;
+}
+
+bool _withNewNotifications(Store<AppState> store) {
+  final inAppNotificationsState = store.state.inAppNotificationsState;
+  final dateDerniereConsultation = store.state.dateConsultationNotificationState.date;
+
+  if (inAppNotificationsState is! InAppNotificationsSuccessState) {
+    return false;
+  }
+
+  final notification = inAppNotificationsState.notifications.firstOrNull;
+
+  if (notification == null) {
+    return false;
+  }
+
+  final isNew = dateDerniereConsultation != null ? notification.date.isAfter(dateDerniereConsultation) : true;
+  return isNew;
 }

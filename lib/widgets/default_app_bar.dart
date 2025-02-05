@@ -17,7 +17,8 @@ import 'package:pass_emploi_app/widgets/profile_button.dart';
 
 class PrimarySliverAppbar extends StatelessWidget {
   final String title;
-  const PrimarySliverAppbar({required this.title});
+  final bool withNewNotifications;
+  const PrimarySliverAppbar({required this.title, required this.withNewNotifications});
 
   static double expandedHeight = 90.0;
 
@@ -65,12 +66,7 @@ class PrimarySliverAppbar extends StatelessWidget {
                           ),
                         ),
                       ),
-                      TertiaryIconButton(
-                        icon: AppIcons.notifications_outlined,
-                        tooltip: Strings.notificationsCenterTooltip,
-                        iconColor: Brand.isCej() ? AppColors.primary : Colors.white,
-                        onTap: () => Navigator.of(context).push(NotificationCenter.route()),
-                      ),
+                      _CentreNotif(withNewNotifications),
                       SizedBox(width: Margins.spacing_s),
                       ProfileButton(isDarkColor: Brand.isCej()),
                     ],
@@ -89,6 +85,41 @@ class PrimarySliverAppbar extends StatelessWidget {
     final expandProgress = min(scrollOffset, scrollTotalDepth);
     const maxOpacity = 0.90;
     return Colors.white.withOpacity((expandProgress / scrollTotalDepth) * maxOpacity);
+  }
+}
+
+class _CentreNotif extends StatelessWidget {
+  const _CentreNotif(
+    this.withNewNotifications,
+  );
+
+  final bool withNewNotifications;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        TertiaryIconButton(
+          icon: AppIcons.notifications_outlined,
+          tooltip: Strings.notificationsCenterTooltip,
+          iconColor: Brand.isCej() ? AppColors.primary : Colors.white,
+          onTap: () => Navigator.of(context).push(NotificationCenter.route()),
+        ),
+        if (withNewNotifications)
+          Positioned(
+            right: Margins.spacing_s,
+            top: Margins.spacing_s,
+            child: Container(
+              width: 8,
+              height: 8,
+              decoration: BoxDecoration(
+                color: Colors.red,
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+      ],
+    );
   }
 }
 
