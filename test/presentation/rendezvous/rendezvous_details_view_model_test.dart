@@ -303,7 +303,7 @@ void main() {
 
         // Then
         expect(viewModel.comment, 'comment');
-        expect(viewModel.commentTitle, 'Commentaire de votre conseiller');
+        expect(viewModel.commentTitle, 'Description');
       });
 
       test('and comment is set and filled and conseiller is set', () {
