@@ -105,6 +105,12 @@ jobs:
         env:
           STAGING_RUNTIME_ENV_B64: ${{ secrets.STAGING_RUNTIME_ENV_B64 }}
 
+      - name: Set up Firebase Credentials
+        shell: bash
+        run: echo "$FIREBASE_CREDENTIALS_JSON" | base64 --decode > firebase-credentials.json
+        env:
+          FIREBASE_CREDENTIALS_JSON: ${{ secrets.FIREBASE_CREDENTIALS_JSON }}
+
       - name: Install Flutter dependencies
         shell: bash
         run: |
@@ -121,11 +127,10 @@ jobs:
       - name: CEJ - Deploy Android apk to Firebase App Distribution
         run: |
           firebase appdistribution:distribute build/app/outputs/flutter-apk/app-cejstaging-release.apk \
-            --token "$STAGING_FIREBASE_CI_TOKEN" \
             --app "$CEJ_STAGING_ANDROID_APP_ID" \
             --groups "$STAGING_FIREBASE_RELEASE_GROUPS"
         env:
-          STAGING_FIREBASE_CI_TOKEN: ${{ secrets.STAGING_FIREBASE_CI_TOKEN }}
+          GOOGLE_APPLICATION_CREDENTIALS: firebase-credentials.json
           CEJ_STAGING_ANDROID_APP_ID: ${{ secrets.CEJ_STAGING_ANDROID_APP_ID }}
           STAGING_FIREBASE_RELEASE_GROUPS: ${{ secrets.STAGING_FIREBASE_RELEASE_GROUPS }}
 
@@ -140,11 +145,10 @@ jobs:
       - name: BRSA - Deploy Android apk to Firebase App Distribution
         run: |
           firebase appdistribution:distribute build/app/outputs/flutter-apk/app-brsastaging-release.apk \
-            --token "$STAGING_FIREBASE_CI_TOKEN" \
             --app "$BRSA_STAGING_ANDROID_APP_ID" \
             --groups "$STAGING_FIREBASE_RELEASE_GROUPS"
         env:
-          STAGING_FIREBASE_CI_TOKEN: ${{ secrets.STAGING_FIREBASE_CI_TOKEN }}
+          GOOGLE_APPLICATION_CREDENTIALS: firebase-credentials.json
           BRSA_STAGING_ANDROID_APP_ID: ${{ secrets.BRSA_STAGING_ANDROID_APP_ID }}
           STAGING_FIREBASE_RELEASE_GROUPS: ${{ secrets.STAGING_FIREBASE_RELEASE_GROUPS }}
 
@@ -254,6 +258,12 @@ jobs:
           APPLE_PROD_API_KEY: ${{ secrets.APPLE_PROD_API_KEY }}
           APPLE_PROD_API_KEY_B64: ${{ secrets.APPLE_PROD_API_KEY_B64 }}
 
+      - name: Set up Firebase Credentials
+        shell: bash
+        run: echo "$FIREBASE_CREDENTIALS_JSON" | base64 --decode > firebase-credentials.json
+        env:
+          FIREBASE_CREDENTIALS_JSON: ${{ secrets.FIREBASE_CREDENTIALS_JSON }}
+
       - name: CEJ - Set up a temporary keychain for code signing
         shell: bash
         run: |
@@ -301,11 +311,10 @@ jobs:
         run: |
           mv "$(find $(pwd) -name "\[stg\] CEJ.ipa")" CEJ.ipa
           firebase appdistribution:distribute $(find $(pwd) -name "CEJ.ipa") \
-            --token "$STAGING_FIREBASE_CI_TOKEN" \
             --app "$CEJ_STAGING_IOS_APP_ID" \
             --groups "$STAGING_FIREBASE_RELEASE_GROUPS"
         env:
-          STAGING_FIREBASE_CI_TOKEN: ${{ secrets.STAGING_FIREBASE_CI_TOKEN }}
+          GOOGLE_APPLICATION_CREDENTIALS: firebase-credentials.json
           CEJ_STAGING_IOS_APP_ID: ${{ secrets.CEJ_STAGING_IOS_APP_ID }}
           STAGING_FIREBASE_RELEASE_GROUPS: ${{ secrets.STAGING_FIREBASE_RELEASE_GROUPS }}
 
@@ -356,10 +365,9 @@ jobs:
         run: |
           mv "$(find $(pwd) -name "\[stg\] pass emploi.ipa")" pass-emploi.ipa
           firebase appdistribution:distribute $(find $(pwd) -name "pass-emploi.ipa") \
-            --token "$STAGING_FIREBASE_CI_TOKEN" \
             --app "$BRSA_STAGING_IOS_APP_ID" \
             --groups "$STAGING_FIREBASE_RELEASE_GROUPS"
         env:
-          STAGING_FIREBASE_CI_TOKEN: ${{ secrets.STAGING_FIREBASE_CI_TOKEN }}
+          GOOGLE_APPLICATION_CREDENTIALS: firebase-credentials.json
           BRSA_STAGING_IOS_APP_ID: ${{ secrets.BRSA_STAGING_IOS_APP_ID }}
           STAGING_FIREBASE_RELEASE_GROUPS: ${{ secrets.STAGING_FIREBASE_RELEASE_GROUPS }}
