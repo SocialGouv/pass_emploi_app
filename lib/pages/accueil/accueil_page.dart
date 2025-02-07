@@ -73,7 +73,9 @@ class _AccueilPageState extends State<AccueilPage> {
   Widget _builder(BuildContext context, AccueilViewModel viewModel) {
     return Scaffold(
       backgroundColor: AppColors.grey100,
-      body: ConnectivityContainer(child: _Body(viewModel)),
+      body: ConnectivityContainer(
+        child: _Body(viewModel),
+      ),
     );
   }
 

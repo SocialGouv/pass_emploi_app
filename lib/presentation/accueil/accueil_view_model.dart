@@ -56,7 +56,14 @@ class AccueilViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [displayState, items, deepLink, shouldShowOnboarding, shouldShowNavigationBottomSheet];
+  List<Object?> get props => [
+        displayState,
+        items,
+        deepLink,
+        shouldShowOnboarding,
+        shouldShowNavigationBottomSheet,
+        withNewNotifications,
+      ];
 }
 
 DisplayState _displayState(Store<AppState> store) {
