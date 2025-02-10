@@ -281,5 +281,9 @@ class MockLocalisationPersistRepository extends Mock implements LocalisationPers
   }
 }
 
-class MockRemoteCampagneAccueilRepository extends Mock implements RemoteCampagneAccueilRepository {}
+class MockRemoteCampagneAccueilRepository extends Mock implements RemoteCampagneAccueilRepository {
+  MockRemoteCampagneAccueilRepository() {
+    when(() => getCampagnes()).thenAnswer((_) async => []);
+  }
+}
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-DECLARATION*/
