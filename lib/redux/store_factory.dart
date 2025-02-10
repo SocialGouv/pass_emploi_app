@@ -86,6 +86,7 @@ import 'package:pass_emploi_app/features/user_action/update/user_action_update_m
 import 'package:pass_emploi_app/features/in_app_notifications/in_app_notifications_middleware.dart';
 import 'package:pass_emploi_app/features/date_consultation_notification/date_consultation_notification_middleware.dart';
 import 'package:pass_emploi_app/features/localisation_persist/localisation_persist_middleware.dart';
+import 'package:pass_emploi_app/features/remote_campagne_accueil/remote_campagne_accueil_middleware.dart';
 /*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-MIDDLEWARE*/
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -164,6 +165,7 @@ import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
 import 'package:pass_emploi_app/repositories/in_app_notifications_repository.dart';
 import 'package:pass_emploi_app/repositories/date_consultation_notification_repository.dart';
 import 'package:pass_emploi_app/repositories/localisation_persist_repository.dart';
+import 'package:pass_emploi_app/repositories/remote_campagne_accueil_repository.dart';
 /*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-REPOSITORY*/
 import 'package:redux/redux.dart' as redux;
 
@@ -245,6 +247,7 @@ class StoreFactory {
   final InAppNotificationsRepository inAppNotificationsRepository;
   final DateConsultationNotificationRepository dateConsultationNotificationRepository;
   final LocalisationPersistRepository localisationPersistRepository;
+  final RemoteCampagneAccueilRepository remoteCampagneAccueilRepository;
   /*AUTOGENERATE-REDUX-STOREFACTORY-PROPERTY-REPOSITORY*/
 
   StoreFactory(
@@ -325,6 +328,7 @@ class StoreFactory {
     this.inAppNotificationsRepository,
     this.dateConsultationNotificationRepository,
     this.localisationPersistRepository,
+    this.remoteCampagneAccueilRepository,
     /*AUTOGENERATE-REDUX-STOREFACTORY-CONSTRUCTOR-REPOSITORY*/
   );
 
@@ -424,6 +428,7 @@ class StoreFactory {
         InAppNotificationsMiddleware(inAppNotificationsRepository).call,
         DateConsultationNotificationMiddleware(dateConsultationNotificationRepository).call,
         LocalisationPersistMiddleware(localisationPersistRepository).call,
+        RemoteCampagneAccueilMiddleware(remoteCampagneAccueilRepository).call,
         /*AUTOGENERATE-REDUX-STOREFACTORY-ADD-MIDDLEWARE*/
         ..._debugMiddlewares(),
         ..._stagingMiddlewares(initialState.configurationState.getFlavor()),

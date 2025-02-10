@@ -24,4 +24,13 @@ extension BrandExt on Brand? {
   bool get isPassEmploi => this == Brand.passEmploi;
 
   bool get isCej => this == Brand.cej;
+
+  static Brand? fromString(String? brand) {
+    if (brand == 'passEmploi') {
+      return Brand.passEmploi;
+    } else if (brand == 'cej') {
+      return Brand.cej;
+    }
+    return null;
+  }
 }

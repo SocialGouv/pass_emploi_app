@@ -16,6 +16,7 @@ import 'package:pass_emploi_app/pages/accueil/accueil_loading.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_outils.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_prochain_rendezvous.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_rating_app.dart';
+import 'package:pass_emploi_app/pages/accueil/remote_campagne_accueil_card.dart';
 import 'package:pass_emploi_app/pages/alerte_page.dart';
 import 'package:pass_emploi_app/pages/benevolat_page.dart';
 import 'package:pass_emploi_app/pages/campagne/campagne_details_page.dart';
@@ -192,6 +193,7 @@ class _Blocs extends StatelessWidget {
 
   Widget _itemBuilder(BuildContext context, int index) {
     return switch (viewModel.items[index]) {
+      final RemoteCampagneAccueilItem item => RemoteCampagneAccueilCard(item),
       final CampagneRecrutementItem item => CampagneRecrutementCard(item),
       final CampagneEvaluationItem item => _CampagneCard(title: item.titre, description: item.description),
       final AccueilCetteSemaineItem item => AccueilCetteSemaine(item),
