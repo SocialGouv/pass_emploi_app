@@ -30,7 +30,7 @@ class MainPage extends StatefulWidget {
   final MainPageDisplayState displayState;
   final int deepLinkKey;
 
-  MainPage({this.displayState = MainPageDisplayState.actualisationPoleEmploi, this.deepLinkKey = 0})
+  MainPage({this.displayState = MainPageDisplayState.accueil, this.deepLinkKey = 0})
       : super(key: ValueKey(displayState.hashCode + deepLinkKey));
 
   @override
