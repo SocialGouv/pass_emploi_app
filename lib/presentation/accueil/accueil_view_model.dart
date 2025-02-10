@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/in_app_notifications/in_app_notifications_state.dart';
 import 'package:pass_emploi_app/features/rating/rating_state.dart';
+import 'package:pass_emploi_app/features/remote_campagne_accueil/remote_campagne_accueil_actions.dart';
 import 'package:pass_emploi_app/models/accompagnement.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/models/outil.dart';
@@ -92,6 +93,7 @@ List<AccueilItem> _items(Store<AppState> store) {
   if (accueilState is! AccueilSuccessState || user == null) return [];
 
   return [
+    ..._remoteCampagneAccueilItems(store, store.state),
     _ratingAppItem(store.state),
     _campagneRecrutementItem(store, store.state),
     _campagneEvaluationItem(store.state),
@@ -179,6 +181,23 @@ AccueilItem? _outilsItem(AccueilSuccessState successState, Accompagnement accomp
         Outil.formation.withoutImage(),
       ]),
   };
+}
+
+List<AccueilItem?> _remoteCampagneAccueilItems(Store<AppState> store, AppState state) {
+  final brand = state.configurationState.configuration?.brand;
+  final accompagnement = state.user()?.accompagnement;
+
+  return state.remoteCampagneAccueilState.campagnes.map((campagne) {
+    if (campagne.brand != null && campagne.brand != brand) return null;
+    if (!campagne.accompagnements.contains(accompagnement)) return null;
+    if (!campagne.isActive) return null;
+    return RemoteCampagneAccueilItem(
+      title: campagne.title,
+      cta: campagne.cta,
+      url: campagne.url,
+      onDismissed: () => store.dispatch(RemoteCampagneAccueilDismissAction(campagne.id)),
+    );
+  }).toList();
 }
 
 AccueilItem? _ratingAppItem(AppState state) {

@@ -6,10 +6,12 @@ import 'package:pass_emploi_app/features/date_consultation_notification/date_con
 import 'package:pass_emploi_app/features/onboarding/onboarding_state.dart';
 import 'package:pass_emploi_app/models/accompagnement.dart';
 import 'package:pass_emploi_app/models/accueil/accueil.dart';
+import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/models/outil.dart';
+import 'package:pass_emploi_app/models/remote_campagne_accueil.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -562,6 +564,173 @@ void main() {
         expect(
           viewModel.withNewNotifications,
           isTrue,
+        );
+      });
+    });
+
+    group('remoteCampagneAccueilItems', () {
+      test('should display remote campagnes items', () {
+        // Given
+        final campagne = RemoteCampagneAccueil(
+          id: "1",
+          title: "title",
+          cta: "cta",
+          url: "url",
+          brand: null,
+          dateFin: DateTime(2035),
+          dateDebut: DateTime(2024),
+          accompagnements: [Accompagnement.cej],
+        );
+        final store = givenState() //
+            .loggedInPoleEmploiUser()
+            .withAccueilPoleEmploiSuccess()
+            .withRemoteCampagneAccueil(campagnes: [campagne]) //
+            .store();
+
+        // When
+        final viewModel = AccueilViewModel.create(store);
+
+        // Then
+        expect(
+          viewModel.items.first,
+          RemoteCampagneAccueilItem(
+            title: "title",
+            cta: "cta",
+            url: "url",
+            onDismissed: () {},
+          ),
+        );
+      });
+
+      test('should not display remote campagnes items from others accompagnements', () {
+        // Given
+        final campagne = RemoteCampagneAccueil(
+          id: "1",
+          title: "title",
+          cta: "cta",
+          url: "url",
+          brand: null,
+          dateFin: DateTime(2035),
+          dateDebut: DateTime(2024),
+          accompagnements: [Accompagnement.avenirPro],
+        );
+        final store = givenState() //
+            .loggedInPoleEmploiUser()
+            .withAccueilPoleEmploiSuccess()
+            .withRemoteCampagneAccueil(campagnes: [campagne]) //
+            .store();
+
+        // When
+        final viewModel = AccueilViewModel.create(store);
+
+        // Then
+        expect(
+          viewModel.items.first,
+          isNot(RemoteCampagneAccueilItem(
+            title: "title",
+            cta: "cta",
+            url: "url",
+            onDismissed: () {},
+          )),
+        );
+      });
+
+      test('should not display remote campagnes items from others apps', () {
+        // Given
+        final campagne = RemoteCampagneAccueil(
+          id: "1",
+          title: "title",
+          cta: "cta",
+          url: "url",
+          brand: Brand.cej,
+          dateFin: DateTime(2035),
+          dateDebut: DateTime(2024),
+          accompagnements: [Accompagnement.cej],
+        );
+        final store = givenPassEmploiState() //
+            .loggedInPoleEmploiUser()
+            .withAccueilPoleEmploiSuccess()
+            .withRemoteCampagneAccueil(campagnes: [campagne]) //
+            .store();
+
+        // When
+        final viewModel = AccueilViewModel.create(store);
+
+        // Then
+        expect(
+          viewModel.items.first,
+          isNot(RemoteCampagneAccueilItem(
+            title: "title",
+            cta: "cta",
+            url: "url",
+            onDismissed: () {},
+          )),
+        );
+      });
+
+      test('should not display remote campagnes when finished', () {
+        // Given
+        final campagne = RemoteCampagneAccueil(
+          id: "1",
+          title: "title",
+          cta: "cta",
+          url: "url",
+          brand: null,
+          dateFin: DateTime(2024),
+          dateDebut: DateTime(2024),
+          accompagnements: [Accompagnement.cej],
+        );
+        final store = givenPassEmploiState() //
+            .loggedInPoleEmploiUser()
+            .withAccueilPoleEmploiSuccess()
+            .withRemoteCampagneAccueil(campagnes: [campagne]) //
+            .store();
+
+        // When
+        final viewModel = AccueilViewModel.create(store);
+
+        // Then
+        expect(
+          viewModel.items.first,
+          isNot(RemoteCampagneAccueilItem(
+            title: "title",
+            cta: "cta",
+            url: "url",
+            onDismissed: () {},
+          )),
+        );
+      });
+
+      test('should not display remote campagnes when not started', () {
+        // Given
+        final campagne = RemoteCampagneAccueil(
+          id: "1",
+          title: "title",
+          cta: "cta",
+          url: "url",
+          brand: null,
+          dateFin: DateTime(2044),
+          dateDebut: DateTime(2044),
+          accompagnements: [Accompagnement.cej],
+        );
+        final store = givenPassEmploiState() //
+            .loggedInPoleEmploiUser()
+            .withAccueilPoleEmploiSuccess()
+            .withRemoteCampagneAccueil(campagnes: [campagne]) //
+            .store();
+
+        // When
+        final viewModel = AccueilViewModel.create(store);
+
+        // Then
+        expect(
+          viewModel.items.first,
+          isNot(RemoteCampagneAccueilItem(
+            title: "title",
+            cta: "cta",
+            url: "url",
+            onDismissed: () {},
+          )),
         );
       });
     });

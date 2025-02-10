@@ -38,6 +38,7 @@ import 'package:pass_emploi_app/features/first_launch_onboarding/first_launch_on
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_state.dart';
 import 'package:pass_emploi_app/features/in_app_feedback/in_app_feedback_state.dart';
 import 'package:pass_emploi_app/features/in_app_notifications/in_app_notifications_state.dart';
+import 'package:pass_emploi_app/features/localisation_persist/localisation_persist_state.dart';
 import 'package:pass_emploi_app/features/location/search_location_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/matching_demarche/matching_demarche_state.dart';
@@ -52,6 +53,7 @@ import 'package:pass_emploi_app/features/preferred_login_mode/preferred_login_mo
 import 'package:pass_emploi_app/features/rating/rating_state.dart';
 import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/features/recherches_recentes/recherches_recentes_state.dart';
+import 'package:pass_emploi_app/features/remote_campagne_accueil/remote_campagne_accueil_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_state.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_state.dart';
 import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_state.dart';
@@ -77,7 +79,6 @@ import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/user.dart';
-import 'package:pass_emploi_app/features/localisation_persist/localisation_persist_state.dart';
 /*AUTOGENERATE-REDUX-APP-STATE-IMPORT*/
 
 class AppState extends Equatable {
@@ -157,6 +158,7 @@ class AppState extends Equatable {
   final InAppNotificationsState inAppNotificationsState;
   final DateConsultationNotificationState dateConsultationNotificationState;
   final LocalisationPersistState localisationPersistState;
+  final RemoteCampagneAccueilState remoteCampagneAccueilState;
   /*AUTOGENERATE-REDUX-APP-STATE-PROPERTY*/
 
   AppState({
@@ -236,6 +238,7 @@ class AppState extends Equatable {
     required this.inAppNotificationsState,
     required this.dateConsultationNotificationState,
     required this.localisationPersistState,
+    required this.remoteCampagneAccueilState,
     /*AUTOGENERATE-REDUX-APP-STATE-CONSTRUCTOR*/
   });
 
@@ -316,6 +319,7 @@ class AppState extends Equatable {
     final InAppNotificationsState? inAppNotificationsState,
     final DateConsultationNotificationState? dateConsultationNotificationState,
     final LocalisationPersistState? localisationPersistState,
+    final RemoteCampagneAccueilState? remoteCampagneAccueilState,
     /*AUTOGENERATE-REDUX-APP-STATE-COPYPARAM*/
   }) {
     return AppState(
@@ -395,6 +399,7 @@ class AppState extends Equatable {
       inAppNotificationsState: inAppNotificationsState ?? this.inAppNotificationsState,
       dateConsultationNotificationState: dateConsultationNotificationState ?? this.dateConsultationNotificationState,
       localisationPersistState: localisationPersistState ?? this.localisationPersistState,
+      remoteCampagneAccueilState: remoteCampagneAccueilState ?? this.remoteCampagneAccueilState,
       /*AUTOGENERATE-REDUX-APP-STATE-COPYBODY*/
     );
   }
@@ -477,6 +482,7 @@ class AppState extends Equatable {
       inAppNotificationsState: InAppNotificationsNotInitializedState(),
       dateConsultationNotificationState: DateConsultationNotificationState(),
       localisationPersistState: LocalisationPersistNotInitializedState(),
+      remoteCampagneAccueilState: RemoteCampagneAccueilState(),
       /*AUTOGENERATE-REDUX-APP-STATE-FACTORY*/
     );
   }
@@ -552,6 +558,7 @@ class AppState extends Equatable {
         inAppNotificationsState,
         dateConsultationNotificationState,
         localisationPersistState,
+        remoteCampagneAccueilState,
         /*AUTOGENERATE-REDUX-APP-STATE-EQUATABLE*/
       ];
 

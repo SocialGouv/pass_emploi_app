@@ -113,6 +113,18 @@ class CampagneRecrutementItem extends AccueilItem {
 
 class RatingAppItem extends AccueilItem {}
 
+class RemoteCampagneAccueilItem extends AccueilItem {
+  final String title;
+  final String cta;
+  final String url;
+  final void Function() onDismissed;
+
+  RemoteCampagneAccueilItem({required this.title, required this.cta, required this.url, required this.onDismissed});
+
+  @override
+  List<Object?> get props => [title, cta, url];
+}
+
 String _actionsOuDemarchesLabel(LoginMode loginMode, int actionsOuDemarches) {
   final usePlural = actionsOuDemarches > 1;
   if (loginMode.isPe()) {

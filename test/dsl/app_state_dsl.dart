@@ -40,6 +40,7 @@ import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_criteres_recherche.dart';
 import 'package:pass_emploi_app/features/recherche/service_civique/service_civique_filtres_recherche.dart';
 import 'package:pass_emploi_app/features/recherches_recentes/recherches_recentes_state.dart';
+import 'package:pass_emploi_app/features/remote_campagne_accueil/remote_campagne_accueil_state.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_state.dart';
 import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
@@ -79,6 +80,7 @@ import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/models/preferences.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
+import 'package:pass_emploi_app/models/remote_campagne_accueil.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/requests/user_action_update_request.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
@@ -681,6 +683,10 @@ extension AppStateDSL on AppState {
 
   AppState withAccueilPoleEmploiSuccess() {
     return copyWith(accueilState: AccueilSuccessState(mockAccueilPoleEmploi()));
+  }
+
+  AppState withRemoteCampagneAccueil({List<RemoteCampagneAccueil> campagnes = const []}) {
+    return copyWith(remoteCampagneAccueilState: RemoteCampagneAccueilState(campagnes: campagnes));
   }
 
   AppState withAccueilFailure() {

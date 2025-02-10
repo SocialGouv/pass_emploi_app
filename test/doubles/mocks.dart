@@ -32,6 +32,7 @@ import 'package:pass_emploi_app/repositories/onboarding_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/preferences_repository.dart';
 import 'package:pass_emploi_app/repositories/preferred_login_mode_repository.dart';
+import 'package:pass_emploi_app/repositories/remote_campagne_accueil_repository.dart';
 import 'package:pass_emploi_app/repositories/remote_config_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_details_repository.dart';
@@ -231,6 +232,7 @@ class MockRemoteConfigRepository extends Mock implements RemoteConfigRepository 
     when(() => cvmActivationByAccompagnement()).thenReturn({});
     when(() => getIdsConseillerCvmEarlyAdopters()).thenReturn([]);
     when(() => monSuiviPoleEmploiStartDateInMonths()).thenReturn(1);
+    when(() => campagnesAccueil()).thenReturn([]);
   }
 }
 
@@ -278,4 +280,6 @@ class MockLocalisationPersistRepository extends Mock implements LocalisationPers
     when(() => get()).thenAnswer((_) async => null);
   }
 }
+
+class MockRemoteCampagneAccueilRepository extends Mock implements RemoteCampagneAccueilRepository {}
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-DECLARATION*/

@@ -4,6 +4,7 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:pass_emploi_app/models/accompagnement.dart';
 import 'package:pass_emploi_app/models/cgu.dart';
 import 'package:pass_emploi_app/models/feedback_for_feature.dart';
+import 'package:pass_emploi_app/models/remote_campagne_accueil.dart';
 
 class RemoteConfigRepository {
   final FirebaseRemoteConfig? _firebaseRemoteConfig;
@@ -35,6 +36,21 @@ class RemoteConfigRepository {
     // millisecond since epoch
     final value = _firebaseRemoteConfig.getInt("campagne_recrutement_date_fin");
     return value > DateTime.now().millisecondsSinceEpoch ? value.toString() : null;
+  }
+
+  List<RemoteCampagneAccueil> campagnesAccueil() {
+    // try catch because campagnes_accueil is manually set in Firebase Remote Config
+    try {
+      if (_firebaseRemoteConfig == null) return [];
+
+      final campagneAsString = _firebaseRemoteConfig.getString("campagnes_accueil");
+      // Despite Remote config documentation, Firebase returns "null" string value when key is not found
+      if (campagneAsString.isEmpty || campagneAsString == "null") return [];
+      final json = jsonDecode(campagneAsString) as List;
+      return json.map((e) => RemoteCampagneAccueil.fromJson(e as Map<String, dynamic>)).toList();
+    } catch (e) {
+      return [];
+    }
   }
 
   Map<Accompagnement, bool> cvmActivationByAccompagnement() {

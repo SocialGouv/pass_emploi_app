@@ -51,6 +51,7 @@ import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/models/preferences.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
+import 'package:pass_emploi_app/models/remote_campagne_accueil.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/requests/contact_immersion_request.dart';
 import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
@@ -1364,5 +1365,18 @@ message.Message mockMessage({
     sendingStatus: message.MessageSendingStatus.sent,
     contentStatus: message.MessageContentStatus.content,
     pieceJointes: pieceJointe != null ? [pieceJointe] : [],
+  );
+}
+
+RemoteCampagneAccueil mockRemoteCampagneAccueil({String? id, DateTime? dateDebut, DateTime? dateFin}) {
+  return RemoteCampagneAccueil(
+    id: id ?? "id",
+    title: "title",
+    cta: "cta",
+    url: "url",
+    brand: null,
+    dateDebut: dateDebut ?? DateTime(2023),
+    dateFin: dateFin ?? DateTime(2030),
+    accompagnements: [],
   );
 }
