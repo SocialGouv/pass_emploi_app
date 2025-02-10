@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
+import 'package:pass_emploi_app/features/remote_campagne_accueil/remote_campagne_accueil_actions.dart';
 import 'package:pass_emploi_app/features/remote_campagne_accueil/remote_campagne_accueil_state.dart';
 
 import '../../doubles/fixtures.dart';
@@ -25,6 +26,27 @@ void main() {
             .store((f) => {f.remoteCampagneAccueilRepository = repository});
 
         sut.thenExpectAtSomePoint(_shouldSucceed());
+      });
+    });
+
+    group('when deleting', () {
+      sut.whenDispatchingAction(() => RemoteCampagneAccueilDismissAction("1"));
+
+      test('should load then succeed when request succeeds', () {
+        when(() => repository.dismissCampagne("1")).thenAnswer((_) async {});
+
+        sut.givenStore = givenState() //
+            .loggedInUser()
+            .copyWith(
+                remoteCampagneAccueilState: RemoteCampagneAccueilState(campagnes: [mockRemoteCampagneAccueil(id: "1")]))
+            .store((f) => {f.remoteCampagneAccueilRepository = repository});
+
+        sut.thenExpectAtSomePoint(StateIs<RemoteCampagneAccueilState>(
+          (state) => state.remoteCampagneAccueilState,
+          (state) {
+            expect(state.campagnes, []);
+          },
+        ));
       });
     });
   });
