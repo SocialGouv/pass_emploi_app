@@ -90,29 +90,29 @@ jobs:
         env:
           PROD_RUNTIME_ENV_B64: ${{ secrets.PROD_RUNTIME_ENV_B64 }}
 
-      # - name: CEJ - Build Android appbundle
-      #   run: |
-      #     flutter pub get
-      #     flutter build appbundle \
-      #     -t lib/cej_main.dart \
-      #     --flavor cejProd \
-      #     --build-number=${{ needs.pre-build.outputs.date }}
+      - name: CEJ - Build Android appbundle
+        run: |
+          flutter pub get
+          flutter build appbundle \
+          -t lib/cej_main.dart \
+          --flavor cejProd \
+          --build-number=${{ needs.pre-build.outputs.date }}
 
       # - name: CEJ - Save Android appbundle
       #   uses: actions/upload-artifact@v3
       #   with:
       #     path: build/app/outputs/bundle/release/app.aab
 
-      # - name: CEJ - Deploy Android appbundle
-      #   uses: r0adkll/upload-google-play@v1
-      #   with:
-      #     serviceAccountJsonPlainText: ${{ secrets.PROD_GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
-      #     packageName: fr.fabrique.social.gouv.passemploi
-      #     releaseName: ${{github.ref_name}}
-      #     releaseFiles: build/app/outputs/bundle/release/app.aab
-      #     track: production
-      #     status: completed
-      #     whatsNewDirectory: release-notes/cej
+      - name: CEJ - Deploy Android appbundle
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.PROD_GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: fr.fabrique.social.gouv.passemploi
+          releaseName: ${{github.ref_name}}
+          releaseFiles: build/app/outputs/bundle/release/app.aab
+          track: production
+          status: completed
+          whatsNewDirectory: release-notes/cej
 
       - name: BRSA - Build Android appbundle
         run: |
@@ -138,200 +138,200 @@ jobs:
           status: completed
           whatsNewDirectory: release-notes/brsa
 
-  # build-ios-prod:
-  #   runs-on: macos-13
-  #   needs: pre-build
-  #   steps:
-  #     - uses: actions/checkout@v4
+  build-ios-prod:
+    runs-on: macos-13
+    needs: pre-build
+    steps:
+      - uses: actions/checkout@v4
 
-  #     - name: Set Environment Variables
-  #       uses: ./.github/actions/setvars
-  #       with:
-  #         varFilePath: ./.github/variables/myvars.env
+      - name: Set Environment Variables
+        uses: ./.github/actions/setvars
+        with:
+          varFilePath: ./.github/variables/myvars.env
 
-  #     - name: Write ssh gitlab private key
-  #       shell: bash
-  #       run: |
-  #         echo "$SSH_GITLAB_PRIVATE_KEY" > ~/.ssh/id_ed25519
-  #       env:
-  #         SSH_GITLAB_PRIVATE_KEY: ${{ secrets.SSH_GITLAB_PRIVATE_KEY }}
+      - name: Write ssh gitlab private key
+        shell: bash
+        run: |
+          echo "$SSH_GITLAB_PRIVATE_KEY" > ~/.ssh/id_ed25519
+        env:
+          SSH_GITLAB_PRIVATE_KEY: ${{ secrets.SSH_GITLAB_PRIVATE_KEY }}
 
-  #     - name: ssh agent
-  #       shell: bash
-  #       run: |
-  #         chmod 600 ~/.ssh/id_ed25519
-  #         eval "$(ssh-agent -s)"
-  #         ssh-add ~/.ssh/id_ed25519
-  #         ssh-keyscan -t rsa gitlab.com >> ~/.ssh/known_hosts
+      - name: ssh agent
+        shell: bash
+        run: |
+          chmod 600 ~/.ssh/id_ed25519
+          eval "$(ssh-agent -s)"
+          ssh-add ~/.ssh/id_ed25519
+          ssh-keyscan -t rsa gitlab.com >> ~/.ssh/known_hosts
 
-  #     - uses: subosito/flutter-action@v2
-  #       with:
-  #         cache: true
-  #         flutter-version: ${{ env.FLUTTER_VERSION }}
+      - uses: subosito/flutter-action@v2
+        with:
+          cache: true
+          flutter-version: ${{ env.FLUTTER_VERSION }}
 
-  #     - uses: actions/setup-python@v5
-  #       with:
-  #         python-version: ${{ env.PYTHON_VERSION }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
 
-  #     - name: Check Codemagic CLI cache
-  #       uses: actions/cache@v4
-  #       id: codemagic-cache
-  #       with:
-  #         path: /Users/runner/hostedtoolcache/Python/${{ env.PYTHON_VERSION }}/x64
-  #         key: ${{ runner.os }}-codemagic
+      - name: Check Codemagic CLI cache
+        uses: actions/cache@v4
+        id: codemagic-cache
+        with:
+          path: /Users/runner/hostedtoolcache/Python/${{ env.PYTHON_VERSION }}/x64
+          key: ${{ runner.os }}-codemagic
 
-  #     - name: Install Codemagic CLI tools
-  #       if: steps.codemagic-cache.outputs.cache-hit != 'true'
-  #       shell: bash
-  #       run: |
-  #         pip3 install codemagic-cli-tools
+      - name: Install Codemagic CLI tools
+        if: steps.codemagic-cache.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+          pip3 install codemagic-cli-tools
 
-  #     - name: Write Google configuration for ios
-  #       shell: bash
-  #       run: |
-  #         mkdir -p ios/firebase-config/cejProd
-  #         mkdir -p ios/firebase-config/brsaProd
-  #         echo "$CEJ_PROD_GOOGLE_SERVICE_IOS_B64" | base64 --decode > ios/firebase-config/cejProd/GoogleService-Info.plist
-  #         echo "$BRSA_PROD_GOOGLE_SERVICE_IOS_B64" | base64 --decode > ios/firebase-config/brsaProd/GoogleService-Info.plist
-  #       env:
-  #         CEJ_PROD_GOOGLE_SERVICE_IOS_B64: ${{ secrets.CEJ_PROD_GOOGLE_SERVICE_IOS_B64 }}
-  #         BRSA_PROD_GOOGLE_SERVICE_IOS_B64: ${{ secrets.BRSA_PROD_GOOGLE_SERVICE_IOS_B64 }}
+      - name: Write Google configuration for ios
+        shell: bash
+        run: |
+          mkdir -p ios/firebase-config/cejProd
+          mkdir -p ios/firebase-config/brsaProd
+          echo "$CEJ_PROD_GOOGLE_SERVICE_IOS_B64" | base64 --decode > ios/firebase-config/cejProd/GoogleService-Info.plist
+          echo "$BRSA_PROD_GOOGLE_SERVICE_IOS_B64" | base64 --decode > ios/firebase-config/brsaProd/GoogleService-Info.plist
+        env:
+          CEJ_PROD_GOOGLE_SERVICE_IOS_B64: ${{ secrets.CEJ_PROD_GOOGLE_SERVICE_IOS_B64 }}
+          BRSA_PROD_GOOGLE_SERVICE_IOS_B64: ${{ secrets.BRSA_PROD_GOOGLE_SERVICE_IOS_B64 }}
 
-  #     - name: Write env
-  #       shell: bash
-  #       run: |
-  #         echo "$PROD_RUNTIME_ENV_B64" | base64 --decode > env/.env.prod
-  #       env:
-  #         PROD_RUNTIME_ENV_B64: ${{ secrets.PROD_RUNTIME_ENV_B64 }}
+      - name: Write env
+        shell: bash
+        run: |
+          echo "$PROD_RUNTIME_ENV_B64" | base64 --decode > env/.env.prod
+        env:
+          PROD_RUNTIME_ENV_B64: ${{ secrets.PROD_RUNTIME_ENV_B64 }}
 
-  #     - name: Install Flutter dependencies
-  #       shell: bash
-  #       run: |
-  #         flutter pub get
+      - name: Install Flutter dependencies
+        shell: bash
+        run: |
+          flutter pub get
 
-  #     - name: Install CocoaPods dependencies
-  #       shell: bash
-  #       run: |
-  #         find . -name "Podfile" -execdir pod install \;
+      - name: Install CocoaPods dependencies
+        shell: bash
+        run: |
+          find . -name "Podfile" -execdir pod install \;
 
-  #     - name: Write Apple prod API Key
-  #       shell: bash
-  #       run: |
-  #         mkdir ~/.private_keys
-  #         echo "$APPLE_PROD_API_KEY_B64" | base64 --decode > ios/AuthKey_"$APPLE_PROD_API_KEY".p8
-  #       env:
-  #         APPLE_PROD_API_KEY: ${{ secrets.APPLE_PROD_API_KEY }}
-  #         APPLE_PROD_API_KEY_B64: ${{ secrets.APPLE_PROD_API_KEY_B64 }}
+      - name: Write Apple prod API Key
+        shell: bash
+        run: |
+          mkdir ~/.private_keys
+          echo "$APPLE_PROD_API_KEY_B64" | base64 --decode > ios/AuthKey_"$APPLE_PROD_API_KEY".p8
+        env:
+          APPLE_PROD_API_KEY: ${{ secrets.APPLE_PROD_API_KEY }}
+          APPLE_PROD_API_KEY_B64: ${{ secrets.APPLE_PROD_API_KEY_B64 }}
 
-  #     - name: CEJ - Set up a temporary keychain for code signing
-  #       shell: bash
-  #       run: |
-  #         keychain initialize
+      - name: CEJ - Set up a temporary keychain for code signing
+        shell: bash
+        run: |
+          keychain initialize
 
-  #     - name: CEJ - Fetch the code signing files from App Store Connect
-  #       shell: bash
-  #       run: |
-  #         export APP_STORE_CONNECT_ISSUER_ID="$APPLE_PROD_API_ISSUER"
-  #         export APP_STORE_CONNECT_KEY_IDENTIFIER="$APPLE_PROD_API_KEY"
-  #         export APP_STORE_CONNECT_PRIVATE_KEY=`cat ios/AuthKey_"$APPLE_PROD_API_KEY".p8`
-  #         app-store-connect fetch-signing-files fr.fabrique.social.gouv.passemploi \
-  #           --platform IOS \
-  #           --type IOS_APP_STORE \
-  #           --certificate-key=@env:APPLE_P12_PRIVATE_KEY \
-  #           --create
-  #       env:
-  #         APPLE_PROD_API_ISSUER: ${{ secrets.APPLE_PROD_API_ISSUER }}
-  #         APPLE_PROD_API_KEY: ${{ secrets.APPLE_PROD_API_KEY }}
-  #         APPLE_P12_PRIVATE_KEY: ${{secrets.APPLE_P12_PRIVATE_KEY}}
+      - name: CEJ - Fetch the code signing files from App Store Connect
+        shell: bash
+        run: |
+          export APP_STORE_CONNECT_ISSUER_ID="$APPLE_PROD_API_ISSUER"
+          export APP_STORE_CONNECT_KEY_IDENTIFIER="$APPLE_PROD_API_KEY"
+          export APP_STORE_CONNECT_PRIVATE_KEY=`cat ios/AuthKey_"$APPLE_PROD_API_KEY".p8`
+          app-store-connect fetch-signing-files fr.fabrique.social.gouv.passemploi \
+            --platform IOS \
+            --type IOS_APP_STORE \
+            --certificate-key=@env:APPLE_P12_PRIVATE_KEY \
+            --create
+        env:
+          APPLE_PROD_API_ISSUER: ${{ secrets.APPLE_PROD_API_ISSUER }}
+          APPLE_PROD_API_KEY: ${{ secrets.APPLE_PROD_API_KEY }}
+          APPLE_P12_PRIVATE_KEY: ${{secrets.APPLE_P12_PRIVATE_KEY}}
 
-  #     - name: CEJ - Add fetched certificates to keychain
-  #       shell: bash
-  #       run: |
-  #         keychain add-certificates
+      - name: CEJ - Add fetched certificates to keychain
+        shell: bash
+        run: |
+          keychain add-certificates
 
-  #     - name: CEJ - Update Xcode project settings with fetched code signing profiles and create prod_export_options.plist
-  #       shell: bash
-  #       run: |
-  #         xcode-project use-profiles --export-options-plist ios/prod_export_options.plist
+      - name: CEJ - Update Xcode project settings with fetched code signing profiles and create prod_export_options.plist
+        shell: bash
+        run: |
+          xcode-project use-profiles --export-options-plist ios/prod_export_options.plist
 
-  #     - name: CEJ - Build IPA with generated prod_export_options.plist
-  #       shell: bash
-  #       run: |
-  #         flutter build ipa \
-  #         -t lib/cej_main.dart \
-  #         --flavor cejProd \
-  #         --release \
-  #         --build-number=${{ needs.pre-build.outputs.date }} \
-  #         --export-options-plist=ios/prod_export_options.plist \
-  #         --no-pub \
-  #         --verbose
+      - name: CEJ - Build IPA with generated prod_export_options.plist
+        shell: bash
+        run: |
+          flutter build ipa \
+          -t lib/cej_main.dart \
+          --flavor cejProd \
+          --release \
+          --build-number=${{ needs.pre-build.outputs.date }} \
+          --export-options-plist=ios/prod_export_options.plist \
+          --no-pub \
+          --verbose
 
-  #     - name: CEJ - Deploy app to App Store Connect
-  #       shell: bash
-  #       run: |
-  #         export APP_STORE_CONNECT_ISSUER_ID="$APPLE_PROD_API_ISSUER"
-  #         export APP_STORE_CONNECT_KEY_IDENTIFIER="$APPLE_PROD_API_KEY"
-  #         export APP_STORE_CONNECT_PRIVATE_KEY=`cat ios/AuthKey_"$APPLE_PROD_API_KEY".p8`
-  #         app-store-connect publish \
-  #           --path $(find $(pwd) -name "CEJ.ipa")
-  #       env:
-  #         APPLE_PROD_API_ISSUER: ${{ secrets.APPLE_PROD_API_ISSUER }}
-  #         APPLE_PROD_API_KEY: ${{ secrets.APPLE_PROD_API_KEY }}
-  #         APPLE_P12_PRIVATE_KEY: ${{secrets.APPLE_P12_PRIVATE_KEY}}
+      - name: CEJ - Deploy app to App Store Connect
+        shell: bash
+        run: |
+          export APP_STORE_CONNECT_ISSUER_ID="$APPLE_PROD_API_ISSUER"
+          export APP_STORE_CONNECT_KEY_IDENTIFIER="$APPLE_PROD_API_KEY"
+          export APP_STORE_CONNECT_PRIVATE_KEY=`cat ios/AuthKey_"$APPLE_PROD_API_KEY".p8`
+          app-store-connect publish \
+            --path $(find $(pwd) -name "CEJ.ipa")
+        env:
+          APPLE_PROD_API_ISSUER: ${{ secrets.APPLE_PROD_API_ISSUER }}
+          APPLE_PROD_API_KEY: ${{ secrets.APPLE_PROD_API_KEY }}
+          APPLE_P12_PRIVATE_KEY: ${{secrets.APPLE_P12_PRIVATE_KEY}}
 
-  #     - name: BRSA - Set up a temporary keychain for code signing
-  #       shell: bash
-  #       run: |
-  #         keychain initialize
+      - name: BRSA - Set up a temporary keychain for code signing
+        shell: bash
+        run: |
+          keychain initialize
 
-  #     - name: BRSA - Fetch the code signing files from App Store Connect
-  #       shell: bash
-  #       run: |
-  #         export APP_STORE_CONNECT_ISSUER_ID="$APPLE_PROD_API_ISSUER"
-  #         export APP_STORE_CONNECT_KEY_IDENTIFIER="$APPLE_PROD_API_KEY"
-  #         export APP_STORE_CONNECT_PRIVATE_KEY=`cat ios/AuthKey_"$APPLE_PROD_API_KEY".p8`
-  #         app-store-connect fetch-signing-files fr.fabrique.social.gouv.passemploi.rsa \
-  #           --platform IOS \
-  #           --type IOS_APP_STORE \
-  #           --certificate-key=@env:APPLE_P12_PRIVATE_KEY \
-  #           --create
-  #       env:
-  #         APPLE_PROD_API_ISSUER: ${{ secrets.APPLE_PROD_API_ISSUER }}
-  #         APPLE_PROD_API_KEY: ${{ secrets.APPLE_PROD_API_KEY }}
-  #         APPLE_P12_PRIVATE_KEY: ${{secrets.APPLE_P12_PRIVATE_KEY}}
+      - name: BRSA - Fetch the code signing files from App Store Connect
+        shell: bash
+        run: |
+          export APP_STORE_CONNECT_ISSUER_ID="$APPLE_PROD_API_ISSUER"
+          export APP_STORE_CONNECT_KEY_IDENTIFIER="$APPLE_PROD_API_KEY"
+          export APP_STORE_CONNECT_PRIVATE_KEY=`cat ios/AuthKey_"$APPLE_PROD_API_KEY".p8`
+          app-store-connect fetch-signing-files fr.fabrique.social.gouv.passemploi.rsa \
+            --platform IOS \
+            --type IOS_APP_STORE \
+            --certificate-key=@env:APPLE_P12_PRIVATE_KEY \
+            --create
+        env:
+          APPLE_PROD_API_ISSUER: ${{ secrets.APPLE_PROD_API_ISSUER }}
+          APPLE_PROD_API_KEY: ${{ secrets.APPLE_PROD_API_KEY }}
+          APPLE_P12_PRIVATE_KEY: ${{secrets.APPLE_P12_PRIVATE_KEY}}
 
-  #     - name: BRSA - Add fetched certificates to keychain
-  #       shell: bash
-  #       run: |
-  #         keychain add-certificates
+      - name: BRSA - Add fetched certificates to keychain
+        shell: bash
+        run: |
+          keychain add-certificates
 
-  #     - name: BRSA - Update Xcode project settings with fetched code signing profiles and create prod_export_options.plist
-  #       shell: bash
-  #       run: |
-  #         xcode-project use-profiles --export-options-plist ios/prod_export_options.plist
+      - name: BRSA - Update Xcode project settings with fetched code signing profiles and create prod_export_options.plist
+        shell: bash
+        run: |
+          xcode-project use-profiles --export-options-plist ios/prod_export_options.plist
 
-  #     - name: BRSA - Build IPA with generated prod_export_options.plist
-  #       shell: bash
-  #       run: |
-  #         flutter build ipa \
-  #         -t lib/brsa_main.dart \
-  #         --flavor brsaProd \
-  #         --release \
-  #         --build-number=${{ needs.pre-build.outputs.date }} \
-  #         --export-options-plist=ios/prod_export_options.plist \
-  #         --no-pub \
-  #         --verbose
+      - name: BRSA - Build IPA with generated prod_export_options.plist
+        shell: bash
+        run: |
+          flutter build ipa \
+          -t lib/brsa_main.dart \
+          --flavor brsaProd \
+          --release \
+          --build-number=${{ needs.pre-build.outputs.date }} \
+          --export-options-plist=ios/prod_export_options.plist \
+          --no-pub \
+          --verbose
 
-  #     - name: BRSA - Deploy app to App Store Connect
-  #       shell: bash
-  #       run: |
-  #         mv "$(find $(pwd) -name "pass emploi.ipa")" pass-emploi.ipa
-  #         export APP_STORE_CONNECT_ISSUER_ID="$APPLE_PROD_API_ISSUER"
-  #         export APP_STORE_CONNECT_KEY_IDENTIFIER="$APPLE_PROD_API_KEY"
-  #         export APP_STORE_CONNECT_PRIVATE_KEY=`cat ios/AuthKey_"$APPLE_PROD_API_KEY".p8`
-  #         app-store-connect publish \
-  #           --path $(find $(pwd) -name "pass-emploi.ipa")
-  #       env:
-  #         APPLE_PROD_API_ISSUER: ${{ secrets.APPLE_PROD_API_ISSUER }}
-  #         APPLE_PROD_API_KEY: ${{ secrets.APPLE_PROD_API_KEY }}
-  #         APPLE_P12_PRIVATE_KEY: ${{secrets.APPLE_P12_PRIVATE_KEY}}
+      - name: BRSA - Deploy app to App Store Connect
+        shell: bash
+        run: |
+          mv "$(find $(pwd) -name "pass emploi.ipa")" pass-emploi.ipa
+          export APP_STORE_CONNECT_ISSUER_ID="$APPLE_PROD_API_ISSUER"
+          export APP_STORE_CONNECT_KEY_IDENTIFIER="$APPLE_PROD_API_KEY"
+          export APP_STORE_CONNECT_PRIVATE_KEY=`cat ios/AuthKey_"$APPLE_PROD_API_KEY".p8`
+          app-store-connect publish \
+            --path $(find $(pwd) -name "pass-emploi.ipa")
+        env:
+          APPLE_PROD_API_ISSUER: ${{ secrets.APPLE_PROD_API_ISSUER }}
+          APPLE_PROD_API_KEY: ${{ secrets.APPLE_PROD_API_KEY }}
+          APPLE_P12_PRIVATE_KEY: ${{secrets.APPLE_P12_PRIVATE_KEY}}
