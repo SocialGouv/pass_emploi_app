@@ -38,8 +38,7 @@ class RendezvousDetailsViewModel extends Equatable {
   final bool withIfAbsentPart;
   final String? withAnimateur;
   final String? withDateDerniereMiseAJour;
-  final ChatPartageSource? shareToConseillerSource;
-  final String? shareToConseillerButtonTitle;
+  final RendezvousCtaVm? shareToConseillerButton;
   final VisioButtonState visioButtonState;
   final Function() onRetry;
   final String? trackingPageName;
@@ -76,8 +75,7 @@ class RendezvousDetailsViewModel extends Equatable {
     required this.withIfAbsentPart,
     this.withAnimateur,
     this.withDateDerniereMiseAJour,
-    this.shareToConseillerSource,
-    this.shareToConseillerButtonTitle,
+    this.shareToConseillerButton,
     required this.visioButtonState,
     required this.onRetry,
     this.trackingPageName,
@@ -110,7 +108,6 @@ class RendezvousDetailsViewModel extends Equatable {
     final comment = (rdv.comment != null && rdv.comment!.trim().isNotEmpty) ? rdv.comment : null;
     final isConseillerPresent = rdv.withConseiller ?? false;
     final isInscrit = rdv.estInscrit ?? false;
-    final shareSource = _shareToConseillerSource(source, rdv);
     return RendezvousDetailsViewModel(
       displayState: DisplayState.CONTENT,
       navbarTitle: _navbarTitle(source, rdv),
@@ -132,8 +129,7 @@ class RendezvousDetailsViewModel extends Equatable {
       withIfAbsentPart: _estCeQueMaPresenceEstRequise(source, isInscrit),
       withAnimateur: _withAnimateur(source, rdv.animateur),
       withDateDerniereMiseAJour: _withDateDerniereMiseAJour(dateDerniereMiseAJour),
-      shareToConseillerSource: shareSource,
-      shareToConseillerButtonTitle: _shareTitle(shareSource),
+      shareToConseillerButton: _shareToConseillerButton(source, rdv), // _shareTitle(shareSource),
       visioButtonState: _visioButtonState(rdv),
       visioRedirectUrl: rdv.visioRedirectUrl,
       onRetry: () => {},
@@ -204,8 +200,7 @@ class RendezvousDetailsViewModel extends Equatable {
       withModalityPart,
       withIfAbsentPart,
       withDateDerniereMiseAJour,
-      shareToConseillerSource,
-      shareToConseillerButtonTitle,
+      shareToConseillerButton,
       visioButtonState,
       trackingPageName,
       title,
@@ -380,10 +375,42 @@ ChatPartageSource? _shareToConseillerSource(RendezvousStateSource source, Rendez
   return null;
 }
 
-String? _shareTitle(ChatPartageSource? source) {
-  return switch (source) {
-    null => null,
-    ChatPartageSessionMiloSource _ => Strings.shareToConseillerDemandeInscription,
-    _ => Strings.shareToConseiller,
-  };
+RendezvousCtaVm? _shareToConseillerButton(RendezvousStateSource source, Rendezvous rdv) {
+  if (rdv.estInscrit == true) return null;
+  if (rdv.autoInscriptionAvailable) {
+    return RendezVousAutoInscription(
+        onPressed: () => {
+              // TODO: dispatch autoinscription action
+            });
+  }
+  final shareSource = _shareToConseillerSource(source, rdv);
+  if (shareSource != null) return RendezVousShareToConseiller(chatPartageSource: shareSource);
+
+  return null;
+}
+
+sealed class RendezvousCtaVm extends Equatable {
+  final void Function()? onPressed;
+  final String label;
+
+  RendezvousCtaVm({required this.onPressed, required this.label});
+
+  @override
+  List<Object?> get props => [label];
+}
+
+class RendezVousAutoInscription extends RendezvousCtaVm {
+  RendezVousAutoInscription({required super.onPressed}) : super(label: Strings.autoInscriptionCta);
+}
+
+class RendezVousShareToConseillerDemandeInscription extends RendezvousCtaVm {
+  RendezVousShareToConseillerDemandeInscription({required super.onPressed})
+      : super(label: Strings.shareToConseillerDemandeInscription);
+}
+
+class RendezVousShareToConseiller extends RendezvousCtaVm {
+  final ChatPartageSource chatPartageSource;
+
+  RendezVousShareToConseiller({required this.chatPartageSource})
+      : super(label: Strings.shareToConseiller, onPressed: null);
 }

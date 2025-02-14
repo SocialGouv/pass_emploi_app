@@ -94,6 +94,13 @@ class Rendezvous extends Equatable {
       dateMaxInscription,
     ];
   }
+
+  bool get autoInscriptionAvailable =>
+      estInscrit == false && //
+      autoinscription == true &&
+      nombreDePlacesRestantes != null &&
+      nombreDePlacesRestantes! > 0 &&
+      (dateMaxInscription == null || dateMaxInscription?.isAfter(DateTime.now()) == true);
 }
 
 class RendezvousType extends Equatable {

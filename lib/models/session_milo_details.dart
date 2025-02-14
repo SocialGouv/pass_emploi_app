@@ -15,7 +15,7 @@ class SessionMiloDetails extends Equatable {
   final String? animateur;
   final String? description;
   final String? commentaire;
-  final bool autoinscription;
+  final bool? autoinscription;
   final int? nombreDePlacesRestantes;
   final DateTime? dateMaxInscription;
 
@@ -49,7 +49,7 @@ class SessionMiloDetails extends Equatable {
       animateur: json['animateur'] as String?,
       description: json['description'] as String?,
       commentaire: json['commentaire'] as String?,
-      autoinscription: json["autoinscription"] as bool,
+      autoinscription: json["autoinscription"] as bool?,
       nombreDePlacesRestantes: json["nbPlacesDisponibles"] as int?,
       dateMaxInscription: (json["dateMaxInscription"] as String?)?.toDateTimeUtcOnLocalTimeZone(),
     );

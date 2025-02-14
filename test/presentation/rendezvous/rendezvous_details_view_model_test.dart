@@ -724,8 +724,20 @@ void main() {
           });
 
           test('should be shareable', () {
-            expect(viewModel.shareToConseillerSource, ChatPartageEventSource("1"));
-            expect(viewModel.shareToConseillerButtonTitle, "Partager à mon conseiller");
+            expect(
+              viewModel.shareToConseillerButton,
+              isA<RendezVousShareToConseiller>()
+                  .having(
+                    (item) => item.label,
+                    "label",
+                    "Partager à mon conseiller",
+                  )
+                  .having(
+                    (item) => item.chatPartageSource,
+                    "source",
+                    ChatPartageEventSource("1"),
+                  ),
+            );
           });
         });
 
@@ -767,8 +779,7 @@ void main() {
             });
 
             test('should not be shareable', () {
-              expect(viewModel.shareToConseillerSource, isNull);
-              expect(viewModel.shareToConseillerButtonTitle, isNull);
+              expect(viewModel.shareToConseillerButton, isNull);
             });
           });
 
@@ -807,8 +818,20 @@ void main() {
             });
 
             test('should be shareable', () {
-              expect(viewModel.shareToConseillerSource, ChatPartageEventSource("1"));
-              expect(viewModel.shareToConseillerButtonTitle, "Partager à mon conseiller");
+              expect(
+                viewModel.shareToConseillerButton,
+                isA<RendezVousShareToConseiller>()
+                    .having(
+                      (item) => item.label,
+                      "label",
+                      "Partager à mon conseiller",
+                    )
+                    .having(
+                      (item) => item.chatPartageSource,
+                      "source",
+                      ChatPartageEventSource("1"),
+                    ),
+              );
             });
           });
         });
@@ -830,8 +853,107 @@ void main() {
         );
 
         // Then
-        expect(viewModel.shareToConseillerSource, ChatPartageSessionMiloSource("1"));
-        expect(viewModel.shareToConseillerButtonTitle, "Faire une demande d’inscription");
+        expect(
+          viewModel.shareToConseillerButton,
+          isA<RendezVousShareToConseiller>()
+              .having(
+                (item) => item.label,
+                "label",
+                "Partager à mon conseiller",
+              )
+              .having(
+                (item) => item.chatPartageSource,
+                "source",
+                ChatPartageSessionMiloSource("1"),
+              ),
+        );
+      });
+
+      group('autoinscription available', () {
+        final List<AutoInscriptionTest> autoInscriptionTests = [
+          AutoInscriptionTest(
+            title: "should not display autoinscription button if estInscrit is true",
+            estInscrit: true,
+            autoinscription: true,
+            nombreDePlacesRestantes: 10,
+            dateMaxInscription: DateTime(2050),
+            expected: false,
+          ),
+          AutoInscriptionTest(
+            title: "should not display autoinscription button if autoinscription is false",
+            estInscrit: false,
+            autoinscription: false,
+            nombreDePlacesRestantes: 10,
+            dateMaxInscription: DateTime(2050),
+            expected: false,
+          ),
+          AutoInscriptionTest(
+            title: "should not display autoinscription if nombreDePlacesRestantes is null",
+            estInscrit: false,
+            autoinscription: true,
+            nombreDePlacesRestantes: null,
+            dateMaxInscription: DateTime(2050),
+            expected: false,
+          ),
+          AutoInscriptionTest(
+            title: "should not display autoinscription if nombreDePlacesRestantes is 0",
+            estInscrit: false,
+            autoinscription: true,
+            nombreDePlacesRestantes: 0,
+            dateMaxInscription: DateTime(2050),
+            expected: false,
+          ),
+          AutoInscriptionTest(
+            title: "should not display autoinscription if dateMaxInscription is in past",
+            estInscrit: false,
+            autoinscription: true,
+            nombreDePlacesRestantes: 10,
+            dateMaxInscription: DateTime(2024),
+            expected: false,
+          ),
+          AutoInscriptionTest(
+            title: "should display autoinscription",
+            estInscrit: false,
+            autoinscription: true,
+            nombreDePlacesRestantes: 10,
+            dateMaxInscription: DateTime(2050),
+            expected: true,
+          ),
+          AutoInscriptionTest(
+            title: "should display autoinscription if dateMaxInscription is null",
+            estInscrit: false,
+            autoinscription: true,
+            nombreDePlacesRestantes: 10,
+            dateMaxInscription: null,
+            expected: true,
+          ),
+        ];
+
+        for (final autoInscriptionTest in autoInscriptionTests) {
+          test(autoInscriptionTest.title, () {
+            // Given
+            final store = _store(
+              mockRendezvous(
+                id: '1',
+                estInscrit: autoInscriptionTest.estInscrit,
+                autoinscription: autoInscriptionTest.autoinscription,
+                nombreDePlacesRestantes: autoInscriptionTest.nombreDePlacesRestantes,
+                dateMaxInscription: autoInscriptionTest.dateMaxInscription,
+              ),
+            );
+
+            // When
+            final viewModel = RendezvousDetailsViewModel.create(
+              store: store,
+              source: RendezvousStateSource.monSuivi,
+              rdvId: '1',
+              platform: Platform.IOS,
+            );
+
+            // Then
+            expect(viewModel.shareToConseillerButton is RendezVousAutoInscription, autoInscriptionTest.expected);
+          });
+        }
       });
 
       test('full view model test', () {
@@ -1283,4 +1405,22 @@ Store<AppState> _storeNotUpToDate(Rendezvous rendezvous, DateTime? dateDerniereM
         ),
       )
       .store();
+}
+
+class AutoInscriptionTest {
+  final String title;
+  final bool estInscrit;
+  final bool autoinscription;
+  final int? nombreDePlacesRestantes;
+  final DateTime? dateMaxInscription;
+  final bool expected;
+
+  AutoInscriptionTest({
+    required this.title,
+    required this.estInscrit,
+    required this.autoinscription,
+    required this.nombreDePlacesRestantes,
+    required this.dateMaxInscription,
+    required this.expected,
+  });
 }

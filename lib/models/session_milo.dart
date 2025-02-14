@@ -9,7 +9,7 @@ class SessionMilo extends Equatable {
   final DateTime dateDeDebut;
   final SessionMiloType type;
   final bool estInscrit;
-  final bool autoinscription;
+  final bool? autoinscription;
   final int? nombreDePlacesRestantes;
   final DateTime? dateMaxInscription;
 
@@ -33,7 +33,7 @@ class SessionMilo extends Equatable {
       dateDeDebut: (json["dateHeureDebut"] as String).toDateTimeUtcOnLocalTimeZone(),
       type: SessionMiloType.fromJson(json["type"]),
       estInscrit: (json["inscription"] as String?) == "INSCRIT",
-      autoinscription: json["autoinscription"] as bool,
+      autoinscription: json["autoinscription"] as bool?,
       nombreDePlacesRestantes: json["nbPlacesRestantes"] as int?,
       dateMaxInscription: (json["dateMaxInscription"] as String?)?.toDateTimeUtcOnLocalTimeZone(),
     );

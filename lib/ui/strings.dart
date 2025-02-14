@@ -425,6 +425,7 @@ class Strings {
   static String publicInfo = "Information collective";
   static String shareToConseiller = "Partager à mon conseiller";
   static String shareToConseillerDemandeInscription = "Faire une demande d’inscription";
+  static String autoInscriptionCta = "M'inscrire pour participer";
   static String withAnimateurTitle = "Animateur de la session";
 
   static String rendezvousWithConseiller(String conseiller) => "votre conseiller $conseiller";
