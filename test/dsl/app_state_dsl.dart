@@ -782,13 +782,26 @@ extension AppStateDSL on AppState {
     return copyWith(topDemarcheState: TopDemarcheSuccessState(demarches));
   }
 
-  AppState withSuccessSessionMiloDetails({DateTime? dateDeDebut, DateTime? dateDeFin, bool? estInscrit}) {
+  AppState withSuccessSessionMiloDetails({
+    DateTime? dateDeDebut,
+    DateTime? dateDeFin,
+    bool? estInscrit,
+    bool? autoinscription,
+    int? nombreDePlacesRestantes,
+    DateTime? dateMaxInscription,
+  }) {
     return copyWith(
-        sessionMiloDetailsState: SessionMiloDetailsSuccessState(mockSessionMiloDetails(
-      dateDeDebut: dateDeDebut,
-      dateDeFin: dateDeFin,
-      estInscrit: estInscrit,
-    )));
+      sessionMiloDetailsState: SessionMiloDetailsSuccessState(
+        mockSessionMiloDetails(
+          dateDeDebut: dateDeDebut,
+          dateDeFin: dateDeFin,
+          estInscrit: estInscrit,
+          autoinscription: autoinscription,
+          nombreDePlacesRestantes: nombreDePlacesRestantes,
+          dateMaxInscription: dateMaxInscription,
+        ),
+      ),
+    );
   }
 
   AppState withLoadingSessionMiloDetails() {

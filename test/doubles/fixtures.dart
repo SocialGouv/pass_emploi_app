@@ -1208,6 +1208,9 @@ SessionMiloDetails mockSessionMiloDetails({
   DateTime? dateDeDebut,
   DateTime? dateDeFin,
   bool? estInscrit,
+  bool? autoinscription,
+  int? nombreDePlacesRestantes,
+  DateTime? dateMaxInscription,
 }) =>
     SessionMiloDetails(
       id: id,
@@ -1221,7 +1224,9 @@ SessionMiloDetails mockSessionMiloDetails({
       description: null,
       commentaire: "Lorem ipsus",
       estInscrit: estInscrit ?? true,
-      autoinscription: null,
+      autoinscription: autoinscription,
+      nombreDePlacesRestantes: nombreDePlacesRestantes,
+      dateMaxInscription: dateMaxInscription,
     );
 
 SessionMilo mockSessionMilo({String? id, DateTime? dateDeDebut}) {

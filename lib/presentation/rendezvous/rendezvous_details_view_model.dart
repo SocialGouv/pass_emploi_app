@@ -129,7 +129,7 @@ class RendezvousDetailsViewModel extends Equatable {
       withIfAbsentPart: _estCeQueMaPresenceEstRequise(source, isInscrit),
       withAnimateur: _withAnimateur(source, rdv.animateur),
       withDateDerniereMiseAJour: _withDateDerniereMiseAJour(dateDerniereMiseAJour),
-      shareToConseillerButton: _shareToConseillerButton(source, rdv), // _shareTitle(shareSource),
+      shareToConseillerButton: _shareToConseillerButton(source, rdv),
       visioButtonState: _visioButtonState(rdv),
       visioRedirectUrl: rdv.visioRedirectUrl,
       onRetry: () => {},
@@ -368,25 +368,25 @@ bool _estCeQueMaPresenceEstRequise(RendezvousStateSource source, bool isInscrit)
   return (!source.isFromEvenements && !source.isMiloDetails) || isInscrit;
 }
 
-ChatPartageSource? _shareToConseillerSource(RendezvousStateSource source, Rendezvous rdv) {
+RendezvousCtaVm? _shareToConseillerButton(RendezvousStateSource source, Rendezvous rdv) {
   if (rdv.estInscrit == true) return null;
-  if (source.isFromEvenements) return ChatPartageEventSource(rdv.id);
-  if (source.isMiloDetails) return ChatPartageSessionMiloSource(rdv.id);
+  if (source.isFromEvenements) return RendezVousShareToConseiller(chatPartageSource: ChatPartageEventSource(rdv.id));
+  if (source.isMiloDetails) return _miloCta(rdv);
   return null;
 }
 
-RendezvousCtaVm? _shareToConseillerButton(RendezvousStateSource source, Rendezvous rdv) {
-  if (rdv.estInscrit == true) return null;
+RendezvousCtaVm _miloCta(Rendezvous rdv) {
   if (rdv.autoInscriptionAvailable) {
     return RendezVousAutoInscription(
         onPressed: () => {
               // TODO: dispatch autoinscription action
             });
   }
-  final shareSource = _shareToConseillerSource(source, rdv);
-  if (shareSource != null) return RendezVousShareToConseiller(chatPartageSource: shareSource);
-
-  return null;
+  if (rdv.isComplet) return RendezVousShareToConseiller(chatPartageSource: ChatPartageSessionMiloSource(rdv.id));
+  return RendezVousShareToConseillerDemandeInscription(
+      onPressed: () => {
+            // TODO: dispatch send message
+          });
 }
 
 sealed class RendezvousCtaVm extends Equatable {

@@ -101,6 +101,8 @@ class Rendezvous extends Equatable {
       nombreDePlacesRestantes != null &&
       nombreDePlacesRestantes! > 0 &&
       (dateMaxInscription == null || dateMaxInscription?.isAfter(DateTime.now()) == true);
+
+  bool get isComplet => nombreDePlacesRestantes != null && nombreDePlacesRestantes == 0;
 }
 
 class RendezvousType extends Equatable {

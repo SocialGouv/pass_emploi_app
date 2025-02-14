@@ -853,20 +853,7 @@ void main() {
         );
 
         // Then
-        expect(
-          viewModel.shareToConseillerButton,
-          isA<RendezVousShareToConseiller>()
-              .having(
-                (item) => item.label,
-                "label",
-                "Partager à mon conseiller",
-              )
-              .having(
-                (item) => item.chatPartageSource,
-                "source",
-                ChatPartageSessionMiloSource("1"),
-              ),
-        );
+        expect(viewModel.shareToConseillerButton, isA<RendezVousShareToConseillerDemandeInscription>());
       });
 
       group('autoinscription available', () {
@@ -932,20 +919,20 @@ void main() {
         for (final autoInscriptionTest in autoInscriptionTests) {
           test(autoInscriptionTest.title, () {
             // Given
-            final store = _store(
-              mockRendezvous(
-                id: '1',
-                estInscrit: autoInscriptionTest.estInscrit,
-                autoinscription: autoInscriptionTest.autoinscription,
-                nombreDePlacesRestantes: autoInscriptionTest.nombreDePlacesRestantes,
-                dateMaxInscription: autoInscriptionTest.dateMaxInscription,
-              ),
-            );
+            final store = givenState()
+                .loggedIn() //
+                .withSuccessSessionMiloDetails(
+                  estInscrit: autoInscriptionTest.estInscrit,
+                  autoinscription: autoInscriptionTest.autoinscription,
+                  nombreDePlacesRestantes: autoInscriptionTest.nombreDePlacesRestantes,
+                  dateMaxInscription: autoInscriptionTest.dateMaxInscription,
+                )
+                .store();
 
             // When
             final viewModel = RendezvousDetailsViewModel.create(
               store: store,
-              source: RendezvousStateSource.monSuivi,
+              source: RendezvousStateSource.sessionMiloDetails,
               rdvId: '1',
               platform: Platform.IOS,
             );
@@ -954,6 +941,25 @@ void main() {
             expect(viewModel.shareToConseillerButton is RendezVousAutoInscription, autoInscriptionTest.expected);
           });
         }
+      });
+
+      test('when source is from milo and autoinscription is not available', () {
+        // Given
+        final store = givenState()
+            .loggedIn() //
+            .withSuccessSessionMiloDetails(estInscrit: false)
+            .store();
+
+        // When
+        final viewModel = RendezvousDetailsViewModel.create(
+          store: store,
+          source: RendezvousStateSource.sessionMiloDetails,
+          rdvId: '1',
+          platform: Platform.IOS,
+        );
+
+        // Then
+        expect(viewModel.shareToConseillerButton is RendezVousShareToConseillerDemandeInscription, true);
       });
 
       test('full view model test', () {
