@@ -31,6 +31,7 @@ class RendezvousDetailsViewModel extends Equatable {
   final Color conseillerPresenceColor;
   final bool isAnnule;
   final bool isInscrit;
+  final bool isComplet;
   final bool withConseillerPresencePart;
   final bool withDescriptionPart;
   final bool withModalityPart;
@@ -55,6 +56,7 @@ class RendezvousDetailsViewModel extends Equatable {
   final String? visioRedirectUrl;
   final String? theme;
   final String? description;
+  final String? nombreDePlacesRestantes;
 
   RendezvousDetailsViewModel({
     required this.displayState,
@@ -66,6 +68,7 @@ class RendezvousDetailsViewModel extends Equatable {
     required this.conseillerPresenceLabel,
     required this.conseillerPresenceColor,
     required this.isInscrit,
+    required this.isComplet,
     required this.isAnnule,
     required this.withConseillerPresencePart,
     required this.withDescriptionPart,
@@ -91,6 +94,7 @@ class RendezvousDetailsViewModel extends Equatable {
     this.visioRedirectUrl,
     this.theme,
     this.description,
+    this.nombreDePlacesRestantes,
   });
 
   factory RendezvousDetailsViewModel.create({
@@ -120,6 +124,7 @@ class RendezvousDetailsViewModel extends Equatable {
       conseillerPresenceLabel: isConseillerPresent ? Strings.conseillerIsPresent : Strings.conseillerIsNotPresent,
       conseillerPresenceColor: isConseillerPresent ? AppColors.success : AppColors.warning,
       isInscrit: isInscrit,
+      isComplet: _isComplet(rdv, isInscrit),
       isAnnule: rdv.isAnnule,
       withConseillerPresencePart: _shouldDisplayConseillerPresence(rdv),
       withDescriptionPart: _withDescription(source, rdv),
@@ -142,6 +147,7 @@ class RendezvousDetailsViewModel extends Equatable {
       addressRedirectUri: address != null ? UriHandler().mapsUri(address, platform) : null,
       theme: rdv.theme,
       description: _descriptionFromSource(source, rdv),
+      nombreDePlacesRestantes: _nombreDePlacesRestantes(rdv),
     );
   }
 
@@ -163,12 +169,14 @@ class RendezvousDetailsViewModel extends Equatable {
       conseillerPresenceLabel: '',
       conseillerPresenceColor: Colors.transparent,
       isInscrit: false,
+      isComplet: false,
       isAnnule: false,
       withConseillerPresencePart: false,
       withDescriptionPart: false,
       withModalityPart: false,
       withIfAbsentPart: false,
       visioButtonState: VisioButtonState.HIDDEN,
+      nombreDePlacesRestantes: null,
       onRetry: () {
         source.isMiloDetails
             ? store.dispatch(SessionMiloDetailsRequestAction(rdvId))
@@ -189,6 +197,7 @@ class RendezvousDetailsViewModel extends Equatable {
       conseillerPresenceLabel,
       conseillerPresenceColor,
       isInscrit,
+      isComplet,
       isAnnule,
       withConseillerPresencePart,
       withDescriptionPart,
@@ -212,6 +221,7 @@ class RendezvousDetailsViewModel extends Equatable {
       visioRedirectUrl,
       theme,
       description,
+      nombreDePlacesRestantes,
     ];
   }
 }
@@ -232,6 +242,11 @@ enum VisioButtonState { ACTIVE, INACTIVE, HIDDEN }
 
 Rendezvous? _getRendezvous(Store<AppState> store, RendezvousStateSource source, String rdvId) {
   return _shouldGetRendezvous(source, store) ? store.getRendezvous(source, rdvId) : null;
+}
+
+String? _nombreDePlacesRestantes(Rendezvous rdv) {
+  if (rdv.nombreDePlacesRestantes == null || rdv.nombreDePlacesRestantes == 0) return null;
+  return Strings.placesRestantes(rdv.nombreDePlacesRestantes!);
 }
 
 bool _shouldGetRendezvous(RendezvousStateSource source, Store<AppState> store) {
@@ -308,6 +323,10 @@ String? _createur(RendezvousStateSource source, Rendezvous rdv) {
   if (rdv.source.isMilo) return null;
   final createur = rdv.createur;
   return createur != null ? Strings.rendezvousCreateur('${createur.firstName} ${createur.lastName}') : null;
+}
+
+bool _isComplet(Rendezvous rdv, bool isInscrit) {
+  return !isInscrit && rdv.nombreDePlacesRestantes == 0;
 }
 
 bool _withModalityPart(Rendezvous rdv) {

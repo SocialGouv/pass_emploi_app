@@ -436,6 +436,9 @@ class Strings {
   static String rendezvousModalityDetailsMessage(String modality) => "Le rendez-vous se fera $modality";
 
   static String rendezvousModalityCardMessage(String modality, String conseiller) => "$modality avec $conseiller";
+  static String placesRestantes(int count) => "$count ${count == 1 ? placesRestanteSingulier : placesRestantePluriel}";
+  static String placesRestanteSingulier = "place restante";
+  static String placesRestantePluriel = "places restantes";
 
   static String phone(String phone) => "Téléphone : $phone";
 
@@ -1306,6 +1309,7 @@ class Strings {
   static String eventListHeaderText = "Retrouvez ici l’ensemble des événements organisés par votre Mission locale";
   static String eventVousEtesDejaInscrit = "Vous êtes déjà inscrit";
   static String eventInscrivezVousPourParticiper = "Inscrivez-vous pour participer";
+  static String eventComplet = "Complet";
   static String eventAppBarTitle = "Événements";
   static String eventTabMaMissionLocale = "Ma Mission Locale";
   static String eventTabExternes = "Externes";

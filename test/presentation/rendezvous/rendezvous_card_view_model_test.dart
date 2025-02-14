@@ -177,15 +177,15 @@ void main() {
       expect(
         viewModel,
         RendezvousCardViewModel(
-          id: '1',
-          tag: 'Atelier',
-          dateTime: RendezVousDateTimeHour("10h20"),
-          inscriptionStatus: InscriptionStatus.hidden,
-          isAnnule: false,
-          title: 'Super bio',
-          description: null,
-          place: 'Par téléphone',
-        ),
+            id: '1',
+            tag: 'Atelier',
+            dateTime: RendezVousDateTimeHour("10h20"),
+            inscriptionStatus: InscriptionStatus.hidden,
+            isAnnule: false,
+            title: 'Super bio',
+            description: null,
+            place: 'Par téléphone',
+            nombreDePlacesRestantes: null),
       );
     });
 
@@ -249,6 +249,27 @@ void main() {
         // Then
         expect(viewModel.inscriptionStatus, InscriptionStatus.notInscrit);
       });
+
+      test('should display full status when nombreDePlacesRestantes is 0 and rdv is not inscrit', () {
+        // Given
+        final rdv = mockRendezvous(
+          id: '1',
+          source: RendezvousSource.passEmploi,
+          estInscrit: false,
+          nombreDePlacesRestantes: 0,
+        );
+        final store = givenState().loggedIn().succeedEventList(animationsCollectives: [rdv]).store();
+
+        // When
+        final viewModel = RendezvousCardViewModel.create(
+          store,
+          RendezvousStateSource.eventListAnimationsCollectives,
+          '1',
+        );
+
+        // Then
+        expect(viewModel.inscriptionStatus, InscriptionStatus.full);
+      });
     });
 
     group('date and time', () {
@@ -290,6 +311,96 @@ void main() {
 
         // Then
         expect(viewModel.dateTime, RendezVousDateTimeHour("10h20"));
+      });
+    });
+
+    group('nombreDePlacesRestantes', () {
+      test('should display nothing when nombreDePlacesRestantes is null', () {
+        // Given
+        final rdv = mockRendezvous(
+          id: '1',
+          source: RendezvousSource.passEmploi,
+          estInscrit: false,
+          date: DateTime(2021, 12, 23, 10, 20),
+          duration: 60,
+          nombreDePlacesRestantes: null,
+        );
+        final store = givenState() //
+            .loggedIn()
+            .monSuivi(monSuivi: mockMonSuivi(rendezvous: [rdv]))
+            .store();
+
+        // When
+        final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.monSuivi, '1');
+
+        // Then
+        expect(viewModel.nombreDePlacesRestantes, null);
+      });
+
+      test('should display nothing when nombreDePlacesRestantes is 0', () {
+        // Given
+        final rdv = mockRendezvous(
+          id: '1',
+          source: RendezvousSource.passEmploi,
+          estInscrit: false,
+          date: DateTime(2021, 12, 23, 10, 20),
+          duration: 60,
+          nombreDePlacesRestantes: 0,
+        );
+        final store = givenState() //
+            .loggedIn()
+            .monSuivi(monSuivi: mockMonSuivi(rendezvous: [rdv]))
+            .store();
+
+        // When
+        final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.monSuivi, '1');
+
+        // Then
+        expect(viewModel.nombreDePlacesRestantes, null);
+      });
+
+      test('should display singular string when nombreDePlacesRestantes is 1', () {
+        // Given
+        final rdv = mockRendezvous(
+          id: '1',
+          source: RendezvousSource.passEmploi,
+          estInscrit: false,
+          date: DateTime(2021, 12, 23, 10, 20),
+          duration: 60,
+          nombreDePlacesRestantes: 1,
+        );
+        final store = givenState() //
+            .loggedIn()
+            .monSuivi(monSuivi: mockMonSuivi(rendezvous: [rdv]))
+            .store();
+
+        // When
+        final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.monSuivi, '1');
+
+        // Then
+        expect(viewModel.nombreDePlacesRestantes, "1 place restante");
+      });
+
+      test('should display plural string when nombreDePlacesRestantes is more than 1', () {
+        // Given
+        final rdv = mockRendezvous(
+          id: '1',
+          source: RendezvousSource.passEmploi,
+          estInscrit: false,
+          date: DateTime(2021, 12, 23, 10, 20),
+          duration: 60,
+          nombreDePlacesRestantes: 10,
+        );
+        final store = givenState() //
+            .loggedIn()
+            .monSuivi(monSuivi: mockMonSuivi(rendezvous: [rdv]))
+            .store();
+
+        // When
+        final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.monSuivi, '1');
+
+        // Then
+        expect(viewModel.nombreDePlacesRestantes, "10 places restantes");
       });
     });
   });

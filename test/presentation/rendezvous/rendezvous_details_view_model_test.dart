@@ -874,6 +874,7 @@ void main() {
             conseillerPresenceLabel: 'Votre conseiller sera présent',
             conseillerPresenceColor: AppColors.success,
             isInscrit: false,
+            isComplet: false,
             isAnnule: false,
             withConseillerPresencePart: true,
             withDescriptionPart: false,
@@ -890,6 +891,7 @@ void main() {
             organism: 'organism',
             address: 'address',
             addressRedirectUri: Uri.parse('https://maps.apple.com/maps?q=address'),
+            nombreDePlacesRestantes: null,
           ),
         );
       });
@@ -934,29 +936,32 @@ void main() {
         expect(
           viewModel,
           RendezvousDetailsViewModel(
-              displayState: DisplayState.CONTENT,
-              navbarTitle: "Mon rendez-vous",
-              id: "1",
-              tag: "Atelier",
-              date: '01 mars 2022',
-              hourAndDuration: '00h',
-              conseillerPresenceLabel: 'Votre conseiller ne sera pas présent',
-              conseillerPresenceColor: AppColors.warning,
-              isInscrit: true,
-              isAnnule: false,
-              withConseillerPresencePart: false,
-              withDescriptionPart: true,
-              withModalityPart: true,
-              withIfAbsentPart: true,
-              visioButtonState: VisioButtonState.HIDDEN,
-              onRetry: () => {},
-              commentTitle: 'Commentaire',
-              title: 'ANIMATION COLLECTIVE POUR TEST - SESSION TEST',
-              trackingPageName: "session_milo/detail",
-              comment: 'Lorem ipsus',
-              address: 'Paris',
-              addressRedirectUri: Uri.parse('https://maps.apple.com/maps?q=Paris'),
-              description: "--"),
+            displayState: DisplayState.CONTENT,
+            navbarTitle: "Mon rendez-vous",
+            id: "1",
+            tag: "Atelier",
+            date: '01 mars 2022',
+            hourAndDuration: '00h',
+            conseillerPresenceLabel: 'Votre conseiller ne sera pas présent',
+            conseillerPresenceColor: AppColors.warning,
+            isInscrit: true,
+            isComplet: false,
+            isAnnule: false,
+            withConseillerPresencePart: false,
+            withDescriptionPart: true,
+            withModalityPart: true,
+            withIfAbsentPart: true,
+            visioButtonState: VisioButtonState.HIDDEN,
+            onRetry: () => {},
+            commentTitle: 'Commentaire',
+            title: 'ANIMATION COLLECTIVE POUR TEST - SESSION TEST',
+            trackingPageName: "session_milo/detail",
+            comment: 'Lorem ipsus',
+            address: 'Paris',
+            addressRedirectUri: Uri.parse('https://maps.apple.com/maps?q=Paris'),
+            description: "--",
+            nombreDePlacesRestantes: null,
+          ),
         );
       });
     });
@@ -1125,6 +1130,143 @@ void main() {
 
       // Then
       expect(viewModel.trackingPageName, 'rdv/detail');
+    });
+  });
+
+  group('nombreDePlacesRestantes', () {
+    test('should display nothing when nombreDePlacesRestantes is null', () {
+      // Given
+      final rdv = mockRendezvous(
+        id: '1',
+        source: RendezvousSource.passEmploi,
+        estInscrit: false,
+        date: DateTime(2021, 12, 23, 10, 20),
+        duration: 60,
+        nombreDePlacesRestantes: null,
+      );
+      final store = givenState() //
+          .loggedIn()
+          .monSuivi(monSuivi: mockMonSuivi(rendezvous: [rdv]))
+          .store();
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(
+        store: store,
+        source: RendezvousStateSource.monSuivi,
+        rdvId: '1',
+        platform: Platform.IOS,
+      );
+
+      // Then
+      expect(viewModel.nombreDePlacesRestantes, null);
+    });
+
+    test('should display nothing when nombreDePlacesRestantes is 0', () {
+      // Given
+      final rdv = mockRendezvous(
+        id: '1',
+        source: RendezvousSource.passEmploi,
+        estInscrit: false,
+        date: DateTime(2021, 12, 23, 10, 20),
+        duration: 60,
+        nombreDePlacesRestantes: 0,
+      );
+      final store = givenState() //
+          .loggedIn()
+          .monSuivi(monSuivi: mockMonSuivi(rendezvous: [rdv]))
+          .store();
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(
+        store: store,
+        source: RendezvousStateSource.monSuivi,
+        rdvId: '1',
+        platform: Platform.IOS,
+      );
+
+      // Then
+      expect(viewModel.nombreDePlacesRestantes, null);
+    });
+
+    test('should display singular string when nombreDePlacesRestantes is 1', () {
+      // Given
+      final rdv = mockRendezvous(
+        id: '1',
+        source: RendezvousSource.passEmploi,
+        estInscrit: false,
+        date: DateTime(2021, 12, 23, 10, 20),
+        duration: 60,
+        nombreDePlacesRestantes: 1,
+      );
+      final store = givenState() //
+          .loggedIn()
+          .monSuivi(monSuivi: mockMonSuivi(rendezvous: [rdv]))
+          .store();
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(
+        store: store,
+        source: RendezvousStateSource.monSuivi,
+        rdvId: '1',
+        platform: Platform.IOS,
+      );
+
+      // Then
+      expect(viewModel.nombreDePlacesRestantes, "1 place restante");
+    });
+
+    test('should display plural string when nombreDePlacesRestantes is more than 1', () {
+      // Given
+      final rdv = mockRendezvous(
+        id: '1',
+        source: RendezvousSource.passEmploi,
+        estInscrit: false,
+        date: DateTime(2021, 12, 23, 10, 20),
+        duration: 60,
+        nombreDePlacesRestantes: 10,
+      );
+      final store = givenState() //
+          .loggedIn()
+          .monSuivi(monSuivi: mockMonSuivi(rendezvous: [rdv]))
+          .store();
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(
+        store: store,
+        source: RendezvousStateSource.monSuivi,
+        rdvId: '1',
+        platform: Platform.IOS,
+      );
+
+      // Then
+      expect(viewModel.nombreDePlacesRestantes, "10 places restantes");
+    });
+
+    test('should display isComplet when user is not inscrit and nombre de places restantes is 0', () {
+      // Given
+      final rdv = mockRendezvous(
+        id: '1',
+        source: RendezvousSource.passEmploi,
+        estInscrit: false,
+        date: DateTime(2021, 12, 23, 10, 20),
+        duration: 60,
+        nombreDePlacesRestantes: 0,
+      );
+      final store = givenState() //
+          .loggedIn()
+          .monSuivi(monSuivi: mockMonSuivi(rendezvous: [rdv]))
+          .store();
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(
+        store: store,
+        source: RendezvousStateSource.monSuivi,
+        rdvId: '1',
+        platform: Platform.IOS,
+      );
+
+      // Then
+      expect(viewModel.isComplet, true);
     });
   });
 }

@@ -27,6 +27,11 @@ class CardComplement extends StatelessWidget {
         icon: AppIcons.place_outlined,
       );
 
+  factory CardComplement.person({required String text}) => CardComplement(
+        text: text,
+        icon: AppIcons.people_outline_rounded,
+      );
+
   factory CardComplement.date({required String text}) => CardComplement(
         text: text,
         icon: AppIcons.event,

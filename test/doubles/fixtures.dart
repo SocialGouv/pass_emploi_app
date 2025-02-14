@@ -458,6 +458,7 @@ Rendezvous mockRendezvous({
   String? precision,
   Conseiller? conseiller = const Conseiller(id: 'id', firstName: 'F', lastName: 'L'),
   Conseiller? createur,
+  int? nombreDePlacesRestantes,
 }) {
   return Rendezvous(
     id: id,
@@ -481,6 +482,7 @@ Rendezvous mockRendezvous({
     precision: precision,
     conseiller: conseiller,
     createur: createur,
+    nombreDePlacesRestantes: nombreDePlacesRestantes,
   );
 }
 
@@ -1184,6 +1186,7 @@ SessionMilo mockSessionMiloAtelierCv() => SessionMilo(
       dateDeDebut: parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'),
       type: mockSessionMiloType(),
       estInscrit: true,
+      autoinscription: false,
     );
 
 SessionMilo mockSessionMiloAtelierDecouverte() => SessionMilo(
@@ -1193,6 +1196,7 @@ SessionMilo mockSessionMiloAtelierDecouverte() => SessionMilo(
       dateDeDebut: parseDateTimeUtcWithCurrentTimeZone('2023-01-02T00:00:00.000Z'),
       type: mockSessionMiloType(),
       estInscrit: false,
+      autoinscription: false,
     );
 
 SessionMiloDetails mockSessionMiloDetails({
@@ -1223,6 +1227,7 @@ SessionMilo mockSessionMilo({String? id, DateTime? dateDeDebut}) {
     dateDeDebut: dateDeDebut ?? parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'),
     type: mockSessionMiloType(),
     estInscrit: true,
+    autoinscription: false,
   );
 }
 

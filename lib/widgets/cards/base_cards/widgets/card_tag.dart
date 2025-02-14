@@ -29,6 +29,13 @@ class CardTag extends StatelessWidget {
         contentColor = AppColors.additional3,
         semanticsLabel = null;
 
+  CardTag.warning({
+    required this.text,
+  })  : icon = null,
+        backgroundColor = AppColors.warningLighten,
+        contentColor = AppColors.warning,
+        semanticsLabel = null;
+
   CardTag.secondary({
     required this.text,
     this.icon,

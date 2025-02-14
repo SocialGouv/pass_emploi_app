@@ -124,6 +124,11 @@ class _RendezvousDetailsPageState extends State<RendezvousDetailsPage> {
                     icon: AppIcons.check_circle_outline_rounded,
                   ),
                 ],
+                if (viewModel.isComplet) ...[
+                  CardTag.warning(
+                    text: Strings.eventComplet,
+                  ),
+                ],
               ],
             ),
             SizedBox(height: Margins.spacing_base),
@@ -174,6 +179,8 @@ class _Header extends StatelessWidget {
           children: [
             CardComplement.date(text: viewModel.date),
             CardComplement.hour(text: viewModel.hourAndDuration),
+            if (viewModel.nombreDePlacesRestantes != null)
+              CardComplement.person(text: viewModel.nombreDePlacesRestantes!),
           ],
         ),
       ],

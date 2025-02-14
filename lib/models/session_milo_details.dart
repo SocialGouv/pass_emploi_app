@@ -15,6 +15,9 @@ class SessionMiloDetails extends Equatable {
   final String? animateur;
   final String? description;
   final String? commentaire;
+  final bool autoinscription;
+  final int? nombreDePlacesRestantes;
+  final DateTime? dateMaxInscription;
 
   SessionMiloDetails({
     required this.id,
@@ -28,21 +31,10 @@ class SessionMiloDetails extends Equatable {
     this.animateur,
     this.description,
     this.commentaire,
+    required this.autoinscription,
+    this.nombreDePlacesRestantes,
+    this.dateMaxInscription,
   });
-
-  @override
-  List<Object?> get props => [
-        nomSession,
-        nomOffre,
-        type,
-        dateHeureDebut,
-        dateHeureFin,
-        lieu,
-        estInscrit,
-        animateur,
-        description,
-        commentaire,
-      ];
 
   factory SessionMiloDetails.fromJson(dynamic json) {
     return SessionMiloDetails(
@@ -57,8 +49,28 @@ class SessionMiloDetails extends Equatable {
       animateur: json['animateur'] as String?,
       description: json['description'] as String?,
       commentaire: json['commentaire'] as String?,
+      autoinscription: json["autoinscription"] as bool,
+      nombreDePlacesRestantes: json["nbPlacesDisponibles"] as int?,
+      dateMaxInscription: (json["dateMaxInscription"] as String?)?.toDateTimeUtcOnLocalTimeZone(),
     );
   }
+
+  @override
+  List<Object?> get props => [
+        nomSession,
+        nomOffre,
+        type,
+        dateHeureDebut,
+        dateHeureFin,
+        lieu,
+        estInscrit,
+        animateur,
+        description,
+        commentaire,
+        autoinscription,
+        nombreDePlacesRestantes,
+        dateMaxInscription,
+      ];
 
   Rendezvous get toRendezVous {
     return Rendezvous(
@@ -76,6 +88,9 @@ class SessionMiloDetails extends Equatable {
       duration: dateHeureFin.difference(dateHeureDebut).inMinutes,
       estInscrit: estInscrit,
       createdFromSessionMilo: true,
+      autoinscription: autoinscription,
+      nombreDePlacesRestantes: nombreDePlacesRestantes,
+      dateMaxInscription: dateMaxInscription,
     );
   }
 
