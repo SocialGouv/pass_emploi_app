@@ -9,7 +9,7 @@ import 'package:pass_emploi_app/models/evenement_emploi_partage.dart';
 import 'package:pass_emploi_app/models/event_partage.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/session_milo_partage.dart';
-import 'package:pass_emploi_app/presentation/chat/chat_partage_page_view_model.dart';
+import 'package:pass_emploi_app/presentation/chat/chat_partage_bottom_sheet_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 
 import '../../doubles/fixtures.dart';
@@ -22,7 +22,7 @@ void main() {
       final store = givenState().succeedEventList(animationsCollectives: [mockRendezvous(id: "id-1")]).store();
 
       // When
-      final viewModel = ChatPartagePageViewModel.fromSource(store, ChatPartageEventSource("id-1"));
+      final viewModel = ChatPartageBottomSheetViewModel.fromSource(store, ChatPartageEventSource("id-1"));
 
       // Then
       expect(viewModel.pageTitle, "Partage d’événement");
@@ -42,7 +42,7 @@ void main() {
           .store();
 
       // When
-      final viewModel = ChatPartagePageViewModel.fromSource(store, ChatPartageEventSource("id-1"));
+      final viewModel = ChatPartageBottomSheetViewModel.fromSource(store, ChatPartageEventSource("id-1"));
 
       // Then
       expect(viewModel, isNotNull);
@@ -57,7 +57,7 @@ void main() {
         type: RendezvousType(RendezvousTypeCode.ATELIER, 'Att'),
       );
       final store = givenState().succeedEventList(animationsCollectives: [rdv]).spyStore();
-      final viewModel = ChatPartagePageViewModel.fromSource(store, ChatPartageEventSource("id-1"));
+      final viewModel = ChatPartageBottomSheetViewModel.fromSource(store, ChatPartageEventSource("id-1"));
 
       // When
       viewModel.onShare("Regardes ça");
@@ -87,7 +87,7 @@ void main() {
           .store();
 
       // When
-      final viewModel = ChatPartagePageViewModel.fromSource(store, ChatPartageEvenementEmploiSource());
+      final viewModel = ChatPartageBottomSheetViewModel.fromSource(store, ChatPartageEvenementEmploiSource());
 
       // Then
       expect(viewModel.pageTitle, "Partage de l’événement");
@@ -103,7 +103,7 @@ void main() {
     test('should throw error when evenementEmploiDetailsState is not success', () {
       final store = givenState().store();
       expect(
-        () => ChatPartagePageViewModel.fromSource(store, ChatPartageEvenementEmploiSource()),
+        () => ChatPartageBottomSheetViewModel.fromSource(store, ChatPartageEvenementEmploiSource()),
         throwsA(isA<Exception>()),
       );
     });
@@ -114,7 +114,7 @@ void main() {
           .loggedIn() //
           .copyWith(evenementEmploiDetailsState: EvenementEmploiDetailsSuccessState(mockEvenementEmploiDetails()))
           .spyStore();
-      final viewModel = ChatPartagePageViewModel.fromSource(store, ChatPartageEvenementEmploiSource());
+      final viewModel = ChatPartageBottomSheetViewModel.fromSource(store, ChatPartageEvenementEmploiSource());
 
       // When
       viewModel.onShare("Regardes ça");
@@ -139,7 +139,8 @@ void main() {
       final store = givenState().offreEmploiDetailsSuccess().store();
 
       // When
-      final viewModel = ChatPartagePageViewModel.fromSource(store, ChatPartageOffreEmploiSource(OffreType.alternance));
+      final viewModel =
+          ChatPartageBottomSheetViewModel.fromSource(store, ChatPartageOffreEmploiSource(OffreType.alternance));
 
       // Then
       expect(viewModel.pageTitle, "Partage de l’offre d’alternance");
@@ -157,7 +158,8 @@ void main() {
       final store = givenState().offreEmploiDetailsSuccess().store();
 
       // When
-      final viewModel = ChatPartagePageViewModel.fromSource(store, ChatPartageOffreEmploiSource(OffreType.emploi));
+      final viewModel =
+          ChatPartageBottomSheetViewModel.fromSource(store, ChatPartageOffreEmploiSource(OffreType.emploi));
 
       // Then
       expect(viewModel.pageTitle, "Partage de l’offre d’emploi");
@@ -173,7 +175,7 @@ void main() {
     test('should throw error on failure', () {
       final store = givenState().store();
       expect(
-        () => ChatPartagePageViewModel.fromSource(store, ChatPartageOffreEmploiSource(OffreType.emploi)),
+        () => ChatPartageBottomSheetViewModel.fromSource(store, ChatPartageOffreEmploiSource(OffreType.emploi)),
         throwsA(isA<Exception>()),
       );
     });
@@ -183,7 +185,8 @@ void main() {
       final store = givenState().offreEmploiDetailsSuccess().store();
 
       // When
-      final viewModel = ChatPartagePageViewModel.fromSource(store, ChatPartageOffreEmploiSource(OffreType.emploi));
+      final viewModel =
+          ChatPartageBottomSheetViewModel.fromSource(store, ChatPartageOffreEmploiSource(OffreType.emploi));
 
       // Then
       expect(viewModel.shareableTitle, "Technicien / Technicienne d'installation de réseaux câblés  (H/F)");
@@ -192,7 +195,8 @@ void main() {
     test('should partager offre emploi', () {
       // Given
       final store = givenState().offreEmploiDetailsSuccess().spyStore();
-      final viewModel = ChatPartagePageViewModel.fromSource(store, ChatPartageOffreEmploiSource(OffreType.emploi));
+      final viewModel =
+          ChatPartageBottomSheetViewModel.fromSource(store, ChatPartageOffreEmploiSource(OffreType.emploi));
 
       // When
       viewModel.onShare("Regardes ça");
@@ -218,7 +222,7 @@ void main() {
       final store = givenState().withSuccessSessionMiloDetails().store();
 
       // When
-      final viewModel = ChatPartagePageViewModel.fromSource(store, ChatPartageSessionMiloSource("1"));
+      final viewModel = ChatPartageBottomSheetViewModel.fromSource(store, ChatPartageSessionMiloSource("1"));
 
       // Then
       expect(viewModel.pageTitle, "Partage d’événement");
@@ -235,7 +239,7 @@ void main() {
     test('should throw error when sessionMiloDetailsState is not success', () {
       final store = givenState().store();
       expect(
-        () => ChatPartagePageViewModel.fromSource(store, ChatPartageSessionMiloSource("1")),
+        () => ChatPartageBottomSheetViewModel.fromSource(store, ChatPartageSessionMiloSource("1")),
         throwsA(isA<Exception>()),
       );
     });
@@ -243,7 +247,7 @@ void main() {
     test('should partager session milo', () {
       // Given
       final store = givenState().withSuccessSessionMiloDetails().spyStore();
-      final viewModel = ChatPartagePageViewModel.fromSource(store, ChatPartageSessionMiloSource("1"));
+      final viewModel = ChatPartageBottomSheetViewModel.fromSource(store, ChatPartageSessionMiloSource("1"));
 
       // When
       viewModel.onShare("Regardes ça");
@@ -269,7 +273,8 @@ void main() {
           final store = givenState().offreEmploiDetailsSuccess().copyWith(chatPartageState: state).store();
 
           // When
-          final viewModel = ChatPartagePageViewModel.fromSource(store, ChatPartageOffreEmploiSource(OffreType.emploi));
+          final viewModel =
+              ChatPartageBottomSheetViewModel.fromSource(store, ChatPartageOffreEmploiSource(OffreType.emploi));
 
           // Then
           expect(viewModel.snackbarState, expected);
@@ -285,7 +290,8 @@ void main() {
     test('should reset snackbar', () {
       // Given
       final store = givenState().offreEmploiDetailsSuccess().spyStore();
-      final viewModel = ChatPartagePageViewModel.fromSource(store, ChatPartageOffreEmploiSource(OffreType.emploi));
+      final viewModel =
+          ChatPartageBottomSheetViewModel.fromSource(store, ChatPartageOffreEmploiSource(OffreType.emploi));
 
       // When
       viewModel.snackbarDisplayed();
