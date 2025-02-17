@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_actions.dart';
 import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_actions.dart';
 import 'package:pass_emploi_app/pages/chat/chat_partage_bottom_sheet.dart';
+import 'package:pass_emploi_app/pages/chat/chat_partage_event_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_details_view_model.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
@@ -486,7 +487,11 @@ class _DemandeInscriptionButton extends StatelessWidget {
           label: share.label,
           onPressed: () {
             share.onPressed?.call();
-            // TODO: naviguer sur la page de confirmation
+            Navigator.of(context).push(ChatPartageEventPage.route()).then((value) {
+              if (value == true && context.mounted) {
+                Navigator.of(context).pop();
+              }
+            });
           },
         ),
       ),

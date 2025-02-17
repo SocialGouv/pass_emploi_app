@@ -11,8 +11,9 @@ import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 class Retry extends StatelessWidget {
   final String text;
   final VoidCallback onRetry;
+  final String? buttonLabel;
 
-  const Retry(this.text, this.onRetry);
+  const Retry(this.text, this.onRetry, {this.buttonLabel});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +41,7 @@ class Retry extends StatelessWidget {
                 Text(text, style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
                 SizedBox(height: Margins.spacing_l),
                 PrimaryActionButton(
-                  label: Strings.retry,
+                  label: buttonLabel ?? Strings.retry,
                   onPressed: onRetry,
                 ),
               ],

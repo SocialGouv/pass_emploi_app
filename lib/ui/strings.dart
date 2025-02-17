@@ -1527,4 +1527,11 @@ class Strings {
   static String distanceUpdated(int value) => 'Distance mise à jour à $value km';
 
   static String listOffres = "Liste des offres";
+
+  // Autoinscription
+  static String demandeInscriptionConfirmationTitle = "Demande d'inscription";
+  static String demandeInscriptionError = "Erreur lors de la demande d'inscription";
+  static String demandeInscriptionErrorButton = "Revenir en arrière";
+  static String description = "Votre demande d’inscription à l’événement Pimp ton CV a été envoyé à votre conseiller";
+  static String consulterAutresEvennements = "Consulter d’autres événements";
 }

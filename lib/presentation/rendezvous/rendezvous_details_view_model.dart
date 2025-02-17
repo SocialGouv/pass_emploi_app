@@ -1,11 +1,13 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_actions.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_state.dart';
 import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_actions.dart';
 import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_state.dart';
+import 'package:pass_emploi_app/models/event_partage.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/chat/chat_partage_bottom_sheet_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -129,7 +131,7 @@ class RendezvousDetailsViewModel extends Equatable {
       withIfAbsentPart: _estCeQueMaPresenceEstRequise(source, isInscrit),
       withAnimateur: _withAnimateur(source, rdv.animateur),
       withDateDerniereMiseAJour: _withDateDerniereMiseAJour(dateDerniereMiseAJour),
-      shareToConseillerButton: _shareToConseillerButton(source, rdv),
+      shareToConseillerButton: _shareToConseillerButton(store, source, rdv),
       visioButtonState: _visioButtonState(rdv),
       visioRedirectUrl: rdv.visioRedirectUrl,
       onRetry: () => {},
@@ -368,14 +370,14 @@ bool _estCeQueMaPresenceEstRequise(RendezvousStateSource source, bool isInscrit)
   return (!source.isFromEvenements && !source.isMiloDetails) || isInscrit;
 }
 
-RendezvousCtaVm? _shareToConseillerButton(RendezvousStateSource source, Rendezvous rdv) {
+RendezvousCtaVm? _shareToConseillerButton(Store<AppState> store, RendezvousStateSource source, Rendezvous rdv) {
   if (rdv.estInscrit == true) return null;
   if (source.isFromEvenements) return RendezVousShareToConseiller(chatPartageSource: ChatPartageEventSource(rdv.id));
-  if (source.isMiloDetails) return _miloCta(rdv);
+  if (source.isMiloDetails) return _miloCta(store, rdv);
   return null;
 }
 
-RendezvousCtaVm _miloCta(Rendezvous rdv) {
+RendezvousCtaVm _miloCta(Store<AppState> store, Rendezvous rdv) {
   if (rdv.autoInscriptionAvailable) {
     return RendezVousAutoInscription(
         onPressed: () => {
@@ -384,9 +386,20 @@ RendezvousCtaVm _miloCta(Rendezvous rdv) {
   }
   if (rdv.isComplet) return RendezVousShareToConseiller(chatPartageSource: ChatPartageSessionMiloSource(rdv.id));
   return RendezVousShareToConseillerDemandeInscription(
-      onPressed: () => {
-            // TODO: dispatch send message
-          });
+    onPressed: () => {
+      store.dispatch(
+        ChatPartagerEventAction(
+          EventPartage(
+            id: rdv.id,
+            type: rdv.type,
+            titre: rdv.title ?? "",
+            date: rdv.date,
+            message: Strings.partageSessionMiloDefaultMessage,
+          ),
+        ),
+      ),
+    },
+  );
 }
 
 sealed class RendezvousCtaVm extends Equatable {

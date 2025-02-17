@@ -198,16 +198,12 @@ class ChatPartageBottomSheetViewModel extends Equatable {
 }
 
 DisplayState _snackbarState(Store<AppState> store) {
-  switch (store.state.chatPartageState) {
-    case ChatPartageNotInitializedState():
-      return DisplayState.EMPTY;
-    case ChatPartageLoadingState():
-      return DisplayState.LOADING;
-    case ChatPartageSuccessState():
-      return DisplayState.CONTENT;
-    case ChatPartageFailureState():
-      return DisplayState.FAILURE;
-  }
+  return switch (store.state.chatPartageState) {
+    ChatPartageNotInitializedState() => DisplayState.EMPTY,
+    ChatPartageLoadingState() => DisplayState.LOADING,
+    ChatPartageSuccessState() => DisplayState.CONTENT,
+    ChatPartageFailureState() => DisplayState.FAILURE
+  };
 }
 
 void _partagerEvent(Store<AppState> store, Rendezvous event, String message) {
