@@ -64,6 +64,10 @@ class _Content extends StatelessWidget {
           CardTag.secondary(
             text: Strings.eventInscrivezVousPourParticiper,
           ),
+        if (viewModel.inscriptionStatus == InscriptionStatus.autoinscription)
+          CardTag.secondary(
+            text: Strings.eventAutoInscription,
+          ),
         if (viewModel.inscriptionStatus == InscriptionStatus.full)
           CardTag.warning(
             text: Strings.eventComplet,

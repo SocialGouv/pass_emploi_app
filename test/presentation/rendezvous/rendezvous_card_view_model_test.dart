@@ -230,6 +230,28 @@ void main() {
         expect(viewModel.inscriptionStatus, InscriptionStatus.notInscrit);
       });
 
+      test('should display autoinscription when source is from event list and rdv has autoinscription', () {
+        // Given
+        final rdv = mockRendezvous(
+          id: '1',
+          source: RendezvousSource.passEmploi,
+          estInscrit: false,
+          autoinscription: true,
+          nombreDePlacesRestantes: 1,
+        );
+        final store = givenState().loggedIn().succeedEventList(animationsCollectives: [rdv]).store();
+
+        // When
+        final viewModel = RendezvousCardViewModel.create(
+          store,
+          RendezvousStateSource.eventListAnimationsCollectives,
+          '1',
+        );
+
+        // Then
+        expect(viewModel.inscriptionStatus, InscriptionStatus.autoinscription);
+      });
+
       test('should hide inscription status when source is from event list and rdv is not inscrit', () {
         // Given
         final rdv = mockRendezvous(

@@ -914,6 +914,7 @@ class Strings {
   static String partageSessionMiloNavTitle = "Partage d’événement";
   static String souhaitDePartagerSessionMilo = "Ce que vous souhaitez partager";
   static String partageSessionMiloDefaultMessage = "Bonjour, pouvez-vous m'inscrire à cet événement ?";
+  static String partageSessionMiloCompletMessage = "Bonjour, cet événement m'intéresse";
   static String partageSessionMiloSuccess =
       "L’événement a été partagé à votre conseiller sur la messagerie de l’application";
   static String infoSessionMiloPartageChat = "L’événement sera partagé à votre conseiller dans la messagerie";
@@ -1308,8 +1309,9 @@ class Strings {
   static String eventListEmpty = "Il n’y a pas encore d’évènement dans votre Mission Locale";
   static String eventListEmptySubtitle = "Vous retrouverez ici tous les événements programmés de votre mission locale";
   static String eventListHeaderText = "Retrouvez ici l’ensemble des événements organisés par votre Mission locale";
-  static String eventVousEtesDejaInscrit = "Vous êtes déjà inscrit";
-  static String eventInscrivezVousPourParticiper = "Inscrivez-vous pour participer";
+  static String eventVousEtesDejaInscrit = "Je suis déjà inscrit";
+  static String eventInscrivezVousPourParticiper = "Faire une demande d'inscription";
+  static String eventAutoInscription = "M'inscrire pour participer";
   static String eventComplet = "Complet";
   static String eventAppBarTitle = "Événements";
   static String eventTabMaMissionLocale = "Ma Mission Locale";
@@ -1531,11 +1533,12 @@ class Strings {
   // Autoinscription
   static String demandeInscriptionConfirmationTitle = "Demande d'inscription";
   static String demandeInscriptionError = "Erreur lors de la demande d'inscription";
-  static String demandeInscriptionErrorButton = "Revenir en arrière";
+  static String demandeInscriptionErrorButton = "Revenir au détail";
   static String demandeInscriptionDescription =
-      "Votre demande d’inscription à l’événement Pimp ton CV a été envoyé à votre conseiller";
+      "Votre demande d’inscription à l’événement Pimp ton CV a été envoyée à votre conseiller";
   static String consulterAutresEvennements = "Consulter d’autres événements";
-  static String nombreDePlacesInssufisantesError = "Nombre de places insuffisantes";
+  static String nombreDePlacesInssufisantesError =
+      "Cet événement est victime de son succès. Il n'y a plus de place disponible.";
   static String conseillerInactifError = "Votre conseiller est inactif";
   static String autoInscriptionConfirmation(String eventTitle) =>
       "Votre inscription à l’événement $eventTitle est confirmée";

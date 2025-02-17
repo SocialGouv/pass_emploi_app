@@ -181,7 +181,7 @@ class ChatPartageBottomSheetViewModel extends Equatable {
     return ChatPartageBottomSheetViewModel(
       pageTitle: Strings.partageSessionMiloNavTitle,
       willShareTitle: Strings.souhaitDePartagerSessionMilo,
-      defaultMessage: Strings.partageSessionMiloDefaultMessage,
+      defaultMessage: Strings.partageSessionMiloCompletMessage,
       information: Strings.infoSessionMiloPartageChat,
       shareButtonTitle: Strings.partagerSessionMiloAuConseiller,
       shareableTitle: sessionMiloDetailsState.details.displayableTitle,
