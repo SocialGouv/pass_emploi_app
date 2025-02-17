@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_actions.dart';
 import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_actions.dart';
+import 'package:pass_emploi_app/pages/auto_inscription_page.dart';
 import 'package:pass_emploi_app/pages/chat/chat_partage_bottom_sheet.dart';
 import 'package:pass_emploi_app/pages/chat/chat_partage_event_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -514,7 +515,13 @@ class _AutoInscriptionButton extends StatelessWidget {
           label: share.label,
           onPressed: () {
             share.onPressed?.call();
-            // TODO: naviguer sur la page de confirmation
+            Navigator.of(context).push(AutoInscriptionPage.route()).then(
+              (value) {
+                if (value == true && context.mounted) {
+                  Navigator.of(context).pop();
+                }
+              },
+            );
           },
         ),
       ),

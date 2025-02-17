@@ -9,7 +9,7 @@ class ChatPartageEventViewModel extends Equatable {
 
   factory ChatPartageEventViewModel.create(Store<AppState> store) {
     return ChatPartageEventViewModel(
-      displayState: _snackbarState(store),
+      displayState: _displayState(store),
     );
   }
 
@@ -19,7 +19,7 @@ class ChatPartageEventViewModel extends Equatable {
   List<Object?> get props => [displayState];
 }
 
-DisplayState _snackbarState(Store<AppState> store) {
+DisplayState _displayState(Store<AppState> store) {
   return switch (store.state.chatPartageState) {
     ChatPartageNotInitializedState() => DisplayState.EMPTY,
     ChatPartageLoadingState() => DisplayState.LOADING,

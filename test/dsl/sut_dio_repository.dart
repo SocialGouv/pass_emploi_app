@@ -26,11 +26,11 @@ class DioRepositorySut<REPO> {
     givenResponse(() => Response(requestOptions: _makeRequestOptions(), data: data, statusCode: 200));
   }
 
-  void givenResponseCode(int code) {
+  void givenResponseCode(int code, {dynamic responseData}) {
     dynamic data() {
       final error = DioException(
         requestOptions: _makeRequestOptions(),
-        response: Response(requestOptions: _makeRequestOptions(), statusCode: code),
+        response: Response(requestOptions: _makeRequestOptions(), statusCode: code, data: responseData),
         message: "RepositorySut: givenResponseCode $code",
       );
       return code.isValid() ? null : throw error;

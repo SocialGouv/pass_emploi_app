@@ -7,21 +7,20 @@ class AutoInscriptionRepository {
 
   AutoInscriptionRepository(this._httpClient, [this._crashlytics]);
 
-  Future<AutoInscriptionResult> set(String eventId) async {
-    const url = "/jeunes/TODO:"; // TODO:
+  Future<AutoInscriptionResult> set(String userId, String eventId) async {
+    final url = "/jeunes/milo/$userId/sessions/$eventId/inscrire";
     try {
-      final response = await _httpClient.put(url);
+      await _httpClient.post(url);
       return AutoInscriptionSuccess();
     } catch (e, stack) {
-      // TODO: tester
-      // TODO: tester
-      if (e is DioException && e.error == "NOMBRE_PLACE_INSUFFISANT") {
-        return AutoInscriptionConseillerInactif();
+      if (e is DioException && e.response?.data?["code"] == "NOMBRE_PLACE_INSUFFISANT") {
+        return AutoInscriptionNombrePlacesInsuffisantes();
       }
 
       if (e is DioException && e.response?.statusCode == 422) {
         return AutoInscriptionConseillerInactif();
       }
+
       _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
     }
     return AutoInscriptionGenericError();

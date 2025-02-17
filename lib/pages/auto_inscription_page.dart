@@ -1,7 +1,7 @@
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pass_emploi_app/presentation/chat/chat_partage_event_view_model.dart';
+import 'package:pass_emploi_app/presentation/auto_inscription_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
@@ -15,31 +15,33 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
-class ChatPartageEventPage extends StatelessWidget {
-  const ChatPartageEventPage({super.key});
+class AutoInscriptionPage extends StatelessWidget {
+  const AutoInscriptionPage({super.key});
 
   static Route<bool?> route() {
     return MaterialPageRoute<bool?>(
       fullscreenDialog: true,
-      builder: (_) => const ChatPartageEventPage(),
+      builder: (_) => const AutoInscriptionPage(),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return ConfettiWrapper(builder: (context, confettiController) {
-      return StoreConnector<AppState, ChatPartageEventViewModel>(
-        converter: (store) => ChatPartageEventViewModel.create(store),
-        builder: (context, vm) => _Builder(vm),
-        onWillChange: (oldVm, newVm) => _onWillChange(oldVm, newVm, confettiController),
-        distinct: true,
-      );
-    });
+    return ConfettiWrapper(
+      builder: (context, confettiController) {
+        return StoreConnector<AppState, AutoInscriptionViewModel>(
+          converter: (store) => AutoInscriptionViewModel.create(store),
+          builder: (context, vm) => _Builder(vm),
+          onWillChange: (oldVm, newVm) => _onWillChange(oldVm, newVm, confettiController),
+          distinct: true,
+        );
+      },
+    );
   }
 
   void _onWillChange(
-    ChatPartageEventViewModel? oldVm,
-    ChatPartageEventViewModel newVm,
+    AutoInscriptionViewModel? oldVm,
+    AutoInscriptionViewModel newVm,
     ConfettiController confettiController,
   ) {
     if (newVm.displayState == DisplayState.CONTENT && oldVm?.displayState != DisplayState.CONTENT) {
@@ -50,15 +52,15 @@ class ChatPartageEventPage extends StatelessWidget {
 
 class _Builder extends StatelessWidget {
   const _Builder(this.vm);
-  final ChatPartageEventViewModel vm;
+  final AutoInscriptionViewModel vm;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: SecondaryAppBar(title: Strings.demandeInscriptionConfirmationTitle),
       body: switch (vm.displayState) {
-        DisplayState.CONTENT => _Content(),
-        DisplayState.FAILURE => _Failure(),
+        DisplayState.CONTENT => _Content(vm),
+        DisplayState.FAILURE => _Failure(vm),
         _ => _Loading(),
       },
     );
@@ -66,6 +68,9 @@ class _Builder extends StatelessWidget {
 }
 
 class _Content extends StatelessWidget {
+  final AutoInscriptionViewModel vm;
+
+  const _Content(this.vm);
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -78,8 +83,8 @@ class _Content extends StatelessWidget {
           children: [
             SizedBox.square(
               dimension: height < MediaSizes.height_xs ? 60 : 180,
-              child: Illustration.blue(
-                AppIcons.send_rounded,
+              child: Illustration.green(
+                AppIcons.check_rounded,
               ),
             ),
             SizedBox(height: height < MediaSizes.height_xs ? Margins.spacing_base : Margins.spacing_l),
@@ -88,8 +93,14 @@ class _Content extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  Strings.demandeInscriptionDescription,
+                  vm.eventTitle,
                   style: TextStyles.textMBold,
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: Margins.spacing_base),
+                Text(
+                  Strings.autoInscriptionContent,
+                  style: TextStyles.textBaseRegular,
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: Margins.spacing_l),
@@ -116,10 +127,13 @@ class _Loading extends StatelessWidget {
 }
 
 class _Failure extends StatelessWidget {
+  _Failure(this.vm);
+  final AutoInscriptionViewModel vm;
+
   @override
   Widget build(BuildContext context) {
     return Retry(
-      Strings.demandeInscriptionError,
+      vm.errorMessage ?? "",
       () => Navigator.of(context).pop(),
       buttonLabel: Strings.demandeInscriptionErrorButton,
     );
