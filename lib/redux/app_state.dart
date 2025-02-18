@@ -79,6 +79,7 @@ import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/user.dart';
+import 'package:pass_emploi_app/features/auto_inscription/auto_inscription_state.dart';
 /*AUTOGENERATE-REDUX-APP-STATE-IMPORT*/
 
 class AppState extends Equatable {
@@ -159,6 +160,7 @@ class AppState extends Equatable {
   final DateConsultationNotificationState dateConsultationNotificationState;
   final LocalisationPersistState localisationPersistState;
   final RemoteCampagneAccueilState remoteCampagneAccueilState;
+  final AutoInscriptionState autoInscriptionState;
   /*AUTOGENERATE-REDUX-APP-STATE-PROPERTY*/
 
   AppState({
@@ -239,6 +241,7 @@ class AppState extends Equatable {
     required this.dateConsultationNotificationState,
     required this.localisationPersistState,
     required this.remoteCampagneAccueilState,
+    required this.autoInscriptionState,
     /*AUTOGENERATE-REDUX-APP-STATE-CONSTRUCTOR*/
   });
 
@@ -320,6 +323,7 @@ class AppState extends Equatable {
     final DateConsultationNotificationState? dateConsultationNotificationState,
     final LocalisationPersistState? localisationPersistState,
     final RemoteCampagneAccueilState? remoteCampagneAccueilState,
+    final AutoInscriptionState? autoInscriptionState,
     /*AUTOGENERATE-REDUX-APP-STATE-COPYPARAM*/
   }) {
     return AppState(
@@ -400,6 +404,7 @@ class AppState extends Equatable {
       dateConsultationNotificationState: dateConsultationNotificationState ?? this.dateConsultationNotificationState,
       localisationPersistState: localisationPersistState ?? this.localisationPersistState,
       remoteCampagneAccueilState: remoteCampagneAccueilState ?? this.remoteCampagneAccueilState,
+      autoInscriptionState: autoInscriptionState ?? this.autoInscriptionState,
       /*AUTOGENERATE-REDUX-APP-STATE-COPYBODY*/
     );
   }
@@ -483,6 +488,7 @@ class AppState extends Equatable {
       dateConsultationNotificationState: DateConsultationNotificationState(),
       localisationPersistState: LocalisationPersistNotInitializedState(),
       remoteCampagneAccueilState: RemoteCampagneAccueilState(),
+      autoInscriptionState: AutoInscriptionNotInitializedState(),
       /*AUTOGENERATE-REDUX-APP-STATE-FACTORY*/
     );
   }
@@ -559,6 +565,7 @@ class AppState extends Equatable {
         dateConsultationNotificationState,
         localisationPersistState,
         remoteCampagneAccueilState,
+        autoInscriptionState,
         /*AUTOGENERATE-REDUX-APP-STATE-EQUATABLE*/
       ];
 

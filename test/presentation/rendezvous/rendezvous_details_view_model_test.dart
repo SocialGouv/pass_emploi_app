@@ -3,7 +3,7 @@ import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_a
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_state.dart';
 import 'package:pass_emploi_app/models/conseiller.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
-import 'package:pass_emploi_app/presentation/chat/chat_partage_page_view_model.dart';
+import 'package:pass_emploi_app/presentation/chat/chat_partage_bottom_sheet_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_details_view_model.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
@@ -724,8 +724,20 @@ void main() {
           });
 
           test('should be shareable', () {
-            expect(viewModel.shareToConseillerSource, ChatPartageEventSource("1"));
-            expect(viewModel.shareToConseillerButtonTitle, "Partager à mon conseiller");
+            expect(
+              viewModel.shareToConseillerButton,
+              isA<RendezVousShareToConseiller>()
+                  .having(
+                    (item) => item.label,
+                    "label",
+                    "Partager à mon conseiller",
+                  )
+                  .having(
+                    (item) => item.chatPartageSource,
+                    "source",
+                    ChatPartageEventSource("1"),
+                  ),
+            );
           });
         });
 
@@ -767,8 +779,7 @@ void main() {
             });
 
             test('should not be shareable', () {
-              expect(viewModel.shareToConseillerSource, isNull);
-              expect(viewModel.shareToConseillerButtonTitle, isNull);
+              expect(viewModel.shareToConseillerButton, isNull);
             });
           });
 
@@ -807,8 +818,20 @@ void main() {
             });
 
             test('should be shareable', () {
-              expect(viewModel.shareToConseillerSource, ChatPartageEventSource("1"));
-              expect(viewModel.shareToConseillerButtonTitle, "Partager à mon conseiller");
+              expect(
+                viewModel.shareToConseillerButton,
+                isA<RendezVousShareToConseiller>()
+                    .having(
+                      (item) => item.label,
+                      "label",
+                      "Partager à mon conseiller",
+                    )
+                    .having(
+                      (item) => item.chatPartageSource,
+                      "source",
+                      ChatPartageEventSource("1"),
+                    ),
+              );
             });
           });
         });
@@ -830,8 +853,113 @@ void main() {
         );
 
         // Then
-        expect(viewModel.shareToConseillerSource, ChatPartageSessionMiloSource("1"));
-        expect(viewModel.shareToConseillerButtonTitle, "Faire une demande d’inscription");
+        expect(viewModel.shareToConseillerButton, isA<RendezVousShareToConseillerDemandeInscription>());
+      });
+
+      group('autoinscription available', () {
+        final List<AutoInscriptionTest> autoInscriptionTests = [
+          AutoInscriptionTest(
+            title: "should not display autoinscription button if estInscrit is true",
+            estInscrit: true,
+            autoinscription: true,
+            nombreDePlacesRestantes: 10,
+            dateMaxInscription: DateTime(2050),
+            expected: false,
+          ),
+          AutoInscriptionTest(
+            title: "should not display autoinscription button if autoinscription is false",
+            estInscrit: false,
+            autoinscription: false,
+            nombreDePlacesRestantes: 10,
+            dateMaxInscription: DateTime(2050),
+            expected: false,
+          ),
+          AutoInscriptionTest(
+            title: "should not display autoinscription if nombreDePlacesRestantes is null",
+            estInscrit: false,
+            autoinscription: true,
+            nombreDePlacesRestantes: null,
+            dateMaxInscription: DateTime(2050),
+            expected: false,
+          ),
+          AutoInscriptionTest(
+            title: "should not display autoinscription if nombreDePlacesRestantes is 0",
+            estInscrit: false,
+            autoinscription: true,
+            nombreDePlacesRestantes: 0,
+            dateMaxInscription: DateTime(2050),
+            expected: false,
+          ),
+          AutoInscriptionTest(
+            title: "should not display autoinscription if dateMaxInscription is in past",
+            estInscrit: false,
+            autoinscription: true,
+            nombreDePlacesRestantes: 10,
+            dateMaxInscription: DateTime(2024),
+            expected: false,
+          ),
+          AutoInscriptionTest(
+            title: "should display autoinscription",
+            estInscrit: false,
+            autoinscription: true,
+            nombreDePlacesRestantes: 10,
+            dateMaxInscription: DateTime(2050),
+            expected: true,
+          ),
+          AutoInscriptionTest(
+            title: "should display autoinscription if dateMaxInscription is null",
+            estInscrit: false,
+            autoinscription: true,
+            nombreDePlacesRestantes: 10,
+            dateMaxInscription: null,
+            expected: true,
+          ),
+        ];
+
+        for (final autoInscriptionTest in autoInscriptionTests) {
+          test(autoInscriptionTest.title, () {
+            // Given
+            final store = givenState()
+                .loggedIn() //
+                .withSuccessSessionMiloDetails(
+                  estInscrit: autoInscriptionTest.estInscrit,
+                  autoinscription: autoInscriptionTest.autoinscription,
+                  nombreDePlacesRestantes: autoInscriptionTest.nombreDePlacesRestantes,
+                  dateMaxInscription: autoInscriptionTest.dateMaxInscription,
+                )
+                .store();
+
+            // When
+            final viewModel = RendezvousDetailsViewModel.create(
+              store: store,
+              source: RendezvousStateSource.sessionMiloDetails,
+              rdvId: '1',
+              platform: Platform.IOS,
+            );
+
+            // Then
+            expect(viewModel.shareToConseillerButton is RendezVousAutoInscription, autoInscriptionTest.expected);
+          });
+        }
+      });
+
+      test('when source is from milo and autoinscription is not available', () {
+        // Given
+        final store = givenState()
+            .loggedIn() //
+            .withSuccessSessionMiloDetails(estInscrit: false)
+            .store();
+
+        // When
+        final viewModel = RendezvousDetailsViewModel.create(
+          store: store,
+          source: RendezvousStateSource.sessionMiloDetails,
+          rdvId: '1',
+          platform: Platform.IOS,
+        );
+
+        // Then
+        expect(viewModel.shareToConseillerButton is RendezVousShareToConseillerDemandeInscription, true);
       });
 
       test('full view model test', () {
@@ -874,6 +1002,7 @@ void main() {
             conseillerPresenceLabel: 'Votre conseiller sera présent',
             conseillerPresenceColor: AppColors.success,
             isInscrit: false,
+            isComplet: false,
             isAnnule: false,
             withConseillerPresencePart: true,
             withDescriptionPart: false,
@@ -890,6 +1019,7 @@ void main() {
             organism: 'organism',
             address: 'address',
             addressRedirectUri: Uri.parse('https://maps.apple.com/maps?q=address'),
+            nombreDePlacesRestantes: null,
           ),
         );
       });
@@ -934,29 +1064,32 @@ void main() {
         expect(
           viewModel,
           RendezvousDetailsViewModel(
-              displayState: DisplayState.CONTENT,
-              navbarTitle: "Mon rendez-vous",
-              id: "1",
-              tag: "Atelier",
-              date: '01 mars 2022',
-              hourAndDuration: '00h',
-              conseillerPresenceLabel: 'Votre conseiller ne sera pas présent',
-              conseillerPresenceColor: AppColors.warning,
-              isInscrit: true,
-              isAnnule: false,
-              withConseillerPresencePart: false,
-              withDescriptionPart: true,
-              withModalityPart: true,
-              withIfAbsentPart: true,
-              visioButtonState: VisioButtonState.HIDDEN,
-              onRetry: () => {},
-              commentTitle: 'Commentaire',
-              title: 'ANIMATION COLLECTIVE POUR TEST - SESSION TEST',
-              trackingPageName: "session_milo/detail",
-              comment: 'Lorem ipsus',
-              address: 'Paris',
-              addressRedirectUri: Uri.parse('https://maps.apple.com/maps?q=Paris'),
-              description: "--"),
+            displayState: DisplayState.CONTENT,
+            navbarTitle: "Mon rendez-vous",
+            id: "1",
+            tag: "Atelier",
+            date: '01 mars 2022',
+            hourAndDuration: '00h',
+            conseillerPresenceLabel: 'Votre conseiller ne sera pas présent',
+            conseillerPresenceColor: AppColors.warning,
+            isInscrit: true,
+            isComplet: false,
+            isAnnule: false,
+            withConseillerPresencePart: false,
+            withDescriptionPart: true,
+            withModalityPart: true,
+            withIfAbsentPart: true,
+            visioButtonState: VisioButtonState.HIDDEN,
+            onRetry: () => {},
+            commentTitle: 'Commentaire',
+            title: 'ANIMATION COLLECTIVE POUR TEST - SESSION TEST',
+            trackingPageName: "session_milo/detail",
+            comment: 'Lorem ipsus',
+            address: 'Paris',
+            addressRedirectUri: Uri.parse('https://maps.apple.com/maps?q=Paris'),
+            description: "--",
+            nombreDePlacesRestantes: null,
+          ),
         );
       });
     });
@@ -1127,6 +1260,143 @@ void main() {
       expect(viewModel.trackingPageName, 'rdv/detail');
     });
   });
+
+  group('nombreDePlacesRestantes', () {
+    test('should display nothing when nombreDePlacesRestantes is null', () {
+      // Given
+      final rdv = mockRendezvous(
+        id: '1',
+        source: RendezvousSource.passEmploi,
+        estInscrit: false,
+        date: DateTime(2021, 12, 23, 10, 20),
+        duration: 60,
+        nombreDePlacesRestantes: null,
+      );
+      final store = givenState() //
+          .loggedIn()
+          .monSuivi(monSuivi: mockMonSuivi(rendezvous: [rdv]))
+          .store();
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(
+        store: store,
+        source: RendezvousStateSource.monSuivi,
+        rdvId: '1',
+        platform: Platform.IOS,
+      );
+
+      // Then
+      expect(viewModel.nombreDePlacesRestantes, null);
+    });
+
+    test('should display nothing when nombreDePlacesRestantes is 0', () {
+      // Given
+      final rdv = mockRendezvous(
+        id: '1',
+        source: RendezvousSource.passEmploi,
+        estInscrit: false,
+        date: DateTime(2021, 12, 23, 10, 20),
+        duration: 60,
+        nombreDePlacesRestantes: 0,
+      );
+      final store = givenState() //
+          .loggedIn()
+          .monSuivi(monSuivi: mockMonSuivi(rendezvous: [rdv]))
+          .store();
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(
+        store: store,
+        source: RendezvousStateSource.monSuivi,
+        rdvId: '1',
+        platform: Platform.IOS,
+      );
+
+      // Then
+      expect(viewModel.nombreDePlacesRestantes, null);
+    });
+
+    test('should display singular string when nombreDePlacesRestantes is 1', () {
+      // Given
+      final rdv = mockRendezvous(
+        id: '1',
+        source: RendezvousSource.passEmploi,
+        estInscrit: false,
+        date: DateTime(2021, 12, 23, 10, 20),
+        duration: 60,
+        nombreDePlacesRestantes: 1,
+      );
+      final store = givenState() //
+          .loggedIn()
+          .monSuivi(monSuivi: mockMonSuivi(rendezvous: [rdv]))
+          .store();
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(
+        store: store,
+        source: RendezvousStateSource.monSuivi,
+        rdvId: '1',
+        platform: Platform.IOS,
+      );
+
+      // Then
+      expect(viewModel.nombreDePlacesRestantes, "1 place restante");
+    });
+
+    test('should display plural string when nombreDePlacesRestantes is more than 1', () {
+      // Given
+      final rdv = mockRendezvous(
+        id: '1',
+        source: RendezvousSource.passEmploi,
+        estInscrit: false,
+        date: DateTime(2021, 12, 23, 10, 20),
+        duration: 60,
+        nombreDePlacesRestantes: 10,
+      );
+      final store = givenState() //
+          .loggedIn()
+          .monSuivi(monSuivi: mockMonSuivi(rendezvous: [rdv]))
+          .store();
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(
+        store: store,
+        source: RendezvousStateSource.monSuivi,
+        rdvId: '1',
+        platform: Platform.IOS,
+      );
+
+      // Then
+      expect(viewModel.nombreDePlacesRestantes, "10 places restantes");
+    });
+
+    test('should display isComplet when user is not inscrit and nombre de places restantes is 0', () {
+      // Given
+      final rdv = mockRendezvous(
+        id: '1',
+        source: RendezvousSource.passEmploi,
+        estInscrit: false,
+        date: DateTime(2021, 12, 23, 10, 20),
+        duration: 60,
+        nombreDePlacesRestantes: 0,
+      );
+      final store = givenState() //
+          .loggedIn()
+          .monSuivi(monSuivi: mockMonSuivi(rendezvous: [rdv]))
+          .store();
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(
+        store: store,
+        source: RendezvousStateSource.monSuivi,
+        rdvId: '1',
+        platform: Platform.IOS,
+      );
+
+      // Then
+      expect(viewModel.isComplet, true);
+    });
+  });
 }
 
 Store<AppState> _store(Rendezvous rendezvous) => _storeNotUpToDate(rendezvous, null);
@@ -1141,4 +1411,22 @@ Store<AppState> _storeNotUpToDate(Rendezvous rendezvous, DateTime? dateDerniereM
         ),
       )
       .store();
+}
+
+class AutoInscriptionTest {
+  final String title;
+  final bool estInscrit;
+  final bool autoinscription;
+  final int? nombreDePlacesRestantes;
+  final DateTime? dateMaxInscription;
+  final bool expected;
+
+  AutoInscriptionTest({
+    required this.title,
+    required this.estInscrit,
+    required this.autoinscription,
+    required this.nombreDePlacesRestantes,
+    required this.dateMaxInscription,
+    required this.expected,
+  });
 }

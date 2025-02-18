@@ -3,7 +3,7 @@ import 'package:flutter/semantics.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
-import 'package:pass_emploi_app/presentation/chat/chat_partage_page_view_model.dart';
+import 'package:pass_emploi_app/presentation/chat/chat_partage_bottom_sheet_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -42,8 +42,8 @@ class ChatPartageBottomSheetState extends State<ChatPartageBottomSheet> {
   Widget build(BuildContext context) {
     return Tracker(
       tracking: AnalyticsScreenNames.emploiPartagePage,
-      child: StoreConnector<AppState, ChatPartagePageViewModel>(
-        converter: (store) => ChatPartagePageViewModel.fromSource(store, widget.source),
+      child: StoreConnector<AppState, ChatPartageBottomSheetViewModel>(
+        converter: (store) => ChatPartageBottomSheetViewModel.fromSource(store, widget.source),
         builder: _builder,
         onWillChange: _onWillChange,
         distinct: true,
@@ -63,7 +63,7 @@ class ChatPartageBottomSheetState extends State<ChatPartageBottomSheet> {
     super.dispose();
   }
 
-  Widget _builder(BuildContext context, ChatPartagePageViewModel viewModel) {
+  Widget _builder(BuildContext context, ChatPartageBottomSheetViewModel viewModel) {
     _controller ??= TextEditingController(text: viewModel.defaultMessage);
     return BottomSheetWrapper(
       title: viewModel.pageTitle,
@@ -71,7 +71,7 @@ class ChatPartageBottomSheetState extends State<ChatPartageBottomSheet> {
     );
   }
 
-  void _onWillChange(ChatPartagePageViewModel? _, ChatPartagePageViewModel viewModel) {
+  void _onWillChange(ChatPartageBottomSheetViewModel? _, ChatPartageBottomSheetViewModel viewModel) {
     switch (viewModel.snackbarState) {
       case DisplayState.CONTENT:
         PassEmploiMatomoTracker.instance.trackScreen(viewModel.snackbarSuccessTracking);
@@ -93,7 +93,7 @@ class ChatPartageBottomSheetState extends State<ChatPartageBottomSheet> {
 }
 
 class _Body extends StatelessWidget {
-  final ChatPartagePageViewModel _viewModel;
+  final ChatPartageBottomSheetViewModel _viewModel;
   final TextEditingController? _controller;
 
   const _Body(this._viewModel, this._controller);
@@ -135,7 +135,7 @@ class _Body extends StatelessWidget {
 }
 
 class _Offre extends StatelessWidget {
-  final ChatPartagePageViewModel _viewModel;
+  final ChatPartageBottomSheetViewModel _viewModel;
 
   const _Offre(this._viewModel);
 
@@ -171,7 +171,7 @@ class _TextField extends StatelessWidget {
 }
 
 class _PartageButton extends StatelessWidget {
-  final ChatPartagePageViewModel _viewModel;
+  final ChatPartageBottomSheetViewModel _viewModel;
   final TextEditingController? _controller;
 
   const _PartageButton(this._viewModel, this._controller);

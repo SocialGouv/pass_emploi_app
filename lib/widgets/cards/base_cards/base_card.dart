@@ -114,6 +114,10 @@ class BaseCard extends StatelessWidget {
                     SizedBox(height: Margins.spacing_base),
                     CardBodyText(body!),
                   ],
+                  if (complements != null && complements!.isNotEmpty) ...[
+                    SizedBox(height: Margins.spacing_base),
+                    Wrap(spacing: Margins.spacing_base, runSpacing: Margins.spacing_s, children: complements!),
+                  ],
                   if (secondaryTags != null && secondaryTags!.isNotEmpty) ...[
                     SizedBox(height: Margins.spacing_base),
                     Wrap(
@@ -121,10 +125,6 @@ class BaseCard extends StatelessWidget {
                       runSpacing: Margins.spacing_s,
                       children: secondaryTags!,
                     ),
-                  ],
-                  if (complements != null && complements!.isNotEmpty) ...[
-                    SizedBox(height: Margins.spacing_base),
-                    Wrap(spacing: Margins.spacing_base, runSpacing: Margins.spacing_s, children: complements!),
                   ],
                   if (additionalChild != null) ...[
                     SizedBox(height: Margins.spacing_base),

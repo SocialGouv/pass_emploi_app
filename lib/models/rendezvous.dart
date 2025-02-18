@@ -25,6 +25,9 @@ class Rendezvous extends Equatable {
   final bool? estInscrit;
   final String? animateur;
   final bool? createdFromSessionMilo;
+  final bool? autoinscription;
+  final int? nombreDePlacesRestantes;
+  final DateTime? dateMaxInscription;
 
   Rendezvous({
     required this.id,
@@ -50,6 +53,9 @@ class Rendezvous extends Equatable {
     this.estInscrit,
     this.animateur,
     this.createdFromSessionMilo,
+    this.autoinscription,
+    this.nombreDePlacesRestantes,
+    this.dateMaxInscription,
   });
 
   RendezvousModalityType modalityType() {
@@ -83,8 +89,20 @@ class Rendezvous extends Equatable {
       estInscrit,
       animateur,
       createdFromSessionMilo,
+      autoinscription,
+      nombreDePlacesRestantes,
+      dateMaxInscription,
     ];
   }
+
+  bool get autoInscriptionAvailable =>
+      estInscrit == false && //
+      autoinscription == true &&
+      nombreDePlacesRestantes != null &&
+      nombreDePlacesRestantes! > 0 &&
+      (dateMaxInscription == null || dateMaxInscription?.isAfter(DateTime.now()) == true);
+
+  bool get isComplet => nombreDePlacesRestantes != null && nombreDePlacesRestantes == 0;
 }
 
 class RendezvousType extends Equatable {

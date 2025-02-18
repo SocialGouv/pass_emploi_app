@@ -84,6 +84,7 @@ import 'package:pass_emploi_app/features/in_app_notifications/in_app_notificatio
 import 'package:pass_emploi_app/features/date_consultation_notification/date_consultation_notification_reducer.dart';
 import 'package:pass_emploi_app/features/localisation_persist/localisation_persist_reducer.dart';
 import 'package:pass_emploi_app/features/remote_campagne_accueil/remote_campagne_accueil_reducer.dart';
+import 'package:pass_emploi_app/features/auto_inscription/auto_inscription_reducer.dart';
 /*AUTOGENERATE-REDUX-APP-REDUCER-IMPORT*/
 
 AppState reducer(AppState current, dynamic action) {
@@ -200,6 +201,7 @@ AppState reducer(AppState current, dynamic action) {
         dateConsultationNotificationReducer(current.dateConsultationNotificationState, action),
     localisationPersistState: localisationPersistReducer(current.localisationPersistState, action),
     remoteCampagneAccueilState: remoteCampagneAccueilReducer(current.remoteCampagneAccueilState, action),
+    autoInscriptionState: autoInscriptionReducer(current.autoInscriptionState, action),
     /*AUTOGENERATE-REDUX-APP-REDUCER-STATE*/
   );
 }

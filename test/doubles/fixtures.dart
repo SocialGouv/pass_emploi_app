@@ -458,6 +458,9 @@ Rendezvous mockRendezvous({
   String? precision,
   Conseiller? conseiller = const Conseiller(id: 'id', firstName: 'F', lastName: 'L'),
   Conseiller? createur,
+  bool? autoinscription,
+  int? nombreDePlacesRestantes,
+  DateTime? dateMaxInscription,
 }) {
   return Rendezvous(
     id: id,
@@ -481,6 +484,9 @@ Rendezvous mockRendezvous({
     precision: precision,
     conseiller: conseiller,
     createur: createur,
+    autoinscription: autoinscription,
+    nombreDePlacesRestantes: nombreDePlacesRestantes,
+    dateMaxInscription: dateMaxInscription,
   );
 }
 
@@ -1184,6 +1190,7 @@ SessionMilo mockSessionMiloAtelierCv() => SessionMilo(
       dateDeDebut: parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'),
       type: mockSessionMiloType(),
       estInscrit: true,
+      autoinscription: null,
     );
 
 SessionMilo mockSessionMiloAtelierDecouverte() => SessionMilo(
@@ -1193,6 +1200,7 @@ SessionMilo mockSessionMiloAtelierDecouverte() => SessionMilo(
       dateDeDebut: parseDateTimeUtcWithCurrentTimeZone('2023-01-02T00:00:00.000Z'),
       type: mockSessionMiloType(),
       estInscrit: false,
+      autoinscription: null,
     );
 
 SessionMiloDetails mockSessionMiloDetails({
@@ -1200,6 +1208,9 @@ SessionMiloDetails mockSessionMiloDetails({
   DateTime? dateDeDebut,
   DateTime? dateDeFin,
   bool? estInscrit,
+  bool? autoinscription,
+  int? nombreDePlacesRestantes,
+  DateTime? dateMaxInscription,
 }) =>
     SessionMiloDetails(
       id: id,
@@ -1213,6 +1224,9 @@ SessionMiloDetails mockSessionMiloDetails({
       description: null,
       commentaire: "Lorem ipsus",
       estInscrit: estInscrit ?? true,
+      autoinscription: autoinscription,
+      nombreDePlacesRestantes: nombreDePlacesRestantes,
+      dateMaxInscription: dateMaxInscription,
     );
 
 SessionMilo mockSessionMilo({String? id, DateTime? dateDeDebut}) {
@@ -1223,6 +1237,7 @@ SessionMilo mockSessionMilo({String? id, DateTime? dateDeDebut}) {
     dateDeDebut: dateDeDebut ?? parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'),
     type: mockSessionMiloType(),
     estInscrit: true,
+    autoinscription: false,
   );
 }
 

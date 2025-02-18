@@ -42,7 +42,8 @@ class _ConfettiWrapperState extends State<ConfettiWrapper> {
                     Color(0xFF92B0F2),
                   ]
                 : null,
-            gravity: 0.05,
+            gravity: 0.2,
+            numberOfParticles: 100,
             blastDirectionality: BlastDirectionality.explosive,
             shouldLoop: false,
           ),
@@ -170,8 +171,5 @@ class _ConfettiWrapperState extends State<ConfettiWrapper> {
     return path_0;
   }
 
-  bool get isWinter =>
-      DateTime.now().month == DateTime.december ||
-      DateTime.now().month == DateTime.january ||
-      DateTime.now().month == DateTime.february;
+  bool get isWinter => DateTime.now().month == DateTime.december || DateTime.now().month == DateTime.january;
 }

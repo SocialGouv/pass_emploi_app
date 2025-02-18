@@ -3,8 +3,9 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_actions.dart';
 import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_actions.dart';
+import 'package:pass_emploi_app/pages/auto_inscription_page.dart';
 import 'package:pass_emploi_app/pages/chat/chat_partage_bottom_sheet.dart';
-import 'package:pass_emploi_app/presentation/chat/chat_partage_page_view_model.dart';
+import 'package:pass_emploi_app/pages/chat/chat_partage_event_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_details_view_model.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
@@ -89,6 +90,13 @@ class _RendezvousDetailsPageState extends State<RendezvousDetailsPage> {
     _trackPageOnRendezvousRetrievalFromState(viewModel);
     const backgroundColor = Colors.white;
     return Scaffold(
+      floatingActionButton: switch (viewModel.shareToConseillerButton) {
+        null => SizedBox.shrink(),
+        final RendezVousAutoInscription rendezvousCta => _AutoInscriptionButton(rendezvousCta),
+        final RendezVousShareToConseillerDemandeInscription rendezvousCta => _DemandeInscriptionButton(rendezvousCta),
+        final RendezVousShareToConseiller rendezvousCta => _ShareButton(rendezvousCta),
+      },
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       backgroundColor: backgroundColor,
       appBar: SecondaryAppBar(title: viewModel.navbarTitle, backgroundColor: backgroundColor),
       body: _body(context, viewModel),
@@ -124,6 +132,11 @@ class _RendezvousDetailsPageState extends State<RendezvousDetailsPage> {
                     icon: AppIcons.check_circle_outline_rounded,
                   ),
                 ],
+                if (viewModel.isComplet) ...[
+                  CardTag.warning(
+                    text: Strings.eventComplet,
+                  ),
+                ],
               ],
             ),
             SizedBox(height: Margins.spacing_base),
@@ -137,11 +150,7 @@ class _RendezvousDetailsPageState extends State<RendezvousDetailsPage> {
             ],
             _ConseillerPart(viewModel),
             if (viewModel.withIfAbsentPart) _InformIfAbsent(),
-            if (viewModel.shareToConseillerSource != null)
-              _Share(
-                source: viewModel.shareToConseillerSource!,
-                buttonTitle: viewModel.shareToConseillerButtonTitle,
-              ),
+            SizedBox(height: Margins.spacing_huge),
           ],
         ),
       ),
@@ -174,6 +183,8 @@ class _Header extends StatelessWidget {
           children: [
             CardComplement.date(text: viewModel.date),
             CardComplement.hour(text: viewModel.hourAndDuration),
+            if (viewModel.nombreDePlacesRestantes != null)
+              CardComplement.person(text: viewModel.nombreDePlacesRestantes!),
           ],
         ),
       ],
@@ -442,24 +453,77 @@ class _Createur extends StatelessWidget {
   }
 }
 
-class _Share extends StatelessWidget {
-  final String? buttonTitle;
-  final ChatPartageSource source;
+class _ShareButton extends StatelessWidget {
+  final RendezVousShareToConseiller share;
 
-  _Share({required this.buttonTitle, required this.source});
+  _ShareButton(this.share);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: Margins.spacing_s),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          PrimaryActionButton(
-            label: buttonTitle ?? Strings.shareToConseiller,
-            onPressed: () => ChatPartageBottomSheet.show(context, source),
-          ),
-        ],
+      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+      child: SizedBox(
+        width: double.infinity,
+        child: PrimaryActionButton(
+          label: share.label,
+          onPressed: () => ChatPartageBottomSheet.show(context, share.chatPartageSource),
+        ),
+      ),
+    );
+  }
+}
+
+class _DemandeInscriptionButton extends StatelessWidget {
+  final RendezVousShareToConseillerDemandeInscription share;
+
+  _DemandeInscriptionButton(this.share);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+      child: SizedBox(
+        width: double.infinity,
+        child: PrimaryActionButton(
+          label: share.label,
+          onPressed: () {
+            share.onPressed?.call();
+            Navigator.of(context).push(ChatPartageEventPage.route()).then((value) {
+              if (value == true && context.mounted) {
+                Navigator.of(context).pop();
+              }
+            });
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class _AutoInscriptionButton extends StatelessWidget {
+  final RendezVousAutoInscription share;
+
+  _AutoInscriptionButton(this.share);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+      child: SizedBox(
+        width: double.infinity,
+        child: PrimaryActionButton(
+          label: share.label,
+          onPressed: () {
+            share.onPressed?.call();
+            Navigator.of(context).push(AutoInscriptionPage.route()).then(
+              (value) {
+                if (value == true && context.mounted) {
+                  Navigator.of(context).pop();
+                }
+              },
+            );
+          },
+        ),
       ),
     );
   }

@@ -8,7 +8,7 @@ import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 import 'package:redux/redux.dart';
 
-enum InscriptionStatus { inscrit, notInscrit, hidden }
+enum InscriptionStatus { inscrit, notInscrit, autoinscription, hidden, full }
 
 class RendezvousCardViewModel extends Equatable {
   final String id;
@@ -19,6 +19,7 @@ class RendezvousCardViewModel extends Equatable {
   final String title;
   final String? description;
   final String? place;
+  final String? nombreDePlacesRestantes;
 
   RendezvousCardViewModel({
     required this.id,
@@ -29,6 +30,7 @@ class RendezvousCardViewModel extends Equatable {
     required this.title,
     required this.description,
     required this.place,
+    required this.nombreDePlacesRestantes,
   });
 
   factory RendezvousCardViewModel.create(Store<AppState> store, RendezvousStateSource source, String rdvId) {
@@ -42,12 +44,23 @@ class RendezvousCardViewModel extends Equatable {
       title: rdv.title ?? '',
       description: rdv.precision,
       place: _place(rdv),
+      nombreDePlacesRestantes: _nombreDePlacesRestantes(rdv),
     );
   }
 
   @override
   List<Object?> get props {
-    return [id, tag, dateTime, inscriptionStatus, isAnnule, title, description, place];
+    return [
+      id,
+      tag,
+      dateTime,
+      inscriptionStatus,
+      isAnnule,
+      title,
+      description,
+      place,
+      nombreDePlacesRestantes,
+    ];
   }
 }
 
@@ -64,10 +77,15 @@ RendezVousDateTime _dateTime(Rendezvous rdv, RendezvousStateSource source) {
 }
 
 InscriptionStatus _inscription(Rendezvous rdv, RendezvousStateSource source) {
-  if (source.isFromEvenements) {
-    return rdv.estInscrit == true ? InscriptionStatus.inscrit : InscriptionStatus.notInscrit;
-  }
-  return InscriptionStatus.hidden;
+  if (!source.isFromEvenements) return InscriptionStatus.hidden;
+
+  if (rdv.estInscrit == true) return InscriptionStatus.inscrit;
+
+  if (rdv.nombreDePlacesRestantes == 0) return InscriptionStatus.full;
+
+  if (rdv.autoInscriptionAvailable) return InscriptionStatus.autoinscription;
+
+  return InscriptionStatus.notInscrit;
 }
 
 String? _place(Rendezvous rdv) {
@@ -79,6 +97,11 @@ String? _place(Rendezvous rdv) {
     return Strings.rendezvousModalityCardMessage(modality, '${conseiller.firstName} ${conseiller.lastName}');
   }
   return modality;
+}
+
+String? _nombreDePlacesRestantes(Rendezvous rdv) {
+  if (rdv.nombreDePlacesRestantes == null || rdv.nombreDePlacesRestantes == 0) return null;
+  return Strings.placesRestantes(rdv.nombreDePlacesRestantes!);
 }
 
 sealed class RendezVousDateTime extends Equatable {}

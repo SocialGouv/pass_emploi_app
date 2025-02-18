@@ -56,7 +56,7 @@ class ChatPartageSessionMiloSource extends ChatPartageSource {
   List<Object?> get props => [sessionId];
 }
 
-class ChatPartagePageViewModel extends Equatable {
+class ChatPartageBottomSheetViewModel extends Equatable {
   final String pageTitle;
   final String willShareTitle;
   final String defaultMessage;
@@ -69,7 +69,7 @@ class ChatPartagePageViewModel extends Equatable {
   final String snackbarSuccessText;
   final String snackbarSuccessTracking;
 
-  ChatPartagePageViewModel({
+  ChatPartageBottomSheetViewModel({
     required this.pageTitle,
     required this.willShareTitle,
     required this.defaultMessage,
@@ -83,21 +83,21 @@ class ChatPartagePageViewModel extends Equatable {
     required this.snackbarSuccessTracking,
   });
 
-  factory ChatPartagePageViewModel.fromSource(Store<AppState> store, ChatPartageSource source) {
+  factory ChatPartageBottomSheetViewModel.fromSource(Store<AppState> store, ChatPartageSource source) {
     return switch (source) {
-      ChatPartageOffreEmploiSource() => ChatPartagePageViewModel.sharingOffre(store, source),
-      ChatPartageEventSource() => ChatPartagePageViewModel.sharingEvent(store, source),
-      ChatPartageEvenementEmploiSource() => ChatPartagePageViewModel.sharingEvenementEmploi(store, source),
-      ChatPartageSessionMiloSource() => ChatPartagePageViewModel.sharingSessionMilo(store, source),
+      ChatPartageOffreEmploiSource() => ChatPartageBottomSheetViewModel.sharingOffre(store, source),
+      ChatPartageEventSource() => ChatPartageBottomSheetViewModel.sharingEvent(store, source),
+      ChatPartageEvenementEmploiSource() => ChatPartageBottomSheetViewModel.sharingEvenementEmploi(store, source),
+      ChatPartageSessionMiloSource() => ChatPartageBottomSheetViewModel.sharingSessionMilo(store, source),
     };
   }
 
-  factory ChatPartagePageViewModel.sharingOffre(Store<AppState> store, ChatPartageOffreEmploiSource source) {
+  factory ChatPartageBottomSheetViewModel.sharingOffre(Store<AppState> store, ChatPartageOffreEmploiSource source) {
     final offreEmploiDetailsState = store.state.offreEmploiDetailsState;
     if (offreEmploiDetailsState is! OffreEmploiDetailsSuccessState) {
       throw Exception("ChatPartagePageViewModel must be created with a OffreEmploiDetailsSuccessState.");
     }
-    return ChatPartagePageViewModel(
+    return ChatPartageBottomSheetViewModel(
       pageTitle:
           source.type == OffreType.alternance ? Strings.partageOffreAlternanceNavTitle : Strings.partageOffreNavTitle,
       willShareTitle: Strings.souhaitDePartagerOffre,
@@ -114,7 +114,7 @@ class ChatPartagePageViewModel extends Equatable {
     );
   }
 
-  factory ChatPartagePageViewModel.sharingEvent(Store<AppState> store, ChatPartageEventSource source) {
+  factory ChatPartageBottomSheetViewModel.sharingEvent(Store<AppState> store, ChatPartageEventSource source) {
     final eventListState = store.state.eventListState;
     final accueilState = store.state.accueilState;
     final Rendezvous? event;
@@ -132,7 +132,7 @@ class ChatPartagePageViewModel extends Equatable {
     if (event == null) {
       throw Exception("Event not found.");
     }
-    return ChatPartagePageViewModel(
+    return ChatPartageBottomSheetViewModel(
       pageTitle: Strings.partageEventNavTitle,
       willShareTitle: Strings.souhaitDePartagerEvent,
       defaultMessage: Strings.partageEventDefaultMessage,
@@ -147,7 +147,7 @@ class ChatPartagePageViewModel extends Equatable {
     );
   }
 
-  factory ChatPartagePageViewModel.sharingEvenementEmploi(
+  factory ChatPartageBottomSheetViewModel.sharingEvenementEmploi(
     Store<AppState> store,
     ChatPartageEvenementEmploiSource source,
   ) {
@@ -156,7 +156,7 @@ class ChatPartagePageViewModel extends Equatable {
       throw Exception("ChatPartagePageViewModel must be created with a EvenementEmploiDetailsSuccessState.");
     }
 
-    return ChatPartagePageViewModel(
+    return ChatPartageBottomSheetViewModel(
       pageTitle: Strings.partageEvenementEmploiNavTitle,
       willShareTitle: Strings.souhaitDePartagerEvenementEmploi,
       defaultMessage: Strings.partageEvenementEmploiDefaultMessage,
@@ -171,16 +171,17 @@ class ChatPartagePageViewModel extends Equatable {
     );
   }
 
-  factory ChatPartagePageViewModel.sharingSessionMilo(Store<AppState> store, ChatPartageSessionMiloSource source) {
+  factory ChatPartageBottomSheetViewModel.sharingSessionMilo(
+      Store<AppState> store, ChatPartageSessionMiloSource source) {
     final sessionMiloDetailsState = store.state.sessionMiloDetailsState;
     if (sessionMiloDetailsState is! SessionMiloDetailsSuccessState) {
       throw Exception("ChatPartagePageViewModel must be created with a SessionMiloDetailsSuccessState.");
     }
 
-    return ChatPartagePageViewModel(
+    return ChatPartageBottomSheetViewModel(
       pageTitle: Strings.partageSessionMiloNavTitle,
       willShareTitle: Strings.souhaitDePartagerSessionMilo,
-      defaultMessage: Strings.partageSessionMiloDefaultMessage,
+      defaultMessage: Strings.partageSessionMiloCompletMessage,
       information: Strings.infoSessionMiloPartageChat,
       shareButtonTitle: Strings.partagerSessionMiloAuConseiller,
       shareableTitle: sessionMiloDetailsState.details.displayableTitle,
@@ -197,16 +198,12 @@ class ChatPartagePageViewModel extends Equatable {
 }
 
 DisplayState _snackbarState(Store<AppState> store) {
-  switch (store.state.chatPartageState) {
-    case ChatPartageNotInitializedState():
-      return DisplayState.EMPTY;
-    case ChatPartageLoadingState():
-      return DisplayState.LOADING;
-    case ChatPartageSuccessState():
-      return DisplayState.CONTENT;
-    case ChatPartageFailureState():
-      return DisplayState.FAILURE;
-  }
+  return switch (store.state.chatPartageState) {
+    ChatPartageNotInitializedState() => DisplayState.EMPTY,
+    ChatPartageLoadingState() => DisplayState.LOADING,
+    ChatPartageSuccessState() => DisplayState.CONTENT,
+    ChatPartageFailureState() => DisplayState.FAILURE
+  };
 }
 
 void _partagerEvent(Store<AppState> store, Rendezvous event, String message) {

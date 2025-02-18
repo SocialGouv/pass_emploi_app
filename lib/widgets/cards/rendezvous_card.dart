@@ -51,7 +51,8 @@ class _Content extends StatelessWidget {
           final RendezVousDateTimeDate date => CardComplement.date(text: date.dateTime),
           final RendezVousDateTimeHour hour => CardComplement.hour(text: hour.hour),
         },
-        if (viewModel.place != null) CardComplement.place(text: viewModel.place!)
+        if (viewModel.place != null) CardComplement.place(text: viewModel.place!),
+        if (viewModel.nombreDePlacesRestantes != null) CardComplement.person(text: viewModel.nombreDePlacesRestantes!),
       ],
       secondaryTags: [
         if (viewModel.inscriptionStatus == InscriptionStatus.inscrit)
@@ -62,7 +63,15 @@ class _Content extends StatelessWidget {
         if (viewModel.inscriptionStatus == InscriptionStatus.notInscrit)
           CardTag.secondary(
             text: Strings.eventInscrivezVousPourParticiper,
-          )
+          ),
+        if (viewModel.inscriptionStatus == InscriptionStatus.autoinscription)
+          CardTag.secondary(
+            text: Strings.eventAutoInscription,
+          ),
+        if (viewModel.inscriptionStatus == InscriptionStatus.full)
+          CardTag.warning(
+            text: Strings.eventComplet,
+          ),
       ],
     );
   }
