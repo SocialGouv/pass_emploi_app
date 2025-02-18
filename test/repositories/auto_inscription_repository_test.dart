@@ -9,7 +9,7 @@ void main() {
     sut.givenRepository((client) => AutoInscriptionRepository(client));
 
     group('get', () {
-      sut.when((repository) => repository.set("userId", "eventId"));
+      sut.when((repository) => repository.inscrire("userId", "eventId"));
 
       group('when response is valid', () {
         sut.givenResponseCode(200);

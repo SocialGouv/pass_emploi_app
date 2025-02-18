@@ -18,7 +18,7 @@ void main() {
       sut.whenDispatchingAction(() => AutoInscriptionRequestAction(eventId: "1"));
 
       test('should load then succeed when request succeeds', () {
-        when(() => repository.set(any(), any())).thenAnswer((_) async => AutoInscriptionSuccess());
+        when(() => repository.inscrire(any(), any())).thenAnswer((_) async => AutoInscriptionSuccess());
 
         sut.givenStore = givenState() //
             .loggedInUser()
@@ -28,7 +28,8 @@ void main() {
       });
 
       test('should load then fail when request fails with nombre de places inssufisantes', () {
-        when(() => repository.set(any(), any())).thenAnswer((_) async => AutoInscriptionNombrePlacesInsuffisantes());
+        when(() => repository.inscrire(any(), any()))
+            .thenAnswer((_) async => AutoInscriptionNombrePlacesInsuffisantes());
 
         sut.givenStore = givenState() //
             .loggedInUser()
@@ -38,7 +39,8 @@ void main() {
       });
 
       test('should load then fail when request fails with conseiller inactif', () {
-        when(() => repository.set(any(), any())).thenAnswer((_) async => AutoInscriptionNombrePlacesInsuffisantes());
+        when(() => repository.inscrire(any(), any()))
+            .thenAnswer((_) async => AutoInscriptionNombrePlacesInsuffisantes());
 
         sut.givenStore = givenState() //
             .loggedInUser()
@@ -48,7 +50,8 @@ void main() {
       });
 
       test('should load then fail when request fails with generic error', () {
-        when(() => repository.set(any(), any())).thenAnswer((_) async => AutoInscriptionNombrePlacesInsuffisantes());
+        when(() => repository.inscrire(any(), any()))
+            .thenAnswer((_) async => AutoInscriptionNombrePlacesInsuffisantes());
 
         sut.givenStore = givenState() //
             .loggedInUser()

@@ -98,8 +98,7 @@ class Rendezvous extends Equatable {
   bool get autoInscriptionAvailable =>
       estInscrit == false && //
       autoinscription == true &&
-      nombreDePlacesRestantes != null &&
-      nombreDePlacesRestantes! > 0 &&
+      !isComplet &&
       (dateMaxInscription == null || dateMaxInscription?.isAfter(DateTime.now()) == true);
 
   bool get isComplet => nombreDePlacesRestantes != null && nombreDePlacesRestantes == 0;
