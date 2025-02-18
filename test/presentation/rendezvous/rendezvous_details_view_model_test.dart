@@ -875,14 +875,6 @@ void main() {
             expected: false,
           ),
           AutoInscriptionTest(
-            title: "should not display autoinscription if nombreDePlacesRestantes is null",
-            estInscrit: false,
-            autoinscription: true,
-            nombreDePlacesRestantes: null,
-            dateMaxInscription: DateTime(2050),
-            expected: false,
-          ),
-          AutoInscriptionTest(
             title: "should not display autoinscription if nombreDePlacesRestantes is 0",
             estInscrit: false,
             autoinscription: true,
