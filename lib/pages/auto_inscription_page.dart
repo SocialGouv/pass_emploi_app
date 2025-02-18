@@ -1,6 +1,7 @@
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/features/events/list/event_list_actions.dart';
 import 'package:pass_emploi_app/presentation/auto_inscription_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -33,6 +34,7 @@ class AutoInscriptionPage extends StatelessWidget {
           converter: (store) => AutoInscriptionViewModel.create(store),
           builder: (context, vm) => _Builder(vm),
           onWillChange: (oldVm, newVm) => _onWillChange(oldVm, newVm, confettiController),
+          onDispose: (store) => store.dispatch(EventListRequestAction(DateTime.now(), forceRefresh: true)),
           distinct: true,
         );
       },
