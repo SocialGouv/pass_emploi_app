@@ -1229,7 +1229,7 @@ SessionMiloDetails mockSessionMiloDetails({
       dateMaxInscription: dateMaxInscription,
     );
 
-SessionMilo mockSessionMilo({String? id, DateTime? dateDeDebut}) {
+SessionMilo mockSessionMilo({String? id, DateTime? dateDeDebut, bool? autoinscription, int? nombreDePlacesRestantes}) {
   return SessionMilo(
     id: id ?? "id-1",
     nomSession: "nomSession",
@@ -1237,7 +1237,8 @@ SessionMilo mockSessionMilo({String? id, DateTime? dateDeDebut}) {
     dateDeDebut: dateDeDebut ?? parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'),
     type: mockSessionMiloType(),
     estInscrit: true,
-    autoinscription: false,
+    autoinscription: autoinscription ?? false,
+    nombreDePlacesRestantes: nombreDePlacesRestantes,
   );
 }
 

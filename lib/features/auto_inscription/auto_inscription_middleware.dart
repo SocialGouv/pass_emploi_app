@@ -15,7 +15,7 @@ class AutoInscriptionMiddleware extends MiddlewareClass<AppState> {
     if (userId == null) return;
     if (action is AutoInscriptionRequestAction) {
       store.dispatch(AutoInscriptionLoadingAction());
-      final result = await _repository.set(userId, action.eventId);
+      final result = await _repository.inscrire(userId, action.eventId);
       (switch (result) {
         AutoInscriptionSuccess() => store.dispatch(AutoInscriptionSuccessAction()),
         final AutoInscriptionError error => store.dispatch(AutoInscriptionFailureAction(error: error)),

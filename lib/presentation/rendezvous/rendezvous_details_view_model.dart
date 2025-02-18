@@ -155,7 +155,7 @@ class RendezvousDetailsViewModel extends Equatable {
     RendezvousStateSource source,
     String rdvId,
   ) {
-    final isFailure = source.isMiloDetails
+    final isFailure = source.isFromEvenementMiloDetails
         ? store.state.sessionMiloDetailsState is SessionMiloDetailsFailureState
         : store.state.rendezvousDetailsState is RendezvousDetailsFailureState;
     return RendezvousDetailsViewModel(
@@ -177,7 +177,7 @@ class RendezvousDetailsViewModel extends Equatable {
       visioButtonState: VisioButtonState.HIDDEN,
       nombreDePlacesRestantes: null,
       onRetry: () {
-        source.isMiloDetails
+        source.isFromEvenementMiloDetails
             ? store.dispatch(SessionMiloDetailsRequestAction(rdvId))
             : store.dispatch(RendezvousDetailsRequestAction(rdvId));
       },
@@ -256,7 +256,7 @@ bool _shouldGetRendezvous(RendezvousStateSource source, Store<AppState> store) {
 }
 
 String _navbarTitle(RendezvousStateSource source, Rendezvous rendezvous) {
-  if (!source.isFromEvenements && !source.isMiloDetails) return Strings.myRendezVous;
+  if (!source.isFromEvenementsMiloList && !source.isFromEvenementMiloDetails) return Strings.myRendezVous;
   return rendezvous.estInscrit == true ? Strings.myRendezVous : Strings.eventTitle;
 }
 
@@ -289,7 +289,7 @@ String _hours(Rendezvous rdv) {
 }
 
 String? _commentTitle(RendezvousStateSource source, Rendezvous rdv, String? comment) {
-  if (source.isMiloDetails) {
+  if (source.isFromEvenementMiloDetails) {
     return Strings.rendezVousCommentaire;
   }
   if (comment != null && rdv.conseiller == null) {
@@ -317,14 +317,14 @@ String? _conseiller(Rendezvous rdv) {
 }
 
 String? _createur(RendezvousStateSource source, Rendezvous rdv) {
-  if (source.isFromEvenements) return null;
+  if (source.isFromEvenementsMiloList) return null;
   if (rdv.source.isMilo) return null;
   final createur = rdv.createur;
   return createur != null ? Strings.rendezvousCreateur('${createur.firstName} ${createur.lastName}') : null;
 }
 
 bool _isComplet(Rendezvous rdv, bool isInscrit) {
-  return !isInscrit && rdv.nombreDePlacesRestantes == 0;
+  return !isInscrit && rdv.isComplet;
 }
 
 bool _withModalityPart(Rendezvous rdv) {
@@ -338,7 +338,7 @@ VisioButtonState _visioButtonState(Rendezvous rdv) {
 }
 
 String? _trackingPageName(RendezvousStateSource source, RendezvousTypeCode type) {
-  if (source.isMiloDetails) return AnalyticsScreenNames.sessionMiloDetails;
+  if (source.isFromEvenementMiloDetails) return AnalyticsScreenNames.sessionMiloDetails;
   if ([RendezvousTypeCode.ATELIER, RendezvousTypeCode.INFORMATION_COLLECTIVE].contains(type)) {
     return AnalyticsScreenNames.animationCollectiveDetails;
   }
@@ -346,35 +346,37 @@ String? _trackingPageName(RendezvousStateSource source, RendezvousTypeCode type)
 }
 
 String? _withAnimateur(RendezvousStateSource source, String? animateur) {
-  if (source.isMiloDetails) {
+  if (source.isFromEvenementMiloDetails) {
     return animateur ?? "--";
   }
   return null;
 }
 
 bool _withDescription(RendezvousStateSource source, Rendezvous rdv) {
-  if (source.isMiloDetails) return true;
+  if (source.isFromEvenementMiloDetails) return true;
   return rdv.description != null || rdv.theme != null;
 }
 
 String? _descriptionFromSource(RendezvousStateSource source, Rendezvous rdv) {
-  if (source.isMiloDetails) return rdv.description ?? "--";
+  if (source.isFromEvenementMiloDetails) return rdv.description ?? "--";
   return rdv.description;
 }
 
 String? _comment(RendezvousStateSource source, String? comment) {
-  if (source.isMiloDetails) return comment ?? "--";
+  if (source.isFromEvenementMiloDetails) return comment ?? "--";
   return comment;
 }
 
 bool _estCeQueMaPresenceEstRequise(RendezvousStateSource source, bool isInscrit) {
-  return (!source.isFromEvenements && !source.isMiloDetails) || isInscrit;
+  return (!source.isFromEvenementsMiloList && !source.isFromEvenementMiloDetails) || isInscrit;
 }
 
 RendezvousCtaVm? _shareToConseillerButton(Store<AppState> store, RendezvousStateSource source, Rendezvous rdv) {
   if (rdv.estInscrit == true) return null;
-  if (source.isFromEvenements) return RendezVousShareToConseiller(chatPartageSource: ChatPartageEventSource(rdv.id));
-  if (source.isMiloDetails) return _miloCta(store, rdv);
+  if (source.isFromEvenementsMiloList) {
+    return RendezVousShareToConseiller(chatPartageSource: ChatPartageEventSource(rdv.id));
+  }
+  if (source.isFromEvenementMiloDetails) return _miloCta(store, rdv);
   return null;
 }
 

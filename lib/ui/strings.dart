@@ -1538,7 +1538,7 @@ class Strings {
   static String demandeInscriptionError = "Erreur lors de la demande d'inscription";
   static String demandeInscriptionErrorButton = "Revenir au détail";
   static String demandeInscriptionDescription =
-      "Votre demande d’inscription à l’événement Pimp ton CV a été envoyée à votre conseiller";
+      "Votre demande d’inscription à l’événement a été envoyée à votre conseiller";
   static String consulterAutresEvennements = "Consulter d’autres événements";
   static String nombreDePlacesInssufisantesError =
       "Cet événement est victime de son succès. Il n'y a plus de place disponible.";

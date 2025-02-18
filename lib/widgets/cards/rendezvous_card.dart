@@ -54,27 +54,34 @@ class _Content extends StatelessWidget {
         if (viewModel.place != null) CardComplement.place(text: viewModel.place!),
         if (viewModel.nombreDePlacesRestantes != null) CardComplement.person(text: viewModel.nombreDePlacesRestantes!),
       ],
-      secondaryTags: [
-        if (viewModel.inscriptionStatus == InscriptionStatus.inscrit)
-          CardTag.secondary(
-            text: Strings.eventVousEtesDejaInscrit,
-            icon: AppIcons.check_circle_outline_rounded,
-          ),
-        if (viewModel.inscriptionStatus == InscriptionStatus.notInscrit)
-          CardTag.secondary(
-            text: Strings.eventInscrivezVousPourParticiper,
-          ),
-        if (viewModel.inscriptionStatus == InscriptionStatus.autoinscription)
-          CardTag.secondary(
-            text: Strings.eventAutoInscription,
-          ),
-        if (viewModel.inscriptionStatus == InscriptionStatus.full)
-          CardTag.warning(
-            text: Strings.eventComplet,
-          ),
-      ],
+      secondaryTags: secondaryTags(viewModel.inscriptionStatus),
     );
   }
+
+  List<Widget>? secondaryTags(InscriptionStatus inscriptionStatus) => switch (inscriptionStatus) {
+        InscriptionStatus.inscrit => [
+            CardTag.secondary(
+              text: Strings.eventVousEtesDejaInscrit,
+              icon: AppIcons.check_circle_outline_rounded,
+            )
+          ],
+        InscriptionStatus.notInscrit => [
+            CardTag.secondary(
+              text: Strings.eventInscrivezVousPourParticiper,
+            )
+          ],
+        InscriptionStatus.autoinscription => [
+            CardTag.secondary(
+              text: Strings.eventAutoInscription,
+            )
+          ],
+        InscriptionStatus.full => [
+            CardTag.warning(
+              text: Strings.eventComplet,
+            )
+          ],
+        InscriptionStatus.hidden => null,
+      };
 }
 
 extension RendezvousCardFromId on String {

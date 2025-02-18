@@ -177,15 +177,16 @@ void main() {
       expect(
         viewModel,
         RendezvousCardViewModel(
-            id: '1',
-            tag: 'Atelier',
-            dateTime: RendezVousDateTimeHour("10h20"),
-            inscriptionStatus: InscriptionStatus.hidden,
-            isAnnule: false,
-            title: 'Super bio',
-            description: null,
-            place: 'Par téléphone',
-            nombreDePlacesRestantes: null),
+          id: '1',
+          tag: 'Atelier',
+          dateTime: RendezVousDateTimeHour("10h20"),
+          inscriptionStatus: InscriptionStatus.hidden,
+          isAnnule: false,
+          title: 'Super bio',
+          description: null,
+          place: 'Par téléphone',
+          nombreDePlacesRestantes: null,
+        ),
       );
     });
 
@@ -337,7 +338,7 @@ void main() {
     });
 
     group('nombreDePlacesRestantes', () {
-      test('should display nothing when nombreDePlacesRestantes is null', () {
+      test('should display nothing when source is not from event list', () {
         // Given
         final rdv = mockRendezvous(
           id: '1',
@@ -345,7 +346,7 @@ void main() {
           estInscrit: false,
           date: DateTime(2021, 12, 23, 10, 20),
           duration: 60,
-          nombreDePlacesRestantes: null,
+          nombreDePlacesRestantes: 2,
         );
         final store = givenState() //
             .loggedIn()
@@ -354,6 +355,25 @@ void main() {
 
         // When
         final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.monSuivi, '1');
+
+        // Then
+        expect(viewModel.nombreDePlacesRestantes, null);
+      });
+
+      test('should display nothing when nombreDePlacesRestantes is null', () {
+        // Given
+        final rdv = mockSessionMilo(
+          id: '1',
+          nombreDePlacesRestantes: null,
+        );
+
+        final store = givenState() //
+            .loggedIn()
+            .succeedEventList(sessionsMilo: [rdv]) //
+            .store();
+
+        // When
+        final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.eventListSessionsMilo, '1');
 
         // Then
         expect(viewModel.nombreDePlacesRestantes, null);
@@ -361,21 +381,18 @@ void main() {
 
       test('should display nothing when nombreDePlacesRestantes is 0', () {
         // Given
-        final rdv = mockRendezvous(
+        final rdv = mockSessionMilo(
           id: '1',
-          source: RendezvousSource.passEmploi,
-          estInscrit: false,
-          date: DateTime(2021, 12, 23, 10, 20),
-          duration: 60,
           nombreDePlacesRestantes: 0,
         );
+
         final store = givenState() //
             .loggedIn()
-            .monSuivi(monSuivi: mockMonSuivi(rendezvous: [rdv]))
+            .succeedEventList(sessionsMilo: [rdv]) //
             .store();
 
         // When
-        final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.monSuivi, '1');
+        final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.eventListSessionsMilo, '1');
 
         // Then
         expect(viewModel.nombreDePlacesRestantes, null);
@@ -383,21 +400,18 @@ void main() {
 
       test('should display singular string when nombreDePlacesRestantes is 1', () {
         // Given
-        final rdv = mockRendezvous(
+        final rdv = mockSessionMilo(
           id: '1',
-          source: RendezvousSource.passEmploi,
-          estInscrit: false,
-          date: DateTime(2021, 12, 23, 10, 20),
-          duration: 60,
           nombreDePlacesRestantes: 1,
         );
+
         final store = givenState() //
             .loggedIn()
-            .monSuivi(monSuivi: mockMonSuivi(rendezvous: [rdv]))
+            .succeedEventList(sessionsMilo: [rdv]) //
             .store();
 
         // When
-        final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.monSuivi, '1');
+        final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.eventListSessionsMilo, '1');
 
         // Then
         expect(viewModel.nombreDePlacesRestantes, "1 place restante");
@@ -405,21 +419,18 @@ void main() {
 
       test('should display plural string when nombreDePlacesRestantes is more than 1', () {
         // Given
-        final rdv = mockRendezvous(
+        final rdv = mockSessionMilo(
           id: '1',
-          source: RendezvousSource.passEmploi,
-          estInscrit: false,
-          date: DateTime(2021, 12, 23, 10, 20),
-          duration: 60,
           nombreDePlacesRestantes: 10,
         );
+
         final store = givenState() //
             .loggedIn()
-            .monSuivi(monSuivi: mockMonSuivi(rendezvous: [rdv]))
+            .succeedEventList(sessionsMilo: [rdv]) //
             .store();
 
         // When
-        final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.monSuivi, '1');
+        final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.eventListSessionsMilo, '1');
 
         // Then
         expect(viewModel.nombreDePlacesRestantes, "10 places restantes");
