@@ -26,7 +26,7 @@ class RemoteCampagneAccueil extends Equatable {
   static RemoteCampagneAccueil fromJson(Map<String, dynamic> json) {
     final Brand? brand = json['brand'] != null ? BrandExt.fromString(json['brand'] as String) : null;
     final List<Accompagnement> accompagnements =
-        (json['accompagnements'] as List).map((e) => AccompagnementExt.fromJson(e as String)).toList();
+        (json['accompagnements'] as List).map((e) => AccompagnementExt.fromRemoteConfigJson(e as String)).toList();
     return RemoteCampagneAccueil(
       id: json['id'] as String,
       title: json['title'] as String,

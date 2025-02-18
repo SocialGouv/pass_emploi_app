@@ -170,7 +170,12 @@ AccueilItem? _outilsItem(AccueilSuccessState successState, Accompagnement accomp
         Outil.benevolatCej.withoutImage(),
         Outil.formation.withoutImage(),
       ]),
-    Accompagnement.rsaFranceTravail || Accompagnement.rsaConseilsDepartementaux => AccueilOutilsItem([
+    Accompagnement.rsaFranceTravail ||
+    Accompagnement.rsaConseilsDepartementaux ||
+    Accompagnement.accompagnementIntensif ||
+    Accompagnement.accompagnementGlobal ||
+    Accompagnement.equipEmploiRecrut =>
+      AccueilOutilsItem([
         Outil.mesAidesFt.withoutImage(),
         Outil.emploiSolidaire.withoutImage(),
         Outil.emploiStore.withoutImage(),

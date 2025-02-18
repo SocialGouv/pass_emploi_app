@@ -65,6 +65,9 @@ extension on User {
       Accompagnement.rsaConseilsDepartementaux => 'Conseil départemental BRSA',
       Accompagnement.aij => 'AIJ',
       Accompagnement.avenirPro => 'Avenir Pro',
+      Accompagnement.accompagnementIntensif => 'Accompagnement intensif',
+      Accompagnement.accompagnementGlobal => 'Accompagnement global',
+      Accompagnement.equipEmploiRecrut => 'Equip emploi recrut',
     };
   }
 }
