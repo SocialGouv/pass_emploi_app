@@ -71,6 +71,9 @@ class AuthIdToken extends Equatable {
       'POLE_EMPLOI_BRSA' => LoginMode.POLE_EMPLOI,
       'CONSEIL_DEPT' => LoginMode.POLE_EMPLOI,
       'AVENIR_PRO' => LoginMode.POLE_EMPLOI,
+      'FT_ACCOMPAGNEMENT_INTENSIF' => LoginMode.POLE_EMPLOI,
+      'FT_ACCOMPAGNEMENT_GLOBAL' => LoginMode.POLE_EMPLOI,
+      'FT_EQUIP_EMPLOI_RECRUT' => LoginMode.POLE_EMPLOI,
       _ => throw Exception('Unknown login mode'),
     };
   }
@@ -81,6 +84,9 @@ class AuthIdToken extends Equatable {
       'POLE_EMPLOI_BRSA' => Accompagnement.rsaFranceTravail,
       'CONSEIL_DEPT' => Accompagnement.rsaConseilsDepartementaux,
       'AVENIR_PRO' => Accompagnement.avenirPro,
+      'FT_ACCOMPAGNEMENT_INTENSIF' => Accompagnement.accompagnementIntensif,
+      'FT_ACCOMPAGNEMENT_GLOBAL' => Accompagnement.accompagnementGlobal,
+      'FT_EQUIP_EMPLOI_RECRUT' => Accompagnement.equipEmploiRecrut,
       _ => Accompagnement.cej,
     };
   }

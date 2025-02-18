@@ -204,6 +204,75 @@ void main() {
       });
     });
 
+    group('with mode POLE_EMPLOI in accompagnementIntensif accompagnement', () {
+      sut.whenDispatchingAction(() => RequestLoginAction(LoginMode.POLE_EMPLOI));
+
+      test('user is properly logged in with POLE_EMPLOI authentication mode', () async {
+        // Given
+        when(() => authenticator.login(AuthenticationMode.POLE_EMPLOI))
+            .thenAnswer((_) async => SuccessAuthenticatorResponse());
+        when(() => authenticator.idToken()).thenAnswer((_) async => authIdToken('FT_ACCOMPAGNEMENT_INTENSIF'));
+        sut.givenStore = givenState().store((f) {
+          f.authenticator = authenticator;
+          f.matomoTracker = matomoTracker;
+          f.preferredLoginModeRepository = preferredLoginModeRepository;
+        });
+
+        // Then
+        sut.thenExpectChangingStatesThroughOrder([
+          _shouldLoad(),
+          _shouldBeLoggedInWith(mode: LoginMode.POLE_EMPLOI, accompagnement: Accompagnement.accompagnementIntensif),
+        ]);
+        preferredLoginModeRepository.verifySaveCalled();
+      });
+    });
+
+    group('with mode POLE_EMPLOI in accompagnementGlobal accompagnement', () {
+      sut.whenDispatchingAction(() => RequestLoginAction(LoginMode.POLE_EMPLOI));
+
+      test('user is properly logged in with POLE_EMPLOI authentication mode', () async {
+        // Given
+        when(() => authenticator.login(AuthenticationMode.POLE_EMPLOI))
+            .thenAnswer((_) async => SuccessAuthenticatorResponse());
+        when(() => authenticator.idToken()).thenAnswer((_) async => authIdToken('FT_ACCOMPAGNEMENT_GLOBAL'));
+        sut.givenStore = givenState().store((f) {
+          f.authenticator = authenticator;
+          f.matomoTracker = matomoTracker;
+          f.preferredLoginModeRepository = preferredLoginModeRepository;
+        });
+
+        // Then
+        sut.thenExpectChangingStatesThroughOrder([
+          _shouldLoad(),
+          _shouldBeLoggedInWith(mode: LoginMode.POLE_EMPLOI, accompagnement: Accompagnement.accompagnementGlobal),
+        ]);
+        preferredLoginModeRepository.verifySaveCalled();
+      });
+    });
+
+    group('with mode POLE_EMPLOI in equipEmploiRecrut accompagnement', () {
+      sut.whenDispatchingAction(() => RequestLoginAction(LoginMode.POLE_EMPLOI));
+
+      test('user is properly logged in with POLE_EMPLOI authentication mode', () async {
+        // Given
+        when(() => authenticator.login(AuthenticationMode.POLE_EMPLOI))
+            .thenAnswer((_) async => SuccessAuthenticatorResponse());
+        when(() => authenticator.idToken()).thenAnswer((_) async => authIdToken('FT_EQUIP_EMPLOI_RECRUT'));
+        sut.givenStore = givenState().store((f) {
+          f.authenticator = authenticator;
+          f.matomoTracker = matomoTracker;
+          f.preferredLoginModeRepository = preferredLoginModeRepository;
+        });
+
+        // Then
+        sut.thenExpectChangingStatesThroughOrder([
+          _shouldLoad(),
+          _shouldBeLoggedInWith(mode: LoginMode.POLE_EMPLOI, accompagnement: Accompagnement.equipEmploiRecrut),
+        ]);
+        preferredLoginModeRepository.verifySaveCalled();
+      });
+    });
+
     group('when login fails for a generic reason', () {
       sut.whenDispatchingAction(() => RequestLoginAction(LoginMode.MILO));
 
