@@ -8,8 +8,6 @@ class AutoInscriptionRepository {
   AutoInscriptionRepository(this._httpClient, [this._crashlytics]);
 
   Future<AutoInscriptionResult> set(String userId, String eventId) async {
-    await Future.delayed(Duration(seconds: 1));
-    if (1 == 1) return AutoInscriptionSuccess();
     final url = "/jeunes/milo/$userId/sessions/$eventId/inscrire";
     try {
       await _httpClient.post(url);

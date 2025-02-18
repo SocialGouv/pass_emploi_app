@@ -47,7 +47,7 @@ void main() {
     );
     assertErrorMessage(
       AutoInscriptionFailureState(error: AutoInscriptionNombrePlacesInsuffisantes()),
-      "Nombre de places insuffisantes",
+      "Cet événement est victime de son succès. Il n'y a plus de place disponible.",
     );
     assertErrorMessage(
       AutoInscriptionFailureState(error: AutoInscriptionConseillerInactif()),
