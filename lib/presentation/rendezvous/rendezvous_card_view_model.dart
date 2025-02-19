@@ -65,7 +65,7 @@ class RendezvousCardViewModel extends Equatable {
 }
 
 RendezVousDateTime _dateTime(Rendezvous rdv, RendezvousStateSource source) {
-  if (source.isFromEvenementsMiloList) {
+  if (source.isFromEvenements) {
     final date = rdv.date.toDayWithFullMonthContextualized();
     final heureDebut = rdv.date.toHourWithHSeparator();
     final heureFin =
@@ -77,7 +77,7 @@ RendezVousDateTime _dateTime(Rendezvous rdv, RendezvousStateSource source) {
 }
 
 InscriptionStatus _inscription(Rendezvous rdv, RendezvousStateSource source) {
-  if (!source.isFromEvenementsMiloList) return InscriptionStatus.hidden;
+  if (!source.isFromEvenements) return InscriptionStatus.hidden;
 
   if (rdv.estInscrit == true) return InscriptionStatus.inscrit;
 
@@ -100,7 +100,7 @@ String? _place(Rendezvous rdv) {
 }
 
 String? _nombreDePlacesRestantes(Rendezvous rdv, RendezvousStateSource source) {
-  if (!source.isFromEvenementsMiloList) return null;
+  if (!source.isFromEvenements) return null;
   if (rdv.nombreDePlacesRestantes == null || rdv.nombreDePlacesRestantes == 0) return null;
   return Strings.placesRestantes(rdv.nombreDePlacesRestantes!);
 }

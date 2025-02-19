@@ -256,7 +256,7 @@ bool _shouldGetRendezvous(RendezvousStateSource source, Store<AppState> store) {
 }
 
 String _navbarTitle(RendezvousStateSource source, Rendezvous rendezvous) {
-  if (!source.isFromEvenementsMiloList && !source.isFromEvenementMiloDetails) return Strings.myRendezVous;
+  if (!source.isFromEvenements && !source.isFromEvenementMiloDetails) return Strings.myRendezVous;
   return rendezvous.estInscrit == true ? Strings.myRendezVous : Strings.eventTitle;
 }
 
@@ -317,7 +317,7 @@ String? _conseiller(Rendezvous rdv) {
 }
 
 String? _createur(RendezvousStateSource source, Rendezvous rdv) {
-  if (source.isFromEvenementsMiloList) return null;
+  if (source.isFromEvenements) return null;
   if (rdv.source.isMilo) return null;
   final createur = rdv.createur;
   return createur != null ? Strings.rendezvousCreateur('${createur.firstName} ${createur.lastName}') : null;
@@ -368,12 +368,12 @@ String? _comment(RendezvousStateSource source, String? comment) {
 }
 
 bool _estCeQueMaPresenceEstRequise(RendezvousStateSource source, bool isInscrit) {
-  return (!source.isFromEvenementsMiloList && !source.isFromEvenementMiloDetails) || isInscrit;
+  return (!source.isFromEvenements && !source.isFromEvenementMiloDetails) || isInscrit;
 }
 
 RendezvousCtaVm? _shareToConseillerButton(Store<AppState> store, RendezvousStateSource source, Rendezvous rdv) {
   if (rdv.estInscrit == true) return null;
-  if (source.isFromEvenementsMiloList) {
+  if (source.isFromEvenements) {
     return RendezVousShareToConseiller(chatPartageSource: ChatPartageEventSource(rdv.id));
   }
   if (source.isFromEvenementMiloDetails) return _miloCta(store, rdv);
