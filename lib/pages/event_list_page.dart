@@ -84,16 +84,22 @@ class _Content extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: Margins.spacing_base),
-            child: Text(Strings.eventListHeaderText, style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
-          ),
-          Expanded(
-            child: RefreshIndicator.adaptive(
-              onRefresh: () async => viewModel.onRetry(),
-              child: ListView.separated(
+      child: RefreshIndicator.adaptive(
+        onRefresh: () async => viewModel.onRetry(),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: Margins.spacing_base),
+                child: Text(
+                  Strings.eventListHeaderText,
+                  style: TextStyles.textBaseRegular,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              ListView.separated(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
                 itemCount: viewModel.eventIds.length,
                 separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
                 itemBuilder: (context, index) {
@@ -112,9 +118,9 @@ class _Content extends StatelessWidget {
                   };
                 },
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

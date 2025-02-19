@@ -60,6 +60,17 @@ class _Builder extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: SecondaryAppBar(title: Strings.demandeInscriptionConfirmationTitle),
+      floatingActionButton: SizedBox(
+        width: double.infinity,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+          child: PrimaryActionButton(
+            label: Strings.consulterAutresEvennements,
+            onPressed: () => Navigator.of(context).pop(true),
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: switch (vm.displayState) {
         DisplayState.CONTENT => _Content(vm),
         DisplayState.FAILURE => _Failure(vm),
@@ -77,42 +88,40 @@ class _Content extends StatelessWidget {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
 
-    return Center(
-      child: Padding(
-        padding: EdgeInsets.all(Margins.spacing_base),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox.square(
-              dimension: height < MediaSizes.height_xs ? 60 : 180,
-              child: Illustration.green(
-                AppIcons.check_rounded,
+    return SingleChildScrollView(
+      child: Center(
+        child: Padding(
+          padding: EdgeInsets.all(Margins.spacing_base),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox.square(
+                dimension: height < MediaSizes.height_xs ? 60 : 180,
+                child: Illustration.green(
+                  AppIcons.check_rounded,
+                ),
               ),
-            ),
-            SizedBox(height: height < MediaSizes.height_xs ? Margins.spacing_base : Margins.spacing_l),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  vm.eventTitle,
-                  style: TextStyles.textMBold,
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: Margins.spacing_base),
-                Text(
-                  Strings.autoInscriptionContent,
-                  style: TextStyles.textBaseRegular,
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: Margins.spacing_l),
-                PrimaryActionButton(
-                  label: Strings.consulterAutresEvennements,
-                  onPressed: () => Navigator.of(context).pop(true),
-                ),
-              ],
-            ),
-          ],
+              SizedBox(height: height < MediaSizes.height_xs ? Margins.spacing_base : Margins.spacing_l),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    vm.eventTitle,
+                    style: TextStyles.textMBold,
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: Margins.spacing_base),
+                  Text(
+                    Strings.autoInscriptionContent,
+                    style: TextStyles.textBaseRegular,
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: Margins.spacing_l),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
