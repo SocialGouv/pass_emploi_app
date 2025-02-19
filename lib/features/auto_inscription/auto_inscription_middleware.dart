@@ -1,4 +1,5 @@
 import 'package:pass_emploi_app/features/auto_inscription/auto_inscription_actions.dart';
+import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_actions.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/auto_inscription_repository.dart';
 import 'package:redux/redux.dart';
@@ -17,9 +18,14 @@ class AutoInscriptionMiddleware extends MiddlewareClass<AppState> {
       store.dispatch(AutoInscriptionLoadingAction());
       final result = await _repository.inscrire(userId, action.eventId);
       (switch (result) {
-        AutoInscriptionSuccess() => store.dispatch(AutoInscriptionSuccessAction()),
+        AutoInscriptionSuccess() => _autoInscriptionSuccess(store, action.eventId),
         final AutoInscriptionError error => store.dispatch(AutoInscriptionFailureAction(error: error)),
       });
     }
+  }
+
+  void _autoInscriptionSuccess(Store<AppState> store, String sessionId) {
+    store.dispatch(AutoInscriptionSuccessAction());
+    store.dispatch(SessionMiloDetailsRequestAction(sessionId));
   }
 }
