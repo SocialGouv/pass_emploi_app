@@ -124,6 +124,7 @@ class _RendezvousDetailsPageState extends State<RendezvousDetailsPage> {
             ],
             Wrap(
               spacing: Margins.spacing_base,
+              runSpacing: Margins.spacing_base,
               children: [
                 CardTag.evenement(text: viewModel.tag),
                 if (viewModel.isInscrit) ...[
