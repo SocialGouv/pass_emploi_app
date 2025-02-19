@@ -20,6 +20,7 @@ enum MessageType {
   evenementEmploi,
   inconnu,
   sessionMilo,
+  dissmissed;
 }
 
 enum OffreType { emploi, alternance, immersion, civique, inconnu }
@@ -149,13 +150,15 @@ class Message extends Equatable {
     final creationDate = creationDateValue is Timestamp ? creationDateValue.toDate() : DateTime.now();
     final content = _content(json, chatCrypto, crashlytics);
     if (content == null) return null;
+    final type = _type(json);
+    if (type == MessageType.dissmissed) return null;
     return Message(
       id: id,
       iv: json['iv'] as String,
       content: content,
       creationDate: creationDate,
       sentBy: json['sentBy'] as String == 'jeune' ? Sender.jeune : Sender.conseiller,
-      type: _type(json),
+      type: type,
       sendingStatus: MessageSendingStatus.sent,
       contentStatus: _contentStatus(json),
       pieceJointes: _pieceJointes(json, chatCrypto, crashlytics),
@@ -231,6 +234,7 @@ class Message extends Equatable {
         "MESSAGE_EVENEMENT_EMPLOI" => MessageType.evenementEmploi,
         "MESSAGE_SESSION_MILO" => MessageType.sessionMilo,
         "MESSAGE_ACTION" => MessageType.messageAction,
+        "AUTO_INSCRIPTION" => MessageType.dissmissed,
         _ => MessageType.inconnu
       };
     } catch (e) {

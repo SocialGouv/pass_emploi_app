@@ -111,10 +111,16 @@ List<ChatItem> _messagesToChatItems(List<Message> messages, DateTime lastConseil
         MessageType.evenementEmploi => _evenementEmploiItem(message, lastConseillerReading),
         MessageType.sessionMilo => _sessionMiloItem(message, lastConseillerReading),
         MessageType.messageAction => _chatActionItem(message, lastConseillerReading),
-        MessageType.inconnu => InformationItem(Strings.unknownTypeTitle, Strings.unknownTypeDescription)
+        MessageType.inconnu => InformationItem(Strings.unknownTypeTitle, Strings.unknownTypeDescription),
+        MessageType.dissmissed => _dismissedItem(message),
       };
     }
   }).toList();
+}
+
+ChatItem _dismissedItem(Message message) {
+  assert(false, "Message type dissmissed should not be displayed");
+  return InformationItem(Strings.unknownTypeTitle, Strings.unknownTypeDescription);
 }
 
 ChatItem _chatActionItem(Message message, DateTime lastConseillerReading) {
