@@ -21,7 +21,7 @@ class ExternalLinks {
   static const String boiteAOutilsEvenementRecrutement = "https://www.1jeune1solution.gouv.fr/evenements";
   static const String boiteAOutilsEmploiStore = "https://www.emploi-store.fr/portail/accueil";
   static const String boiteAOutilsEmploiSolidaire = "https://emplois.inclusion.beta.gouv.fr/";
-  static const String boiteAOutilsLaBonneBoite = "https://labonneboite.pole-emploi.fr/";
+  static const String boiteAOutilsLaBonneBoite = "https://labonneboite.francetravail.fr/";
   static const String boiteAOutilsAlternance = "https://www.1jeune1solution.gouv.fr/apprentissage";
   static const String ressourceFormationLink =
       "https://candidat.francetravail.fr/portail-simulateurs/accueil-formation?at_medium=CMP&at_campaign=MVP_Estime_Formation&at_cmp_indicateur1=DDCT-Incubateur&at_cmp_indicateur2=Appli_CEJ";
