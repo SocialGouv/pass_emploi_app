@@ -8,8 +8,10 @@ import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_a
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_state.dart';
 import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_actions.dart';
 import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_state.dart';
+import 'package:pass_emploi_app/features/tracking/tracking_evenement_engagement_action.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/session_milo_partage.dart';
+import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
 import 'package:pass_emploi_app/presentation/chat/chat_partage_bottom_sheet_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
@@ -383,9 +385,10 @@ RendezvousCtaVm? _shareToConseillerButton(Store<AppState> store, RendezvousState
 RendezvousCtaVm _miloCta(Store<AppState> store, Rendezvous rdv) {
   if (rdv.autoInscriptionAvailable) {
     return RendezVousAutoInscription(
-      onPressed: () => store.dispatch(
-        AutoInscriptionRequestAction(eventId: rdv.id),
-      ),
+      onPressed: () {
+        store.dispatch(AutoInscriptionRequestAction(eventId: rdv.id));
+        store.dispatch(TrackingEvenementEngagementAction(EvenementEngagement.SESSION_AUTOINSCRIPTION));
+      },
     );
   }
   if (rdv.isComplet) return RendezVousShareToConseiller(chatPartageSource: ChatPartageSessionMiloSource(rdv.id));
