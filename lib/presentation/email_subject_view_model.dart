@@ -51,9 +51,9 @@ extension on User {
       Accompagnement.rsaConseilsDepartementaux => '${Strings.contactConseilsDepartementaux} - RSA',
       Accompagnement.aij => '${Strings.franceTravail} - AIJ',
       Accompagnement.avenirPro => '${Strings.franceTravail} - Avenir Pro',
-      Accompagnement.accompagnementIntensif => throw UnimplementedError(),
-      Accompagnement.accompagnementGlobal => throw UnimplementedError(),
-      Accompagnement.equipEmploiRecrut => throw UnimplementedError(),
+      Accompagnement.accompagnementIntensif => "${Strings.franceTravail} - ${Strings.accompagnementIntensif}",
+      Accompagnement.accompagnementGlobal => "${Strings.franceTravail} - ${Strings.accompagnementGlobal}",
+      Accompagnement.equipEmploiRecrut => "${Strings.franceTravail} - ${Strings.equipEmploiRecrut}",
     };
   }
 }
