@@ -8,6 +8,35 @@
       "code": "WORKSHOP",
       "label": "Atelier"
     },
-    "inscription": "INSCRIT"
+    "inscription": "NOT_INSCRIT",
+    "autoinscription": true,
+    "nbPlacesRestantes": 2,
+    "dateMaxInscription": null
+  },
+  {
+    "id": "id-entretien-2025",
+    "nomSession": "Simulateur d'entretien",
+    "nomOffre": "Préparer son entretien d'embauche",
+    "dateHeureDebut": "2025-03-15T14:30:00.000Z",
+    "type": {
+      "code": "COLLECTIVE_INFORMATION",
+      "label": "Information collective"
+    },
+    "inscription": "NOT_INSCRIT",
+    "autoinscription": true,
+    "nbPlacesRestantes": 0,
+    "dateMaxInscription": null
+  },
+  {
+    "id": "id-alternance-2025",
+    "nomSession": "Information Alternance",
+    "nomOffre": "Découvrir les métiers en alternance",
+    "dateHeureDebut": "2025-04-05T10:00:00.000Z",
+    "type": {
+      "code": "COLLECTIVE_INFORMATION",
+      "label": "Information collective"
+    },
+    "inscription": "INSCRIT",
+    "autoinscription": false
   }
 ]
