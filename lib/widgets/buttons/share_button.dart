@@ -20,8 +20,8 @@ class ShareButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SecondaryIconButton(
-      icon: AppIcons.share_rounded,
-      iconSize: Dimens.icon_size_base,
+      icon: AppIcons.ios_share,
+      iconSize: Dimens.icon_size_m,
       tooltip: semanticsLabel,
       onTap: () {
         if (onPressed != null) onPressed!();

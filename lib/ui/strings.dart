@@ -1062,9 +1062,11 @@ class Strings {
   static String mesAlertesPageTitle = "Mes alertes";
   static String miscellaneousErrorRetry = "Une erreur est survenue. Veuillez réessayer";
 
+  static String offreNumberAndLastUpdate(String offreId, String lastUpdate) =>
+      "Offre n°$offreId, actualisée $lastUpdate";
   static String offreDetailNumber(String offreId) => "Offre n°$offreId";
+  static String offreDetailLastUpdate(String lastUpdate) => "Actualisée $lastUpdate";
 
-  static String offreDetailLastUpdate(String lastUpdate) => "Actualisée le $lastUpdate";
   static String offresEnregistreesEmptySubtitle =
       "Pour faciliter votre suivi de candidatures, retrouvez ici toutes vos offres enregistrées.";
   static String offresEnregistreesEmptyButton = "Rechercher une offre";

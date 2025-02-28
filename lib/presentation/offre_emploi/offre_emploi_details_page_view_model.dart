@@ -137,7 +137,7 @@ OffreEmploiDetailsPageViewModel _viewModelFromDetails(
     companyAdapted: offreDetails?.companyAdapted,
     companyAccessibility: offreDetails?.companyAccessibility,
     companyDescription: offreDetails?.companyDescription,
-    lastUpdate: offreDetails?.lastUpdate?.toDayWithFullMonth(),
+    lastUpdate: offreDetails?.lastUpdate?.timeAgo(),
     originViewModel: OffreEmploiOriginViewModel.from(offreDetails?.origin),
     skills: offreDetails?.skills,
     softSkills: offreDetails?.softSkills,

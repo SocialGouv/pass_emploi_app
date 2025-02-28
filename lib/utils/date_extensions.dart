@@ -21,6 +21,31 @@ extension DateExtensions on DateTime {
     return "$formattedDate$sign$hours:$minutes";
   }
 
+  String timeAgo() {
+    final now = clock.now();
+    final difference = now.difference(this);
+
+    if (isToday()) return "aujourd'hui";
+    if (isYesterday()) return "hier";
+
+    final days = difference.inDays;
+    if (days > 0) {
+      return "il y a $days ${days > 1 ? 'jours' : 'jour'}";
+    } else {
+      final hours = difference.inHours;
+      if (hours > 0) {
+        return "il y a $hours ${hours > 1 ? 'heures' : 'heure'}";
+      } else {
+        final minutes = difference.inMinutes;
+        if (minutes > 0) {
+          return "il y a $minutes ${minutes > 1 ? 'minutes' : 'minute'}";
+        } else {
+          return "à l'instant";
+        }
+      }
+    }
+  }
+
   String toDayAndHour() => DateFormat("dd/MM/yyyy à HH'h'mm").format(this);
 
   String toDay() => DateFormat('dd/MM/yyyy').format(this);

@@ -23,24 +23,13 @@ class SecondaryIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const double width = 59;
-    const double height = 59;
-
     return FocusedBorderBuilder(builder: (focusNode) {
-      return Container(
-        width: width,
-        height: height,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(color: borderColor ?? iconColor),
-        ),
-        child: IconButton(
-          tooltip: tooltip,
-          focusNode: focusNode,
-          onPressed: onTap,
-          icon: Icon(icon, size: iconSize, color: iconColor),
-          padding: EdgeInsets.all(0),
-        ),
+      return IconButton(
+        tooltip: tooltip,
+        focusNode: focusNode,
+        onPressed: onTap,
+        icon: Icon(icon, size: iconSize, color: iconColor),
+        padding: EdgeInsets.all(0),
       );
     });
   }

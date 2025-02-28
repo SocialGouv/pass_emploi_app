@@ -10,7 +10,7 @@ class CardSubtitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: TextStyles.textXsBold(color: AppColors.grey800),
+      style: TextStyles.textXsBold(color: AppColors.contentColor),
     );
   }
 }

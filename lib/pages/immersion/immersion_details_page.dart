@@ -67,7 +67,7 @@ class ImmersionDetailsPage extends StatelessWidget {
         converter: (store) => ImmersionDetailsViewModel.create(store, platform),
         builder: (context, viewModel) => FavorisStateContext(
           selectState: (store) => store.state.immersionFavorisIdsState,
-          child: _scaffold(_body(context, viewModel), context),
+          child: _scaffold(_body(context, viewModel), context, viewModel.id),
         ),
         distinct: true,
       ),
@@ -86,11 +86,22 @@ class ImmersionDetailsPage extends StatelessWidget {
     };
   }
 
-  Scaffold _scaffold(Widget body, BuildContext context) {
+  Scaffold _scaffold(Widget body, BuildContext context, String offreId) {
     const backgroundColor = Colors.white;
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: SecondaryAppBar(title: Strings.offreDetails, backgroundColor: backgroundColor),
+      appBar: SecondaryAppBar(
+        title: Strings.offreDetails,
+        backgroundColor: backgroundColor,
+        actions: [
+          FavoriHeart<Immersion>(
+            offreId: offreId,
+            withBorder: true,
+            from: OffrePage.immersionDetails,
+            onFavoriRemoved: popPageWhenFavoriIsRemoved ? () => Navigator.pop(context) : null,
+          ),
+        ],
+      ),
       body: DefaultAnimatedSwitcher(child: body),
     );
   }
@@ -185,20 +196,14 @@ class ImmersionDetailsPage extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-              child: PrimaryActionButton(
-            onPressed: () {
-              viewModel.withContactForm
-                  ? ImmersionContactFormBottomSheet.show(context)
-                  : ImmersionContactBottomSheet.show(context);
-            },
-            label: Strings.immersionContact,
-          )),
-          SizedBox(width: 16),
-          FavoriHeart<Immersion>(
-            offreId: viewModel.id,
-            withBorder: true,
-            from: OffrePage.immersionDetails,
-            onFavoriRemoved: popPageWhenFavoriIsRemoved ? () => Navigator.pop(context) : null,
+            child: PrimaryActionButton(
+              onPressed: () {
+                viewModel.withContactForm
+                    ? ImmersionContactFormBottomSheet.show(context)
+                    : ImmersionContactBottomSheet.show(context);
+              },
+              label: Strings.immersionContact,
+            ),
           ),
         ],
       ),
