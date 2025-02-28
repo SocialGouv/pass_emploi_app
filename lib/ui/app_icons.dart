@@ -19,7 +19,7 @@ class AppIcons {
   static const IconData attach_file = Icons.attach_file;
   static const IconData tune_rounded = Icons.tune_rounded;
   static const IconData add_rounded = Icons.add_rounded;
-  static const IconData share_rounded = Icons.share_rounded;
+  static const IconData ios_share = Icons.ios_share;
   static const IconData content_copy_rounded = Icons.content_copy_rounded;
   static const IconData camera_alt_outlined = Icons.camera_alt_outlined;
   static const IconData image_outlined = Icons.image_outlined;

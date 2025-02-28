@@ -56,12 +56,7 @@ class BaseCard extends StatelessWidget {
       child: Stack(
         children: [
           CardContainer(
-            padding: EdgeInsets.only(
-              left: Margins.spacing_base,
-              top: (!isSimpleCard && iconButton != null) ? 0 : Margins.spacing_base,
-              right: Margins.spacing_base,
-              bottom: Margins.spacing_base,
-            ),
+            padding: EdgeInsets.all(Margins.spacing_base),
             onTap: onTap,
             onLongPress: onLongPress,
             child: SizedBox(
@@ -79,14 +74,10 @@ class BaseCard extends StatelessWidget {
                         if (pillule != null) pillule!,
                       ],
                     ),
-                  if (!isSimpleCard && iconButton != null)
-                    Row(
-                      children: [
-                        if (tag != null) Flexible(child: tag!),
-                        // This is a hack to make the iconButton appear aligned on the right of the title
-                        SizedBox.square(dimension: kMinInteractiveDimension),
-                      ],
-                    ),
+                  if (!isSimpleCard && iconButton != null) ...[
+                    if (tag != null) tag!,
+                    SizedBox(height: Margins.spacing_s),
+                  ],
                   if (imagePath != null)
                     Semantics(
                       excludeSemantics: imageAlt != null,
@@ -95,16 +86,8 @@ class BaseCard extends StatelessWidget {
                       child: _CardIllustration(imagePath: imagePath!),
                     ),
                   if (title.isNotEmpty) ...[
-                    if ((!isSimpleCard && iconButton == null) || imagePath != null) SizedBox(height: Margins.spacing_m),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(child: CardTitle(title)),
-                        if (isSimpleCard && iconButton != null)
-                          // This is a hack to make the iconButton appear aligned on the right of the title
-                          SizedBox.square(dimension: kMinInteractiveDimension),
-                      ],
-                    ),
+                    if ((!isSimpleCard && iconButton == null) || imagePath != null) SizedBox(height: Margins.spacing_s),
+                    CardTitle(title),
                   ],
                   if (subtitle != null && subtitle!.isNotEmpty) ...[
                     SizedBox(height: Margins.spacing_base),
@@ -114,10 +97,6 @@ class BaseCard extends StatelessWidget {
                     SizedBox(height: Margins.spacing_base),
                     CardBodyText(body!),
                   ],
-                  if (complements != null && complements!.isNotEmpty) ...[
-                    SizedBox(height: Margins.spacing_base),
-                    Wrap(spacing: Margins.spacing_base, runSpacing: Margins.spacing_s, children: complements!),
-                  ],
                   if (secondaryTags != null && secondaryTags!.isNotEmpty) ...[
                     SizedBox(height: Margins.spacing_base),
                     Wrap(
@@ -125,6 +104,10 @@ class BaseCard extends StatelessWidget {
                       runSpacing: Margins.spacing_s,
                       children: secondaryTags!,
                     ),
+                  ],
+                  if (complements != null && complements!.isNotEmpty) ...[
+                    SizedBox(height: Margins.spacing_base),
+                    Wrap(spacing: Margins.spacing_base, runSpacing: Margins.spacing_s, children: complements!),
                   ],
                   if (additionalChild != null) ...[
                     SizedBox(height: Margins.spacing_base),

@@ -76,7 +76,13 @@ class OffreEmploiDetailsPage extends StatelessWidget {
         converter: (store) => OffreEmploiDetailsPageViewModel.create(store),
         builder: (context, viewModel) => FavorisStateContext<OffreEmploi>(
           selectState: (store) => store.state.offreEmploiFavorisIdsState,
-          child: _scaffold(_body(context, viewModel), context),
+          child: _scaffold(
+            _body(context, viewModel),
+            context,
+            viewModel.urlRedirectPourPostulation,
+            viewModel.id,
+            viewModel.title,
+          ),
         ),
         onDispose: (store) {
           store.dispatch(DateConsultationWriteOffreAction(_offreId));
@@ -95,11 +101,30 @@ class OffreEmploiDetailsPage extends StatelessWidget {
     };
   }
 
-  Scaffold _scaffold(Widget body, BuildContext context) {
+  Scaffold _scaffold(Widget body, BuildContext context, String? url, String? offreId, String? title) {
     const backgroundColor = Colors.white;
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: SecondaryAppBar(title: Strings.offreDetails, backgroundColor: backgroundColor),
+      appBar: SecondaryAppBar(
+        title: Strings.offreDetails,
+        backgroundColor: backgroundColor,
+        actions: [
+          if (offreId != null)
+            FavoriHeart<OffreEmploi>(
+              offreId: offreId,
+              withBorder: true,
+              from: _fromAlternance ? OffrePage.alternanceDetails : OffrePage.emploiDetails,
+              onFavoriRemoved: popPageWhenFavoriIsRemoved ? () => Navigator.pop(context) : null,
+            ),
+          if (url != null)
+            ShareButton(
+              textToShare: url,
+              semanticsLabel: Strings.a11yPartagerOffreLabel,
+              subjectForEmail: title,
+              onPressed: () => _shareOffer(context),
+            ),
+        ],
+      ),
       body: body,
     );
   }
@@ -122,16 +147,10 @@ class OffreEmploiDetailsPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (id != null) Text(Strings.offreDetailNumber(id), style: TextStyles.textXsRegular()),
-                if (lastUpdate != null)
-                  Padding(
-                    padding: const EdgeInsets.only(top: Margins.spacing_xs),
-                    child: Text(
-                      Strings.offreDetailLastUpdate(lastUpdate),
-                      style: TextStyles.textSRegular(),
-                    ),
-                  ),
-                SizedBox(height: Margins.spacing_s),
+                if (viewModel.dateDerniereConsultation != null) ...[
+                  CardComplement.dateDerniereConsultation(viewModel.dateDerniereConsultation!),
+                  SizedBox(height: Margins.spacing_base),
+                ],
                 if (viewModel.originViewModel != null) ...[
                   viewModel.originViewModel!.toWidget(OffreEmploiOriginSize.medium),
                   SizedBox(height: Margins.spacing_s),
@@ -150,10 +169,20 @@ class OffreEmploiDetailsPage extends StatelessWidget {
                     child: Text(companyName, style: TextStyles.textBaseRegular),
                   ),
                 _tags(viewModel),
-                if (viewModel.dateDerniereConsultation != null) ...[
-                  CardComplement.dateDerniereConsultation(viewModel.dateDerniereConsultation!),
-                  SizedBox(height: Margins.spacing_base),
+                if (id != null && lastUpdate != null)
+                  Text(Strings.offreNumberAndLastUpdate(id, lastUpdate), style: TextStyles.textXsRegular())
+                else ...[
+                  if (id != null) Text(Strings.offreDetailNumber(id), style: TextStyles.textXsRegular()),
+                  if (lastUpdate != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: Margins.spacing_xs),
+                      child: Text(
+                        Strings.offreDetailLastUpdate(lastUpdate),
+                        style: TextStyles.textSRegular(),
+                      ),
+                    ),
                 ],
+                SizedBox(height: Margins.spacing_base),
                 if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_DETAILS)
                   _PartageOffre(isAlternance: _fromAlternance),
                 SizedBox(height: Margins.spacing_l),
@@ -172,7 +201,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
         if (url != null && id != null)
           Align(
             alignment: Alignment.bottomCenter,
-            child: _footer(context, viewModel.shouldShowCvBottomSheet, url, id, viewModel.title),
+            child: _footer(context, viewModel.shouldShowCvBottomSheet, url),
           )
         else if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS && id != null)
           Align(
@@ -304,7 +333,6 @@ class OffreEmploiDetailsPage extends StatelessWidget {
         ),
         SizedBox(height: Margins.spacing_base),
         for (final skill in skills) _setRequiredElement(element: skill.description, criteria: skill.requirement),
-        SepLine(Margins.spacing_m, Margins.spacing_m),
       ],
     );
   }
@@ -419,7 +447,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _footer(BuildContext context, bool shouldShowCvBottomSheet, String url, String offreId, String? title) {
+  Widget _footer(BuildContext context, bool shouldShowCvBottomSheet, String url) {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.all(Margins.spacing_base),
@@ -446,20 +474,6 @@ class OffreEmploiDetailsPage extends StatelessWidget {
                 icon: shouldShowCvBottomSheet ? null : AppIcons.open_in_new_rounded,
               ),
             ),
-          ),
-          SizedBox(width: Margins.spacing_base),
-          FavoriHeart<OffreEmploi>(
-            offreId: offreId,
-            withBorder: true,
-            from: _fromAlternance ? OffrePage.alternanceDetails : OffrePage.emploiDetails,
-            onFavoriRemoved: popPageWhenFavoriIsRemoved ? () => Navigator.pop(context) : null,
-          ),
-          SizedBox(width: Margins.spacing_base),
-          ShareButton(
-            textToShare: url,
-            semanticsLabel: Strings.a11yPartagerOffreLabel,
-            subjectForEmail: title,
-            onPressed: () => _shareOffer(context),
           ),
         ],
       ),

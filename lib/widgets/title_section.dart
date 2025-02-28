@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 
@@ -14,6 +15,7 @@ class TitleSection extends StatelessWidget {
       header: true,
       child: Column(
         children: [
+          SepLine(Margins.spacing_s, Margins.spacing_s),
           Row(
             children: [
               Container(
@@ -29,7 +31,6 @@ class TitleSection extends StatelessWidget {
               )
             ],
           ),
-          SepLine(10, 0),
         ],
       ),
     );

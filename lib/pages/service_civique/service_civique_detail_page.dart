@@ -58,7 +58,8 @@ class ServiceCiviqueDetailPage extends StatelessWidget {
         converter: (store) => ServiceCiviqueDetailViewModel.create(store),
         builder: (context, viewModel) {
           return FavorisStateContext(
-            child: _scaffold(_body(context, viewModel), context),
+            child:
+                _scaffold(_body(context, viewModel), context, viewModel.detail?.lienAnnonce, viewModel.detail?.titre),
             selectState: (store) => store.state.serviceCiviqueFavorisIdsState,
           );
         },
@@ -70,11 +71,35 @@ class ServiceCiviqueDetailPage extends StatelessWidget {
     );
   }
 
-  Scaffold _scaffold(Widget body, BuildContext context) {
+  Scaffold _scaffold(
+    Widget body,
+    BuildContext context,
+    String? url,
+    String? title,
+  ) {
     const backgroundColor = Colors.white;
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: SecondaryAppBar(title: Strings.serviceCiviqueDetailTitle, backgroundColor: backgroundColor),
+      appBar: SecondaryAppBar(
+        title: Strings.serviceCiviqueDetailTitle,
+        backgroundColor: backgroundColor,
+        actions: [
+          SizedBox(width: Margins.spacing_base),
+          FavoriHeart<ServiceCivique>(
+            offreId: idOffre,
+            withBorder: true,
+            from: OffrePage.serviceCiviqueDetails,
+            onFavoriRemoved: popPageWhenFavoriIsRemoved ? () => Navigator.pop(context) : null,
+          ),
+          if (url != null)
+            ShareButton(
+              textToShare: url,
+              semanticsLabel: Strings.a11yPartagerOffreLabel,
+              subjectForEmail: title,
+              onPressed: () => _shareOffer(context),
+            ),
+        ],
+      ),
       body: body,
     );
   }
@@ -142,7 +167,7 @@ class ServiceCiviqueDetailPage extends StatelessWidget {
         if (detail?.lienAnnonce != null)
           Align(
             alignment: Alignment.bottomCenter,
-            child: _footer(context, detail!.lienAnnonce!, detail.titre, viewModel.shouldShowCvBottomSheet),
+            child: _footer(context, detail!.lienAnnonce!, viewModel.shouldShowCvBottomSheet),
           )
       ],
     );
@@ -232,7 +257,7 @@ class ServiceCiviqueDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _footer(BuildContext context, String url, String? title, bool shouldShowCvBottomSheet) {
+  Widget _footer(BuildContext context, String url, bool shouldShowCvBottomSheet) {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.all(Margins.spacing_base),
@@ -261,20 +286,6 @@ class ServiceCiviqueDetailPage extends StatelessWidget {
                 semanticsRoleLink: true,
               ),
             ),
-          ),
-          SizedBox(width: Margins.spacing_base),
-          FavoriHeart<ServiceCivique>(
-            offreId: idOffre,
-            withBorder: true,
-            from: OffrePage.serviceCiviqueDetails,
-            onFavoriRemoved: popPageWhenFavoriIsRemoved ? () => Navigator.pop(context) : null,
-          ),
-          SizedBox(width: Margins.spacing_base),
-          ShareButton(
-            textToShare: url,
-            semanticsLabel: Strings.a11yPartagerOffreLabel,
-            subjectForEmail: title,
-            onPressed: () => _shareOffer(context),
           ),
         ],
       ),
