@@ -93,6 +93,7 @@ List<AccueilItem> _items(Store<AppState> store) {
   if (accueilState is! AccueilSuccessState || user == null) return [];
 
   return [
+    _errorDegradeeItem(accueilState),
     ..._remoteCampagneAccueilItems(store, store.state),
     _ratingAppItem(store.state),
     _campagneRecrutementItem(store, store.state),
@@ -186,6 +187,11 @@ AccueilItem? _outilsItem(AccueilSuccessState successState, Accompagnement accomp
         Outil.formation.withoutImage(),
       ]),
   };
+}
+
+AccueilItem? _errorDegradeeItem(AccueilSuccessState accueilState) {
+  final accueilErreur = accueilState.accueil.accueilErreur;
+  return accueilErreur != null ? ErrorDegradeeItem(accueilErreur) : null;
 }
 
 List<AccueilItem?> _remoteCampagneAccueilItems(Store<AppState> store, AppState state) {

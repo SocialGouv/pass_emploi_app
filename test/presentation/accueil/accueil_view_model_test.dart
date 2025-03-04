@@ -183,6 +183,42 @@ void main() {
       );
     });
 
+    test('should have erreur degradee', () {
+      // Given
+      final store = givenState() //
+          .loggedInPoleEmploiUser()
+          .withAccueilPoleEmploiSuccessErreurDegradee()
+          .withFeatureFlip(withCampagneRecrutement: true)
+          .withCampagne(campagne())
+          .store();
+
+      // When
+      final viewModel = AccueilViewModel.create(store);
+
+      // Then
+      expect(
+        viewModel.items,
+        [
+          ErrorDegradeeItem("Certaines données n'ont pas pu être récupérées"),
+          CampagneRecrutementItem(onDismiss: () {}),
+          CampagneEvaluationItem(titre: "Questionnaire", description: "Super test"),
+          AccueilCetteSemaineItem(
+            rendezvousCount: "3",
+            actionsOuDemarchesCount: "1",
+            actionsOuDemarchesLabel: "Démarche",
+          ),
+          AccueilProchainRendezvousItem(mockRendezvousPoleEmploi().id),
+          AccueilFavorisItem(mock3Favoris()),
+          AccueilAlertesItem(getMockedAlerte()),
+          AccueilOutilsItem([
+            Outil.mesAidesFt.withoutImage(),
+            Outil.benevolatCej.withoutImage(),
+            Outil.formation.withoutImage(),
+          ]),
+        ],
+      );
+    });
+
     test('should hide rendezvous count section when 0 and accompagnement RSA Conseils Départementaux', () {
       // Given
       final store = givenState() //

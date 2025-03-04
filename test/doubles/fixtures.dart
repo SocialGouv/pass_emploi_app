@@ -1141,6 +1141,21 @@ Accueil mockAccueilPoleEmploi({int nombreRendezVous = 3}) {
   );
 }
 
+Accueil mockAccueilPoleEmploiErreurDegradee({int nombreRendezVous = 3}) {
+  return Accueil(
+    dateDerniereMiseAJour: parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'),
+    cetteSemaine: AccueilCetteSemaine(
+      nombreRendezVous: nombreRendezVous,
+      nombreActionsDemarchesARealiser: 1,
+    ),
+    prochainRendezVous: mockRendezvousPoleEmploi(),
+    alertes: getMockedAlerte(),
+    favoris: mock3Favoris(),
+    campagne: mockCampagne(),
+    accueilErreur: "Certaines données n'ont pas pu être récupérées",
+  );
+}
+
 CvPoleEmploi mockCvPoleEmploi() {
   return CvPoleEmploi(
     titre: "Pâtissier-2023",

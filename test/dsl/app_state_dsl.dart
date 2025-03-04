@@ -685,6 +685,10 @@ extension AppStateDSL on AppState {
     return copyWith(accueilState: AccueilSuccessState(mockAccueilPoleEmploi()));
   }
 
+  AppState withAccueilPoleEmploiSuccessErreurDegradee() {
+    return copyWith(accueilState: AccueilSuccessState(mockAccueilPoleEmploiErreurDegradee()));
+  }
+
   AppState withRemoteCampagneAccueil({List<RemoteCampagneAccueil> campagnes = const []}) {
     return copyWith(remoteCampagneAccueilState: RemoteCampagneAccueilState(campagnes: campagnes));
   }

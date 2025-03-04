@@ -20,6 +20,7 @@ class Accueil extends Equatable {
   final List<Alerte>? alertes;
   final List<Favori>? favoris;
   final Campagne? campagne;
+  final String? accueilErreur;
 
   Accueil({
     this.dateDerniereMiseAJour,
@@ -31,6 +32,7 @@ class Accueil extends Equatable {
     this.alertes,
     this.favoris,
     this.campagne,
+    this.accueilErreur,
   });
 
   factory Accueil.fromJson(dynamic json) {
@@ -43,6 +45,7 @@ class Accueil extends Equatable {
     final alertes = _alertes(json);
     final favoris = _favoris(json);
     final campagne = json["campagne"] != null ? Campagne.fromJson(json["campagne"]) : null;
+    final accueilErreur = json["messageDonneesManquantes"] as String?;
 
     return Accueil(
       dateDerniereMiseAJour: dateDerniereMiseAjour,
@@ -54,6 +57,7 @@ class Accueil extends Equatable {
       alertes: alertes,
       favoris: favoris,
       campagne: campagne,
+      accueilErreur: accueilErreur,
     );
   }
 
@@ -66,6 +70,7 @@ class Accueil extends Equatable {
     final List<SessionMilo>? sessionsMiloAVenir,
     final List<Alerte>? alertes,
     final List<Favori>? favoris,
+    final String? accueilErreur,
   }) {
     return Accueil(
       dateDerniereMiseAJour: dateDerniereMiseAJour ?? this.dateDerniereMiseAJour,
@@ -76,6 +81,7 @@ class Accueil extends Equatable {
       sessionsMiloAVenir: sessionsMiloAVenir ?? this.sessionsMiloAVenir,
       alertes: alertes ?? this.alertes,
       favoris: favoris ?? this.favoris,
+      accueilErreur: accueilErreur ?? this.accueilErreur,
     );
   }
 
@@ -89,6 +95,7 @@ class Accueil extends Equatable {
         sessionsMiloAVenir,
         alertes,
         favoris,
+        accueilErreur,
       ];
 }
 

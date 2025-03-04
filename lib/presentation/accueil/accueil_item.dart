@@ -125,6 +125,15 @@ class RemoteCampagneAccueilItem extends AccueilItem {
   List<Object?> get props => [title, cta, url];
 }
 
+class ErrorDegradeeItem extends AccueilItem {
+  final String message;
+
+  ErrorDegradeeItem(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}
+
 String _actionsOuDemarchesLabel(LoginMode loginMode, int actionsOuDemarches) {
   final usePlural = actionsOuDemarches > 1;
   if (loginMode.isPe()) {
