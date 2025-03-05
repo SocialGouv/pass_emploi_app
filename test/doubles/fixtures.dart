@@ -46,8 +46,10 @@ import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/matching_demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/models/mon_suivi.dart';
+import 'package:pass_emploi_app/models/offre_dto.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
+import 'package:pass_emploi_app/models/offre_suivie.dart';
 import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/models/preferences.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
@@ -1411,3 +1413,8 @@ RemoteCampagneAccueil mockRemoteCampagneAccueil({String? id, DateTime? dateDebut
     accompagnements: [],
   );
 }
+
+OffreSuivie mockOffreSuivie({String? id}) => OffreSuivie(
+      offreDto: OffreEmploiDto(mockOffreEmploi(id: id ?? "offre1")),
+      dateConsultation: DateTime(2025),
+    );

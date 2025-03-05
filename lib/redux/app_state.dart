@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
 import 'package:pass_emploi_app/features/alerte/create/alerte_create_state.dart';
 import 'package:pass_emploi_app/features/alerte/delete/alerte_delete_state.dart';
 import 'package:pass_emploi_app/features/alerte/list/alerte_list_state.dart';
+import 'package:pass_emploi_app/features/auto_inscription/auto_inscription_state.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
 import 'package:pass_emploi_app/features/cgu/cgu_state.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_state.dart';
@@ -46,6 +47,7 @@ import 'package:pass_emploi_app/features/message_important/message_important_sta
 import 'package:pass_emploi_app/features/metier/search_metier_state.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
+import 'package:pass_emploi_app/features/offres_suivies/offres_suivies_state.dart';
 import 'package:pass_emploi_app/features/onboarding/onboarding_state.dart';
 import 'package:pass_emploi_app/features/preferences/preferences_state.dart';
 import 'package:pass_emploi_app/features/preferences/update/preferences_update_state.dart';
@@ -79,7 +81,6 @@ import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/user.dart';
-import 'package:pass_emploi_app/features/auto_inscription/auto_inscription_state.dart';
 /*AUTOGENERATE-REDUX-APP-STATE-IMPORT*/
 
 class AppState extends Equatable {
@@ -161,6 +162,7 @@ class AppState extends Equatable {
   final LocalisationPersistState localisationPersistState;
   final RemoteCampagneAccueilState remoteCampagneAccueilState;
   final AutoInscriptionState autoInscriptionState;
+  final OffresSuiviesState offresSuiviesState;
   /*AUTOGENERATE-REDUX-APP-STATE-PROPERTY*/
 
   AppState({
@@ -242,6 +244,7 @@ class AppState extends Equatable {
     required this.localisationPersistState,
     required this.remoteCampagneAccueilState,
     required this.autoInscriptionState,
+    required this.offresSuiviesState,
     /*AUTOGENERATE-REDUX-APP-STATE-CONSTRUCTOR*/
   });
 
@@ -324,6 +327,7 @@ class AppState extends Equatable {
     final LocalisationPersistState? localisationPersistState,
     final RemoteCampagneAccueilState? remoteCampagneAccueilState,
     final AutoInscriptionState? autoInscriptionState,
+    final OffresSuiviesState? offresSuiviesState,
     /*AUTOGENERATE-REDUX-APP-STATE-COPYPARAM*/
   }) {
     return AppState(
@@ -405,6 +409,7 @@ class AppState extends Equatable {
       localisationPersistState: localisationPersistState ?? this.localisationPersistState,
       remoteCampagneAccueilState: remoteCampagneAccueilState ?? this.remoteCampagneAccueilState,
       autoInscriptionState: autoInscriptionState ?? this.autoInscriptionState,
+      offresSuiviesState: offresSuiviesState ?? this.offresSuiviesState,
       /*AUTOGENERATE-REDUX-APP-STATE-COPYBODY*/
     );
   }
@@ -489,6 +494,7 @@ class AppState extends Equatable {
       localisationPersistState: LocalisationPersistNotInitializedState(),
       remoteCampagneAccueilState: RemoteCampagneAccueilState(),
       autoInscriptionState: AutoInscriptionNotInitializedState(),
+      offresSuiviesState: OffresSuiviesState(),
       /*AUTOGENERATE-REDUX-APP-STATE-FACTORY*/
     );
   }
@@ -566,6 +572,7 @@ class AppState extends Equatable {
         localisationPersistState,
         remoteCampagneAccueilState,
         autoInscriptionState,
+        offresSuiviesState,
         /*AUTOGENERATE-REDUX-APP-STATE-EQUATABLE*/
       ];
 
