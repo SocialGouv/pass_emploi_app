@@ -79,6 +79,7 @@ import 'package:pass_emploi_app/repositories/date_consultation_notification_repo
 import 'package:pass_emploi_app/repositories/localisation_persist_repository.dart';
 import 'package:pass_emploi_app/repositories/remote_campagne_accueil_repository.dart';
 import 'package:pass_emploi_app/repositories/auto_inscription_repository.dart';
+import 'package:pass_emploi_app/repositories/offres_suivies_repository.dart';
 /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-IMPORT*/
 import 'package:redux/redux.dart';
 
@@ -167,6 +168,7 @@ class TestStoreFactory {
   LocalisationPersistRepository localisationPersistRepository = MockLocalisationPersistRepository();
   RemoteCampagneAccueilRepository remoteCampagneAccueilRepository = MockRemoteCampagneAccueilRepository();
   AutoInscriptionRepository autoInscriptionRepository = MockAutoInscriptionRepository();
+  OffresSuiviesRepository offresSuiviesRepository = MockOffresSuiviesRepository();
   /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-PROPERTY*/
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -250,6 +252,7 @@ class TestStoreFactory {
       localisationPersistRepository,
       remoteCampagneAccueilRepository,
       autoInscriptionRepository,
+      offresSuiviesRepository,
       /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-CONSTRUCTOR*/
     ).initializeReduxStore(initialState: initialState);
   }

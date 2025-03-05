@@ -18,7 +18,7 @@ class OffresSuiviesRepository {
     return result.deserialize();
   }
 
-  Future<void> set(OffreSuivie offre) async {
+  Future<List<OffreSuivie>> set(OffreSuivie offre) async {
     final offres = await get();
 
     final existeDeja = offres.any((o) => o.offreDto == offre.offreDto);
@@ -27,13 +27,18 @@ class OffresSuiviesRepository {
       offres.add(offre);
       final newOffres = offres.removeOldestEntryIfRequired();
       await secureStorage.write(key: _key, value: newOffres.serialize());
+
+      return newOffres;
     }
+
+    return offres;
   }
 
-  Future<void> delete(OffreSuivie offre) async {
+  Future<List<OffreSuivie>> delete(OffreSuivie offre) async {
     final offres = await get();
     offres.remove(offre);
     await secureStorage.write(key: _key, value: offres.serialize());
+    return offres;
   }
 }
 

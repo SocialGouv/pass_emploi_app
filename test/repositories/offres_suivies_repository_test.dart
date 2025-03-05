@@ -27,14 +27,26 @@ void main() {
 
   test('set and get', () async {
     // Given
-    await repository.set(offreSuivie1);
-    await repository.set(offreSuivie1);
-    await repository.set(offreSuivie2);
+    final setResult1 = await repository.set(offreSuivie1);
+    final setResult2 = await repository.set(offreSuivie1);
+    final setResult3 = await repository.set(offreSuivie2);
 
     // When
     final result = await repository.get();
 
     // Then
+    expect(
+      setResult1,
+      equals([offreSuivie1]),
+    );
+    expect(
+      setResult2,
+      equals([offreSuivie1]),
+    );
+    expect(
+      setResult3,
+      equals([offreSuivie1, offreSuivie2]),
+    );
     expect(
       result,
       equals([offreSuivie1, offreSuivie2]),
@@ -47,10 +59,15 @@ void main() {
     await repository.set(offreSuivie2);
 
     // When
-    await repository.delete(offreSuivie1);
+    final deleteResult = await repository.delete(offreSuivie1);
     final result = await repository.get();
 
     // Then
+    expect(
+      deleteResult,
+      equals([offreSuivie2]),
+    );
+
     expect(
       result,
       equals([offreSuivie2]),
