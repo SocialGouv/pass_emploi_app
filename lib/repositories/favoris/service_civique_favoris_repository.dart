@@ -42,7 +42,7 @@ class ServiceCiviqueFavorisRepository extends FavorisRepository<ServiceCivique> 
   }
 
   @override
-  Future<bool> postFavori(String userId, ServiceCivique favori) async {
+  Future<bool> postFavori(String userId, ServiceCivique favori, {bool postulated = false}) async {
     final url = "/jeunes/$userId/favoris/services-civique";
     try {
       await _httpClient.post(

@@ -27,7 +27,7 @@ class ImmersionFavorisRepository extends FavorisRepository<Immersion> {
   }
 
   @override
-  Future<bool> postFavori(String userId, Immersion favori) async {
+  Future<bool> postFavori(String userId, Immersion favori, {bool postulated = false}) async {
     final url = "/jeunes/$userId/favoris/offres-immersion";
     try {
       await _httpClient.post(

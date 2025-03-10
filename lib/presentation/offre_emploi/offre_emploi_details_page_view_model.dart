@@ -2,7 +2,10 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/date_consultation_offre/date_derniere_consultation_store_extension.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
+import 'package:pass_emploi_app/features/offres_suivies/offres_suivies_actions.dart';
+import 'package:pass_emploi_app/features/offres_suivies/offres_suivies_state.dart';
 import 'package:pass_emploi_app/models/login_mode.dart';
+import 'package:pass_emploi_app/models/offre_dto.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi/offre_emploi_origin_view_model.dart';
@@ -15,6 +18,8 @@ enum OffreEmploiDetailsPageDisplayState { SHOW_DETAILS, SHOW_INCOMPLETE_DETAILS,
 class OffreEmploiDetailsPageViewModel {
   final OffreEmploiDetailsPageDisplayState displayState;
   final bool shouldShowCvBottomSheet;
+  final bool shouldShowOffreSuiviBottomSheet;
+  final void Function() onPostuler;
   final String? id;
   final String? title;
   final String? urlRedirectPourPostulation;
@@ -42,6 +47,8 @@ class OffreEmploiDetailsPageViewModel {
   OffreEmploiDetailsPageViewModel._({
     required this.displayState,
     required this.shouldShowCvBottomSheet,
+    required this.shouldShowOffreSuiviBottomSheet,
+    required this.onPostuler,
     this.id,
     this.title,
     this.urlRedirectPourPostulation,
@@ -73,6 +80,7 @@ class OffreEmploiDetailsPageViewModel {
     if (offreEmploiDetailsState is OffreEmploiDetailsSuccessState) {
       final offreId = offreEmploiDetailsState.offre.id;
       return _viewModelFromDetails(
+        store,
         offreEmploiDetailsState,
         offreEmploiDetailsState.offre,
         loginMode,
@@ -81,12 +89,17 @@ class OffreEmploiDetailsPageViewModel {
     } else if (offreEmploiDetailsState is OffreEmploiDetailsIncompleteDataState) {
       final offreId = offreEmploiDetailsState.offre.id;
       return _viewModelFromIncompleteData(
+        store,
         offreEmploiDetailsState.offre,
         loginMode,
         store.getOffreDateDerniereConsultationOrNull(offreId),
       );
     } else {
-      return _viewModelForOtherCases(offreEmploiDetailsState, loginMode);
+      return _viewModelForOtherCases(
+        store,
+        offreEmploiDetailsState,
+        loginMode,
+      );
     }
   }
 }
@@ -113,41 +126,45 @@ class EducationViewModel extends Equatable {
 }
 
 OffreEmploiDetailsPageViewModel _viewModelFromDetails(
+  Store<AppState> store,
   OffreEmploiDetailsSuccessState offreEmploiDetailsState,
-  OffreEmploiDetails? offreDetails,
+  OffreEmploiDetails offreDetails,
   LoginMode loginMode,
   DateTime? dateDerniereConsultation,
 ) {
   return OffreEmploiDetailsPageViewModel._(
     displayState: OffreEmploiDetailsPageDisplayState.SHOW_DETAILS,
     shouldShowCvBottomSheet: loginMode.isPe(),
-    id: offreDetails?.id,
-    title: offreDetails?.title,
-    urlRedirectPourPostulation: offreDetails?.urlRedirectPourPostulation,
-    companyName: offreDetails?.companyName,
-    contractType: offreDetails?.contractType,
+    shouldShowOffreSuiviBottomSheet: _shouldShowOffreSuivieBottomSheet(store, offreDetails.toOffreEmploi),
+    onPostuler: () => _onPostuler(store, offreDetails.toOffreEmploi),
+    id: offreDetails.id,
+    title: offreDetails.title,
+    urlRedirectPourPostulation: offreDetails.urlRedirectPourPostulation,
+    companyName: offreDetails.companyName,
+    contractType: offreDetails.contractType,
     dateDerniereConsultation: dateDerniereConsultation,
-    duration: offreDetails?.duration?.removeNewLine(),
-    location: offreDetails?.location,
-    salary: offreDetails?.salary,
-    description: offreDetails?.description,
-    experience: offreDetails?.experience,
-    requiredExperience: offreDetails?.requiredExperience,
-    companyUrl: offreDetails?.companyUrl,
-    companyAdapted: offreDetails?.companyAdapted,
-    companyAccessibility: offreDetails?.companyAccessibility,
-    companyDescription: offreDetails?.companyDescription,
-    lastUpdate: offreDetails?.lastUpdate?.timeAgo(),
-    originViewModel: OffreEmploiOriginViewModel.from(offreDetails?.origin),
-    skills: offreDetails?.skills,
-    softSkills: offreDetails?.softSkills,
-    educations: offreDetails?.educations?.map((e) => _toViewModel(e)).toList(),
-    languages: offreDetails?.languages,
-    driverLicences: offreDetails?.driverLicences,
+    duration: offreDetails.duration?.removeNewLine(),
+    location: offreDetails.location,
+    salary: offreDetails.salary,
+    description: offreDetails.description,
+    experience: offreDetails.experience,
+    requiredExperience: offreDetails.requiredExperience,
+    companyUrl: offreDetails.companyUrl,
+    companyAdapted: offreDetails.companyAdapted,
+    companyAccessibility: offreDetails.companyAccessibility,
+    companyDescription: offreDetails.companyDescription,
+    lastUpdate: offreDetails.lastUpdate?.timeAgo(),
+    originViewModel: OffreEmploiOriginViewModel.from(offreDetails.origin),
+    skills: offreDetails.skills,
+    softSkills: offreDetails.softSkills,
+    educations: offreDetails.educations?.map((e) => _toViewModel(e)).toList(),
+    languages: offreDetails.languages,
+    driverLicences: offreDetails.driverLicences,
   );
 }
 
 OffreEmploiDetailsPageViewModel _viewModelFromIncompleteData(
+  Store<AppState> store,
   OffreEmploi offreEmploi,
   LoginMode loginMode,
   DateTime? dateDerniereConsultation,
@@ -155,6 +172,8 @@ OffreEmploiDetailsPageViewModel _viewModelFromIncompleteData(
   return OffreEmploiDetailsPageViewModel._(
     displayState: OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS,
     shouldShowCvBottomSheet: loginMode.isPe(),
+    shouldShowOffreSuiviBottomSheet: _shouldShowOffreSuivieBottomSheet(store, offreEmploi),
+    onPostuler: () => _onPostuler(store, offreEmploi),
     title: offreEmploi.title,
     location: offreEmploi.location,
     id: offreEmploi.id,
@@ -166,13 +185,36 @@ OffreEmploiDetailsPageViewModel _viewModelFromIncompleteData(
 }
 
 OffreEmploiDetailsPageViewModel _viewModelForOtherCases(
+  Store<AppState> store,
   OffreEmploiDetailsState state,
   LoginMode loginMode,
 ) {
   return OffreEmploiDetailsPageViewModel._(
     displayState: _displayState(state),
     shouldShowCvBottomSheet: loginMode.isPe(),
+    shouldShowOffreSuiviBottomSheet: false,
+    onPostuler: () {},
   );
+}
+
+bool _shouldShowOffreSuivieBottomSheet(Store<AppState> store, OffreEmploi offre) {
+  return store.shouldShowOffreSuivieBottomSheet(offre);
+}
+
+void _onPostuler(Store<AppState> store, OffreEmploi offre) {
+  if (store.shouldShowOffreSuivieBottomSheet(offre)) {
+    store.dispatch(OffresSuiviesWriteAction(OffreEmploiDto(offre)));
+  }
+}
+
+extension on Store<AppState> {
+  bool shouldShowOffreSuivieBottomSheet(OffreEmploi offre) {
+    final offresSuiviesState = state.offresSuiviesState;
+    final isOffreSuivie = offresSuiviesState.isPresent(offre.id);
+
+    final isOffreFavoris = state.offreEmploiFavorisIdsState.contains(offre.id);
+    return !isOffreSuivie && !isOffreFavoris;
+  }
 }
 
 extension on String? {

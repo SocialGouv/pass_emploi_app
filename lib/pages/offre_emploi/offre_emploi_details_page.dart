@@ -22,6 +22,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/offre_suivie_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/postuler_offre_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/delete_favori_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
@@ -88,6 +89,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
           store.dispatch(DateConsultationWriteOffreAction(_offreId));
           store.dispatch(DerniereOffreEmploiConsulteeWriteAction());
         },
+        distinct: true,
       ),
     );
   }
@@ -201,7 +203,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
         if (url != null && id != null)
           Align(
             alignment: Alignment.bottomCenter,
-            child: _footer(context, viewModel.shouldShowCvBottomSheet, url),
+            child: _footer(context, viewModel),
           )
         else if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS && id != null)
           Align(
@@ -447,7 +449,16 @@ class OffreEmploiDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _footer(BuildContext context, bool shouldShowCvBottomSheet, String url) {
+  Widget _footer(
+    BuildContext context,
+    OffreEmploiDetailsPageViewModel viewModel,
+  ) {
+    final url = viewModel.urlRedirectPourPostulation;
+    assert(url != null);
+    final shouldShowCvBottomSheet = viewModel.shouldShowCvBottomSheet;
+    final shouldShowOffreSuiviBottomSheet = viewModel.shouldShowOffreSuiviBottomSheet;
+    final onPostuler = viewModel.onPostuler;
+
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.all(Margins.spacing_base),
@@ -463,11 +474,11 @@ class OffreEmploiDetailsPage extends StatelessWidget {
                     showPassEmploiBottomSheet(
                       context: context,
                       builder: (context) => PostulerOffreBottomSheet(
-                        onPostuler: () => _applyToOffer(context, url),
+                        onPostuler: () => _applyToOffer(context, url!, shouldShowOffreSuiviBottomSheet, onPostuler),
                       ),
                     );
                   } else {
-                    _applyToOffer(context, url);
+                    _applyToOffer(context, url!, shouldShowOffreSuiviBottomSheet, onPostuler);
                   }
                 },
                 label: Strings.postulerButtonTitle,
@@ -492,9 +503,19 @@ class OffreEmploiDetailsPage extends StatelessWidget {
     );
   }
 
-  void _applyToOffer(BuildContext context, String url) {
-    launchExternalUrl(url);
+  void _applyToOffer(
+    BuildContext context,
+    String url,
+    bool shouldShowOffreSuiviBottomSheetOnPostuler,
+    void Function() onPostuler,
+  ) {
     context.trackEvenementEngagement(_postulerEvent());
+    launchExternalUrl(url).then((_) {
+      if (context.mounted && shouldShowOffreSuiviBottomSheetOnPostuler) {
+        onPostuler();
+        OffreSuivieBottomSheet.show(context, _offreId);
+      }
+    });
   }
 
   void _shareOffer(BuildContext context) => context.trackEvenementEngagement(_partagerEvent());
