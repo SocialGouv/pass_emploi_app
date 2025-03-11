@@ -29,6 +29,7 @@ import 'package:pass_emploi_app/repositories/localisation_persist_repository.dar
 import 'package:pass_emploi_app/repositories/matching_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/mon_suivi_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
+import 'package:pass_emploi_app/repositories/offres_suivies_repository.dart';
 import 'package:pass_emploi_app/repositories/onboarding_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/preferences_repository.dart';
@@ -289,4 +290,10 @@ class MockRemoteCampagneAccueilRepository extends Mock implements RemoteCampagne
 }
 
 class MockAutoInscriptionRepository extends Mock implements AutoInscriptionRepository {}
+
+class MockOffresSuiviesRepository extends Mock implements OffresSuiviesRepository {
+  MockOffresSuiviesRepository() {
+    when(() => get()).thenAnswer((_) async => []);
+  }
+}
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-DECLARATION*/

@@ -37,7 +37,6 @@ class BottomSheetHeader extends StatelessWidget {
       header: true,
       child: Container(
         padding: padding ?? EdgeInsets.only(top: Margins.spacing_base),
-        color: Colors.white,
         child: Row(
           children: [
             _CloseButton(),
@@ -94,6 +93,7 @@ class BottomSheetWrapper extends StatelessWidget {
     this.maxHeightFactor = 0.9,
     this.padding,
     this.hideTitle = false,
+    this.backgroundColor,
   });
 
   final double maxHeightFactor;
@@ -101,6 +101,7 @@ class BottomSheetWrapper extends StatelessWidget {
   final Widget body;
   final EdgeInsets? padding;
   final bool hideTitle;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +113,7 @@ class BottomSheetWrapper extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(Dimens.radius_l),
         child: Material(
-          color: Colors.white,
+          color: backgroundColor ?? Colors.white,
           child: Padding(
             padding: padding,
             child: Column(

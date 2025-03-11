@@ -1,7 +1,12 @@
 import 'package:clock/clock.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/favori/ids/favori_ids_state.dart';
+import 'package:pass_emploi_app/features/offres_suivies/offres_suivies_state.dart';
 import 'package:pass_emploi_app/models/image_source.dart';
+import 'package:pass_emploi_app/models/offre_dto.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
+import 'package:pass_emploi_app/models/offre_emploi_details.dart';
+import 'package:pass_emploi_app/models/offre_suivie.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi/offre_emploi_details_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi/offre_emploi_origin_view_model.dart';
 
@@ -215,6 +220,65 @@ void main() {
           NetworkImageSource("http://logo-indeed.jpg"),
         ),
       );
+    });
+  });
+
+  group('offre suivie', () {
+    test('should display offre suivie bottom sheet', () {
+      // Given
+      final store = givenState() //
+          .loggedInPoleEmploiUser()
+          .offreEmploiDetailsSuccess()
+          .store();
+
+      // When
+      final viewModel = OffreEmploiDetailsPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.shouldShowOffreSuiviBottomSheet, true);
+    });
+
+    test('should not display offre suivie bottom sheet when already present in offre suivie state', () {
+      // Given
+      final store = givenState() //
+          .loggedInPoleEmploiUser()
+          .offreEmploiDetailsSuccess()
+          .copyWith(
+            offresSuiviesState: OffresSuiviesState(
+              offresSuivies: [
+                OffreSuivie(
+                  dateConsultation: DateTime(2025),
+                  offreDto: OffreEmploiDto(
+                    mockOffreEmploiDetails().toOffreEmploi,
+                  ),
+                )
+              ],
+            ),
+          )
+          .store();
+
+      // When
+      final viewModel = OffreEmploiDetailsPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.shouldShowOffreSuiviBottomSheet, false);
+    });
+
+    test('should not display offre suivie bottom sheet when already present in favoris', () {
+      // Given
+      final store = givenState() //
+          .loggedInPoleEmploiUser()
+          .offreEmploiDetailsSuccess()
+          .copyWith(
+            offreEmploiFavorisIdsState: FavoriIdsState.success({mockOffreEmploiDetails().id}),
+          )
+          .store();
+
+      // When
+      final viewModel = OffreEmploiDetailsPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.shouldShowOffreSuiviBottomSheet, false);
     });
   });
 }

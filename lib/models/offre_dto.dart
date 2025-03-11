@@ -28,6 +28,12 @@ sealed class OffreDto extends Equatable {
       },
     };
   }
+
+  String get id => switch (this) {
+        final OffreEmploiDto offre => offre.offreEmploi.id,
+        final OffreImmersionDto offre => offre.immersion.id,
+        final OffreServiceCiviqueDto offre => offre.serviceCivique.id,
+      };
 }
 
 class OffreEmploiDto extends OffreDto {

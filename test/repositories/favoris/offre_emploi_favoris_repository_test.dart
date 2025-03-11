@@ -54,8 +54,9 @@ void main() {
               "typeContrat": "contractType",
               "localisation": {"nom": "Paris"},
               "alternance": false,
-              'duree': null,
-              'nomEntreprise': null,
+              "duree": null,
+              "nomEntreprise": null,
+              "aPostule": false,
             },
           );
         });
@@ -110,7 +111,8 @@ void main() {
                   "alternance": isAlternance,
                   'duree': "duration",
                   'nomEntreprise': "companyName",
-                  'origineNom': "France Travail"
+                  'origineNom': "France Travail",
+                  "aPostule": false,
                 },
               );
             });
@@ -156,6 +158,7 @@ void main() {
               'nomEntreprise': "companyName",
               'origineNom': "Indeed",
               'origineLogo': "https://indeed.com/logo.png",
+              "aPostule": false,
             },
           );
         });

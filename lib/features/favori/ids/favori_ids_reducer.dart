@@ -15,6 +15,7 @@ class FavoriIdsReducer<T> {
   FavoriIdsState<T> _updatedIds(FavoriIdsSuccessState<T> current, FavoriUpdateSuccessAction<T> action) {
     final newIds = Set<String>.from(current.favoriIds);
     if (action.confirmedNewStatus == FavoriStatus.added) newIds.add(action.favoriId);
+    if (action.confirmedNewStatus == FavoriStatus.postulated) newIds.add(action.favoriId);
     if (action.confirmedNewStatus == FavoriStatus.removed) newIds.remove(action.favoriId);
     return FavoriIdsState<T>.success(newIds);
   }

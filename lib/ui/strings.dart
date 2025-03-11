@@ -1548,4 +1548,15 @@ class Strings {
   static String autoInscriptionConfirmation(String eventTitle) =>
       "Votre inscription à l’événement $eventTitle est confirmée";
   static String autoInscriptionContent = "Bravo pour votre engagement !";
+
+  // Suivi des offres
+  static String offreSuivieBottomSheetTitle = "Avez-vous postulé à cette offre ?";
+  static String offreSuivieOuiPostule = "Oui, j’ai postulé";
+  static String offreSuiviePasEncore = "Pas encore, mais ça m’intéresse";
+  static String offreSuivieNonPasInteresse = "Non, ça ne m’intéresse plus";
+
+  static String offrePostuleeConfirmationAppBar = "Offre postulée";
+  static String offreFavorisConfirmationAppBar = "Offre enregistrée";
+  static String offreSuivieConfirmationPageTitle = "Retrouvez cette offre dans votre suivi des offres";
+  static String offreSuivieConfirmationPageDescription = "👏 Bravo pour votre engagement !";
 }
