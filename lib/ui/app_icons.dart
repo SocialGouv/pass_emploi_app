@@ -29,6 +29,7 @@ class AppIcons {
   static const IconData highlight_off = Icons.highlight_off;
   static const IconData add = Icons.add;
   static const IconData remove = Icons.remove;
+  static const IconData arrow_forward_rounded = Icons.arrow_forward_rounded;
 
   // Information
   static const IconData signpost_rounded = Icons.signpost_rounded;

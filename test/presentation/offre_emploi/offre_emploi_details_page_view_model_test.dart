@@ -235,7 +235,7 @@ void main() {
       final viewModel = OffreEmploiDetailsPageViewModel.create(store);
 
       // Then
-      expect(viewModel.shouldShowOffreSuiviBottomSheet, true);
+      expect(viewModel.shouldShowOffreSuivieBottomSheet, true);
     });
 
     test('should not display offre suivie bottom sheet when already present in offre suivie state', () {
@@ -261,7 +261,7 @@ void main() {
       final viewModel = OffreEmploiDetailsPageViewModel.create(store);
 
       // Then
-      expect(viewModel.shouldShowOffreSuiviBottomSheet, false);
+      expect(viewModel.shouldShowOffreSuivieBottomSheet, false);
     });
 
     test('should not display offre suivie bottom sheet when already present in favoris', () {
@@ -278,7 +278,73 @@ void main() {
       final viewModel = OffreEmploiDetailsPageViewModel.create(store);
 
       // Then
-      expect(viewModel.shouldShowOffreSuiviBottomSheet, false);
+      expect(viewModel.shouldShowOffreSuivieBottomSheet, false);
+    });
+
+    test('should display offre suivie form when prensent in offres suivies', () {
+      // Given
+      final store = givenState() //
+          .loggedInPoleEmploiUser()
+          .offreEmploiDetailsSuccess()
+          .copyWith(
+            offresSuiviesState: OffresSuiviesState(
+              offresSuivies: [
+                OffreSuivie(
+                  dateConsultation: DateTime(2025),
+                  offreDto: OffreEmploiDto(
+                    mockOffreEmploiDetails().toOffreEmploi,
+                  ),
+                )
+              ],
+            ),
+          )
+          .store();
+
+      // When
+      final viewModel = OffreEmploiDetailsPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.shouldShowOffreSuiviForm, true);
+    });
+
+    test('should display offre suivie form when prensent confirmation', () {
+      // Given
+      final store = givenState() //
+          .loggedInPoleEmploiUser()
+          .offreEmploiDetailsSuccess()
+          .copyWith(
+            offresSuiviesState: OffresSuiviesState(
+              offresSuivies: [],
+              confirmationId: mockOffreEmploiDetails().id,
+            ),
+          )
+          .store();
+
+      // When
+      final viewModel = OffreEmploiDetailsPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.shouldShowOffreSuiviForm, true);
+    });
+
+    test('should not display offre suivie', () {
+      // Given
+      final store = givenState() //
+          .loggedInPoleEmploiUser()
+          .offreEmploiDetailsSuccess()
+          .copyWith(
+            offresSuiviesState: OffresSuiviesState(
+              offresSuivies: [],
+              confirmationId: null,
+            ),
+          )
+          .store();
+
+      // When
+      final viewModel = OffreEmploiDetailsPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.shouldShowOffreSuiviForm, false);
     });
   });
 }

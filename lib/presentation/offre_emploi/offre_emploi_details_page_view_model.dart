@@ -18,7 +18,8 @@ enum OffreEmploiDetailsPageDisplayState { SHOW_DETAILS, SHOW_INCOMPLETE_DETAILS,
 class OffreEmploiDetailsPageViewModel {
   final OffreEmploiDetailsPageDisplayState displayState;
   final bool shouldShowCvBottomSheet;
-  final bool shouldShowOffreSuiviBottomSheet;
+  final bool shouldShowOffreSuivieBottomSheet;
+  final bool shouldShowOffreSuiviForm;
   final void Function() onPostuler;
   final String? id;
   final String? title;
@@ -47,7 +48,8 @@ class OffreEmploiDetailsPageViewModel {
   OffreEmploiDetailsPageViewModel._({
     required this.displayState,
     required this.shouldShowCvBottomSheet,
-    required this.shouldShowOffreSuiviBottomSheet,
+    required this.shouldShowOffreSuivieBottomSheet,
+    required this.shouldShowOffreSuiviForm,
     required this.onPostuler,
     this.id,
     this.title,
@@ -135,7 +137,8 @@ OffreEmploiDetailsPageViewModel _viewModelFromDetails(
   return OffreEmploiDetailsPageViewModel._(
     displayState: OffreEmploiDetailsPageDisplayState.SHOW_DETAILS,
     shouldShowCvBottomSheet: loginMode.isPe(),
-    shouldShowOffreSuiviBottomSheet: _shouldShowOffreSuivieBottomSheet(store, offreDetails.toOffreEmploi),
+    shouldShowOffreSuivieBottomSheet: _shouldShowOffreSuivieBottomSheet(store, offreDetails.toOffreEmploi),
+    shouldShowOffreSuiviForm: _shouldShowOffreSuiviForm(store, offreDetails.toOffreEmploi),
     onPostuler: () => _onPostuler(store, offreDetails.toOffreEmploi),
     id: offreDetails.id,
     title: offreDetails.title,
@@ -172,7 +175,8 @@ OffreEmploiDetailsPageViewModel _viewModelFromIncompleteData(
   return OffreEmploiDetailsPageViewModel._(
     displayState: OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS,
     shouldShowCvBottomSheet: loginMode.isPe(),
-    shouldShowOffreSuiviBottomSheet: _shouldShowOffreSuivieBottomSheet(store, offreEmploi),
+    shouldShowOffreSuivieBottomSheet: _shouldShowOffreSuivieBottomSheet(store, offreEmploi),
+    shouldShowOffreSuiviForm: _shouldShowOffreSuiviForm(store, offreEmploi),
     onPostuler: () => _onPostuler(store, offreEmploi),
     title: offreEmploi.title,
     location: offreEmploi.location,
@@ -192,13 +196,19 @@ OffreEmploiDetailsPageViewModel _viewModelForOtherCases(
   return OffreEmploiDetailsPageViewModel._(
     displayState: _displayState(state),
     shouldShowCvBottomSheet: loginMode.isPe(),
-    shouldShowOffreSuiviBottomSheet: false,
+    shouldShowOffreSuivieBottomSheet: false,
+    shouldShowOffreSuiviForm: false,
     onPostuler: () {},
   );
 }
 
 bool _shouldShowOffreSuivieBottomSheet(Store<AppState> store, OffreEmploi offre) {
   return store.shouldShowOffreSuivieBottomSheet(offre);
+}
+
+bool _shouldShowOffreSuiviForm(Store<AppState> store, OffreEmploi offre) {
+  final offresSuiviesState = store.state.offresSuiviesState;
+  return offresSuiviesState.isPresent(offre.id) || offresSuiviesState.confirmationId == offre.id;
 }
 
 void _onPostuler(Store<AppState> store, OffreEmploi offre) {

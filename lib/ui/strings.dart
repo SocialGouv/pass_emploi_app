@@ -1559,4 +1559,13 @@ class Strings {
   static String offreFavorisConfirmationAppBar = "Offre enregistrée";
   static String offreSuivieConfirmationPageTitle = "Retrouvez cette offre dans votre suivi des offres";
   static String offreSuivieConfirmationPageDescription = "👏 Bravo pour votre engagement !";
+  static String youConsultedThisOfferAt(String timeAgo) => "Vous avez consulté cette offre $timeAgo";
+  static String ouEnEtesVous = "Où en êtes-vous ?";
+
+  static String jaiPostule = "J’ai postulé";
+  static String caMinteresse = "ça m’intéresse";
+  static String caNeMinteressePas = "ça ne m’intéresse plus";
+  static String retrouvezCetteOffreDansVosOffres = "Retrouvez cette offre dans le suivi des offres";
+  static String seeNextOffer = "Voir l’offre suivante";
+  static String merciPourVotreReponse = "Merci pour votre réponse";
 }

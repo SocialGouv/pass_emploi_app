@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/a11y/mandatory_fields_label.dart';
 import 'package:pass_emploi_app/widgets/date_pickers/date_picker_suggestions.dart';
+import 'package:pass_emploi_app/widgets/pass_emploi_radio_buttons.dart';
 
 class CreateUserActionFormStep3 extends StatelessWidget {
   const CreateUserActionFormStep3({
@@ -103,13 +104,13 @@ class _ActionStatusRadios extends StatelessWidget {
       container: true,
       child: Column(
         children: [
-          _PassEmploiRadio<bool>(
+          PassEmploiRadio<bool>(
             title: Strings.userActionStatusRadioCompletedStep3,
             value: true,
             groupValue: isCompleted,
             onPressed: _onStatusChanged,
           ),
-          _PassEmploiRadio<bool>(
+          PassEmploiRadio<bool>(
             title: Strings.userActionStatusRadioTodoStep3,
             value: false,
             groupValue: isCompleted,
@@ -154,52 +155,6 @@ class _RappelsSwitcher extends StatelessWidget {
         SizedBox(width: Margins.spacing_xs),
         Text(value ? Strings.yes : Strings.no, style: textStyle),
       ],
-    );
-  }
-}
-
-class _PassEmploiRadio<T> extends StatelessWidget {
-  const _PassEmploiRadio({
-    super.key,
-    required this.onPressed,
-    required this.value,
-    required this.groupValue,
-    required this.title,
-  });
-
-  final void Function(T?) onPressed;
-  final T value;
-  final T groupValue;
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Semantics(
-      button: true,
-      label: "${value == groupValue ? Strings.selectedRadioButton : Strings.unselectedRadioButton} : $title",
-      child: InkWell(
-        onTap: () => onPressed(value),
-        child: Semantics(
-          excludeSemantics: true,
-          child: Row(
-            children: [
-              SizedBox(
-                height: 40,
-                width: 40,
-                // a11y : ingonre pointer to not take priority on semantic focus
-                child: IgnorePointer(
-                  child: Radio<T>(
-                    value: value,
-                    groupValue: groupValue,
-                    onChanged: (value) => onPressed(value),
-                  ),
-                ),
-              ),
-              Semantics(child: Text(title, style: TextStyles.textBaseRegular)),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }

@@ -13,8 +13,11 @@ class OffresSuiviesDeleteAction {
   OffresSuiviesDeleteAction(this.offreSuivie);
 }
 
+class OffresSuiviesConfirmationResetAction {}
+
 class OffresSuiviesToStateAction {
   final List<OffreSuivie> offresSuivies;
+  final String? confirmationId;
 
-  OffresSuiviesToStateAction(this.offresSuivies);
+  OffresSuiviesToStateAction(this.offresSuivies, {this.confirmationId});
 }

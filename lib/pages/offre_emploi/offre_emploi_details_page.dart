@@ -36,6 +36,7 @@ import 'package:pass_emploi_app/widgets/favori_heart.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 import 'package:pass_emploi_app/widgets/help_tooltip.dart';
 import 'package:pass_emploi_app/widgets/offre_emploi_origin.dart';
+import 'package:pass_emploi_app/widgets/offre_suivie_form.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/tags/data_tag.dart';
 import 'package:pass_emploi_app/widgets/title_section.dart';
@@ -185,6 +186,14 @@ class OffreEmploiDetailsPage extends StatelessWidget {
                     ),
                 ],
                 SizedBox(height: Margins.spacing_base),
+                if (viewModel.shouldShowOffreSuiviForm) ...[
+                  OffreSuivieForm(
+                    offreId: id!,
+                    fromAlternance: _fromAlternance,
+                    showOffreDetails: false,
+                  ),
+                  SizedBox(height: Margins.spacing_l),
+                ],
                 if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_DETAILS)
                   _PartageOffre(isAlternance: _fromAlternance),
                 SizedBox(height: Margins.spacing_l),
@@ -456,7 +465,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
     final url = viewModel.urlRedirectPourPostulation;
     assert(url != null);
     final shouldShowCvBottomSheet = viewModel.shouldShowCvBottomSheet;
-    final shouldShowOffreSuiviBottomSheet = viewModel.shouldShowOffreSuiviBottomSheet;
+    final shouldShowOffreSuiviBottomSheet = viewModel.shouldShowOffreSuivieBottomSheet;
     final onPostuler = viewModel.onPostuler;
 
     return Container(
