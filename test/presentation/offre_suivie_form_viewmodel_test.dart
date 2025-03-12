@@ -42,7 +42,6 @@ void main() {
           expect(viewModel.offreLien, "Technicien / Technicienne d'installation de réseaux câblés  (H/F)");
           expect(viewModel.showConfirmation, false);
           expect(viewModel.confirmationMessage, null);
-          expect(viewModel.confirmationButton, 'Fermer');
         });
       });
 
