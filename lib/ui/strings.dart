@@ -235,7 +235,7 @@ class Strings {
       "L’espace recherche vous permet de retrouver les offres d’emploi qui vous intéressent et de les ajouter à vos offres enregistrées.";
   static String onboardingEvenementsBody =
       "Découvrez les événements à ne pas manquer en lien avec votre recherche et inscrivez-vous pour y participer.";
-  static String onboardingOffreEnregistreeBody = "Retrouvez maintenant vos favoris dans l’onglet “Offres enregistrées”";
+  static String onboardingOffreEnregistreeBody = "Retrouvez maintenant vos favoris dans l’onglet “Suivi des offres”";
 
   static String takeRdvWithConseiller =
       "Prenez rendez-vous avec votre conseiller qui procédera à la création de votre compte.";
@@ -865,7 +865,7 @@ class Strings {
   static String searchButton = "Rechercher";
   static String offreDetails = "Détails de l'offre";
   static String rechercheTabTitle = "Recherche";
-  static String offresEnregistreesTabTitle = "Offres enregistrées";
+  static String offresEnregistreesTabTitle = "Suivi des offres";
   static String boiteAOutilsTabTitle = "Boîte à outils";
   static String solutionsAppBarTitle = "Offres";
   static String partagerOffreConseiller = "Partager l’offre à mon conseiller";

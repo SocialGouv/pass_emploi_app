@@ -161,7 +161,7 @@ void main() {
             primaryButtonText: "Découvrir",
             illustration: "assets/onboarding/illustration_onboarding_offre_enregistree.webp",
             title: "Nouveau !",
-            body: "Retrouvez maintenant vos favoris dans l’onglet “Offres enregistrées”",
+            body: "Retrouvez maintenant vos favoris dans l’onglet “Suivi des offres”",
             onPrimaryButton: () {},
             canClose: true,
           ),
