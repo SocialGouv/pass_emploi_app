@@ -27,6 +27,7 @@ class OffreEmploiDetailsPageViewModel {
   final String? companyName;
   final String? contractType;
   final DateTime? dateDerniereConsultation;
+  final DateTime? datePostulation;
   final String? duration;
   final String? location;
   final String? salary;
@@ -57,6 +58,7 @@ class OffreEmploiDetailsPageViewModel {
     this.companyName,
     this.contractType,
     this.dateDerniereConsultation,
+    this.datePostulation,
     this.duration,
     this.location,
     this.salary,
@@ -146,6 +148,7 @@ OffreEmploiDetailsPageViewModel _viewModelFromDetails(
     companyName: offreDetails.companyName,
     contractType: offreDetails.contractType,
     dateDerniereConsultation: dateDerniereConsultation,
+    datePostulation: _datePostulation(store, offreDetails.id),
     duration: offreDetails.duration?.removeNewLine(),
     location: offreDetails.location,
     salary: offreDetails.salary,
@@ -185,6 +188,7 @@ OffreEmploiDetailsPageViewModel _viewModelFromIncompleteData(
     companyName: offreEmploi.companyName,
     contractType: offreEmploi.contractType,
     dateDerniereConsultation: dateDerniereConsultation,
+    datePostulation: null,
   );
 }
 
@@ -199,6 +203,7 @@ OffreEmploiDetailsPageViewModel _viewModelForOtherCases(
     shouldShowOffreSuivieBottomSheet: false,
     shouldShowOffreSuiviForm: false,
     onPostuler: () {},
+    datePostulation: null,
   );
 }
 
@@ -215,6 +220,10 @@ void _onPostuler(Store<AppState> store, OffreEmploi offre) {
   if (store.shouldShowOffreSuivieBottomSheet(offre)) {
     store.dispatch(OffresSuiviesWriteAction(OffreEmploiDto(offre)));
   }
+}
+
+DateTime? _datePostulation(Store<AppState> store, String offreId) {
+  return store.state.offreEmploiFavorisIdsState.datePostulationOf(offreId);
 }
 
 extension on Store<AppState> {

@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/models/offre_dto.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/offre_suivie.dart';
 import 'package:pass_emploi_app/presentation/offre_suivie_form_viewmodel.dart';
+import 'package:pass_emploi_app/repositories/favoris/favoris_repository.dart';
 
 import '../doubles/fixtures.dart';
 import '../dsl/app_state_dsl.dart';
@@ -88,7 +89,7 @@ void main() {
               .loggedInPoleEmploiUser()
               .offreEmploiDetailsSuccess()
               .copyWith(
-                offreEmploiFavorisIdsState: FavoriIdsState.success({mockOffreEmploiDetails().id}),
+                offreEmploiFavorisIdsState: FavoriIdsState.success({FavoriDto(mockOffreEmploiDetails().id)}),
               )
               .copyWith(
                 offresSuiviesState: OffresSuiviesState(

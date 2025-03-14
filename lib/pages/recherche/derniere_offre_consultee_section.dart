@@ -31,9 +31,9 @@ class DerniereOffreConsulteeSection extends StatelessWidget {
           children: [
             MediumSectionTitle(Strings.rechercheDerniereOffreConsultee),
             SizedBox(height: Margins.spacing_base),
-            DateDerniereConsultationProvider(
+            DateDerniereActionProvider(
               id: viewModel.id,
-              builder: (dateConsultation) {
+              builder: (dateActionViewModel) {
                 return BaseCard(
                   title: viewModel.titre,
                   subtitle: viewModel.organisation,
@@ -63,7 +63,10 @@ class DerniereOffreConsulteeSection extends StatelessWidget {
                     if (viewModel.localisation != null) DataTag.location(viewModel.localisation!),
                   ],
                   complements: [
-                    if (dateConsultation != null) CardComplement.dateDerniereConsultation(dateConsultation)
+                    if (dateActionViewModel.datePostulation != null)
+                      CardComplement.datePostulation(dateActionViewModel.datePostulation!)
+                    else if (dateActionViewModel.dateDerniereConsultation != null)
+                      CardComplement.dateDerniereConsultation(dateActionViewModel.dateDerniereConsultation!)
                   ],
                 );
               },

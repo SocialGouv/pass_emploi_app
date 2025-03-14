@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/offre_suivie.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi/offre_emploi_details_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi/offre_emploi_origin_view_model.dart';
+import 'package:pass_emploi_app/repositories/favoris/favoris_repository.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../dsl/app_state_dsl.dart';
@@ -270,7 +271,7 @@ void main() {
           .loggedInPoleEmploiUser()
           .offreEmploiDetailsSuccess()
           .copyWith(
-            offreEmploiFavorisIdsState: FavoriIdsState.success({mockOffreEmploiDetails().id}),
+            offreEmploiFavorisIdsState: FavoriIdsState.success({FavoriDto(mockOffreEmploiDetails().id)}),
           )
           .store();
 

@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/presentation/favori_heart_view_model.dart';
 import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/repositories/favoris/favoris_repository.dart';
 import 'package:redux/redux.dart';
 
 void main() {
@@ -15,7 +16,7 @@ void main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        offreEmploiFavorisIdsState: FavoriIdsState<OffreEmploi>.success({"offreId"}),
+        offreEmploiFavorisIdsState: FavoriIdsState<OffreEmploi>.success({FavoriDto("offreId")}),
       ),
     );
 
@@ -30,7 +31,7 @@ void main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        offreEmploiFavorisIdsState: FavoriIdsState<OffreEmploi>.success({"notOffreId"}),
+        offreEmploiFavorisIdsState: FavoriIdsState<OffreEmploi>.success({FavoriDto("notOffreId")}),
       ),
     );
 
@@ -46,7 +47,7 @@ void main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        offreEmploiFavorisIdsState: FavoriIdsState<OffreEmploi>.success({"offreId"}),
+        offreEmploiFavorisIdsState: FavoriIdsState<OffreEmploi>.success({FavoriDto("offreId")}),
         favoriUpdateState: FavoriUpdateState({"offreId": FavoriUpdateStatus.ERROR}),
       ),
     );
@@ -63,7 +64,7 @@ void main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        offreEmploiFavorisIdsState: FavoriIdsState<OffreEmploi>.success({"toto"}),
+        offreEmploiFavorisIdsState: FavoriIdsState<OffreEmploi>.success({FavoriDto("toto")}),
         favoriUpdateState: FavoriUpdateState({"offreId": FavoriUpdateStatus.ERROR}),
       ),
     );

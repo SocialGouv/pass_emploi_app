@@ -150,7 +150,10 @@ class OffreEmploiDetailsPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (viewModel.dateDerniereConsultation != null) ...[
+                if (viewModel.datePostulation != null) ...[
+                  CardComplement.datePostulation(viewModel.datePostulation!),
+                  SizedBox(height: Margins.spacing_base),
+                ] else if (viewModel.dateDerniereConsultation != null) ...[
                   CardComplement.dateDerniereConsultation(viewModel.dateDerniereConsultation!),
                   SizedBox(height: Margins.spacing_base),
                 ],
