@@ -1,7 +1,6 @@
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/ui/immersion_contacts_strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
-import 'package:pass_emploi_app/widgets/a11y/string_a11y_extensions.dart';
 
 class _PassEmploiStrings {
   static String appName = "pass emploi";
@@ -230,9 +229,9 @@ class Strings {
   static String onboardingChatBody =
       "Échangez sur la messagerie instantanée avec votre conseiller pour construire votre projet, partager des offres, vous inscrire à des évènements, etc.";
   static String onboardingRechercheBodyCej =
-      "L’espace recherche vous permet de retrouver les offres d’emploi d’alternance, d’immersion et de service civique, et de les ajouter à vos offres enregistrées.";
+      "L’espace recherche vous permet de retrouver les offres d’emploi d’alternance, d’immersion et de service civique, et de les ajouter à vos offres suivies.";
   static String onboardingRechercheBodyPe =
-      "L’espace recherche vous permet de retrouver les offres d’emploi qui vous intéressent et de les ajouter à vos offres enregistrées.";
+      "L’espace recherche vous permet de retrouver les offres d’emploi qui vous intéressent et de les ajouter à vos offres suivies.";
   static String onboardingEvenementsBody =
       "Découvrez les événements à ne pas manquer en lien avec votre recherche et inscrivez-vous pour y participer.";
   static String onboardingOffreEnregistreeBody = "Retrouvez maintenant vos favoris dans l’onglet “Suivi des offres”";
@@ -336,9 +335,9 @@ class Strings {
   // Onboarding
   static String accueilOnboardingTitle1(String prenom) => "Bienvenue ${prenom}dans votre espace dédié !";
   static String accueilOnboardingBody1Milo =
-      "Retrouvez sur la page d’accueil un condensé des différentes informations utiles à votre recherche : actions à réaliser, offres enregistrées, prochains rendez-vous, etc.";
+      "Retrouvez sur la page d’accueil un condensé des différentes informations utiles à votre recherche : actions à réaliser, offres suivies, prochains rendez-vous, etc.";
   static String accueilOnboardingBody1Pe =
-      "Retrouvez sur la page d’accueil un condensé des différentes informations utiles à votre recherche : démarches à réaliser, offres enregistrées, prochains rendez-vous, etc.";
+      "Retrouvez sur la page d’accueil un condensé des différentes informations utiles à votre recherche : démarches à réaliser, offres suivies, prochains rendez-vous, etc.";
 
   static String accueilOnboardingTitle2 = "Gardez une longueur d’avance grâce aux notifications";
   static String accueilOnboardingBody2 = "Nous vous conseillons d’activer les notifications pour : ";
@@ -369,10 +368,7 @@ class Strings {
   static String accueilPasDalerteDescription =
       "Créez des alertes lors de vos recherches et recevez les offres qui vous correspondent";
   static String accueilPasDalerteBouton = "Commencer une recherche";
-  static String accueilOffresEnregistreesSection = "Mes offres enregistrées";
-  static String accueilVoirOffresEnregistrees = "Voir toutes mes offres enregistrées";
-  static String accueilPasDeFavorisDescription = "Retrouvez ici les offres que vous avez enregistrées";
-  static String accueilPasDOffresEnregistreesBouton = "Rechercher une offre";
+  static String accueilOffresEnregistreesSection = "Mon suivi des offres";
   static String accueilOutilsSection = "Boîte à outils";
   static String accueilOutilsSectionDescription = "Découvrez des outils pour vous aider dans vos projets";
   static String accueilVoirLesOutils = "Voir tous les outils";
@@ -1032,9 +1028,9 @@ class Strings {
   static String offreDetailsError = "Erreur lors de la récupération de l'offre";
   static String offreDetailsTitle = "Détail de l'offre";
 
-  static String offreLastSeen(DateTime date) => "Vue le ${date.toDay()}";
+  static String offreLastSeen(DateTime date) => "Vue ${date.timeAgo()}";
+  static String offrePostulatedSeen(DateTime date) => "Postulé ${date.timeAgo()}";
 
-  static String offreLastSeenA11y(DateTime date) => "Vue le ${date.toDay().toDateForScreenReaders()}";
   static String profileTitle = "Profil souhaité";
   static String experienceTitle = "Expérience";
   static String companyDescriptionTitle = "Détail de l'entreprise";
@@ -1051,14 +1047,14 @@ class Strings {
   static String requiredIcon = "Obligatoire";
   static String offreNotFoundError = "Cette offre n’existe plus ou est momentanément suspendue";
   static String offreNotFoundExplaination =
-      "Vous pouvez décider de la supprimer ou bien de la conserver dans vos offres enregistrées.";
-  static String deleteOffreFromFavori = "Supprimer des offres enregistrées";
+      "Vous pouvez décider de la supprimer ou bien de la conserver dans vos offres suivies.";
+  static String deleteOffreFromFavori = "Supprimer des offres suivies";
   static String interim = "Intérim";
 
   static String origin(String label) => "Source : $label";
 
   // Favoris
-  static String mesFavorisPageTitle = "Mes offres enregistrées";
+  static String mesFavorisPageTitle = "Mon suivis des offres";
   static String mesAlertesPageTitle = "Mes alertes";
   static String miscellaneousErrorRetry = "Une erreur est survenue. Veuillez réessayer";
 
@@ -1068,9 +1064,9 @@ class Strings {
   static String offreDetailLastUpdate(String lastUpdate) => "Actualisée $lastUpdate";
 
   static String offresEnregistreesEmptySubtitle =
-      "Pour faciliter votre suivi de candidatures, retrouvez ici toutes vos offres enregistrées.";
+      "Pour faciliter votre suivi de candidatures, retrouvez ici toutes vos offres suivies.";
   static String offresEnregistreesEmptyButton = "Rechercher une offre";
-  static String offresEnregistreesError = "Erreur lors de la récupération de vos offres enregistrées";
+  static String offresEnregistreesError = "Erreur lors de la récupération de vos offres suivies";
   static String favorisUnknownContractType = 'Type de contrat inconnu';
   static String favorisUnknownSecteur = 'Secteur d\'activité inconnu';
 
@@ -1122,7 +1118,7 @@ class Strings {
   static String notificationsLabel = "Gérer vos notifications";
 
   static String partageFavorisEnabled(bool enabled) =>
-      enabled ? "Désactiver le partage de mes offres enregistrées" : "Activer le partage de mes offres enregistrées";
+      enabled ? "Désactiver le partage de mes offres suivies" : "Activer le partage de mes offres suivies";
   static String activityShareDescription =
       "Autorisez le partage pour permettre au conseiller d’avoir un suivi de votre activité.";
   static String warning = "Attention";
@@ -1149,7 +1145,7 @@ class Strings {
   static String accountDeletionSuccess =
       Brand.isCej() ? _CejStrings.accountDeletionSuccess : _PassEmploiStrings.accountDeletionSuccess;
 
-  static String shareFavoriteLabel = "Partager mes offres enregistrées";
+  static String shareFavoriteLabel = "Partager mes offres suivies";
 
   static String helpTitle = "Besoin d’aide ?";
   static String ratingAppLabel = "Partager votre avis sur l'application";
@@ -1301,7 +1297,7 @@ class Strings {
   static String suggestionSourceConseiller = "Conseiller";
   static String suggestionSourceDiagoriente = "Métiers favoris";
   static String suggestionRechercheAjoutee = "Recherche ajoutée";
-  static String suggestionRechercheAjouteeDescription = "La recherche a été ajoutée à vos offres enregistrées";
+  static String suggestionRechercheAjouteeDescription = "La recherche a été ajoutée à vos offres suivies";
   static String voirResultatsSuggestion = "Voir les résultats";
   static String emptySuggestionAlerteListTitre = "Vous n’avez pas encore de suggestions d’alerte";
   static String emptySuggestionAlerteListDescriptionMilo =
@@ -1506,7 +1502,7 @@ class Strings {
   static String a11yStatus = "Statut : ";
 
   // textes alternatifs
-  static String offreEnregistreeRemove(String offre) => "Retirer l'offre $offre des offres enregistrées";
+  static String offreEnregistreeRemove(String offre) => "Retirer l'offre $offre des offres suivies";
 
   static String offreEnregistreeAdd(String offre) => "Enregistrer l'offre $offre";
   static String link = "Lien";
@@ -1568,4 +1564,6 @@ class Strings {
   static String retrouvezCetteOffreDansVosOffres = "Retrouvez cette offre dans le suivi des offres";
   static String seeNextOffer = "Voir l’offre suivante";
   static String merciPourVotreReponse = "Merci pour votre réponse";
+  static String suivezVosOffres = "Suivez vos offres";
+  static String suivezVosOffresDescription = "Retrouvez ici les offres auxquelles vous avez postulé";
 }

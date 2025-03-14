@@ -56,7 +56,7 @@ class CardComplement extends StatelessWidget {
         icon = AppIcons.visibility_outlined,
         color = AppColors.contentColor,
         style = TextStyles.textXsRegular(),
-        semanticsReplacement = Strings.offreLastSeenA11y(date);
+        semanticsReplacement = null;
 
   @override
   Widget build(BuildContext context) {

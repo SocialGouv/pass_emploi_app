@@ -87,7 +87,7 @@ void main() {
             actionsOuDemarchesLabel: "Action",
           ),
           AccueilProchainRendezvousItem(mockRendezvousMiloCV().id),
-          AccueilFavorisItem(mock3Favoris()),
+          AccueilSuiviDesOffresItem(),
           AccueilEvenementsItem([
             (mockAnimationCollective().id, AccueilEvenementsType.animationCollective),
             (mockSessionMiloAtelierDecouverte().id, AccueilEvenementsType.sessionMilo),
@@ -135,7 +135,7 @@ void main() {
             actionsOuDemarchesLabel: "Actions",
           ),
           AccueilProchaineSessionMiloItem(sessionMilo.id),
-          AccueilFavorisItem(mock3Favoris()),
+          AccueilSuiviDesOffresItem(),
           AccueilEvenementsItem([
             (mockAnimationCollective().id, AccueilEvenementsType.animationCollective),
             (mockSessionMiloAtelierDecouverte().id, AccueilEvenementsType.sessionMilo),
@@ -176,7 +176,7 @@ void main() {
             actionsOuDemarchesLabel: "Démarche",
           ),
           AccueilProchainRendezvousItem(mockRendezvousPoleEmploi().id),
-          AccueilFavorisItem(mock3Favoris()),
+          AccueilSuiviDesOffresItem(),
           AccueilAlertesItem(getMockedAlerte()),
           AccueilOutilsItem([
             Outil.mesAidesFt.withoutImage(),
@@ -212,7 +212,7 @@ void main() {
             actionsOuDemarchesLabel: "Démarche",
           ),
           AccueilProchainRendezvousItem(mockRendezvousPoleEmploi().id),
-          AccueilFavorisItem(mock3Favoris()),
+          AccueilSuiviDesOffresItem(),
           AccueilAlertesItem(getMockedAlerte()),
           AccueilOutilsItem([
             Outil.mesAidesFt.withoutImage(),

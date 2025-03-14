@@ -92,7 +92,7 @@ void main() {
             illustration: "assets/onboarding/illustration_onboarding_recherche.webp",
             title: "Trouvez des offres qui vous intéressent",
             body:
-                "L’espace recherche vous permet de retrouver les offres d’emploi d’alternance, d’immersion et de service civique, et de les ajouter à vos offres enregistrées.",
+                "L’espace recherche vous permet de retrouver les offres d’emploi d’alternance, d’immersion et de service civique, et de les ajouter à vos offres suivies.",
             onPrimaryButton: () {},
             canClose: false,
           ),
@@ -114,7 +114,7 @@ void main() {
             illustration: "assets/onboarding/illustration_onboarding_recherche.webp",
             title: "Trouvez des offres qui vous intéressent",
             body:
-                "L’espace recherche vous permet de retrouver les offres d’emploi qui vous intéressent et de les ajouter à vos offres enregistrées.",
+                "L’espace recherche vous permet de retrouver les offres d’emploi qui vous intéressent et de les ajouter à vos offres suivies.",
             onPrimaryButton: () {},
             canClose: false,
           ),
