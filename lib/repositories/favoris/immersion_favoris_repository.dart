@@ -14,12 +14,12 @@ class ImmersionFavorisRepository extends FavorisRepository<Immersion> {
   static String getFavorisIdUrl({required String userId}) => '/jeunes/$userId/favoris/offres-immersion';
 
   @override
-  Future<Set<String>?> getFavorisId(String userId) async {
+  Future<Set<FavoriDto>?> getFavorisId(String userId) async {
     final url = getFavorisIdUrl(userId: userId);
     try {
       final response = await _httpClient.get(url);
       final json = response.data as List;
-      return json.map((favori) => favori["id"] as String).toSet();
+      return json.map((favori) => FavoriDto.fromJson(favori as Map<String, dynamic>)).toSet();
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
     }

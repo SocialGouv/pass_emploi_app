@@ -39,9 +39,9 @@ class FavoriLikeableCard<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DateDerniereConsultationProvider(
+    return DateDerniereActionProvider(
       id: id,
-      builder: (dateConsultation) {
+      builder: (dateActionViewModel) {
         return BaseCard(
           onTap: onTap,
           title: title,
@@ -52,7 +52,12 @@ class FavoriLikeableCard<T> extends StatelessWidget {
             offreType.toCardTag(),
             if (place != null) DataTag.location(place!),
           ],
-          complements: [if (dateConsultation != null) CardComplement.dateDerniereConsultation(dateConsultation)],
+          complements: [
+            if (dateActionViewModel.datePostulation != null)
+              CardComplement.datePostulation(dateActionViewModel.datePostulation!)
+            else if (dateActionViewModel.dateDerniereConsultation != null)
+              CardComplement.dateDerniereConsultation(dateActionViewModel.dateDerniereConsultation!)
+          ],
         );
       },
     );

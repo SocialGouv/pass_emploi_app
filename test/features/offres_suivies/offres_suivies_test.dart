@@ -47,7 +47,7 @@ void main() {
       });
     });
 
-    group('when writing offre suivie', () {
+    group('when deleting offre suivie', () {
       sut.whenDispatchingAction(() => OffresSuiviesDeleteAction(mockOffreSuivie()));
 
       test('should write offre', () {

@@ -34,6 +34,18 @@ sealed class OffreDto extends Equatable {
         final OffreImmersionDto offre => offre.immersion.id,
         final OffreServiceCiviqueDto offre => offre.serviceCivique.id,
       };
+
+  String get title => switch (this) {
+        final OffreEmploiDto offre => offre.offreEmploi.title,
+        final OffreImmersionDto offre => offre.immersion.metier,
+        final OffreServiceCiviqueDto offre => offre.serviceCivique.domain ?? "",
+      };
+
+  bool get isAlternance => switch (this) {
+        final OffreEmploiDto offre => offre.offreEmploi.isAlternance,
+        OffreImmersionDto() => false,
+        OffreServiceCiviqueDto() => false,
+      };
 }
 
 class OffreEmploiDto extends OffreDto {

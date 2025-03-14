@@ -3,12 +3,16 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
 import 'package:pass_emploi_app/features/date_consultation_notification/date_consultation_notification_state.dart';
+import 'package:pass_emploi_app/features/offres_suivies/offres_suivies_state.dart';
 import 'package:pass_emploi_app/features/onboarding/onboarding_state.dart';
 import 'package:pass_emploi_app/models/accompagnement.dart';
 import 'package:pass_emploi_app/models/accueil/accueil.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/models/login_mode.dart';
+import 'package:pass_emploi_app/models/offre_dto.dart';
+import 'package:pass_emploi_app/models/offre_emploi_details.dart';
+import 'package:pass_emploi_app/models/offre_suivie.dart';
 import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/models/outil.dart';
 import 'package:pass_emploi_app/models/remote_campagne_accueil.dart';
@@ -83,7 +87,7 @@ void main() {
             actionsOuDemarchesLabel: "Action",
           ),
           AccueilProchainRendezvousItem(mockRendezvousMiloCV().id),
-          AccueilFavorisItem(mock3Favoris()),
+          AccueilSuiviDesOffresItem(),
           AccueilEvenementsItem([
             (mockAnimationCollective().id, AccueilEvenementsType.animationCollective),
             (mockSessionMiloAtelierDecouverte().id, AccueilEvenementsType.sessionMilo),
@@ -131,7 +135,7 @@ void main() {
             actionsOuDemarchesLabel: "Actions",
           ),
           AccueilProchaineSessionMiloItem(sessionMilo.id),
-          AccueilFavorisItem(mock3Favoris()),
+          AccueilSuiviDesOffresItem(),
           AccueilEvenementsItem([
             (mockAnimationCollective().id, AccueilEvenementsType.animationCollective),
             (mockSessionMiloAtelierDecouverte().id, AccueilEvenementsType.sessionMilo),
@@ -172,7 +176,7 @@ void main() {
             actionsOuDemarchesLabel: "Démarche",
           ),
           AccueilProchainRendezvousItem(mockRendezvousPoleEmploi().id),
-          AccueilFavorisItem(mock3Favoris()),
+          AccueilSuiviDesOffresItem(),
           AccueilAlertesItem(getMockedAlerte()),
           AccueilOutilsItem([
             Outil.mesAidesFt.withoutImage(),
@@ -208,7 +212,7 @@ void main() {
             actionsOuDemarchesLabel: "Démarche",
           ),
           AccueilProchainRendezvousItem(mockRendezvousPoleEmploi().id),
-          AccueilFavorisItem(mock3Favoris()),
+          AccueilSuiviDesOffresItem(),
           AccueilAlertesItem(getMockedAlerte()),
           AccueilOutilsItem([
             Outil.mesAidesFt.withoutImage(),
@@ -767,6 +771,42 @@ void main() {
             url: "url",
             onDismissed: () {},
           )),
+        );
+      });
+    });
+    group('offre suivi item', () {
+      test('should not display remote campagnes when not started', () {
+        // Given
+        final store = givenPassEmploiState() //
+            .loggedInPoleEmploiUser()
+            .withAccueilPoleEmploiSuccess()
+            .copyWith(
+              offresSuiviesState: OffresSuiviesState(
+                offresSuivies: [
+                  OffreSuivie(
+                    dateConsultation: DateTime(2023),
+                    offreDto: OffreEmploiDto(mockOffreEmploiDetails().toOffreEmploi),
+                  ),
+                ],
+                confirmationOffre: OffreSuivie(
+                  dateConsultation: DateTime(2025),
+                  offreDto: OffreEmploiDto(
+                    mockOffreEmploiDetails().toOffreEmploi,
+                  ),
+                ),
+              ),
+            )
+            .store();
+
+        // When
+        final viewModel = AccueilViewModel.create(store);
+
+        // Then
+        expect(
+          viewModel.items.firstWhere((element) => element is OffreSuivieAccueilItem),
+          OffreSuivieAccueilItem(
+            offreId: mockOffreEmploiDetails().id,
+          ),
         );
       });
     });

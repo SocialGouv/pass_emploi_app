@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/alerte/alerte.dart';
-import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/outil.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -77,13 +76,11 @@ class AccueilAlertesItem extends AccueilItem {
   List<Object?> get props => [alertes];
 }
 
-class AccueilFavorisItem extends AccueilItem {
-  final List<Favori> favoris;
-
-  AccueilFavorisItem(this.favoris);
+class AccueilSuiviDesOffresItem extends AccueilItem {
+  AccueilSuiviDesOffresItem();
 
   @override
-  List<Object?> get props => [favoris];
+  List<Object?> get props => [];
 }
 
 class AccueilOutilsItem extends AccueilItem {
@@ -123,6 +120,15 @@ class RemoteCampagneAccueilItem extends AccueilItem {
 
   @override
   List<Object?> get props => [title, cta, url];
+}
+
+class OffreSuivieAccueilItem extends AccueilItem {
+  final String offreId;
+
+  OffreSuivieAccueilItem({required this.offreId});
+
+  @override
+  List<Object?> get props => [offreId];
 }
 
 class ErrorDegradeeItem extends AccueilItem {

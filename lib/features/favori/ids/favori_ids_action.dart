@@ -1,5 +1,7 @@
-class FavoriIdsSuccessAction<T> {
-  final Set<String> favoriIds;
+import 'package:pass_emploi_app/repositories/favoris/favoris_repository.dart';
 
-  FavoriIdsSuccessAction(this.favoriIds);
+class FavoriIdsSuccessAction<T> {
+  final Set<FavoriDto> favoris;
+
+  FavoriIdsSuccessAction(this.favoris);
 }

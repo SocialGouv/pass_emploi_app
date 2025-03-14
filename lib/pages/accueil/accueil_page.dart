@@ -11,11 +11,11 @@ import 'package:pass_emploi_app/pages/accueil/accueil_alertes.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_campagne_recrutement.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_cette_semaine.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_evenements.dart';
-import 'package:pass_emploi_app/pages/accueil/accueil_favoris.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_loading.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_outils.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_prochain_rendezvous.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_rating_app.dart';
+import 'package:pass_emploi_app/pages/accueil/accueil_suivi_des_offres.dart';
 import 'package:pass_emploi_app/pages/accueil/remote_campagne_accueil_card.dart';
 import 'package:pass_emploi_app/pages/alerte_page.dart';
 import 'package:pass_emploi_app/pages/benevolat_page.dart';
@@ -42,6 +42,7 @@ import 'package:pass_emploi_app/widgets/cards/campagne_card.dart';
 import 'package:pass_emploi_app/widgets/connectivity_widgets.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/information_bandeau.dart';
+import 'package:pass_emploi_app/widgets/offre_suivie_form.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
 class AccueilPage extends StatefulWidget {
@@ -196,6 +197,7 @@ class _Blocs extends StatelessWidget {
   Widget _itemBuilder(BuildContext context, int index) {
     return switch (viewModel.items[index]) {
       final ErrorDegradeeItem item => InformationBandeau(icon: AppIcons.error_rounded, text: item.message),
+      final OffreSuivieAccueilItem item => OffreSuivieForm(offreId: item.offreId, showOffreDetails: true),
       final RemoteCampagneAccueilItem item => RemoteCampagneAccueilCard(item),
       final CampagneRecrutementItem item => CampagneRecrutementCard(item),
       final CampagneEvaluationItem item => _CampagneCard(title: item.titre, description: item.description),
@@ -204,7 +206,7 @@ class _Blocs extends StatelessWidget {
       final AccueilProchaineSessionMiloItem item => AccueilProchainRendezVous.fromSession(item.sessionId),
       final AccueilEvenementsItem item => AccueilEvenements(item),
       final AccueilAlertesItem item => AccueilAlertes(item),
-      final AccueilFavorisItem item => AccueilFavoris(item),
+      final AccueilSuiviDesOffresItem item => AccueilSuiviDesOffres(item),
       final AccueilOutilsItem item => AccueilOutils(item),
       RatingAppItem() => AccueilRatingAppCard(),
     };

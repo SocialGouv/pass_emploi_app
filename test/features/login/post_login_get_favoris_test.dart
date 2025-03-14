@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/repositories/favoris/favoris_repository.dart';
 import 'package:redux/src/store.dart';
 
 import '../../doubles/fixtures.dart';
@@ -27,6 +28,6 @@ void main() {
     // Then
     final loadedFavoris = await successState;
     final favorisState = (loadedFavoris.offreEmploiFavorisIdsState as FavoriIdsSuccessState<OffreEmploi>);
-    expect(favorisState.favoriIds, {"1", "2", "4"});
+    expect(favorisState.favoris, {FavoriDto("1"), FavoriDto("2"), FavoriDto("4")});
   });
 }

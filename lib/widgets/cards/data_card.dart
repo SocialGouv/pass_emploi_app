@@ -43,9 +43,9 @@ class DataCard<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DateDerniereConsultationProvider(
+    return DateDerniereActionProvider(
         id: id ?? "",
-        builder: (dateDerniereConsultation) {
+        builder: (dateActionViewModel) {
           return BaseCard(
             onTap: onTap,
             title: titre,
@@ -53,7 +53,10 @@ class DataCard<T> extends StatelessWidget {
             tag: tag,
             complements: [
               if (date != null && date!.isNotEmpty) CardComplement.date(text: date!),
-              if (dateDerniereConsultation != null) CardComplement.dateDerniereConsultation(dateDerniereConsultation),
+              if (dateActionViewModel.datePostulation != null)
+                CardComplement.datePostulation(dateActionViewModel.datePostulation!)
+              else if (dateActionViewModel.dateDerniereConsultation != null)
+                CardComplement.dateDerniereConsultation(dateActionViewModel.dateDerniereConsultation!)
             ],
             secondaryTags: [
               if (category?.isNotEmpty == true) CardTag.secondary(text: category!),

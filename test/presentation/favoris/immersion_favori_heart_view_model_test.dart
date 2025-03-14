@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/presentation/favori_heart_view_model.dart';
 import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/repositories/favoris/favoris_repository.dart';
 import 'package:redux/redux.dart';
 
 void main() {
@@ -13,7 +14,7 @@ void main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        immersionFavorisIdsState: FavoriIdsState<Immersion>.success({"offreId"}),
+        immersionFavorisIdsState: FavoriIdsState<Immersion>.success({FavoriDto("offreId")}),
       ),
     );
 
@@ -28,7 +29,7 @@ void main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        immersionFavorisIdsState: FavoriIdsState<Immersion>.success({"notOffreId"}),
+        immersionFavorisIdsState: FavoriIdsState<Immersion>.success({FavoriDto("notOffreId")}),
       ),
     );
 
@@ -44,7 +45,7 @@ void main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        immersionFavorisIdsState: FavoriIdsState<Immersion>.success({"offreId"}),
+        immersionFavorisIdsState: FavoriIdsState<Immersion>.success({FavoriDto("offreId")}),
         favoriUpdateState: FavoriUpdateState({"offreId": FavoriUpdateStatus.ERROR}),
       ),
     );
@@ -61,7 +62,7 @@ void main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        immersionFavorisIdsState: FavoriIdsState<Immersion>.success({"toto"}),
+        immersionFavorisIdsState: FavoriIdsState<Immersion>.success({FavoriDto("toto")}),
         favoriUpdateState: FavoriUpdateState({"offreId": FavoriUpdateStatus.ERROR}),
       ),
     );

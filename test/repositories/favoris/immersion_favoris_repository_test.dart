@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
+import 'package:pass_emploi_app/repositories/favoris/favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 
 import '../../dsl/sut_dio_repository.dart';
@@ -22,11 +23,11 @@ void main() {
       });
 
       test('response should be valid', () async {
-        await sut.expectResult<Set<String>?>((result) {
+        await sut.expectResult<Set<FavoriDto>?>((result) {
           expect(result, [
-            "4f44d3ec-6568-41f0-b66e-e53a9e1fe904",
-            "4277d7b7-3d86-453d-9375-14aee8fde94d",
-            "b2d70bb3-ba69-4dd8-880a-62171b48ecbc",
+            FavoriDto("4f44d3ec-6568-41f0-b66e-e53a9e1fe904"),
+            FavoriDto("4277d7b7-3d86-453d-9375-14aee8fde94d"),
+            FavoriDto("b2d70bb3-ba69-4dd8-880a-62171b48ecbc"),
           ]);
         });
       });
