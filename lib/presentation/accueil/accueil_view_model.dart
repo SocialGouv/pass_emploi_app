@@ -94,11 +94,11 @@ List<AccueilItem> _items(Store<AppState> store) {
 
   return [
     _errorDegradeeItem(accueilState),
-    _offreSuivies(store),
     ..._remoteCampagneAccueilItems(store, store.state),
     _ratingAppItem(store.state),
     _campagneRecrutementItem(store, store.state),
     _campagneEvaluationItem(store.state),
+    _offreSuivies(store),
     _cetteSemaineItem(user, accueilState),
     _prochainRendezvousItem(user, accueilState),
     _favorisItem(accueilState),
