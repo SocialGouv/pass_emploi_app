@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:redux/redux.dart';
 
 class OffreSuivieFormViewmodel extends Equatable {
+  final bool fromAlternance;
   final String dateConsultation;
   final String? offreLien;
   final void Function() onPostule;
@@ -22,6 +23,7 @@ class OffreSuivieFormViewmodel extends Equatable {
   final String confirmationButton;
 
   OffreSuivieFormViewmodel._({
+    required this.fromAlternance,
     required this.dateConsultation,
     required this.offreLien,
     required this.onPostule,
@@ -35,8 +37,8 @@ class OffreSuivieFormViewmodel extends Equatable {
 
   factory OffreSuivieFormViewmodel.create(Store<AppState> store, String offreId, bool isHomePage) {
     final offreSuivie = store.state.offresSuiviesState.getOffre(offreId);
-
     return OffreSuivieFormViewmodel._(
+      fromAlternance: offreSuivie != null && offreSuivie.offreDto.isAlternance,
       dateConsultation: offreSuivie != null ? _dateConsultation(offreSuivie) : "",
       offreLien: offreSuivie != null ? _offreLien(offreSuivie, isHomePage) : null,
       onPostule: () {
@@ -49,7 +51,7 @@ class OffreSuivieFormViewmodel extends Equatable {
       },
       onNotInterested: offreSuivie != null ? () => store.dispatch(OffresSuiviesDeleteAction(offreSuivie)) : () {},
       onHideForever: () => store.dispatch(OffresSuiviesConfirmationResetAction()),
-      showConfirmation: store.state.offresSuiviesState.confirmationId == offreId,
+      showConfirmation: store.state.offresSuiviesState.confirmationOffre?.offreDto.id == offreId,
       confirmationMessage: _confirmationMessage(store, offreId),
       confirmationButton: _confirmationButton(store, offreId, isHomePage),
     );

@@ -24,7 +24,7 @@ class OffresSuiviesMiddleware extends MiddlewareClass<AppState> {
       store.dispatch(OffresSuiviesToStateAction(newoffresSuivies));
     } else if (action is OffresSuiviesDeleteAction) {
       final newoffresSuivies = await _repository.delete(action.offreSuivie);
-      store.dispatch(OffresSuiviesToStateAction(newoffresSuivies, confirmationId: action.offreSuivie.offreDto.id));
+      store.dispatch(OffresSuiviesToStateAction(newoffresSuivies, confirmationOffre: action.offreSuivie));
     }
   }
 }

@@ -94,6 +94,7 @@ List<AccueilItem> _items(Store<AppState> store) {
 
   return [
     _errorDegradeeItem(accueilState),
+    _offreSuivies(store),
     ..._remoteCampagneAccueilItems(store, store.state),
     _ratingAppItem(store.state),
     _campagneRecrutementItem(store, store.state),
@@ -187,6 +188,15 @@ AccueilItem? _outilsItem(AccueilSuccessState successState, Accompagnement accomp
         Outil.formation.withoutImage(),
       ]),
   };
+}
+
+AccueilItem? _offreSuivies(Store<AppState> store) {
+  final offreSuiviesState = store.state.offresSuiviesState;
+  if (offreSuiviesState.offresSuivies.isNotEmpty || offreSuiviesState.confirmationOffre != null) {
+    final id = offreSuiviesState.confirmationOffre?.offreDto.id ?? offreSuiviesState.offresSuivies.first.offreDto.id;
+    return OffreSuivieAccueilItem(offreId: id);
+  }
+  return null;
 }
 
 AccueilItem? _errorDegradeeItem(AccueilSuccessState accueilState) {

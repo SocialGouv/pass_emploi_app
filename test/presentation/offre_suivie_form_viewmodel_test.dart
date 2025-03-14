@@ -59,7 +59,12 @@ void main() {
                       offreDto: OffreEmploiDto(offre.toOffreEmploi),
                     ),
                   ],
-                  confirmationId: offreId,
+                  confirmationOffre: OffreSuivie(
+                    dateConsultation: DateTime(2025),
+                    offreDto: OffreEmploiDto(
+                      mockOffreEmploiDetails().toOffreEmploi,
+                    ),
+                  ),
                 ),
               )
               .store();
@@ -93,7 +98,12 @@ void main() {
                       offreDto: OffreEmploiDto(offre.toOffreEmploi),
                     ),
                   ],
-                  confirmationId: offreId,
+                  confirmationOffre: OffreSuivie(
+                    dateConsultation: DateTime(2025),
+                    offreDto: OffreEmploiDto(
+                      mockOffreEmploiDetails().toOffreEmploi,
+                    ),
+                  ),
                 ),
               )
               .store();

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pass_emploi_app/features/offres_suivies/offres_suivies_actions.dart';
 import 'package:pass_emploi_app/pages/offre_emploi/offre_emploi_details_page.dart';
 import 'package:pass_emploi_app/presentation/offre_suivie_form_viewmodel.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -20,27 +19,22 @@ class OffreSuivieForm extends StatelessWidget {
     super.key,
     required this.offreId,
     required this.showOffreDetails,
-    required this.fromAlternance,
   });
 
   final bool showOffreDetails;
   final String offreId;
-  final bool fromAlternance;
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, OffreSuivieFormViewmodel>(
         converter: (store) => OffreSuivieFormViewmodel.create(store, offreId, showOffreDetails),
         distinct: true,
-        onDispose: (store) => store.dispatch(OffresSuiviesConfirmationResetAction()),
         builder: (context, viewModel) {
           return CardContainer(
             backgroundColor: AppColors.primary,
             child: AnimatedSwitcher(
               duration: AnimationDurations.fast,
-              child: viewModel.showConfirmation
-                  ? _Confirmation(viewModel)
-                  : _Content(viewModel, offreId, showOffreDetails, fromAlternance),
+              child: viewModel.showConfirmation ? _Confirmation(viewModel) : _Content(viewModel, offreId),
             ),
           );
         });
@@ -88,13 +82,9 @@ class _Content extends StatelessWidget {
   const _Content(
     this.viewModel,
     this.offreId,
-    this.showOffreDetails,
-    this.fromAlternance,
   );
   final OffreSuivieFormViewmodel viewModel;
   final String offreId;
-  final bool showOffreDetails;
-  final bool fromAlternance;
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +98,7 @@ class _Content extends StatelessWidget {
         if (viewModel.offreLien != null) ...[
           _OffreLien(
             offreId: offreId,
-            fromAlternance: fromAlternance,
+            fromAlternance: viewModel.fromAlternance,
             offreLien: viewModel.offreLien!,
           ),
           SizedBox(height: Margins.spacing_s),

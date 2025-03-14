@@ -125,6 +125,15 @@ class RemoteCampagneAccueilItem extends AccueilItem {
   List<Object?> get props => [title, cta, url];
 }
 
+class OffreSuivieAccueilItem extends AccueilItem {
+  final String offreId;
+
+  OffreSuivieAccueilItem({required this.offreId});
+
+  @override
+  List<Object?> get props => [offreId];
+}
+
 class ErrorDegradeeItem extends AccueilItem {
   final String message;
 

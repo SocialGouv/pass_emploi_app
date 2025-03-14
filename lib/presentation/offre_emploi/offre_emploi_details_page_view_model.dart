@@ -208,7 +208,7 @@ bool _shouldShowOffreSuivieBottomSheet(Store<AppState> store, OffreEmploi offre)
 
 bool _shouldShowOffreSuiviForm(Store<AppState> store, OffreEmploi offre) {
   final offresSuiviesState = store.state.offresSuiviesState;
-  return offresSuiviesState.isPresent(offre.id) || offresSuiviesState.confirmationId == offre.id;
+  return offresSuiviesState.isPresent(offre.id) || offresSuiviesState.confirmationOffre?.offreDto.id == offre.id;
 }
 
 void _onPostuler(Store<AppState> store, OffreEmploi offre) {

@@ -189,7 +189,6 @@ class OffreEmploiDetailsPage extends StatelessWidget {
                 if (viewModel.shouldShowOffreSuiviForm) ...[
                   OffreSuivieForm(
                     offreId: id!,
-                    fromAlternance: _fromAlternance,
                     showOffreDetails: false,
                   ),
                   SizedBox(height: Margins.spacing_l),

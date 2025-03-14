@@ -17,7 +17,7 @@ class OffresSuiviesConfirmationResetAction {}
 
 class OffresSuiviesToStateAction {
   final List<OffreSuivie> offresSuivies;
-  final String? confirmationId;
+  final OffreSuivie? confirmationOffre;
 
-  OffresSuiviesToStateAction(this.offresSuivies, {this.confirmationId});
+  OffresSuiviesToStateAction(this.offresSuivies, {this.confirmationOffre});
 }

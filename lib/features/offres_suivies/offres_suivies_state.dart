@@ -4,9 +4,9 @@ import 'package:pass_emploi_app/models/offre_suivie.dart';
 
 class OffresSuiviesState extends Equatable {
   final List<OffreSuivie> offresSuivies;
-  final String? confirmationId;
+  final OffreSuivie? confirmationOffre;
 
-  OffresSuiviesState({this.offresSuivies = const [], this.confirmationId});
+  OffresSuiviesState({this.offresSuivies = const [], this.confirmationOffre});
 
   @override
   List<Object?> get props => [offresSuivies];

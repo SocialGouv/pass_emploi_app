@@ -315,7 +315,12 @@ void main() {
           .copyWith(
             offresSuiviesState: OffresSuiviesState(
               offresSuivies: [],
-              confirmationId: mockOffreEmploiDetails().id,
+              confirmationOffre: OffreSuivie(
+                dateConsultation: DateTime(2025),
+                offreDto: OffreEmploiDto(
+                  mockOffreEmploiDetails().toOffreEmploi,
+                ),
+              ),
             ),
           )
           .store();
@@ -335,7 +340,7 @@ void main() {
           .copyWith(
             offresSuiviesState: OffresSuiviesState(
               offresSuivies: [],
-              confirmationId: null,
+              confirmationOffre: null,
             ),
           )
           .store();
