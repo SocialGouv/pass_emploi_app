@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
+import 'package:pass_emploi_app/repositories/favoris/favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 
 import '../../dsl/sut_dio_repository.dart';
@@ -22,8 +23,8 @@ void main() {
       });
 
       test('response should be valid', () async {
-        await sut.expectResult<Set<String>?>((result) {
-          expect(result, ["124GQRG", "124FGRM", "124FGFB", "124FGJJ"]);
+        await sut.expectResult<Set<FavoriDto>?>((result) {
+          expect(result, [FavoriDto("124GQRG"), FavoriDto("124FGRM"), FavoriDto("124FGFB"), FavoriDto("124FGJJ")]);
         });
       });
     });

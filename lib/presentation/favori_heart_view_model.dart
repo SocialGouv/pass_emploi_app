@@ -37,7 +37,7 @@ class FavoriHeartViewModel<T> extends Equatable {
 
 bool _isFavori<T>(String offreId, FavoriIdsState<T> favorisState) {
   if (favorisState is FavoriIdsSuccessState<T>) {
-    return favorisState.favoriIds.contains(offreId);
+    return favorisState.favoris.any((favori) => favori.id == offreId);
   } else {
     return false;
   }

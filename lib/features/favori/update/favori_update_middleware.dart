@@ -32,6 +32,7 @@ class FavoriUpdateMiddleware<T> extends MiddlewareClass<AppState> {
     final result = await _repository.postFavori(
       userId,
       _dataFromIdExtractor.extractFromId(store, action.favoriId),
+      postulated: postulated,
     );
     if (result) {
       store.dispatch(FavoriUpdateSuccessAction<T>(action.favoriId, action.newStatus));

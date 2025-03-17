@@ -56,7 +56,14 @@ class CardComplement extends StatelessWidget {
         icon = AppIcons.visibility_outlined,
         color = AppColors.contentColor,
         style = TextStyles.textXsRegular(),
-        semanticsReplacement = Strings.offreLastSeenA11y(date);
+        semanticsReplacement = null;
+
+  CardComplement.datePostulation(DateTime date)
+      : text = Strings.offrePostulatedSeen(date),
+        icon = AppIcons.check_circle_outline_rounded,
+        color = AppColors.contentColor,
+        style = TextStyles.textXsRegular(),
+        semanticsReplacement = null;
 
   @override
   Widget build(BuildContext context) {

@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/features/recherche/recherche_state.dart';
 import 'package:pass_emploi_app/models/favori.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/repositories/favoris/favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 import 'package:redux/src/store.dart';
 
@@ -34,7 +35,7 @@ void main() {
     expect(await loadingState, true);
     final updatedFavoris = await successState;
     final emploiFavorisState = (updatedFavoris.offreEmploiFavorisIdsState as FavoriIdsSuccessState<OffreEmploi>);
-    expect(emploiFavorisState.favoriIds, {"2", "4"});
+    expect(emploiFavorisState.favoris, {FavoriDto("2"), FavoriDto("4")});
 
     final favoriListState = (updatedFavoris.favoriListState as FavoriListSuccessState);
     expect(favoriListState.results, [mockFavori('2'), mockFavori('4')]);
@@ -56,7 +57,7 @@ void main() {
     expect(await loadingState, true);
     final updatedFavoris = await failureState;
     final favorisState = (updatedFavoris.offreEmploiFavorisIdsState as FavoriIdsSuccessState<OffreEmploi>);
-    expect(favorisState.favoriIds, {"1", "2", "4"});
+    expect(favorisState.favoris, {FavoriDto("1"), FavoriDto("2"), FavoriDto("4")});
   });
 
   test("favori id list should be updated when favori is added and api call succeeds", () async {
@@ -75,7 +76,7 @@ void main() {
     expect(await loadingState, true);
     final updatedFavoris = await successState;
     final favorisState = (updatedFavoris.offreEmploiFavorisIdsState as FavoriIdsSuccessState<OffreEmploi>);
-    expect(favorisState.favoriIds, {"1", "2", "4", "17"});
+    expect(favorisState.favoris, {FavoriDto("1"), FavoriDto("2"), FavoriDto("4"), FavoriDto("17")});
   });
 
   test("favori id list should be updated when favori is added and recheche result is null", () async {
@@ -94,7 +95,7 @@ void main() {
     expect(await loadingState, true);
     final updatedFavoris = await successState;
     final favorisState = (updatedFavoris.offreEmploiFavorisIdsState as FavoriIdsSuccessState<OffreEmploi>);
-    expect(favorisState.favoriIds, {"2", "4", "17"});
+    expect(favorisState.favoris, {FavoriDto("2"), FavoriDto("4"), FavoriDto("17")});
   });
 
   test("favori state should not be updated when favori is added and api call fails", () async {
@@ -113,7 +114,7 @@ void main() {
     expect(await loadingState, true);
     final updatedFavoris = await failureState;
     final favorisState = (updatedFavoris.offreEmploiFavorisIdsState as FavoriIdsSuccessState<OffreEmploi>);
-    expect(favorisState.favoriIds, {"1", "2", "4"});
+    expect(favorisState.favoris, {FavoriDto("1"), FavoriDto("2"), FavoriDto("4")});
   });
 }
 
@@ -125,7 +126,8 @@ Store<AppState> _successStoreWithFavorisAndSearchResultsLoaded() {
     initialState: AppState.initialState()
         .copyWith(
             loginState: successMiloUserState(),
-            offreEmploiFavorisIdsState: FavoriIdsState<OffreEmploi>.success({"1", "2", "4"}))
+            offreEmploiFavorisIdsState:
+                FavoriIdsState<OffreEmploi>.success({FavoriDto("1"), FavoriDto("2"), FavoriDto("4")}))
         .favoriListSuccessState([mockFavori('1'), mockFavori('2'), mockFavori('4')]) //
         .successRechercheEmploiState(results: [mockOffreEmploi(id: '1'), mockOffreEmploi(id: '17')]),
   );
@@ -141,7 +143,7 @@ Store<AppState> _successStoreWithFavorisAndOffreEmploiDetailsSuccessState() {
         rechercheEmploiState: RechercheEmploiState.initial(),
         offreEmploiDetailsState: OffreEmploiDetailsSuccessState(mockOffreEmploiDetails()),
         loginState: successMiloUserState(),
-        offreEmploiFavorisIdsState: FavoriIdsState<OffreEmploi>.success({"2", "4"})),
+        offreEmploiFavorisIdsState: FavoriIdsState<OffreEmploi>.success({FavoriDto("2"), FavoriDto("4")})),
   );
   return store;
 }
@@ -154,7 +156,8 @@ Store<AppState> _failureStoreWithFavorisLoaded() {
     initialState: AppState.initialState()
         .copyWith(
             loginState: successMiloUserState(),
-            offreEmploiFavorisIdsState: FavoriIdsState<OffreEmploi>.success({"1", "2", "4"}))
+            offreEmploiFavorisIdsState:
+                FavoriIdsState<OffreEmploi>.success({FavoriDto("1"), FavoriDto("2"), FavoriDto("4")}))
         .successRechercheEmploiState(results: [mockOffreEmploi(id: '1'), mockOffreEmploi(id: '17')]),
   );
   return store;
@@ -164,8 +167,8 @@ class OffreEmploiFavorisRepositorySuccessStub extends OffreEmploiFavorisReposito
   OffreEmploiFavorisRepositorySuccessStub() : super(DioMock());
 
   @override
-  Future<Set<String>?> getFavorisId(String userId) async {
-    return {"1", "2", "4"};
+  Future<Set<FavoriDto>?> getFavorisId(String userId) async {
+    return {FavoriDto("1"), FavoriDto("2"), FavoriDto("4")};
   }
 
   @override
@@ -183,8 +186,8 @@ class OffreEmploiFavorisRepositoryFailureStub extends OffreEmploiFavorisReposito
   OffreEmploiFavorisRepositoryFailureStub() : super(DioMock());
 
   @override
-  Future<Set<String>?> getFavorisId(String userId) async {
-    return {"1", "2", "4"};
+  Future<Set<FavoriDto>?> getFavorisId(String userId) async {
+    return {FavoriDto("1"), FavoriDto("2"), FavoriDto("4")};
   }
 
   @override

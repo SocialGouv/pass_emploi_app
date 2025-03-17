@@ -45,7 +45,7 @@ void main() {
 
       // Then
       expect(viewModel.body,
-          "Retrouvez sur la page d’accueil un condensé des différentes informations utiles à votre recherche : actions à réaliser, offres enregistrées, prochains rendez-vous, etc.");
+          "Retrouvez sur la page d’accueil un condensé des différentes informations utiles à votre recherche : actions à réaliser, offres suivies, prochains rendez-vous, etc.");
     });
 
     test("should display pole emploi message", () {
@@ -57,7 +57,7 @@ void main() {
 
       // Then
       expect(viewModel.body,
-          "Retrouvez sur la page d’accueil un condensé des différentes informations utiles à votre recherche : démarches à réaliser, offres enregistrées, prochains rendez-vous, etc.");
+          "Retrouvez sur la page d’accueil un condensé des différentes informations utiles à votre recherche : démarches à réaliser, offres suivies, prochains rendez-vous, etc.");
     });
   });
 
