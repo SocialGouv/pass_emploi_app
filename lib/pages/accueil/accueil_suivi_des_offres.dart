@@ -34,7 +34,7 @@ class _Illustration extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CardContainer(
-      onLongPress: () => _goToOffresEnregistrees(context),
+      onTap: () => _goToOffresEnregistrees(context),
       child: Row(
         children: [
           Image.asset(
