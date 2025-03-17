@@ -13,6 +13,7 @@ enum InAppNotificationType {
   deletedSessionMilo,
   rappelCreationAction,
   rappelCreationDemarche,
+  actualisationPe,
   unknown;
 
   static InAppNotificationType fromString(String type) {
@@ -28,6 +29,7 @@ enum InAppNotificationType {
       "DELETED_SESSION_MILO" => deletedSessionMilo,
       "RAPPEL_CREATION_ACTION" => rappelCreationAction,
       "RAPPEL_CREATION_DEMARCHE" => rappelCreationDemarche,
+      "ACTUALISATION_PE" => actualisationPe,
       _ => unknown,
     };
   }

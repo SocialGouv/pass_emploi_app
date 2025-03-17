@@ -80,6 +80,7 @@ DeepLink? _fromInAppNotification(InAppNotificationType type, String? idObjet) {
     InAppNotificationType.detailSessionMilo => idObjet != null ? SessionMiloDeepLink(idObjet) : null,
     InAppNotificationType.rappelCreationAction => RappelCreationActionDeepLink(),
     InAppNotificationType.rappelCreationDemarche => RappelCreationDemarcheDeepLink(),
+    InAppNotificationType.actualisationPe => ActualisationPeDeepLink(),
     InAppNotificationType.deletedSessionMilo => null,
     InAppNotificationType.deletedRendezvous => null,
     InAppNotificationType.unknown => null,
