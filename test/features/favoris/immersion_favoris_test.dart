@@ -173,7 +173,7 @@ class ImmersionFavorisRepositorySuccessStub extends ImmersionFavorisRepository {
   }
 
   @override
-  Future<bool> postFavori(String userId, Immersion favori, {bool postulated = false}) async {
+  Future<bool> postFavori(String userId, Immersion favori, {bool applied = false}) async {
     return true;
   }
 
@@ -192,7 +192,7 @@ class ImmersionFavorisRepositoryFailureStub extends ImmersionFavorisRepository {
   }
 
   @override
-  Future<bool> postFavori(String userId, Immersion favori, {bool postulated = false}) async {
+  Future<bool> postFavori(String userId, Immersion favori, {bool applied = false}) async {
     return false;
   }
 

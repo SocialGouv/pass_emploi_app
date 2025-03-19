@@ -42,7 +42,7 @@ class OffreSuivieFormViewmodel extends Equatable {
       dateConsultation: offreSuivie != null ? _dateConsultation(offreSuivie) : "",
       offreLien: offreSuivie != null ? _offreLien(offreSuivie, isHomePage) : null,
       onPostule: () {
-        store.dispatch(FavoriUpdateRequestAction<OffreEmploi>(offreId, FavoriStatus.postulated));
+        store.dispatch(FavoriUpdateRequestAction<OffreEmploi>(offreId, FavoriStatus.applied));
         if (offreSuivie != null) store.dispatch(OffresSuiviesDeleteAction(offreSuivie));
       },
       onInteresse: () {

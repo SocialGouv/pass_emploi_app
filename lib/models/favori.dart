@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/models/offre_type.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 
-enum FavoriStatus { added, removed, postulated }
+enum FavoriStatus { added, removed, applied }
 
 class Favori extends Equatable {
   final String id;

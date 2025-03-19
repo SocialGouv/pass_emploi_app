@@ -20,7 +20,7 @@ class FavoriDto extends Equatable {
 abstract class FavorisRepository<T> {
   Future<Set<FavoriDto>?> getFavorisId(String userId);
 
-  Future<bool> postFavori(String userId, T favori, {bool postulated = false});
+  Future<bool> postFavori(String userId, T favori, {bool applied = false});
 
   Future<bool> deleteFavori(String userId, String favoriId);
 }

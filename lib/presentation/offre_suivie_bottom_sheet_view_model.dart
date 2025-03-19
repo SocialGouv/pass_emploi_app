@@ -28,7 +28,7 @@ class OffreSuivieBottomSheetViewModel extends Equatable {
         await Future.delayed(Duration(milliseconds: 100));
         store.dispatch(OffresSuiviesConfirmationResetAction());
       },
-      onPostule: () => store.dispatch(FavoriUpdateRequestAction<OffreEmploi>(offreId, FavoriStatus.postulated)),
+      onPostule: () => store.dispatch(FavoriUpdateRequestAction<OffreEmploi>(offreId, FavoriStatus.applied)),
       onInteresse: () => store.dispatch(FavoriUpdateRequestAction<OffreEmploi>(offreId, FavoriStatus.added)),
     );
   }

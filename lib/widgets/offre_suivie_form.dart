@@ -70,8 +70,8 @@ class _Confirmation extends StatelessWidget {
         SecondaryButton(
           backgroundColor: AppColors.primary,
           foregroundColor: Colors.white,
-          onPressed: () => viewModel.onHideForever(),
           label: viewModel.confirmationButton,
+          onPressed: () => viewModel.onHideForever(),
         ),
       ],
     );
@@ -137,7 +137,7 @@ class _OffreLien extends StatelessWidget {
   }
 }
 
-enum _OffreSuivieStatus { postulated, interested, notInterested }
+enum _OffreSuivieStatus { applied, interested, notInterested }
 
 class _Options extends StatefulWidget {
   const _Options(this.viewModel);
@@ -161,7 +161,7 @@ class _OptionsState extends State<_Options> {
         children: [
           PassEmploiRadio<_OffreSuivieStatus?>(
             title: Strings.jaiPostule,
-            value: _OffreSuivieStatus.postulated,
+            value: _OffreSuivieStatus.applied,
             groupValue: _selectedValue,
             onPressed: (status) {
               selectValue(status);

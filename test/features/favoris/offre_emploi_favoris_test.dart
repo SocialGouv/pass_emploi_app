@@ -172,7 +172,7 @@ class OffreEmploiFavorisRepositorySuccessStub extends OffreEmploiFavorisReposito
   }
 
   @override
-  Future<bool> postFavori(String userId, OffreEmploi offre, {bool postulated = false}) async {
+  Future<bool> postFavori(String userId, OffreEmploi offre, {bool applied = false}) async {
     return true;
   }
 
@@ -191,7 +191,7 @@ class OffreEmploiFavorisRepositoryFailureStub extends OffreEmploiFavorisReposito
   }
 
   @override
-  Future<bool> postFavori(String userId, OffreEmploi offre, {bool postulated = false}) async {
+  Future<bool> postFavori(String userId, OffreEmploi offre, {bool applied = false}) async {
     return false;
   }
 

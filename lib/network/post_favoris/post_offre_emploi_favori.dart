@@ -11,7 +11,7 @@ class PostOffreEmploiFavori implements JsonSerializable {
   final String? location;
   final String? duration;
   final Origin? origin;
-  final bool postulated;
+  final bool applied;
 
   PostOffreEmploiFavori(
     this.id,
@@ -22,7 +22,7 @@ class PostOffreEmploiFavori implements JsonSerializable {
     this.location,
     this.duration,
     this.origin,
-    this.postulated,
+    this.applied,
   );
 
   @override
@@ -39,6 +39,6 @@ class PostOffreEmploiFavori implements JsonSerializable {
         if (origin is FranceTravailOrigin) "origineNom": Strings.franceTravail,
         if (origin is PartenaireOrigin) "origineNom": (origin! as PartenaireOrigin).name,
         if (origin is PartenaireOrigin) "origineLogo": (origin! as PartenaireOrigin).logoUrl,
-        "aPostule": postulated,
+        "aPostule": applied,
       };
 }
