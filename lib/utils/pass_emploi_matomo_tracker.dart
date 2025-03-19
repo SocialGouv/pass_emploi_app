@@ -59,3 +59,20 @@ class PassEmploiMatomoTracker {
     onTrackScreen?.call('$outLinkLogPrefix $link');
   }
 }
+
+enum OffreSuiviTrackingSource { accueil, offreDetail, bottomSheet }
+
+enum OffreSuiviTrackingOption { interesse, postule, notInterrested, affiche }
+
+extension PassEmploiMatomoTrackerExt on PassEmploiMatomoTracker {
+  void trackCandidature({
+    required OffreSuiviTrackingSource source,
+    required OffreSuiviTrackingOption event,
+  }) {
+    trackEvent(
+      eventCategory: 'Candidature',
+      action: source.name,
+      eventName: event.name,
+    );
+  }
+}

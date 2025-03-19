@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 
 class OffreSuivieBottomSheet extends StatelessWidget {
@@ -23,10 +24,16 @@ class OffreSuivieBottomSheet extends StatelessWidget {
     );
   }
 
+  void trackEvent(OffreSuiviTrackingOption event) => PassEmploiMatomoTracker.instance.trackCandidature(
+        source: OffreSuiviTrackingSource.bottomSheet,
+        event: event,
+      );
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, OffreSuivieBottomSheetViewModel>(
       converter: (store) => OffreSuivieBottomSheetViewModel.create(store, offreId),
+      onInit: (_) => trackEvent(OffreSuiviTrackingOption.affiche),
       builder: (context, viewModel) {
         return _DisposeWrapper(
           onDispose: viewModel.onNotInterested,
@@ -41,6 +48,7 @@ class OffreSuivieBottomSheet extends StatelessWidget {
                     icon: AppIcons.check_circle_rounded,
                     label: Strings.offreSuivieOuiPostule,
                     onPressed: () {
+                      trackEvent(OffreSuiviTrackingOption.postule);
                       viewModel.onPostule();
                       Navigator.of(context).pop();
                       Navigator.of(context).push(SimpleConfirmationPage.postuler());
@@ -50,6 +58,7 @@ class OffreSuivieBottomSheet extends StatelessWidget {
                     icon: AppIcons.bookmark,
                     label: Strings.offreSuiviePasEncore,
                     onPressed: () {
+                      trackEvent(OffreSuiviTrackingOption.interesse);
                       viewModel.onInteresse();
                       Navigator.of(context).pop();
                       Navigator.of(context).push(SimpleConfirmationPage.favoris());
@@ -59,6 +68,7 @@ class OffreSuivieBottomSheet extends StatelessWidget {
                     icon: AppIcons.delete,
                     label: Strings.offreSuivieNonPasInteresse,
                     onPressed: () {
+                      trackEvent(OffreSuiviTrackingOption.notInterrested);
                       Navigator.of(context).pop();
                     },
                   ),

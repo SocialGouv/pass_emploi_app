@@ -36,6 +36,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_accueil_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_navigation_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/cards/campagne_card.dart';
@@ -197,7 +198,11 @@ class _Blocs extends StatelessWidget {
   Widget _itemBuilder(BuildContext context, int index) {
     return switch (viewModel.items[index]) {
       final ErrorDegradeeItem item => InformationBandeau(icon: AppIcons.error_rounded, text: item.message),
-      final OffreSuivieAccueilItem item => OffreSuivieForm(offreId: item.offreId, showOffreDetails: true),
+      final OffreSuivieAccueilItem item => OffreSuivieForm(
+          offreId: item.offreId,
+          showOffreDetails: true,
+          trackingSource: OffreSuiviTrackingSource.accueil,
+        ),
       final RemoteCampagneAccueilItem item => RemoteCampagneAccueilCard(item),
       final CampagneRecrutementItem item => CampagneRecrutementCard(item),
       final CampagneEvaluationItem item => _CampagneCard(title: item.titre, description: item.description),

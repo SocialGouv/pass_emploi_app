@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_radio_buttons.dart';
@@ -19,22 +20,29 @@ class OffreSuivieForm extends StatelessWidget {
     super.key,
     required this.offreId,
     required this.showOffreDetails,
+    required this.trackingSource,
   });
 
   final bool showOffreDetails;
   final String offreId;
+  final OffreSuiviTrackingSource trackingSource;
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, OffreSuivieFormViewmodel>(
         converter: (store) => OffreSuivieFormViewmodel.create(store, offreId, showOffreDetails),
+        onInit: (store) => PassEmploiMatomoTracker.instance.trackCandidature(
+              source: trackingSource,
+              event: OffreSuiviTrackingOption.affiche,
+            ),
         distinct: true,
         builder: (context, viewModel) {
           return CardContainer(
             backgroundColor: AppColors.primary,
             child: AnimatedSwitcher(
               duration: AnimationDurations.fast,
-              child: viewModel.showConfirmation ? _Confirmation(viewModel) : _Content(viewModel, offreId),
+              child:
+                  viewModel.showConfirmation ? _Confirmation(viewModel) : _Content(viewModel, offreId, trackingSource),
             ),
           );
         });
@@ -82,9 +90,11 @@ class _Content extends StatelessWidget {
   const _Content(
     this.viewModel,
     this.offreId,
+    this.trackingSource,
   );
   final OffreSuivieFormViewmodel viewModel;
   final String offreId;
+  final OffreSuiviTrackingSource trackingSource;
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +115,7 @@ class _Content extends StatelessWidget {
         ],
         Text(Strings.ouEnEtesVous, style: TextStyles.textBaseBold.copyWith(color: Colors.white)),
         SizedBox(height: Margins.spacing_s),
-        _Options(viewModel),
+        _Options(viewModel, trackingSource),
       ],
     );
   }
@@ -140,14 +150,20 @@ class _OffreLien extends StatelessWidget {
 enum _OffreSuivieStatus { applied, interested, notInterested }
 
 class _Options extends StatefulWidget {
-  const _Options(this.viewModel);
+  const _Options(this.viewModel, this.trackingSource);
   final OffreSuivieFormViewmodel viewModel;
+  final OffreSuiviTrackingSource trackingSource;
 
   @override
   State<_Options> createState() => _OptionsState();
 }
 
 class _OptionsState extends State<_Options> {
+  void trackEvent(OffreSuiviTrackingOption event) => PassEmploiMatomoTracker.instance.trackCandidature(
+        source: widget.trackingSource,
+        event: event,
+      );
+
   _OffreSuivieStatus? _selectedValue;
   @override
   Widget build(BuildContext context) {
@@ -164,6 +180,7 @@ class _OptionsState extends State<_Options> {
             value: _OffreSuivieStatus.applied,
             groupValue: _selectedValue,
             onPressed: (status) {
+              trackEvent(OffreSuiviTrackingOption.postule);
               selectValue(status);
               widget.viewModel.onPostule();
             },
@@ -173,6 +190,7 @@ class _OptionsState extends State<_Options> {
             value: _OffreSuivieStatus.interested,
             groupValue: _selectedValue,
             onPressed: (status) {
+              trackEvent(OffreSuiviTrackingOption.interesse);
               selectValue(status);
               widget.viewModel.onInteresse();
             },
@@ -182,6 +200,7 @@ class _OptionsState extends State<_Options> {
             value: _OffreSuivieStatus.notInterested,
             groupValue: _selectedValue,
             onPressed: (status) {
+              trackEvent(OffreSuiviTrackingOption.notInterrested);
               selectValue(status);
               widget.viewModel.onNotInterested();
             },
