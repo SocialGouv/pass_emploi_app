@@ -56,7 +56,7 @@ class OffreSuivieBottomSheet extends StatelessWidget {
                     },
                   ),
                   _Option(
-                    icon: AppIcons.close_rounded,
+                    icon: AppIcons.delete,
                     label: Strings.offreSuivieNonPasInteresse,
                     onPressed: () {
                       Navigator.of(context).pop();

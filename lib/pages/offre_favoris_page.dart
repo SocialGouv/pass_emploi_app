@@ -21,7 +21,7 @@ import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/animated_list_loader.dart';
-import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/favori_likeable_card.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 import 'package:pass_emploi_app/widgets/illustration/empty_state_placeholder.dart';
@@ -146,11 +146,14 @@ class _Empty extends StatelessWidget {
     return Center(
       child: EmptyStatePlaceholder(
         illustration: Illustration.blue(AppIcons.bookmark),
+        title: Strings.offresEnregistreesEmptyTitle,
         subtitle: Strings.offresEnregistreesEmptySubtitle,
-        action: SecondaryButton(
-          label: Strings.offresEnregistreesEmptyButton,
-          backgroundColor: Colors.transparent,
-          onPressed: () => DefaultTabController.of(context).animateTo(0),
+        action: SizedBox(
+          width: double.infinity,
+          child: PrimaryActionButton(
+            label: Strings.offresEnregistreesEmptyButton,
+            onPressed: () => DefaultTabController.of(context).animateTo(0),
+          ),
         ),
       ),
     );

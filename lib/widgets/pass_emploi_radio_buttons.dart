@@ -39,7 +39,11 @@ class PassEmploiRadio<T> extends StatelessWidget {
                   ),
                 ),
               ),
-              Semantics(child: Text(title, style: TextStyles.textBaseRegular)),
+              Flexible(
+                child: Semantics(
+                  child: Text(title, style: TextStyles.textBaseRegular),
+                ),
+              ),
             ],
           ),
         ),

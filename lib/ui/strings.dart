@@ -369,7 +369,7 @@ class Strings {
       "Créez des alertes lors de vos recherches et recevez les offres qui vous correspondent";
   static String accueilPasDalerteBouton = "Commencer une recherche";
   static String accueilOffresEnregistreesSection = "Mon suivi des offres";
-  static String accueilOutilsSection = "Boîte à outils";
+  static String accueilOutilsSection = "Outils";
   static String accueilOutilsSectionDescription = "Découvrez des outils pour vous aider dans vos projets";
   static String accueilVoirLesOutils = "Voir tous les outils";
   static String accueilCampagneRecrutementLabelCej = "Aidez-nous à améliorer l’application du CEJ\u{00A0}!";
@@ -862,7 +862,7 @@ class Strings {
   static String offreDetails = "Détails de l'offre";
   static String rechercheTabTitle = "Recherche";
   static String offresEnregistreesTabTitle = "Suivi des offres";
-  static String boiteAOutilsTabTitle = "Boîte à outils";
+  static String boiteAOutilsTabTitle = "Outils";
   static String solutionsAppBarTitle = "Offres";
   static String partagerOffreConseiller = "Partager l’offre à mon conseiller";
   static String partageOffreNavTitle = "Partage de l’offre d’emploi";
@@ -1063,9 +1063,11 @@ class Strings {
   static String offreDetailNumber(String offreId) => "Offre n°$offreId";
   static String offreDetailLastUpdate(String lastUpdate) => "Actualisée $lastUpdate";
 
+  static String offresEnregistreesEmptyTitle = "Suivez vos offres d’emploi ici";
+
   static String offresEnregistreesEmptySubtitle =
-      "Pour faciliter votre suivi de candidatures, retrouvez ici toutes vos offres suivies.";
-  static String offresEnregistreesEmptyButton = "Rechercher une offre";
+      "Retrouvez ici les offres qui vous intéressent et celles où vous avez postulé.";
+  static String offresEnregistreesEmptyButton = "Lancer une recherche";
   static String offresEnregistreesError = "Erreur lors de la récupération de vos offres suivies";
   static String favorisUnknownContractType = 'Type de contrat inconnu';
   static String favorisUnknownSecteur = 'Secteur d\'activité inconnu';
@@ -1559,8 +1561,8 @@ class Strings {
   static String ouEnEtesVous = "Où en êtes-vous ?";
 
   static String jaiPostule = "J’ai postulé";
-  static String caMinteresse = "ça m’intéresse";
-  static String caNeMinteressePas = "ça ne m’intéresse plus";
+  static String caMinteresse = "Ça m’intéresse";
+  static String caNeMinteressePas = "Ça ne m’intéresse plus";
   static String retrouvezCetteOffreDansVosOffres = "Retrouvez cette offre dans le suivi des offres";
   static String seeNextOffer = "Voir l’offre suivante";
   static String merciPourVotreReponse = "Merci pour votre réponse";

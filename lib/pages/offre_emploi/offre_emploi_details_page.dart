@@ -196,9 +196,6 @@ class OffreEmploiDetailsPage extends StatelessWidget {
                   ),
                   SizedBox(height: Margins.spacing_l),
                 ],
-                if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_DETAILS)
-                  _PartageOffre(isAlternance: _fromAlternance),
-                SizedBox(height: Margins.spacing_l),
                 if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_DETAILS) _description(viewModel),
                 if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_DETAILS)
                   _profileDescription(viewModel),
@@ -206,6 +203,10 @@ class OffreEmploiDetailsPage extends StatelessWidget {
                   if (viewModel.companyName != null) _companyDescription(viewModel),
                 if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS)
                   FavoriNotFoundError(),
+                if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_DETAILS) ...[
+                  SizedBox(height: Margins.spacing_l),
+                  _PartageOffre(isAlternance: _fromAlternance),
+                ],
                 SizedBox(height: 60),
               ],
             ),

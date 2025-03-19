@@ -22,7 +22,12 @@ class OffreSuivieBottomSheetViewModel extends Equatable {
     final offreSuivie = store.state.offresSuiviesState.getOffre(offreId);
     if (offreSuivie == null) OffreSuivieBottomSheetViewModel.empty();
     return OffreSuivieBottomSheetViewModel(
-      onCloseBottomSheet: () => store.dispatch(OffresSuiviesDeleteAction(offreSuivie!)),
+      onCloseBottomSheet: () async {
+        store.dispatch(OffresSuiviesDeleteAction(offreSuivie!));
+        // delayed to avoir redux state update before closing the bottom sheet
+        await Future.delayed(Duration(milliseconds: 100));
+        store.dispatch(OffresSuiviesConfirmationResetAction());
+      },
       onPostule: () => store.dispatch(FavoriUpdateRequestAction<OffreEmploi>(offreId, FavoriStatus.postulated)),
       onInteresse: () => store.dispatch(FavoriUpdateRequestAction<OffreEmploi>(offreId, FavoriStatus.added)),
     );
