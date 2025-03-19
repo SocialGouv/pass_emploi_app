@@ -8,12 +8,12 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 class OffreSuivieBottomSheetViewModel extends Equatable {
-  final void Function() onCloseBottomSheet;
+  final void Function() onNotInterested;
   final void Function() onPostule;
   final void Function() onInteresse;
 
   OffreSuivieBottomSheetViewModel({
-    required this.onCloseBottomSheet,
+    required this.onNotInterested,
     required this.onPostule,
     required this.onInteresse,
   });
@@ -22,7 +22,7 @@ class OffreSuivieBottomSheetViewModel extends Equatable {
     final offreSuivie = store.state.offresSuiviesState.getOffre(offreId);
     if (offreSuivie == null) OffreSuivieBottomSheetViewModel.empty();
     return OffreSuivieBottomSheetViewModel(
-      onCloseBottomSheet: () async {
+      onNotInterested: () async {
         store.dispatch(OffresSuiviesDeleteAction(offreSuivie!));
         // delayed to avoir redux state update before closing the bottom sheet
         await Future.delayed(Duration(milliseconds: 100));
@@ -35,7 +35,7 @@ class OffreSuivieBottomSheetViewModel extends Equatable {
 
   factory OffreSuivieBottomSheetViewModel.empty() {
     return OffreSuivieBottomSheetViewModel(
-      onCloseBottomSheet: () {},
+      onNotInterested: () {},
       onPostule: () {},
       onInteresse: () {},
     );

@@ -29,7 +29,7 @@ class OffreSuivieBottomSheet extends StatelessWidget {
       converter: (store) => OffreSuivieBottomSheetViewModel.create(store, offreId),
       builder: (context, viewModel) {
         return _DisposeWrapper(
-          onDispose: viewModel.onCloseBottomSheet,
+          onDispose: viewModel.onNotInterested,
           child: BottomSheetWrapper(
             title: Strings.offreSuivieBottomSheetTitle,
             maxHeightFactor: 0.7,
