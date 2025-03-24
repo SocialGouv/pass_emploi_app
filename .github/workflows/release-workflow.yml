@@ -113,7 +113,6 @@ jobs:
       #     track: production
       #     status: completed
       #     whatsNewDirectory: release-notes/cej
-      #     changesNotSentForReview: true
 
       - name: BRSA - Build Android appbundle
         run: |
@@ -138,7 +137,6 @@ jobs:
           track: production
           status: completed
           whatsNewDirectory: release-notes/brsa
-          changesNotSentForReview: true
 
   # build-ios-prod:
   #   runs-on: macos-13
