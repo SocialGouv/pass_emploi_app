@@ -133,6 +133,7 @@ class _Scaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: SecondaryAppBar(
         title: Strings.actionDetails,
         actions: [_MoreButton(source: source, actionId: viewModel.id)],
