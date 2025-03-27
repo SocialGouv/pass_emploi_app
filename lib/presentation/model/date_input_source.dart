@@ -1,4 +1,6 @@
-sealed class DateInputSource {
+import 'package:equatable/equatable.dart';
+
+sealed class DateInputSource extends Equatable {
   DateTime get selectedDate;
   bool get isValid;
 
@@ -13,6 +15,9 @@ class DateNotInitialized extends DateInputSource {
 
   @override
   bool get isValid => false;
+
+  @override
+  List<Object?> get props => [];
 }
 
 class DateFromSuggestion extends DateInputSource {
@@ -26,6 +31,9 @@ class DateFromSuggestion extends DateInputSource {
 
   @override
   bool get isValid => true;
+
+  @override
+  List<Object?> get props => [date, label];
 }
 
 class DateFromPicker extends DateInputSource {
@@ -38,4 +46,7 @@ class DateFromPicker extends DateInputSource {
 
   @override
   bool get isValid => true;
+
+  @override
+  List<Object?> get props => [date];
 }

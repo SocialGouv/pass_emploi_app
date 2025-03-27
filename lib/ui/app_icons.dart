@@ -16,7 +16,7 @@ class AppIcons {
   static const IconData attach_file_rounded = Icons.attach_file_rounded;
   static const IconData delete = AppIconsAdditional.delete;
   static const IconData send_rounded = Icons.send_rounded;
-  static const IconData attach_file = Icons.attach_file;
+
   static const IconData tune_rounded = Icons.tune_rounded;
   static const IconData add_rounded = Icons.add_rounded;
   static const IconData ios_share = Icons.ios_share;
@@ -81,17 +81,20 @@ class AppIcons {
   static const IconData sentiment_satisfied = Icons.sentiment_satisfied;
   static const IconData mood = Icons.mood;
   static const IconData notifications_outlined = Icons.notifications_outlined;
+  static const IconData rocket_launch_outlined = Icons.rocket_launch_outlined;
+  static const IconData health_and_safety_outlined = Icons.health_and_safety_outlined;
+  static const IconData person_2_outlined = Icons.person_2_outlined;
 
   // Solution
   static const IconData immersion = AppIconsAdditional.immersion;
   static const IconData service_civique = Icons.diversity_3;
 
   // Actions du référentiel
-  static const IconData emploi = Icons.work_outline_rounded;
-  static const IconData projetPro = Icons.ads_click_rounded;
-  static const IconData sportLoisirs = Icons.sports_football_outlined;
-  static const IconData citoyennete = Icons.attach_file;
-  static const IconData formation = Icons.school_outlined;
-  static const IconData logement = Icons.door_front_door_outlined;
-  static const IconData sante = Icons.local_hospital_outlined;
+  static const IconData work_outline_rounded = Icons.work_outline_rounded;
+  static const IconData ads_click_rounded = Icons.ads_click_rounded;
+  static const IconData sports_football_outlined = Icons.sports_football_outlined;
+  static const IconData attach_file = Icons.attach_file;
+  static const IconData school_outlined = Icons.school_outlined;
+  static const IconData door_front_door_outlined = Icons.door_front_door_outlined;
+  static const IconData local_hospital_outlined = Icons.local_hospital_outlined;
 }

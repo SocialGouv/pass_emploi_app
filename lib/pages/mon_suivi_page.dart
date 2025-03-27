@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_actions.dart';
 import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
+import 'package:pass_emploi_app/pages/demarche/create_demarche_2_form_page.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_step1_page.dart';
 import 'package:pass_emploi_app/pages/demarche/demarche_detail_page.dart';
 import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_page.dart';
@@ -117,8 +118,12 @@ class _Scaffold extends StatelessWidget {
             icon: AppIcons.add_rounded,
             rippleColor: AppColors.primaryDarken,
             onPressed: () => switch (ctaType) {
-                  MonSuiviCtaType.createDemarche =>
-                    Navigator.push(context, CreateDemarcheStep1Page.materialPageRoute()),
+                  MonSuiviCtaType.createDemarche => // TODO: A/B test création demarche ici
+                    Navigator.push(
+                        context,
+                        1 == 1
+                            ? CreateDemarche2FormPage.materialPageRoute()
+                            : CreateDemarcheStep1Page.materialPageRoute()),
                   MonSuiviCtaType.createAction => CreateUserActionFormPage.pushUserActionCreationTunnel(
                       Navigator.of(context),
                       UserActionStateSource.monSuivi,

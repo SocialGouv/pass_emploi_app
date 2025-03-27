@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form
 import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_step2.dart';
 import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_step3.dart';
 import 'package:pass_emploi_app/presentation/user_action/creation_form/create_user_action_form_view_model.dart';
+import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -172,26 +173,29 @@ class _CreateUserActionForm extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                child: switch (formState.displayState) {
-                  CreateUserActionDisplayState.step1 => CreateUserActionFormStep1(
-                      onActionTypeSelected: (type) => formState.userActionTypeSelected(type),
-                    ),
-                  CreateUserActionDisplayState.step2 => CreateUserActionFormStep2(
-                      actionType: formState.step1.actionCategory!,
-                      viewModel: formState.step2,
-                      onTitleChanged: (titleSource) => formState.titleChanged(titleSource),
-                      onDescriptionChanged: (description) => formState.descriptionChanged(description),
-                    ),
-                  CreateUserActionDisplayState.step3 ||
-                  CreateUserActionDisplayState.descriptionConfimation =>
-                    CreateUserActionFormStep3(
-                      viewModel: formState.step3,
-                      onStatusChanged: (estTerminee) => formState.statusChanged(estTerminee),
-                      onDateChanged: (dateSource) => formState.dateChanged(dateSource),
-                      withRappelChanged: (withRappel) => formState.withRappelChanged(withRappel),
-                    ),
-                  _ => const SizedBox.shrink(),
-                },
+                child: AnimatedSwitcher(
+                  duration: AnimationDurations.fast,
+                  child: switch (formState.displayState) {
+                    CreateUserActionDisplayState.step1 => CreateUserActionFormStep1(
+                        onActionTypeSelected: (type) => formState.userActionTypeSelected(type),
+                      ),
+                    CreateUserActionDisplayState.step2 => CreateUserActionFormStep2(
+                        actionType: formState.step1.actionCategory!,
+                        viewModel: formState.step2,
+                        onTitleChanged: (titleSource) => formState.titleChanged(titleSource),
+                        onDescriptionChanged: (description) => formState.descriptionChanged(description),
+                      ),
+                    CreateUserActionDisplayState.step3 ||
+                    CreateUserActionDisplayState.descriptionConfimation =>
+                      CreateUserActionFormStep3(
+                        viewModel: formState.step3,
+                        onStatusChanged: (estTerminee) => formState.statusChanged(estTerminee),
+                        onDateChanged: (dateSource) => formState.dateChanged(dateSource),
+                        withRappelChanged: (withRappel) => formState.withRappelChanged(withRappel),
+                      ),
+                    _ => const SizedBox.shrink(),
+                  },
+                ),
               ),
             ],
           ),

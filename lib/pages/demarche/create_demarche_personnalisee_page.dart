@@ -208,7 +208,7 @@ class _PremierTitre extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 24, right: 24, top: 16),
       child: Text(
-        Strings.createDemarchePersonnalisee,
+        Strings.createDemarcheAppBarTitle,
         style: TextStyles.textBaseBoldWithColor(AppColors.primary),
       ),
     );

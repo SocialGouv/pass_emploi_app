@@ -62,7 +62,7 @@ void main() {
 
       // Then
       expect(viewModel.categoryText, 'Action');
-      expect(viewModel.categoryIcon, AppIcons.emploi);
+      expect(viewModel.categoryIcon, AppIcons.work_outline_rounded);
     });
 
     test("when type is set should return proper label and icon", () {
@@ -84,7 +84,7 @@ void main() {
 
       // Then
       expect(viewModel.categoryText, 'Sport et loisirs');
-      expect(viewModel.categoryIcon, AppIcons.sportLoisirs);
+      expect(viewModel.categoryIcon, AppIcons.sports_football_outlined);
     });
   });
 

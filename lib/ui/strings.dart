@@ -746,7 +746,7 @@ class Strings {
   static String par = " par ";
   static String votreConseiller = "votre conseiller";
   static const String late = "En retard : ";
-  static const String createDemarchePersonnalisee = "Créer une démarche";
+  static const String createDemarcheAppBarTitle = "Créer une démarche";
   static const String commentaire = "Commentaire";
   static const String descriptionDemarche = "Décrire la démarche";
   static const String caracteres255 = "255 caractères maximum";
@@ -761,6 +761,8 @@ class Strings {
   static const String createDemarcheStep2EmptySubtitle = "Essayez de reformuler ou lancez une nouvelle recherche";
   static const String noDemarcheFound = "Aucune démarche pre-renseignée n’a été trouvée";
   static const String selectDemarche = "Sélectionnez une démarche ou créez une démarche personnalisée";
+  static const String createDemarchePersonnaliseeTitle = "Créer une démarche personnalisée";
+  static const String descriptionDemarchePersonnaliseeLabel = "Description de la démarche (obligatoire)";
   static const String addALaDemarche = "Créer la démarche";
   static const String searchDemarcheHint = "Renseigner un mot clé pour rechercher une démarche à créer";
   static const String searchDemarcheButton = "Rechercher une démarche";
@@ -803,6 +805,8 @@ class Strings {
   static String demarchesCategoriesDescription =
       "Recherchez parmi les thématiques d’emploi : candidatures, entretiens, création d’entreprise…";
   static String thematiquesDemarcheDescription = "Choisissez une thématique parmi les thématiques suivantes :";
+  static String thematiquesDemarcheDescriptionShort = "Choisissez une thématique";
+  static String thematiquesDemarcheDateShort = "Choisissez une date (obligatoire)";
   static String thematiquesDemarchePressedTip = "Parcourir les démarches";
   static String thematiquesErrorTitle = "Il y a un problème de notre côté\u{00A0}!";
   static String thematiquesErrorSubtitle =
