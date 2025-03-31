@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_2/create_demarche_success_page.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_2/widgets/create_demarche_2_form.dart';
+import 'package:pass_emploi_app/pages/mon_suivi_page.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_personnalisee_view_model.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_view_model.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_creation_state.dart';
@@ -24,35 +26,39 @@ class CreateDemarche2FormPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _CreateDemarchePersonnaliseeConnector(
-      onCreateSuccess: () => onCreateDemarcheSuccess(context, CreateDemarcheSource.personnalisee),
-      onCreateFailure: () => _showError(context),
-      builder: (context, createDemarchePersonnaliseeVm) {
-        return _CreateDemarcheConnector(
-          onCreateSuccess: () => onCreateDemarcheSuccess(context, CreateDemarcheSource.fromReferentiel),
-          onCreateFailure: () => _showError(context),
-          builder: (context, createDemarcheVm) {
-            return Stack(
-              children: [
-                CreateDemarche2Form(
-                  onCreateDemarchePersonnalisee: (createRequest) {
-                    createDemarchePersonnaliseeVm.onCreateDemarche(
-                        createRequest.commentaire, createRequest.dateEcheance);
-                  },
-                  onCreateDemarcheFromReferentiel: (createRequest) {
-                    createDemarcheVm.onCreateDemarche(createRequest);
-                  },
-                ),
-                if (createDemarchePersonnaliseeVm.displayState == DisplayState.LOADING ||
-                    createDemarcheVm.displayState == DisplayState.LOADING)
-                  Center(
-                    child: CircularProgressIndicator(),
-                  )
-              ],
-            );
-          },
-        );
-      },
+    return CreateDemarcheABWrapper(
+      eventNameWith: AnalyticsEventNames.aBtestCreationDemarcheFormAfficheWith,
+      eventNameWithout: AnalyticsEventNames.aBtestCreationDemarcheFormAfficheWithout,
+      child: _CreateDemarchePersonnaliseeConnector(
+        onCreateSuccess: () => onCreateDemarcheSuccess(context, CreateDemarcheSource.personnalisee),
+        onCreateFailure: () => _showError(context),
+        builder: (context, createDemarchePersonnaliseeVm) {
+          return _CreateDemarcheConnector(
+            onCreateSuccess: () => onCreateDemarcheSuccess(context, CreateDemarcheSource.fromReferentiel),
+            onCreateFailure: () => _showError(context),
+            builder: (context, createDemarcheVm) {
+              return Stack(
+                children: [
+                  CreateDemarche2Form(
+                    onCreateDemarchePersonnalisee: (createRequest) {
+                      createDemarchePersonnaliseeVm.onCreateDemarche(
+                          createRequest.commentaire, createRequest.dateEcheance);
+                    },
+                    onCreateDemarcheFromReferentiel: (createRequest) {
+                      createDemarcheVm.onCreateDemarche(createRequest);
+                    },
+                  ),
+                  if (createDemarchePersonnaliseeVm.displayState == DisplayState.LOADING ||
+                      createDemarcheVm.displayState == DisplayState.LOADING)
+                    Center(
+                      child: CircularProgressIndicator(),
+                    )
+                ],
+              );
+            },
+          );
+        },
+      ),
     );
   }
 

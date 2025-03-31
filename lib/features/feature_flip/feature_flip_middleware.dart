@@ -18,6 +18,7 @@ class FeatureFlipMiddleware extends MiddlewareClass<AppState> {
     if (action is LoginSuccessAction) {
       if (action.user.loginMode.isPe()) {
         _handleCvmFeatureFlip(store, action.user.id);
+        _handleNouvelleSaisieDemarcheFeatureFlip(store);
       }
     }
   }
@@ -35,5 +36,10 @@ class FeatureFlipMiddleware extends MiddlewareClass<AppState> {
         store.dispatch(FeatureFlipUseCvmAction(true));
       }
     }
+  }
+
+  void _handleNouvelleSaisieDemarcheFeatureFlip(Store<AppState> store) {
+    final withNouvelleSaisieDemarche = _remoteConfigRepository.withNouvelleSaisieDemarche();
+    store.dispatch(FeatureFlipUseNouvelleSaisieDemarche(withNouvelleSaisieDemarche));
   }
 }
