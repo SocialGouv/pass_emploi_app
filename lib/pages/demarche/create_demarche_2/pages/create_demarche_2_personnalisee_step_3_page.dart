@@ -12,7 +12,7 @@ class CreateDemarche2PersonnaliseeStep3Page extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -20,7 +20,7 @@ class CreateDemarche2PersonnaliseeStep3Page extends StatelessWidget {
           SizedBox(height: Margins.spacing_base),
           Text(Strings.createDemarchePersonnaliseeTitle, style: TextStyles.textMBold),
           const SizedBox(height: Margins.spacing_base),
-          Text(Strings.thematiquesDemarcheDateShort, style: TextStyles.textBaseMedium),
+          Text(Strings.thematiquesDemarcheDateShortMandatory, style: TextStyles.textBaseMedium),
           const SizedBox(height: Margins.spacing_s),
           DatePickerSuggestions(
             title: Strings.datePickerTitle,
@@ -38,7 +38,7 @@ class CreateDemarche2PersonnaliseeStep3Page extends StatelessWidget {
           const SizedBox(height: Margins.spacing_base),
           PrimaryActionButton(
             label: Strings.addALaDemarche,
-            onPressed: viewModel.isDateValid ? viewModel.navigateToCreateDemarchePersonnaliseeStep4 : null,
+            onPressed: viewModel.isDemarchePersonnaliseeDateValid ? viewModel.submitDemarchePersonnalisee : null,
           ),
           SizedBox(height: Margins.spacing_xl),
         ],

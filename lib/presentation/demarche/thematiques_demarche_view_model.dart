@@ -68,7 +68,7 @@ class ThematiqueDemarcheItem extends Equatable {
       : icon = switch (title) {
           "Mon (nouveau) métier" => AppIcons.work_outline_rounded,
           "Ma formation professionnelle" => AppIcons.school_outlined,
-          "Mes candidatures" => AppIcons.description_rounded,
+          "Mes candidatures" => AppIcons.description_outlined,
           "Mes entretiens d'embauche" => AppIcons.event,
           "Ma création ou reprise d'entreprise" => AppIcons.rocket_launch_outlined,
           "Mes contraintes personnelles" => AppIcons.health_and_safety_outlined,

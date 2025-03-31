@@ -1,12 +1,13 @@
 part of '../create_demarche_form_view_model.dart';
 
 class CreateDemarche2Step1ViewModel extends CreateDemarche2ViewModel {
-  final bool valid;
-  CreateDemarche2Step1ViewModel({this.valid = true});
+  final ThematiqueDemarcheItem? selectedThematique;
+  CreateDemarche2Step1ViewModel({this.selectedThematique});
 
   @override
-  bool get isValid => valid;
+  List<Object?> get props => [selectedThematique];
 
-  @override
-  List<Object?> get props => [valid];
+  CreateDemarche2Step1ViewModel copyWith({ThematiqueDemarcheItem? selectedThematique}) {
+    return CreateDemarche2Step1ViewModel(selectedThematique: selectedThematique ?? this.selectedThematique);
+  }
 }

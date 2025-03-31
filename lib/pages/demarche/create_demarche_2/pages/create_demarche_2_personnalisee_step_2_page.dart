@@ -25,7 +25,7 @@ class _CreateDemarche2PersonnaliseeStep2PageState extends State<CreateDemarche2P
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -6,9 +6,6 @@ class CreateDemarche2PersonnaliseeStep3ViewModel extends CreateDemarche2ViewMode
       : dateSource = initialDateInput ?? DateNotInitialized();
 
   @override
-  bool get isValid => dateSource.isValid;
-
-  @override
   List<Object?> get props => [dateSource];
 
   CreateDemarche2PersonnaliseeStep3ViewModel copyWith({DateInputSource? dateSource}) {

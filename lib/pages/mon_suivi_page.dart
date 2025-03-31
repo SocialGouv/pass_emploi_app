@@ -119,11 +119,8 @@ class _Scaffold extends StatelessWidget {
             rippleColor: AppColors.primaryDarken,
             onPressed: () => switch (ctaType) {
                   MonSuiviCtaType.createDemarche => // TODO: A/B test création demarche ici
-                    Navigator.push(
-                        context,
-                        1 == 1
-                            ? CreateDemarche2FormPage.materialPageRoute()
-                            : CreateDemarcheStep1Page.materialPageRoute()),
+                    Navigator.push(context,
+                        1 == 1 ? CreateDemarche2FormPage.route() : CreateDemarcheStep1Page.materialPageRoute()),
                   MonSuiviCtaType.createAction => CreateUserActionFormPage.pushUserActionCreationTunnel(
                       Navigator.of(context),
                       UserActionStateSource.monSuivi,

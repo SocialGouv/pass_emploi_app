@@ -76,18 +76,29 @@ class _AnimatedStepProgressIndicator extends StatelessWidget {
         duration: const Duration(milliseconds: 500),
         curve: Curves.easeInOut,
         builder: (context, value, _) {
-          return Align(
-            alignment: Alignment.centerLeft,
-            child: FractionallySizedBox(
-              widthFactor: value,
-              child: Container(
+          return Stack(
+            children: [
+              Container(
                 height: 8,
                 decoration: BoxDecoration(
-                  color: AppColors.primary,
+                  color: Colors.grey.shade200,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
-            ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: FractionallySizedBox(
+                  widthFactor: value,
+                  child: Container(
+                    height: 8,
+                    decoration: BoxDecoration(
+                      color: AppColors.primary,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           );
         },
       ),

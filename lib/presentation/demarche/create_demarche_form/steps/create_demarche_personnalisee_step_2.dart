@@ -7,9 +7,6 @@ class CreateDemarche2PersonnaliseeStep2ViewModel extends CreateDemarche2ViewMode
   static int maxLength = 255;
 
   @override
-  bool get isValid => description.isNotEmpty && description.length <= maxLength;
-
-  @override
   List<Object?> get props => [description];
 
   CreateDemarche2PersonnaliseeStep2ViewModel copyWith({String? description}) {

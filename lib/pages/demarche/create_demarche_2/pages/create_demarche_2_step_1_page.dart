@@ -46,7 +46,7 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return SingleChildScrollView(
       padding: const EdgeInsets.all(Margins.spacing_base),
       child: AnimatedSwitcher(
         duration: AnimationDurations.fast,
@@ -57,6 +57,7 @@ class _Content extends StatelessWidget {
             ),
           DisplayState.CONTENT => _Success(
               thematiqueViewModel,
+              formViewModel,
               onCreateCustomDemarche: _onCreateCustomDemarcheSelected,
             ),
           _ => _LoadingPlaceholder(),
@@ -138,9 +139,10 @@ class _ErrorMessage extends StatelessWidget {
 }
 
 class _Success extends StatelessWidget {
-  const _Success(this.viewModel, {required this.onCreateCustomDemarche});
-  final ThematiqueDemarchePageViewModel viewModel;
+  const _Success(this.thematiqueViewModel, this.formViewModel, {required this.onCreateCustomDemarche});
+  final ThematiqueDemarchePageViewModel thematiqueViewModel;
   final void Function() onCreateCustomDemarche;
+  final CreateDemarcheFormViewModel formViewModel;
 
   @override
   Widget build(BuildContext context) {
@@ -159,12 +161,12 @@ class _Success extends StatelessWidget {
           ),
           physics: NeverScrollableScrollPhysics(),
           padding: EdgeInsets.zero,
-          itemCount: viewModel.thematiques.length,
+          itemCount: thematiqueViewModel.thematiques.length,
           itemBuilder: (context, index) {
             return _ThematiqueTile(
-              viewModel.thematiques[index],
-              (_) {
-                // TODO:
+              thematiqueViewModel.thematiques[index],
+              (thematique) {
+                formViewModel.thematiqueSelected(thematique);
               },
             );
           },

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_2/create_demarche_app_bar_back_button.dart';
-import 'package:pass_emploi_app/pages/demarche/create_demarche_2/pages/create_demarche_2_confirmation_step_page.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_2/pages/create_demarche_2_from_thematique_step_2_page.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_2/pages/create_demarche_2_from_thematique_step_3_page.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_2/pages/create_demarche_2_personnalisee_step_2_page.dart';
@@ -15,7 +15,11 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_stepper.dart';
 
 class CreateDemarche2Form extends StatefulWidget {
-  const CreateDemarche2Form({super.key});
+  const CreateDemarche2Form(
+      {super.key, required this.onCreateDemarchePersonnalisee, required this.onCreateDemarcheFromReferentiel});
+
+  final void Function(CreateDemarchePersonnaliseeRequestAction) onCreateDemarchePersonnalisee;
+  final void Function(CreateDemarcheRequestAction) onCreateDemarcheFromReferentiel;
 
   @override
   State<CreateDemarche2Form> createState() => _CreateDemarche2FormState();
@@ -32,10 +36,13 @@ class _CreateDemarche2FormState extends State<CreateDemarche2Form> {
   }
 
   void _onFormStateChanged() {
-    // NEXT: Ici logique pour communniquer avec la page du dessus
-    // onAbort
-    // onSubmit
-    // showDialog
+    if (_viewModel.displayState is CreateDemarche2FromThematiqueSubmitted) {
+      widget.onCreateDemarcheFromReferentiel(_viewModel.createDemarcheRequestAction());
+    }
+
+    if (_viewModel.displayState is CreateDemarche2PersonnaliseeSubmitted) {
+      widget.onCreateDemarchePersonnalisee(_viewModel.createDemarchePersonnaliseeRequestAction());
+    }
     setState(() {});
   }
 
@@ -45,9 +52,9 @@ class _CreateDemarche2FormState extends State<CreateDemarche2Form> {
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       appBar: SecondaryAppBar(
-          title: Strings.createDemarcheAppBarTitle,
-          leading: AppBarBackButton(_viewModel) // NEXT: Ici logique de retour ou pop,
-          ),
+        title: Strings.createDemarcheAppBarTitle,
+        leading: AppBarBackButton(_viewModel),
+      ),
       body: _Body(_viewModel),
     );
   }
@@ -73,30 +80,30 @@ class _Body extends StatelessWidget {
         Expanded(
           child: AnimatedSwitcher(
             duration: AnimationDurations.fast,
-            child: Align(
-              alignment: Alignment.topCenter,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    SizedBox(height: Margins.spacing_xs),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-                      child: PassEmploiStepperTexts(
-                        stepCount: CreateDemarcheDisplayState.stepsTotalCount,
-                        currentStep: viewModel.displayState.index() + 1,
-                      ),
-                    ),
-                    switch (viewModel.displayState) {
-                      CreateDemarche2Step1() => CreateDemarche2Step1Page(viewModel),
-                      CreateDemarche2ConfirmationStep() => CreateDemarche2ConfirmationStepPage(),
-                      CreateDemarche2FromThematiqueStep2() => CreateDemarche2FromThematiqueStep2Page(),
-                      CreateDemarche2PersonnaliseeStep2() => CreateDemarche2PersonnaliseeStep2Page(viewModel),
-                      CreateDemarche2FromThematiqueStep3() => CreateDemarche2FromThematiqueStep3Page(),
-                      CreateDemarche2PersonnaliseeStep3() => CreateDemarche2PersonnaliseeStep3Page(viewModel),
-                    },
-                  ],
+            child: Column(
+              children: [
+                SizedBox(height: Margins.spacing_xs),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+                  child: PassEmploiStepperTexts(
+                    stepCount: CreateDemarcheDisplayState.stepsTotalCount,
+                    currentStep: viewModel.displayState.index() + 1,
+                  ),
                 ),
-              ),
+                Expanded(
+                  child: switch (viewModel.displayState) {
+                    CreateDemarche2Step1() => CreateDemarche2Step1Page(viewModel),
+                    CreateDemarche2FromThematiqueStep2() => CreateDemarche2FromThematiqueStep2Page(viewModel),
+                    CreateDemarche2PersonnaliseeStep2() => CreateDemarche2PersonnaliseeStep2Page(viewModel),
+                    CreateDemarche2FromThematiqueStep3() ||
+                    CreateDemarche2FromThematiqueSubmitted() =>
+                      CreateDemarche2FromThematiqueStep3Page(viewModel),
+                    CreateDemarche2PersonnaliseeStep3() ||
+                    CreateDemarche2PersonnaliseeSubmitted() =>
+                      CreateDemarche2PersonnaliseeStep3Page(viewModel),
+                  },
+                ),
+              ],
             ),
           ),
         ),

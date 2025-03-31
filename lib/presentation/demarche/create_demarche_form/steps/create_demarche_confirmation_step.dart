@@ -5,8 +5,5 @@ class CreateDemarche2ConfirmationStepViewModel extends CreateDemarche2ViewModel 
   CreateDemarche2ConfirmationStepViewModel({this.valid = true});
 
   @override
-  bool get isValid => valid;
-
-  @override
   List<Object?> get props => [valid];
 }
