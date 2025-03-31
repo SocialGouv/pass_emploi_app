@@ -746,7 +746,7 @@ class Strings {
   static String par = " par ";
   static String votreConseiller = "votre conseiller";
   static const String late = "En retard : ";
-  static const String createDemarchePersonnalisee = "Créer une démarche";
+  static const String createDemarcheAppBarTitle = "Créer une démarche";
   static const String commentaire = "Commentaire";
   static const String descriptionDemarche = "Décrire la démarche";
   static const String caracteres255 = "255 caractères maximum";
@@ -760,8 +760,14 @@ class Strings {
       "Aucune démarche ne correspond à votre recherche “$query”";
   static const String createDemarcheStep2EmptySubtitle = "Essayez de reformuler ou lancez une nouvelle recherche";
   static const String noDemarcheFound = "Aucune démarche pre-renseignée n’a été trouvée";
-  static const String selectDemarche = "Sélectionnez une démarche ou créez une démarche personnalisée";
+  static const String selectDemarcheOrCreatePersonnalisee =
+      "Sélectionnez une démarche ou créez une démarche personnalisée";
+  static const String createDemarchePersonnaliseeTitle = "Créer une démarche personnalisée";
+  static const String descriptionDemarchePersonnaliseeLabel = "Description de la démarche (obligatoire)";
+  static const String selectDemarche = "Sélectionnez la démarche";
+  static const String selectMoyen = "Sélectionnez le moyen";
   static const String addALaDemarche = "Créer la démarche";
+  static const String validateLaDemarche = "Valider ma démarche";
   static const String searchDemarcheHint = "Renseigner un mot clé pour rechercher une démarche à créer";
   static const String searchDemarcheButton = "Rechercher une démarche";
   static const String mandatoryField = "Le champ est obligatoire";
@@ -793,6 +799,13 @@ class Strings {
 
   static String demarcheBottomSheetTitle = "Éditer la démarche";
 
+  static String demarcheSuccessTitle = "Démarche enregistrée";
+  static String demarcheSuccessSubtitle =
+      "La démarche est en route vers votre conseiller. Vous pourrez en discuter ensemble lors de votre prochain rendez-vous ! ";
+  static String demarcheSuccessConsulter = "Consulter ma démarche";
+  static String demarcheSuccessCreerUneAutre = "Créer une autre démarche";
+  static String createDemarcheErreur = "Erreur lors de la création de la démarche. Veuillez réessayer plus tard";
+
   // Duplicate demarche
   static String duplicateDemarchePageTitle = "Dupliquer la démarche";
   static String duplicateDemarche = "Dupliquer la démarche";
@@ -803,6 +816,9 @@ class Strings {
   static String demarchesCategoriesDescription =
       "Recherchez parmi les thématiques d’emploi : candidatures, entretiens, création d’entreprise…";
   static String thematiquesDemarcheDescription = "Choisissez une thématique parmi les thématiques suivantes :";
+  static String thematiquesDemarcheDescriptionShort = "Choisissez une thématique";
+  static String thematiquesDemarcheDateShortMandatory = "Choisissez une date (obligatoire)";
+  static String thematiquesDemarcheDateShort = "Choisissez une date";
   static String thematiquesDemarchePressedTip = "Parcourir les démarches";
   static String thematiquesErrorTitle = "Il y a un problème de notre côté\u{00A0}!";
   static String thematiquesErrorSubtitle =
@@ -1459,6 +1475,7 @@ class Strings {
   static String feedbackProvenanceOffre(String provenance) =>
       "Connaître la source d’une offre ($provenance, etc) m’intéresse.";
   static String feedbackCentreNotification = "Retrouver mes notifications dans l'app m'intéresse.";
+  static String feedbackCreateDemarche = "Êtes vous satisfait de la nouvelle saisie des démarches ?";
 
   // centre de notifications
   static String notificationsCenterTooltip = "Centre de notifications";

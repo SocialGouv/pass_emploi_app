@@ -33,7 +33,11 @@ class _ConfettiWrapperState extends State<ConfettiWrapper> {
           alignment: Alignment.topCenter,
           child: ConfettiWidget(
             confettiController: _confettiController,
-            createParticlePath: isWinter ? (size) => _snowPath(size) : null,
+            createParticlePath: isWinter
+                ? (size) => _snowPath(size)
+                : isSpring
+                    ? (size) => _flowerPath(size)
+                    : null,
             colors: isWinter
                 ? [
                     Color(0xFF88EDFF),
@@ -41,9 +45,17 @@ class _ConfettiWrapperState extends State<ConfettiWrapper> {
                     Color(0xFF5D9EEA),
                     Color(0xFF92B0F2),
                   ]
-                : null,
+                : isSpring
+                    ? [
+                        Color(0xFFFF8C8C),
+                        Color(0xFFD1DD93),
+                        Color(0xFFF1EDA9),
+                        Color(0xFFC3D5F4),
+                        Color(0xFFBDEEED),
+                      ]
+                    : null,
             gravity: 0.2,
-            numberOfParticles: 100,
+            numberOfParticles: 50,
             blastDirectionality: BlastDirectionality.explosive,
             shouldLoop: false,
           ),
@@ -172,4 +184,76 @@ class _ConfettiWrapperState extends State<ConfettiWrapper> {
   }
 
   bool get isWinter => DateTime.now().month == DateTime.december || DateTime.now().month == DateTime.january;
+
+  Path _flowerPath(Size size) {
+    final Path path_0 = Path();
+    path_0.moveTo(size.width * 0.3428, size.height * 0.0644);
+    path_0.cubicTo(size.width * 0.3732, size.height * 0.0341, size.width * 0.4160, size.height * 0.0133,
+        size.width * 0.4652, size.height * 0.0091);
+    path_0.cubicTo(size.width * 0.5144, size.height * 0.0049, size.width * 0.5670, size.height * 0.0097,
+        size.width * 0.6150, size.height * 0.0247);
+    path_0.cubicTo(size.width * 0.6630, size.height * 0.0397, size.width * 0.7049, size.height * 0.0745,
+        size.width * 0.7369, size.height * 0.1194);
+    path_0.cubicTo(size.width * 0.7689, size.height * 0.1643, size.width * 0.7839, size.height * 0.2172,
+        size.width * 0.7854, size.height * 0.2716);
+    path_0.cubicTo(size.width * 0.8154, size.height * 0.2633, size.width * 0.8535, size.height * 0.2677,
+        size.width * 0.8829, size.height * 0.2827);
+    path_0.cubicTo(size.width * 0.9123, size.height * 0.2977, size.width * 0.9404, size.height * 0.3237,
+        size.width * 0.9590, size.height * 0.3596);
+    path_0.cubicTo(size.width * 0.9772, size.height * 0.3947, size.width * 0.9737, size.height * 0.4404,
+        size.width * 0.9489, size.height * 0.4841);
+    path_0.cubicTo(size.width * 0.9240, size.height * 0.5278, size.width * 0.8834, size.height * 0.5586,
+        size.width * 0.8545, size.height * 0.5698);
+    path_0.cubicTo(size.width * 0.8866, size.height * 0.6231, size.width * 0.8977, size.height * 0.6876,
+        size.width * 0.8887, size.height * 0.7451);
+    path_0.cubicTo(size.width * 0.8798, size.height * 0.8027, size.width * 0.8505, size.height * 0.8540,
+        size.width * 0.8093, size.height * 0.8834);
+    path_0.cubicTo(size.width * 0.7680, size.height * 0.9130, size.width * 0.7091, size.height * 0.9229,
+        size.width * 0.6414, size.height * 0.9120);
+    path_0.cubicTo(size.width * 0.5736, size.height * 0.9011, size.width * 0.5341, size.height * 0.8726,
+        size.width * 0.4990, size.height * 0.8282);
+    path_0.cubicTo(size.width * 0.4790, size.height * 0.8558, size.width * 0.4470, size.height * 0.8784,
+        size.width * 0.4104, size.height * 0.8946);
+    path_0.cubicTo(size.width * 0.3739, size.height * 0.9109, size.width * 0.3400, size.height * 0.9197,
+        size.width * 0.3053, size.height * 0.9170);
+    path_0.cubicTo(size.width * 0.2706, size.height * 0.9143, size.width * 0.2379, size.height * 0.9008,
+        size.width * 0.2132, size.height * 0.8763);
+    path_0.cubicTo(size.width * 0.1885, size.height * 0.8519, size.width * 0.1629, size.height * 0.8160,
+        size.width * 0.1385, size.height * 0.7721);
+    path_0.cubicTo(size.width * 0.1171, size.height * 0.7356, size.width * 0.1068, size.height * 0.6873,
+        size.width * 0.1075, size.height * 0.6377);
+    path_0.cubicTo(size.width * 0.1082, size.height * 0.5881, size.width * 0.1199, size.height * 0.5393,
+        size.width * 0.1428, size.height * 0.5015);
+    path_0.cubicTo(size.width * 0.0898, size.height * 0.4935, size.width * 0.0464, size.height * 0.4611,
+        size.width * 0.0218, size.height * 0.4165);
+    path_0.cubicTo(size.width * -0.0028, size.height * 0.3719, size.width * -0.0068, size.height * 0.3250,
+        size.width * 0.0108, size.height * 0.2834);
+    path_0.cubicTo(size.width * 0.0284, size.height * 0.2418, size.width * 0.0660, size.height * 0.2055,
+        size.width * 0.1159, size.height * 0.1806);
+    path_0.cubicTo(size.width * 0.1658, size.height * 0.1556, size.width * 0.2227, size.height * 0.1501,
+        size.width * 0.2785, size.height * 0.1652);
+    path_0.cubicTo(size.width * 0.2804, size.height * 0.1214, size.width * 0.3018, size.height * 0.0812,
+        size.width * 0.3428, size.height * 0.0645);
+    path_0.close();
+
+    path_0.moveTo(size.width * 0.6559, size.height * 0.5036);
+    path_0.cubicTo(size.width * 0.6559, size.height * 0.5900, size.width * 0.5854, size.height * 0.6600,
+        size.width * 0.4984, size.height * 0.6600);
+    path_0.cubicTo(size.width * 0.4554, size.height * 0.6603, size.width * 0.4139, size.height * 0.6425,
+        size.width * 0.3830, size.height * 0.6112);
+    path_0.cubicTo(size.width * 0.3521, size.height * 0.5799, size.width * 0.3325, size.height * 0.5372,
+        size.width * 0.3323, size.height * 0.5036);
+    path_0.cubicTo(size.width * 0.3323, size.height * 0.4171, size.width * 0.4028, size.height * 0.3471,
+        size.width * 0.4898, size.height * 0.3471);
+    path_0.cubicTo(size.width * 0.5768, size.height * 0.3471, size.width * 0.6559, size.height * 0.4171,
+        size.width * 0.6559, size.height * 0.5036);
+    path_0.close();
+
+    return path_0;
+  }
+
+  bool get isSpring {
+    final now = DateTime.now();
+    return (now.month == DateTime.march && now.day >= 20) || (now.month == DateTime.april);
+  }
 }

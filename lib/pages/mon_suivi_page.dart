@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_actions.dart';
 import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
+import 'package:pass_emploi_app/pages/demarche/create_demarche_2_form_page.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_step1_page.dart';
 import 'package:pass_emploi_app/pages/demarche/demarche_detail_page.dart';
 import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_page.dart';
@@ -112,18 +113,7 @@ class _Scaffold extends StatelessWidget {
       body: ConnectivityContainer(child: body),
       floatingActionButton: Visibility(
         visible: withCreateButton,
-        child: PrimaryActionButton(
-            label: ctaType == MonSuiviCtaType.createAction ? Strings.addAnAction : Strings.addADemarche,
-            icon: AppIcons.add_rounded,
-            rippleColor: AppColors.primaryDarken,
-            onPressed: () => switch (ctaType) {
-                  MonSuiviCtaType.createDemarche =>
-                    Navigator.push(context, CreateDemarcheStep1Page.materialPageRoute()),
-                  MonSuiviCtaType.createAction => CreateUserActionFormPage.pushUserActionCreationTunnel(
-                      Navigator.of(context),
-                      UserActionStateSource.monSuivi,
-                    ),
-                }),
+        child: CreateDemarcheButton(ctaType: ctaType),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
@@ -866,5 +856,81 @@ extension on MonSuiviEntry {
       final RendezvousMonSuiviEntry entry => _RendezvousMonSuiviItem(entry),
       final SessionMiloMonSuiviEntry entry => _SessionMiloMonSuiviItem(entry),
     };
+  }
+}
+
+class CreateDemarcheButton extends StatelessWidget {
+  const CreateDemarcheButton({super.key, required this.ctaType});
+  final MonSuiviCtaType ctaType;
+
+  @override
+  Widget build(BuildContext context) {
+    return StoreConnector<AppState, bool>(
+      builder: (context, withNouvelleSaisieDemarche) {
+        return PrimaryActionButton(
+          label: ctaType == MonSuiviCtaType.createAction ? Strings.addAnAction : Strings.addADemarche,
+          icon: AppIcons.add_rounded,
+          rippleColor: AppColors.primaryDarken,
+          onPressed: () => switch (ctaType) {
+            MonSuiviCtaType.createDemarche => Navigator.push(
+                context,
+                withNouvelleSaisieDemarche
+                    ? CreateDemarche2FormPage.route()
+                    : CreateDemarcheStep1Page.materialPageRoute()),
+            MonSuiviCtaType.createAction => CreateUserActionFormPage.pushUserActionCreationTunnel(
+                Navigator.of(context),
+                UserActionStateSource.monSuivi,
+              ),
+          },
+        );
+      },
+      converter: (store) => store.state.featureFlipState.featureFlip.withNouvelleSaisieDemarche,
+      onInit: (store) {
+        // TODO: Remove A/B test
+        store.state.featureFlipState.featureFlip.withNouvelleSaisieDemarche
+            ? PassEmploiMatomoTracker.instance.trackEvent(
+                eventCategory: AnalyticsEventNames.aBtestCreationDemarcheCategory,
+                action: AnalyticsEventNames.aBtestCreationDemarcheBoutonAfficheWith,
+              )
+            : PassEmploiMatomoTracker.instance.trackEvent(
+                eventCategory: AnalyticsEventNames.aBtestCreationDemarcheCategory,
+                action: AnalyticsEventNames.aBtestCreationDemarcheBoutonAfficheWithout,
+              );
+      },
+    );
+  }
+}
+
+class CreateDemarcheABWrapper extends StatelessWidget {
+  const CreateDemarcheABWrapper({
+    super.key,
+    required this.child,
+    required this.eventNameWith,
+    required this.eventNameWithout,
+  });
+  final Widget child;
+  final String eventNameWith;
+  final String eventNameWithout;
+
+  @override
+  Widget build(BuildContext context) {
+    return StoreConnector<AppState, bool>(
+      builder: (context, withNouvelleSaisieDemarche) {
+        return child;
+      },
+      converter: (store) => store.state.featureFlipState.featureFlip.withNouvelleSaisieDemarche,
+      onInit: (store) {
+        // TODO: Remove A/B test
+        store.state.featureFlipState.featureFlip.withNouvelleSaisieDemarche
+            ? PassEmploiMatomoTracker.instance.trackEvent(
+                eventCategory: AnalyticsEventNames.aBtestCreationDemarcheCategory,
+                action: eventNameWith,
+              )
+            : PassEmploiMatomoTracker.instance.trackEvent(
+                eventCategory: AnalyticsEventNames.aBtestCreationDemarcheCategory,
+                action: eventNameWithout,
+              );
+      },
+    );
   }
 }

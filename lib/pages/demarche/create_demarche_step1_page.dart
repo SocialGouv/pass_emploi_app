@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/pages/demarche/create_demarche_step2_page.dart';
 import 'package:pass_emploi_app/pages/demarche/demarche_detail_page.dart';
 import 'package:pass_emploi_app/pages/demarche/thematiques_demarche_page.dart';
 import 'package:pass_emploi_app/pages/demarche/top_demarche_page.dart';
+import 'package:pass_emploi_app/pages/mon_suivi_page.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_step1_view_model.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -71,40 +72,44 @@ class _CreateDemarcheStep1PageState extends State<CreateDemarcheStep1Page> {
   }
 
   Widget _buildBody(BuildContext context, CreateDemarcheStep1ViewModel viewModel) {
-    return Scaffold(
-      appBar: SecondaryAppBar(title: Strings.createDemarcheTitle),
-      body: Padding(
-        padding: const EdgeInsets.all(Margins.spacing_base),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _Subtitle(text: Strings.demarcheRechercheSubtitle),
-              SizedBox(height: Margins.spacing_base),
-              Text(Strings.searchDemarcheHint, style: TextStyles.textBaseMedium),
-              SizedBox(height: Margins.spacing_base),
-              _ChampRecherche(
-                onChanged: (value) => setState(() => _query = value),
-              ),
-              SizedBox(height: Margins.spacing_xl),
-              SizedBox(
-                width: double.infinity,
-                child: PrimaryActionButton(
-                  icon: AppIcons.search_rounded,
-                  label: Strings.searchDemarcheButton,
-                  onPressed: _query.trim().length >= _minQueryLength
-                      ? () => _onSearchStarted(viewModel, context) //
-                      : null,
+    return CreateDemarcheABWrapper(
+      eventNameWith: AnalyticsEventNames.aBtestCreationDemarcheFormAfficheWith,
+      eventNameWithout: AnalyticsEventNames.aBtestCreationDemarcheFormAfficheWithout,
+      child: Scaffold(
+        appBar: SecondaryAppBar(title: Strings.createDemarcheTitle),
+        body: Padding(
+          padding: const EdgeInsets.all(Margins.spacing_base),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _Subtitle(text: Strings.demarcheRechercheSubtitle),
+                SizedBox(height: Margins.spacing_base),
+                Text(Strings.searchDemarcheHint, style: TextStyles.textBaseMedium),
+                SizedBox(height: Margins.spacing_base),
+                _ChampRecherche(
+                  onChanged: (value) => setState(() => _query = value),
                 ),
-              ),
-              SizedBox(height: Margins.spacing_xl),
-              _Subtitle(text: Strings.demarcheCategoriesSubtitle),
-              SizedBox(height: Margins.spacing_base),
-              _ThematicCard(),
-              SizedBox(height: Margins.spacing_base),
-              _TopDemarcheCard(),
-              SizedBox(height: Margins.spacing_huge),
-            ],
+                SizedBox(height: Margins.spacing_xl),
+                SizedBox(
+                  width: double.infinity,
+                  child: PrimaryActionButton(
+                    icon: AppIcons.search_rounded,
+                    label: Strings.searchDemarcheButton,
+                    onPressed: _query.trim().length >= _minQueryLength
+                        ? () => _onSearchStarted(viewModel, context) //
+                        : null,
+                  ),
+                ),
+                SizedBox(height: Margins.spacing_xl),
+                _Subtitle(text: Strings.demarcheCategoriesSubtitle),
+                SizedBox(height: Margins.spacing_base),
+                _ThematicCard(),
+                SizedBox(height: Margins.spacing_base),
+                _TopDemarcheCard(),
+                SizedBox(height: Margins.spacing_huge),
+              ],
+            ),
           ),
         ),
       ),

@@ -35,7 +35,7 @@ class CreateDemarcheStep2ViewModel extends Equatable {
 List<CreateDemarcheStep2Item> _items(List<DemarcheDuReferentiel> demarches) {
   return [
     if (demarches.isEmpty) CreateDemarcheStep2EmptyItem(),
-    if (demarches.isNotEmpty) CreateDemarcheStep2TitleItem(Strings.selectDemarche),
+    if (demarches.isNotEmpty) CreateDemarcheStep2TitleItem(Strings.selectDemarcheOrCreatePersonnalisee),
     ...demarches.map((demarche) => CreateDemarcheStep2DemarcheFoundItem(demarche.id)),
     CreateDemarcheStep2ButtonItem(),
   ];

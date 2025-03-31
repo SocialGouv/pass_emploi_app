@@ -39,7 +39,7 @@ class DemarcheCard extends StatelessWidget {
             title: viewModel.title,
             tag: viewModel.categoryText != null
                 ? CardTag(
-                    icon: AppIcons.emploi,
+                    icon: AppIcons.work_outline_rounded,
                     text: viewModel.categoryText!,
                     contentColor: AppColors.primary,
                     backgroundColor: AppColors.primaryLighten,

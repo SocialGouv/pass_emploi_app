@@ -35,7 +35,12 @@ class PassEmploiStepperTexts extends StatelessWidget {
 }
 
 class PassEmploiStepperProgressBar extends StatelessWidget {
-  const PassEmploiStepperProgressBar({required this.stepCount, required this.currentStep});
+  const PassEmploiStepperProgressBar({
+    required this.stepCount,
+    required this.currentStep,
+    super.key,
+  });
+
   final int stepCount;
   final int currentStep;
 
@@ -44,21 +49,58 @@ class PassEmploiStepperProgressBar extends StatelessWidget {
     return Row(
       children: [
         for (var i = 0; i < stepCount; i++) ...[
-          _stepProgressIndicator(isActive: i <= currentStep),
+          _AnimatedStepProgressIndicator(
+            isActive: i <= currentStep,
+            key: ValueKey(i),
+          ),
           if (i < stepCount - 1) const SizedBox(width: Margins.spacing_s),
         ],
       ],
     );
   }
+}
 
-  Widget _stepProgressIndicator({required bool isActive}) {
+class _AnimatedStepProgressIndicator extends StatelessWidget {
+  const _AnimatedStepProgressIndicator({
+    required this.isActive,
+    super.key,
+  });
+
+  final bool isActive;
+
+  @override
+  Widget build(BuildContext context) {
     return Expanded(
-      child: Container(
-        height: 8,
-        decoration: BoxDecoration(
-          color: isActive ? AppColors.primary : AppColors.grey100,
-          borderRadius: BorderRadius.circular(2),
-        ),
+      child: TweenAnimationBuilder<double>(
+        tween: Tween<double>(begin: 0, end: isActive ? 1 : 0),
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+        builder: (context, value, _) {
+          return Stack(
+            children: [
+              Container(
+                height: 8,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade200,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: FractionallySizedBox(
+                  widthFactor: value,
+                  child: Container(
+                    height: 8,
+                    decoration: BoxDecoration(
+                      color: AppColors.primary,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

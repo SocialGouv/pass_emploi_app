@@ -180,12 +180,12 @@ extension UserActionReferentielTypePresentation on UserActionReferentielType {
       };
 
   IconData get icon => switch (this) {
-        UserActionReferentielType.emploi => AppIcons.emploi,
-        UserActionReferentielType.projetProfessionnel => AppIcons.projetPro,
-        UserActionReferentielType.cultureSportLoisirs => AppIcons.sportLoisirs,
-        UserActionReferentielType.citoyennete => AppIcons.citoyennete,
-        UserActionReferentielType.formation => AppIcons.formation,
-        UserActionReferentielType.logement => AppIcons.logement,
-        UserActionReferentielType.sante => AppIcons.sante,
+        UserActionReferentielType.emploi => AppIcons.work_outline_rounded,
+        UserActionReferentielType.projetProfessionnel => AppIcons.ads_click_rounded,
+        UserActionReferentielType.cultureSportLoisirs => AppIcons.sports_football_outlined,
+        UserActionReferentielType.citoyennete => AppIcons.attach_file,
+        UserActionReferentielType.formation => AppIcons.school_outlined,
+        UserActionReferentielType.logement => AppIcons.door_front_door_outlined,
+        UserActionReferentielType.sante => AppIcons.local_hospital_outlined,
       };
 }

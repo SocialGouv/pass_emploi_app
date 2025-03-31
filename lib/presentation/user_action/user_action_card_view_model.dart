@@ -39,7 +39,7 @@ class UserActionCardViewModel extends Equatable {
       id: action.id,
       title: action.content,
       isLate: action.status.todo() && action.isLate(),
-      categoryIcon: action.type?.icon ?? AppIcons.emploi,
+      categoryIcon: action.type?.icon ?? AppIcons.work_outline_rounded,
       categoryText: action.type?.label ?? Strings.accueilActionSingular,
       pillule: action.pillule(),
     );

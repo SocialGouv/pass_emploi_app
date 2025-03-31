@@ -68,6 +68,11 @@ class RemoteConfigRepository {
     };
   }
 
+  bool withNouvelleSaisieDemarche() {
+    if (_firebaseRemoteConfig == null) return false;
+    return _firebaseRemoteConfig.getBool('has_nouvelle_saisie_demarche_ab_testing');
+  }
+
   List<String> getIdsConseillerCvmEarlyAdopters() {
     if (_firebaseRemoteConfig == null) return [];
     return _firebaseRemoteConfig.getString('ids_conseiller_cvm_early_adopters').split(',');

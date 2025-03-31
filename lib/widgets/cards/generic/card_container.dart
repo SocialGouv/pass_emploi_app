@@ -10,22 +10,22 @@ class CardContainer extends StatelessWidget {
   final void Function()? onTap;
   final void Function()? onLongPress;
   final Color backgroundColor;
-  final Color splashColor;
+  final Color? splashColor;
   final EdgeInsets padding;
   final bool withShadow;
   final DecorationImage? image;
 
-  const CardContainer({
+  CardContainer({
     super.key,
     required this.child,
     this.onTap,
     this.onLongPress,
     this.backgroundColor = Colors.white,
-    this.splashColor = AppColors.primaryLighten,
+    Color? splashColor,
     this.padding = const EdgeInsets.all(Margins.spacing_base),
     this.withShadow = true,
     this.image,
-  });
+  }) : splashColor = splashColor ?? AppColors.primary.withOpacity(0.2);
 
   @override
   Widget build(BuildContext context) {
