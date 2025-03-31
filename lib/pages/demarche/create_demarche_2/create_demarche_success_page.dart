@@ -15,14 +15,18 @@ import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/confetti_wrapper.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
+import 'package:pass_emploi_app/widgets/in_app_feedback.dart';
+
+enum CreateDemarcheSource { personnalisee, fromReferentiel }
 
 class CreateDemarcheSuccessPage extends StatelessWidget {
-  const CreateDemarcheSuccessPage({super.key});
+  const CreateDemarcheSuccessPage({super.key, required this.source});
+  final CreateDemarcheSource source;
 
-  static Route<dynamic> route() {
+  static Route<dynamic> route(CreateDemarcheSource source) {
     return MaterialPageRoute(
       fullscreenDialog: true,
-      builder: (context) => const CreateDemarcheSuccessPage(),
+      builder: (context) => CreateDemarcheSuccessPage(source: source),
     );
   }
 
@@ -30,7 +34,7 @@ class CreateDemarcheSuccessPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConfettiWrapper(builder: (context, confettiController) {
       return StoreConnector<AppState, CreateDemarcheSuccessViewModel>(
-        builder: (context, viewModel) => _Body(viewModel),
+        builder: (context, viewModel) => _Body(viewModel, source),
         converter: (store) => CreateDemarcheSuccessViewModel.create(store),
         distinct: true,
         onDispose: (store) => store.dispatch(CreateDemarcheResetAction()),
@@ -41,8 +45,9 @@ class CreateDemarcheSuccessPage extends StatelessWidget {
 }
 
 class _Body extends StatelessWidget {
-  const _Body(this.viewModel);
+  const _Body(this.viewModel, this.source);
   final CreateDemarcheSuccessViewModel viewModel;
+  final CreateDemarcheSource source;
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +72,14 @@ class _Body extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: Margins.spacing_xl),
+                InAppFeedback(
+                  feature: switch (source) {
+                    CreateDemarcheSource.personnalisee => "create-demarche-personnalisee",
+                    CreateDemarcheSource.fromReferentiel => "create-demarche-referentiel",
+                  },
+                  label: Strings.feedbackCreateDemarche,
+                ),
+                SizedBox(height: Margins.spacing_m),
                 Center(
                   child: SizedBox(
                     height: 130,

@@ -1475,6 +1475,7 @@ class Strings {
   static String feedbackProvenanceOffre(String provenance) =>
       "Connaître la source d’une offre ($provenance, etc) m’intéresse.";
   static String feedbackCentreNotification = "Retrouver mes notifications dans l'app m'intéresse.";
+  static String feedbackCreateDemarche = "Êtes vous satisfait de la nouvelle saisie des démarches ?";
 
   // centre de notifications
   static String notificationsCenterTooltip = "Centre de notifications";

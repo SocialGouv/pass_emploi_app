@@ -25,11 +25,11 @@ class CreateDemarche2FormPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _CreateDemarchePersonnaliseeConnector(
-      onCreateSuccess: () => onCreateDemarcheSuccess(context),
+      onCreateSuccess: () => onCreateDemarcheSuccess(context, CreateDemarcheSource.personnalisee),
       onCreateFailure: () => _showError(context),
       builder: (context, createDemarchePersonnaliseeVm) {
         return _CreateDemarcheConnector(
-          onCreateSuccess: () => onCreateDemarcheSuccess(context),
+          onCreateSuccess: () => onCreateDemarcheSuccess(context, CreateDemarcheSource.fromReferentiel),
           onCreateFailure: () => _showError(context),
           builder: (context, createDemarcheVm) {
             return Stack(
@@ -56,9 +56,9 @@ class CreateDemarche2FormPage extends StatelessWidget {
     );
   }
 
-  void onCreateDemarcheSuccess(BuildContext context) {
+  void onCreateDemarcheSuccess(BuildContext context, CreateDemarcheSource source) {
     Navigator.of(context).pop();
-    Navigator.of(context).push(CreateDemarcheSuccessPage.route());
+    Navigator.of(context).push(CreateDemarcheSuccessPage.route(source));
   }
 
   void _showError(BuildContext context) {
