@@ -302,6 +302,8 @@ void main() {
           idDemarche: "id",
           quoi: "test_quoi",
           pourquoi: "test_pourquoi",
+          codeQuoi: "test_quoi",
+          codePourquoi: "test_pourquoi",
         );
         final comment = CommentTextItem(label: "label", code: "test_code");
         final date = DateFromPicker(DateTime(2024));
