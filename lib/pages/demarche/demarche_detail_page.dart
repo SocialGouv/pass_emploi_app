@@ -39,6 +39,7 @@ class DemarcheDetailPage extends StatelessWidget {
       tracking: AnalyticsScreenNames.userActionDetails,
       child: ConfettiWrapper(builder: (context, conffetiController) {
         return Scaffold(
+          backgroundColor: Colors.white,
           appBar: SecondaryAppBar(
             title: Strings.demarcheDetails,
             actions: [_MoreButton(demarcheId: id)],
