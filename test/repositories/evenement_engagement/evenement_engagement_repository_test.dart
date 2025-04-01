@@ -139,7 +139,7 @@ void main() {
             url: "/evenements",
             jsonBody: {
               'type': 'MESSAGE_ENVOYE',
-              'emetteur': {'type': 'JEUNE', 'structure': 'CONSEIL_DEPARTEMENTAL_BRSA', 'id': 'userId'}
+              'emetteur': {'type': 'JEUNE', 'structure': 'CONSEIL_DEPT', 'id': 'userId'}
             },
           );
         });
