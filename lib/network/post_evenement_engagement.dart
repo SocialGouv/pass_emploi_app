@@ -72,7 +72,7 @@ extension on User {
       LoginMode.POLE_EMPLOI => switch (accompagnement) {
           Accompagnement.cej => 'POLE_EMPLOI',
           Accompagnement.rsaFranceTravail => 'POLE_EMPLOI_BRSA',
-          Accompagnement.rsaConseilsDepartementaux => 'CONSEIL_DEPARTEMENTAL_BRSA',
+          Accompagnement.rsaConseilsDepartementaux => 'CONSEIL_DEPT',
           Accompagnement.aij => 'POLE_EMPLOI_AIJ',
           Accompagnement.avenirPro => 'AVENIR_PRO',
           Accompagnement.accompagnementIntensif => 'FT_ACCOMPAGNEMENT_INTENSIF',
