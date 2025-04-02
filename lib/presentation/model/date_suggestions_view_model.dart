@@ -6,11 +6,21 @@ class DateSuggestionListViewModel {
 
   factory DateSuggestionListViewModel.create(DateTime now) {
     return DateSuggestionListViewModel(suggestions: [
-      DateSuggestionViewModel("${Strings.userActionDateSuggestion1} (${now.toDayOfWeek()})", now),
-      DateSuggestionViewModel("${Strings.userActionDateSuggestion2} (${now.add(Duration(days: 1)).toDayOfWeek()})",
-          now.add(Duration(days: 1))),
       DateSuggestionViewModel(
-          "${Strings.userActionDateSuggestion3} (${now.toMondayOnNextWeek().toDayOfWeek()})", now.toMondayOnNextWeek()),
+        "${Strings.userActionDateSuggestion1} (${now.toDayOfWeek()})",
+        "${Strings.userActionDateSuggestion1} (${now.toDayWithFullMonth()})",
+        now,
+      ),
+      DateSuggestionViewModel(
+        "${Strings.userActionDateSuggestion2} (${now.add(Duration(days: 1)).toDayOfWeek()})",
+        "${Strings.userActionDateSuggestion2} (${now.add(Duration(days: 1)).toDayWithFullMonth()})",
+        now.add(Duration(days: 1)),
+      ),
+      DateSuggestionViewModel(
+        "${Strings.userActionDateSuggestion3} (${now.toMondayOnNextWeek().toDayOfWeek()})",
+        "${Strings.userActionDateSuggestion3} (${now.toMondayOnNextWeek().toDayWithFullMonth()})",
+        now.toMondayOnNextWeek(),
+      ),
     ]);
   }
 
@@ -19,7 +29,8 @@ class DateSuggestionListViewModel {
 
 class DateSuggestionViewModel {
   final String label;
+  final String a11yLabel;
   final DateTime date;
 
-  DateSuggestionViewModel(this.label, this.date);
+  DateSuggestionViewModel(this.label, this.a11yLabel, this.date);
 }

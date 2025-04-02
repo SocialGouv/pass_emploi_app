@@ -90,15 +90,18 @@ class _DemarcheDuReferentielCard extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context, DemarcheDuReferentielCardViewModel viewModel) {
-    return CardContainer(
-      onTap: () => onSelected(viewModel),
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(minHeight: 40),
-        child: Center(
-          child: Text(
-            viewModel.quoi,
-            textAlign: TextAlign.center,
-            style: TextStyles.textSMedium(),
+    return Semantics(
+      button: true,
+      child: CardContainer(
+        onTap: () => onSelected(viewModel),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 40),
+          child: Center(
+            child: Text(
+              viewModel.quoi,
+              textAlign: TextAlign.center,
+              style: TextStyles.textSMedium(),
+            ),
           ),
         ),
       ),

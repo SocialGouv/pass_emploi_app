@@ -63,6 +63,7 @@ class _DateSuggestions extends StatelessWidget {
             .map(
               (suggestion) => PassEmploiChip<DateTime>(
                 label: suggestion.label,
+                a11yLabel: suggestion.a11yLabel,
                 value: suggestion.date,
                 isSelected: false,
                 onTagSelected: (value) => onSelected(DateFromSuggestion(

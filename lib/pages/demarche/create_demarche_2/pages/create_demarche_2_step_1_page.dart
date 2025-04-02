@@ -194,20 +194,23 @@ class _ThematiqueTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CardContainer(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(thematique.icon, size: Dimens.icon_size_l, color: AppColors.primary),
-          const SizedBox(height: Margins.spacing_base),
-          Text(
-            thematique.title,
-            textAlign: TextAlign.center,
-            style: TextStyles.textSBold,
-          ),
-        ],
+    return Semantics(
+      button: true,
+      child: CardContainer(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(thematique.icon, size: Dimens.icon_size_l, color: AppColors.primary),
+            const SizedBox(height: Margins.spacing_base),
+            Text(
+              thematique.title,
+              textAlign: TextAlign.center,
+              style: TextStyles.textSBold,
+            ),
+          ],
+        ),
+        onTap: () => onThematiqueSelected(thematique),
       ),
-      onTap: () => onThematiqueSelected(thematique),
     );
   }
 }

@@ -107,6 +107,7 @@ class _MoyensList extends StatelessWidget {
         final moyen = storeVm.comments[index];
         return Semantics(
           selected: moyen == selectedComment,
+          button: true,
           child: CardContainer(
             onTap: () => onCommentSelected(moyen),
             backgroundColor: moyen == selectedComment ? AppColors.primaryDarken : Colors.white,

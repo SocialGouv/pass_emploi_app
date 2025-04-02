@@ -9,6 +9,7 @@ class PassEmploiChip<T> extends StatelessWidget {
   const PassEmploiChip({
     super.key,
     required this.label,
+    this.a11yLabel,
     required this.value,
     required this.onTagSelected,
     required this.isSelected,
@@ -17,6 +18,7 @@ class PassEmploiChip<T> extends StatelessWidget {
   });
 
   final String label;
+  final String? a11yLabel;
   final T value;
   final void Function(T) onTagSelected;
   final bool isSelected;
@@ -28,6 +30,7 @@ class PassEmploiChip<T> extends StatelessWidget {
     return _CustomChip(
       isSelected: isSelected,
       label: label,
+      a11yLabel: a11yLabel,
       bgColor: isSelected ? AppColors.primaryDarken : Colors.white,
       onSelected: () => isSelected ? onTagDeleted?.call() : onTagSelected(value),
       textstyle: isSelected ? TextStyles.textSBold.copyWith(color: Colors.white) : TextStyles.textSMedium(),
@@ -39,6 +42,7 @@ class PassEmploiChip<T> extends StatelessWidget {
 class _CustomChip extends StatelessWidget {
   const _CustomChip({
     required this.label,
+    this.a11yLabel,
     required this.bgColor,
     required this.borderColor,
     required this.onSelected,
@@ -47,6 +51,7 @@ class _CustomChip extends StatelessWidget {
   });
 
   final String label;
+  final String? a11yLabel;
   final Color bgColor;
   final Color borderColor;
   final TextStyle textstyle;
@@ -58,6 +63,8 @@ class _CustomChip extends StatelessWidget {
     return Semantics(
       button: true,
       selected: isSelected,
+      container: true,
+      label: a11yLabel,
       child: Material(
         color: bgColor,
         borderRadius: BorderRadius.circular(Dimens.radius_base),
@@ -75,9 +82,12 @@ class _CustomChip extends StatelessWidget {
               alignment: WrapAlignment.center,
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
-                Text(
-                  label,
-                  style: textstyle,
+                ExcludeSemantics(
+                  excluding: a11yLabel != null,
+                  child: Text(
+                    label,
+                    style: textstyle,
+                  ),
                 ),
                 if (isSelected) ...[
                   SizedBox(width: Margins.spacing_s),
