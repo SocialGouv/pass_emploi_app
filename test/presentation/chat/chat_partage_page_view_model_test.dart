@@ -227,7 +227,7 @@ void main() {
       // Then
       expect(viewModel.pageTitle, "Partage d’événement");
       expect(viewModel.willShareTitle, "Ce que vous souhaitez partager");
-      expect(viewModel.defaultMessage, "Bonjour, cet événement m'intéresse");
+      expect(viewModel.defaultMessage, "Bonjour, cet événement est complet mais je suis intéressé");
       expect(viewModel.shareableTitle, "ANIMATION COLLECTIVE POUR TEST - SESSION TEST");
       expect(viewModel.information, "L’événement sera partagé à votre conseiller dans la messagerie");
       expect(viewModel.shareButtonTitle, "Partager à mon conseiller");
