@@ -859,43 +859,116 @@ extension on MonSuiviEntry {
   }
 }
 
-class CreateDemarcheButton extends StatelessWidget {
+class CreateDemarcheButton extends StatefulWidget {
   const CreateDemarcheButton({super.key, required this.ctaType});
   final MonSuiviCtaType ctaType;
 
   @override
+  State<CreateDemarcheButton> createState() => _CreateDemarcheButtonState();
+}
+
+class _CreateDemarcheButtonState extends State<CreateDemarcheButton> with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<double> _scaleAnimation;
+  late final Animation<double> _fadeAnimation;
+
+  int _pulseCount = 0;
+  bool _shouldAnimate = true;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1000),
+    );
+
+    _scaleAnimation =
+        Tween<double>(begin: 0.8, end: 1.4).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
+    _fadeAnimation =
+        Tween<double>(begin: 0.6, end: 0.0).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
+
+    _controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed && _shouldAnimate) {
+        _pulseCount++;
+        if (_pulseCount < 3) {
+          _controller.forward(from: 0);
+        } else {
+          _shouldAnimate = false;
+        }
+      }
+    });
+
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, bool>(
-      builder: (context, withNouvelleSaisieDemarche) {
-        return PrimaryActionButton(
-          label: ctaType == MonSuiviCtaType.createAction ? Strings.addAnAction : Strings.addADemarche,
-          icon: AppIcons.add_rounded,
-          rippleColor: AppColors.primaryDarken,
-          onPressed: () => switch (ctaType) {
-            MonSuiviCtaType.createDemarche => Navigator.push(
-                context,
-                withNouvelleSaisieDemarche
-                    ? CreateDemarche2FormPage.route()
-                    : CreateDemarcheStep1Page.materialPageRoute()),
-            MonSuiviCtaType.createAction => CreateUserActionFormPage.pushUserActionCreationTunnel(
-                Navigator.of(context),
-                UserActionStateSource.monSuivi,
-              ),
-          },
-        );
-      },
       converter: (store) => store.state.featureFlipState.featureFlip.withNouvelleSaisieDemarche,
       onInit: (store) {
-        // TODO: Remove A/B test
-        store.state.featureFlipState.featureFlip.withNouvelleSaisieDemarche
-            ? PassEmploiMatomoTracker.instance.trackEvent(
-                eventCategory: AnalyticsEventNames.aBtestCreationDemarcheCategory,
-                action: AnalyticsEventNames.aBtestCreationDemarcheBoutonAfficheWith,
-              )
-            : PassEmploiMatomoTracker.instance.trackEvent(
-                eventCategory: AnalyticsEventNames.aBtestCreationDemarcheCategory,
-                action: AnalyticsEventNames.aBtestCreationDemarcheBoutonAfficheWithout,
-              );
+        final tracking = PassEmploiMatomoTracker.instance.trackEvent;
+        final feature = store.state.featureFlipState.featureFlip.withNouvelleSaisieDemarche;
+
+        tracking(
+          eventCategory: AnalyticsEventNames.aBtestCreationDemarcheCategory,
+          action: feature
+              ? AnalyticsEventNames.aBtestCreationDemarcheBoutonAfficheWith
+              : AnalyticsEventNames.aBtestCreationDemarcheBoutonAfficheWithout,
+        );
+      },
+      builder: (context, withNouvelleSaisieDemarche) {
+        final button = PrimaryActionButton(
+          label: widget.ctaType == MonSuiviCtaType.createAction ? Strings.addAnAction : Strings.addADemarche,
+          icon: AppIcons.add_rounded,
+          rippleColor: AppColors.primaryDarken,
+          onPressed: () {
+            switch (widget.ctaType) {
+              case MonSuiviCtaType.createDemarche:
+                Navigator.push(
+                  context,
+                  withNouvelleSaisieDemarche
+                      ? CreateDemarche2FormPage.route()
+                      : CreateDemarcheStep1Page.materialPageRoute(),
+                );
+                break;
+              case MonSuiviCtaType.createAction:
+                CreateUserActionFormPage.pushUserActionCreationTunnel(
+                  Navigator.of(context),
+                  UserActionStateSource.monSuivi,
+                );
+                break;
+            }
+          },
+        );
+        return Stack(
+          alignment: Alignment.center,
+          children: [
+            FadeTransition(
+              opacity: _fadeAnimation,
+              child: ScaleTransition(
+                scale: _scaleAnimation,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(360),
+                    color: AppColors.primary.withOpacity(0.5),
+                  ),
+                  child: IgnorePointer(
+                    child: button,
+                  ),
+                ),
+              ),
+            ),
+            button
+          ],
+        );
       },
     );
   }
