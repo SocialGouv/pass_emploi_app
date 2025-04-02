@@ -874,7 +874,7 @@ class CreateDemarcheButton extends StatelessWidget {
           onPressed: () => switch (ctaType) {
             MonSuiviCtaType.createDemarche => Navigator.push(
                 context,
-                withNouvelleSaisieDemarche || 1 == 1 // TODO: REMOVE THIS BEFORE MEP
+                withNouvelleSaisieDemarche
                     ? CreateDemarche2FormPage.route()
                     : CreateDemarcheStep1Page.materialPageRoute()),
             MonSuiviCtaType.createAction => CreateUserActionFormPage.pushUserActionCreationTunnel(
