@@ -16,6 +16,8 @@ import 'package:pass_emploi_app/repositories/alerte/offre_emploi_alerte_reposito
 import 'package:pass_emploi_app/repositories/alerte/service_civique_alerte_repository.dart';
 import 'package:pass_emploi_app/repositories/animations_collectives_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/chat_security_repository.dart';
+import 'package:pass_emploi_app/repositories/auto_inscription_repository.dart';
+import 'package:pass_emploi_app/repositories/backend_config_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_recrutement_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
@@ -27,6 +29,7 @@ import 'package:pass_emploi_app/repositories/cv_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_alerting_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_bridge.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_token_repository.dart';
+import 'package:pass_emploi_app/repositories/date_consultation_notification_repository.dart';
 import 'package:pass_emploi_app/repositories/date_consultation_offre_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
@@ -47,17 +50,21 @@ import 'package:pass_emploi_app/repositories/first_launch_onboarding_repository.
 import 'package:pass_emploi_app/repositories/immersion/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/in_app_feedback_repository.dart';
+import 'package:pass_emploi_app/repositories/in_app_notifications_repository.dart';
+import 'package:pass_emploi_app/repositories/localisation_persist_repository.dart';
 import 'package:pass_emploi_app/repositories/matching_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
 import 'package:pass_emploi_app/repositories/mon_suivi_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_repository.dart';
+import 'package:pass_emploi_app/repositories/offres_suivies_repository.dart';
 import 'package:pass_emploi_app/repositories/onboarding_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/preferences_repository.dart';
 import 'package:pass_emploi_app/repositories/preferred_login_mode_repository.dart';
 import 'package:pass_emploi_app/repositories/rating_repository.dart';
 import 'package:pass_emploi_app/repositories/recherches_recentes_repository.dart';
+import 'package:pass_emploi_app/repositories/remote_campagne_accueil_repository.dart';
 import 'package:pass_emploi_app/repositories/remote_config_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
@@ -74,12 +81,6 @@ import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/usecases/piece_jointe/piece_jointe_use_case.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
-import 'package:pass_emploi_app/repositories/in_app_notifications_repository.dart';
-import 'package:pass_emploi_app/repositories/date_consultation_notification_repository.dart';
-import 'package:pass_emploi_app/repositories/localisation_persist_repository.dart';
-import 'package:pass_emploi_app/repositories/remote_campagne_accueil_repository.dart';
-import 'package:pass_emploi_app/repositories/auto_inscription_repository.dart';
-import 'package:pass_emploi_app/repositories/offres_suivies_repository.dart';
 /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-IMPORT*/
 import 'package:redux/redux.dart';
 
@@ -98,6 +99,7 @@ class TestStoreFactory {
   ConnectivityWrapper connectivityWrapper = MockConnectivityWrapper();
   PushNotificationManager pushNotificationManager = MockPushNotificationManager();
   RemoteConfigRepository remoteConfigRepository = MockRemoteConfigRepository();
+  BackendConfigRepository backendConfigRepository = MockBackendConfigRepository();
   DeveloperOptionRepository developerOptionRepository = MockDeveloperOptionRepository();
   OffreEmploiRepository offreEmploiRepository = DummyOffreEmploiRepository();
   OffreEmploiDetailsRepository detailedOfferRepository = DummyDetailedRepository();
@@ -182,6 +184,7 @@ class TestStoreFactory {
       connectivityWrapper,
       pushNotificationManager,
       remoteConfigRepository,
+      backendConfigRepository,
       developerOptionRepository,
       userActionRepository,
       userActionPendingCreationRepository,

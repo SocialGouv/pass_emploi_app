@@ -73,11 +73,6 @@ class RemoteConfigRepository {
     return _firebaseRemoteConfig.getBool('has_nouvelle_saisie_demarche_ab_testing');
   }
 
-  List<String> getIdsConseillerCvmEarlyAdopters() {
-    if (_firebaseRemoteConfig == null) return [];
-    return _firebaseRemoteConfig.getString('ids_conseiller_cvm_early_adopters').split(',');
-  }
-
   Cgu? getCgu() {
     if (_firebaseRemoteConfig == null) return null;
     final String cguAsString = _firebaseRemoteConfig.getString('cgu');

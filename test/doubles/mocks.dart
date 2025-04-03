@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/models/offre_dto.dart';
 import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/repositories/auto_inscription_repository.dart';
+import 'package:pass_emploi_app/repositories/backend_config_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_recrutement_repository.dart';
 import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_alerting_repository.dart';
@@ -232,10 +233,15 @@ class MockRemoteConfigRepository extends Mock implements RemoteConfigRepository 
     when(() => maxLivingTimeInSecondsForMilo()).thenReturn(null);
     when(() => lastCampagneRecrutementId()).thenReturn(null);
     when(() => cvmActivationByAccompagnement()).thenReturn({});
-    when(() => getIdsConseillerCvmEarlyAdopters()).thenReturn([]);
     when(() => monSuiviPoleEmploiStartDateInMonths()).thenReturn(1);
     when(() => campagnesAccueil()).thenReturn([]);
     when(() => withNouvelleSaisieDemarche()).thenReturn(true);
+  }
+}
+
+class MockBackendConfigRepository extends Mock implements BackendConfigRepository {
+  MockBackendConfigRepository() {
+    when(() => getIdsConseillerCvmEarlyAdopters()).thenAnswer((_) async => []);
   }
 }
 

@@ -16,6 +16,7 @@ void main() {
   group('FeatureFlip', () {
     final sut = StoreSut();
     final remoteConfigRepository = MockRemoteConfigRepository();
+    final backendConfigRepository = MockBackendConfigRepository();
     final detailsJeuneRepository = MockDetailsJeuneRepository();
 
     group("useCvm", () {
@@ -41,18 +42,19 @@ void main() {
         group("and CVM not generally enabled, but user's conseiller is an early adopter", () {
           test('should load then succeed when request succeeds', () {
             when(() => remoteConfigRepository.cvmActivationByAccompagnement()).thenReturn({});
-            when(() => remoteConfigRepository.getIdsConseillerCvmEarlyAdopters()).thenReturn(["id-conseiller-ea"]);
+            when(() => backendConfigRepository.getIdsConseillerCvmEarlyAdopters())
+                .thenAnswer((_) async => (["id-conseiller-ea"]));
             when(() => detailsJeuneRepository.get("id")) //
                 .thenAnswer((_) async => mockDetailsJeune(idConseiller: "id-conseiller-ea"));
 
             sut.givenStore = givenState() //
                 .loggedInUser(loginMode: LoginMode.POLE_EMPLOI)
                 .store(
-              (f) => {
-                f.remoteConfigRepository = remoteConfigRepository,
-                f.detailsJeuneRepository = detailsJeuneRepository,
-              },
-            );
+                  (f) => {
+                    f.remoteConfigRepository = remoteConfigRepository,
+                    f.detailsJeuneRepository = detailsJeuneRepository,
+                  },
+                );
 
             sut.thenExpectAtSomePoint(_shouldHaveUseCvmValue(true));
           });
@@ -61,18 +63,19 @@ void main() {
         group("and CVM not generally enabled, and user's conseiller is not an early adopter", () {
           test('should load then succeed when request succeeds', () async {
             when(() => remoteConfigRepository.cvmActivationByAccompagnement()).thenReturn({});
-            when(() => remoteConfigRepository.getIdsConseillerCvmEarlyAdopters()).thenReturn(["id-conseiller-ea"]);
+            when(() => backendConfigRepository.getIdsConseillerCvmEarlyAdopters())
+                .thenAnswer((_) async => (["id-conseiller-ea"]));
             when(() => detailsJeuneRepository.get("id")) //
                 .thenAnswer((_) async => mockDetailsJeune(idConseiller: "id-conseiller"));
 
             sut.givenStore = givenState() //
                 .loggedInUser(loginMode: LoginMode.POLE_EMPLOI)
                 .store(
-              (f) => {
-                f.remoteConfigRepository = remoteConfigRepository,
-                f.detailsJeuneRepository = detailsJeuneRepository,
-              },
-            );
+                  (f) => {
+                    f.remoteConfigRepository = remoteConfigRepository,
+                    f.detailsJeuneRepository = detailsJeuneRepository,
+                  },
+                );
 
             sut.thenExpectNever(_shouldHaveUseCvmValue(true));
           });

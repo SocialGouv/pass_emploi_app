@@ -40,6 +40,7 @@ import 'package:pass_emploi_app/repositories/app_version_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/chat_security_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
 import 'package:pass_emploi_app/repositories/auto_inscription_repository.dart';
+import 'package:pass_emploi_app/repositories/backend_config_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_recrutement_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
@@ -229,6 +230,7 @@ class AppInitializer {
       ConnectivityWrapper.fromConnectivity(),
       pushNotificationManager,
       remoteConfigRepository,
+      BackendConfigRepository(dioClient, crashlytics),
       DeveloperOptionRepository(securedPreferences),
       UserActionRepository(dioClient, crashlytics),
       UserActionPendingCreationRepository(securedPreferences),

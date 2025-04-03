@@ -17,6 +17,7 @@ String? getDemoFileName(String url, String query) {
   if (url.endsWith('/referentiels/pole-emploi/types-demarches')) return 'referentiel_demarches';
   if (url.endsWith('/commentaires')) return 'commentaires';
   if (url.endsWith('/favoris')) return 'favoris';
+  if (url.endsWith('/config')) return 'favoris';
   if (url.endsWith('/mon-suivi')) {
     if (url.contains('milo') && _queryIntervalContainsNow(query)) return 'mon_suivi_mission_locale_maintenant';
     if (url.contains('milo')) return 'mon_suivi_mission_locale_autre_periode';
