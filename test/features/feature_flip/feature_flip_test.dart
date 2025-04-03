@@ -52,6 +52,7 @@ void main() {
                 .store(
                   (f) => {
                     f.remoteConfigRepository = remoteConfigRepository,
+                    f.backendConfigRepository = backendConfigRepository,
                     f.detailsJeuneRepository = detailsJeuneRepository,
                   },
                 );
