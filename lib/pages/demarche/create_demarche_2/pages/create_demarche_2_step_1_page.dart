@@ -222,28 +222,31 @@ class _CreateCustomDemarche extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CardContainer(
-      onTap: onCreateCustomDemarche,
-      child: Row(
-        children: [
-          Icon(AppIcons.search_rounded, size: Dimens.icon_size_l, color: AppColors.primary),
-          SizedBox(width: Margins.spacing_base),
-          Expanded(
-            child: Column(
-              children: [
-                Text(
-                  Strings.customDemarcheTitle,
-                  style: TextStyles.textBaseBold,
-                ),
-                SizedBox(height: Margins.spacing_base),
-                Text(
-                  Strings.customDemarcheSubtitle,
-                  style: TextStyles.textBaseRegular,
-                ),
-              ],
+    return Semantics(
+      button: true,
+      child: CardContainer(
+        onTap: onCreateCustomDemarche,
+        child: Row(
+          children: [
+            Icon(AppIcons.search_rounded, size: Dimens.icon_size_l, color: AppColors.primary),
+            SizedBox(width: Margins.spacing_base),
+            Expanded(
+              child: Column(
+                children: [
+                  Text(
+                    Strings.customDemarcheTitle,
+                    style: TextStyles.textBaseBold,
+                  ),
+                  SizedBox(height: Margins.spacing_base),
+                  Text(
+                    Strings.customDemarcheSubtitle,
+                    style: TextStyles.textBaseRegular,
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
