@@ -9,6 +9,7 @@ class CvmFacade {
   static const int _timeout_in_seconds = 10;
 
   final CvmBridge _bridge;
+
   final CvmTokenRepository _tokenRepository;
   final Crashlytics? _crashlytics;
   final _CvmState _state;
