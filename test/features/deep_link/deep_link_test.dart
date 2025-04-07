@@ -108,6 +108,11 @@ void main() {
           RappelCreationActionDeepLink(),
           DeepLinkOrigin.pushNotification,
         );
+        assertStateWithJson(
+          {"type": "CAMPAGNE"},
+          CampagneDeepLink(),
+          DeepLinkOrigin.pushNotification,
+        );
       });
 
       group('Firebase', () {
