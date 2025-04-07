@@ -83,6 +83,7 @@ DeepLink? _fromInAppNotification(InAppNotificationType type, String? idObjet) {
     InAppNotificationType.actualisationPe => ActualisationPeDeepLink(),
     InAppNotificationType.deletedSessionMilo => null,
     InAppNotificationType.deletedRendezvous => null,
+    InAppNotificationType.campagne => CampagneDeepLink(),
     InAppNotificationType.unknown => null,
   };
 }

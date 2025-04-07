@@ -14,6 +14,7 @@ enum InAppNotificationType {
   rappelCreationAction,
   rappelCreationDemarche,
   actualisationPe,
+  campagne,
   unknown;
 
   static InAppNotificationType fromString(String type) {
@@ -30,6 +31,7 @@ enum InAppNotificationType {
       "RAPPEL_CREATION_ACTION" => rappelCreationAction,
       "RAPPEL_CREATION_DEMARCHE" => rappelCreationDemarche,
       "ACTUALISATION_PE" => actualisationPe,
+      "CAMPAGNE" => campagne,
       _ => unknown,
     };
   }

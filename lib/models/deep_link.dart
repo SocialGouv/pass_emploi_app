@@ -71,3 +71,5 @@ class LaBonneAlternanceDeepLink extends DeepLink {}
 class RappelCreationDemarcheDeepLink extends DeepLink {}
 
 class RappelCreationActionDeepLink extends DeepLink {}
+
+class CampagneDeepLink extends DeepLink {}

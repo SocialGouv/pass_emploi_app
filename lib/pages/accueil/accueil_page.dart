@@ -107,6 +107,7 @@ class _AccueilPageState extends State<AccueilPage> {
         AlertesDeepLink() => AlertePage.materialPageRoute(),
         BenevolatDeepLink() => BenevolatPage.materialPageRoute(),
         LaBonneAlternanceDeepLink() => LaBonneAlternancePage.materialPageRoute(),
+        CampagneDeepLink() => CampagneDetailsPage.materialPageRoute(),
         _ => null,
       };
 
