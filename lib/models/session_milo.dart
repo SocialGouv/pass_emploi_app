@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 
 class SessionMilo extends Equatable {
@@ -8,6 +9,7 @@ class SessionMilo extends Equatable {
   final String nomOffre;
   final DateTime dateDeDebut;
   final SessionMiloType type;
+  final String? theme;
   final bool estInscrit;
   final bool? autoinscription;
   final int? nombreDePlacesRestantes;
@@ -19,6 +21,7 @@ class SessionMilo extends Equatable {
     required this.nomOffre,
     required this.dateDeDebut,
     required this.type,
+    required this.theme,
     required this.estInscrit,
     required this.autoinscription,
     this.nombreDePlacesRestantes,
@@ -32,6 +35,7 @@ class SessionMilo extends Equatable {
       nomOffre: json["nomOffre"] as String,
       dateDeDebut: (json["dateHeureDebut"] as String).toDateTimeUtcOnLocalTimeZone(),
       type: SessionMiloType.fromJson(json["type"]),
+      theme: json["theme"] as String?,
       estInscrit: (json["inscription"] as String?) == "INSCRIT",
       autoinscription: json["autoinscription"] as bool?,
       nombreDePlacesRestantes: json["nbPlacesRestantes"] as int?,
@@ -49,6 +53,7 @@ class SessionMilo extends Equatable {
         autoinscription,
         nombreDePlacesRestantes,
         dateMaxInscription,
+        theme,
       ];
 
   Rendezvous get toRendezVous {
@@ -65,11 +70,25 @@ class SessionMilo extends Equatable {
       autoinscription: autoinscription,
       nombreDePlacesRestantes: nombreDePlacesRestantes,
       dateMaxInscription: dateMaxInscription,
+      theme: theme,
     );
   }
 
   String get displayableTitle {
     return "$nomOffre - $nomSession";
+  }
+
+  static String? themeIllustrationPath(String? theme) {
+    return switch (theme) {
+      "Accès à l’emploi" => Drawables.sessionEmploiIllustration,
+      "Formation" => Drawables.sessionFormationIllustration,
+      "Projet professionnel" => Drawables.sessionProjetProIllustration,
+      "Logement" => Drawables.sessionLogementIllustration,
+      "Santé" => Drawables.sessionSanteIllustration,
+      "Citoyenneté" => Drawables.sessionCitoyenneteIllustration,
+      "Loisir, sport, culture" => Drawables.sessionLoisirIllustration,
+      _ => null
+    };
   }
 }
 

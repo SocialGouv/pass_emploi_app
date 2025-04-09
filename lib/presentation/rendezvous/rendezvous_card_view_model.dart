@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/models/session_milo.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_store_extension.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -18,8 +19,9 @@ class RendezvousCardViewModel extends Equatable {
   final bool isAnnule;
   final String title;
   final String? description;
-  final String? place;
   final String? nombreDePlacesRestantes;
+  final String? place;
+  final String? assetImage;
 
   RendezvousCardViewModel({
     required this.id,
@@ -31,6 +33,7 @@ class RendezvousCardViewModel extends Equatable {
     required this.description,
     required this.place,
     required this.nombreDePlacesRestantes,
+    required this.assetImage,
   });
 
   factory RendezvousCardViewModel.create(Store<AppState> store, RendezvousStateSource source, String rdvId) {
@@ -45,6 +48,7 @@ class RendezvousCardViewModel extends Equatable {
       description: rdv.precision,
       place: _place(rdv),
       nombreDePlacesRestantes: _nombreDePlacesRestantes(rdv, source),
+      assetImage: _assetImage(rdv, source),
     );
   }
 
@@ -103,6 +107,11 @@ String? _nombreDePlacesRestantes(Rendezvous rdv, RendezvousStateSource source) {
   if (!source.isFromEvenements) return null;
   if (rdv.nombreDePlacesRestantes == null || rdv.nombreDePlacesRestantes == 0) return null;
   return Strings.placesRestantes(rdv.nombreDePlacesRestantes!);
+}
+
+String? _assetImage(Rendezvous rdv, RendezvousStateSource source) {
+  if (!source.isFromEvenements) return null;
+  return SessionMilo.themeIllustrationPath(rdv.theme);
 }
 
 sealed class RendezVousDateTime extends Equatable {}

@@ -30,4 +30,12 @@ class Drawables {
   static String logoInProgress = Brand.isCej() ? cejLogoInProgress : passEmploiLogoInProgress;
   static String cejLogoInProgress = "${_assets}cej_in_progress.webp";
   static String passEmploiLogoInProgress = "${_assets}brsa_in_progress.webp";
+
+  static String sessionEmploiIllustration = "session_emploi_illustration.webp";
+  static String sessionFormationIllustration = "session_formation_illustration.webp";
+  static String sessionProjetProIllustration = "session_projetPro_illustration.webp";
+  static String sessionLogementIllustration = "session_logement_illustration.webp";
+  static String sessionSanteIllustration = "session_sante_illustration.webp";
+  static String sessionCitoyenneteIllustration = "session_citoyennete_illustration.webp";
+  static String sessionLoisirIllustration = "session_loisir_illustration.webp";
 }

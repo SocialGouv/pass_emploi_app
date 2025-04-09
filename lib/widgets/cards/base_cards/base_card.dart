@@ -65,6 +65,13 @@ class BaseCard extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  if (imagePath != null)
+                    Semantics(
+                      excludeSemantics: imageAlt != null,
+                      image: true,
+                      label: imageAlt,
+                      child: _CardIllustration(imagePath: imagePath!),
+                    ),
                   if (!isSimpleCard && iconButton == null)
                     Wrap(
                       spacing: Margins.spacing_s,
@@ -78,13 +85,6 @@ class BaseCard extends StatelessWidget {
                     if (tag != null) tag!,
                     SizedBox(height: Margins.spacing_s),
                   ],
-                  if (imagePath != null)
-                    Semantics(
-                      excludeSemantics: imageAlt != null,
-                      image: true,
-                      label: imageAlt,
-                      child: _CardIllustration(imagePath: imagePath!),
-                    ),
                   if (title.isNotEmpty) ...[
                     if ((!isSimpleCard && iconButton == null) || imagePath != null) SizedBox(height: Margins.spacing_s),
                     CardTitle(title),

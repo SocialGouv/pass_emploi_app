@@ -186,6 +186,7 @@ void main() {
           description: null,
           place: 'Par téléphone',
           nombreDePlacesRestantes: null,
+          assetImage: null,
         ),
       );
     });
@@ -434,6 +435,24 @@ void main() {
 
         // Then
         expect(viewModel.nombreDePlacesRestantes, "10 places restantes");
+      });
+    });
+
+    group('theme asset', () {
+      test('should display illustration according to theme for session', () {
+        // Given
+        final rdv = mockSessionMilo(id: '1', nombreDePlacesRestantes: 10, theme: "Accès à l’emploi");
+
+        final store = givenState() //
+            .loggedIn()
+            .succeedEventList(sessionsMilo: [rdv]) //
+            .store();
+
+        // When
+        final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.eventListSessionsMilo, '1');
+
+        // Then
+        expect(viewModel.assetImage, "assets/session_emploi_illustration.webp");
       });
     });
   });
