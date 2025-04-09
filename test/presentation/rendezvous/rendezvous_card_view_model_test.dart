@@ -452,7 +452,7 @@ void main() {
         final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.eventListSessionsMilo, '1');
 
         // Then
-        expect(viewModel.assetImage, "assets/session_emploi_illustration.webp");
+        expect(viewModel.assetImage, "session_emploi_illustration.webp");
       });
     });
   });
