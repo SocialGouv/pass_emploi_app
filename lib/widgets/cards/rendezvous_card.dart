@@ -43,6 +43,7 @@ class _Content extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseCard(
       onTap: onTap,
+      imagePath: viewModel.assetImage,
       title: viewModel.title,
       tag: CardTag.evenement(text: viewModel.tag),
       pillule: viewModel.isAnnule ? CardPillule.evenementCanceled() : null,

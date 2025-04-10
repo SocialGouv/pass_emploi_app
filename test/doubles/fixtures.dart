@@ -1206,6 +1206,7 @@ SessionMilo mockSessionMiloAtelierCv() => SessionMilo(
       nomOffre: "Mon premier CV",
       dateDeDebut: parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'),
       type: mockSessionMiloType(),
+      theme: null,
       estInscrit: true,
       autoinscription: null,
     );
@@ -1216,6 +1217,7 @@ SessionMilo mockSessionMiloAtelierDecouverte() => SessionMilo(
       nomOffre: "Découverte des métiers",
       dateDeDebut: parseDateTimeUtcWithCurrentTimeZone('2023-01-02T00:00:00.000Z'),
       type: mockSessionMiloType(),
+      theme: null,
       estInscrit: false,
       autoinscription: null,
     );
@@ -1246,13 +1248,20 @@ SessionMiloDetails mockSessionMiloDetails({
       dateMaxInscription: dateMaxInscription,
     );
 
-SessionMilo mockSessionMilo({String? id, DateTime? dateDeDebut, bool? autoinscription, int? nombreDePlacesRestantes}) {
+SessionMilo mockSessionMilo({
+  String? id,
+  DateTime? dateDeDebut,
+  bool? autoinscription,
+  int? nombreDePlacesRestantes,
+  String? theme,
+}) {
   return SessionMilo(
     id: id ?? "id-1",
     nomSession: "nomSession",
     nomOffre: "nomOffre",
     dateDeDebut: dateDeDebut ?? parseDateTimeUtcWithCurrentTimeZone('2023-01-01T00:00:00.000Z'),
     type: mockSessionMiloType(),
+    theme: theme ?? "Formation",
     estInscrit: true,
     autoinscription: autoinscription ?? false,
     nombreDePlacesRestantes: nombreDePlacesRestantes,

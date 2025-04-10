@@ -8,6 +8,7 @@
       "code": "WORKSHOP",
       "label": "Atelier"
     },
+    "theme": "Accès à l’emploi",
     "inscription": "NOT_INSCRIT",
     "autoinscription": true,
     "nbPlacesRestantes": 2,

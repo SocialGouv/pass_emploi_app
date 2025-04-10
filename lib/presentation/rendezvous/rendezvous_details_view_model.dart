@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/features/session_milo_details/session_milo_detai
 import 'package:pass_emploi_app/features/session_milo_details/session_milo_details_state.dart';
 import 'package:pass_emploi_app/features/tracking/tracking_evenement_engagement_action.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/models/session_milo.dart';
 import 'package:pass_emploi_app/models/session_milo_partage.dart';
 import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
 import 'package:pass_emploi_app/presentation/chat/chat_partage_bottom_sheet_view_model.dart';
@@ -61,6 +62,7 @@ class RendezvousDetailsViewModel extends Equatable {
   final String? theme;
   final String? description;
   final String? nombreDePlacesRestantes;
+  final String? assetImage;
 
   RendezvousDetailsViewModel({
     required this.displayState,
@@ -98,6 +100,7 @@ class RendezvousDetailsViewModel extends Equatable {
     this.theme,
     this.description,
     this.nombreDePlacesRestantes,
+    this.assetImage,
   });
 
   factory RendezvousDetailsViewModel.create({
@@ -149,6 +152,7 @@ class RendezvousDetailsViewModel extends Equatable {
       theme: rdv.theme,
       description: _descriptionFromSource(source, rdv),
       nombreDePlacesRestantes: _nombreDePlacesRestantes(rdv),
+      assetImage: _assetImage(rdv, source),
     );
   }
 
@@ -403,6 +407,11 @@ RendezvousCtaVm _miloCta(Store<AppState> store, Rendezvous rdv) {
       ),
     ),
   );
+}
+
+String? _assetImage(Rendezvous rdv, RendezvousStateSource source) {
+  if (source != RendezvousStateSource.sessionMiloDetails) return null;
+  return SessionMilo.themeIllustrationPath(rdv.theme);
 }
 
 sealed class RendezvousCtaVm extends Equatable {

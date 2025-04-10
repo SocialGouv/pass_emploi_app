@@ -118,6 +118,10 @@ class _RendezvousDetailsPageState extends State<RendezvousDetailsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if (viewModel.assetImage != null)
+              ExcludeSemantics(
+                child: _CardIllustration(imagePath: viewModel.assetImage),
+              ),
             if (viewModel.withDateDerniereMiseAJour != null) ...[
               InfoCard(message: viewModel.withDateDerniereMiseAJour!),
               SizedBox(height: Margins.spacing_base),
@@ -524,6 +528,26 @@ class _AutoInscriptionButton extends StatelessWidget {
               },
             );
           },
+        ),
+      ),
+    );
+  }
+}
+
+class _CardIllustration extends StatelessWidget {
+  final String? imagePath;
+
+  const _CardIllustration({required this.imagePath});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(Dimens.radius_base),
+        child: Image.asset(
+          "assets/${imagePath!}",
+          fit: BoxFit.fitWidth,
         ),
       ),
     );
