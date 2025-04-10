@@ -441,7 +441,7 @@ void main() {
     group('theme asset', () {
       test('should display illustration according to theme for session', () {
         // Given
-        final rdv = mockSessionMilo(id: '1', nombreDePlacesRestantes: 10, theme: "Accès à l’emploi");
+        final rdv = mockSessionMilo(id: '1', nombreDePlacesRestantes: 10, theme: "Accès à l'emploi");
 
         final store = givenState() //
             .loggedIn()

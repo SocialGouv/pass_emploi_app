@@ -80,13 +80,13 @@ class SessionMilo extends Equatable {
 
   static String? themeIllustrationPath(String? theme) {
     return switch (theme) {
-      "Accès à l’emploi" => Drawables.sessionEmploiIllustration,
+      "Accès à l'emploi" => Drawables.sessionEmploiIllustration,
       "Formation" => Drawables.sessionFormationIllustration,
       "Projet professionnel" => Drawables.sessionProjetProIllustration,
       "Logement" => Drawables.sessionLogementIllustration,
       "Santé" => Drawables.sessionSanteIllustration,
       "Citoyenneté" => Drawables.sessionCitoyenneteIllustration,
-      "Loisir, sport, culture" => Drawables.sessionLoisirIllustration,
+      "Loisirs, sport, culture" => Drawables.sessionLoisirIllustration,
       _ => null
     };
   }
