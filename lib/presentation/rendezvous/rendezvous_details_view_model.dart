@@ -62,7 +62,6 @@ class RendezvousDetailsViewModel extends Equatable {
   final String? theme;
   final String? description;
   final String? nombreDePlacesRestantes;
-
   final String? assetImage;
 
   RendezvousDetailsViewModel({

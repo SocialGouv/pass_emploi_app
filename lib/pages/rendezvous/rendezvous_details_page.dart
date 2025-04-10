@@ -119,8 +119,7 @@ class _RendezvousDetailsPageState extends State<RendezvousDetailsPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (viewModel.assetImage != null)
-              Semantics(
-                excludeSemantics: true,
+              ExcludeSemantics(
                 child: _CardIllustration(imagePath: viewModel.assetImage),
               ),
             if (viewModel.withDateDerniereMiseAJour != null) ...[
