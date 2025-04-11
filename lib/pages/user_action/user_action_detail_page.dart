@@ -257,8 +257,6 @@ class _FinishActionButton extends StatelessWidget {
           if (result == true) {
             onActionDone();
           }
-          // TODO: remove this from vm
-          // viewModel.updateStatus(UserActionStatus.DONE);
         },
       ),
     );

@@ -74,7 +74,7 @@ void main() {
       final viewModel = UserActionDoneBottomSheetViewModel.create(store, UserActionStateSource.noSource, 'id');
 
       // When
-      viewModel.onActionDone();
+      viewModel.onActionDone(DateTime(2025));
 
       // Then
       expect(store.dispatchedAction, isA<UserActionUpdateRequestAction>());

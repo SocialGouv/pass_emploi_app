@@ -107,7 +107,7 @@ class _FormState extends State<_Form> {
         SizedBox(height: Margins.spacing_base),
         PrimaryActionButton(
           label: Strings.jeValide,
-          onPressed: date.isValid ? () => widget.viewModel.onActionDone() : null,
+          onPressed: date.isValid ? () => widget.viewModel.onActionDone(date.selectedDate) : null,
         ),
         const SizedBox(height: Margins.spacing_base),
       ],

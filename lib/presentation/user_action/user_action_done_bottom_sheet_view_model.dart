@@ -13,7 +13,7 @@ class UserActionDoneBottomSheetViewModel extends Equatable {
   final UserActionStateSource source;
   final String userActionId;
   final DisplayState displayState;
-  final void Function() onActionDone;
+  final void Function(DateTime) onActionDone;
 
   UserActionDoneBottomSheetViewModel({
     required this.source,
@@ -38,14 +38,14 @@ class UserActionDoneBottomSheetViewModel extends Equatable {
         source: source,
         userActionId: userActionId,
         displayState: DisplayState.FAILURE,
-        onActionDone: () {},
+        onActionDone: (_) {},
       );
     }
     return UserActionDoneBottomSheetViewModel(
       source: source,
       userActionId: userActionId,
       displayState: _displayState(store.state.userActionUpdateState),
-      onActionDone: () => store.dispatch(
+      onActionDone: (dateFin) => store.dispatch(
         UserActionUpdateRequestAction(
           actionId: userActionId,
           request: UserActionUpdateRequest(
@@ -54,6 +54,7 @@ class UserActionDoneBottomSheetViewModel extends Equatable {
             description: userAction.comment,
             dateEcheance: userAction.dateEcheance,
             type: userAction.type,
+            dateFin: dateFin,
           ),
         ),
       ),
