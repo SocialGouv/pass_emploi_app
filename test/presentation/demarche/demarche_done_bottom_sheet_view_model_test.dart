@@ -62,7 +62,7 @@ void main() {
     final viewModel = DemarcheDoneBottomSheetViewModel.create(store, "demarcheId");
 
     // When
-    viewModel.onDemarcheDone();
+    viewModel.onDemarcheDone(DateTime(2025));
 
     // Then
     expect(

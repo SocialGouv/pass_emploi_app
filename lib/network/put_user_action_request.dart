@@ -15,6 +15,7 @@ class PutUserActionRequest implements JsonSerializable {
         if (request.description != null) "description": request.description,
         "dateEcheance": request.dateEcheance.toIso8601WithOffsetDateTime(),
         if (request.type != null) "codeQualification": request.type!.code,
+        if (request.dateFin != null) "dateFinReelle": request.dateFin!.toIso8601WithOffsetDateTime(),
       };
 
   String _statusToString(UserActionStatus status) {

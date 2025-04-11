@@ -7,6 +7,7 @@ class UserActionUpdateRequest extends Equatable {
   final String contenu;
   final String? description;
   final DateTime dateEcheance;
+  final DateTime? dateFin;
   final UserActionReferentielType? type;
 
   UserActionUpdateRequest({
@@ -14,9 +15,17 @@ class UserActionUpdateRequest extends Equatable {
     required this.contenu,
     required this.description,
     required this.dateEcheance,
+    this.dateFin,
     required this.type,
   });
 
   @override
-  List<Object?> get props => [status, contenu, description, dateEcheance, type];
+  List<Object?> get props => [
+        status,
+        contenu,
+        description,
+        dateEcheance,
+        dateFin,
+        type,
+      ];
 }

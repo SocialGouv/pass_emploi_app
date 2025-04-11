@@ -9,7 +9,7 @@ import 'package:redux/redux.dart';
 
 class DemarcheDoneBottomSheetViewModel extends Equatable {
   final DisplayState displayState;
-  final void Function() onDemarcheDone;
+  final void Function(DateTime) onDemarcheDone;
 
   DemarcheDoneBottomSheetViewModel({
     required this.onDemarcheDone,
@@ -21,15 +21,15 @@ class DemarcheDoneBottomSheetViewModel extends Equatable {
 
     if (demarche == null) {
       return DemarcheDoneBottomSheetViewModel(
-        onDemarcheDone: () {},
+        onDemarcheDone: (_) {},
         displayState: DisplayState.FAILURE,
       );
     }
 
     return DemarcheDoneBottomSheetViewModel(
-      onDemarcheDone: () => store.dispatch(UpdateDemarcheRequestAction(
+      onDemarcheDone: (dateFin) => store.dispatch(UpdateDemarcheRequestAction(
         demarche.id,
-        demarche.endDate,
+        dateFin,
         demarche.creationDate,
         DemarcheStatus.DONE,
       )),

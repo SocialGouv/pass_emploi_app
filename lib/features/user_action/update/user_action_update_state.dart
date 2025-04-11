@@ -1,6 +1,6 @@
 import 'package:pass_emploi_app/models/requests/user_action_update_request.dart';
 
-abstract class UserActionUpdateState {}
+sealed class UserActionUpdateState {}
 
 class UserActionUpdateNotInitializedState extends UserActionUpdateState {}
 
