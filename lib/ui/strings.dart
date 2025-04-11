@@ -478,9 +478,10 @@ class Strings {
   static const String datePickerTitle = 'Date';
   static const String datePickerTitleMandatory = '*Date';
 
-  static const String userActionDateSuggestion1 = 'Aujourd’hui';
-  static const String userActionDateSuggestion2 = 'Demain';
-  static const String userActionDateSuggestion3 = 'Semaine prochaine';
+  static const String dateSuggestionAujourdhui = 'Aujourd’hui';
+  static const String dateSuggestionDemain = 'Demain';
+  static const String dateSuggestionSemainePro = 'Semaine prochaine';
+  static const String dateSuggestionHier = 'Hier';
 
   static const String userActionEmploiLabel = 'Emploi';
   static const String userActionProjetProfessionnelLabel = 'Projet pro';
@@ -739,6 +740,7 @@ class Strings {
   static String commentsUnavailableOffline = "Les commentaires de l'action ne sont pas disponibles hors connexion.";
 
   // Demarches
+  static String demarcheDoneButton = "Terminer ma démarche";
   static String modifierStatut = "Modifier le statut";
   static String historiqueDemarche = "Historique";
   static String modifiedBy = "Modifiée le ";
@@ -806,6 +808,12 @@ class Strings {
   static String demarcheSuccessCreerUneAutre = "Créer une autre démarche";
   static String createDemarcheErreur = "Erreur lors de la création de la démarche. Veuillez réessayer plus tard";
 
+  static String demarcheDoneBottomSheetTitle = "Quand avez-vous terminé la démarche ?";
+  static String jeValide = "Je valide";
+  static String felicitations = "Félicitations !";
+  static String updateDemarcheConfirmation = "La mise à jour de votre démarche a bien été prise en compte";
+  static String cancelDemarche = "Annuler la demarche";
+
   // Duplicate demarche
   static String duplicateDemarchePageTitle = "Dupliquer la démarche";
   static String duplicateDemarche = "Dupliquer la démarche";
@@ -817,7 +825,7 @@ class Strings {
       "Recherchez parmi les thématiques d’emploi : candidatures, entretiens, création d’entreprise…";
   static String thematiquesDemarcheDescription = "Choisissez une thématique parmi les thématiques suivantes :";
   static String thematiquesDemarcheDescriptionShort = "Choisissez une thématique";
-  static String thematiquesDemarcheDateShortMandatory = "Choisissez une date (obligatoire)";
+  static String dateShortMandatory = "Choisissez une date (obligatoire)";
   static String thematiquesDemarcheDateShort = "Choisissez une date";
   static String thematiquesDemarchePressedTip = "Parcourir les démarches";
   static String thematiquesErrorTitle = "Il y a un problème de notre côté\u{00A0}!";

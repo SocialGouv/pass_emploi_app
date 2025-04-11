@@ -6,7 +6,7 @@ void main() {
     test('should create suggestions with today, tomorrow and next monday', () {
       // Given
       final now = DateTime(2021, 1, 1);
-      final suggestions = DateSuggestionListViewModel.create(now);
+      final suggestions = DateSuggestionListViewModel.createFuture(now);
 
       // When & Then
       expect(suggestions.suggestions.length, 3);

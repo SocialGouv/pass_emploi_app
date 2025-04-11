@@ -42,7 +42,7 @@ class DemarcheCardViewModel extends Equatable {
       ];
 }
 
-extension on Demarche {
+extension DemarchePillule on Demarche {
   CardPilluleType pillule() {
     if (isLate()) return CardPilluleType.late;
     return switch (status) {
