@@ -11,11 +11,11 @@ void main() {
   group("updateDemarche", () {
     sut.when(
       (repository) => repository.updateDemarche(
-        'user-id',
-        '8802034',
-        DemarcheStatus.NOT_STARTED,
-        DateTime.utc(2021, 12, 24, 12, 8, 10),
-        DateTime.utc(2021, 12, 23, 12, 8, 10),
+        userId: 'user-id',
+        demarcheId: '8802034',
+        status: DemarcheStatus.NOT_STARTED,
+        dateFin: DateTime.utc(2021, 12, 24, 12, 8, 10),
+        dateDebut: DateTime.utc(2021, 12, 23, 12, 8, 10),
       ),
     );
 

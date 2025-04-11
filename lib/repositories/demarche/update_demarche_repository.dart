@@ -11,13 +11,13 @@ class UpdateDemarcheRepository {
 
   UpdateDemarcheRepository(this._httpClient, [this._crashlytics]);
 
-  Future<Demarche?> updateDemarche(
-    String userId,
-    String demarcheId,
-    DemarcheStatus status,
-    DateTime? dateFin,
-    DateTime? dateDebut,
-  ) async {
+  Future<Demarche?> updateDemarche({
+    required String userId,
+    required String demarcheId,
+    required DemarcheStatus status,
+    required DateTime? dateFin,
+    required DateTime? dateDebut,
+  }) async {
     final url = "/jeunes/$userId/demarches/$demarcheId/statut";
     try {
       final response = await _httpClient.put(

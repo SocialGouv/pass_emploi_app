@@ -16,11 +16,11 @@ class UpdateDemarcheMiddleware extends MiddlewareClass<AppState> {
     if (loginState is LoginSuccessState && action is UpdateDemarcheRequestAction) {
       store.dispatch(UpdateDemarcheLoadingAction());
       final demarche = await _repository.updateDemarche(
-        loginState.user.id,
-        action.id,
-        action.status,
-        action.dateFin,
-        action.dateDebut,
+        userId: loginState.user.id,
+        demarcheId: action.id,
+        status: action.status,
+        dateFin: action.dateFin,
+        dateDebut: action.dateDebut,
       );
       store.dispatch(demarche != null ? UpdateDemarcheSuccessAction(demarche) : UpdateDemarcheFailureAction());
     }

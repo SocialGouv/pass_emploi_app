@@ -6,7 +6,7 @@ class UpdateDemarcheRequestAction {
   final DateTime? dateDebut;
   final DemarcheStatus status;
 
-  UpdateDemarcheRequestAction(this.id, this.dateFin, this.dateDebut, this.status);
+  UpdateDemarcheRequestAction({required this.id, required this.dateFin, required this.dateDebut, required this.status});
 }
 
 class UpdateDemarcheLoadingAction {}

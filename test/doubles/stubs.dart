@@ -158,13 +158,13 @@ class UpdateDemarcheRepositorySuccessStub extends UpdateDemarcheRepository {
   }
 
   @override
-  Future<Demarche?> updateDemarche(
-    String userId,
-    String demarcheId,
-    DemarcheStatus status,
-    DateTime? dateFin,
-    DateTime? dateDebut,
-  ) async {
+  Future<Demarche?> updateDemarche({
+    required String userId,
+    required String demarcheId,
+    required DemarcheStatus status,
+    required DateTime? dateFin,
+    required DateTime? dateDebut,
+  }) async {
     if (_userId == userId && _actionId == demarcheId && _status == status && _debut == dateDebut && _fin == dateFin) {
       return mockDemarche(id: demarcheId, status: status);
     }
@@ -176,13 +176,13 @@ class UpdateDemarcheRepositoryFailureStub extends UpdateDemarcheRepository {
   UpdateDemarcheRepositoryFailureStub() : super(DioMock());
 
   @override
-  Future<Demarche?> updateDemarche(
-    String userId,
-    String demarcheId,
-    DemarcheStatus status,
-    DateTime? dateFin,
-    DateTime? dateDebut,
-  ) async {
+  Future<Demarche?> updateDemarche({
+    required String userId,
+    required String demarcheId,
+    required DemarcheStatus status,
+    required DateTime? dateFin,
+    required DateTime? dateDebut,
+  }) async {
     return null;
   }
 }

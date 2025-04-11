@@ -28,7 +28,12 @@ void main() {
     final successUpdateState = store.onChange.firstWhere((e) => e.updateDemarcheState is UpdateDemarcheSuccessState);
 
     // When
-    await store.dispatch(UpdateDemarcheRequestAction('2', now, now, DemarcheStatus.DONE));
+    await store.dispatch(UpdateDemarcheRequestAction(
+      id: '2',
+      dateFin: now,
+      dateDebut: now,
+      status: DemarcheStatus.DONE,
+    ));
 
     // Then
     expect(await updateDisplayedLoading, true);
@@ -54,7 +59,12 @@ void main() {
     final successUpdateState = store.onChange.firstWhere((e) => e.updateDemarcheState is UpdateDemarcheSuccessState);
 
     // When
-    await store.dispatch(UpdateDemarcheRequestAction('2', now, now, DemarcheStatus.DONE));
+    await store.dispatch(UpdateDemarcheRequestAction(
+      id: '2',
+      dateFin: now,
+      dateDebut: now,
+      status: DemarcheStatus.DONE,
+    ));
 
     // Then
     await successUpdateState;
@@ -74,7 +84,12 @@ void main() {
     final failureUpdateState = store.onChange.firstWhere((e) => e.updateDemarcheState is UpdateDemarcheFailureState);
 
     // When
-    await store.dispatch(UpdateDemarcheRequestAction('2', now, now, DemarcheStatus.DONE));
+    await store.dispatch(UpdateDemarcheRequestAction(
+      id: '2',
+      dateFin: now,
+      dateDebut: now,
+      status: DemarcheStatus.DONE,
+    ));
 
     // Then
     expect(await updateDisplayedLoading, true);
@@ -96,7 +111,12 @@ void main() {
     final failureUpdateState = store.onChange.firstWhere((e) => e.updateDemarcheState is UpdateDemarcheFailureState);
 
     // When
-    await store.dispatch(UpdateDemarcheRequestAction('2', now, now, DemarcheStatus.DONE));
+    await store.dispatch(UpdateDemarcheRequestAction(
+      id: '2',
+      dateFin: now,
+      dateDebut: now,
+      status: DemarcheStatus.DONE,
+    ));
 
     // Then
     await failureUpdateState;

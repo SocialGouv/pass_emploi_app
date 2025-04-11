@@ -27,10 +27,10 @@ class DemarcheDetailBottomSheetViewModel {
       withDemarcheCancelButton: demarche.possibleStatus.contains(DemarcheStatus.CANCELLED),
       onDemarcheCancel: () => store.dispatch(
         UpdateDemarcheRequestAction(
-          demarche.id,
-          demarche.endDate,
-          demarche.creationDate,
-          DemarcheStatus.CANCELLED,
+          id: demarche.id,
+          dateFin: demarche.endDate,
+          dateDebut: demarche.creationDate,
+          status: DemarcheStatus.CANCELLED,
         ),
       ),
     );

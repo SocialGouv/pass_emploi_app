@@ -27,12 +27,14 @@ class DemarcheDoneBottomSheetViewModel extends Equatable {
     }
 
     return DemarcheDoneBottomSheetViewModel(
-      onDemarcheDone: (dateFin) => store.dispatch(UpdateDemarcheRequestAction(
-        demarche.id,
-        dateFin,
-        demarche.creationDate,
-        DemarcheStatus.DONE,
-      )),
+      onDemarcheDone: (dateFin) => store.dispatch(
+        UpdateDemarcheRequestAction(
+          id: demarche.id,
+          dateFin: dateFin,
+          dateDebut: demarche.creationDate,
+          status: DemarcheStatus.DONE,
+        ),
+      ),
       displayState: _updateStateDisplayState(store.state.updateDemarcheState),
     );
   }

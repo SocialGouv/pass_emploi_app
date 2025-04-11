@@ -270,13 +270,13 @@ class DummyModifyDemarcheRepository extends UpdateDemarcheRepository {
   DummyModifyDemarcheRepository() : super(DioMock());
 
   @override
-  Future<Demarche?> updateDemarche(
-    String userId,
-    String demarcheId,
-    DemarcheStatus status,
-    DateTime? dateFin,
-    DateTime? dateDebut,
-  ) async {
+  Future<Demarche?> updateDemarche({
+    required String userId,
+    required String demarcheId,
+    required DemarcheStatus status,
+    required DateTime? dateFin,
+    required DateTime? dateDebut,
+  }) async {
     return null;
   }
 }
