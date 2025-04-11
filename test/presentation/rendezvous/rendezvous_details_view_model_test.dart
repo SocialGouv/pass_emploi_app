@@ -698,6 +698,7 @@ void main() {
                       id: '1',
                       estInscrit: false,
                       createur: const Conseiller(id: 'id', firstName: 'F', lastName: 'L'),
+                      date: DateTime(2100),
                     )
                   ],
                 ))
@@ -724,6 +725,23 @@ void main() {
           });
 
           test('should be shareable', () {
+            expect(
+              viewModel.shareToConseillerButton,
+              isA<RendezVousShareToConseiller>()
+                  .having(
+                    (item) => item.label,
+                    "label",
+                    "Partager à mon conseiller",
+                  )
+                  .having(
+                    (item) => item.chatPartageSource,
+                    "source",
+                    ChatPartageEventSource("1"),
+                  ),
+            );
+          });
+
+          test('should not be be shareable if rdv is in past', () {
             expect(
               viewModel.shareToConseillerButton,
               isA<RendezVousShareToConseiller>()
@@ -790,6 +808,7 @@ void main() {
                   id: '1',
                   estInscrit: false,
                   createur: const Conseiller(id: 'id', firstName: 'F', lastName: 'L'),
+                  date: DateTime(2100),
                 ),
               ]).store();
 

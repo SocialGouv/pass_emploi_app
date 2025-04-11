@@ -379,6 +379,7 @@ bool _estCeQueMaPresenceEstRequise(RendezvousStateSource source, bool isInscrit)
 
 RendezvousCtaVm? _shareToConseillerButton(Store<AppState> store, RendezvousStateSource source, Rendezvous rdv) {
   if (rdv.estInscrit == true) return null;
+  if (rdv.date.isBefore(DateTime.now())) return null;
   if (source.isFromEvenements) {
     return RendezVousShareToConseiller(chatPartageSource: ChatPartageEventSource(rdv.id));
   }
