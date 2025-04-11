@@ -13,6 +13,7 @@ class DatePicker extends StatefulWidget {
   final DateTime? initialDateValue;
   final bool isActiveDate;
   final DateTime? firstDate;
+  final DateTime? lastDate;
   final bool showInitialDate;
   final String? errorText;
 
@@ -22,6 +23,7 @@ class DatePicker extends StatefulWidget {
     required this.isActiveDate,
     this.onDateDeleted,
     this.firstDate,
+    this.lastDate,
     this.showInitialDate = true,
     this.errorText,
   });
@@ -71,7 +73,7 @@ class _DatePickerState extends State<DatePicker> {
     final DateTime? picked = await showDatePicker(
       context: context,
       firstDate: widget.firstDate ?? DateTime(2020),
-      lastDate: DateTime(2101),
+      lastDate: widget.lastDate ?? DateTime(2101),
       initialDate: widget.initialDateValue ?? DateTime.now(),
       locale: const Locale("fr", "FR"),
     );

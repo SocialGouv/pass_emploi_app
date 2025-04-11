@@ -1,13 +1,13 @@
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
-import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/pages/demarche/demarche_detail_bottom_sheet.dart';
+import 'package:pass_emploi_app/pages/demarche/demarche_done_bottom_sheet.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_detail_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
-import 'package:pass_emploi_app/presentation/user_action/user_action_tag_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
@@ -15,6 +15,8 @@ import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_tag.dart';
 import 'package:pass_emploi_app/widgets/confetti_wrapper.dart';
 import 'package:pass_emploi_app/widgets/connectivity_widgets.dart';
 import 'package:pass_emploi_app/widgets/date_echeance_in_detail.dart';
@@ -22,7 +24,6 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/info_card.dart';
 import 'package:pass_emploi_app/widgets/loading_overlay.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
-import 'package:pass_emploi_app/widgets/textes.dart';
 
 class DemarcheDetailPage extends StatelessWidget {
   final String id;
@@ -38,37 +39,71 @@ class DemarcheDetailPage extends StatelessWidget {
     return Tracker(
       tracking: AnalyticsScreenNames.userActionDetails,
       child: ConfettiWrapper(builder: (context, conffetiController) {
-        return Scaffold(
-          backgroundColor: Colors.white,
-          appBar: SecondaryAppBar(
-            title: Strings.demarcheDetails,
-            actions: [_MoreButton(demarcheId: id)],
+        return StoreConnector<AppState, DemarcheDetailViewModel>(
+          converter: (store) => DemarcheDetailViewModel.create(store, id),
+          onDidChange: (oldViewModel, newViewModel) async {
+            if (newViewModel.updateDisplayState == DisplayState.FAILURE) {
+              showSnackBarWithSystemError(context, Strings.updateStatusError);
+              newViewModel.resetUpdateStatus();
+            }
+          },
+          onDispose: (store) => store.dispatch(UpdateDemarcheResetAction()),
+          builder: (context, viewModel) => Scaffold(
+            backgroundColor: Colors.white,
+            appBar: SecondaryAppBar(
+              title: Strings.demarcheDetails,
+              actions: [
+                _MoreButton(
+                  demarcheId: id,
+                )
+              ],
+            ),
+            floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+            floatingActionButton: _ActionButton(viewModel, id, conffetiController),
+            body: _Body(
+              viewModel,
+            ),
           ),
-          body: StoreConnector<AppState, DemarcheDetailViewModel>(
-            converter: (store) => DemarcheDetailViewModel.create(store, id),
-            onDidChange: (oldViewModel, newViewModel) async {
-              if (newViewModel.updateDisplayState == DisplayState.FAILURE) {
-                showSnackBarWithSystemError(context, Strings.updateStatusError);
-                newViewModel.resetUpdateStatus();
-              }
-            },
-            onDispose: (store) => store.dispatch(UpdateDemarcheResetAction()),
-            builder: (context, viewModel) => _Body(viewModel, onDemarcheDone: () {
-              conffetiController.play();
-            }),
-            distinct: true,
-          ),
+          distinct: true,
         );
       }),
     );
   }
 }
 
+class _ActionButton extends StatelessWidget {
+  const _ActionButton(this.viewModel, this.demarcheId, this.conffetiController);
+  final DemarcheDetailViewModel viewModel;
+  final String demarcheId;
+  final ConfettiController conffetiController;
+
+  @override
+  Widget build(BuildContext context) {
+    return viewModel.withDemarcheDoneButton
+        ? SizedBox(
+            width: double.infinity,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
+              child: PrimaryActionButton(
+                suffix: Icon(Icons.arrow_forward, size: 16),
+                label: Strings.demarcheDoneButton,
+                onPressed: () async {
+                  final result = await DemarcheDoneBottomSheet.show(context, demarcheId);
+                  if (result == true) {
+                    conffetiController.play();
+                  }
+                },
+              ),
+            ),
+          )
+        : SizedBox.shrink();
+  }
+}
+
 class _Body extends StatelessWidget {
   final DemarcheDetailViewModel viewModel;
-  final VoidCallback onDemarcheDone;
 
-  _Body(this.viewModel, {required this.onDemarcheDone});
+  _Body(this.viewModel);
 
   @override
   Widget build(BuildContext context) {
@@ -86,9 +121,16 @@ class _Body extends StatelessWidget {
                     children: [
                       if (viewModel.withDateDerniereMiseAJour != null)
                         InfoCard(message: viewModel.withDateDerniereMiseAJour!),
-                      if (viewModel.label != null) ...[
+                      if (viewModel.label != null && viewModel.pillule != null) ...[
                         SizedBox(height: Margins.spacing_base),
-                        _Categorie(viewModel.label!),
+                        Wrap(
+                          spacing: Margins.spacing_base,
+                          runSpacing: Margins.spacing_base,
+                          children: [
+                            _Categorie(viewModel.label!),
+                            viewModel.pillule?.toDemarcheCardPillule(excludeSemantics: true) ?? SizedBox.shrink(),
+                          ],
+                        ),
                       ],
                       if (viewModel.titreDetail != null) ...[
                         SizedBox(height: Margins.spacing_base),
@@ -111,7 +153,6 @@ class _Body extends StatelessWidget {
                         backgroundColor: viewModel.dateBackgroundColor,
                         textColor: viewModel.dateTextColor,
                       ),
-                      _StatusSelector(viewModel: viewModel, onDemarcheDone: onDemarcheDone),
                       SizedBox(height: Margins.spacing_base),
                       _HistoriqueTitle(),
                       SizedBox(height: Margins.spacing_base),
@@ -130,30 +171,6 @@ class _Body extends StatelessWidget {
   }
 }
 
-class _StatusSelector extends StatelessWidget {
-  final DemarcheDetailViewModel viewModel;
-  final VoidCallback onDemarcheDone;
-
-  const _StatusSelector({required this.viewModel, required this.onDemarcheDone});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        if (viewModel.statutsPossibles.isNotEmpty) ...[
-          SizedBox(height: Margins.spacing_base),
-          _StatutTitle(),
-        ],
-        if (viewModel.statutsPossibles.isNotEmpty) ...[
-          SizedBox(height: Margins.spacing_base),
-          _StatutList(viewModel, onDemarcheDone: onDemarcheDone),
-          SizedBox(height: Margins.spacing_base),
-        ],
-      ],
-    );
-  }
-}
-
 class _Categorie extends StatelessWidget {
   final String label;
 
@@ -161,19 +178,10 @@ class _Categorie extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.topLeft,
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: AppColors.accent2),
-          borderRadius: BorderRadius.circular(30),
-        ),
-        padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 12),
-        child: Text(
-          label,
-          style: TextStyles.textBaseRegularWithColor(AppColors.accent2),
-        ),
-      ),
+    return CardTag(
+      text: label,
+      contentColor: AppColors.primary,
+      backgroundColor: AppColors.primaryLighten,
     );
   }
 }
@@ -185,7 +193,10 @@ class _Titre extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LargeSectionTitle(label);
+    return Text(
+      label,
+      style: TextStyles.textMBold,
+    );
   }
 }
 
@@ -254,94 +265,6 @@ class _DetailDemarcheTitle extends StatelessWidget {
         SizedBox(height: 20),
         Text(Strings.demarcheDetails, style: TextStyles.textBaseBold),
       ],
-    );
-  }
-}
-
-class _StatutTitle extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(color: AppColors.primaryLighten, height: 1),
-        SizedBox(
-          height: 20,
-        ),
-        Text(Strings.modifierStatut, style: TextStyles.textBaseBold),
-      ],
-    );
-  }
-}
-
-class _StatutList extends StatelessWidget {
-  final DemarcheDetailViewModel viewModel;
-  final VoidCallback onDemarcheDone;
-
-  _StatutList(this.viewModel, {required this.onDemarcheDone});
-
-  @override
-  Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 20,
-      runSpacing: 20,
-      children:
-          viewModel.statutsPossibles.map((e) => _StatutItem(e, viewModel, onDemarcheDone: onDemarcheDone)).toList(),
-    );
-  }
-}
-
-class _StatutItem extends StatelessWidget {
-  final UserActionTagViewModel statut;
-  final DemarcheDetailViewModel viewModel;
-  final VoidCallback onDemarcheDone;
-
-  _StatutItem(this.statut, this.viewModel, {required this.onDemarcheDone});
-
-  @override
-  Widget build(BuildContext context) {
-    final bool isActive = viewModel.withDateDerniereMiseAJour == null && !viewModel.withOfflineBehavior;
-    return Opacity(
-      opacity: isActive ? 1 : 0.5,
-      child: ClipRRect(
-        borderRadius: BorderRadius.all(Radius.circular(40)),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: isActive
-                ? () {
-                    viewModel.onModifyStatus(statut);
-                    if (getStatusFromTag(statut) == DemarcheStatus.DONE) onDemarcheDone();
-                  }
-                : null,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(40)),
-                color: statut.backgroundColor,
-                border: Border.all(color: statut.textColor),
-              ),
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (statut.isSelected)
-                    Icon(
-                      AppIcons.check_rounded,
-                      color: statut.textColor,
-                      size: Dimens.icon_size_base,
-                    ),
-                  if (statut.isSelected) SizedBox(width: 10),
-                  Text(
-                    statut.title,
-                    style: TextStyles.textSRegularWithColor(statut.textColor),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
     );
   }
 }
@@ -419,7 +342,10 @@ class _MoreButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       icon: Icon(AppIcons.more_vert_rounded),
-      onPressed: () => DemarcheDetailsBottomSheet.show(context, demarcheId),
+      onPressed: () => DemarcheDetailsBottomSheet.show(
+        context,
+        demarcheId,
+      ),
     );
   }
 }

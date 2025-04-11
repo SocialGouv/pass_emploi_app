@@ -4,15 +4,16 @@ import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_state.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_card_view_model.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_store_extension.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
-import 'package:pass_emploi_app/presentation/user_action/user_action_tag_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
+import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_pillule.dart';
 import 'package:redux/redux.dart';
 
 class DemarcheDetailViewModel extends Equatable {
@@ -30,10 +31,10 @@ class DemarcheDetailViewModel extends Equatable {
   final String? creationDate;
   final String? withDateDerniereMiseAJour;
   final List<String> attributs;
-  final List<UserActionTagViewModel> statutsPossibles;
-  final Function(UserActionTagViewModel) onModifyStatus;
+  final bool withDemarcheDoneButton;
   final Function() resetUpdateStatus;
   final DisplayState updateDisplayState;
+  final CardPilluleType? pillule;
 
   DemarcheDetailViewModel({
     required this.createdByAdvisor,
@@ -47,13 +48,13 @@ class DemarcheDetailViewModel extends Equatable {
     required this.titreDetail,
     required this.sousTitre,
     required this.attributs,
-    required this.statutsPossibles,
     required this.modificationDate,
     required this.creationDate,
     required this.withDateDerniereMiseAJour,
-    required this.onModifyStatus,
+    required this.withDemarcheDoneButton,
     required this.resetUpdateStatus,
     required this.updateDisplayState,
+    required this.pillule,
   });
 
   factory DemarcheDetailViewModel.create(Store<AppState> store, String demarcheId) {
@@ -79,23 +80,13 @@ class DemarcheDetailViewModel extends Equatable {
       titreDetail: demarche.titre,
       sousTitre: demarche.sousTitre,
       attributs: demarche.attributs.map((e) => e.value).toList(),
-      statutsPossibles: demarche.possibleStatus.map((e) => _getTagViewModel(e, demarche.status)).toList(),
       modificationDate: demarche.modificationDate?.toDay(),
       creationDate: demarche.creationDate?.toDay(),
       withDateDerniereMiseAJour: _withDateDerniereMiseAJour(dateDerniereMiseAJour),
-      onModifyStatus: (tag) {
-        final status = getStatusFromTag(tag);
-        if (!tag.isSelected && status != null) {
-          store.dispatch(UpdateDemarcheRequestAction(
-            demarche.id,
-            demarche.endDate,
-            demarche.creationDate,
-            status,
-          ));
-        }
-      },
+      withDemarcheDoneButton: demarche.possibleStatus.contains(DemarcheStatus.DONE),
       resetUpdateStatus: () => store.dispatch(UpdateDemarcheResetAction()),
       updateDisplayState: _updateStateDisplayState(updateState),
+      pillule: demarche.pillule(),
     );
   }
 
@@ -112,13 +103,13 @@ class DemarcheDetailViewModel extends Equatable {
       titreDetail: null,
       sousTitre: null,
       attributs: [],
-      statutsPossibles: [],
       modificationDate: null,
       creationDate: null,
       withDateDerniereMiseAJour: null,
-      onModifyStatus: (_) {},
+      withDemarcheDoneButton: false,
       resetUpdateStatus: () {},
       updateDisplayState: DisplayState.EMPTY,
+      pillule: null,
     );
   }
 
@@ -138,8 +129,9 @@ class DemarcheDetailViewModel extends Equatable {
         creationDate,
         withDateDerniereMiseAJour,
         attributs,
-        statutsPossibles,
+        withDemarcheDoneButton,
         updateDisplayState,
+        pillule,
       ];
 }
 
@@ -153,40 +145,6 @@ DateTime? _getDateDerniereMiseAJour(Store<AppState> store) {
 String? _withDateDerniereMiseAJour(DateTime? dateDerniereMiseAJour) {
   if (dateDerniereMiseAJour == null) return null;
   return Strings.dateDerniereMiseAJourDemarches(dateDerniereMiseAJour.toDayAndHour());
-}
-
-UserActionTagViewModel _getTagViewModel(DemarcheStatus status, DemarcheStatus currentStatus) {
-  final bool isSelected = status == currentStatus;
-  switch (status) {
-    case DemarcheStatus.NOT_STARTED:
-      return UserActionTagViewModel(
-        title: Strings.todoPillule,
-        backgroundColor: isSelected ? AppColors.accent1Lighten : Colors.transparent,
-        textColor: isSelected ? AppColors.accent1 : AppColors.grey800,
-        isSelected: isSelected,
-      );
-    case DemarcheStatus.IN_PROGRESS:
-      return UserActionTagViewModel(
-        title: Strings.doingPillule,
-        backgroundColor: isSelected ? AppColors.accent3Lighten : Colors.transparent,
-        textColor: isSelected ? AppColors.accent3 : AppColors.grey800,
-        isSelected: isSelected,
-      );
-    case DemarcheStatus.DONE:
-      return UserActionTagViewModel(
-        title: Strings.donePillule,
-        backgroundColor: isSelected ? AppColors.accent2Lighten : Colors.transparent,
-        textColor: isSelected ? AppColors.accent2 : AppColors.grey800,
-        isSelected: isSelected,
-      );
-    case DemarcheStatus.CANCELLED:
-      return UserActionTagViewModel(
-        title: Strings.canceledPillule,
-        backgroundColor: isSelected ? AppColors.accent2Lighten : Colors.transparent,
-        textColor: isSelected ? AppColors.accent2 : AppColors.grey800,
-        isSelected: isSelected,
-      );
-  }
 }
 
 List<FormattedText> _formattedDate(Demarche demarche) {
@@ -207,21 +165,6 @@ List<FormattedText> _formattedDate(Demarche demarche) {
     ];
   } else {
     return [FormattedText(Strings.withoutDate)];
-  }
-}
-
-DemarcheStatus? getStatusFromTag(UserActionTagViewModel tag) {
-  switch (tag.title) {
-    case Strings.todoPillule:
-      return DemarcheStatus.NOT_STARTED;
-    case Strings.doingPillule:
-      return DemarcheStatus.IN_PROGRESS;
-    case Strings.canceledPillule:
-      return DemarcheStatus.CANCELLED;
-    case Strings.donePillule:
-      return DemarcheStatus.DONE;
-    default:
-      return null;
   }
 }
 

@@ -20,7 +20,7 @@ class CreateDemarche2PersonnaliseeStep3Page extends StatelessWidget {
           SizedBox(height: Margins.spacing_base),
           Text(Strings.createDemarchePersonnaliseeTitle, style: TextStyles.textMBold),
           const SizedBox(height: Margins.spacing_base),
-          Text(Strings.thematiquesDemarcheDateShortMandatory, style: TextStyles.textBaseMedium),
+          Text(Strings.dateShortMandatory, style: TextStyles.textBaseMedium),
           const SizedBox(height: Margins.spacing_s),
           DatePickerSuggestions(
             title: Strings.datePickerTitle,

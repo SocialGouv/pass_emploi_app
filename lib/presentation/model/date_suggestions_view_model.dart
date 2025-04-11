@@ -4,22 +4,37 @@ import 'package:pass_emploi_app/utils/date_extensions.dart';
 class DateSuggestionListViewModel {
   final List<DateSuggestionViewModel> suggestions;
 
-  factory DateSuggestionListViewModel.create(DateTime now) {
+  factory DateSuggestionListViewModel.createFuture(DateTime now) {
     return DateSuggestionListViewModel(suggestions: [
       DateSuggestionViewModel(
-        "${Strings.userActionDateSuggestion1} (${now.toDayOfWeek()})",
-        "${Strings.userActionDateSuggestion1} (${now.toDayWithFullMonth()})",
+        "${Strings.dateSuggestionAujourdhui} (${now.toDayOfWeek()})",
+        "${Strings.dateSuggestionAujourdhui} (${now.toDayWithFullMonth()})",
         now,
       ),
       DateSuggestionViewModel(
-        "${Strings.userActionDateSuggestion2} (${now.add(Duration(days: 1)).toDayOfWeek()})",
-        "${Strings.userActionDateSuggestion2} (${now.add(Duration(days: 1)).toDayWithFullMonth()})",
+        "${Strings.dateSuggestionDemain} (${now.add(Duration(days: 1)).toDayOfWeek()})",
+        "${Strings.dateSuggestionDemain} (${now.add(Duration(days: 1)).toDayWithFullMonth()})",
         now.add(Duration(days: 1)),
       ),
       DateSuggestionViewModel(
-        "${Strings.userActionDateSuggestion3} (${now.toMondayOnNextWeek().toDayOfWeek()})",
-        "${Strings.userActionDateSuggestion3} (${now.toMondayOnNextWeek().toDayWithFullMonth()})",
+        "${Strings.dateSuggestionSemainePro} (${now.toMondayOnNextWeek().toDayOfWeek()})",
+        "${Strings.dateSuggestionSemainePro} (${now.toMondayOnNextWeek().toDayWithFullMonth()})",
         now.toMondayOnNextWeek(),
+      ),
+    ]);
+  }
+
+  factory DateSuggestionListViewModel.createPast(DateTime now) {
+    return DateSuggestionListViewModel(suggestions: [
+      DateSuggestionViewModel(
+        "${Strings.dateSuggestionAujourdhui} (${now.toDayOfWeek()})",
+        "${Strings.dateSuggestionAujourdhui} (${now.toDayWithFullMonth()})",
+        now,
+      ),
+      DateSuggestionViewModel(
+        "${Strings.dateSuggestionHier} (${now.add(Duration(days: -1)).toDayOfWeek()})",
+        "${Strings.dateSuggestionHier} (${now.add(Duration(days: -1)).toDayWithFullMonth()})",
+        now.add(Duration(days: -1)),
       ),
     ]);
   }
