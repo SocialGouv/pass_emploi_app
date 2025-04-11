@@ -62,9 +62,6 @@ class DemarcheDetailPage extends StatelessWidget {
             floatingActionButton: _ActionButton(viewModel, id, conffetiController),
             body: _Body(
               viewModel,
-              onDemarcheDone: () {
-                conffetiController.play();
-              },
             ),
           ),
           distinct: true,
@@ -90,9 +87,11 @@ class _ActionButton extends StatelessWidget {
               child: PrimaryActionButton(
                 suffix: Icon(Icons.arrow_forward, size: 16),
                 label: Strings.demarcheDoneButton,
-                onPressed: () {
-                  DemarcheDoneBottomSheet.show(context, demarcheId);
-                  conffetiController.play();
+                onPressed: () async {
+                  final result = await DemarcheDoneBottomSheet.show(context, demarcheId);
+                  if (result == true) {
+                    conffetiController.play();
+                  }
                 },
               ),
             ),
@@ -103,9 +102,8 @@ class _ActionButton extends StatelessWidget {
 
 class _Body extends StatelessWidget {
   final DemarcheDetailViewModel viewModel;
-  final VoidCallback onDemarcheDone;
 
-  _Body(this.viewModel, {required this.onDemarcheDone});
+  _Body(this.viewModel);
 
   @override
   Widget build(BuildContext context) {
