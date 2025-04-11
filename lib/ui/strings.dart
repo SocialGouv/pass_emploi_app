@@ -659,7 +659,7 @@ class Strings {
   static String aboutThisAction = "À propos de cette action";
   static String actionDetails = "Mon action";
   static String demarcheDetails = "Détail de la démarche";
-  static String completeAction = "J’ai terminé mon action";
+  static String completeAction = "Terminer mon action";
   static String unCompleteAction = "Je n’ai pas terminé mon action";
   static String userActionDetailsSection = "Détails";
   static String userActionDate = "Date";
@@ -710,6 +710,10 @@ class Strings {
   static String userActionBottomSheetTitle = "Éditer l’action";
   static String userActionBottomSheetDelete = "Supprimer";
   static String userActionBottomSheetEdit = "Modifier";
+
+  // User action done bottom sheet
+  static String userActionDoneBottomSheetTitle = "Quand avez-vous terminé l'action ?";
+  static String updateActionConfirmation = "La mise à jour de votre action a bien été prise en compte";
 
   // Update user action
   static String updateUserActionPageTitle = "Modifier l'action";
@@ -809,6 +813,7 @@ class Strings {
   static String createDemarcheErreur = "Erreur lors de la création de la démarche. Veuillez réessayer plus tard";
 
   static String demarcheDoneBottomSheetTitle = "Quand avez-vous terminé la démarche ?";
+
   static String jeValide = "Je valide";
   static String felicitations = "Félicitations !";
   static String updateDemarcheConfirmation = "La mise à jour de votre démarche a bien été prise en compte";

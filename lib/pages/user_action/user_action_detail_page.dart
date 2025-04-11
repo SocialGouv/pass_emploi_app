@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/pages/user_action/action_commentaires_page.dart';
 import 'package:pass_emploi_app/pages/user_action/update/update_user_action_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_detail_bottom_sheet.dart';
+import 'package:pass_emploi_app/pages/user_action/user_action_done_bottom_sheet.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/user_action/commentaires/action_commentaire_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_details_view_model.dart';
@@ -25,7 +26,6 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/a11y/string_a11y_extensions.dart';
-import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/comment.dart';
@@ -90,10 +90,6 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
     if (viewModel.updateDisplayState == UpdateDisplayState.SHOW_UPDATE_ERROR) {
       showSnackBarWithSystemError(context, Strings.updateStatusError);
       viewModel.resetUpdateStatus();
-    } else if (viewModel.updateDisplayState == UpdateDisplayState.SHOW_SUCCESS) {
-      showPassEmploiBottomSheet(context: context, builder: _successBottomSheet).then((value) {
-        if (context.mounted) Navigator.pop(context);
-      });
     } else if (viewModel.updateDisplayState == UpdateDisplayState.TO_DISMISS_AFTER_UPDATE) {
       _trackSuccessfulUpdate();
     } else if (viewModel.deleteDisplayState == DeleteDisplayState.TO_DISMISS_AFTER_DELETION) {
@@ -106,10 +102,6 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
 
   void _popBothUpdateAndDetailsPages() {
     Navigator.of(context).popAll();
-  }
-
-  Widget _successBottomSheet(BuildContext context) {
-    return _SuccessBottomSheet();
   }
 
   void _trackSuccessfulUpdate() {
@@ -254,14 +246,19 @@ class _FinishActionButton extends StatelessWidget {
       width: double.infinity,
       child: PrimaryActionButton(
         label: Strings.completeAction,
-        suffix: Icon(AppIcons.celebration_rounded, color: Colors.white),
+        suffix: Icon(AppIcons.arrow_forward_rounded, color: Colors.white),
         onPressed: () async {
           if (viewModel.withDescriptionConfirmationPopup) {
             final result = await _showDescriptionConfirmationPopup(context);
             if (result == null || !result) return;
           }
-          onActionDone();
-          viewModel.updateStatus(UserActionStatus.DONE);
+          if (!context.mounted) return;
+          final result = await UserActionDoneBottomSheet.show(context, source, viewModel.id);
+          if (result == true) {
+            onActionDone();
+          }
+          // TODO: remove this from vm
+          // viewModel.updateStatus(UserActionStatus.DONE);
         },
       ),
     );
@@ -369,46 +366,6 @@ class _Separator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Divider(height: 1, color: AppColors.primaryLighten);
-  }
-}
-
-class _SuccessBottomSheet extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return ColoredBox(
-      color: Colors.white,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          BottomSheetHeader(title: "", padding: EdgeInsets.all(Margins.spacing_m)),
-          Center(
-            child: SizedBox(
-              height: 100,
-              width: 100,
-              child: Illustration.green(AppIcons.check_rounded),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(24),
-            child: Text(
-              Strings.congratulationsActionUpdated,
-              style: TextStyles.textBaseBold,
-              textAlign: TextAlign.center,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(24, 24, 24, 40),
-            child: PrimaryActionButton(
-              label: Strings.understood,
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }
 

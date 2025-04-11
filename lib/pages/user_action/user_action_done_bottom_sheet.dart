@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
-import 'package:pass_emploi_app/presentation/demarche/demarche_done_bottom_sheet_view_model.dart';
+import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/model/date_input_source.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_done_bottom_sheet_view_model.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
@@ -16,30 +17,29 @@ import 'package:pass_emploi_app/widgets/date_pickers/date_picker_suggestions.dar
 import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
-class DemarcheDoneBottomSheet extends StatelessWidget {
-  const DemarcheDoneBottomSheet({super.key, required this.demarcheId});
-  final String demarcheId;
+class UserActionDoneBottomSheet extends StatelessWidget {
+  const UserActionDoneBottomSheet({required this.source, required this.actionId});
 
-  static Future<bool?> show(
-    BuildContext context,
-    String demarcheId,
-  ) {
+  final UserActionStateSource source;
+  final String actionId;
+
+  static Future<bool?> show(BuildContext context, UserActionStateSource source, String actionId) {
     return showPassEmploiBottomSheet<bool?>(
       context: context,
-      builder: (context) => DemarcheDoneBottomSheet(
-        demarcheId: demarcheId,
-      ),
+      builder: (context) => UserActionDoneBottomSheet(source: source, actionId: actionId),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, DemarcheDoneBottomSheetViewModel>(
-        converter: (store) => DemarcheDoneBottomSheetViewModel.create(store, demarcheId),
-        onDispose: (store) => store.dispatch(UpdateDemarcheResetAction()),
+    return StoreConnector<AppState, UserActionDoneBottomSheetViewModel>(
+        converter: (store) => UserActionDoneBottomSheetViewModel.create(store, source, actionId),
+        onDispose: (store) => store.dispatch(UserActionUpdateResetAction()),
+        onInit: (store) => store.dispatch(UserActionUpdateResetAction()),
         builder: (context, viewModel) {
           return BottomSheetWrapper(
-            title: viewModel.displayState == DisplayState.EMPTY ? Strings.demarcheDoneBottomSheetTitle : "",
+            title: viewModel.displayState == DisplayState.EMPTY ? Strings.userActionDoneBottomSheetTitle : "",
+            maxHeightFactor: 0.6,
             body: SingleChildScrollView(
               child: _Body(viewModel),
             ),
@@ -50,7 +50,7 @@ class DemarcheDoneBottomSheet extends StatelessWidget {
 
 class _Body extends StatelessWidget {
   const _Body(this.viewModel);
-  final DemarcheDoneBottomSheetViewModel viewModel;
+  final UserActionDoneBottomSheetViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +78,7 @@ class _Body extends StatelessWidget {
 
 class _Form extends StatefulWidget {
   const _Form(this.viewModel);
-  final DemarcheDoneBottomSheetViewModel viewModel;
+  final UserActionDoneBottomSheetViewModel viewModel;
 
   @override
   State<_Form> createState() => _FormState();
@@ -107,7 +107,7 @@ class _FormState extends State<_Form> {
         SizedBox(height: Margins.spacing_base),
         PrimaryActionButton(
           label: Strings.jeValide,
-          onPressed: date.isValid ? () => widget.viewModel.onDemarcheDone() : null,
+          onPressed: date.isValid ? () => widget.viewModel.onActionDone() : null,
         ),
         const SizedBox(height: Margins.spacing_base),
       ],
@@ -137,7 +137,7 @@ class _Success extends StatelessWidget {
         ),
         SizedBox(height: Margins.spacing_base),
         Text(
-          Strings.updateDemarcheConfirmation,
+          Strings.updateActionConfirmation,
           textAlign: TextAlign.center,
           style: TextStyles.textBaseRegular,
         ),
