@@ -118,10 +118,10 @@ class _RendezvousDetailsPageState extends State<RendezvousDetailsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (viewModel.assetImage != null)
-              ExcludeSemantics(
-                child: _CardIllustration(imagePath: viewModel.assetImage),
-              ),
+            if (viewModel.assetImage != null) ...[
+              ExcludeSemantics(child: _CardIllustration(imagePath: viewModel.assetImage)),
+              SizedBox(height: Margins.spacing_base),
+            ],
             if (viewModel.withDateDerniereMiseAJour != null) ...[
               InfoCard(message: viewModel.withDateDerniereMiseAJour!),
               SizedBox(height: Margins.spacing_base),
