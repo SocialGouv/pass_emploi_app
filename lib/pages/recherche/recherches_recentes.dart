@@ -41,9 +41,18 @@ class RecherchesRecentesBandeau extends StatelessWidget {
                             ),
                             SizedBox(width: Margins.spacing_s),
                             Expanded(
-                              child: Text(
-                                Strings.derniereRecherche,
-                                style: TextStyles.textBaseBold,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    Strings.derniereRecherche,
+                                    style: TextStyles.textBaseBold,
+                                  ),
+                                  Text(
+                                    recherche.getTitle(),
+                                    style: TextStyles.textSRegular(),
+                                  )
+                                ],
                               ),
                             ),
                             Padding(

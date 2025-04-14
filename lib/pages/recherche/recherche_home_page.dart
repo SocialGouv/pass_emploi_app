@@ -74,13 +74,13 @@ class _NosOffres extends StatelessWidget {
       children: [
         MediumSectionTitle(Strings.rechercheHomeNosOffres),
         SizedBox(height: Margins.spacing_base),
+        RecherchesRecentesBandeau(paddingIfExists: EdgeInsets.only(bottom: Margins.spacing_base)),
         VoirSuggestionsRechercheBandeau(
           onTapShowSuggestions: () {
             PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.rechercheSuggestionsListe);
             Navigator.push(context, SuggestionsRechercheListPage.materialPageRoute());
           },
         ),
-        RecherchesRecentesBandeau(paddingIfExists: EdgeInsets.only(top: Margins.spacing_base)),
         SizedBox(height: Margins.spacing_base),
         if (offreTypes.contains(OffreType.emploi)) ...[
           _BlocSolution(
