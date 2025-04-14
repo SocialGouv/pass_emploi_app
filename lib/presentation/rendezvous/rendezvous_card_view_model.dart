@@ -110,7 +110,11 @@ String? _nombreDePlacesRestantes(Rendezvous rdv, RendezvousStateSource source) {
 }
 
 String? _assetImage(Rendezvous rdv, RendezvousStateSource source) {
-  if (!source.isFromEvenements) return null;
+  final showImage = [
+    RendezvousStateSource.eventListSessionsMilo,
+    RendezvousStateSource.monSuiviSessionMilo,
+  ].contains(source);
+  if (!showImage) return null;
   return SessionMilo.themeIllustrationPath(rdv.theme);
 }
 
