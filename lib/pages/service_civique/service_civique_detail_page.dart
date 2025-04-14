@@ -3,7 +3,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/date_consultation_offre/date_consultation_offre_actions.dart';
-import 'package:pass_emploi_app/features/derniere_offre_consultee/derniere_offre_consultee_actions.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_actions.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/service_civique/domain.dart';
@@ -65,7 +64,6 @@ class ServiceCiviqueDetailPage extends StatelessWidget {
         },
         onDispose: (store) {
           store.dispatch(DateConsultationWriteOffreAction(idOffre));
-          store.dispatch(DerniereOffreServiceCiviqueConsulteeWriteAction());
         },
       ),
     );

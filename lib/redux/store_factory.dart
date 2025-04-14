@@ -31,7 +31,6 @@ import 'package:pass_emploi_app/features/date_consultation_offre/date_consultati
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_middleware.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_middleware.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_middleware.dart';
-import 'package:pass_emploi_app/features/derniere_offre_consultee/derniere_offre_consultee_middleware.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_middleware.dart';
 import 'package:pass_emploi_app/features/developer_option/activation/developer_options_middleware.dart';
 import 'package:pass_emploi_app/features/developer_option/matomo/matomo_logging_middleware.dart';
@@ -434,7 +433,6 @@ class StoreFactory {
         NotificationsSettingsMiddleware(pushNotificationManager).call,
         CguMiddleware(detailsJeuneRepository, remoteConfigRepository).call,
         DateConsultationOffreMiddleware(dateConsultationOffreRepository).call,
-        DerniereOffreConsulteeMiddleware(derniereOffreConsulteeRepository).call,
         InAppFeedbackMiddleware(inAppFeedbackRepository).call,
         InAppNotificationsMiddleware(inAppNotificationsRepository).call,
         DateConsultationNotificationMiddleware(dateConsultationNotificationRepository).call,
