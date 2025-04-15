@@ -128,6 +128,7 @@ class _Scaffold extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: SecondaryAppBar(
         title: Strings.actionDetails,
+        backgroundColor: Colors.white,
         actions: [_MoreButton(source: source, actionId: viewModel.id)],
       ),
       floatingActionButton: Padding(
