@@ -65,13 +65,15 @@ class BaseCard extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (imagePath != null)
+                  if (imagePath != null) ...[
                     Semantics(
                       excludeSemantics: imageAlt != null,
                       image: true,
                       label: imageAlt,
                       child: _CardIllustration(imagePath: imagePath!),
                     ),
+                    SizedBox(height: Margins.spacing_base),
+                  ],
                   if (!isSimpleCard && iconButton == null)
                     Wrap(
                       spacing: Margins.spacing_s,
