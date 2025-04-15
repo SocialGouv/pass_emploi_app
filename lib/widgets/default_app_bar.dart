@@ -218,7 +218,7 @@ class SecondaryAppBar extends StatelessWidget implements PreferredSizeWidget {
       surfaceTintColor: Colors.transparent,
       leading: leading,
       actions: actions,
-      backgroundColor: backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: backgroundColor ?? Colors.white,
       title: Semantics(
         header: true,
         child: Tooltip(

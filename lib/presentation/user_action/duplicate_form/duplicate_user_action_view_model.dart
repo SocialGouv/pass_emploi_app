@@ -40,7 +40,7 @@ class DuplicateUserActionViewModel extends Equatable {
 
     return DuplicateUserActionViewModel._(
       id: userAction.id,
-      date: userAction.dateEcheance,
+      date: userAction.dateFin,
       title: userAction.content,
       description: userAction.comment,
       type: userAction.type,

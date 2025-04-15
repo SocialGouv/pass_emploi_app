@@ -33,7 +33,7 @@ void main() {
                 content: "Changer de prénom",
                 comment: "Commentaire",
                 status: UserActionStatus.NOT_STARTED,
-                dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-07-22T13:11:00.000Z"),
+                dateFin: parseDateTimeUtcWithCurrentTimeZone("2022-07-22T13:11:00.000Z"),
                 qualificationStatus: UserActionQualificationStatus.QUALIFIEE,
                 creationDate: DateTime(2021),
                 creator: JeuneActionCreator(),

@@ -49,7 +49,7 @@ class UpdateUserActionViewModel extends Equatable {
     return UpdateUserActionViewModel._(
       id: userAction.id,
       displayState: displayState,
-      date: userAction.dateEcheance,
+      date: userAction.dateFin,
       title: userAction.content,
       description: userAction.comment,
       type: userAction.type,

@@ -98,7 +98,7 @@ void main() {
       // Given
       final store = givenState()
           .withAction(mockUserAction(id: 'actionId'))
-          .updateActionSuccess(mockUserActionUpdateRequest(UserActionStatus.NOT_STARTED))
+          .updateActionSuccess(mockUserActionUpdateRequest(status: UserActionStatus.NOT_STARTED))
           .store();
 
       // When
@@ -112,7 +112,7 @@ void main() {
       // Given
       final store = givenState()
           .withAction(mockUserAction(id: 'actionId'))
-          .updateActionSuccess(mockUserActionUpdateRequest(UserActionStatus.IN_PROGRESS))
+          .updateActionSuccess(mockUserActionUpdateRequest(status: UserActionStatus.IN_PROGRESS))
           .store();
 
       // When
@@ -126,7 +126,7 @@ void main() {
       // Given
       final store = givenState()
           .withAction(mockUserAction(id: 'actionId'))
-          .updateActionSuccess(mockUserActionUpdateRequest(UserActionStatus.CANCELED))
+          .updateActionSuccess(mockUserActionUpdateRequest(status: UserActionStatus.CANCELED))
           .store();
 
       // When
@@ -140,7 +140,7 @@ void main() {
       // Given
       final store = givenState() //
           .withAction(mockUserAction(id: 'actionId'))
-          .updateActionSuccess(mockUserActionUpdateRequest(UserActionStatus.DONE))
+          .updateActionSuccess(mockUserActionUpdateRequest(status: UserActionStatus.DONE))
           .store();
 
       // When
@@ -531,7 +531,7 @@ void main() {
           status: UserActionStatus.NOT_STARTED,
           contenu: action.content,
           description: action.comment,
-          dateEcheance: action.dateEcheance,
+          dateEcheance: action.dateFin,
           type: action.type,
         ));
   });

@@ -45,7 +45,7 @@ class UserAction extends Equatable {
   final String content;
   final String comment;
   final UserActionStatus status;
-  final DateTime dateEcheance;
+  final DateTime dateFin;
   final DateTime creationDate;
   final UserActionCreator creator;
   final UserActionReferentielType? type;
@@ -56,7 +56,7 @@ class UserAction extends Equatable {
     required this.content,
     required this.comment,
     required this.status,
-    required this.dateEcheance,
+    required this.dateFin,
     required this.creationDate,
     required this.creator,
     this.qualificationStatus,
@@ -69,7 +69,8 @@ class UserAction extends Equatable {
       content: json['content'] as String,
       comment: json['comment'] as String,
       status: _statusFromString(statusString: json['status'] as String),
-      dateEcheance: (json['dateEcheance'] as String).toDateTimeUtcOnLocalTimeZone(),
+      dateFin: (json['dateFinReelle'] as String?)?.toDateTimeUtcOnLocalTimeZone() ??
+          (json['dateEcheance'] as String).toDateTimeUtcOnLocalTimeZone(),
       creationDate: (json['creationDate'] as String).toDateTimeOnLocalTimeZone(),
       creator: _creator(json),
       qualificationStatus: UserActionQualificationStatus.fromString(json['etat'] as String?),
@@ -95,7 +96,7 @@ class UserAction extends Equatable {
       content: content ?? this.content,
       comment: comment ?? this.comment,
       status: status ?? this.status,
-      dateEcheance: dateEcheance ?? this.dateEcheance,
+      dateFin: dateEcheance ?? dateFin,
       creationDate: creationDate ?? this.creationDate,
       creator: creator ?? this.creator,
       qualificationStatus: qualificationStatus ?? this.qualificationStatus,
@@ -108,15 +109,15 @@ class UserAction extends Equatable {
       status: request.status,
       content: request.contenu,
       comment: request.description,
-      dateEcheance: request.dateEcheance,
+      dateEcheance: request.dateFin ?? request.dateEcheance,
       type: request.type,
     );
   }
 
-  bool isLate() => !(dateEcheance.isToday() || dateEcheance.isAfter(clock.now()));
+  bool isLate() => !(dateFin.isToday() || dateFin.isAfter(clock.now()));
 
   @override
-  List<Object?> get props => [id, comment, content, status, dateEcheance, creator, qualificationStatus, type];
+  List<Object?> get props => [id, comment, content, status, dateFin, creator, qualificationStatus, type];
 }
 
 UserActionStatus _statusFromString({required String statusString}) {

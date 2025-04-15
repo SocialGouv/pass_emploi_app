@@ -117,7 +117,7 @@ class UserActionDetailsViewModel extends Equatable {
             status: status,
             contenu: userAction.content,
             description: userAction.comment,
-            dateEcheance: userAction.dateEcheance,
+            dateEcheance: userAction.dateFin,
             type: userAction.type,
           ),
         ),
@@ -202,7 +202,7 @@ bool _withUpdateButton(UserAction? userAction) {
 
 String _category(UserAction? action) => action?.type?.label ?? Strings.userActionNoCategory;
 
-String _date(UserAction? action) => action?.dateEcheance.toDayWithFullMonth() ?? '';
+String _date(UserAction? action) => action?.dateFin.toDayWithFullMonth() ?? '';
 
 DeleteDisplayState _deleteStateDisplayState(UserActionDeleteState state) {
   return switch (state) {

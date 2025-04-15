@@ -145,7 +145,7 @@ Map<String, List<MonSuiviEntry>> _entriesByDay(MonSuiviState state) {
   if (state is! MonSuiviSuccessState) return {};
   final entriesByDay = <String, List<MonSuiviEntry>>{};
   for (var action in state.monSuivi.actions) {
-    entriesByDay.add(action.dateEcheance, UserActionMonSuiviEntry(action.id));
+    entriesByDay.add(action.dateFin, UserActionMonSuiviEntry(action.id));
   }
   for (var demarche in state.monSuivi.demarches) {
     if (demarche.endDate != null) {

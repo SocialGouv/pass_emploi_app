@@ -647,7 +647,7 @@ UserAction userActionStub({String? id, DateTime? dateEcheance}) {
     content: "content",
     comment: "comment",
     status: UserActionStatus.IN_PROGRESS,
-    dateEcheance: dateEcheance ?? parseDateTimeUtcWithCurrentTimeZone("2007-07-07T01:01:07.000Z"),
+    dateFin: dateEcheance ?? parseDateTimeUtcWithCurrentTimeZone("2007-07-07T01:01:07.000Z"),
     creationDate: DateTime(2021),
     creator: JeuneActionCreator(),
   );
@@ -696,7 +696,7 @@ UserAction mockUserAction({
     comment: comment ?? '',
     status: status ?? UserActionStatus.IN_PROGRESS,
     creationDate: creationDate ?? DateTime.now(),
-    dateEcheance: dateEcheance ?? DateTime.now(),
+    dateFin: dateEcheance ?? DateTime.now(),
     creator: creator ?? JeuneActionCreator(),
     qualificationStatus: qualificationStatus ?? UserActionQualificationStatus.A_QUALIFIER,
     type: type,
@@ -740,7 +740,7 @@ UserAction mockNotStartedAction({required String actionId}) {
     comment: "comment",
     status: UserActionStatus.NOT_STARTED,
     creationDate: DateTime(2021),
-    dateEcheance: DateTime(2042),
+    dateFin: DateTime(2042),
     creator: JeuneActionCreator(),
   );
 }
@@ -1293,12 +1293,17 @@ UserActionCreateRequest mockUserActionCreateRequest([String content = "content"]
   );
 }
 
-UserActionUpdateRequest mockUserActionUpdateRequest([UserActionStatus status = UserActionStatus.DONE]) {
+UserActionUpdateRequest mockUserActionUpdateRequest({
+  UserActionStatus status = UserActionStatus.DONE,
+  DateTime? dateEcheance,
+  DateTime? dateFin,
+}) {
   return UserActionUpdateRequest(
     status: status,
     contenu: "titre",
     description: "description",
-    dateEcheance: DateTime(2024),
+    dateEcheance: dateEcheance ?? DateTime(2024),
+    dateFin: dateFin,
     type: UserActionReferentielType.emploi,
   );
 }

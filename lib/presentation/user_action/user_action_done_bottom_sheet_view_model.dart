@@ -52,7 +52,7 @@ class UserActionDoneBottomSheetViewModel extends Equatable {
             status: UserActionStatus.DONE,
             contenu: userAction.content,
             description: userAction.comment,
-            dateEcheance: userAction.dateEcheance,
+            dateEcheance: userAction.dateFin,
             type: userAction.type,
             dateFin: dateFin,
           ),
