@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/features/user_action/details/user_action_details
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
 import 'package:pass_emploi_app/models/requests/user_action_update_request.dart';
+import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_type.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
@@ -55,18 +56,24 @@ class UpdateUserActionViewModel extends Equatable {
       type: userAction.type,
       showLoading: _showLoading(store.state.userActionUpdateState, store.state.userActionDeleteState),
       shouldPop: store.state.userActionUpdateState is UserActionUpdateSuccessState,
-      save: (date, title, description, type) => store.dispatch(
-        UserActionUpdateRequestAction(
-          actionId: userActionId,
-          request: UserActionUpdateRequest(
-            status: userAction.status,
-            dateEcheance: date,
-            contenu: title,
-            description: description,
-            type: type,
+      save: (date, title, description, type) {
+        final isActionTerminee = userAction.status == UserActionStatus.DONE;
+        final dateEcheance = isActionTerminee ? userAction.dateFin : date;
+        final dateFinReelle = isActionTerminee ? date : null;
+        store.dispatch(
+          UserActionUpdateRequestAction(
+            actionId: userActionId,
+            request: UserActionUpdateRequest(
+              status: userAction.status,
+              dateEcheance: dateEcheance,
+              dateFinReelle: dateFinReelle,
+              contenu: title,
+              description: description,
+              type: type,
+            ),
           ),
-        ),
-      ),
+        );
+      },
       delete: () => store.dispatch(UserActionDeleteRequestAction(userActionId)),
       onRety: () => store.dispatch(UserActionDetailsRequestAction(userActionId)),
     );

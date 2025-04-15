@@ -109,7 +109,7 @@ class UserAction extends Equatable {
       status: request.status,
       content: request.contenu,
       comment: request.description,
-      dateEcheance: request.dateFin ?? request.dateEcheance,
+      dateEcheance: request.dateFinReelle ?? request.dateEcheance,
       type: request.type,
     );
   }

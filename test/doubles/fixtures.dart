@@ -1303,7 +1303,7 @@ UserActionUpdateRequest mockUserActionUpdateRequest({
     contenu: "titre",
     description: "description",
     dateEcheance: dateEcheance ?? DateTime(2024),
-    dateFin: dateFin,
+    dateFinReelle: dateFin,
     type: UserActionReferentielType.emploi,
   );
 }

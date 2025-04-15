@@ -7,7 +7,7 @@ class UserActionUpdateRequest extends Equatable {
   final String contenu;
   final String? description;
   final DateTime dateEcheance;
-  final DateTime? dateFin;
+  final DateTime? dateFinReelle;
   final UserActionReferentielType? type;
 
   UserActionUpdateRequest({
@@ -15,7 +15,7 @@ class UserActionUpdateRequest extends Equatable {
     required this.contenu,
     required this.description,
     required this.dateEcheance,
-    this.dateFin,
+    this.dateFinReelle,
     required this.type,
   });
 
@@ -25,7 +25,7 @@ class UserActionUpdateRequest extends Equatable {
         contenu,
         description,
         dateEcheance,
-        dateFin,
+        dateFinReelle,
         type,
       ];
 }

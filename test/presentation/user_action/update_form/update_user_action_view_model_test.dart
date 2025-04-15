@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/features/user_action/details/user_action_details
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
 import 'package:pass_emploi_app/models/requests/user_action_update_request.dart';
+import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_type.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/user_action/update_form/update_user_action_view_model.dart';
@@ -124,6 +125,32 @@ void main() {
       UserActionUpdateRequest(
         status: userAction.status,
         dateEcheance: DateTime(2025),
+        contenu: 'new title',
+        description: 'new description',
+        type: UserActionReferentielType.citoyennete,
+      ),
+    );
+  });
+
+  test('save should dispatch UserActionUpdateRequestAction with date de fin reelle when action is done', () {
+    // Given
+    final userAction = mockUserAction(id: 'id', status: UserActionStatus.DONE);
+    final store = StoreSpy.withState(givenState().withAction(userAction));
+    final viewModel = UpdateUserActionViewModel.create(store, UserActionStateSource.noSource, 'id');
+
+    // When
+    viewModel.save(DateTime(2025), 'new title', 'new description', UserActionReferentielType.citoyennete);
+
+    // Then
+    expect(store.dispatchedAction, isA<UserActionUpdateRequestAction>());
+    final action = store.dispatchedAction as UserActionUpdateRequestAction;
+    expect(action.actionId, 'id');
+    expect(
+      action.request,
+      UserActionUpdateRequest(
+        status: userAction.status,
+        dateEcheance: userAction.dateFin,
+        dateFinReelle: DateTime(2025),
         contenu: 'new title',
         description: 'new description',
         type: UserActionReferentielType.citoyennete,
