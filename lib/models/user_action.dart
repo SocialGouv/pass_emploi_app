@@ -71,7 +71,7 @@ class UserAction extends Equatable {
       status: _statusFromString(statusString: json['status'] as String),
       dateFin: (json['dateFinReelle'] as String?)?.toDateTimeUtcOnLocalTimeZone() ??
           (json['dateEcheance'] as String).toDateTimeUtcOnLocalTimeZone(),
-      creationDate: (json['creationDate'] as String).toDateTimeOnLocalTimeZone(),
+      creationDate: (json['dateCreation'] as String).toDateTimeUtcOnLocalTimeZone(),
       creator: _creator(json),
       qualificationStatus: UserActionQualificationStatus.fromString(json['etat'] as String?),
       type: json['qualification'] != null
