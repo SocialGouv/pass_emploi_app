@@ -64,20 +64,24 @@ class UserAction extends Equatable {
   });
 
   factory UserAction.fromJson(dynamic json) {
-    return UserAction(
-      id: json['id'] as String,
-      content: json['content'] as String,
-      comment: json['comment'] as String,
-      status: _statusFromString(statusString: json['status'] as String),
-      dateFin: (json['dateFinReelle'] as String?)?.toDateTimeUtcOnLocalTimeZone() ??
-          (json['dateEcheance'] as String).toDateTimeUtcOnLocalTimeZone(),
-      creationDate: (json['dateCreation'] as String).toDateTimeUtcOnLocalTimeZone(),
-      creator: _creator(json),
-      qualificationStatus: UserActionQualificationStatus.fromString(json['etat'] as String?),
-      type: json['qualification'] != null
-          ? UserActionReferentielType.fromCode(json['qualification']["code"] as String)
-          : null,
-    );
+    try {
+      return UserAction(
+        id: json['id'] as String,
+        content: json['content'] as String,
+        comment: json['comment'] as String,
+        status: _statusFromString(statusString: json['status'] as String),
+        dateFin: (json['dateFinReelle'] as String?)?.toDateTimeUtcOnLocalTimeZone() ??
+            (json['dateEcheance'] as String).toDateTimeUtcOnLocalTimeZone(),
+        creationDate: (json['dateCreation'] as String).toDateTimeUtcOnLocalTimeZone(),
+        creator: _creator(json),
+        qualificationStatus: UserActionQualificationStatus.fromString(json['etat'] as String?),
+        type: json['qualification'] != null
+            ? UserActionReferentielType.fromCode(json['qualification']["code"] as String)
+            : null,
+      );
+    } catch (e) {
+      throw Exception("Failed to parse UserAction: $e");
+    }
   }
 
   UserAction copyWith({

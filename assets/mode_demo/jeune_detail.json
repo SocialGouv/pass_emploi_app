@@ -4,6 +4,7 @@
   "lastName": "Sevier",
   "email": "mode@demo.com",
   "creationDate": "Mon, 19 Jul 2021 13:10:00 +0000",
+  "dateCreation": "2021-07-19T13:10:00.000Z",
   "isActivated": true,
   "conseiller": {
     "id": "ID_CONSEILLER",
