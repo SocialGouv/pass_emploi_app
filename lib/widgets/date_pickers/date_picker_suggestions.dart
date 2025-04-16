@@ -10,6 +10,7 @@ class DatePickerSuggestions extends StatelessWidget {
   final String title;
   final DateInputSource dateSource;
   final bool isForPastSuggestions;
+  final DateTime? firstDate;
   final void Function(DateInputSource) onDateChanged;
 
   const DatePickerSuggestions({
@@ -17,6 +18,7 @@ class DatePickerSuggestions extends StatelessWidget {
     required this.title,
     required this.onDateChanged,
     required this.dateSource,
+    this.firstDate,
     this.isForPastSuggestions = false,
   });
 
@@ -31,6 +33,7 @@ class DatePickerSuggestions extends StatelessWidget {
         DatePicker(
           onDateSelected: (date) => onDateChanged(DateFromPicker(date)),
           onDateDeleted: () => onDateChanged(DateNotInitialized()),
+          firstDate: firstDate,
           initialDateValue: switch (dateSource) {
             DateNotInitialized _ => null,
             final DateFromSuggestion dateSource => dateSource.date,
@@ -41,6 +44,7 @@ class DatePickerSuggestions extends StatelessWidget {
         ),
         const SizedBox(height: Margins.spacing_s),
         _DateSuggestions(
+          firstDate: firstDate,
           dateSource: dateSource,
           onSelected: onDateChanged,
           isForPastSuggestions: isForPastSuggestions,
@@ -55,16 +59,18 @@ class _DateSuggestions extends StatelessWidget {
     required this.onSelected,
     required this.dateSource,
     required this.isForPastSuggestions,
+    this.firstDate,
   });
 
   final void Function(DateInputSource) onSelected;
   final DateInputSource dateSource;
   final bool isForPastSuggestions;
+  final DateTime? firstDate;
 
   @override
   Widget build(BuildContext context) {
     final dateSuggestionsViewModel = isForPastSuggestions
-        ? DateSuggestionListViewModel.createPast(DateTime.now())
+        ? DateSuggestionListViewModel.createPast(DateTime.now(), firstDate)
         : DateSuggestionListViewModel.createFuture(DateTime.now());
     return Wrap(
       spacing: Margins.spacing_s,

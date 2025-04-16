@@ -20,6 +20,7 @@ class Demarche extends Equatable {
   final DemarcheStatus status;
   final List<DemarcheStatus> possibleStatus;
   final DateTime? endDate;
+  final DateTime? beginDate;
   final DateTime? deletionDate;
   final DateTime? modificationDate;
   final DateTime? creationDate;
@@ -34,6 +35,7 @@ class Demarche extends Equatable {
     required this.status,
     required this.possibleStatus,
     required this.endDate,
+    this.beginDate,
     required this.deletionDate,
     required this.modificationDate,
     required this.createdByAdvisor,
@@ -52,6 +54,7 @@ class Demarche extends Equatable {
       status: status,
       possibleStatus: possibleStatus,
       endDate: endDate,
+      beginDate: beginDate,
       deletionDate: deletionDate,
       modificationDate: modificationDate,
       createdByAdvisor: createdByAdvisor,
@@ -76,6 +79,7 @@ class Demarche extends Equatable {
           .map((e) => _statusFromString(statusString: e))
           .toList(),
       endDate: (json['dateFin'] as String?)?.toDateTimeUtcOnLocalTimeZone(),
+      beginDate: (json['dateDebut'] as String?)?.toDateTimeUtcOnLocalTimeZone(),
       modificationDate: (json['dateModification'] as String?)?.toDateTimeUtcOnLocalTimeZone(),
       deletionDate: (json['dateAnnulation'] as String?)?.toDateTimeUtcOnLocalTimeZone(),
       createdByAdvisor: json['creeeParConseiller'] as bool,
@@ -95,6 +99,7 @@ class Demarche extends Equatable {
         status,
         possibleStatus,
         endDate,
+        beginDate,
         deletionDate,
         modificationDate,
         createdByAdvisor,
@@ -161,6 +166,7 @@ extension DemarcheExt on Demarche {
         status: status,
         possibleStatus: possibleStatus,
         endDate: endDate,
+        beginDate: beginDate,
         deletionDate: deletionDate,
         modificationDate: modificationDate,
         createdByAdvisor: createdByAdvisor,

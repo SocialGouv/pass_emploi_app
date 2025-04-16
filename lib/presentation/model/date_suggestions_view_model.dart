@@ -24,18 +24,21 @@ class DateSuggestionListViewModel {
     ]);
   }
 
-  factory DateSuggestionListViewModel.createPast(DateTime now) {
+  factory DateSuggestionListViewModel.createPast(DateTime now, DateTime? firstDate) {
+    final yesterday = now.add(Duration(days: -1));
     return DateSuggestionListViewModel(suggestions: [
-      DateSuggestionViewModel(
-        "${Strings.dateSuggestionAujourdhui} (${now.toDayOfWeek()})",
-        "${Strings.dateSuggestionAujourdhui} (${now.toDayWithFullMonth()})",
-        now,
-      ),
-      DateSuggestionViewModel(
-        "${Strings.dateSuggestionHier} (${now.add(Duration(days: -1)).toDayOfWeek()})",
-        "${Strings.dateSuggestionHier} (${now.add(Duration(days: -1)).toDayWithFullMonth()})",
-        now.add(Duration(days: -1)),
-      ),
+      if (firstDate != null && now.isAfter(firstDate))
+        DateSuggestionViewModel(
+          "${Strings.dateSuggestionAujourdhui} (${now.toDayOfWeek()})",
+          "${Strings.dateSuggestionAujourdhui} (${now.toDayWithFullMonth()})",
+          now,
+        ),
+      if (firstDate != null && yesterday.isAfter(firstDate))
+        DateSuggestionViewModel(
+          "${Strings.dateSuggestionHier} (${yesterday.toDayOfWeek()})",
+          "${Strings.dateSuggestionHier} (${yesterday.toDayWithFullMonth()})",
+          yesterday,
+        ),
     ]);
   }
 

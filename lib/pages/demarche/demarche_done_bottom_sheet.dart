@@ -96,6 +96,7 @@ class _FormState extends State<_Form> {
         const SizedBox(height: Margins.spacing_base),
         DatePickerSuggestions(
           title: Strings.dateShortMandatory,
+          firstDate: widget.viewModel.firstDate,
           isForPastSuggestions: true,
           onDateChanged: (selectedDate) {
             setState(() {
