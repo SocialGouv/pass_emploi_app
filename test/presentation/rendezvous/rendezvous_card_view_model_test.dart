@@ -66,7 +66,8 @@ void main() {
       final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.monSuivi, '1');
 
       // Then
-      expect(viewModel.dateTime, RendezVousDateTimeHour("10h20"));
+      expect(viewModel.date, "01 mars 2022");
+      expect(viewModel.hourAndDuration, "10h20");
     });
 
     group("place", () {
@@ -179,7 +180,8 @@ void main() {
         RendezvousCardViewModel(
           id: '1',
           tag: 'Atelier',
-          dateTime: RendezVousDateTimeHour("10h20"),
+          date: "23 décembre 2021",
+          hourAndDuration: "10h20 - 11h20",
           inscriptionStatus: InscriptionStatus.hidden,
           isAnnule: false,
           title: 'Super bio',
@@ -316,7 +318,8 @@ void main() {
         );
 
         // Then
-        expect(viewModel.dateTime, RendezVousDateTimeDate("23 décembre 2021, 10h20 - 11h20"));
+        expect(viewModel.date, "23 décembre 2021");
+        expect(viewModel.hourAndDuration, "10h20 - 11h20");
       });
 
       test('should return a hour when source is from mon suivi', () {
@@ -334,7 +337,8 @@ void main() {
         final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.monSuivi, '1');
 
         // Then
-        expect(viewModel.dateTime, RendezVousDateTimeHour("10h20"));
+        expect(viewModel.date, "23 décembre 2021");
+        expect(viewModel.hourAndDuration, "10h20 - 11h20");
       });
     });
 
