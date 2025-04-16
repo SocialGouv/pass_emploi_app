@@ -758,7 +758,7 @@ class Strings {
   static const String caracteres255 = "255 caractères maximum";
   static const String quand = "Quand";
   static const String selectEcheance = "Sélectionner une date d'échéance";
-  static const String addADemarche = "Ajouter une démarche";
+  static const String addADemarche = "Créer une démarche";
   static const String createDemarcheTitle = "Création d'une démarche";
   static const String createDemarcheStep2EmptyTitle = "Aucune démarche ne correspond à votre recherche";
 
