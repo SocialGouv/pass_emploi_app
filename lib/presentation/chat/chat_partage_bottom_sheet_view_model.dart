@@ -161,7 +161,7 @@ class ChatPartageBottomSheetViewModel extends Equatable {
       willShareTitle: Strings.souhaitDePartagerEvenementEmploi,
       defaultMessage: Strings.partageEvenementEmploiDefaultMessage,
       information: Strings.infoEvenementEmploiPartageChat,
-      shareButtonTitle: Strings.partagerEvenementEmploiAuConseiller,
+      shareButtonTitle: Strings.partagerAuConseiller,
       shareableTitle: evenementEmploiDetailsState.details.titre ?? "",
       onShare: (message) => _partagerEvenementEmploi(store, evenementEmploiDetailsState.details, message),
       snackbarState: _snackbarState(store),

@@ -414,7 +414,7 @@ class Strings {
   static String conseillerIsPresent = "Votre conseiller sera présent";
   static String conseillerIsNotPresent = "Votre conseiller ne sera pas présent";
   static String commentWithoutConseiller = "Description";
-  static String rendezVousCommentaire = "Commentaire";
+  static String rendezVousDetails = "Détails";
   static String seeItinerary = 'Voir l\'itinéraire';
   static String seeVisio = 'Accéder à la visio';
   static String rendezvousVisioModalityMessage =

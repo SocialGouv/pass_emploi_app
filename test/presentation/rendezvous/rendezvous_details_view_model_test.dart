@@ -1092,7 +1092,7 @@ void main() {
             withIfAbsentPart: true,
             visioButtonState: VisioButtonState.HIDDEN,
             onRetry: () => {},
-            commentTitle: 'Commentaire',
+            commentTitle: 'Détails',
             title: 'ANIMATION COLLECTIVE POUR TEST - SESSION TEST',
             trackingPageName: "session_milo/detail",
             comment: 'Lorem ipsus',

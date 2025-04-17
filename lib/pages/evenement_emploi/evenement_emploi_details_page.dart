@@ -48,11 +48,27 @@ class EvenementEmploiDetailsPage extends StatelessWidget {
       child: StoreConnector<AppState, EvenementEmploiDetailsPageViewModel>(
         onInit: (store) => store.dispatch(EvenementEmploiDetailsRequestAction(eventId)),
         converter: (store) => EvenementEmploiDetailsPageViewModel.create(store),
-        builder: (context, vm) {
+        builder: (context, viewModel) {
           return Scaffold(
             backgroundColor: backgroundColor,
-            appBar: SecondaryAppBar(title: Strings.eventEmploiDetailsAppBarTitle, backgroundColor: backgroundColor),
-            body: _Body(viewModel: vm, eventId: eventId),
+            floatingActionButton: _FooterButtons(viewModel: viewModel),
+            floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+            appBar: SecondaryAppBar(
+              title: Strings.eventEmploiDetailsAppBarTitle,
+              backgroundColor: backgroundColor,
+              actions: [
+                if (viewModel.url != null) ...[
+                  SizedBox(width: Margins.spacing_base),
+                  ShareButton(
+                    textToShare: viewModel.url!,
+                    semanticsLabel: viewModel.titre,
+                    subjectForEmail: Strings.a11yPartagerEvenementLabel,
+                    onPressed: () => context.trackEvenementEngagement(EvenementEngagement.EVENEMENT_EXTERNE_PARTAGE),
+                  ),
+                ],
+              ],
+            ),
+            body: _Body(viewModel: viewModel, eventId: eventId),
           );
         },
       ),
@@ -99,12 +115,24 @@ class _Content extends StatelessWidget {
                 _Details(description: viewModel.description!),
                 SepLine(Margins.spacing_base, Margins.spacing_base),
               ],
-              _FooterButtons(viewModel: viewModel),
+              SizedBox(
+                width: double.infinity,
+                child: SecondaryButton(
+                  label: Strings.eventEmploiDetailsPartagerConseiller,
+                  onPressed: () => partagerConseiller(context),
+                ),
+              ),
+              SizedBox(height: Margins.spacing_huge),
             ],
           ),
         ),
       ),
     );
+  }
+
+  void partagerConseiller(BuildContext context) {
+    context.trackEvenementEngagement(EvenementEngagement.EVENEMENT_EXTERNE_PARTAGE_CONSEILLER);
+    ChatPartageBottomSheet.show(context, ChatPartageEvenementEmploiSource());
   }
 }
 
@@ -134,20 +162,8 @@ class _Header extends StatelessWidget {
         SizedBox(height: Margins.spacing_base),
         CardComplement.place(text: viewModel.lieu),
         SizedBox(height: Margins.spacing_base),
-        SizedBox(
-          width: double.infinity,
-          child: SecondaryButton(
-            label: Strings.eventEmploiDetailsPartagerConseiller,
-            onPressed: () => partagerConseiller(context),
-          ),
-        ),
       ],
     );
-  }
-
-  void partagerConseiller(BuildContext context) {
-    context.trackEvenementEngagement(EvenementEngagement.EVENEMENT_EXTERNE_PARTAGE_CONSEILLER);
-    ChatPartageBottomSheet.show(context, ChatPartageEvenementEmploiSource());
   }
 }
 
@@ -182,29 +198,21 @@ class _FooterButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        if (viewModel.url != null)
-          Expanded(
-            child: PrimaryActionButton(
-              icon: AppIcons.open_in_new_rounded,
-              semanticsRoleLink: true,
-              iconSize: Dimens.icon_size_base,
-              label: Strings.eventEmploiDetailsInscription,
-              onPressed: () => _openInscriptionUrl(context),
+    return viewModel.url != null
+        ? SizedBox(
+            width: double.infinity,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+              child: PrimaryActionButton(
+                icon: AppIcons.open_in_new_rounded,
+                semanticsRoleLink: true,
+                iconSize: Dimens.icon_size_base,
+                label: Strings.eventEmploiDetailsInscription,
+                onPressed: () => _openInscriptionUrl(context),
+              ),
             ),
-          ),
-        if (viewModel.url != null) ...[
-          SizedBox(width: Margins.spacing_base),
-          ShareButton(
-            textToShare: viewModel.url!,
-            semanticsLabel: viewModel.titre,
-            subjectForEmail: Strings.a11yPartagerEvenementLabel,
-            onPressed: () => context.trackEvenementEngagement(EvenementEngagement.EVENEMENT_EXTERNE_PARTAGE),
-          ),
-        ],
-      ],
-    );
+          )
+        : SizedBox.shrink();
   }
 
   void _openInscriptionUrl(BuildContext context) {

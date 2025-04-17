@@ -19,8 +19,8 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
+import 'package:pass_emploi_app/widgets/buttons/lien_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
-import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_complement.dart';
 import 'package:pass_emploi_app/widgets/cards/base_cards/widgets/card_tag.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -190,6 +190,7 @@ class _Header extends StatelessWidget {
             CardComplement.hour(text: viewModel.hourAndDuration),
             if (viewModel.nombreDePlacesRestantes != null)
               CardComplement.person(text: viewModel.nombreDePlacesRestantes!),
+            if (viewModel.address != null) CardComplement.place(text: viewModel.address!),
           ],
         ),
       ],
@@ -210,7 +211,6 @@ class _Modality extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SepLine(Margins.spacing_m, Margins.spacing_m),
           if (viewModel.modality != null)
             Padding(
               padding: const EdgeInsets.only(bottom: Margins.spacing_xs),
@@ -259,23 +259,15 @@ class _Modality extends StatelessWidget {
             ),
           if (viewModel.organism != null)
             Padding(
-              padding: const EdgeInsets.only(top: Margins.spacing_m),
+              padding: const EdgeInsets.only(top: Margins.spacing_base),
               child: Text(viewModel.organism!, style: TextStyles.textMBold),
-            ),
-          if (viewModel.address != null)
-            Padding(
-              padding: const EdgeInsets.only(top: Margins.spacing_xs),
-              child: CardComplement.place(text: viewModel.address!),
             ),
           if (viewModel.addressRedirectUri != null)
             Padding(
-              padding: const EdgeInsets.only(top: Margins.spacing_m),
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(minWidth: double.infinity),
-                child: SecondaryButton(
-                  label: Strings.seeItinerary,
-                  onPressed: () => launchExternalUrl(viewModel.addressRedirectUri!.toString()),
-                ),
+              padding: const EdgeInsets.only(top: Margins.spacing_base),
+              child: LienButton(
+                label: Strings.seeItinerary,
+                onPressed: () => launchExternalUrl(viewModel.addressRedirectUri!.toString()),
               ),
             ),
           if (viewModel.phone != null)
