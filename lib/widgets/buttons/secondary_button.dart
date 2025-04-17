@@ -41,7 +41,9 @@ class _SecondaryButtonState extends State<SecondaryButton> {
         onPressed: widget.onPressed,
         onHover: (hover) => setState(() => isHovered = hover),
         style: OutlinedButton.styleFrom(
-          shape: StadiumBorder(),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(Dimens.radius_base),
+          ),
           backgroundColor: Color.alphaBlend(
             isHovered ? textColor.withOpacity(0.2) : Colors.transparent,
             widget.backgroundColor,

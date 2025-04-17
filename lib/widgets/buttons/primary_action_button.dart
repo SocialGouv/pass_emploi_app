@@ -69,7 +69,7 @@ class PrimaryActionButton extends StatelessWidget {
           }),
           alignment: Alignment.center,
           shape: WidgetStateProperty.all(
-            RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(200))),
+            RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(Dimens.radius_base))),
           ),
           overlayColor: WidgetStateProperty.all(rippleColor),
         ),

@@ -14,7 +14,8 @@ enum InscriptionStatus { inscrit, notInscrit, autoinscription, hidden, full }
 class RendezvousCardViewModel extends Equatable {
   final String id;
   final String tag;
-  final RendezVousDateTime dateTime;
+  final String date;
+  final String hourAndDuration;
   final InscriptionStatus inscriptionStatus;
   final bool isAnnule;
   final String title;
@@ -26,7 +27,8 @@ class RendezvousCardViewModel extends Equatable {
   RendezvousCardViewModel({
     required this.id,
     required this.tag,
-    required this.dateTime,
+    required this.date,
+    required this.hourAndDuration,
     required this.inscriptionStatus,
     required this.isAnnule,
     required this.title,
@@ -41,7 +43,8 @@ class RendezvousCardViewModel extends Equatable {
     return RendezvousCardViewModel(
       id: rdv.id,
       tag: rdv.type.label,
-      dateTime: _dateTime(rdv, source),
+      date: rdv.date.toDayWithFullMonthContextualized(),
+      hourAndDuration: _hours(rdv),
       inscriptionStatus: _inscription(rdv, source),
       isAnnule: rdv.isAnnule,
       title: rdv.title ?? '',
@@ -57,7 +60,8 @@ class RendezvousCardViewModel extends Equatable {
     return [
       id,
       tag,
-      dateTime,
+      date,
+      hourAndDuration,
       inscriptionStatus,
       isAnnule,
       title,
@@ -66,18 +70,6 @@ class RendezvousCardViewModel extends Equatable {
       nombreDePlacesRestantes,
     ];
   }
-}
-
-RendezVousDateTime _dateTime(Rendezvous rdv, RendezvousStateSource source) {
-  if (source.isFromEvenements) {
-    final date = rdv.date.toDayWithFullMonthContextualized();
-    final heureDebut = rdv.date.toHourWithHSeparator();
-    final heureFin =
-        rdv.duration != null ? rdv.date.add(Duration(minutes: rdv.duration!)).toHourWithHSeparator() : null;
-    final period = "$heureDebut${heureFin != null ? " - $heureFin" : ""}";
-    return RendezVousDateTimeDate("$date, $period");
-  }
-  return RendezVousDateTimeHour(rdv.date.toHourWithHSeparator());
 }
 
 InscriptionStatus _inscription(Rendezvous rdv, RendezvousStateSource source) {
@@ -90,6 +82,15 @@ InscriptionStatus _inscription(Rendezvous rdv, RendezvousStateSource source) {
   if (rdv.autoInscriptionAvailable) return InscriptionStatus.autoinscription;
 
   return InscriptionStatus.notInscrit;
+}
+
+String _hours(Rendezvous rdv) {
+  final heureDebut = rdv.date.toHourWithHSeparator();
+  final heureFin = rdv.duration != null && rdv.duration != 0
+      ? rdv.date.add(Duration(minutes: rdv.duration!)).toHourWithHSeparator()
+      : null;
+  final period = "$heureDebut${heureFin != null ? " - $heureFin" : ""}";
+  return period;
 }
 
 String? _place(Rendezvous rdv) {
@@ -115,24 +116,4 @@ String? _assetImage(Rendezvous rdv, RendezvousStateSource source) {
   ].contains(source);
   if (!showImage) return null;
   return SessionMilo.themeIllustrationPath(rdv.theme);
-}
-
-sealed class RendezVousDateTime extends Equatable {}
-
-class RendezVousDateTimeHour extends RendezVousDateTime {
-  final String hour;
-
-  RendezVousDateTimeHour(this.hour);
-
-  @override
-  List<Object?> get props => [hour];
-}
-
-class RendezVousDateTimeDate extends RendezVousDateTime {
-  final String dateTime;
-
-  RendezVousDateTimeDate(this.dateTime);
-
-  @override
-  List<Object?> get props => [dateTime];
 }

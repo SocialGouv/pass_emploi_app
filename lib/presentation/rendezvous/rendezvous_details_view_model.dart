@@ -296,7 +296,7 @@ String _hours(Rendezvous rdv) {
 
 String? _commentTitle(RendezvousStateSource source, Rendezvous rdv, String? comment) {
   if (source.isFromEvenementMiloDetails) {
-    return Strings.rendezVousCommentaire;
+    return Strings.rendezVousDetails;
   }
   if (comment != null && rdv.conseiller == null) {
     return Strings.commentWithoutConseiller;

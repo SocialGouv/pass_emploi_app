@@ -414,7 +414,7 @@ class Strings {
   static String conseillerIsPresent = "Votre conseiller sera présent";
   static String conseillerIsNotPresent = "Votre conseiller ne sera pas présent";
   static String commentWithoutConseiller = "Description";
-  static String rendezVousCommentaire = "Commentaire";
+  static String rendezVousDetails = "Détails";
   static String seeItinerary = 'Voir l\'itinéraire';
   static String seeVisio = 'Accéder à la visio';
   static String rendezvousVisioModalityMessage =
@@ -758,7 +758,7 @@ class Strings {
   static const String caracteres255 = "255 caractères maximum";
   static const String quand = "Quand";
   static const String selectEcheance = "Sélectionner une date d'échéance";
-  static const String addADemarche = "Ajouter une démarche";
+  static const String addADemarche = "Créer une démarche";
   static const String createDemarcheTitle = "Création d'une démarche";
   static const String createDemarcheStep2EmptyTitle = "Aucune démarche ne correspond à votre recherche";
 

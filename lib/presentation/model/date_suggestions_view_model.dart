@@ -26,14 +26,19 @@ class DateSuggestionListViewModel {
 
   factory DateSuggestionListViewModel.createPast(DateTime now, DateTime? firstDate) {
     final yesterday = now.add(Duration(days: -1));
+
+    bool isValid(DateTime date) {
+      return firstDate == null || !date.isBefore(firstDate);
+    }
+
     return DateSuggestionListViewModel(suggestions: [
-      if (firstDate != null && now.isAfter(firstDate))
+      if (isValid(now))
         DateSuggestionViewModel(
           "${Strings.dateSuggestionAujourdhui} (${now.toDayOfWeek()})",
           "${Strings.dateSuggestionAujourdhui} (${now.toDayWithFullMonth()})",
           now,
         ),
-      if (firstDate != null && yesterday.isAfter(firstDate))
+      if (isValid(yesterday))
         DateSuggestionViewModel(
           "${Strings.dateSuggestionHier} (${yesterday.toDayOfWeek()})",
           "${Strings.dateSuggestionHier} (${yesterday.toDayWithFullMonth()})",
