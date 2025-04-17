@@ -54,7 +54,8 @@ class CreateDemarcheFormViewModel extends ChangeNotifier {
       CreateDemarche2PersonnaliseeStep2() => CreateDemarche2Step1(),
       CreateDemarche2FromThematiqueStep3() => CreateDemarche2FromThematiqueStep2(),
       CreateDemarche2PersonnaliseeStep3() => CreateDemarche2PersonnaliseeStep2(),
-      CreateDemarche2FromThematiqueSubmitted() || CreateDemarche2PersonnaliseeSubmitted() => displayState,
+      CreateDemarche2FromThematiqueSubmitted() => CreateDemarche2FromThematiqueStep2(),
+      CreateDemarche2PersonnaliseeSubmitted() => CreateDemarche2PersonnaliseeStep2(),
     };
     notifyListeners();
   }

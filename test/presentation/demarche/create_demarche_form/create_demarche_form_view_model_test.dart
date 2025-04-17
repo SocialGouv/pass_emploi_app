@@ -82,7 +82,7 @@ void main() {
           expect(hasBeenNotified, true);
         });
 
-        test('should stay on submitted state when current step is submitted', () {
+        test('should go back on step 2 state when current step is submitted', () {
           // Given
           final viewModel = CreateDemarcheFormViewModel(displayState: CreateDemarche2FromThematiqueSubmitted())
             ..addListener(notify);
@@ -91,7 +91,7 @@ void main() {
           viewModel.onNavigateBackward();
 
           // Then
-          expect(viewModel.displayState, isA<CreateDemarche2FromThematiqueSubmitted>());
+          expect(viewModel.displayState, isA<CreateDemarche2FromThematiqueStep2>());
           expect(hasBeenNotified, true);
         });
       });

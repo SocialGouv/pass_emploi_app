@@ -15,8 +15,11 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_stepper.dart';
 
 class CreateDemarche2Form extends StatefulWidget {
-  const CreateDemarche2Form(
-      {super.key, required this.onCreateDemarchePersonnalisee, required this.onCreateDemarcheFromReferentiel});
+  const CreateDemarche2Form({
+    super.key,
+    required this.onCreateDemarchePersonnalisee,
+    required this.onCreateDemarcheFromReferentiel,
+  });
 
   final void Function(CreateDemarchePersonnaliseeRequestAction) onCreateDemarchePersonnalisee;
   final void Function(CreateDemarcheRequestAction) onCreateDemarcheFromReferentiel;
