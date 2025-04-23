@@ -12,6 +12,8 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/accessibility_utils.dart';
 import 'package:pass_emploi_app/widgets/a11y/auto_focus.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/postuler_offre_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/tertiary_icon_button.dart';
 import 'package:pass_emploi_app/widgets/profile_button.dart';
 
@@ -180,6 +182,15 @@ class PrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       centerTitle: false,
       actions: [
+        IconButton(
+          onPressed: () => showPassEmploiBottomSheet(
+            context: context,
+            builder: (context) => PostulerOffreBottomSheet(
+              onPostuler: () {},
+            ),
+          ),
+          icon: Icon(AppIcons.notifications_outlined, color: iconColor),
+        ),
         if (actionButton != null) ...[
           actionButton!,
           SizedBox(width: Margins.spacing_base),
@@ -187,7 +198,7 @@ class PrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
         if (withProfileButton) ...[
           ProfileButton(isDarkColor: Brand.isCej()),
           SizedBox(width: Margins.spacing_base),
-        ]
+        ],
       ],
     );
   }
