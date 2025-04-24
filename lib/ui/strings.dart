@@ -196,9 +196,7 @@ class Strings {
 
   // Entree
   static String welcome = "Bienvenue";
-  static String welcomeMessage = Brand.isCej()
-      ? "sur l’application dédiée aux bénéficiaires du Contrat d'Engagement Jeune (CEJ)."
-      : "sur l'application dédiée à votre accompagnement.";
+  static String welcomeMessage = "L’application dédiée à votre accompagnement";
   static String noAccount = "Pas de compte ?";
   static String askAccount = "Demander un compte";
   static String suiviParConseillerCej =
