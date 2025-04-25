@@ -6,9 +6,8 @@ import 'package:redux/redux.dart';
 
 class RechercheHomePageViewModel extends Equatable {
   final List<OffreType> offreTypes;
-  final bool shouldShowOnboarding;
 
-  RechercheHomePageViewModel({required this.offreTypes, required this.shouldShowOnboarding});
+  RechercheHomePageViewModel({required this.offreTypes});
 
   factory RechercheHomePageViewModel.create(Store<AppState> store) {
     final accompagnement = store.state.accompagnement();
@@ -21,14 +20,9 @@ class RechercheHomePageViewModel extends Equatable {
         if ([Accompagnement.cej, Accompagnement.aij, Accompagnement.avenirPro].contains(accompagnement))
           OffreType.serviceCivique,
       ],
-      shouldShowOnboarding: _shouldShowOnboarding(store),
     );
   }
 
   @override
-  List<Object?> get props => [offreTypes, shouldShowOnboarding];
-}
-
-bool _shouldShowOnboarding(Store<AppState> store) {
-  return store.state.onboardingState.showRechercheOnboarding;
+  List<Object?> get props => [offreTypes];
 }

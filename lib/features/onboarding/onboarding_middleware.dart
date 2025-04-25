@@ -33,10 +33,5 @@ class OnboardingMiddleware extends MiddlewareClass<AppState> {
 Onboarding _updateOnboarding(OnboardingSaveAction action, Onboarding onboarding) {
   return switch (action) {
     OnboardingAccueilSaveAction() => onboarding.copyWith(showAccueilOnboarding: false),
-    OnboardingMonSuiviSaveAction() => onboarding.copyWith(showMonSuiviOnboarding: false),
-    OnboardingChatSaveAction() => onboarding.copyWith(showChatOnboarding: false),
-    OnboardingRechercheSaveAction() => onboarding.copyWith(showRechercheOnboarding: false),
-    OnboardingEvenementsSaveAction() => onboarding.copyWith(showEvenementsOnboarding: false),
-    OnboardingOffreEnregistreeSaveAction() => onboarding.copyWith(showOffreEnregistreeOnboarding: false),
   };
 }

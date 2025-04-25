@@ -3,7 +3,6 @@ import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_actions.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_state.dart';
 import 'package:pass_emploi_app/models/chat/sender.dart';
-import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/presentation/chat/cvm_chat_item.dart';
 import 'package:pass_emploi_app/presentation/chat/cvm_chat_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -127,29 +126,5 @@ void main() {
     // Then
     expect(store.dispatchedAction, isA<CvmSendMessageAction>());
     expect((store.dispatchedAction as CvmSendMessageAction).message, 'message');
-  });
-
-  group('onboarding', () {
-    test('should display onboarding', () {
-      // Given
-      final store = givenState().withOnboardingSuccessState(Onboarding(showChatOnboarding: true)).store();
-
-      // When
-      final viewModel = CvmChatPageViewModel.create(store);
-
-      // Then
-      expect(viewModel.shouldShowOnboarding, isTrue);
-    });
-
-    test('should not display onboarding', () {
-      // Given
-      final store = givenState().withOnboardingSuccessState(Onboarding(showChatOnboarding: false)).store();
-
-      // When
-      final viewModel = CvmChatPageViewModel.create(store);
-
-      // Then
-      expect(viewModel.shouldShowOnboarding, isFalse);
-    });
   });
 }
