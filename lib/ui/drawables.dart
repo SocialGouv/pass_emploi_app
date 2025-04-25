@@ -38,4 +38,8 @@ class Drawables {
   static String sessionSanteIllustration = "session_sante_illustration.webp";
   static String sessionCitoyenneteIllustration = "session_citoyennete_illustration.webp";
   static String sessionLoisirIllustration = "session_loisir_illustration.webp";
+
+  static String welcomeIllustration1 = "${_assets}onboarding/welcome_illustration_1.webp";
+  static String welcomeIllustration2 = "${_assets}onboarding/welcome_illustration_2.webp";
+  static String welcomeIllustration3 = "${_assets}onboarding/welcome_illustration_3.webp";
 }
