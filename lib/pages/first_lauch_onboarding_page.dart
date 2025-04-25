@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/features/first_launch_onboarding/first_launch_on
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/app_icons.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/media_sizes.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -51,6 +51,7 @@ class _FirstScreen extends StatelessWidget {
             alignment: Alignment.center,
             child: _Welcome(firstScreen: true),
           ),
+          SizedBox(height: Margins.spacing_m),
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
@@ -79,54 +80,42 @@ class _PageViewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final shrink = MediaQuery.of(context).size.height < MediaSizes.height_s;
     return Scaffold(
       body: Stack(
         children: [
           BiseauBackground(),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.max,
+          Positioned(
+            top: MediaQuery.of(context).padding.top,
+            left: 0,
+            right: 0,
+            child: AppLogo(width: 120),
+          ),
+          PageView(
+            controller: _pageController,
+            onPageChanged: (value) {
+              if (value == 1) {
+                page2Key.requestFocusDelayed(duration: AnimationDurations.verySlow);
+              } else if (value == 2) {
+                page3Key.requestFocusDelayed(duration: AnimationDurations.verySlow);
+              }
+            },
             children: [
-              Expanded(
-                flex: shrink ? 0 : 13,
-                child: SizedBox.shrink(),
+              _FirstPageContent(onContinue: () => _pageController.next()),
+              _SecondPageContent(
+                onContinue: () => _pageController.next(),
+                globalKey: page2Key,
               ),
-              Expanded(
-                flex: shrink ? 15 : 37,
-                child: Center(child: _Welcome(firstScreen: false)),
-              ),
-              Expanded(
-                flex: 40,
-                child: PageView(
-                  controller: _pageController,
-                  onPageChanged: (value) {
-                    if (value == 1) {
-                      page2Key.requestFocusDelayed(duration: AnimationDurations.verySlow);
-                    } else if (value == 2) {
-                      page3Key.requestFocusDelayed(duration: AnimationDurations.verySlow);
-                    }
-                  },
-                  children: [
-                    _FirstPageContent(onContinue: () => _pageController.next()),
-                    _SecondPageContent(
-                      onContinue: () => _pageController.next(),
-                      globalKey: page2Key,
-                    ),
-                    _ThirdPageContent(
-                      onContinue: () => context.dispatch(FirstLaunchOnboardingFinishAction()),
-                      globalKey: page3Key,
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                flex: shrink ? 5 : 10,
-                child: Center(
-                  child: _CarouselStepperIndicator(_pageController),
-                ),
+              _ThirdPageContent(
+                onContinue: () => context.dispatch(FirstLaunchOnboardingFinishAction()),
+                globalKey: page3Key,
               ),
             ],
+          ),
+          Positioned(
+            bottom: MediaQuery.of(context).padding.bottom,
+            left: 0,
+            right: 0,
+            child: _CarouselStepperIndicator(_pageController),
           ),
         ],
       ),
@@ -164,8 +153,7 @@ class _FirstPageContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return _PageContent(
       title: Strings.firstLaunchOnboardingCardTitle1,
-      subtitle: Strings.firstLaunchOnboardingCardContent1,
-      icon: AppIcons.people_outline_rounded,
+      illustrationPath: Drawables.welcomeIllustration1,
       onContinue: onContinue,
       autoFocus: true,
     );
@@ -182,8 +170,7 @@ class _SecondPageContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return _PageContent(
       title: Strings.firstLaunchOnboardingCardTitle2,
-      subtitle: Strings.firstLaunchOnboardingCardContent2,
-      icon: AppIcons.chat_outlined,
+      illustrationPath: Drawables.welcomeIllustration2,
       onContinue: onContinue,
       autoFocus: false,
       globalKey: globalKey,
@@ -201,8 +188,7 @@ class _ThirdPageContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return _PageContent(
       title: Strings.firstLaunchOnboardingCardTitle3,
-      subtitle: Strings.firstLaunchOnboardingCardContent3,
-      icon: AppIcons.lock_rounded,
+      illustrationPath: Drawables.welcomeIllustration3,
       onContinue: onContinue,
       autoFocus: false,
       globalKey: globalKey,
@@ -213,16 +199,14 @@ class _ThirdPageContent extends StatelessWidget {
 class _PageContent extends StatelessWidget {
   const _PageContent({
     required this.title,
-    required this.subtitle,
-    required this.icon,
+    required this.illustrationPath,
     required this.onContinue,
     required this.autoFocus,
     this.globalKey,
   });
 
   final String title;
-  final String subtitle;
-  final IconData icon;
+  final String illustrationPath;
   final VoidCallback onContinue;
   final bool autoFocus;
   final GlobalKey? globalKey;
@@ -230,42 +214,43 @@ class _PageContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = Brand.isCej() ? AppColors.primary : AppColors.primaryDarkenStrong;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-      child: CardContainer(
-        padding: const EdgeInsets.all(Margins.spacing_m),
-        child: CustomScrollView(
-          slivers: [
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Icon(icon, color: color, size: 32),
+    return Center(
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
+          child: CardContainer(
+            padding: const EdgeInsets.all(Margins.spacing_m),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Center(
+                  child: Image.asset(
+                    illustrationPath,
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    fit: BoxFit.fitHeight,
                   ),
-                  SizedBox(height: Margins.spacing_s),
-                  Builder(builder: (context) {
+                ),
+                SizedBox(height: Margins.spacing_m),
+                Builder(
+                  builder: (context) {
                     final text = Text(key: globalKey, title, style: TextStyles.textBaseBold);
                     if (autoFocus) {
                       return AutoFocusA11y(child: text);
                     }
                     return text;
-                  }),
-                  SizedBox(height: Margins.spacing_s),
-                  Text(subtitle, style: TextStyles.textSRegular()),
-                  Expanded(child: SizedBox.shrink()),
-                  PrimaryActionButton(
-                    label: Strings.continueLabel,
-                    backgroundColor: color,
-                    onPressed: onContinue,
-                  ),
-                  SizedBox(height: Margins.spacing_s),
-                ],
-              ),
-            )
-          ],
+                  },
+                ),
+                SizedBox(height: Margins.spacing_m),
+                PrimaryActionButton(
+                  label: Strings.continueLabel,
+                  backgroundColor: color,
+                  onPressed: onContinue,
+                ),
+                SizedBox(height: Margins.spacing_s),
+              ],
+            ),
+          ),
         ),
       ),
     );

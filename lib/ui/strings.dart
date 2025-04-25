@@ -160,39 +160,10 @@ class Strings {
   // First Launch Onboarding
   static String start = "Démarrer";
 
-  static String firstLaunchOnboardingCardTitle1 =
-      Brand.isCej() ? firstLaunchOnboardingCardTitle1Cej : firstLaunchOnboardingCardTitle1PassEmploi;
-  static String firstLaunchOnboardingCardContent1 =
-      Brand.isCej() ? firstLaunchOnboardingCardContent1Cej : firstLaunchOnboardingCardContent1PassEmploi;
-  static String firstLaunchOnboardingCardTitle2 =
-      Brand.isCej() ? firstLaunchOnboardingCardTitle2Cej : firstLaunchOnboardingCardTitle2PassEmploi;
-  static String firstLaunchOnboardingCardContent2 =
-      Brand.isCej() ? firstLaunchOnboardingCardContent2Cej : firstLaunchOnboardingCardContent2PassEmploi;
+  static String firstLaunchOnboardingCardTitle1 = "Echangez à tout moment avec votre conseiller dédié";
+  static String firstLaunchOnboardingCardTitle2 = "Créez et suivez vos actions dans le cadre des 15h d’activité";
   static String firstLaunchOnboardingCardTitle3 =
-      Brand.isCej() ? firstLaunchOnboardingCardTitle3Cej : firstLaunchOnboardingCardTitle3PassEmploi;
-  static String firstLaunchOnboardingCardContent3 =
-      Brand.isCej() ? firstLaunchOnboardingCardContent3Cej : firstLaunchOnboardingCardContent3PassEmploi;
-
-  static String firstLaunchOnboardingCardTitle1Cej = "Le CEJ, un suivi personnalisé avec un conseiller dédié";
-  static String firstLaunchOnboardingCardContent1Cej =
-      'Vous suivez un programme de 15h à 20h par semaine, avec un conseiller dédié tout au long du parcours.';
-  static String firstLaunchOnboardingCardTitle2Cej = "Une application pour suivre vos actions et rester en contact";
-  static String firstLaunchOnboardingCardContent2Cej =
-      "Recherchez un emploi, suivez vos activités et gardez contact avec votre conseiller grâce à une messagerie instantanée.";
-  static String firstLaunchOnboardingCardTitle3Cej = "Des informations protégées";
-  static String firstLaunchOnboardingCardContent3Cej =
-      "Connectez-vous pour bénéficier de toutes les fonctionnalités de l’application et profitez d’un environnement sécurisé pour échanger avec votre conseiller. ";
-
-  static String firstLaunchOnboardingCardTitle1PassEmploi = "Un suivi personnalisé avec un conseiller dédié";
-  static String firstLaunchOnboardingCardContent1PassEmploi =
-      'Vous suivez un programme adapté, avec un conseiller dédié tout au long du parcours';
-  static String firstLaunchOnboardingCardTitle2PassEmploi =
-      "Une application pour suivre vos actions et rester en contact";
-  static String firstLaunchOnboardingCardContent2PassEmploi =
-      "Recherchez un emploi, suivez vos démarches et gardez contact avec votre conseiller grâce à une messagerie instantanée.";
-  static String firstLaunchOnboardingCardTitle3PassEmploi = "Des informations protégées";
-  static String firstLaunchOnboardingCardContent3PassEmploi =
-      "Connectez-vous pour bénéficier de toutes les fonctionnalités de l’application et profitez d’un environnement sécurisé pour échanger avec votre conseiller. ";
+      "Trouvez les offres et les événements en lien avec votre projet professionnel";
 
   // Entree
   static String welcome = "Bienvenue";
