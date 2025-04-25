@@ -10,14 +10,12 @@ class FavoriHeartViewModel<T> extends Equatable {
   final bool isFavori;
   final bool withError;
   final bool withLoading;
-  final bool withOnboarding;
   final Function(FavoriStatus newStatus) update;
 
   FavoriHeartViewModel._({
     required this.isFavori,
     required this.withError,
     required this.withLoading,
-    required this.withOnboarding,
     required this.update,
   });
 
@@ -26,13 +24,12 @@ class FavoriHeartViewModel<T> extends Equatable {
       isFavori: _isFavori(offreId, favorisState),
       withError: _withError(offreId, store.state.favoriUpdateState),
       withLoading: _withLoading(offreId, store.state.favoriUpdateState),
-      withOnboarding: _withOnboarding(store.state),
       update: (newStatus) => store.dispatch(FavoriUpdateRequestAction<T>(offreId, newStatus)),
     );
   }
 
   @override
-  List<Object?> get props => [isFavori, withError, withLoading, withOnboarding];
+  List<Object?> get props => [isFavori, withError, withLoading];
 }
 
 bool _isFavori<T>(String offreId, FavoriIdsState<T> favorisState) {
@@ -41,10 +38,6 @@ bool _isFavori<T>(String offreId, FavoriIdsState<T> favorisState) {
   } else {
     return false;
   }
-}
-
-bool _withOnboarding(AppState state) {
-  return state.onboardingState.showOffreEnregistreeOnboarding;
 }
 
 bool _withError(String offreId, FavoriUpdateState updateState) {

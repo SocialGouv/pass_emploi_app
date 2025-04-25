@@ -26,7 +26,6 @@ import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/a11y/auto_focus.dart';
 import 'package:pass_emploi_app/widgets/a11y/string_a11y_extensions.dart';
 import 'package:pass_emploi_app/widgets/animated_list_loader.dart';
-import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/demarche_card.dart';
@@ -45,8 +44,6 @@ class MonSuiviPage extends StatefulWidget {
 }
 
 class _MonSuiviPageState extends State<MonSuiviPage> {
-  bool _onboardingShown = false;
-
   @override
   Widget build(BuildContext context) {
     return AutoFocusA11y(
@@ -62,19 +59,11 @@ class _MonSuiviPageState extends State<MonSuiviPage> {
               ctaType: viewModel.ctaType,
             ),
             onDispose: (store) => store.dispatch(MonSuiviResetAction()),
-            onDidChange: (_, viewModel) => _handleOnboarding(context, viewModel),
             distinct: true,
           ),
         ),
       ),
     );
-  }
-
-  void _handleOnboarding(BuildContext context, MonSuiviViewModel viewModel) {
-    if (viewModel.shouldShowOnboarding && !_onboardingShown) {
-      _onboardingShown = true;
-      OnboardingBottomSheet.show(context, source: OnboardingSource.monSuivi);
-    }
   }
 }
 

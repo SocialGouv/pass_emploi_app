@@ -7,7 +7,6 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/a11y/auto_focus.dart';
-import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/connectivity_widgets.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_tab_bar.dart';
@@ -22,24 +21,14 @@ class EventsTabPage extends StatefulWidget {
 }
 
 class _EventsTabPageState extends State<EventsTabPage> {
-  bool _onboardingShown = false;
-
   @override
   Widget build(BuildContext context) {
     return AutoFocusA11y(
       child: StoreConnector<AppState, EventsTabPageViewModel>(
         builder: (context, viewModel) => _Body(viewModel, widget.initialTab),
         converter: (store) => EventsTabPageViewModel.create(store),
-        onDidChange: (_, newVm) => _handleOnboarding(newVm),
       ),
     );
-  }
-
-  void _handleOnboarding(EventsTabPageViewModel viewModel) {
-    if (viewModel.shouldShowOnboarding && !_onboardingShown) {
-      _onboardingShown = true;
-      OnboardingBottomSheet.show(context, source: OnboardingSource.evenements);
-    }
   }
 }
 

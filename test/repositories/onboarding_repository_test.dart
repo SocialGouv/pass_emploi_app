@@ -45,11 +45,4 @@ void main() {
   });
 }
 
-final _jsonOnboarding = jsonEncode({
-  'showAccueilOnboarding': true,
-  'showMonSuiviOnboarding': true,
-  'showChatOnboarding': true,
-  'showRechercheOnboarding': true,
-  'showEvenementsOnboarding': true,
-  'showOffreEnregistreeOnboarding': true,
-});
+final _jsonOnboarding = jsonEncode({'showAccueilOnboarding': true});

@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/presentation/events/event_tab_page_view_model.dart';
 
 import '../../dsl/app_state_dsl.dart';
@@ -26,29 +25,6 @@ void main() {
 
       // Then
       expect(viewModel.tabs, [EventTab.rechercheExternes]);
-    });
-  });
-  group('onboarding', () {
-    test('should display onboarding', () {
-      // Given
-      final store = givenState().withOnboardingSuccessState(Onboarding(showEvenementsOnboarding: true)).store();
-
-      // When
-      final viewModel = EventsTabPageViewModel.create(store);
-
-      // Then
-      expect(viewModel.shouldShowOnboarding, isTrue);
-    });
-
-    test('should not display onboarding', () {
-      // Given
-      final store = givenState().withOnboardingSuccessState(Onboarding(showEvenementsOnboarding: false)).store();
-
-      // When
-      final viewModel = EventsTabPageViewModel.create(store);
-
-      // Then
-      expect(viewModel.shouldShowOnboarding, isFalse);
     });
   });
 }

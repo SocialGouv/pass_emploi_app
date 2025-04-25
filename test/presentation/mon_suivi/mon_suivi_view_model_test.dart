@@ -4,7 +4,6 @@ import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_actions.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/pending/user_action_create_pending_state.dart';
 import 'package:pass_emploi_app/models/date/interval.dart';
-import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/mon_suivi/mon_suivi_view_model.dart';
 
@@ -399,27 +398,5 @@ void main() {
     // Then
     expect(store.dispatchedAction is MonSuiviRequestAction, isTrue);
     expect((store.dispatchedAction as MonSuiviRequestAction).period, MonSuiviPeriod.next);
-  });
-
-  test('should display onboarding', () {
-    // Given
-    final store = givenState().withOnboardingSuccessState(Onboarding(showMonSuiviOnboarding: true)).store();
-
-    // When
-    final viewModel = MonSuiviViewModel.create(store);
-
-    // Then
-    expect(viewModel.shouldShowOnboarding, isTrue);
-  });
-
-  test('should not display onboarding', () {
-    // Given
-    final store = givenState().withOnboardingSuccessState(Onboarding(showMonSuiviOnboarding: false)).store();
-
-    // When
-    final viewModel = MonSuiviViewModel.create(store);
-
-    // Then
-    expect(viewModel.shouldShowOnboarding, isFalse);
   });
 }

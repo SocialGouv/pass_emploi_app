@@ -24,8 +24,6 @@ class AccueilViewModel extends Equatable {
   final List<AccueilItem> items;
   final DeepLink? deepLink;
   final bool shouldResetDeeplink;
-  final bool shouldShowOnboarding;
-  final bool shouldShowNavigationBottomSheet;
   final bool withNewNotifications;
   final Function() resetDeeplink;
   final Function() retry;
@@ -35,8 +33,6 @@ class AccueilViewModel extends Equatable {
     required this.items,
     required this.deepLink,
     required this.shouldResetDeeplink,
-    required this.shouldShowOnboarding,
-    required this.shouldShowNavigationBottomSheet,
     required this.withNewNotifications,
     required this.resetDeeplink,
     required this.retry,
@@ -48,8 +44,6 @@ class AccueilViewModel extends Equatable {
       items: _items(store),
       deepLink: store.getDeepLink(),
       shouldResetDeeplink: _shouldResetDeeplink(store),
-      shouldShowOnboarding: _shouldShowOnboarding(store),
-      shouldShowNavigationBottomSheet: _shouldShowNavigationBottomSheet(store),
       withNewNotifications: _withNewNotifications(store),
       resetDeeplink: () => store.dispatch(ResetDeeplinkAction()),
       retry: () => store.dispatch(AccueilRequestAction(forceRefresh: true)),
@@ -61,8 +55,6 @@ class AccueilViewModel extends Equatable {
         displayState,
         items,
         deepLink,
-        shouldShowOnboarding,
-        shouldShowNavigationBottomSheet,
         withNewNotifications,
       ];
 }
@@ -237,17 +229,6 @@ AccueilItem? _campagneRecrutementItem(Store<AppState> store, AppState state) {
     return CampagneRecrutementItem(onDismiss: () => store.dispatch(CampagneRecrutementDismissAction()));
   }
   return null;
-}
-
-bool _shouldShowOnboarding(Store<AppState> store) {
-  return store.state.onboardingState.showAccueilOnboarding;
-}
-
-bool _shouldShowNavigationBottomSheet(Store<AppState> store) {
-  final accueilState = store.state.accueilState;
-  final user = store.state.user();
-  if (accueilState is! AccueilSuccessState || user == null) return false;
-  return user.accompagnement != Accompagnement.avenirPro;
 }
 
 bool _withNewNotifications(Store<AppState> store) {

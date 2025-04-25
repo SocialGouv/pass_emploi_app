@@ -4,7 +4,6 @@ import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
 import 'package:pass_emploi_app/features/date_consultation_notification/date_consultation_notification_state.dart';
 import 'package:pass_emploi_app/features/offres_suivies/offres_suivies_state.dart';
-import 'package:pass_emploi_app/features/onboarding/onboarding_state.dart';
 import 'package:pass_emploi_app/models/accompagnement.dart';
 import 'package:pass_emploi_app/models/accueil/accueil.dart';
 import 'package:pass_emploi_app/models/brand.dart';
@@ -13,7 +12,6 @@ import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/offre_dto.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/offre_suivie.dart';
-import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/models/outil.dart';
 import 'package:pass_emploi_app/models/remote_campagne_accueil.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
@@ -475,340 +473,272 @@ void main() {
     );
   });
 
-  group('shouldShowOnboarding', () {
-    test('should show onboarding when showAccueilOnboarding is true', () {
+  group('withNewNotifications', () {
+    test('should not show new notifications when in app notifications is not success state', () {
       // Given
-      final store = givenState()
-          .withAccueilPoleEmploiSuccess()
-          .copyWith(onboardingState: OnboardingSuccessState(Onboarding(showAccueilOnboarding: true)))
-          .store();
+      final store = givenState().loggedInMiloUser().withInAppNotificationsLoading().store();
 
       // When
       final viewModel = AccueilViewModel.create(store);
 
       // Then
       expect(
-        viewModel.shouldShowOnboarding,
-        isTrue,
+        viewModel.withNewNotifications,
+        isFalse,
       );
     });
 
-    test('should not show onboarding when showAccueilOnboarding is true', () {
+    test('should not show new notifications when there is no notification', () {
       // Given
-      final store = givenState()
-          .withAccueilPoleEmploiSuccess()
-          .copyWith(onboardingState: OnboardingSuccessState(Onboarding(showAccueilOnboarding: false)))
-          .store();
+      final store = givenState() //
+          .loggedInMiloUser()
+          .withInAppNotificationsSuccess([]).store();
 
       // When
       final viewModel = AccueilViewModel.create(store);
 
       // Then
       expect(
-        viewModel.shouldShowOnboarding,
+        viewModel.withNewNotifications,
         isFalse,
+      );
+    });
+
+    test('should not show new notifications when notification is older than last consultation date', () {
+      // Given
+      final store = givenState() //
+          .loggedInMiloUser()
+          .copyWith(dateConsultationNotificationState: DateConsultationNotificationState(date: DateTime(2025)))
+          .withInAppNotificationsSuccess([mockInAppNotification(date: DateTime(2024))]).store();
+
+      // When
+      final viewModel = AccueilViewModel.create(store);
+
+      // Then
+      expect(
+        viewModel.withNewNotifications,
+        isFalse,
+      );
+    });
+
+    test('should show new notifications when notification is newer than last consultation date', () {
+      // Given
+      final store = givenState() //
+          .loggedInMiloUser()
+          .copyWith(dateConsultationNotificationState: DateConsultationNotificationState(date: DateTime(2024)))
+          .withInAppNotificationsSuccess([mockInAppNotification(date: DateTime(2025))]).store();
+
+      // When
+      final viewModel = AccueilViewModel.create(store);
+
+      // Then
+      expect(
+        viewModel.withNewNotifications,
+        isTrue,
       );
     });
   });
 
-  group('shouldShowNavigationBottomSheet', () {
-    test('should not show navigation onboarding when accompagnement is avenir pro', () {
+  group('remoteCampagneAccueilItems', () {
+    test('should display remote campagnes items', () {
       // Given
-      final store =
-          givenState().withAccueilPoleEmploiSuccess().loggedInUser(accompagnement: Accompagnement.avenirPro).store();
+      final campagne = RemoteCampagneAccueil(
+        id: "1",
+        title: "title",
+        cta: "cta",
+        url: "url",
+        brand: null,
+        dateFin: DateTime(2035),
+        dateDebut: DateTime(2024),
+        accompagnements: [Accompagnement.cej],
+      );
+      final store = givenState() //
+          .loggedInPoleEmploiUser()
+          .withAccueilPoleEmploiSuccess()
+          .withRemoteCampagneAccueil(campagnes: [campagne]) //
+          .store();
 
       // When
       final viewModel = AccueilViewModel.create(store);
 
       // Then
       expect(
-        viewModel.shouldShowNavigationBottomSheet,
-        isFalse,
+        viewModel.items.first,
+        RemoteCampagneAccueilItem(
+          title: "title",
+          cta: "cta",
+          url: "url",
+          onDismissed: () {},
+        ),
       );
     });
 
-    test('should show navigation onboarding when accompagnement is not avenir pro', () {
+    test('should not display remote campagnes items from others accompagnements', () {
       // Given
-      final store =
-          givenState().withAccueilPoleEmploiSuccess().loggedInUser(accompagnement: Accompagnement.cej).store();
+      final campagne = RemoteCampagneAccueil(
+        id: "1",
+        title: "title",
+        cta: "cta",
+        url: "url",
+        brand: null,
+        dateFin: DateTime(2035),
+        dateDebut: DateTime(2024),
+        accompagnements: [Accompagnement.avenirPro],
+      );
+      final store = givenState() //
+          .loggedInPoleEmploiUser()
+          .withAccueilPoleEmploiSuccess()
+          .withRemoteCampagneAccueil(campagnes: [campagne]) //
+          .store();
 
       // When
       final viewModel = AccueilViewModel.create(store);
 
       // Then
       expect(
-        viewModel.shouldShowNavigationBottomSheet,
-        isTrue,
+        viewModel.items.first,
+        isNot(RemoteCampagneAccueilItem(
+          title: "title",
+          cta: "cta",
+          url: "url",
+          onDismissed: () {},
+        )),
       );
     });
 
-    group('withNewNotifications', () {
-      test('should not show new notifications when in app notifications is not success state', () {
-        // Given
-        final store = givenState().loggedInMiloUser().withInAppNotificationsLoading().store();
+    test('should not display remote campagnes items from others apps', () {
+      // Given
+      final campagne = RemoteCampagneAccueil(
+        id: "1",
+        title: "title",
+        cta: "cta",
+        url: "url",
+        brand: Brand.cej,
+        dateFin: DateTime(2035),
+        dateDebut: DateTime(2024),
+        accompagnements: [Accompagnement.cej],
+      );
+      final store = givenPassEmploiState() //
+          .loggedInPoleEmploiUser()
+          .withAccueilPoleEmploiSuccess()
+          .withRemoteCampagneAccueil(campagnes: [campagne]) //
+          .store();
 
-        // When
-        final viewModel = AccueilViewModel.create(store);
+      // When
+      final viewModel = AccueilViewModel.create(store);
 
-        // Then
-        expect(
-          viewModel.withNewNotifications,
-          isFalse,
-        );
-      });
-
-      test('should not show new notifications when there is no notification', () {
-        // Given
-        final store = givenState() //
-            .loggedInMiloUser()
-            .withInAppNotificationsSuccess([]).store();
-
-        // When
-        final viewModel = AccueilViewModel.create(store);
-
-        // Then
-        expect(
-          viewModel.withNewNotifications,
-          isFalse,
-        );
-      });
-
-      test('should not show new notifications when notification is older than last consultation date', () {
-        // Given
-        final store = givenState() //
-            .loggedInMiloUser()
-            .copyWith(dateConsultationNotificationState: DateConsultationNotificationState(date: DateTime(2025)))
-            .withInAppNotificationsSuccess([mockInAppNotification(date: DateTime(2024))]).store();
-
-        // When
-        final viewModel = AccueilViewModel.create(store);
-
-        // Then
-        expect(
-          viewModel.withNewNotifications,
-          isFalse,
-        );
-      });
-
-      test('should show new notifications when notification is newer than last consultation date', () {
-        // Given
-        final store = givenState() //
-            .loggedInMiloUser()
-            .copyWith(dateConsultationNotificationState: DateConsultationNotificationState(date: DateTime(2024)))
-            .withInAppNotificationsSuccess([mockInAppNotification(date: DateTime(2025))]).store();
-
-        // When
-        final viewModel = AccueilViewModel.create(store);
-
-        // Then
-        expect(
-          viewModel.withNewNotifications,
-          isTrue,
-        );
-      });
+      // Then
+      expect(
+        viewModel.items.first,
+        isNot(RemoteCampagneAccueilItem(
+          title: "title",
+          cta: "cta",
+          url: "url",
+          onDismissed: () {},
+        )),
+      );
     });
 
-    group('remoteCampagneAccueilItems', () {
-      test('should display remote campagnes items', () {
-        // Given
-        final campagne = RemoteCampagneAccueil(
-          id: "1",
+    test('should not display remote campagnes when finished', () {
+      // Given
+      final campagne = RemoteCampagneAccueil(
+        id: "1",
+        title: "title",
+        cta: "cta",
+        url: "url",
+        brand: null,
+        dateFin: DateTime(2024),
+        dateDebut: DateTime(2024),
+        accompagnements: [Accompagnement.cej],
+      );
+      final store = givenPassEmploiState() //
+          .loggedInPoleEmploiUser()
+          .withAccueilPoleEmploiSuccess()
+          .withRemoteCampagneAccueil(campagnes: [campagne]) //
+          .store();
+
+      // When
+      final viewModel = AccueilViewModel.create(store);
+
+      // Then
+      expect(
+        viewModel.items.first,
+        isNot(RemoteCampagneAccueilItem(
           title: "title",
           cta: "cta",
           url: "url",
-          brand: null,
-          dateFin: DateTime(2035),
-          dateDebut: DateTime(2024),
-          accompagnements: [Accompagnement.cej],
-        );
-        final store = givenState() //
-            .loggedInPoleEmploiUser()
-            .withAccueilPoleEmploiSuccess()
-            .withRemoteCampagneAccueil(campagnes: [campagne]) //
-            .store();
-
-        // When
-        final viewModel = AccueilViewModel.create(store);
-
-        // Then
-        expect(
-          viewModel.items.first,
-          RemoteCampagneAccueilItem(
-            title: "title",
-            cta: "cta",
-            url: "url",
-            onDismissed: () {},
-          ),
-        );
-      });
-
-      test('should not display remote campagnes items from others accompagnements', () {
-        // Given
-        final campagne = RemoteCampagneAccueil(
-          id: "1",
-          title: "title",
-          cta: "cta",
-          url: "url",
-          brand: null,
-          dateFin: DateTime(2035),
-          dateDebut: DateTime(2024),
-          accompagnements: [Accompagnement.avenirPro],
-        );
-        final store = givenState() //
-            .loggedInPoleEmploiUser()
-            .withAccueilPoleEmploiSuccess()
-            .withRemoteCampagneAccueil(campagnes: [campagne]) //
-            .store();
-
-        // When
-        final viewModel = AccueilViewModel.create(store);
-
-        // Then
-        expect(
-          viewModel.items.first,
-          isNot(RemoteCampagneAccueilItem(
-            title: "title",
-            cta: "cta",
-            url: "url",
-            onDismissed: () {},
-          )),
-        );
-      });
-
-      test('should not display remote campagnes items from others apps', () {
-        // Given
-        final campagne = RemoteCampagneAccueil(
-          id: "1",
-          title: "title",
-          cta: "cta",
-          url: "url",
-          brand: Brand.cej,
-          dateFin: DateTime(2035),
-          dateDebut: DateTime(2024),
-          accompagnements: [Accompagnement.cej],
-        );
-        final store = givenPassEmploiState() //
-            .loggedInPoleEmploiUser()
-            .withAccueilPoleEmploiSuccess()
-            .withRemoteCampagneAccueil(campagnes: [campagne]) //
-            .store();
-
-        // When
-        final viewModel = AccueilViewModel.create(store);
-
-        // Then
-        expect(
-          viewModel.items.first,
-          isNot(RemoteCampagneAccueilItem(
-            title: "title",
-            cta: "cta",
-            url: "url",
-            onDismissed: () {},
-          )),
-        );
-      });
-
-      test('should not display remote campagnes when finished', () {
-        // Given
-        final campagne = RemoteCampagneAccueil(
-          id: "1",
-          title: "title",
-          cta: "cta",
-          url: "url",
-          brand: null,
-          dateFin: DateTime(2024),
-          dateDebut: DateTime(2024),
-          accompagnements: [Accompagnement.cej],
-        );
-        final store = givenPassEmploiState() //
-            .loggedInPoleEmploiUser()
-            .withAccueilPoleEmploiSuccess()
-            .withRemoteCampagneAccueil(campagnes: [campagne]) //
-            .store();
-
-        // When
-        final viewModel = AccueilViewModel.create(store);
-
-        // Then
-        expect(
-          viewModel.items.first,
-          isNot(RemoteCampagneAccueilItem(
-            title: "title",
-            cta: "cta",
-            url: "url",
-            onDismissed: () {},
-          )),
-        );
-      });
-
-      test('should not display remote campagnes when not started', () {
-        // Given
-        final campagne = RemoteCampagneAccueil(
-          id: "1",
-          title: "title",
-          cta: "cta",
-          url: "url",
-          brand: null,
-          dateFin: DateTime(2044),
-          dateDebut: DateTime(2044),
-          accompagnements: [Accompagnement.cej],
-        );
-        final store = givenPassEmploiState() //
-            .loggedInPoleEmploiUser()
-            .withAccueilPoleEmploiSuccess()
-            .withRemoteCampagneAccueil(campagnes: [campagne]) //
-            .store();
-
-        // When
-        final viewModel = AccueilViewModel.create(store);
-
-        // Then
-        expect(
-          viewModel.items.first,
-          isNot(RemoteCampagneAccueilItem(
-            title: "title",
-            cta: "cta",
-            url: "url",
-            onDismissed: () {},
-          )),
-        );
-      });
+          onDismissed: () {},
+        )),
+      );
     });
-    group('offre suivi item', () {
-      test('should not display remote campagnes when not started', () {
-        // Given
-        final store = givenPassEmploiState() //
-            .loggedInPoleEmploiUser()
-            .withAccueilPoleEmploiSuccess()
-            .copyWith(
-              offresSuiviesState: OffresSuiviesState(
-                offresSuivies: [
-                  OffreSuivie(
-                    dateConsultation: DateTime(2023),
-                    offreDto: OffreEmploiDto(mockOffreEmploiDetails().toOffreEmploi),
-                  ),
-                ],
-                confirmationOffre: OffreSuivie(
-                  dateConsultation: DateTime(2025),
-                  offreDto: OffreEmploiDto(
-                    mockOffreEmploiDetails().toOffreEmploi,
-                  ),
+
+    test('should not display remote campagnes when not started', () {
+      // Given
+      final campagne = RemoteCampagneAccueil(
+        id: "1",
+        title: "title",
+        cta: "cta",
+        url: "url",
+        brand: null,
+        dateFin: DateTime(2044),
+        dateDebut: DateTime(2044),
+        accompagnements: [Accompagnement.cej],
+      );
+      final store = givenPassEmploiState() //
+          .loggedInPoleEmploiUser()
+          .withAccueilPoleEmploiSuccess()
+          .withRemoteCampagneAccueil(campagnes: [campagne]) //
+          .store();
+
+      // When
+      final viewModel = AccueilViewModel.create(store);
+
+      // Then
+      expect(
+        viewModel.items.first,
+        isNot(RemoteCampagneAccueilItem(
+          title: "title",
+          cta: "cta",
+          url: "url",
+          onDismissed: () {},
+        )),
+      );
+    });
+  });
+  group('offre suivi item', () {
+    test('should not display remote campagnes when not started', () {
+      // Given
+      final store = givenPassEmploiState() //
+          .loggedInPoleEmploiUser()
+          .withAccueilPoleEmploiSuccess()
+          .copyWith(
+            offresSuiviesState: OffresSuiviesState(
+              offresSuivies: [
+                OffreSuivie(
+                  dateConsultation: DateTime(2023),
+                  offreDto: OffreEmploiDto(mockOffreEmploiDetails().toOffreEmploi),
+                ),
+              ],
+              confirmationOffre: OffreSuivie(
+                dateConsultation: DateTime(2025),
+                offreDto: OffreEmploiDto(
+                  mockOffreEmploiDetails().toOffreEmploi,
                 ),
               ),
-            )
-            .store();
+            ),
+          )
+          .store();
 
-        // When
-        final viewModel = AccueilViewModel.create(store);
+      // When
+      final viewModel = AccueilViewModel.create(store);
 
-        // Then
-        expect(
-          viewModel.items.firstWhere((element) => element is OffreSuivieAccueilItem),
-          OffreSuivieAccueilItem(
-            offreId: mockOffreEmploiDetails().id,
-          ),
-        );
-      });
+      // Then
+      expect(
+        viewModel.items.firstWhere((element) => element is OffreSuivieAccueilItem),
+        OffreSuivieAccueilItem(
+          offreId: mockOffreEmploiDetails().id,
+        ),
+      );
     });
   });
 }

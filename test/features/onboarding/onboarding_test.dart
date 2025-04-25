@@ -63,62 +63,6 @@ void main() {
           sut.thenExpectChangingStatesThroughOrder([_shouldSucceed(Onboarding(showAccueilOnboarding: false))]);
         });
       });
-
-      group('OnboardingMonSuiviSaveAction', () {
-        sut.whenDispatchingAction(() => OnboardingMonSuiviSaveAction());
-        test('should save mon suivi onboarding', () {
-          when(() => repository.get()).thenAnswer((_) async => Onboarding());
-          when(() => repository.save(any())).thenAnswer((_) async {});
-
-          sut.givenStore = givenState() //
-              .loggedIn()
-              .store((f) => {f.onboardingRepository = repository});
-
-          sut.thenExpectChangingStatesThroughOrder([_shouldSucceed(Onboarding(showMonSuiviOnboarding: false))]);
-        });
-      });
-
-      group('OnboardingChatSaveAction', () {
-        sut.whenDispatchingAction(() => OnboardingChatSaveAction());
-        test('should save chat onboarding', () {
-          when(() => repository.get()).thenAnswer((_) async => Onboarding());
-          when(() => repository.save(any())).thenAnswer((_) async {});
-
-          sut.givenStore = givenState() //
-              .loggedIn()
-              .store((f) => {f.onboardingRepository = repository});
-
-          sut.thenExpectChangingStatesThroughOrder([_shouldSucceed(Onboarding(showChatOnboarding: false))]);
-        });
-      });
-
-      group('OnboardingRechercheSaveAction', () {
-        sut.whenDispatchingAction(() => OnboardingRechercheSaveAction());
-        test('should save recherche onboarding', () {
-          when(() => repository.get()).thenAnswer((_) async => Onboarding());
-          when(() => repository.save(any())).thenAnswer((_) async {});
-
-          sut.givenStore = givenState() //
-              .loggedIn()
-              .store((f) => {f.onboardingRepository = repository});
-
-          sut.thenExpectChangingStatesThroughOrder([_shouldSucceed(Onboarding(showRechercheOnboarding: false))]);
-        });
-      });
-
-      group('OnboardingEvenementsSaveAction', () {
-        sut.whenDispatchingAction(() => OnboardingEvenementsSaveAction());
-        test('should save evenements onboarding', () {
-          when(() => repository.get()).thenAnswer((_) async => Onboarding());
-          when(() => repository.save(any())).thenAnswer((_) async {});
-
-          sut.givenStore = givenState() //
-              .loggedIn()
-              .store((f) => {f.onboardingRepository = repository});
-
-          sut.thenExpectChangingStatesThroughOrder([_shouldSucceed(Onboarding(showEvenementsOnboarding: false))]);
-        });
-      });
     });
   });
 }

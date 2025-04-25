@@ -5,7 +5,6 @@ import 'package:pass_emploi_app/features/message_important/message_important_sta
 import 'package:pass_emploi_app/models/chat/message.dart';
 import 'package:pass_emploi_app/models/chat/message_important.dart';
 import 'package:pass_emploi_app/models/chat/sender.dart';
-import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/chat/chat_item.dart';
 import 'package:pass_emploi_app/presentation/chat/chat_page_view_model.dart';
@@ -833,30 +832,6 @@ void main() {
       expect(messageItem.shouldAnimate, false);
       expect(messageItem.caption.contains("L'envoi a échoué"), true);
       expect(messageItem.captionColor, AppColors.warning);
-    });
-  });
-
-  group('onboarding', () {
-    test('should display onboarding', () {
-      // Given
-      final store = givenState().withOnboardingSuccessState(Onboarding(showChatOnboarding: true)).store();
-
-      // When
-      final viewModel = ChatPageViewModel.create(store);
-
-      // Then
-      expect(viewModel.shouldShowOnboarding, isTrue);
-    });
-
-    test('should not display onboarding', () {
-      // Given
-      final store = givenState().withOnboardingSuccessState(Onboarding(showChatOnboarding: false)).store();
-
-      // When
-      final viewModel = ChatPageViewModel.create(store);
-
-      // Then
-      expect(viewModel.shouldShowOnboarding, isFalse);
     });
   });
 
