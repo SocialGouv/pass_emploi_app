@@ -5,8 +5,7 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_actions.dart';
 import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
-import 'package:pass_emploi_app/pages/demarche/create_demarche_2_form_page.dart';
-import 'package:pass_emploi_app/pages/demarche/create_demarche_step1_page.dart';
+import 'package:pass_emploi_app/pages/demarche/create_demarche_form_page.dart';
 import 'package:pass_emploi_app/pages/demarche/demarche_detail_page.dart';
 import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
@@ -911,20 +910,8 @@ class _CreateDemarcheButtonState extends State<CreateDemarcheButton> with Single
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, bool>(
-      converter: (store) => store.state.featureFlipState.featureFlip.withNouvelleSaisieDemarche,
-      onInit: (store) {
-        final tracking = PassEmploiMatomoTracker.instance.trackEvent;
-        final feature = store.state.featureFlipState.featureFlip.withNouvelleSaisieDemarche;
-
-        tracking(
-          eventCategory: AnalyticsEventNames.aBtestCreationDemarcheCategory,
-          action: feature
-              ? AnalyticsEventNames.aBtestCreationDemarcheBoutonAfficheWith
-              : AnalyticsEventNames.aBtestCreationDemarcheBoutonAfficheWithout,
-        );
-      },
-      builder: (context, withNouvelleSaisieDemarche) {
+    return Builder(
+      builder: (context) {
         final button = PrimaryActionButton(
           label: widget.ctaType == MonSuiviCtaType.createAction ? Strings.addAnAction : Strings.addADemarche,
           icon: AppIcons.add_rounded,
@@ -932,12 +919,7 @@ class _CreateDemarcheButtonState extends State<CreateDemarcheButton> with Single
           onPressed: () {
             switch (widget.ctaType) {
               case MonSuiviCtaType.createDemarche:
-                Navigator.push(
-                  context,
-                  withNouvelleSaisieDemarche
-                      ? CreateDemarche2FormPage.route()
-                      : CreateDemarcheStep1Page.materialPageRoute(),
-                );
+                Navigator.push(context, CreateDemarcheFormPage.route());
                 break;
               case MonSuiviCtaType.createAction:
                 CreateUserActionFormPage.pushUserActionCreationTunnel(
@@ -969,40 +951,6 @@ class _CreateDemarcheButtonState extends State<CreateDemarcheButton> with Single
             button
           ],
         );
-      },
-    );
-  }
-}
-
-class CreateDemarcheABWrapper extends StatelessWidget {
-  const CreateDemarcheABWrapper({
-    super.key,
-    required this.child,
-    required this.eventNameWith,
-    required this.eventNameWithout,
-  });
-  final Widget child;
-  final String eventNameWith;
-  final String eventNameWithout;
-
-  @override
-  Widget build(BuildContext context) {
-    return StoreConnector<AppState, bool>(
-      builder: (context, withNouvelleSaisieDemarche) {
-        return child;
-      },
-      converter: (store) => store.state.featureFlipState.featureFlip.withNouvelleSaisieDemarche,
-      onInit: (store) {
-        // TODO: Remove A/B test
-        store.state.featureFlipState.featureFlip.withNouvelleSaisieDemarche
-            ? PassEmploiMatomoTracker.instance.trackEvent(
-                eventCategory: AnalyticsEventNames.aBtestCreationDemarcheCategory,
-                action: eventNameWith,
-              )
-            : PassEmploiMatomoTracker.instance.trackEvent(
-                eventCategory: AnalyticsEventNames.aBtestCreationDemarcheCategory,
-                action: eventNameWithout,
-              );
       },
     );
   }

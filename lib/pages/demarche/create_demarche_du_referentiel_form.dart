@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_state.dart';
-import 'package:pass_emploi_app/pages/demarche/create_demarche_step1_page.dart';
+import 'package:pass_emploi_app/pages/demarche/create_demarche_personnalisee_form.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_step3_view_model.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_creation_state.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_source.dart';
@@ -17,71 +15,13 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
-import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/a11y/mandatory_fields_label.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/date_pickers/date_picker.dart';
-import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/radio_list_tile.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:redux/redux.dart';
-
-class CreateDemarcheStep3Page extends StatelessWidget {
-  final String idDemarche;
-  final DemarcheSource source;
-
-  CreateDemarcheStep3Page._(this.idDemarche, this.source);
-
-  static MaterialPageRoute<void> materialPageRoute(String idDemarche, DemarcheSource source) {
-    return MaterialPageRoute(builder: (context) => CreateDemarcheStep3Page._(idDemarche, source));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: SecondaryAppBar(title: Strings.createDemarcheTitle),
-      body: Tracker(
-        tracking: AnalyticsScreenNames.searchDemarcheStep3,
-        child: CreateDemarcheDuReferentielForm(
-          idDemarche: idDemarche,
-          source: source,
-          createDemarcheButtonLabel: Strings.addALaDemarche,
-          onCreateDemarcheSuccess: (demarcheCreatedId) {
-            PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.searchDemarcheStep3Success);
-          },
-        ),
-      ),
-    );
-  }
-}
-
-class _TopDemarcheTracker extends StatefulWidget {
-  const _TopDemarcheTracker({required this.source, required this.child, required this.viewModel});
-
-  final DemarcheSource source;
-  final Widget child;
-  final CreateDemarcheStep3ViewModel viewModel;
-
-  @override
-  State<_TopDemarcheTracker> createState() => _TopDemarcheTrackerState();
-}
-
-class _TopDemarcheTrackerState extends State<_TopDemarcheTracker> {
-  @override
-  void initState() {
-    super.initState();
-    if (widget.source is TopDemarcheSource) {
-      final quoi = widget.viewModel.quoi;
-      PassEmploiMatomoTracker.instance.trackScreen(AnalyticsScreenNames.topDemarcheDetails(quoi));
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return widget.child;
-  }
-}
 
 class CreateDemarcheDuReferentielForm extends StatefulWidget {
   const CreateDemarcheDuReferentielForm({
@@ -140,7 +80,7 @@ class _CreateDemarcheDuReferentielFormState extends State<CreateDemarcheDuRefere
       AnimationDurations.veryFast,
       () {
         if (!context.mounted) return;
-        CreateDemarcheStep1Page.showDemarcheSnackBarWithDetail(context, demarcheId);
+        DemarchePersonnaliseeForm.showDemarcheSnackBarWithDetail(context, demarcheId);
         widget.onCreateDemarcheSuccess?.call(demarcheId);
         StoreProvider.of<AppState>(context).dispatch(CreateDemarcheResetAction());
         Navigator.of(context).popAll();
@@ -177,46 +117,42 @@ class _FormState extends State<_Form> {
       return SizedBox.shrink();
     }
 
-    return _TopDemarcheTracker(
-      source: widget.source,
-      viewModel: widget.viewModel,
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(Margins.spacing_m),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(widget.viewModel.quoi, style: TextStyles.textBaseBoldWithColor(AppColors.primary)),
-              if (widget.viewModel.isCommentMandatory) _Mandatory(),
-              if (widget.viewModel.comments.isNotEmpty) _Section(Strings.comment),
-              if (widget.viewModel.isCommentMandatory) _SelectLabel(Strings.selectComment),
-              _Comments(
-                widget.viewModel.comments,
-                _codeComment,
-                (codeComment) => setState(() => _codeComment = codeComment),
-              ),
-              _Section(Strings.quand),
-              _SelectLabel(Strings.selectQuand),
-              DatePicker(
-                onDateSelected: (date) => setState(() => _endDate = date),
-                initialDateValue: _endDate,
-                isActiveDate: true,
-              ),
-              SizedBox(height: Margins.spacing_xl),
-              if (widget.viewModel.displayState == DisplayState.FAILURE) ErrorText(Strings.genericCreationError),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  PrimaryActionButton(
-                    label: widget.createDemarcheButtonLabel,
-                    onPressed: _buttonIsActive(widget.viewModel)
-                        ? () => widget.viewModel.onCreateDemarche(_codeComment, _endDate!)
-                        : null,
-                  ),
-                ],
-              )
-            ],
-          ),
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(Margins.spacing_m),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(widget.viewModel.quoi, style: TextStyles.textBaseBoldWithColor(AppColors.primary)),
+            if (widget.viewModel.isCommentMandatory) _Mandatory(),
+            if (widget.viewModel.comments.isNotEmpty) _Section(Strings.comment),
+            if (widget.viewModel.isCommentMandatory) _SelectLabel(Strings.selectComment),
+            _Comments(
+              widget.viewModel.comments,
+              _codeComment,
+              (codeComment) => setState(() => _codeComment = codeComment),
+            ),
+            _Section(Strings.quand),
+            _SelectLabel(Strings.selectQuand),
+            DatePicker(
+              onDateSelected: (date) => setState(() => _endDate = date),
+              initialDateValue: _endDate,
+              isActiveDate: true,
+            ),
+            SizedBox(height: Margins.spacing_xl),
+            if (widget.viewModel.displayState == DisplayState.FAILURE) ErrorText(Strings.genericCreationError),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                PrimaryActionButton(
+                  label: widget.createDemarcheButtonLabel,
+                  onPressed: _buttonIsActive(widget.viewModel)
+                      ? () => widget.viewModel.onCreateDemarche(_codeComment, _endDate!)
+                      : null,
+                ),
+              ],
+            )
+          ],
         ),
       ),
     );

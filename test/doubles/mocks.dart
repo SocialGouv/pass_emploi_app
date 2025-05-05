@@ -235,7 +235,6 @@ class MockRemoteConfigRepository extends Mock implements RemoteConfigRepository 
     when(() => cvmActivationByAccompagnement()).thenReturn({});
     when(() => monSuiviPoleEmploiStartDateInMonths()).thenReturn(1);
     when(() => campagnesAccueil()).thenReturn([]);
-    when(() => withNouvelleSaisieDemarche()).thenReturn(true);
   }
 }
 

@@ -68,11 +68,6 @@ class RemoteConfigRepository {
     };
   }
 
-  bool withNouvelleSaisieDemarche() {
-    if (_firebaseRemoteConfig == null) return false;
-    return _firebaseRemoteConfig.getBool('has_nouvelle_saisie_demarche_ab_testing');
-  }
-
   Cgu? getCgu() {
     if (_firebaseRemoteConfig == null) return null;
     final String cguAsString = _firebaseRemoteConfig.getString('cgu');

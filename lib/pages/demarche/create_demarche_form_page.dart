@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/pages/demarche/create_demarche_2/create_demarche_success_page.dart';
-import 'package:pass_emploi_app/pages/demarche/create_demarche_2/widgets/create_demarche_2_form.dart';
-import 'package:pass_emploi_app/pages/mon_suivi_page.dart';
+import 'package:pass_emploi_app/pages/demarche/create_demarche/create_demarche_success_page.dart';
+import 'package:pass_emploi_app/pages/demarche/create_demarche/widgets/create_demarche_form.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_personnalisee_view_model.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_view_model.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_creation_state.dart';
@@ -12,53 +10,47 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
-// TODO: [01/04/2025 ] Rename all `create_demarche_2` at the end oh the A/B test
-
-class CreateDemarche2FormPage extends StatelessWidget {
-  const CreateDemarche2FormPage({super.key});
+class CreateDemarcheFormPage extends StatelessWidget {
+  const CreateDemarcheFormPage({super.key});
 
   static Route<String?> route() {
     return MaterialPageRoute(
       fullscreenDialog: true,
-      builder: (context) => const CreateDemarche2FormPage(),
+      builder: (context) => const CreateDemarcheFormPage(),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return CreateDemarcheABWrapper(
-      eventNameWith: AnalyticsEventNames.aBtestCreationDemarcheFormAfficheWith,
-      eventNameWithout: AnalyticsEventNames.aBtestCreationDemarcheFormAfficheWithout,
-      child: _CreateDemarchePersonnaliseeConnector(
-        onCreateSuccess: () => onCreateDemarcheSuccess(context, CreateDemarcheSource.personnalisee),
-        onCreateFailure: () => _showError(context),
-        builder: (context, createDemarchePersonnaliseeVm) {
-          return _CreateDemarcheConnector(
-            onCreateSuccess: () => onCreateDemarcheSuccess(context, CreateDemarcheSource.fromReferentiel),
-            onCreateFailure: () => _showError(context),
-            builder: (context, createDemarcheVm) {
-              return Stack(
-                children: [
-                  CreateDemarche2Form(
-                    onCreateDemarchePersonnalisee: (createRequest) {
-                      createDemarchePersonnaliseeVm.onCreateDemarche(
-                          createRequest.commentaire, createRequest.dateEcheance);
-                    },
-                    onCreateDemarcheFromReferentiel: (createRequest) {
-                      createDemarcheVm.onCreateDemarche(createRequest);
-                    },
-                  ),
-                  if (createDemarchePersonnaliseeVm.displayState == DisplayState.LOADING ||
-                      createDemarcheVm.displayState == DisplayState.LOADING)
-                    Center(
-                      child: CircularProgressIndicator(),
-                    )
-                ],
-              );
-            },
-          );
-        },
-      ),
+    return _CreateDemarchePersonnaliseeConnector(
+      onCreateSuccess: () => onCreateDemarcheSuccess(context, CreateDemarcheSource.personnalisee),
+      onCreateFailure: () => _showError(context),
+      builder: (context, createDemarchePersonnaliseeVm) {
+        return _CreateDemarcheConnector(
+          onCreateSuccess: () => onCreateDemarcheSuccess(context, CreateDemarcheSource.fromReferentiel),
+          onCreateFailure: () => _showError(context),
+          builder: (context, createDemarcheVm) {
+            return Stack(
+              children: [
+                CreateDemarche2Form(
+                  onCreateDemarchePersonnalisee: (createRequest) {
+                    createDemarchePersonnaliseeVm.onCreateDemarche(
+                        createRequest.commentaire, createRequest.dateEcheance);
+                  },
+                  onCreateDemarcheFromReferentiel: (createRequest) {
+                    createDemarcheVm.onCreateDemarche(createRequest);
+                  },
+                ),
+                if (createDemarchePersonnaliseeVm.displayState == DisplayState.LOADING ||
+                    createDemarcheVm.displayState == DisplayState.LOADING)
+                  Center(
+                    child: CircularProgressIndicator(),
+                  )
+              ],
+            );
+          },
+        );
+      },
     );
   }
 

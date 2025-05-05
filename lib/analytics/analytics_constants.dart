@@ -307,13 +307,6 @@ class AnalyticsEventNames {
   static const a11yWithTextScale = "Avec agrandissement de texte";
   static const a11yWithoutTextScale = "Sans agrandissement de texte";
 
-  static const aBtestCreationDemarcheCategory = "A/B test création démarche";
-  static const aBtestCreationDemarcheBoutonAfficheWith = "Affichage du bouton avec nouvelle saisie";
-  static const aBtestCreationDemarcheBoutonAfficheWithout = "Affichage du bouton sans nouvelle saisie";
-
-  static const aBtestCreationDemarcheFormAfficheWith = "Affichage du form avec nouvelle saisie";
-  static const aBtestCreationDemarcheFormAfficheWithout = "Affichage du form sans nouvelle saisie";
-
   static const aBtestCreationDemarcheSuccessAfficheWith = "Affichage du succès avec nouvelle saisie";
   static const aBtestCreationDemarcheSuccessAfficheWithout = "Affichage du succès sans nouvelle saisie";
 

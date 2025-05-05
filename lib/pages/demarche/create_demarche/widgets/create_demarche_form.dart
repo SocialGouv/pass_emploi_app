@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
-import 'package:pass_emploi_app/pages/demarche/create_demarche_2/create_demarche_app_bar_back_button.dart';
-import 'package:pass_emploi_app/pages/demarche/create_demarche_2/pages/create_demarche_2_from_thematique_step_2_page.dart';
-import 'package:pass_emploi_app/pages/demarche/create_demarche_2/pages/create_demarche_2_from_thematique_step_3_page.dart';
-import 'package:pass_emploi_app/pages/demarche/create_demarche_2/pages/create_demarche_2_personnalisee_step_2_page.dart';
-import 'package:pass_emploi_app/pages/demarche/create_demarche_2/pages/create_demarche_2_personnalisee_step_3_page.dart';
-import 'package:pass_emploi_app/pages/demarche/create_demarche_2/pages/create_demarche_2_step_1_page.dart';
+import 'package:pass_emploi_app/pages/demarche/create_demarche/create_demarche_app_bar_back_button.dart';
+import 'package:pass_emploi_app/pages/demarche/create_demarche/pages/create_demarche_from_thematique_step_2_page.dart';
+import 'package:pass_emploi_app/pages/demarche/create_demarche/pages/create_demarche_from_thematique_step_3_page.dart';
+import 'package:pass_emploi_app/pages/demarche/create_demarche/pages/create_demarche_personnalisee_step_2_page.dart';
+import 'package:pass_emploi_app/pages/demarche/create_demarche/pages/create_demarche_personnalisee_step_3_page.dart';
+import 'package:pass_emploi_app/pages/demarche/create_demarche/pages/create_demarche_step_1_page.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_form/create_demarche_form_display_state.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_form/create_demarche_form_view_model.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';

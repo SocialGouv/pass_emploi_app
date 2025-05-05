@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_state.dart';
-import 'package:pass_emploi_app/pages/demarche/create_demarche_step1_page.dart';
+import 'package:pass_emploi_app/pages/demarche/demarche_detail_page.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_personnalisee_view_model.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_creation_state.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -16,38 +15,14 @@ import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/a11y/mandatory_fields_label.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/date_pickers/date_picker.dart';
-import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
+import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
 import 'package:redux/redux.dart';
-
-class CreateDemarchePersonnaliseePage extends StatefulWidget {
-  static MaterialPageRoute<void> materialPageRoute() {
-    return MaterialPageRoute(builder: (context) => CreateDemarchePersonnaliseePage());
-  }
-
-  @override
-  State<CreateDemarchePersonnaliseePage> createState() => _CreateDemarchePageState();
-}
-
-class _CreateDemarchePageState extends State<CreateDemarchePersonnaliseePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Tracker(
-      tracking: AnalyticsScreenNames.createDemarchePersonnalisee,
-      child: Scaffold(
-        appBar: SecondaryAppBar(title: Strings.createDemarcheTitle),
-        body: DemarchePersonnaliseeForm(
-          createDemarcheLabel: Strings.addALaDemarche,
-          estDuplicata: false,
-        ),
-      ),
-    );
-  }
-}
 
 class DemarchePersonnaliseeForm extends StatefulWidget {
   const DemarchePersonnaliseeForm({
@@ -60,6 +35,26 @@ class DemarchePersonnaliseeForm extends StatefulWidget {
   final String createDemarcheLabel;
   final String? initialCommentaire;
   final bool estDuplicata;
+
+  static void showDemarcheSnackBarWithDetail(BuildContext context, String demarcheId) {
+    PassEmploiMatomoTracker.instance.trackEvent(
+      eventCategory: AnalyticsEventNames.createActionEventCategory,
+      action: AnalyticsEventNames.createActionDisplaySnackBarAction,
+    );
+    // As context is not available anymore in callback, navigator needs to be instantiated here.
+    final navigator = Navigator.of(context);
+    showSnackBarWithSuccess(
+      context,
+      Strings.createDemarcheSuccess,
+      () {
+        PassEmploiMatomoTracker.instance.trackEvent(
+          eventCategory: AnalyticsEventNames.createActionEventCategory,
+          action: AnalyticsEventNames.createActionClickOnSnackBarAction,
+        );
+        navigator.push(DemarcheDetailPage.materialPageRoute(demarcheId));
+      },
+    );
+  }
 
   @override
   State<DemarchePersonnaliseeForm> createState() => _DemarchePersonnaliseeFormState();
@@ -102,7 +97,7 @@ class _DemarchePersonnaliseeFormState extends State<DemarchePersonnaliseeForm> {
       AnimationDurations.veryFast,
       () {
         if (!context.mounted) return;
-        CreateDemarcheStep1Page.showDemarcheSnackBarWithDetail(context, demarcheId);
+        DemarchePersonnaliseeForm.showDemarcheSnackBarWithDetail(context, demarcheId);
         context.dispatch(CreateDemarcheResetAction());
         Navigator.of(context).popAll();
       },

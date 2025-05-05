@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/features/matching_demarche/matching_demarche_actions.dart';
-import 'package:pass_emploi_app/pages/demarche/create_demarche_personnalisee_page.dart';
-import 'package:pass_emploi_app/pages/demarche/create_demarche_step3_page.dart';
+import 'package:pass_emploi_app/pages/demarche/create_demarche_du_referentiel_form.dart';
+import 'package:pass_emploi_app/pages/demarche/create_demarche_personnalisee_form.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_source.dart';
 import 'package:pass_emploi_app/presentation/demarche/duplicate_demarche_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';

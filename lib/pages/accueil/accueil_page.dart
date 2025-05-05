@@ -20,7 +20,7 @@ import 'package:pass_emploi_app/pages/accueil/remote_campagne_accueil_card.dart'
 import 'package:pass_emploi_app/pages/alerte_page.dart';
 import 'package:pass_emploi_app/pages/benevolat_page.dart';
 import 'package:pass_emploi_app/pages/campagne/campagne_details_page.dart';
-import 'package:pass_emploi_app/pages/demarche/create_demarche_step1_page.dart';
+import 'package:pass_emploi_app/pages/demarche/create_demarche_form_page.dart';
 import 'package:pass_emploi_app/pages/la_bonne_alternance_page.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_details_page.dart';
 import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_page.dart';
@@ -119,7 +119,7 @@ class _AccueilPageState extends State<AccueilPage> {
   Future<void> _handleRappelCreationDemarcheDeeplink() async {
     // Displaying of MonSuivi page is required if user wants to display details of created demarche.
     await _displayMonSuiviPage();
-    if (mounted) Navigator.push(context, CreateDemarcheStep1Page.materialPageRoute());
+    if (mounted) Navigator.push(context, CreateDemarcheFormPage.route());
   }
 
   Future<void> _handleRappelCreationActionDeeplink() async {
