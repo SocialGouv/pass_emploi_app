@@ -42,4 +42,6 @@ class Drawables {
   static String welcomeIllustration1 = "${_assets}onboarding/welcome_illustration_1.webp";
   static String welcomeIllustration2 = "${_assets}onboarding/welcome_illustration_2.webp";
   static String welcomeIllustration3 = "${_assets}onboarding/welcome_illustration_3.webp";
+
+  static String notificationsIllustration = "${_assets}onboarding/notfications_illustration.webp";
 }

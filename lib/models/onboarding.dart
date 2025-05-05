@@ -1,30 +1,56 @@
 import 'package:equatable/equatable.dart';
 
 class Onboarding extends Equatable {
-  final bool showAccueilOnboarding;
+  final bool _showAccueilOnboardingLegacy;
 
-  Onboarding({this.showAccueilOnboarding = true});
+  final bool showNotificationsOnboarding;
+  final bool showOnboarding;
+
+  Onboarding({
+    bool showAccueilOnboardingLegacy = true,
+    bool? showNotificationsOnboarding,
+    bool? showOnboarding,
+  })  : _showAccueilOnboardingLegacy = showAccueilOnboardingLegacy,
+        showNotificationsOnboarding = showAccueilOnboardingLegacy ? (showNotificationsOnboarding ?? true) : false,
+        showOnboarding = showAccueilOnboardingLegacy ? (showOnboarding ?? true) : false;
 
   factory Onboarding.initial() {
-    return Onboarding(showAccueilOnboarding: true);
+    return Onboarding();
   }
 
   @override
-  List<Object?> get props => [showAccueilOnboarding];
+  List<Object?> get props => [
+        _showAccueilOnboardingLegacy,
+        showNotificationsOnboarding,
+        showOnboarding,
+      ];
 
   factory Onboarding.fromJson(Map<String, dynamic> json) {
-    return Onboarding(showAccueilOnboarding: json['showAccueilOnboarding'] as bool? ?? true);
+    final showAccueilOnboarding = json['showAccueilOnboarding'] as bool? ?? true;
+
+    return Onboarding(
+      showAccueilOnboardingLegacy: showAccueilOnboarding,
+      showNotificationsOnboarding: json['showNotificationsOnboarding'] as bool?,
+      showOnboarding: json['showOnboarding'] as bool?,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {'showAccueilOnboarding': showAccueilOnboarding};
+    return {
+      'showAccueilOnboarding': _showAccueilOnboardingLegacy,
+      'showNotificationsOnboarding': showNotificationsOnboarding,
+      'showOnboarding': showOnboarding,
+    };
   }
 
   Onboarding copyWith({
-    bool? showAccueilOnboarding,
+    bool? showNotificationsOnboarding,
+    bool? showOnboarding,
   }) {
     return Onboarding(
-      showAccueilOnboarding: showAccueilOnboarding ?? this.showAccueilOnboarding,
+      showAccueilOnboardingLegacy: _showAccueilOnboardingLegacy,
+      showNotificationsOnboarding: showNotificationsOnboarding ?? this.showNotificationsOnboarding,
+      showOnboarding: showOnboarding ?? this.showOnboarding,
     );
   }
 }

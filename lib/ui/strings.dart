@@ -319,6 +319,12 @@ class Strings {
   static String onboardingNavigationBody =
       "Cliquez sur les onglets pour découvrir les fonctionnalités de l’application.";
 
+  // notifications bottom sheet
+  static String notificationsBottomSheetTitle = "Activez les notifications pour ne rien manquer";
+  static String notificationsBottomSheetcontent =
+      "Messages importants, rappel des rendez-vous, actions à faire, nouvelles offres en fonction de vos critères… On vous prévient au bon moment.";
+  static String notificationsBottomSheetButton = "Activer les notifications";
+
   // Accueil
   static String accueilAppBarTitle = "Bienvenue";
   static String accueilCetteSemaineSection = "Cette semaine";
