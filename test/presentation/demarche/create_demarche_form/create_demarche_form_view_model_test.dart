@@ -20,78 +20,78 @@ void main() {
       group('onNavigateBackward', () {
         test('should stay on step 1 when current step is step 1', () {
           // Given
-          final viewModel = CreateDemarcheFormViewModel(displayState: CreateDemarche2Step1())..addListener(notify);
+          final viewModel = CreateDemarcheFormViewModel(displayState: CreateDemarcheStep1())..addListener(notify);
 
           // When
           viewModel.onNavigateBackward();
 
           // Then
-          expect(viewModel.displayState, isA<CreateDemarche2Step1>());
+          expect(viewModel.displayState, isA<CreateDemarcheStep1>());
           expect(hasBeenNotified, true);
         });
 
         test('should go back to step 1 when current step is thematique step 2', () {
           // Given
-          final viewModel = CreateDemarcheFormViewModel(displayState: CreateDemarche2FromThematiqueStep2())
+          final viewModel = CreateDemarcheFormViewModel(displayState: CreateDemarcheFromThematiqueStep2())
             ..addListener(notify);
 
           // When
           viewModel.onNavigateBackward();
 
           // Then
-          expect(viewModel.displayState, isA<CreateDemarche2Step1>());
+          expect(viewModel.displayState, isA<CreateDemarcheStep1>());
           expect(hasBeenNotified, true);
         });
 
         test('should go back to step 1 when current step is personnalisee step 2', () {
           // Given
-          final viewModel = CreateDemarcheFormViewModel(displayState: CreateDemarche2PersonnaliseeStep2())
+          final viewModel = CreateDemarcheFormViewModel(displayState: CreateDemarchePersonnaliseeStep2())
             ..addListener(notify);
 
           // When
           viewModel.onNavigateBackward();
 
           // Then
-          expect(viewModel.displayState, isA<CreateDemarche2Step1>());
+          expect(viewModel.displayState, isA<CreateDemarcheStep1>());
           expect(hasBeenNotified, true);
         });
 
         test('should go back to thematique step 2 when current step is thematique step 3', () {
           // Given
-          final viewModel = CreateDemarcheFormViewModel(displayState: CreateDemarche2FromThematiqueStep3())
+          final viewModel = CreateDemarcheFormViewModel(displayState: CreateDemarcheFromThematiqueStep3())
             ..addListener(notify);
 
           // When
           viewModel.onNavigateBackward();
 
           // Then
-          expect(viewModel.displayState, isA<CreateDemarche2FromThematiqueStep2>());
+          expect(viewModel.displayState, isA<CreateDemarcheFromThematiqueStep2>());
           expect(hasBeenNotified, true);
         });
 
         test('should go back to personnalisee step 2 when current step is personnalisee step 3', () {
           // Given
-          final viewModel = CreateDemarcheFormViewModel(displayState: CreateDemarche2PersonnaliseeStep3())
+          final viewModel = CreateDemarcheFormViewModel(displayState: CreateDemarchePersonnaliseeStep3())
             ..addListener(notify);
 
           // When
           viewModel.onNavigateBackward();
 
           // Then
-          expect(viewModel.displayState, isA<CreateDemarche2PersonnaliseeStep2>());
+          expect(viewModel.displayState, isA<CreateDemarchePersonnaliseeStep2>());
           expect(hasBeenNotified, true);
         });
 
         test('should go back on step 2 state when current step is submitted', () {
           // Given
-          final viewModel = CreateDemarcheFormViewModel(displayState: CreateDemarche2FromThematiqueSubmitted())
+          final viewModel = CreateDemarcheFormViewModel(displayState: CreateDemarcheFromThematiqueSubmitted())
             ..addListener(notify);
 
           // When
           viewModel.onNavigateBackward();
 
           // Then
-          expect(viewModel.displayState, isA<CreateDemarche2FromThematiqueStep2>());
+          expect(viewModel.displayState, isA<CreateDemarcheFromThematiqueStep2>());
           expect(hasBeenNotified, true);
         });
       });
@@ -105,7 +105,7 @@ void main() {
           viewModel.navigateToCreateCustomDemarche();
 
           // Then
-          expect(viewModel.displayState, isA<CreateDemarche2PersonnaliseeStep2>());
+          expect(viewModel.displayState, isA<CreateDemarchePersonnaliseeStep2>());
           expect(hasBeenNotified, true);
         });
       });
@@ -119,7 +119,7 @@ void main() {
           viewModel.navigateToCreateDemarchePersonnaliseeStep3();
 
           // Then
-          expect(viewModel.displayState, isA<CreateDemarche2PersonnaliseeStep3>());
+          expect(viewModel.displayState, isA<CreateDemarchePersonnaliseeStep3>());
           expect(hasBeenNotified, true);
         });
       });
@@ -196,7 +196,7 @@ void main() {
 
           // Then
           expect(viewModel.step1ViewModel.selectedThematique, thematique);
-          expect(viewModel.displayState, isA<CreateDemarche2FromThematiqueStep2>());
+          expect(viewModel.displayState, isA<CreateDemarcheFromThematiqueStep2>());
           expect(hasBeenNotified, true);
         });
       });
@@ -216,7 +216,7 @@ void main() {
 
           // Then
           expect(viewModel.thematiqueStep2ViewModel.selectedDemarcheVm, demarche);
-          expect(viewModel.displayState, isA<CreateDemarche2FromThematiqueStep3>());
+          expect(viewModel.displayState, isA<CreateDemarcheFromThematiqueStep3>());
           expect(hasBeenNotified, true);
         });
       });
@@ -274,7 +274,7 @@ void main() {
           viewModel.submitDemarchePersonnalisee();
 
           // Then
-          expect(viewModel.displayState, isA<CreateDemarche2PersonnaliseeSubmitted>());
+          expect(viewModel.displayState, isA<CreateDemarchePersonnaliseeSubmitted>());
           expect(hasBeenNotified, true);
         });
       });
@@ -288,7 +288,7 @@ void main() {
           viewModel.submitDemarcheThematique();
 
           // Then
-          expect(viewModel.displayState, isA<CreateDemarche2FromThematiqueSubmitted>());
+          expect(viewModel.displayState, isA<CreateDemarcheFromThematiqueSubmitted>());
           expect(hasBeenNotified, true);
         });
       });

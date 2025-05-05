@@ -32,7 +32,7 @@ class CreateDemarcheFormPage extends StatelessWidget {
           builder: (context, createDemarcheVm) {
             return Stack(
               children: [
-                CreateDemarche2Form(
+                CreateDemarcheForm(
                   onCreateDemarchePersonnalisee: (createRequest) {
                     createDemarchePersonnaliseeVm.onCreateDemarche(
                         createRequest.commentaire, createRequest.dateEcheance);

@@ -14,8 +14,8 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_stepper.dart';
 
-class CreateDemarche2Form extends StatefulWidget {
-  const CreateDemarche2Form({
+class CreateDemarcheForm extends StatefulWidget {
+  const CreateDemarcheForm({
     super.key,
     required this.onCreateDemarchePersonnalisee,
     required this.onCreateDemarcheFromReferentiel,
@@ -25,10 +25,10 @@ class CreateDemarche2Form extends StatefulWidget {
   final void Function(CreateDemarcheRequestAction) onCreateDemarcheFromReferentiel;
 
   @override
-  State<CreateDemarche2Form> createState() => _CreateDemarche2FormState();
+  State<CreateDemarcheForm> createState() => _CreateDemarcheFormState();
 }
 
-class _CreateDemarche2FormState extends State<CreateDemarche2Form> {
+class _CreateDemarcheFormState extends State<CreateDemarcheForm> {
   late final CreateDemarcheFormViewModel _viewModel;
 
   @override
@@ -39,11 +39,11 @@ class _CreateDemarche2FormState extends State<CreateDemarche2Form> {
   }
 
   void _onFormStateChanged() {
-    if (_viewModel.displayState is CreateDemarche2FromThematiqueSubmitted) {
+    if (_viewModel.displayState is CreateDemarcheFromThematiqueSubmitted) {
       widget.onCreateDemarcheFromReferentiel(_viewModel.createDemarcheRequestAction());
     }
 
-    if (_viewModel.displayState is CreateDemarche2PersonnaliseeSubmitted) {
+    if (_viewModel.displayState is CreateDemarchePersonnaliseeSubmitted) {
       widget.onCreateDemarchePersonnalisee(_viewModel.createDemarchePersonnaliseeRequestAction());
     }
     setState(() {});
@@ -95,15 +95,15 @@ class _Body extends StatelessWidget {
                 ),
                 Expanded(
                   child: switch (viewModel.displayState) {
-                    CreateDemarche2Step1() => CreateDemarche2Step1Page(viewModel),
-                    CreateDemarche2FromThematiqueStep2() => CreateDemarche2FromThematiqueStep2Page(viewModel),
-                    CreateDemarche2PersonnaliseeStep2() => CreateDemarche2PersonnaliseeStep2Page(viewModel),
-                    CreateDemarche2FromThematiqueStep3() ||
-                    CreateDemarche2FromThematiqueSubmitted() =>
-                      CreateDemarche2FromThematiqueStep3Page(viewModel),
-                    CreateDemarche2PersonnaliseeStep3() ||
-                    CreateDemarche2PersonnaliseeSubmitted() =>
-                      CreateDemarche2PersonnaliseeStep3Page(viewModel),
+                    CreateDemarcheStep1() => CreateDemarcheStep1Page(viewModel),
+                    CreateDemarcheFromThematiqueStep2() => CreateDemarcheFromThematiqueStep2Page(viewModel),
+                    CreateDemarchePersonnaliseeStep2() => CreateDemarchePersonnaliseeStep2Page(viewModel),
+                    CreateDemarcheFromThematiqueStep3() ||
+                    CreateDemarcheFromThematiqueSubmitted() =>
+                      CreateDemarcheFromThematiqueStep3Page(viewModel),
+                    CreateDemarchePersonnaliseeStep3() ||
+                    CreateDemarchePersonnaliseeSubmitted() =>
+                      CreateDemarchePersonnaliseeStep3Page(viewModel),
                   },
                 ),
               ],

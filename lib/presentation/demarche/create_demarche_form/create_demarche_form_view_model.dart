@@ -19,43 +19,41 @@ class CreateDemarcheFormViewModel extends ChangeNotifier {
 
   CreateDemarcheFormViewModel({
     CreateDemarcheDisplayState? displayState,
-    CreateDemarche2Step1ViewModel? initialStep1ViewModel,
-    CreateDemarche2FromThematiqueStep2ViewModel? initialThematiqueStep2ViewModel,
-    CreateDemarche2PersonnaliseeStep2ViewModel? initialPersonnaliseeStep2ViewModel,
-    CreateDemarche2FromThematiqueStep3ViewModel? initialFromThematiqueStep3ViewModel,
-    CreateDemarche2PersonnaliseeStep3ViewModel? initialPersonnaliseeStep3ViewModel,
-    CreateDemarche2ConfirmationStepViewModel? initialConfirmationStepViewModel,
-  })  : displayState = displayState ?? CreateDemarche2Step1(),
-        step1ViewModel = initialStep1ViewModel ?? CreateDemarche2Step1ViewModel(),
-        thematiqueStep2ViewModel = initialThematiqueStep2ViewModel ?? CreateDemarche2FromThematiqueStep2ViewModel(),
-        personnaliseeStep2ViewModel =
-            initialPersonnaliseeStep2ViewModel ?? CreateDemarche2PersonnaliseeStep2ViewModel(),
+    CreateDemarcheStep1ViewModel? initialStep1ViewModel,
+    CreateDemarcheFromThematiqueStep2ViewModel? initialThematiqueStep2ViewModel,
+    CreateDemarchePersonnaliseeStep2ViewModel? initialPersonnaliseeStep2ViewModel,
+    CreateDemarcheFromThematiqueStep3ViewModel? initialFromThematiqueStep3ViewModel,
+    CreateDemarchePersonnaliseeStep3ViewModel? initialPersonnaliseeStep3ViewModel,
+    CreateDemarcheConfirmationStepViewModel? initialConfirmationStepViewModel,
+  })  : displayState = displayState ?? CreateDemarcheStep1(),
+        step1ViewModel = initialStep1ViewModel ?? CreateDemarcheStep1ViewModel(),
+        thematiqueStep2ViewModel = initialThematiqueStep2ViewModel ?? CreateDemarcheFromThematiqueStep2ViewModel(),
+        personnaliseeStep2ViewModel = initialPersonnaliseeStep2ViewModel ?? CreateDemarchePersonnaliseeStep2ViewModel(),
         fromThematiqueStep3ViewModel =
-            initialFromThematiqueStep3ViewModel ?? CreateDemarche2FromThematiqueStep3ViewModel(),
-        personnaliseeStep3ViewModel =
-            initialPersonnaliseeStep3ViewModel ?? CreateDemarche2PersonnaliseeStep3ViewModel(),
-        confirmationStepViewModel = initialConfirmationStepViewModel ?? CreateDemarche2ConfirmationStepViewModel();
+            initialFromThematiqueStep3ViewModel ?? CreateDemarcheFromThematiqueStep3ViewModel(),
+        personnaliseeStep3ViewModel = initialPersonnaliseeStep3ViewModel ?? CreateDemarchePersonnaliseeStep3ViewModel(),
+        confirmationStepViewModel = initialConfirmationStepViewModel ?? CreateDemarcheConfirmationStepViewModel();
 
-  CreateDemarche2Step1ViewModel step1ViewModel;
-  CreateDemarche2FromThematiqueStep2ViewModel thematiqueStep2ViewModel;
-  CreateDemarche2PersonnaliseeStep2ViewModel personnaliseeStep2ViewModel;
-  CreateDemarche2FromThematiqueStep3ViewModel fromThematiqueStep3ViewModel;
-  CreateDemarche2PersonnaliseeStep3ViewModel personnaliseeStep3ViewModel;
-  CreateDemarche2ConfirmationStepViewModel confirmationStepViewModel;
+  CreateDemarcheStep1ViewModel step1ViewModel;
+  CreateDemarcheFromThematiqueStep2ViewModel thematiqueStep2ViewModel;
+  CreateDemarchePersonnaliseeStep2ViewModel personnaliseeStep2ViewModel;
+  CreateDemarcheFromThematiqueStep3ViewModel fromThematiqueStep3ViewModel;
+  CreateDemarchePersonnaliseeStep3ViewModel personnaliseeStep3ViewModel;
+  CreateDemarcheConfirmationStepViewModel confirmationStepViewModel;
 
   void onNavigateBackward() {
-    if (displayState is CreateDemarche2FromThematiqueStep3) {
-      fromThematiqueStep3ViewModel = CreateDemarche2FromThematiqueStep3ViewModel();
+    if (displayState is CreateDemarcheFromThematiqueStep3) {
+      fromThematiqueStep3ViewModel = CreateDemarcheFromThematiqueStep3ViewModel();
     }
 
     displayState = switch (displayState) {
-      CreateDemarche2Step1() => displayState,
-      CreateDemarche2FromThematiqueStep2() => CreateDemarche2Step1(),
-      CreateDemarche2PersonnaliseeStep2() => CreateDemarche2Step1(),
-      CreateDemarche2FromThematiqueStep3() => CreateDemarche2FromThematiqueStep2(),
-      CreateDemarche2PersonnaliseeStep3() => CreateDemarche2PersonnaliseeStep2(),
-      CreateDemarche2FromThematiqueSubmitted() => CreateDemarche2FromThematiqueStep2(),
-      CreateDemarche2PersonnaliseeSubmitted() => CreateDemarche2PersonnaliseeStep2(),
+      CreateDemarcheStep1() => displayState,
+      CreateDemarcheFromThematiqueStep2() => CreateDemarcheStep1(),
+      CreateDemarchePersonnaliseeStep2() => CreateDemarcheStep1(),
+      CreateDemarcheFromThematiqueStep3() => CreateDemarcheFromThematiqueStep2(),
+      CreateDemarchePersonnaliseeStep3() => CreateDemarchePersonnaliseeStep2(),
+      CreateDemarcheFromThematiqueSubmitted() => CreateDemarcheFromThematiqueStep2(),
+      CreateDemarchePersonnaliseeSubmitted() => CreateDemarchePersonnaliseeStep2(),
     };
     notifyListeners();
   }
@@ -64,22 +62,22 @@ class CreateDemarcheFormViewModel extends ChangeNotifier {
   bool get isDemarchePersonnaliseeDateValid => personnaliseeStep3ViewModel.dateSource.isValid;
 
   void submitDemarchePersonnalisee() {
-    displayState = CreateDemarche2PersonnaliseeSubmitted();
+    displayState = CreateDemarchePersonnaliseeSubmitted();
     notifyListeners();
   }
 
   void submitDemarcheThematique() {
-    displayState = CreateDemarche2FromThematiqueSubmitted();
+    displayState = CreateDemarcheFromThematiqueSubmitted();
     notifyListeners();
   }
 
   void navigateToCreateCustomDemarche() {
-    displayState = CreateDemarche2PersonnaliseeStep2();
+    displayState = CreateDemarchePersonnaliseeStep2();
     notifyListeners();
   }
 
   void navigateToCreateDemarchePersonnaliseeStep3() {
-    displayState = CreateDemarche2PersonnaliseeStep3();
+    displayState = CreateDemarchePersonnaliseeStep3();
     notifyListeners();
   }
 
@@ -105,13 +103,13 @@ class CreateDemarcheFormViewModel extends ChangeNotifier {
 
   void thematiqueSelected(ThematiqueDemarcheItem thematique) {
     step1ViewModel = step1ViewModel.copyWith(selectedThematique: thematique);
-    displayState = CreateDemarche2FromThematiqueStep2();
+    displayState = CreateDemarcheFromThematiqueStep2();
     notifyListeners();
   }
 
   void demarcheSelected(DemarcheDuReferentielCardViewModel demarcheCardViewModel) {
     thematiqueStep2ViewModel = thematiqueStep2ViewModel.copyWith(demarcheCardViewModel: demarcheCardViewModel);
-    displayState = CreateDemarche2FromThematiqueStep3();
+    displayState = CreateDemarcheFromThematiqueStep3();
     notifyListeners();
   }
 
@@ -134,4 +132,4 @@ class CreateDemarcheFormViewModel extends ChangeNotifier {
   }
 }
 
-sealed class CreateDemarche2ViewModel extends Equatable {}
+sealed class CreateDemarcheViewModel extends Equatable {}

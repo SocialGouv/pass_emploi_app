@@ -1,8 +1,8 @@
 part of '../create_demarche_form_view_model.dart';
 
-class CreateDemarche2ConfirmationStepViewModel extends CreateDemarche2ViewModel {
+class CreateDemarcheConfirmationStepViewModel extends CreateDemarcheViewModel {
   final bool valid;
-  CreateDemarche2ConfirmationStepViewModel({this.valid = true});
+  CreateDemarcheConfirmationStepViewModel({this.valid = true});
 
   @override
   List<Object?> get props => [valid];

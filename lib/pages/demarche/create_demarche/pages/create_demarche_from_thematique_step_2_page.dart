@@ -10,8 +10,8 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 
-class CreateDemarche2FromThematiqueStep2Page extends StatelessWidget {
-  const CreateDemarche2FromThematiqueStep2Page(this.viewModel);
+class CreateDemarcheFromThematiqueStep2Page extends StatelessWidget {
+  const CreateDemarcheFromThematiqueStep2Page(this.viewModel);
   final CreateDemarcheFormViewModel viewModel;
 
   @override

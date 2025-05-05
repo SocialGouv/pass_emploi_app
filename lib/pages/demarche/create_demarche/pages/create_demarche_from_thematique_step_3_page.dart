@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_actions.dart';
-import 'package:pass_emploi_app/presentation/demarche/create_demarche_form/create_demarche_2_from_referentiel_step_3_view_model.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_form/create_demarche_form_view_model.dart';
+import 'package:pass_emploi_app/presentation/demarche/create_demarche_form/create_demarche_from_referentiel_step_3_view_model.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_step3_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -13,8 +13,8 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/date_pickers/date_picker_suggestions.dart';
 
-class CreateDemarche2FromThematiqueStep3Page extends StatelessWidget {
-  const CreateDemarche2FromThematiqueStep3Page(this.formVm);
+class CreateDemarcheFromThematiqueStep3Page extends StatelessWidget {
+  const CreateDemarcheFromThematiqueStep3Page(this.formVm);
   final CreateDemarcheFormViewModel formVm;
 
   @override
@@ -27,9 +27,9 @@ class CreateDemarche2FromThematiqueStep3Page extends StatelessWidget {
       return const SizedBox();
     }
 
-    return StoreConnector<AppState, CreateDemarche2FromReferentielStep3ViewModel>(
+    return StoreConnector<AppState, CreateDemarcheFromReferentielStep3ViewModel>(
       onInit: (store) => store.dispatch(ThematiqueDemarcheRequestAction()),
-      converter: (store) => CreateDemarche2FromReferentielStep3ViewModel.create(
+      converter: (store) => CreateDemarcheFromReferentielStep3ViewModel.create(
         store,
         selectedDemarche.idDemarche,
         selectedThematique.id,
@@ -92,7 +92,7 @@ class CreateDemarche2FromThematiqueStep3Page extends StatelessWidget {
 
 class _MoyensList extends StatelessWidget {
   const _MoyensList({required this.storeVm, required this.onCommentSelected, this.selectedComment});
-  final CreateDemarche2FromReferentielStep3ViewModel storeVm;
+  final CreateDemarcheFromReferentielStep3ViewModel storeVm;
   final CommentItem? selectedComment;
   final void Function(CommentItem) onCommentSelected;
 

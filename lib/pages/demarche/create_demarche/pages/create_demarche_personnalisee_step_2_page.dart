@@ -6,15 +6,15 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
 
-class CreateDemarche2PersonnaliseeStep2Page extends StatefulWidget {
-  const CreateDemarche2PersonnaliseeStep2Page(this.viewModel);
+class CreateDemarchePersonnaliseeStep2Page extends StatefulWidget {
+  const CreateDemarchePersonnaliseeStep2Page(this.viewModel);
   final CreateDemarcheFormViewModel viewModel;
 
   @override
-  State<CreateDemarche2PersonnaliseeStep2Page> createState() => _CreateDemarche2PersonnaliseeStep2PageState();
+  State<CreateDemarchePersonnaliseeStep2Page> createState() => _CreateDemarchePersonnaliseeStep2PageState();
 }
 
-class _CreateDemarche2PersonnaliseeStep2PageState extends State<CreateDemarche2PersonnaliseeStep2Page> {
+class _CreateDemarchePersonnaliseeStep2PageState extends State<CreateDemarchePersonnaliseeStep2Page> {
   late final TextEditingController _controller;
 
   @override
@@ -37,7 +37,7 @@ class _CreateDemarche2PersonnaliseeStep2PageState extends State<CreateDemarche2P
           const SizedBox(height: Margins.spacing_s),
           BaseTextField(
             controller: _controller,
-            maxLength: CreateDemarche2PersonnaliseeStep2ViewModel.maxLength,
+            maxLength: CreateDemarchePersonnaliseeStep2ViewModel.maxLength,
             minLines: 4,
             onChanged: (value) => widget.viewModel.descriptionChanged(value),
           ),

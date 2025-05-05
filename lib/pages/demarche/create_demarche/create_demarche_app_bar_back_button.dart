@@ -10,11 +10,11 @@ class AppBarBackButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: switch (viewModel.displayState) {
-        CreateDemarche2Step1() => () => Navigator.pop(context),
+        CreateDemarcheStep1() => () => Navigator.pop(context),
         _ => () => viewModel.onNavigateBackward(),
       },
       icon: switch (viewModel.displayState) {
-        CreateDemarche2Step1() => Icon(Icons.close_rounded),
+        CreateDemarcheStep1() => Icon(Icons.close_rounded),
         _ => Icon(Icons.arrow_back_rounded),
       },
     );

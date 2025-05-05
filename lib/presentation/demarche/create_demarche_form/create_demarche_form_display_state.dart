@@ -5,7 +5,7 @@ sealed class CreateDemarcheDisplayState {
 }
 
 // step 1
-class CreateDemarche2Step1 extends CreateDemarcheDisplayState {
+class CreateDemarcheStep1 extends CreateDemarcheDisplayState {
   @override
   int index() => 0;
 }
@@ -13,12 +13,12 @@ class CreateDemarche2Step1 extends CreateDemarcheDisplayState {
 // step 2
 sealed class CreateDemarcheStep2 extends CreateDemarcheDisplayState {}
 
-class CreateDemarche2FromThematiqueStep2 extends CreateDemarcheStep2 {
+class CreateDemarcheFromThematiqueStep2 extends CreateDemarcheStep2 {
   @override
   int index() => 1;
 }
 
-class CreateDemarche2PersonnaliseeStep2 extends CreateDemarcheStep2 {
+class CreateDemarchePersonnaliseeStep2 extends CreateDemarcheStep2 {
   @override
   int index() => 1;
 }
@@ -29,16 +29,16 @@ sealed class CreateDemarcheStep3 extends CreateDemarcheDisplayState {
   int index() => 2;
 }
 
-class CreateDemarche2FromThematiqueStep3 extends CreateDemarcheStep3 {}
+class CreateDemarcheFromThematiqueStep3 extends CreateDemarcheStep3 {}
 
-class CreateDemarche2PersonnaliseeStep3 extends CreateDemarcheStep3 {}
+class CreateDemarchePersonnaliseeStep3 extends CreateDemarcheStep3 {}
 
 // confirmation
-sealed class CreateDemarche2Submitted extends CreateDemarcheDisplayState {
+sealed class CreateDemarcheSubmitted extends CreateDemarcheDisplayState {
   @override
   int index() => 2;
 }
 
-class CreateDemarche2FromThematiqueSubmitted extends CreateDemarche2Submitted {}
+class CreateDemarcheFromThematiqueSubmitted extends CreateDemarcheSubmitted {}
 
-class CreateDemarche2PersonnaliseeSubmitted extends CreateDemarche2Submitted {}
+class CreateDemarchePersonnaliseeSubmitted extends CreateDemarcheSubmitted {}

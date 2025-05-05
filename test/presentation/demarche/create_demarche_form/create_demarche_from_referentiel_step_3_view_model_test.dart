@@ -16,7 +16,7 @@ void main() {
         .store();
 
     // When
-    final viewModel = CreateDemarche2FromReferentielStep3ViewModel.create(store, 'id', "P03");
+    final viewModel = CreateDemarcheFromReferentielStep3ViewModel.create(store, 'id', "P03");
 
     // Then
     expect(viewModel.comments, isEmpty);
@@ -32,7 +32,7 @@ void main() {
         .store();
 
     // When
-    final viewModel = CreateDemarche2FromReferentielStep3ViewModel.create(store, 'id', "P03");
+    final viewModel = CreateDemarcheFromReferentielStep3ViewModel.create(store, 'id', "P03");
 
     // Then
     expect(viewModel.comments, [CommentTextItem(label: 'label1', code: 'code1')]);

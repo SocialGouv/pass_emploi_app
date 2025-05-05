@@ -21,8 +21,8 @@ import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/illustration/empty_state_placeholder.dart';
 import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 
-class CreateDemarche2Step1Page extends StatelessWidget {
-  const CreateDemarche2Step1Page(this.formViewModel, {super.key});
+class CreateDemarcheStep1Page extends StatelessWidget {
+  const CreateDemarcheStep1Page(this.formViewModel, {super.key});
   final CreateDemarcheFormViewModel formViewModel;
 
   @override

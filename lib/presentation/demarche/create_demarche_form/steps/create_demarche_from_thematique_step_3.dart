@@ -1,16 +1,16 @@
 part of '../create_demarche_form_view_model.dart';
 
-class CreateDemarche2FromThematiqueStep3ViewModel extends CreateDemarche2ViewModel {
+class CreateDemarcheFromThematiqueStep3ViewModel extends CreateDemarcheViewModel {
   final DateInputSource dateSource;
   final CommentItem? commentItem;
-  CreateDemarche2FromThematiqueStep3ViewModel({DateInputSource? initialDateInput, this.commentItem})
+  CreateDemarcheFromThematiqueStep3ViewModel({DateInputSource? initialDateInput, this.commentItem})
       : dateSource = initialDateInput ?? DateNotInitialized();
 
   @override
   List<Object?> get props => [dateSource];
 
-  CreateDemarche2FromThematiqueStep3ViewModel copyWith({DateInputSource? dateSource, CommentItem? commentItem}) {
-    return CreateDemarche2FromThematiqueStep3ViewModel(
+  CreateDemarcheFromThematiqueStep3ViewModel copyWith({DateInputSource? dateSource, CommentItem? commentItem}) {
+    return CreateDemarcheFromThematiqueStep3ViewModel(
       initialDateInput: dateSource ?? this.dateSource,
       commentItem: commentItem ?? this.commentItem,
     );

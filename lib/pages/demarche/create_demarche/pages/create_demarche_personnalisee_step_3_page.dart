@@ -6,8 +6,8 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/date_pickers/date_picker_suggestions.dart';
 
-class CreateDemarche2PersonnaliseeStep3Page extends StatelessWidget {
-  const CreateDemarche2PersonnaliseeStep3Page(this.viewModel);
+class CreateDemarchePersonnaliseeStep3Page extends StatelessWidget {
+  const CreateDemarchePersonnaliseeStep3Page(this.viewModel);
   final CreateDemarcheFormViewModel viewModel;
 
   @override
