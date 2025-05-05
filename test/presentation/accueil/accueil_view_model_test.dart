@@ -741,4 +741,38 @@ void main() {
       );
     });
   });
+
+  group('shouldShowAllowNotifications', () {
+    test('should show allow notifications when not asked before', () {
+      // Given
+      final store = givenState() //
+          .loggedInMiloUser()
+          .withOnboardingSuccessState(mockOnboarding(showNotificationsOnboarding: true))
+          .withAccueilMiloSuccess()
+          .store();
+
+      // When
+      final viewModel = AccueilViewModel.create(store);
+
+      // Then
+      expect(viewModel.shouldShowAllowNotifications, isTrue);
+    });
+
+    test('should not show allow notifications when already asked', () {
+      // Given
+      final store = givenState() //
+          .loggedInMiloUser()
+          .withAccueilMiloSuccess()
+          .withOnboardingSuccessState(mockOnboarding(
+            showNotificationsOnboarding: false,
+          ))
+          .store();
+
+      // When
+      final viewModel = AccueilViewModel.create(store);
+
+      // Then
+      expect(viewModel.shouldShowAllowNotifications, isFalse);
+    });
+  });
 }

@@ -1,5 +1,6 @@
 import 'package:pass_emploi_app/features/bootstrap/bootstrap_action.dart';
 import 'package:pass_emploi_app/features/onboarding/onboarding_actions.dart';
+import 'package:pass_emploi_app/features/onboarding/onboarding_state.dart';
 import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -24,14 +25,26 @@ class OnboardingMiddleware extends MiddlewareClass<AppState> {
       await _repository.save(updatedOnboarding);
       store.dispatch(OnboardingSuccessAction(updatedOnboarding));
     } else if (action is OnboardingPushNotificationPermissionRequestAction) {
-      await _manager.requestPermission();
-      store.dispatch(OnboardingAccueilSaveAction());
+      await _handleNotificationsPermissions(store);
+    }
+  }
+
+  Future<void> _handleNotificationsPermissions(Store<AppState> store) async {
+    await _manager.requestPermission();
+    final onboardingState = store.state.onboardingState;
+    if (onboardingState is OnboardingSuccessState) {
+      final onboarding = onboardingState.onboarding;
+      final updatedOnboarding = onboarding.copyWith(showNotificationsOnboarding: false);
+      await _repository.save(updatedOnboarding);
+      store.dispatch(OnboardingSuccessAction(updatedOnboarding));
     }
   }
 }
 
 Onboarding _updateOnboarding(OnboardingSaveAction action, Onboarding onboarding) {
-  return switch (action) {
-    OnboardingAccueilSaveAction() => onboarding.copyWith(showAccueilOnboarding: false),
-  };
+  // TODO:
+  throw UnimplementedError('Update onboarding logic not implemented');
+  // return switch (action) {
+  //   OnboardingAccueilSaveAction() => onboarding.copyWith(showAccueilOnboarding: false),
+  // };
 }

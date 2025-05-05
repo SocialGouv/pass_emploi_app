@@ -51,6 +51,7 @@ import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/offre_suivie.dart';
 import 'package:pass_emploi_app/models/offre_type.dart';
+import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/models/preferences.dart';
 import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 import 'package:pass_emploi_app/models/remote_campagne_accueil.dart';
@@ -1433,3 +1434,15 @@ OffreSuivie mockOffreSuivie({String? id}) => OffreSuivie(
       offreDto: OffreEmploiDto(mockOffreEmploi(id: id ?? "offre1")),
       dateConsultation: DateTime(2025),
     );
+
+Onboarding mockOnboarding({
+  bool? showAccueilOnboarding,
+  bool? showNotificationsOnboarding,
+  bool? showOnboarding,
+}) {
+  return Onboarding(
+    showAccueilOnboardingLegacy: showAccueilOnboarding ?? true,
+    showNotificationsOnboarding: showNotificationsOnboarding ?? true,
+    showOnboarding: showOnboarding ?? true,
+  );
+}

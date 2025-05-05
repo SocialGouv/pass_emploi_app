@@ -36,15 +36,18 @@ void main() {
       sut.whenDispatchingAction(() => OnboardingPushNotificationPermissionRequestAction());
 
       test('should wait for requested permission and update onboarding state', () {
-        when(() => repository.get()).thenAnswer((_) async => Onboarding());
+        final givenOnboarding = Onboarding(showNotificationsOnboarding: true);
+
+        when(() => repository.get()).thenAnswer((_) async => givenOnboarding);
         when(() => repository.save(any())).thenAnswer((_) async {});
         when(() => pushNotificationManager.requestPermission()).thenAnswer((_) async {});
 
         sut.givenStore = givenState() //
             .loggedIn()
+            .copyWith(onboardingState: OnboardingSuccessState(givenOnboarding))
             .store((f) => {f.onboardingRepository = repository, f.pushNotificationManager = pushNotificationManager});
 
-        sut.thenExpectChangingStatesThroughOrder([_shouldSucceed(Onboarding(showAccueilOnboarding: false))]);
+        sut.thenExpectAtSomePoint(_shouldSucceed(givenOnboarding.copyWith(showNotificationsOnboarding: false)));
         verify(() => pushNotificationManager.requestPermission()).called(1);
       });
     });
@@ -60,7 +63,7 @@ void main() {
               .loggedIn()
               .store((f) => {f.onboardingRepository = repository});
 
-          sut.thenExpectChangingStatesThroughOrder([_shouldSucceed(Onboarding(showAccueilOnboarding: false))]);
+          sut.thenExpectChangingStatesThroughOrder([_shouldSucceed(Onboarding(showAccueilOnboardingLegacy: false))]);
         });
       });
     });
@@ -71,7 +74,7 @@ Matcher _shouldSucceed(Onboarding onboarding) {
   return StateIs<OnboardingSuccessState>(
     (state) => state.onboardingState,
     (state) {
-      expect(state.result, onboarding);
+      expect(state.onboarding, onboarding);
     },
   );
 }

@@ -17,21 +17,35 @@ void main() {
   });
 
   group('OnboardingRepository', () {
+    test('should initialize onboarding with all values true', () {
+      // When
+      final onboarding = Onboarding.initial();
+
+      // Then
+      expect(onboarding.showOnboarding, isTrue);
+      expect(onboarding.showNotificationsOnboarding, isTrue);
+    });
+
     group('save', () {
-      test('should save onboarding', () async {
+      test('should save onboarding with new properties', () async {
         // Given
-        final Onboarding onboarding = Onboarding();
+        final onboarding = Onboarding();
 
         // When
         await onboardingRepository.save(onboarding);
 
         // Then
-        verify(() => mockFlutterSecureStorage.write(key: 'onboardingStatus', value: _jsonOnboarding));
+        final expectedJson = jsonEncode({
+          'showAccueilOnboarding': true,
+          'showNotificationsOnboarding': true,
+          'showOnboarding': true,
+        });
+        verify(() => mockFlutterSecureStorage.write(key: 'onboardingStatus', value: expectedJson));
       });
     });
 
     group('get', () {
-      test('should get onboarding', () async {
+      test('should get onboarding with default values from legacy key', () async {
         // Given
         mockFlutterSecureStorage.withAnyRead(_jsonOnboarding);
 
@@ -39,7 +53,38 @@ void main() {
         final onboarding = await onboardingRepository.get();
 
         // Then
-        expect(onboarding, Onboarding(showAccueilOnboarding: true));
+        expect(onboarding.showOnboarding, isTrue);
+        expect(onboarding.showNotificationsOnboarding, isTrue);
+      });
+
+      test('should get onboarding with all keys present', () async {
+        // Given
+        final json = jsonEncode({
+          'showAccueilOnboarding': true,
+          'showNotificationsOnboarding': false,
+          'showOnboarding': true,
+        });
+        mockFlutterSecureStorage.withAnyRead(json);
+
+        // When
+        final onboarding = await onboardingRepository.get();
+
+        // Then
+        expect(onboarding.showNotificationsOnboarding, isFalse);
+        expect(onboarding.showOnboarding, isTrue);
+      });
+
+      test('should not show onboarding for old user (showAccueilOnboarding = false)', () async {
+        // Given
+        final json = jsonEncode({'showAccueilOnboarding': false});
+        mockFlutterSecureStorage.withAnyRead(json);
+
+        // When
+        final onboarding = await onboardingRepository.get();
+
+        // Then
+        expect(onboarding.showOnboarding, isFalse);
+        expect(onboarding.showNotificationsOnboarding, isFalse);
       });
     });
   });

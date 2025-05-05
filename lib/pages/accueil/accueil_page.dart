@@ -37,6 +37,7 @@ import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/notifications_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/cards/campagne_card.dart';
 import 'package:pass_emploi_app/widgets/connectivity_widgets.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -50,6 +51,8 @@ class AccueilPage extends StatefulWidget {
 }
 
 class _AccueilPageState extends State<AccueilPage> {
+  bool _onboardingShown = false;
+
   @override
   Widget build(BuildContext context) {
     return Tracker(
@@ -63,6 +66,7 @@ class _AccueilPageState extends State<AccueilPage> {
         converter: (store) => AccueilViewModel.create(store),
         builder: _builder,
         onDidChange: (previousViewModel, viewModel) {
+          _handleNotificationsBottomSheet(viewModel);
           _handleDeeplink(previousViewModel, viewModel);
         },
         distinct: true,
@@ -129,6 +133,14 @@ class _AccueilPageState extends State<AccueilPage> {
     StoreProvider.of<AppState>(context).dispatch(
       HandleDeepLinkAction(MonSuiviDeepLink(), DeepLinkOrigin.inAppNavigation),
     );
+  }
+
+  void _handleNotificationsBottomSheet(AccueilViewModel viewModel) {
+    final context = this.context;
+    if (viewModel.shouldShowAllowNotifications && !_onboardingShown) {
+      _onboardingShown = true;
+      NotificationsBottomSheet.show(context);
+    }
   }
 }
 

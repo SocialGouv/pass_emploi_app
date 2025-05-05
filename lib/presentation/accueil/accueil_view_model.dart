@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/features/campagne_recrutement/campagne_recruteme
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/in_app_notifications/in_app_notifications_state.dart';
+import 'package:pass_emploi_app/features/onboarding/onboarding_state.dart';
 import 'package:pass_emploi_app/features/rating/rating_state.dart';
 import 'package:pass_emploi_app/features/remote_campagne_accueil/remote_campagne_accueil_actions.dart';
 import 'package:pass_emploi_app/models/accompagnement.dart';
@@ -25,6 +26,7 @@ class AccueilViewModel extends Equatable {
   final DeepLink? deepLink;
   final bool shouldResetDeeplink;
   final bool withNewNotifications;
+  final bool shouldShowAllowNotifications;
   final Function() resetDeeplink;
   final Function() retry;
 
@@ -34,6 +36,7 @@ class AccueilViewModel extends Equatable {
     required this.deepLink,
     required this.shouldResetDeeplink,
     required this.withNewNotifications,
+    required this.shouldShowAllowNotifications,
     required this.resetDeeplink,
     required this.retry,
   });
@@ -45,6 +48,7 @@ class AccueilViewModel extends Equatable {
       deepLink: store.getDeepLink(),
       shouldResetDeeplink: _shouldResetDeeplink(store),
       withNewNotifications: _withNewNotifications(store),
+      shouldShowAllowNotifications: _shouldShowAllowNotifications(store),
       resetDeeplink: () => store.dispatch(ResetDeeplinkAction()),
       retry: () => store.dispatch(AccueilRequestAction(forceRefresh: true)),
     );
@@ -247,4 +251,12 @@ bool _withNewNotifications(Store<AppState> store) {
 
   final isNew = dateDerniereConsultation != null ? notification.date.isAfter(dateDerniereConsultation) : true;
   return isNew;
+}
+
+bool _shouldShowAllowNotifications(Store<AppState> store) {
+  final onboaridngState = store.state.onboardingState;
+  if (onboaridngState is OnboardingSuccessState) {
+    return onboaridngState.onboarding.showNotificationsOnboarding;
+  }
+  return false;
 }
