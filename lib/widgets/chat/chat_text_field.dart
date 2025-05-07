@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/accessibility_utils.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/chat_piece_jointe_bottom_sheet.dart';
+import 'package:pass_emploi_app/widgets/onboarding/onboarding_showcase.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
 
 class ChatTextField extends StatefulWidget {
@@ -56,86 +57,89 @@ class _ChatTextFieldState extends State<ChatTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      padding: const EdgeInsets.all(Margins.spacing_base),
-      child: Row(
-        children: [
-          AnimatedCrossFade(
-            firstChild: SizedBox(height: 32),
-            secondChild: Row(
-              children: [
-                FloatingActionButton(
-                  // to avoid hero animation bug
-                  heroTag: "chat",
-                  elevation: 0,
-                  backgroundColor: AppColors.primaryLighten,
-                  tooltip: Strings.sendAttachmentTooltip,
-                  onPressed: onSelectPieceJointe,
-                  child: Icon(
-                    AppIcons.attach_file,
-                    color: AppColors.primary,
-                  ),
-                ),
-                SizedBox(width: Margins.spacing_s),
-              ],
-            ),
-            crossFadeState:
-                widget.jeunePjEnabled && !showSendButton ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-            duration: AnimationDurations.fast,
-          ),
-          Expanded(
-            child: Semantics(
-              label: widget.controller.text.isNotEmpty ? Strings.yourMessage : null,
-              child: BaseTextField(
-                controller: widget.controller,
-                focusNode: widget.focusNode,
-                keyboardType: TextInputType.multiline,
-                minLines: 1,
-                maxLines: 5,
-                hintText: Strings.yourMessage,
-              ),
-            ),
-          ),
-          AnimatedCrossFade(
-            firstChild: SizedBox(height: 32),
-            secondChild: Row(
-              children: [
-                SizedBox(width: Margins.spacing_s),
-                Semantics(
-                  enabled: false,
-                  container: true,
-                  child: FloatingActionButton(
+    return OnboardingShowcase(
+      source: ShowcaseSource.message,
+      child: Container(
+        color: Colors.white,
+        padding: const EdgeInsets.all(Margins.spacing_base),
+        child: Row(
+          children: [
+            AnimatedCrossFade(
+              firstChild: SizedBox(height: 32),
+              secondChild: Row(
+                children: [
+                  FloatingActionButton(
+                    // to avoid hero animation bug
+                    heroTag: "chat",
                     elevation: 0,
-                    backgroundColor: AppColors.primary,
-                    tooltip: Strings.sendMessageTooltip,
-                    onPressed: showSendButton
-                        ? () {
-                            if (widget.controller.value.text == "Je suis malade. Complètement malade.") {
-                              widget.controller.clear();
-                              Navigator.push(context, CredentialsPage.materialPageRoute());
-                            }
-                            if (widget.controller.value.text.isNotEmpty == true) {
-                              widget.onSendMessage(widget.controller.value.text);
-                              widget.controller.clear();
-                              context.trackEvenementEngagement(EvenementEngagement.MESSAGE_ENVOYE);
-                            }
-                          }
-                        : () {},
+                    backgroundColor: AppColors.primaryLighten,
+                    tooltip: Strings.sendAttachmentTooltip,
+                    onPressed: onSelectPieceJointe,
                     child: Icon(
-                      AppIcons.send_rounded,
-                      color: Colors.white,
+                      AppIcons.attach_file,
+                      color: AppColors.primary,
                     ),
                   ),
-                ),
-              ],
+                  SizedBox(width: Margins.spacing_s),
+                ],
+              ),
+              crossFadeState:
+                  widget.jeunePjEnabled && !showSendButton ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+              duration: AnimationDurations.fast,
             ),
-            crossFadeState: showSendButton || A11yUtils.withScreenReader(context)
-                ? CrossFadeState.showSecond
-                : CrossFadeState.showFirst,
-            duration: AnimationDurations.fast,
-          ),
-        ],
+            Expanded(
+              child: Semantics(
+                label: widget.controller.text.isNotEmpty ? Strings.yourMessage : null,
+                child: BaseTextField(
+                  controller: widget.controller,
+                  focusNode: widget.focusNode,
+                  keyboardType: TextInputType.multiline,
+                  minLines: 1,
+                  maxLines: 5,
+                  hintText: Strings.yourMessage,
+                ),
+              ),
+            ),
+            AnimatedCrossFade(
+              firstChild: SizedBox(height: 32),
+              secondChild: Row(
+                children: [
+                  SizedBox(width: Margins.spacing_s),
+                  Semantics(
+                    enabled: false,
+                    container: true,
+                    child: FloatingActionButton(
+                      elevation: 0,
+                      backgroundColor: AppColors.primary,
+                      tooltip: Strings.sendMessageTooltip,
+                      onPressed: showSendButton
+                          ? () {
+                              if (widget.controller.value.text == "Je suis malade. Complètement malade.") {
+                                widget.controller.clear();
+                                Navigator.push(context, CredentialsPage.materialPageRoute());
+                              }
+                              if (widget.controller.value.text.isNotEmpty == true) {
+                                widget.onSendMessage(widget.controller.value.text);
+                                widget.controller.clear();
+                                context.trackEvenementEngagement(EvenementEngagement.MESSAGE_ENVOYE);
+                              }
+                            }
+                          : () {},
+                      child: Icon(
+                        AppIcons.send_rounded,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              crossFadeState: showSendButton || A11yUtils.withScreenReader(context)
+                  ? CrossFadeState.showSecond
+                  : CrossFadeState.showFirst,
+              duration: AnimationDurations.fast,
+            ),
+          ],
+        ),
       ),
     );
   }

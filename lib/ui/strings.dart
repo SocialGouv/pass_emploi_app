@@ -230,6 +230,21 @@ class Strings {
 
   static String skipOnboarding = "Passer le tutoriel";
 
+  static String onboardingShowcaseMessageTitle = "Saluez votre conseiller.";
+  static String onboardingShowcaseActionTitle = "Lancez-vous !";
+  static String onboardingShowcaseOffreTitle = "Un emploi en tête?";
+  static String onboardingShowcaseEvenementTitle = "Explorez les événements en lien avec votre projet pro";
+  static String onboardingShowcaseOutilsTitle = "Besoin d’un coup de pouce?";
+  static String onboardingShowcaseMessageDescription =
+      "Envoyez lui un premier message “Bonjour ! j’ai bien téléchargé l’application, j’ai hâte de commencer !”";
+  static String onboardingShowcaseActionDescription =
+      "Créez une première action pour vous rapprocher de votre objectif ";
+  static String onboardingShowcaseOffreDescription =
+      "Lancez votre recherche pour découvrir des opportunités qui correspondent à vos critères";
+  static String onboardingShowcaseEvenementDescription =
+      "Participez à des salons, forums, ateliers pour faire avancer votre projet pro";
+  static String onboardingShowcaseOutilsDescription = "Retrouvez les bons outils pour vous guider à chaque étapes";
+
   // Login bottom sheet
   static const String loginBottomSeetFranceTravailButton = "France travail";
   static const String loginBottomSeetMissionLocaleButton = "Mission Locale";

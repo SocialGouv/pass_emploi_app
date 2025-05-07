@@ -12,5 +12,14 @@ OnboardingState onboardingReducer(OnboardingState current, dynamic action) {
       OutilsOnboardingStartedAction() => current.copyWith(showOutilsOnboarding: true)
     };
   }
+  if (action is ResetOnboardingShowcaseAction) {
+    return current.copyWith(
+      showMessageOnboarding: false,
+      showActionOnboarding: false,
+      showOffreOnboarding: false,
+      showEvenementOnboarding: false,
+      showOutilsOnboarding: false,
+    );
+  }
   return current;
 }

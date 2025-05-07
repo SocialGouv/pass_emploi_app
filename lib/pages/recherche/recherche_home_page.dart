@@ -18,6 +18,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
+import 'package:pass_emploi_app/widgets/onboarding/onboarding_showcase.dart';
 import 'package:pass_emploi_app/widgets/textes.dart';
 import 'package:pass_emploi_app/widgets/voir_suggestions_recherche_bandeau.dart';
 
@@ -73,11 +74,14 @@ class _NosOffres extends StatelessWidget {
         ),
         SizedBox(height: Margins.spacing_base),
         if (offreTypes.contains(OffreType.emploi)) ...[
-          _BlocSolution(
-            title: Strings.rechercheHomeOffresEmploiTitle,
-            subtitle: Strings.rechercheHomeOffresEmploiSubtitle,
-            icon: AppIcons.description_rounded,
-            onTap: () => Navigator.push(context, RechercheOffreEmploiPage.materialPageRoute(onlyAlternance: false)),
+          OnboardingShowcase(
+            source: ShowcaseSource.offre,
+            child: _BlocSolution(
+              title: Strings.rechercheHomeOffresEmploiTitle,
+              subtitle: Strings.rechercheHomeOffresEmploiSubtitle,
+              icon: AppIcons.description_rounded,
+              onTap: () => Navigator.push(context, RechercheOffreEmploiPage.materialPageRoute(onlyAlternance: false)),
+            ),
           ),
           SizedBox(height: Margins.spacing_base),
         ],

@@ -8,6 +8,8 @@ class OnboardingSuccessAction {
 
 class OnboardingPushNotificationPermissionRequestAction {}
 
+class ResetOnboardingShowcaseAction {}
+
 sealed class OnboardingStartedAction {}
 
 class MessageOnboardingStartedAction extends OnboardingStartedAction {}
