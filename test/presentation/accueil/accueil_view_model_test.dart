@@ -775,4 +775,21 @@ void main() {
       expect(viewModel.shouldShowAllowNotifications, isFalse);
     });
   });
+
+  group('onboarding', () {
+    test('should show onboarding when not completed', () {
+      // Given
+      final store = givenState() //
+          .loggedInMiloUser()
+          .withOnboardingSuccessState(mockOnboarding(showNotificationsOnboarding: true))
+          .withAccueilMiloSuccess()
+          .store();
+
+      // When
+      final viewModel = AccueilViewModel.create(store);
+
+      // Then
+      expect(viewModel.items.first, OnboardingItem("1/6"));
+    });
+  });
 }

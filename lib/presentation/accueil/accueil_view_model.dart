@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/features/rating/rating_state.dart';
 import 'package:pass_emploi_app/features/remote_campagne_accueil/remote_campagne_accueil_actions.dart';
 import 'package:pass_emploi_app/models/accompagnement.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
+import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/models/outil.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
@@ -90,6 +91,7 @@ List<AccueilItem> _items(Store<AppState> store) {
 
   return [
     _errorDegradeeItem(accueilState),
+    _onboardingItem(store.state),
     ..._remoteCampagneAccueilItems(store, store.state),
     _ratingAppItem(store.state),
     _campagneRecrutementItem(store, store.state),
@@ -197,6 +199,17 @@ AccueilItem? _offreSuivies(Store<AppState> store) {
 AccueilItem? _errorDegradeeItem(AccueilSuccessState accueilState) {
   final accueilErreur = accueilState.accueil.accueilErreur;
   return accueilErreur != null ? ErrorDegradeeItem(accueilErreur) : null;
+}
+
+AccueilItem? _onboardingItem(AppState state) {
+  final onboardingState = state.onboardingState;
+  if (onboardingState is OnboardingSuccessState && onboardingState.onboarding.showOnboarding) {
+    return OnboardingItem(
+      completedSteps: onboardingState.onboarding.completedSteps(),
+      totalSteps: onboardingState.onboarding.totalSteps(),
+    );
+  }
+  return null;
 }
 
 List<AccueilItem?> _remoteCampagneAccueilItems(Store<AppState> store, AppState state) {

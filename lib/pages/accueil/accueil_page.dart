@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/pages/accueil/accueil_campagne_recrutement.dart'
 import 'package:pass_emploi_app/pages/accueil/accueil_cette_semaine.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_evenements.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_loading.dart';
+import 'package:pass_emploi_app/pages/accueil/accueil_onboarding_tile.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_outils.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_prochain_rendezvous.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_rating_app.dart';
@@ -196,6 +197,7 @@ class _Blocs extends StatelessWidget {
   Widget _itemBuilder(BuildContext context, int index) {
     return switch (viewModel.items[index]) {
       final ErrorDegradeeItem item => InformationBandeau(icon: AppIcons.error_rounded, text: item.message),
+      final OnboardingItem item => AccueilOnboardingTile(item),
       final OffreSuivieAccueilItem item => OffreSuivieForm(
           offreId: item.offreId,
           showOffreDetails: true,
