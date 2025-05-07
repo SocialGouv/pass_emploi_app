@@ -23,6 +23,7 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/menu_item.dart' as menu;
+import 'package:pass_emploi_app/widgets/onboarding/onboarding_showcase.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_material_app.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
@@ -270,6 +271,10 @@ extension _MainTab on MainTab {
           defaultIcon: AppIcons.today_rounded,
           inactiveIcon: AppIcons.today_outlined,
           label: Strings.menuEvenements,
+          iconWrapper: (child) => OnboardingShowcase(
+            source: ShowcaseSource.evenement,
+            child: child,
+          ),
         );
     }
   }

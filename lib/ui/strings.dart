@@ -160,45 +160,14 @@ class Strings {
   // First Launch Onboarding
   static String start = "Démarrer";
 
-  static String firstLaunchOnboardingCardTitle1 =
-      Brand.isCej() ? firstLaunchOnboardingCardTitle1Cej : firstLaunchOnboardingCardTitle1PassEmploi;
-  static String firstLaunchOnboardingCardContent1 =
-      Brand.isCej() ? firstLaunchOnboardingCardContent1Cej : firstLaunchOnboardingCardContent1PassEmploi;
-  static String firstLaunchOnboardingCardTitle2 =
-      Brand.isCej() ? firstLaunchOnboardingCardTitle2Cej : firstLaunchOnboardingCardTitle2PassEmploi;
-  static String firstLaunchOnboardingCardContent2 =
-      Brand.isCej() ? firstLaunchOnboardingCardContent2Cej : firstLaunchOnboardingCardContent2PassEmploi;
+  static String firstLaunchOnboardingCardTitle1 = "Echangez à tout moment avec votre conseiller dédié";
+  static String firstLaunchOnboardingCardTitle2 = "Créez et suivez vos actions dans le cadre des 15h d’activité";
   static String firstLaunchOnboardingCardTitle3 =
-      Brand.isCej() ? firstLaunchOnboardingCardTitle3Cej : firstLaunchOnboardingCardTitle3PassEmploi;
-  static String firstLaunchOnboardingCardContent3 =
-      Brand.isCej() ? firstLaunchOnboardingCardContent3Cej : firstLaunchOnboardingCardContent3PassEmploi;
-
-  static String firstLaunchOnboardingCardTitle1Cej = "Le CEJ, un suivi personnalisé avec un conseiller dédié";
-  static String firstLaunchOnboardingCardContent1Cej =
-      'Vous suivez un programme de 15h à 20h par semaine, avec un conseiller dédié tout au long du parcours.';
-  static String firstLaunchOnboardingCardTitle2Cej = "Une application pour suivre vos actions et rester en contact";
-  static String firstLaunchOnboardingCardContent2Cej =
-      "Recherchez un emploi, suivez vos activités et gardez contact avec votre conseiller grâce à une messagerie instantanée.";
-  static String firstLaunchOnboardingCardTitle3Cej = "Des informations protégées";
-  static String firstLaunchOnboardingCardContent3Cej =
-      "Connectez-vous pour bénéficier de toutes les fonctionnalités de l’application et profitez d’un environnement sécurisé pour échanger avec votre conseiller. ";
-
-  static String firstLaunchOnboardingCardTitle1PassEmploi = "Un suivi personnalisé avec un conseiller dédié";
-  static String firstLaunchOnboardingCardContent1PassEmploi =
-      'Vous suivez un programme adapté, avec un conseiller dédié tout au long du parcours';
-  static String firstLaunchOnboardingCardTitle2PassEmploi =
-      "Une application pour suivre vos actions et rester en contact";
-  static String firstLaunchOnboardingCardContent2PassEmploi =
-      "Recherchez un emploi, suivez vos démarches et gardez contact avec votre conseiller grâce à une messagerie instantanée.";
-  static String firstLaunchOnboardingCardTitle3PassEmploi = "Des informations protégées";
-  static String firstLaunchOnboardingCardContent3PassEmploi =
-      "Connectez-vous pour bénéficier de toutes les fonctionnalités de l’application et profitez d’un environnement sécurisé pour échanger avec votre conseiller. ";
+      "Trouvez les offres et les événements en lien avec votre projet professionnel";
 
   // Entree
   static String welcome = "Bienvenue";
-  static String welcomeMessage = Brand.isCej()
-      ? "sur l’application dédiée aux bénéficiaires du Contrat d'Engagement Jeune (CEJ)."
-      : "sur l'application dédiée à votre accompagnement.";
+  static String welcomeMessage = "L’application dédiée à votre accompagnement";
   static String noAccount = "Pas de compte ?";
   static String askAccount = "Demander un compte";
   static String suiviParConseillerCej =
@@ -251,6 +220,30 @@ class Strings {
     "pas en formation ni en emploi durable",
     " (CDI ou CDD de longue durée)",
   ];
+
+  static String installOnboardingSection = "Installez l’application";
+  static String messageOnboardingSection = "Envoyez un message";
+  static String actionOnboardingSection = "Créez une action";
+  static String offreOnboardingSection = "Recherchez une offre";
+  static String evenementOnboardingSection = "Recherchez un événement";
+  static String outilsOnboardingSection = "Consultez les outils";
+
+  static String skipOnboarding = "Passer le tutoriel";
+
+  static String onboardingShowcaseMessageTitle = "Saluez votre conseiller.";
+  static String onboardingShowcaseActionTitle = "Lancez-vous !";
+  static String onboardingShowcaseOffreTitle = "Un emploi en tête?";
+  static String onboardingShowcaseEvenementTitle = "Explorez les événements en lien avec votre projet pro";
+  static String onboardingShowcaseOutilsTitle = "Besoin d’un coup de pouce?";
+  static String onboardingShowcaseMessageDescription =
+      "Envoyez lui un premier message “Bonjour ! j’ai bien téléchargé l’application, j’ai hâte de commencer !”";
+  static String onboardingShowcaseActionDescription =
+      "Créez une première action pour vous rapprocher de votre objectif ";
+  static String onboardingShowcaseOffreDescription =
+      "Lancez votre recherche pour découvrir des opportunités qui correspondent à vos critères";
+  static String onboardingShowcaseEvenementDescription =
+      "Participez à des salons, forums, ateliers pour faire avancer votre projet pro";
+  static String onboardingShowcaseOutilsDescription = "Retrouvez les bons outils pour vous guider à chaque étapes";
 
   // Login bottom sheet
   static const String loginBottomSeetFranceTravailButton = "France travail";
@@ -333,25 +326,17 @@ class Strings {
   static const String newPillule = "Nouveau";
 
   // Onboarding
-  static String accueilOnboardingTitle1(String prenom) => "Bienvenue ${prenom}dans votre espace dédié !";
-  static String accueilOnboardingBody1Milo =
-      "Retrouvez sur la page d’accueil un condensé des différentes informations utiles à votre recherche : actions à réaliser, offres suivies, prochains rendez-vous, etc.";
-  static String accueilOnboardingBody1Pe =
-      "Retrouvez sur la page d’accueil un condensé des différentes informations utiles à votre recherche : démarches à réaliser, offres suivies, prochains rendez-vous, etc.";
+  static String onboardingTitle = "Terminez la découverte de l’application";
 
-  static String accueilOnboardingTitle2 = "Gardez une longueur d’avance grâce aux notifications";
-  static String accueilOnboardingBody2 = "Nous vous conseillons d’activer les notifications pour : ";
-  static String accueilOnboardingSection1 = "Recevoir instantanément les messages importants de votre conseiller";
-  static String accueilOnboardingSection2 = "Être mis au courant des dernières offres correspondant à vos critères";
-  static String accueilOnboardingButtonAcceptNotifications = "Activer les notifications";
-  static String accueilOnboardingButtonDeclineNotifications = "Plus tard";
-
-  static String onboardingNavigationTitle = "À vous de jouer !";
-  static String onboardingNavigationBody =
-      "Cliquez sur les onglets pour découvrir les fonctionnalités de l’application.";
+  // notifications bottom sheet
+  static String notificationsBottomSheetTitle = "Activez les notifications pour ne rien manquer";
+  static String notificationsBottomSheetcontent =
+      "Messages importants, rappel des rendez-vous, actions à faire, nouvelles offres en fonction de vos critères… On vous prévient au bon moment.";
+  static String notificationsBottomSheetButton = "Activer les notifications";
 
   // Accueil
   static String accueilAppBarTitle = "Bienvenue";
+  static String onboardingAccueilTitle = "Découvrez l’application en quelques étapes";
   static String accueilCetteSemaineSection = "Cette semaine";
   static String accueilVoirDetailsCetteSemaine = "Voir le détail de ma semaine";
   static String accueilRendezvousSection = "Votre prochain rendez-vous";

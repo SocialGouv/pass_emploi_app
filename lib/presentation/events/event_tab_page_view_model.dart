@@ -8,11 +8,9 @@ enum EventTab { maMissionLocale, rechercheExternes }
 
 class EventsTabPageViewModel extends Equatable {
   final List<EventTab> tabs;
-  final bool shouldShowOnboarding;
 
   EventsTabPageViewModel._({
     required this.tabs,
-    required this.shouldShowOnboarding,
   });
 
   factory EventsTabPageViewModel.create(Store<AppState> store) {
@@ -24,14 +22,9 @@ class EventsTabPageViewModel extends Equatable {
         if (isMiLo) EventTab.maMissionLocale,
         EventTab.rechercheExternes,
       ],
-      shouldShowOnboarding: _shouldShowOnboarding(store),
     );
   }
 
   @override
-  List<Object?> get props => [tabs, shouldShowOnboarding];
-}
-
-bool _shouldShowOnboarding(Store<AppState> store) {
-  return store.state.onboardingState.showEvenementsOnboarding;
+  List<Object?> get props => [tabs];
 }

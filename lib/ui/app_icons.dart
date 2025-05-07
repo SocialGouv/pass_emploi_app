@@ -84,6 +84,9 @@ class AppIcons {
   static const IconData rocket_launch_outlined = Icons.rocket_launch_outlined;
   static const IconData health_and_safety_outlined = Icons.health_and_safety_outlined;
   static const IconData person_2_outlined = Icons.person_2_outlined;
+  static const IconData smartphone_outlined = Icons.smartphone_outlined;
+  static const IconData calendar_today_outlined = Icons.calendar_today_outlined;
+  static const IconData handyman_outlined = Icons.handyman_outlined;
 
   // Solution
   static const IconData immersion = AppIconsAdditional.immersion;

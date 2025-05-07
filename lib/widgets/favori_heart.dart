@@ -9,7 +9,6 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
-import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/debounced_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_icon_button.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
@@ -64,9 +63,6 @@ class FavoriHeart<T> extends StatelessWidget {
         onTap: onTapDebounced,
       ),
       onTap: () {
-        if (viewModel.withOnboarding) {
-          OnboardingBottomSheet.show(context, source: OnboardingSource.offresEnregistrees);
-        }
         viewModel.update(viewModel.isFavori ? FavoriStatus.removed : FavoriStatus.added);
         _sendTracking(viewModel.isFavori);
       },

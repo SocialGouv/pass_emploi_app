@@ -24,19 +24,26 @@ class OnboardingMiddleware extends MiddlewareClass<AppState> {
       await _repository.save(updatedOnboarding);
       store.dispatch(OnboardingSuccessAction(updatedOnboarding));
     } else if (action is OnboardingPushNotificationPermissionRequestAction) {
-      await _manager.requestPermission();
-      store.dispatch(OnboardingAccueilSaveAction());
+      await _handleNotificationsPermissions(store);
+    }
+  }
+
+  Future<void> _handleNotificationsPermissions(Store<AppState> store) async {
+    await _manager.requestPermission();
+    final onboardingState = store.state.onboardingState;
+    if (onboardingState.onboarding != null) {
+      final onboarding = onboardingState.onboarding;
+      final updatedOnboarding = onboarding!.copyWith(showNotificationsOnboarding: false);
+      await _repository.save(updatedOnboarding);
+      store.dispatch(OnboardingSuccessAction(updatedOnboarding));
     }
   }
 }
 
 Onboarding _updateOnboarding(OnboardingSaveAction action, Onboarding onboarding) {
-  return switch (action) {
-    OnboardingAccueilSaveAction() => onboarding.copyWith(showAccueilOnboarding: false),
-    OnboardingMonSuiviSaveAction() => onboarding.copyWith(showMonSuiviOnboarding: false),
-    OnboardingChatSaveAction() => onboarding.copyWith(showChatOnboarding: false),
-    OnboardingRechercheSaveAction() => onboarding.copyWith(showRechercheOnboarding: false),
-    OnboardingEvenementsSaveAction() => onboarding.copyWith(showEvenementsOnboarding: false),
-    OnboardingOffreEnregistreeSaveAction() => onboarding.copyWith(showOffreEnregistreeOnboarding: false),
-  };
+  // TODO:
+  throw UnimplementedError('Update onboarding logic not implemented');
+  // return switch (action) {
+  //   OnboardingAccueilSaveAction() => onboarding.copyWith(showAccueilOnboarding: false),
+  // };
 }

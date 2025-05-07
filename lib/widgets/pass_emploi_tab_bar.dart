@@ -2,15 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/onboarding/onboarding_showcase.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 
-class PassEmploiTabBar extends StatelessWidget {
+class PassEmploiTabBar extends StatefulWidget {
   final List<String> tabLabels;
   final TabController? controller;
 
   PassEmploiTabBar({super.key, required this.tabLabels, this.controller});
 
+  @override
+  State<PassEmploiTabBar> createState() => _PassEmploiTabBarState();
+}
+
+class _PassEmploiTabBarState extends State<PassEmploiTabBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,7 +29,7 @@ class PassEmploiTabBar extends StatelessWidget {
           Align(
             alignment: Alignment.centerLeft,
             child: TabBar(
-              controller: controller,
+              controller: widget.controller,
               indicatorColor: Brand.isCej() ? AppColors.primary : AppColors.grey100,
               indicatorWeight: 4,
               labelStyle: TextStyles.textBaseBold,
@@ -42,7 +49,22 @@ class PassEmploiTabBar extends StatelessWidget {
     );
   }
 
-  List<Tab> _tabs() {
-    return tabLabels.map((e) => Tab(child: Text(e))).toList();
+  List<Widget> _tabs() {
+    return widget.tabLabels.map(
+      (e) {
+        final tab = Tab(
+          child: Text(e),
+        );
+
+        if (e == Strings.accueilOutilsSection) {
+          return OnboardingShowcase(
+            bottom: true,
+            source: ShowcaseSource.outils,
+            child: tab,
+          );
+        }
+        return tab;
+      },
+    ).toList();
   }
 }

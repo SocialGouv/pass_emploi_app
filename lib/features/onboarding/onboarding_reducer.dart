@@ -2,6 +2,24 @@ import 'package:pass_emploi_app/features/onboarding/onboarding_actions.dart';
 import 'package:pass_emploi_app/features/onboarding/onboarding_state.dart';
 
 OnboardingState onboardingReducer(OnboardingState current, dynamic action) {
-  if (action is OnboardingSuccessAction) return OnboardingSuccessState(action.result);
+  if (action is OnboardingSuccessAction) return current.copyWith(onboarding: action.onboarding);
+  if (action is OnboardingStartedAction) {
+    return switch (action) {
+      MessageOnboardingStartedAction() => current.copyWith(showMessageOnboarding: true),
+      ActionOnboardingStartedAction() => current.copyWith(showActionOnboarding: true),
+      OffreOnboardingStartedAction() => current.copyWith(showOffreOnboarding: true),
+      EvenementOnboardingStartedAction() => current.copyWith(showEvenementOnboarding: true),
+      OutilsOnboardingStartedAction() => current.copyWith(showOutilsOnboarding: true)
+    };
+  }
+  if (action is ResetOnboardingShowcaseAction) {
+    return current.copyWith(
+      showMessageOnboarding: false,
+      showActionOnboarding: false,
+      showOffreOnboarding: false,
+      showEvenementOnboarding: false,
+      showOutilsOnboarding: false,
+    );
+  }
   return current;
 }

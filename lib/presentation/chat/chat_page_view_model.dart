@@ -23,7 +23,6 @@ class ChatPageViewModel extends Equatable {
   final String? brouillon;
   final List<ChatItem> items;
   final String? messageImportant;
-  final bool shouldShowOnboarding;
   final bool jeunePjEnabled;
   final Function(String message) onSendMessage;
   final Function(String imagePath) onSendImage;
@@ -35,7 +34,6 @@ class ChatPageViewModel extends Equatable {
     required this.brouillon,
     required this.items,
     required this.messageImportant,
-    required this.shouldShowOnboarding,
     required this.jeunePjEnabled,
     required this.onSendMessage,
     required this.onSendImage,
@@ -52,7 +50,6 @@ class ChatPageViewModel extends Equatable {
       brouillon: store.state.chatBrouillonState.brouillon,
       items: chatState is ChatSuccessState ? _messagesToChatItems(chatState.messages, lastReading) : [],
       messageImportant: _messageImportant(store),
-      shouldShowOnboarding: store.state.onboardingState.showChatOnboarding,
       jeunePjEnabled: store.state.isMiloLoginMode(),
       onSendMessage: (String message) => store.dispatch(SendMessageAction(message)),
       onSendImage: (String imagePath) => _sendImage(store, imagePath),
@@ -62,7 +59,7 @@ class ChatPageViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [displayState, brouillon, items, messageImportant, shouldShowOnboarding, jeunePjEnabled];
+  List<Object?> get props => [displayState, brouillon, items, messageImportant, jeunePjEnabled];
 }
 
 void _sendImage(Store<AppState> store, String imagePath) {

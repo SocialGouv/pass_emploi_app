@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/pages/accueil/accueil_campagne_recrutement.dart'
 import 'package:pass_emploi_app/pages/accueil/accueil_cette_semaine.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_evenements.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_loading.dart';
+import 'package:pass_emploi_app/pages/accueil/accueil_onboarding_tile.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_outils.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_prochain_rendezvous.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_rating_app.dart';
@@ -37,8 +38,7 @@ import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
-import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_accueil_bottom_sheet.dart';
-import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_navigation_bottom_sheet.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/notifications_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/cards/campagne_card.dart';
 import 'package:pass_emploi_app/widgets/connectivity_widgets.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -67,7 +67,7 @@ class _AccueilPageState extends State<AccueilPage> {
         converter: (store) => AccueilViewModel.create(store),
         builder: _builder,
         onDidChange: (previousViewModel, viewModel) {
-          _handleOnboarding(viewModel);
+          _handleNotificationsBottomSheet(viewModel);
           _handleDeeplink(previousViewModel, viewModel);
         },
         distinct: true,
@@ -136,13 +136,11 @@ class _AccueilPageState extends State<AccueilPage> {
     );
   }
 
-  void _handleOnboarding(AccueilViewModel viewModel) {
+  void _handleNotificationsBottomSheet(AccueilViewModel viewModel) {
     final context = this.context;
-    if (viewModel.shouldShowOnboarding && !_onboardingShown) {
+    if (viewModel.shouldShowAllowNotifications && !_onboardingShown) {
       _onboardingShown = true;
-      OnboardingAccueilBottomSheet.show(context).then((_) {
-        if (viewModel.shouldShowNavigationBottomSheet && context.mounted) OnboardingNavigationBottomSheet.show(context);
-      });
+      NotificationsBottomSheet.show(context);
     }
   }
 }
@@ -199,6 +197,7 @@ class _Blocs extends StatelessWidget {
   Widget _itemBuilder(BuildContext context, int index) {
     return switch (viewModel.items[index]) {
       final ErrorDegradeeItem item => InformationBandeau(icon: AppIcons.error_rounded, text: item.message),
+      final OnboardingItem item => AccueilOnboardingTile(item),
       final OffreSuivieAccueilItem item => OffreSuivieForm(
           offreId: item.offreId,
           showOffreDetails: true,
