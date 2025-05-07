@@ -1,13 +1,35 @@
 import 'package:pass_emploi_app/models/onboarding.dart';
 
 class OnboardingSuccessAction {
-  final Onboarding result;
+  final Onboarding onboarding;
 
-  OnboardingSuccessAction(this.result);
+  OnboardingSuccessAction(this.onboarding);
 }
 
 class OnboardingPushNotificationPermissionRequestAction {}
 
+sealed class OnboardingStartedAction {}
+
+class MessageOnboardingStartedAction extends OnboardingStartedAction {}
+
+class ActionOnboardingStartedAction extends OnboardingStartedAction {}
+
+class OffreOnboardingStartedAction extends OnboardingStartedAction {}
+
+class EvenementOnboardingStartedAction extends OnboardingStartedAction {}
+
+class OutilsOnboardingStartedAction extends OnboardingStartedAction {}
+
 sealed class OnboardingSaveAction {}
 
 class OnboardingAccueilSaveAction extends OnboardingSaveAction {}
+
+class MessageOnboardingSaveAction extends OnboardingSaveAction {}
+
+class ActionOnboardingSaveAction extends OnboardingSaveAction {}
+
+class OffreOnboardingSaveAction extends OnboardingSaveAction {}
+
+class EvenementOnboardingSaveAction extends OnboardingSaveAction {}
+
+class OutilsOnboardingSaveAction extends OnboardingSaveAction {}

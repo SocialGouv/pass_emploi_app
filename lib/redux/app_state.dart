@@ -476,7 +476,7 @@ class AppState extends Equatable {
       monSuiviState: MonSuiviNotInitializedState(),
       cvmState: CvmNotInitializedState(),
       preferredLoginModeState: PreferredLoginModeNotInitializedState(),
-      onboardingState: OnboardingNotInitializedState(),
+      onboardingState: OnboardingState(),
       firstLaunchOnboardingState: FirstLaunchOnboardingNotInitializedState(),
       messageImportantState: MessageImportantNotInitializedState(),
       matchingDemarcheState: MatchingDemarcheNotInitializedState(),

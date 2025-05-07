@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
-import 'package:pass_emploi_app/features/onboarding/onboarding_state.dart';
+import 'package:pass_emploi_app/features/onboarding/onboarding_actions.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -40,11 +40,11 @@ class OnboardingViewModel extends Equatable {
   factory OnboardingViewModel.create(Store<AppState> store) {
     final onboardingState = store.state.onboardingState;
 
-    if (onboardingState is! OnboardingSuccessState) {
+    if (onboardingState.onboarding == null) {
       return OnboardingViewModel.empty();
     }
 
-    final onboarding = onboardingState.onboarding;
+    final onboarding = onboardingState.onboarding!;
 
     return OnboardingViewModel(
       completedSteps: onboarding.completedSteps(),
@@ -56,12 +56,24 @@ class OnboardingViewModel extends Equatable {
       outilsCompleted: onboarding.outilsCompleted,
       onMessageOnboarding: () {
         store.dispatch(HandleDeepLinkAction(NouveauMessageDeepLink(), DeepLinkOrigin.inAppNavigation));
-        // TODO: onboarding state
+        store.dispatch(MessageOnboardingStartedAction());
       },
-      onActionOnboarding: () {},
-      onOffreOnboarding: () {},
-      onEvenementOnboarding: () {},
-      onOutilsOnboarding: () {},
+      onActionOnboarding: () {
+        store.dispatch(HandleDeepLinkAction(MonSuiviDeepLink(), DeepLinkOrigin.inAppNavigation));
+        store.dispatch(ActionOnboardingStartedAction());
+      },
+      onOffreOnboarding: () {
+        store.dispatch(HandleDeepLinkAction(RechercheDeepLink(), DeepLinkOrigin.inAppNavigation));
+        store.dispatch(OffreOnboardingStartedAction());
+      },
+      onEvenementOnboarding: () {
+        store.dispatch(HandleDeepLinkAction(EventListDeepLink(), DeepLinkOrigin.inAppNavigation));
+        store.dispatch(EvenementOnboardingStartedAction());
+      },
+      onOutilsOnboarding: () {
+        store.dispatch(HandleDeepLinkAction(OutilsDeepLink(), DeepLinkOrigin.inAppNavigation));
+        store.dispatch(OutilsOnboardingStartedAction());
+      },
     );
   }
 
