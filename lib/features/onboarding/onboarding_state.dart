@@ -6,6 +6,7 @@ sealed class OnboardingState extends Equatable {
   List<Object?> get props => [];
 }
 
+// TODO: Supprimer le not initialized state et garder qu'un seul state
 class OnboardingNotInitializedState extends OnboardingState {}
 
 class OnboardingSuccessState extends OnboardingState {

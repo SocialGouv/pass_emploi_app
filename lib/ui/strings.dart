@@ -221,6 +221,15 @@ class Strings {
     " (CDI ou CDD de longue durée)",
   ];
 
+  static String installOnboardingSection = "Installez l’application";
+  static String messageOnboardingSection = "Envoyez un message";
+  static String actionOnboardingSection = "Créez une action";
+  static String offreOnboardingSection = "Recherchez une offre";
+  static String evenementOnboardingSection = "Recherchez un événement";
+  static String outilsOnboardingSection = "Consultez les outils";
+
+  static String skipOnboarding = "Passer le tutoriel";
+
   // Login bottom sheet
   static const String loginBottomSeetFranceTravailButton = "France travail";
   static const String loginBottomSeetMissionLocaleButton = "Mission Locale";
@@ -302,22 +311,7 @@ class Strings {
   static const String newPillule = "Nouveau";
 
   // Onboarding
-  static String accueilOnboardingTitle1(String prenom) => "Bienvenue ${prenom}dans votre espace dédié !";
-  static String accueilOnboardingBody1Milo =
-      "Retrouvez sur la page d’accueil un condensé des différentes informations utiles à votre recherche : actions à réaliser, offres suivies, prochains rendez-vous, etc.";
-  static String accueilOnboardingBody1Pe =
-      "Retrouvez sur la page d’accueil un condensé des différentes informations utiles à votre recherche : démarches à réaliser, offres suivies, prochains rendez-vous, etc.";
-
-  static String accueilOnboardingTitle2 = "Gardez une longueur d’avance grâce aux notifications";
-  static String accueilOnboardingBody2 = "Nous vous conseillons d’activer les notifications pour : ";
-  static String accueilOnboardingSection1 = "Recevoir instantanément les messages importants de votre conseiller";
-  static String accueilOnboardingSection2 = "Être mis au courant des dernières offres correspondant à vos critères";
-  static String accueilOnboardingButtonAcceptNotifications = "Activer les notifications";
-  static String accueilOnboardingButtonDeclineNotifications = "Plus tard";
-
-  static String onboardingNavigationTitle = "À vous de jouer !";
-  static String onboardingNavigationBody =
-      "Cliquez sur les onglets pour découvrir les fonctionnalités de l’application.";
+  static String onboardingTitle = "Terminez la découverte de l’application";
 
   // notifications bottom sheet
   static String notificationsBottomSheetTitle = "Activez les notifications pour ne rien manquer";
@@ -327,6 +321,7 @@ class Strings {
 
   // Accueil
   static String accueilAppBarTitle = "Bienvenue";
+  static String onboardingAccueilTitle = "Découvrez l’application en quelques étapes";
   static String accueilCetteSemaineSection = "Cette semaine";
   static String accueilVoirDetailsCetteSemaine = "Voir le détail de ma semaine";
   static String accueilRendezvousSection = "Votre prochain rendez-vous";

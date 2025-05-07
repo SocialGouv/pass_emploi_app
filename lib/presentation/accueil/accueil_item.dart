@@ -140,6 +140,19 @@ class ErrorDegradeeItem extends AccueilItem {
   List<Object?> get props => [message];
 }
 
+class OnboardingItem extends AccueilItem {
+  final int completedSteps;
+  final int totalSteps;
+
+  OnboardingItem({
+    required this.completedSteps,
+    required this.totalSteps,
+  });
+
+  @override
+  List<Object?> get props => [completedSteps, totalSteps];
+}
+
 String _actionsOuDemarchesLabel(LoginMode loginMode, int actionsOuDemarches) {
   final usePlural = actionsOuDemarches > 1;
   if (loginMode.isPe()) {
