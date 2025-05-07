@@ -92,9 +92,7 @@ class OnboardingPage extends StatelessWidget {
                               _StepTile(
                                 title: Strings.installOnboardingSection,
                                 isCompleted: true,
-                                onTap: () {
-                                  // TODO: deep link + state pour dire qu'il faut afficher le contexte
-                                },
+                                onTap: () {},
                               ),
                               SizedBox(height: Margins.spacing_base),
                               _StepTile(
