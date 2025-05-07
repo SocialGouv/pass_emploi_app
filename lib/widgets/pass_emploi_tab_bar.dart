@@ -18,22 +18,6 @@ class PassEmploiTabBar extends StatefulWidget {
 }
 
 class _PassEmploiTabBarState extends State<PassEmploiTabBar> {
-  // needed to show onboarding after navigation
-  @override
-  void initState() {
-    Future.delayed(
-      const Duration(milliseconds: 100),
-      () {
-        setState(() {
-          mayShowOnboarding = true;
-        });
-      },
-    );
-    super.initState();
-  }
-
-  bool mayShowOnboarding = false;
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -72,7 +56,7 @@ class _PassEmploiTabBarState extends State<PassEmploiTabBar> {
           child: Text(e),
         );
 
-        if (e == Strings.accueilOutilsSection && mayShowOnboarding) {
+        if (e == Strings.accueilOutilsSection) {
           return OnboardingShowcase(
             bottom: true,
             source: ShowcaseSource.outils,

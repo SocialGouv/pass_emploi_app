@@ -48,6 +48,8 @@ class OnboardingShowcase extends StatefulWidget {
 class _OnboardingShowcaseState extends State<OnboardingShowcase> {
   final GlobalKey key = GlobalKey();
 
+  bool shown = false;
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, bool>(
@@ -58,43 +60,41 @@ class _OnboardingShowcaseState extends State<OnboardingShowcase> {
         ShowcaseSource.evenement => store.state.onboardingState.showEvenementOnboarding,
         ShowcaseSource.outils => store.state.onboardingState.showOutilsOnboarding,
       },
-      onInit: (store) {
+      builder: (context, show) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          ShowCaseWidget.of(context).startShowCase([key]);
+          if (show && !shown) {
+            ShowCaseWidget.of(context).startShowCase([key]);
+            shown = true;
+          }
         });
+        return Showcase(
+          targetPadding: EdgeInsets.all(Margins.spacing_s),
+          targetBorderRadius: BorderRadius.circular(Dimens.radius_base),
+          tooltipPosition: widget.bottom ? TooltipPosition.bottom : TooltipPosition.top,
+          title: switch (widget.source) {
+            ShowcaseSource.message => Strings.onboardingShowcaseMessageTitle,
+            ShowcaseSource.action => Strings.onboardingShowcaseActionTitle,
+            ShowcaseSource.offre => Strings.onboardingShowcaseOffreTitle,
+            ShowcaseSource.evenement => Strings.onboardingShowcaseEvenementTitle,
+            ShowcaseSource.outils => Strings.onboardingShowcaseOutilsTitle,
+          },
+          description: switch (widget.source) {
+            ShowcaseSource.message => Strings.onboardingShowcaseMessageDescription,
+            ShowcaseSource.action => Strings.onboardingShowcaseActionDescription,
+            ShowcaseSource.offre => Strings.onboardingShowcaseOffreDescription,
+            ShowcaseSource.evenement => Strings.onboardingShowcaseEvenementDescription,
+            ShowcaseSource.outils => Strings.onboardingShowcaseOutilsDescription,
+          },
+          tooltipBackgroundColor: AppColors.primary,
+          titleTextStyle: TextStyles.textMBold.copyWith(color: Colors.white),
+          descTextStyle: TextStyles.textBaseRegular.copyWith(color: Colors.white),
+          key: key,
+          titleAlignment: Alignment.centerLeft,
+          descriptionAlignment: Alignment.centerLeft,
+          tooltipPadding: const EdgeInsets.all(Margins.spacing_base),
+          child: widget.child,
+        );
       },
-      builder: (context, show) => show
-          ? Showcase(
-              targetPadding: EdgeInsets.all(Margins.spacing_s),
-              targetBorderRadius: BorderRadius.circular(Dimens.radius_base),
-              tooltipPosition: widget.bottom ? TooltipPosition.bottom : TooltipPosition.top,
-              title: switch (widget.source) {
-                ShowcaseSource.message => Strings.onboardingShowcaseMessageTitle,
-                ShowcaseSource.action => Strings.onboardingShowcaseActionTitle,
-                ShowcaseSource.offre => Strings.onboardingShowcaseOffreTitle,
-                ShowcaseSource.evenement => Strings.onboardingShowcaseEvenementTitle,
-                ShowcaseSource.outils => Strings.onboardingShowcaseOutilsTitle,
-              },
-              description: switch (widget.source) {
-                ShowcaseSource.message => Strings.onboardingShowcaseMessageDescription,
-                ShowcaseSource.action => Strings.onboardingShowcaseActionDescription,
-                ShowcaseSource.offre => Strings.onboardingShowcaseOffreDescription,
-                ShowcaseSource.evenement => Strings.onboardingShowcaseEvenementDescription,
-                ShowcaseSource.outils => Strings.onboardingShowcaseOutilsDescription,
-              },
-              tooltipBackgroundColor: AppColors.primary,
-              titleTextStyle: TextStyles.textMBold.copyWith(color: Colors.white),
-              descTextStyle: TextStyles.textBaseRegular.copyWith(color: Colors.white),
-              key: key,
-              titleAlignment: Alignment.centerLeft,
-              descriptionAlignment: Alignment.centerLeft,
-              tooltipPadding: const EdgeInsets.all(Margins.spacing_base),
-              child: widget.child,
-            )
-          : Container(
-              key: key,
-              child: widget.child,
-            ),
     );
   }
 }
