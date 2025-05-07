@@ -1,5 +1,7 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
@@ -149,6 +151,28 @@ class _Scaffold extends StatelessWidget {
                     _ListTileData(
                       title: Strings.developerOptionMatomo,
                       onTap: () => Navigator.push(context, MatomoLoggingPage.materialPageRoute()),
+                    ),
+                    _ListTileData(
+                      title: Strings.developerOptionFCM,
+                      onTap: () async {
+                        final String? token = await FirebaseMessaging.instance.getToken();
+                        // copy to clipboard
+                        if (token != null) {
+                          await Clipboard.setData(ClipboardData(text: token));
+                          if (context.mounted) {
+                            showSnackBarWithSystemError(context, "Token copié");
+                          }
+                        }
+                      },
+                    ),
+                    _ListTileData(
+                      title: Strings.developerOptionFCMDelete,
+                      onTap: () async {
+                        await FirebaseMessaging.instance.deleteToken();
+                        if (context.mounted) {
+                          showSnackBarWithSystemError(context, "Token supprimé");
+                        }
+                      },
                     ),
                     _ListTileData(
                       title: Strings.developerOptionDeleteAllPrefs,

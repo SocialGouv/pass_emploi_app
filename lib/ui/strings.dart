@@ -1293,6 +1293,8 @@ class Strings {
   // Developer options
   static String developerOptions = 'Options développeurs';
   static String developerOptionMatomo = 'Données envoyées à Matomo';
+  static String developerOptionFCM = 'Copier le token FCM';
+  static String developerOptionFCMDelete = 'Supprimer le token FCM';
   static String developerOptionDeleteAllPrefs = 'Supprimer les données locales';
   static String developerOptionMatomoPage = 'Matomo';
 

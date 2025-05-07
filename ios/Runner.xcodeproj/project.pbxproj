@@ -1177,6 +1177,7 @@
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = 76GBKHVK25;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = P8N9P47E6Z;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
@@ -1188,6 +1189,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = fr.fabrique.social.gouv.passemploi;
 				PRODUCT_NAME = CEJ;
 				PROVISIONING_PROFILE_SPECIFIER = fr.fabrique.social.gouv.passemploi.debug;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "[CEJ] équipe de dev";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
