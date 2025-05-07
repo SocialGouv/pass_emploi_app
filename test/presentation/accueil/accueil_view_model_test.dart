@@ -789,7 +789,7 @@ void main() {
       final viewModel = AccueilViewModel.create(store);
 
       // Then
-      expect(viewModel.items.first, OnboardingItem("1/6"));
+      expect(viewModel.items.first, OnboardingItem(completedSteps: 1, totalSteps: 6));
     });
   });
 }

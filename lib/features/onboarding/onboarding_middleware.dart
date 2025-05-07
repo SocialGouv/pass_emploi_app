@@ -1,6 +1,5 @@
 import 'package:pass_emploi_app/features/bootstrap/bootstrap_action.dart';
 import 'package:pass_emploi_app/features/onboarding/onboarding_actions.dart';
-import 'package:pass_emploi_app/features/onboarding/onboarding_state.dart';
 import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -32,9 +31,9 @@ class OnboardingMiddleware extends MiddlewareClass<AppState> {
   Future<void> _handleNotificationsPermissions(Store<AppState> store) async {
     await _manager.requestPermission();
     final onboardingState = store.state.onboardingState;
-    if (onboardingState is OnboardingSuccessState) {
+    if (onboardingState.onboarding != null) {
       final onboarding = onboardingState.onboarding;
-      final updatedOnboarding = onboarding.copyWith(showNotificationsOnboarding: false);
+      final updatedOnboarding = onboarding!.copyWith(showNotificationsOnboarding: false);
       await _repository.save(updatedOnboarding);
       store.dispatch(OnboardingSuccessAction(updatedOnboarding));
     }

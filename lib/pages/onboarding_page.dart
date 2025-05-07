@@ -57,7 +57,7 @@ class OnboardingPage extends StatelessWidget {
                   SizedBox(height: Margins.spacing_m),
                   IntrinsicHeight(
                     child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch, // important
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Container(
                           padding: EdgeInsets.symmetric(
@@ -101,7 +101,8 @@ class OnboardingPage extends StatelessWidget {
                                 title: Strings.messageOnboardingSection,
                                 isCompleted: viewModel.messageCompleted,
                                 onTap: () {
-                                  // TODO: deep link
+                                  Navigator.of(context).pop();
+                                  viewModel.onMessageOnboarding.call();
                                 },
                               ),
                               SizedBox(height: Margins.spacing_base),
@@ -109,7 +110,8 @@ class OnboardingPage extends StatelessWidget {
                                 title: Strings.actionOnboardingSection,
                                 isCompleted: viewModel.actionCompleted,
                                 onTap: () {
-                                  // TODO: deep link
+                                  Navigator.of(context).pop();
+                                  viewModel.onActionOnboarding.call();
                                 },
                               ),
                               SizedBox(height: Margins.spacing_base),
@@ -117,7 +119,8 @@ class OnboardingPage extends StatelessWidget {
                                 title: Strings.offreOnboardingSection,
                                 isCompleted: viewModel.offreCompleted,
                                 onTap: () {
-                                  // TODO: deep link
+                                  Navigator.of(context).pop();
+                                  viewModel.onOffreOnboarding.call();
                                 },
                               ),
                               SizedBox(height: Margins.spacing_base),
@@ -125,7 +128,8 @@ class OnboardingPage extends StatelessWidget {
                                 title: Strings.evenementOnboardingSection,
                                 isCompleted: viewModel.evenementCompleted,
                                 onTap: () {
-                                  // TODO: deep link
+                                  Navigator.of(context).pop();
+                                  viewModel.onEvenementOnboarding.call();
                                 },
                               ),
                               SizedBox(height: Margins.spacing_base),
@@ -133,7 +137,8 @@ class OnboardingPage extends StatelessWidget {
                                 title: Strings.outilsOnboardingSection,
                                 isCompleted: viewModel.outilsCompleted,
                                 onTap: () {
-                                  // TODO: deep link
+                                  Navigator.of(context).pop();
+                                  viewModel.onOutilsOnboarding.call();
                                 },
                               ),
                             ],

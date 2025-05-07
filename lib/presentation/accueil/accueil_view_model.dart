@@ -6,7 +6,6 @@ import 'package:pass_emploi_app/features/campagne_recrutement/campagne_recruteme
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/in_app_notifications/in_app_notifications_state.dart';
-import 'package:pass_emploi_app/features/onboarding/onboarding_state.dart';
 import 'package:pass_emploi_app/features/rating/rating_state.dart';
 import 'package:pass_emploi_app/features/remote_campagne_accueil/remote_campagne_accueil_actions.dart';
 import 'package:pass_emploi_app/models/accompagnement.dart';
@@ -202,11 +201,11 @@ AccueilItem? _errorDegradeeItem(AccueilSuccessState accueilState) {
 }
 
 AccueilItem? _onboardingItem(AppState state) {
-  final onboardingState = state.onboardingState;
-  if (onboardingState is OnboardingSuccessState && onboardingState.onboarding.showOnboarding) {
+  final onboarding = state.onboardingState.onboarding;
+  if (onboarding != null && onboarding.showOnboarding) {
     return OnboardingItem(
-      completedSteps: onboardingState.onboarding.completedSteps(),
-      totalSteps: onboardingState.onboarding.totalSteps(),
+      completedSteps: onboarding.completedSteps(),
+      totalSteps: onboarding.totalSteps(),
     );
   }
   return null;
@@ -267,9 +266,9 @@ bool _withNewNotifications(Store<AppState> store) {
 }
 
 bool _shouldShowAllowNotifications(Store<AppState> store) {
-  final onboaridngState = store.state.onboardingState;
-  if (onboaridngState is OnboardingSuccessState) {
-    return onboaridngState.onboarding.showNotificationsOnboarding;
+  final onboarding = store.state.onboardingState.onboarding;
+  if (onboarding != null) {
+    return onboarding.showNotificationsOnboarding;
   }
   return false;
 }
