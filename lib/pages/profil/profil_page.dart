@@ -160,7 +160,7 @@ class _Scaffold extends StatelessWidget {
                         if (token != null) {
                           await Clipboard.setData(ClipboardData(text: token));
                           if (context.mounted) {
-                            showSnackBarWithSystemError(context, "Token copié");
+                            showSnackBarWithSystemError(context, "Token copié ✅");
                           }
                         }
                       },
@@ -170,7 +170,7 @@ class _Scaffold extends StatelessWidget {
                       onTap: () async {
                         await FirebaseMessaging.instance.deleteToken();
                         if (context.mounted) {
-                          showSnackBarWithSystemError(context, "Token supprimé");
+                          showSnackBarWithSystemError(context, "Token supprimé ❌");
                         }
                       },
                     ),
