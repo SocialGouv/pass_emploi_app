@@ -137,4 +137,11 @@ class CvmBridge {
     Log.d('--- CvmBridge.markAsRead: ${success ? '✅' : '❌'}');
     return success;
   }
+
+  Future<bool> hasSession() async {
+    Log.d('--- CvmBridge.hasSession…');
+    final hasSession = await MethodChannel(_cvmMethodChannel).invokeMethod<bool>('hasSession');
+    Log.d('--- CvmBridge.hasSession: $hasSession');
+    return hasSession ?? false;
+  }
 }

@@ -35,6 +35,7 @@ class MethodChannelHandler(
             "loadMore" -> loadMore(call, result)
             "markAsRead" -> markAsRead(call, result)
             "logout" -> logout(result)
+            "hasSession" -> hasSession(result)
             else -> result.notImplemented()
         }
     }
@@ -123,5 +124,9 @@ class MethodChannelHandler(
     private fun logout(result: Result) {
         cvmRepository.logout()
         result.success(true)
+    }
+
+    private fun hasSession(result: Result) {
+        result.success(cvmRepository.hasSession())
     }
 }

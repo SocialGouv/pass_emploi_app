@@ -24,7 +24,7 @@ class CvmFacade {
     _subscribeToMessageStream()
         .then((_) => _initCvm())
         .then((_) => _getToken(userId))
-        .then((_) => _login())
+        .then((_) => _checkSession())
         .then((_) => _joinRoom())
         .then((isRoomJoined) => isRoomJoined ? _startListenMessages() : _getRoomsAndJoin())
         .catchError((Object error) => _addErrorToStream(error));
@@ -67,6 +67,14 @@ class CvmFacade {
       _crashlytics?.recordCvmException(e, s);
       return false;
     }
+  }
+
+  Future<void> _checkSession() async {
+    if (await _bridge.hasSession()) {
+      _state.isLoggedIn = true;
+      return;
+    }
+    await _login();
   }
 
   Future<void> _initCvm() async {
