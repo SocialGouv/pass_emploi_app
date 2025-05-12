@@ -175,6 +175,16 @@ class _Scaffold extends StatelessWidget {
                       },
                     ),
                     _ListTileData(
+                      title: "Récupérer le token APNs",
+                      onTap: () async {
+                        final String? token = await getApnsToken();
+                        await Clipboard.setData(ClipboardData(text: token ?? ""));
+                        if (context.mounted) {
+                          showSnackBarWithSystemError(context, "Token APNs copié ✅");
+                        }
+                      },
+                    ),
+                    _ListTileData(
                       title: Strings.developerOptionDeleteAllPrefs,
                       onTap: () {
                         context.dispatch(DeveloperOptionsDeleteAllPrefsAction());
@@ -194,6 +204,18 @@ class _Scaffold extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<String?> getApnsToken() async {
+    const channel = MethodChannel('apns_token_channel');
+    try {
+      final token = await channel.invokeMethod<String>('getApnsToken');
+      print('APNs token: $token');
+      return token;
+    } catch (e) {
+      print('Error getting APNs token: $e');
+      return null;
+    }
   }
 }
 
