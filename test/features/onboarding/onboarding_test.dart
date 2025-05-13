@@ -259,6 +259,28 @@ void main() {
         });
       });
     });
+
+    group('_updateOnboarding', () {
+      setUp(() {
+        reset(repository);
+      });
+
+      sut.whenDispatchingAction(() => SendMessageAction('any'));
+
+      test('should save onboarding and dispatch OnboardingSuccessAction with updated steps', () {
+        final givenOnboarding = Onboarding();
+
+        when(() => repository.get()).thenAnswer((_) async => givenOnboarding);
+        when(() => repository.save(any())).thenAnswer((_) async {});
+
+        sut.givenStore = givenState() //
+            .copyWith(onboardingState: OnboardingState(onboarding: givenOnboarding))
+            .store((f) => {f.onboardingRepository = repository});
+
+        sut.thenExpectAtSomePoint(_shouldSucceed(givenOnboarding.copyWith(messageCompleted: true)));
+        verify(() => repository.save(givenOnboarding.copyWith(messageCompleted: true))).called(1);
+      });
+    });
   });
 }
 

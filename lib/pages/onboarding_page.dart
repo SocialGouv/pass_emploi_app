@@ -6,9 +6,11 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
+import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -148,9 +150,7 @@ class OnboardingPage extends StatelessWidget {
                   SizedBox(height: Margins.spacing_l),
                   SecondaryButton(
                     label: Strings.skipOnboarding,
-                    onPressed: () {
-                      // TODO: modale
-                    },
+                    onPressed: () => _showSkipOnboardingDialog(context, viewModel),
                   ),
                 ],
               ),
@@ -159,6 +159,16 @@ class OnboardingPage extends StatelessWidget {
         );
       },
     );
+  }
+
+  void _showSkipOnboardingDialog(BuildContext context, OnboardingViewModel viewModel) async {
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (_) => _SkipOnboardingDialog(viewModel: viewModel),
+    );
+    if (result == true && context.mounted) {
+      Navigator.of(context).pop();
+    }
   }
 }
 
@@ -225,6 +235,45 @@ class _Icon extends StatelessWidget {
     return Icon(
       icon,
       color: AppColors.primary,
+    );
+  }
+}
+
+class _SkipOnboardingDialog extends StatelessWidget {
+  const _SkipOnboardingDialog({required this.viewModel});
+
+  final OnboardingViewModel viewModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(Strings.skipOnboarding, style: TextStyles.textMBold),
+      content: Text(Strings.skipOnboardingContent, style: TextStyles.textBaseRegular),
+      actions: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            PrimaryActionButton(
+              label: Strings.continueLabel,
+              textColor: AppColors.warning,
+              backgroundColor: AppColors.warningLighten,
+              disabledBackgroundColor: AppColors.warningLighten,
+              rippleColor: AppColors.warningLighten,
+              withShadow: true,
+              onPressed: () {
+                Navigator.pop(context, true);
+                viewModel.onSkipOnboarding.call();
+              },
+            ),
+            SizedBox(height: Margins.spacing_base),
+            SecondaryButton(
+              label: Strings.cancelLabel,
+              fontSize: FontSizes.medium,
+              onPressed: () => Navigator.pop(context, false),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

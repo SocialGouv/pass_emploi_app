@@ -28,22 +28,22 @@ class OnboardingMiddleware extends MiddlewareClass<AppState> {
     } else if (action is OnboardingPushNotificationPermissionRequestAction) {
       await _handleNotificationsPermissions(store);
     } else if (action is SendMessageAction || action is CvmSendMessageAction) {
-      _updateOnboarding(store, (onboarding) => onboarding.copyWith(messageCompleted: true));
+      _updateOnboarding(store, (onboarding) => onboarding?.copyWith(messageCompleted: true));
     } else if (action is UserActionCreateSuccessAction || action is CreateDemarcheSuccessAction) {
-      _updateOnboarding(store, (onboarding) => onboarding.copyWith(actionCompleted: true));
+      _updateOnboarding(store, (onboarding) => onboarding?.copyWith(actionCompleted: true));
     } else if (action is RechercheRequestAction) {
       if (action is RechercheRequestAction<EvenementEmploiCriteresRecherche, EvenementEmploiFiltresRecherche>) {
-        _updateOnboarding(store, (onboarding) => onboarding.copyWith(evenementCompleted: true));
+        _updateOnboarding(store, (onboarding) => onboarding?.copyWith(evenementCompleted: true));
       } else {
-        _updateOnboarding(store, (onboarding) => onboarding.copyWith(offreCompleted: true));
+        _updateOnboarding(store, (onboarding) => onboarding?.copyWith(offreCompleted: true));
       }
     } else if (action is OutilsOnboardingStartedAction) {
       // delayed to let user see the onboarding
       Future.delayed(const Duration(seconds: 1), () {
-        _updateOnboarding(store, (onboarding) => onboarding.copyWith(outilsCompleted: true));
+        _updateOnboarding(store, (onboarding) => onboarding?.copyWith(outilsCompleted: true));
       });
     } else if (action is OnboardingHideAction) {
-      _updateOnboarding(store, (onboarding) => onboarding.copyWith(showOnboarding: false));
+      _updateOnboarding(store, (onboarding) => onboarding?.copyWith(showOnboarding: false));
     }
   }
 
@@ -58,11 +58,21 @@ class OnboardingMiddleware extends MiddlewareClass<AppState> {
     }
   }
 
-  void _updateOnboarding(Store<AppState> store, Onboarding Function(Onboarding) update) {
+  Future<void> _updateOnboarding(Store<AppState> store, Onboarding? Function(Onboarding?) update) async {
     final onboardingState = store.state.onboardingState;
     final onboarding = onboardingState.onboarding;
-    final updatedOnboarding = update(onboarding!);
-    _repository.save(updatedOnboarding);
-    store.dispatch(OnboardingSuccessAction(updatedOnboarding));
+    final updatedOnboarding = update(onboarding);
+    if (updatedOnboarding != null) {
+      await _repository.save(updatedOnboarding);
+      store.dispatch(OnboardingSuccessAction(updatedOnboarding));
+      final bool isCompleted = updatedOnboarding.messageCompleted &&
+          updatedOnboarding.actionCompleted &&
+          updatedOnboarding.offreCompleted &&
+          updatedOnboarding.evenementCompleted &&
+          updatedOnboarding.outilsCompleted;
+      if (isCompleted) {
+        await _repository.save(updatedOnboarding.copyWith(showOnboarding: false));
+      }
+    }
   }
 }

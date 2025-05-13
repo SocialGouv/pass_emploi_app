@@ -21,6 +21,7 @@ class OnboardingViewModel extends Equatable {
   final void Function() onOffreOnboarding;
   final void Function() onEvenementOnboarding;
   final void Function() onOutilsOnboarding;
+  final void Function() onSkipOnboarding;
 
   const OnboardingViewModel({
     required this.completedSteps,
@@ -35,6 +36,7 @@ class OnboardingViewModel extends Equatable {
     required this.onOffreOnboarding,
     required this.onEvenementOnboarding,
     required this.onOutilsOnboarding,
+    required this.onSkipOnboarding,
   });
 
   factory OnboardingViewModel.create(Store<AppState> store) {
@@ -74,6 +76,9 @@ class OnboardingViewModel extends Equatable {
         store.dispatch(HandleDeepLinkAction(OutilsDeepLink(), DeepLinkOrigin.inAppNavigation));
         store.dispatch(OutilsOnboardingStartedAction());
       },
+      onSkipOnboarding: () {
+        store.dispatch(OnboardingHideAction());
+      },
     );
   }
 
@@ -91,6 +96,7 @@ class OnboardingViewModel extends Equatable {
       onOffreOnboarding: () {},
       onEvenementOnboarding: () {},
       onOutilsOnboarding: () {},
+      onSkipOnboarding: () {},
     );
   }
 

@@ -229,6 +229,7 @@ class Strings {
   static String outilsOnboardingSection = "Consultez les outils";
 
   static String skipOnboarding = "Passer le tutoriel";
+  static String skipOnboardingContent = "Êtes-vous sûr de vouloir passer le tutoriel ?";
 
   static String onboardingShowcaseMessageTitle = "Saluez votre conseiller.";
   static String onboardingShowcaseActionTitle = "Lancez-vous !";
@@ -244,6 +245,8 @@ class Strings {
   static String onboardingShowcaseEvenementDescription =
       "Participez à des salons, forums, ateliers pour faire avancer votre projet pro";
   static String onboardingShowcaseOutilsDescription = "Retrouvez les bons outils pour vous guider à chaque étapes";
+
+  static String onboardingStepFinished = "🎉 Bravo vous avez validé une étape du tutoriel !";
 
   // Login bottom sheet
   static const String loginBottomSeetFranceTravailButton = "France travail";

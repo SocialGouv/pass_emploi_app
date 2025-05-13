@@ -39,6 +39,11 @@ void main() {
           'showAccueilOnboarding': true,
           'showNotificationsOnboarding': true,
           'showOnboarding': true,
+          'messageCompleted': false,
+          'actionCompleted': false,
+          'offreCompleted': false,
+          'evenementCompleted': false,
+          'outilsCompleted': false,
         });
         verify(() => mockFlutterSecureStorage.write(key: 'onboardingStatus', value: expectedJson));
       });
