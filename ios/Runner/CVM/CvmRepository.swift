@@ -96,7 +96,8 @@ class CvmRepository {
     }
 
     func hasSession() -> Bool {
-        return MatrixManager.sharedInstance.hasSession()
+        // this method is not implemented in the SDK
+        return false
     }
 }
 
