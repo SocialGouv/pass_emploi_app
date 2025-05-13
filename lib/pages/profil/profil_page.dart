@@ -210,10 +210,8 @@ class _Scaffold extends StatelessWidget {
     const channel = MethodChannel('apns_token_channel');
     try {
       final token = await channel.invokeMethod<String>('getApnsToken');
-      print('APNs token: $token');
       return token;
     } catch (e) {
-      print('Error getting APNs token: $e');
       return null;
     }
   }
