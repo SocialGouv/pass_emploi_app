@@ -815,7 +815,7 @@ extension AppStateDSL on AppState {
   }
 
   AppState withOnboardingSuccessState(Onboarding onboarding) {
-    return copyWith(onboardingState: OnboardingSuccessState(onboarding));
+    return copyWith(onboardingState: OnboardingState(onboarding: onboarding));
   }
 
   AppState withFirstLaunchOnboardingSuccessState(bool isFirstLaunch) {

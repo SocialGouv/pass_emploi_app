@@ -11,9 +11,34 @@ class MenuItem extends BottomNavigationBarItem {
     required this.inactiveIcon,
     required String label,
     this.withBadge = false,
+    Widget Function(Widget child)? iconWrapper,
   }) : super(
-          icon: DefaultMenuItem(icon: inactiveIcon, label: label, isActive: false, withBadge: withBadge),
-          activeIcon: DefaultMenuItem(icon: defaultIcon, label: label, isActive: true, withBadge: false),
+          icon: iconWrapper != null
+              ? iconWrapper(DefaultMenuItem(
+                  icon: inactiveIcon,
+                  label: label,
+                  isActive: false,
+                  withBadge: withBadge,
+                ))
+              : DefaultMenuItem(
+                  icon: inactiveIcon,
+                  label: label,
+                  isActive: false,
+                  withBadge: withBadge,
+                ),
+          activeIcon: iconWrapper != null
+              ? iconWrapper(DefaultMenuItem(
+                  icon: defaultIcon,
+                  label: label,
+                  isActive: true,
+                  withBadge: false,
+                ))
+              : DefaultMenuItem(
+                  icon: defaultIcon,
+                  label: label,
+                  isActive: true,
+                  withBadge: false,
+                ),
           label: label,
           tooltip: label,
         );

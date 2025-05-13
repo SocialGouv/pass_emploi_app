@@ -47,4 +47,11 @@ class AppColors {
   static const Color additional4 = Color(0xFF2186C7);
   static const Color additional5Lighten = Color(0xFFCEF0F1);
   static const Color additional5 = Color(0xFF49BBBF);
+  static const Color additional6 = Color(0xFFBC7CEB);
+
+  // Gradients
+  static const List<Color> gradientPrimary = [
+    Color(0xFF3B69D1),
+    Color(0xFF1E366B),
+  ];
 }

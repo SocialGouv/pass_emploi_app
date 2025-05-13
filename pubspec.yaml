@@ -42,6 +42,7 @@ dependencies:
   confetti: "0.7.0"
   dotted_border: "2.1.0"
   flutter_linkify: "6.0.0"
+  showcaseview: "4.0.1"
   # Native features
   webview_flutter: "4.10.0"
   flutter_local_notifications: "17.2.2"

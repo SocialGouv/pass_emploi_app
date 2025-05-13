@@ -9,7 +9,6 @@ import 'package:pass_emploi_app/presentation/chat/cvm_chat_page_view_model.dart'
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/a11y/auto_focus.dart';
-import 'package:pass_emploi_app/widgets/bottom_sheets/onboarding/onboarding_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_content.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_day_section.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_piece_jointe.dart';
@@ -27,7 +26,6 @@ class CvmChatPageState extends State<CvmChatPage> {
   final ScrollController _scrollController = ScrollController();
   TextEditingController? _controller;
   bool _isLoadingMorePast = false;
-  bool _onboardingShown = false;
 
   @override
   void initState() {
@@ -58,7 +56,6 @@ class CvmChatPageState extends State<CvmChatPage> {
           onDispose: _onDispose,
           converter: (store) => CvmChatPageViewModel.create(store),
           builder: _builder,
-          onInitialBuild: _handleOnboarding,
           onDidChange: (_, __) {
             context.dispatch(CvmLastJeuneReadingAction());
             _isLoadingMorePast = false;
@@ -94,13 +91,6 @@ class CvmChatPageState extends State<CvmChatPage> {
 
   void _onDispose(Store<AppState> store) {
     if (_controller != null) store.dispatch(SaveChatBrouillonAction(_controller!.value.text));
-  }
-
-  void _handleOnboarding(CvmChatPageViewModel viewModel) {
-    if (viewModel.shouldShowOnboarding && !_onboardingShown) {
-      _onboardingShown = true;
-      OnboardingBottomSheet.show(context, source: OnboardingSource.chat);
-    }
   }
 }
 

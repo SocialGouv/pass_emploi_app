@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/features/rating/rating_state.dart';
 import 'package:pass_emploi_app/features/remote_campagne_accueil/remote_campagne_accueil_actions.dart';
 import 'package:pass_emploi_app/models/accompagnement.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
+import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/models/outil.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
@@ -24,9 +25,8 @@ class AccueilViewModel extends Equatable {
   final List<AccueilItem> items;
   final DeepLink? deepLink;
   final bool shouldResetDeeplink;
-  final bool shouldShowOnboarding;
-  final bool shouldShowNavigationBottomSheet;
   final bool withNewNotifications;
+  final bool shouldShowAllowNotifications;
   final Function() resetDeeplink;
   final Function() retry;
 
@@ -35,9 +35,8 @@ class AccueilViewModel extends Equatable {
     required this.items,
     required this.deepLink,
     required this.shouldResetDeeplink,
-    required this.shouldShowOnboarding,
-    required this.shouldShowNavigationBottomSheet,
     required this.withNewNotifications,
+    required this.shouldShowAllowNotifications,
     required this.resetDeeplink,
     required this.retry,
   });
@@ -48,9 +47,8 @@ class AccueilViewModel extends Equatable {
       items: _items(store),
       deepLink: store.getDeepLink(),
       shouldResetDeeplink: _shouldResetDeeplink(store),
-      shouldShowOnboarding: _shouldShowOnboarding(store),
-      shouldShowNavigationBottomSheet: _shouldShowNavigationBottomSheet(store),
       withNewNotifications: _withNewNotifications(store),
+      shouldShowAllowNotifications: _shouldShowAllowNotifications(store),
       resetDeeplink: () => store.dispatch(ResetDeeplinkAction()),
       retry: () => store.dispatch(AccueilRequestAction(forceRefresh: true)),
     );
@@ -61,8 +59,6 @@ class AccueilViewModel extends Equatable {
         displayState,
         items,
         deepLink,
-        shouldShowOnboarding,
-        shouldShowNavigationBottomSheet,
         withNewNotifications,
       ];
 }
@@ -94,6 +90,7 @@ List<AccueilItem> _items(Store<AppState> store) {
 
   return [
     _errorDegradeeItem(accueilState),
+    _onboardingItem(store.state),
     ..._remoteCampagneAccueilItems(store, store.state),
     _ratingAppItem(store.state),
     _campagneRecrutementItem(store, store.state),
@@ -203,6 +200,17 @@ AccueilItem? _errorDegradeeItem(AccueilSuccessState accueilState) {
   return accueilErreur != null ? ErrorDegradeeItem(accueilErreur) : null;
 }
 
+AccueilItem? _onboardingItem(AppState state) {
+  final onboarding = state.onboardingState.onboarding;
+  if (onboarding != null && onboarding.showOnboarding) {
+    return OnboardingItem(
+      completedSteps: onboarding.completedSteps(),
+      totalSteps: onboarding.totalSteps(),
+    );
+  }
+  return null;
+}
+
 List<AccueilItem?> _remoteCampagneAccueilItems(Store<AppState> store, AppState state) {
   final brand = state.configurationState.configuration?.brand;
   final accompagnement = state.user()?.accompagnement;
@@ -239,17 +247,6 @@ AccueilItem? _campagneRecrutementItem(Store<AppState> store, AppState state) {
   return null;
 }
 
-bool _shouldShowOnboarding(Store<AppState> store) {
-  return store.state.onboardingState.showAccueilOnboarding;
-}
-
-bool _shouldShowNavigationBottomSheet(Store<AppState> store) {
-  final accueilState = store.state.accueilState;
-  final user = store.state.user();
-  if (accueilState is! AccueilSuccessState || user == null) return false;
-  return user.accompagnement != Accompagnement.avenirPro;
-}
-
 bool _withNewNotifications(Store<AppState> store) {
   final inAppNotificationsState = store.state.inAppNotificationsState;
   final dateDerniereConsultation = store.state.dateConsultationNotificationState.date;
@@ -266,4 +263,12 @@ bool _withNewNotifications(Store<AppState> store) {
 
   final isNew = dateDerniereConsultation != null ? notification.date.isAfter(dateDerniereConsultation) : true;
   return isNew;
+}
+
+bool _shouldShowAllowNotifications(Store<AppState> store) {
+  final onboarding = store.state.onboardingState.onboarding;
+  if (onboarding != null) {
+    return onboarding.showNotificationsOnboarding;
+  }
+  return false;
 }

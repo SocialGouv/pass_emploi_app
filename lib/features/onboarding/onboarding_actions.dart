@@ -1,23 +1,39 @@
 import 'package:pass_emploi_app/models/onboarding.dart';
 
 class OnboardingSuccessAction {
-  final Onboarding result;
+  final Onboarding onboarding;
 
-  OnboardingSuccessAction(this.result);
+  OnboardingSuccessAction(this.onboarding);
 }
 
 class OnboardingPushNotificationPermissionRequestAction {}
 
-sealed class OnboardingSaveAction {}
+class ResetOnboardingShowcaseAction {}
 
-class OnboardingAccueilSaveAction extends OnboardingSaveAction {}
+class OnboardingHideAction {}
 
-class OnboardingMonSuiviSaveAction extends OnboardingSaveAction {}
+sealed class OnboardingStartedAction {}
 
-class OnboardingChatSaveAction extends OnboardingSaveAction {}
+class MessageOnboardingStartedAction extends OnboardingStartedAction {}
 
-class OnboardingRechercheSaveAction extends OnboardingSaveAction {}
+class ActionOnboardingStartedAction extends OnboardingStartedAction {}
 
-class OnboardingEvenementsSaveAction extends OnboardingSaveAction {}
+class OffreOnboardingStartedAction extends OnboardingStartedAction {}
 
-class OnboardingOffreEnregistreeSaveAction extends OnboardingSaveAction {}
+class EvenementOnboardingStartedAction extends OnboardingStartedAction {}
+
+class OutilsOnboardingStartedAction extends OnboardingStartedAction {}
+
+// sealed class OnboardingSaveAction {}
+
+// class OnboardingAccueilSaveAction extends OnboardingSaveAction {}
+
+// class MessageOnboardingSaveAction extends OnboardingSaveAction {}
+
+// class ActionOnboardingSaveAction extends OnboardingSaveAction {}
+
+// class OffreOnboardingSaveAction extends OnboardingSaveAction {}
+
+// class EvenementOnboardingSaveAction extends OnboardingSaveAction {}
+
+// class OutilsOnboardingSaveAction extends OnboardingSaveAction {}

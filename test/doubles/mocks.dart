@@ -224,7 +224,9 @@ class MockPreferredLoginModeRepository extends Mock implements PreferredLoginMod
 
 class MockOnboardingRepository extends Mock implements OnboardingRepository {
   MockOnboardingRepository() {
+    registerFallbackValue(Onboarding());
     when(() => get()).thenAnswer((_) async => Onboarding());
+    when(() => save(any())).thenAnswer((_) async {});
   }
 }
 

@@ -37,6 +37,8 @@ class NouveauMessageDeepLink extends DeepLink {}
 
 class EventListDeepLink extends DeepLink {}
 
+class EventSearchDeepLink extends DeepLink {}
+
 class NouvellesFonctionnalitesDeepLink extends DeepLink {
   final Version? lastVersion;
 
