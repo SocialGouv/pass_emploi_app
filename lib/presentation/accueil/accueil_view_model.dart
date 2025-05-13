@@ -204,8 +204,8 @@ AccueilItem? _onboardingItem(AppState state) {
   final onboarding = state.onboardingState.onboarding;
   if (onboarding != null && onboarding.showOnboarding) {
     return OnboardingItem(
-      completedSteps: onboarding.completedSteps(),
-      totalSteps: onboarding.totalSteps(),
+      completedSteps: onboarding.completedSteps(state.accompagnement()),
+      totalSteps: onboarding.totalSteps(state.accompagnement()),
     );
   }
   return null;

@@ -182,6 +182,7 @@ class Strings {
   // Onboarding
   static String skip = "Passer";
   static String continueLabel = "Continuer";
+  static String letsGo = "C'est parti !";
   static String gotIt = "C'est compris";
   static String discover = "Découvrir";
 
@@ -223,7 +224,7 @@ class Strings {
 
   static String installOnboardingSection = "Installez l’application";
   static String messageOnboardingSection = "Envoyez un message";
-  static String actionOnboardingSection = "Créez une action";
+  static String actionOnboardingSection = Brand.isCej() ? "Créez une action" : "Créez une démarche";
   static String offreOnboardingSection = "Recherchez une offre";
   static String evenementOnboardingSection = "Recherchez un événement";
   static String outilsOnboardingSection = "Consultez les outils";
@@ -340,7 +341,7 @@ class Strings {
   // Accueil
   static String accueilAppBarTitle = "Bienvenue";
   static String onboardingAccueilTitle = "Découvrez l’application en quelques étapes";
-  static String onboardingAccueilTitleCompleted = "🎉 Vous avez terminé le tutoriel, félicitations !";
+  static String onboardingAccueilTitleCompleted = "🎉 Vous avez terminé le tutoriel !";
   static String accueilCetteSemaineSection = "Cette semaine";
   static String accueilVoirDetailsCetteSemaine = "Voir le détail de ma semaine";
   static String accueilRendezvousSection = "Votre prochain rendez-vous";

@@ -106,6 +106,7 @@ class _PageViewScreen extends StatelessWidget {
                 globalKey: page2Key,
               ),
               _ThirdPageContent(
+                continueLabel: Strings.letsGo,
                 onContinue: () => context.dispatch(FirstLaunchOnboardingFinishAction()),
                 globalKey: page3Key,
               ),
@@ -179,9 +180,10 @@ class _SecondPageContent extends StatelessWidget {
 }
 
 class _ThirdPageContent extends StatelessWidget {
-  const _ThirdPageContent({required this.onContinue, required this.globalKey});
+  const _ThirdPageContent({required this.onContinue, this.continueLabel, required this.globalKey});
 
   final VoidCallback onContinue;
+  final String? continueLabel;
   final GlobalKey globalKey;
 
   @override
@@ -190,6 +192,7 @@ class _ThirdPageContent extends StatelessWidget {
       title: Strings.firstLaunchOnboardingCardTitle3,
       illustrationPath: Drawables.welcomeIllustration3,
       onContinue: onContinue,
+      continueLabel: continueLabel,
       autoFocus: false,
       globalKey: globalKey,
     );
@@ -201,6 +204,7 @@ class _PageContent extends StatelessWidget {
     required this.title,
     required this.illustrationPath,
     required this.onContinue,
+    this.continueLabel,
     required this.autoFocus,
     this.globalKey,
   });
@@ -208,6 +212,7 @@ class _PageContent extends StatelessWidget {
   final String title;
   final String illustrationPath;
   final VoidCallback onContinue;
+  final String? continueLabel;
   final bool autoFocus;
   final GlobalKey? globalKey;
 
@@ -243,7 +248,7 @@ class _PageContent extends StatelessWidget {
                 ),
                 SizedBox(height: Margins.spacing_m),
                 PrimaryActionButton(
-                  label: Strings.continueLabel,
+                  label: continueLabel ?? Strings.continueLabel,
                   backgroundColor: color,
                   onPressed: onContinue,
                 ),

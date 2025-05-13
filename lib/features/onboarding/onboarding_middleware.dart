@@ -67,12 +67,7 @@ class OnboardingMiddleware extends MiddlewareClass<AppState> {
     if (updatedOnboarding != null) {
       await _repository.save(updatedOnboarding);
       store.dispatch(OnboardingSuccessAction(updatedOnboarding));
-      final bool isCompleted = updatedOnboarding.messageCompleted &&
-          updatedOnboarding.actionCompleted &&
-          updatedOnboarding.offreCompleted &&
-          updatedOnboarding.evenementCompleted &&
-          updatedOnboarding.outilsCompleted;
-      if (isCompleted) {
+      if (updatedOnboarding.isCompleted(store.state.accompagnement())) {
         PassEmploiMatomoTracker.instance.trackEvent(
           eventCategory: AnalyticsEventNames.onboardingCategory,
           action: AnalyticsEventNames.onboardingCompletedOnboardingAction,

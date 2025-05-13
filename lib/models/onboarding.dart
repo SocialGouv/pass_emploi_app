@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/accompagnement.dart';
 
 class Onboarding extends Equatable {
   final bool _showAccueilOnboardingLegacy;
@@ -89,18 +90,27 @@ class Onboarding extends Equatable {
       outilsCompleted: outilsCompleted ?? this.outilsCompleted,
     );
   }
+
+  bool isCompleted(Accompagnement accompagnement) {
+    final bool shouldCheckAction = accompagnement != Accompagnement.avenirPro;
+    return messageCompleted &&
+        (shouldCheckAction ? actionCompleted : true) &&
+        offreCompleted &&
+        evenementCompleted &&
+        outilsCompleted;
+  }
 }
 
 extension OnboardingExtension on Onboarding {
-  int completedSteps() =>
+  int completedSteps(Accompagnement accompagnement) =>
       [
         messageCompleted,
-        actionCompleted,
+        if (accompagnement != Accompagnement.avenirPro) actionCompleted,
         offreCompleted,
         evenementCompleted,
         outilsCompleted,
       ].where((step) => step).length +
       1;
 
-  int totalSteps() => 6;
+  int totalSteps(Accompagnement accompagnement) => accompagnement == Accompagnement.avenirPro ? 5 : 6;
 }

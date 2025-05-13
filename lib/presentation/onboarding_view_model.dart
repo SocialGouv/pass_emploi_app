@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/onboarding/onboarding_actions.dart';
+import 'package:pass_emploi_app/models/accompagnement.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -11,6 +12,7 @@ class OnboardingViewModel extends Equatable {
   final int totalSteps;
 
   final bool messageCompleted;
+  final bool withActionStep;
   final bool actionCompleted;
   final bool offreCompleted;
   final bool evenementCompleted;
@@ -27,6 +29,7 @@ class OnboardingViewModel extends Equatable {
     required this.completedSteps,
     required this.totalSteps,
     required this.messageCompleted,
+    required this.withActionStep,
     required this.actionCompleted,
     required this.offreCompleted,
     required this.evenementCompleted,
@@ -49,8 +52,9 @@ class OnboardingViewModel extends Equatable {
     final onboarding = onboardingState.onboarding!;
 
     return OnboardingViewModel(
-      completedSteps: onboarding.completedSteps(),
-      totalSteps: onboarding.totalSteps(),
+      completedSteps: onboarding.completedSteps(store.state.accompagnement()),
+      totalSteps: onboarding.totalSteps(store.state.accompagnement()),
+      withActionStep: store.state.accompagnement() != Accompagnement.avenirPro,
       messageCompleted: onboarding.messageCompleted,
       actionCompleted: onboarding.actionCompleted,
       offreCompleted: onboarding.offreCompleted,
@@ -87,6 +91,7 @@ class OnboardingViewModel extends Equatable {
       completedSteps: 0,
       totalSteps: 0,
       messageCompleted: false,
+      withActionStep: false,
       actionCompleted: false,
       offreCompleted: false,
       evenementCompleted: false,
@@ -105,6 +110,7 @@ class OnboardingViewModel extends Equatable {
         completedSteps,
         totalSteps,
         messageCompleted,
+        withActionStep,
         actionCompleted,
         offreCompleted,
         evenementCompleted,

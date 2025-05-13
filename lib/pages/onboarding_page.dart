@@ -78,8 +78,10 @@ class OnboardingPage extends StatelessWidget {
                               _Icon(AppIcons.smartphone_outlined),
                               SizedBox(height: Margins.spacing_base),
                               _Icon(AppIcons.chat_outlined),
-                              SizedBox(height: Margins.spacing_base),
-                              _Icon(AppIcons.bolt_outlined),
+                              if (viewModel.withActionStep) ...[
+                                SizedBox(height: Margins.spacing_base),
+                                _Icon(AppIcons.bolt_outlined),
+                              ],
                               SizedBox(height: Margins.spacing_base),
                               _Icon(AppIcons.pageview_outlined),
                               SizedBox(height: Margins.spacing_base),
@@ -108,14 +110,16 @@ class OnboardingPage extends StatelessWidget {
                                 },
                               ),
                               SizedBox(height: Margins.spacing_base),
-                              _StepTile(
-                                title: Strings.actionOnboardingSection,
-                                isCompleted: viewModel.actionCompleted,
-                                onTap: () {
-                                  Navigator.of(context).pop();
-                                  viewModel.onActionOnboarding.call();
-                                },
-                              ),
+                              if (viewModel.withActionStep) ...[
+                                _StepTile(
+                                  title: Strings.actionOnboardingSection,
+                                  isCompleted: viewModel.actionCompleted,
+                                  onTap: () {
+                                    Navigator.of(context).pop();
+                                    viewModel.onActionOnboarding.call();
+                                  },
+                                ),
+                              ],
                               SizedBox(height: Margins.spacing_base),
                               _StepTile(
                                 title: Strings.offreOnboardingSection,
