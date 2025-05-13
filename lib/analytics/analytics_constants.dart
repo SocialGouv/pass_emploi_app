@@ -262,6 +262,10 @@ class AnalyticsEventNames {
   static const onboardingPushNotificationPermissionAcceptAction = "Activer";
   static const onboardingPushNotificationPermissionDeclineAction = "Plus tard";
 
+  static const onboardingCategory = "Onboarding";
+  static const onboardingSkipOnboardingAction = "Skip";
+  static const onboardingCompletedOnboardingAction = "Terminé";
+
   static const evenementEmploiDetailsCategory = "Détails événement emploi";
   static const evenementEmploiDetailsInscriptionAction = "Clic inscription événement emploi";
 

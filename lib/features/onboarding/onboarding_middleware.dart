@@ -1,3 +1,4 @@
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/bootstrap/bootstrap_action.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_actions.dart';
@@ -11,6 +12,7 @@ import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/onboarding_repository.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:redux/redux.dart';
 
 class OnboardingMiddleware extends MiddlewareClass<AppState> {
@@ -71,6 +73,10 @@ class OnboardingMiddleware extends MiddlewareClass<AppState> {
           updatedOnboarding.evenementCompleted &&
           updatedOnboarding.outilsCompleted;
       if (isCompleted) {
+        PassEmploiMatomoTracker.instance.trackEvent(
+          eventCategory: AnalyticsEventNames.onboardingCategory,
+          action: AnalyticsEventNames.onboardingCompletedOnboardingAction,
+        );
         await _repository.save(updatedOnboarding.copyWith(showOnboarding: false));
       }
     }

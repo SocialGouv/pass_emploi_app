@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_onboarding_tile.dart';
 import 'package:pass_emploi_app/presentation/onboarding_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -10,6 +11,7 @@ import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
@@ -261,8 +263,12 @@ class _SkipOnboardingDialog extends StatelessWidget {
               rippleColor: AppColors.warningLighten,
               withShadow: true,
               onPressed: () {
-                Navigator.pop(context, true);
                 viewModel.onSkipOnboarding.call();
+                PassEmploiMatomoTracker.instance.trackEvent(
+                  eventCategory: AnalyticsEventNames.onboardingCategory,
+                  action: AnalyticsEventNames.onboardingSkipOnboardingAction,
+                );
+                Navigator.pop(context, true);
               },
             ),
             SizedBox(height: Margins.spacing_base),
