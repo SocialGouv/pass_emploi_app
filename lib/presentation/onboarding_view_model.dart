@@ -67,7 +67,7 @@ class OnboardingViewModel extends Equatable {
         store.dispatch(OffreOnboardingStartedAction());
       },
       onEvenementOnboarding: () {
-        store.dispatch(HandleDeepLinkAction(EventListDeepLink(), DeepLinkOrigin.inAppNavigation));
+        store.dispatch(HandleDeepLinkAction(EventSearchDeepLink(), DeepLinkOrigin.inAppNavigation));
         store.dispatch(EvenementOnboardingStartedAction());
       },
       onOutilsOnboarding: () {

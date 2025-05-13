@@ -337,6 +337,7 @@ class Strings {
   // Accueil
   static String accueilAppBarTitle = "Bienvenue";
   static String onboardingAccueilTitle = "Découvrez l’application en quelques étapes";
+  static String onboardingAccueilTitleCompleted = "🎉 Vous avez terminé le tutoriel, félicitations !";
   static String accueilCetteSemaineSection = "Cette semaine";
   static String accueilVoirDetailsCetteSemaine = "Voir le détail de ma semaine";
   static String accueilRendezvousSection = "Votre prochain rendez-vous";

@@ -1,5 +1,12 @@
 import 'package:pass_emploi_app/features/bootstrap/bootstrap_action.dart';
+import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
+import 'package:pass_emploi_app/features/cvm/cvm_actions.dart';
+import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/features/onboarding/onboarding_actions.dart';
+import 'package:pass_emploi_app/features/recherche/evenement_emploi/evenement_emploi_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/evenement_emploi/evenement_emploi_filtres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
+import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -18,13 +25,25 @@ class OnboardingMiddleware extends MiddlewareClass<AppState> {
     if (action is BootstrapAction) {
       final result = await _repository.get();
       store.dispatch(OnboardingSuccessAction(result));
-    } else if (action is OnboardingSaveAction) {
-      final result = await _repository.get();
-      final updatedOnboarding = _updateOnboarding(action, result);
-      await _repository.save(updatedOnboarding);
-      store.dispatch(OnboardingSuccessAction(updatedOnboarding));
     } else if (action is OnboardingPushNotificationPermissionRequestAction) {
       await _handleNotificationsPermissions(store);
+    } else if (action is SendMessageAction || action is CvmSendMessageAction) {
+      _updateOnboarding(store, (onboarding) => onboarding.copyWith(messageCompleted: true));
+    } else if (action is UserActionCreateSuccessAction || action is CreateDemarcheSuccessAction) {
+      _updateOnboarding(store, (onboarding) => onboarding.copyWith(actionCompleted: true));
+    } else if (action is RechercheRequestAction) {
+      if (action is RechercheRequestAction<EvenementEmploiCriteresRecherche, EvenementEmploiFiltresRecherche>) {
+        _updateOnboarding(store, (onboarding) => onboarding.copyWith(evenementCompleted: true));
+      } else {
+        _updateOnboarding(store, (onboarding) => onboarding.copyWith(offreCompleted: true));
+      }
+    } else if (action is OutilsOnboardingStartedAction) {
+      // delayed to let user see the onboarding
+      Future.delayed(const Duration(seconds: 1), () {
+        _updateOnboarding(store, (onboarding) => onboarding.copyWith(outilsCompleted: true));
+      });
+    } else if (action is OnboardingHideAction) {
+      _updateOnboarding(store, (onboarding) => onboarding.copyWith(showOnboarding: false));
     }
   }
 
@@ -38,12 +57,12 @@ class OnboardingMiddleware extends MiddlewareClass<AppState> {
       store.dispatch(OnboardingSuccessAction(updatedOnboarding));
     }
   }
-}
 
-Onboarding _updateOnboarding(OnboardingSaveAction action, Onboarding onboarding) {
-  // TODO:
-  throw UnimplementedError('Update onboarding logic not implemented');
-  // return switch (action) {
-  //   OnboardingAccueilSaveAction() => onboarding.copyWith(showAccueilOnboarding: false),
-  // };
+  void _updateOnboarding(Store<AppState> store, Onboarding Function(Onboarding) update) {
+    final onboardingState = store.state.onboardingState;
+    final onboarding = onboardingState.onboarding;
+    final updatedOnboarding = update(onboarding!);
+    _repository.save(updatedOnboarding);
+    store.dispatch(OnboardingSuccessAction(updatedOnboarding));
+  }
 }

@@ -1,17 +1,35 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/features/bootstrap/bootstrap_action.dart';
+import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
+import 'package:pass_emploi_app/features/cvm/cvm_actions.dart';
+import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/features/onboarding/onboarding_actions.dart';
 import 'package:pass_emploi_app/features/onboarding/onboarding_state.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/emploi/emploi_filtres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/evenement_emploi/evenement_emploi_criteres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/evenement_emploi/evenement_emploi_filtres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
+import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/models/onboarding.dart';
+import 'package:pass_emploi_app/models/recherche/recherche_request.dart';
 
 import '../../doubles/mocks.dart';
 import '../../dsl/app_state_dsl.dart';
 import '../../dsl/matchers.dart';
 import '../../dsl/sut_redux.dart';
 
+class RechercheEventRequestMock extends Mock
+    implements RechercheRequest<EvenementEmploiCriteresRecherche, EvenementEmploiFiltresRecherche> {}
+
+class RechercheOffreRequestMock extends Mock
+    implements RechercheRequest<EmploiCriteresRecherche, EmploiFiltresRecherche> {}
+
 void main() {
-  setUpAll(() => registerFallbackValue(Onboarding()));
+  setUpAll(() {
+    registerFallbackValue(Onboarding());
+  });
 
   group('Onboarding', () {
     final sut = StoreSut();
@@ -27,7 +45,7 @@ void main() {
         sut.givenStore = givenState() //
             .store((f) => {f.onboardingRepository = repository});
 
-        sut.thenExpectChangingStatesThroughOrder([_shouldSucceed(Onboarding())]);
+        sut.thenExpectAtSomePoint(_shouldSucceed(Onboarding()));
       });
     });
 
@@ -47,6 +65,113 @@ void main() {
 
         sut.thenExpectAtSomePoint(_shouldSucceed(givenOnboarding.copyWith(showNotificationsOnboarding: false)));
         verify(() => pushNotificationManager.requestPermission()).called(1);
+      });
+    });
+
+    group('on completed', () {
+      group('when sending a message', () {
+        sut.whenDispatchingAction(() => SendMessageAction('any'));
+
+        test('should update onboarding state', () {
+          final givenOnboarding = Onboarding();
+
+          when(() => repository.get()).thenAnswer((_) async => givenOnboarding);
+          when(() => repository.save(any())).thenAnswer((_) async {});
+
+          sut.givenStore = givenState() //
+              .copyWith(onboardingState: OnboardingState(onboarding: givenOnboarding))
+              .store((f) => {f.onboardingRepository = repository});
+
+          sut.thenExpectAtSomePoint(_shouldSucceed(givenOnboarding.copyWith(messageCompleted: true)));
+        });
+      });
+
+      group('when sending a CVM message', () {
+        sut.whenDispatchingAction(() => CvmSendMessageAction('any'));
+
+        test('should update onboarding state', () {
+          final givenOnboarding = Onboarding();
+
+          when(() => repository.get()).thenAnswer((_) async => givenOnboarding);
+          when(() => repository.save(any())).thenAnswer((_) async {});
+
+          sut.givenStore = givenState() //
+              .copyWith(onboardingState: OnboardingState(onboarding: givenOnboarding))
+              .store((f) => {f.onboardingRepository = repository});
+
+          sut.thenExpectAtSomePoint(_shouldSucceed(givenOnboarding.copyWith(messageCompleted: true)));
+        });
+      });
+
+      group('when creating a user action', () {
+        sut.whenDispatchingAction(() => UserActionCreateSuccessAction('any'));
+
+        test('should update onboarding state', () {
+          final givenOnboarding = Onboarding();
+
+          when(() => repository.get()).thenAnswer((_) async => givenOnboarding);
+          when(() => repository.save(any())).thenAnswer((_) async {});
+
+          sut.givenStore = givenState() //
+              .copyWith(onboardingState: OnboardingState(onboarding: givenOnboarding))
+              .store((f) => {f.onboardingRepository = repository});
+
+          sut.thenExpectAtSomePoint(_shouldSucceed(givenOnboarding.copyWith(actionCompleted: true)));
+        });
+      });
+
+      group('when creating a demarche', () {
+        sut.whenDispatchingAction(() => CreateDemarcheSuccessAction('any'));
+
+        test('should update onboarding state', () {
+          final givenOnboarding = Onboarding();
+
+          when(() => repository.get()).thenAnswer((_) async => givenOnboarding);
+          when(() => repository.save(any())).thenAnswer((_) async {});
+
+          sut.givenStore = givenState() //
+              .copyWith(onboardingState: OnboardingState(onboarding: givenOnboarding))
+              .store((f) => {f.onboardingRepository = repository});
+
+          sut.thenExpectAtSomePoint(_shouldSucceed(givenOnboarding.copyWith(actionCompleted: true)));
+        });
+      });
+
+      group('when searching for evenement', () {
+        sut.whenDispatchingAction(() =>
+            RechercheRequestAction<EvenementEmploiCriteresRecherche, EvenementEmploiFiltresRecherche>(
+                RechercheEventRequestMock()));
+
+        test('should update onboarding state', () {
+          final givenOnboarding = Onboarding();
+
+          when(() => repository.get()).thenAnswer((_) async => givenOnboarding);
+          when(() => repository.save(any())).thenAnswer((_) async {});
+
+          sut.givenStore = givenState() //
+              .copyWith(onboardingState: OnboardingState(onboarding: givenOnboarding))
+              .store((f) => {f.onboardingRepository = repository});
+
+          sut.thenExpectAtSomePoint(_shouldSucceed(givenOnboarding.copyWith(evenementCompleted: true)));
+        });
+      });
+
+      group('when searching for offre', () {
+        sut.whenDispatchingAction(
+            () => RechercheRequestAction<EmploiCriteresRecherche, EmploiFiltresRecherche>(RechercheOffreRequestMock()));
+
+        test('should update onboarding state', () {
+          final givenOnboarding = Onboarding();
+
+          when(() => repository.get()).thenAnswer((_) async => givenOnboarding);
+          when(() => repository.save(any())).thenAnswer((_) async {});
+
+          sut.givenStore = givenState() //
+              .copyWith(onboardingState: OnboardingState(onboarding: givenOnboarding))
+              .store((f) => {f.onboardingRepository = repository});
+
+          sut.thenExpectAtSomePoint(_shouldSucceed(givenOnboarding.copyWith(offreCompleted: true)));
+        });
       });
     });
 

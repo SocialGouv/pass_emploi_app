@@ -1,8 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/features/onboarding/onboarding_actions.dart';
 import 'package:pass_emploi_app/pages/onboarding_page.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -15,8 +18,15 @@ class AccueilOnboardingTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isCompleted = onboardingItem.completedSteps == onboardingItem.totalSteps;
     return CardContainer(
-      onTap: () => Navigator.of(context).push(OnboardingPage.route()),
+      onTap: () {
+        if (isCompleted) {
+          StoreProvider.of<AppState>(context).dispatch(OnboardingHideAction());
+        } else {
+          Navigator.of(context).push(OnboardingPage.route());
+        }
+      },
       padding: EdgeInsets.zero,
       child: Container(
         padding: const EdgeInsets.all(Margins.spacing_base),
@@ -34,17 +44,31 @@ class AccueilOnboardingTile extends StatelessWidget {
               totalSteps: onboardingItem.totalSteps,
             ),
             const SizedBox(width: Margins.spacing_base),
-            Expanded(
-              child: Text(
-                Strings.onboardingAccueilTitle,
-                style: TextStyles.textBaseBold.copyWith(color: Colors.white),
+            if (isCompleted) ...[
+              Expanded(
+                child: Text(
+                  Strings.onboardingAccueilTitleCompleted,
+                  style: TextStyles.textBaseBold.copyWith(color: Colors.white),
+                ),
               ),
-            ),
-            const SizedBox(width: Margins.spacing_base),
-            Icon(
-              Icons.chevron_right_rounded,
-              color: Colors.white,
-            )
+              const SizedBox(width: Margins.spacing_base),
+              Icon(
+                Icons.close_rounded,
+                color: Colors.white,
+              )
+            ] else ...[
+              Expanded(
+                child: Text(
+                  Strings.onboardingAccueilTitle,
+                  style: TextStyles.textBaseBold.copyWith(color: Colors.white),
+                ),
+              ),
+              const SizedBox(width: Margins.spacing_base),
+              Icon(
+                Icons.chevron_right_rounded,
+                color: Colors.white,
+              )
+            ]
           ],
         ),
       ),

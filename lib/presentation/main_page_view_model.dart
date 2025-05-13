@@ -12,6 +12,7 @@ enum MainPageDisplayState {
   monSuivi,
   chat,
   evenements,
+  evenementsRecherche,
   solutionsRecherche,
   solutionsOffresEnregistrees,
   solutionsOutils,

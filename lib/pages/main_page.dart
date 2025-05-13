@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/pages/chat/cvm_chat_page.dart';
 import 'package:pass_emploi_app/pages/events_tab_page.dart';
 import 'package:pass_emploi_app/pages/mon_suivi_page.dart';
 import 'package:pass_emploi_app/pages/solutions_tabs_page.dart';
+import 'package:pass_emploi_app/presentation/events/event_tab_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/solutions_tabs_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -127,7 +128,7 @@ class MainPageState extends State<MainPage> with WidgetsBindingObserver {
       MainTab.monSuivi => MonSuiviPage(),
       MainTab.chat => viewModel.useCvm ? CvmChatPage() : ChatPage(),
       MainTab.solutions => _solutionsPage(viewModel),
-      MainTab.evenements => EventsTabPage(),
+      MainTab.evenements => _eventsPage(viewModel),
     };
   }
 
@@ -137,10 +138,23 @@ class MainPageState extends State<MainPage> with WidgetsBindingObserver {
     return SolutionsTabPage(initialTab: initialTab);
   }
 
+  Widget _eventsPage(MainPageViewModel viewModel) {
+    final initialTab = !_deepLinkHandled ? _initialEventsTab() : null;
+    _deepLinkHandled = true;
+    return EventsTabPage(initialTab: initialTab);
+  }
+
   SolutionsTab? _initialSolutionsTab() {
     return switch (widget.displayState) {
       MainPageDisplayState.solutionsOffresEnregistrees => SolutionsTab.offresEnregistrees,
       MainPageDisplayState.solutionsOutils => SolutionsTab.outils,
+      _ => null,
+    };
+  }
+
+  EventTab? _initialEventsTab() {
+    return switch (widget.displayState) {
+      MainPageDisplayState.evenementsRecherche => EventTab.rechercheExternes,
       _ => null,
     };
   }
@@ -158,6 +172,7 @@ class MainPageState extends State<MainPage> with WidgetsBindingObserver {
       MainPageDisplayState.solutionsOffresEnregistrees => tabs.indexOf(MainTab.solutions),
       MainPageDisplayState.solutionsOutils => tabs.indexOf(MainTab.solutions),
       MainPageDisplayState.evenements => tabs.indexOf(MainTab.evenements),
+      MainPageDisplayState.evenementsRecherche => tabs.indexOf(MainTab.evenements),
     };
     _selectedIndex = initialIndex != -1 ? initialIndex : 0;
   }
