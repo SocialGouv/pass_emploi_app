@@ -32,7 +32,7 @@ class CvmBridge {
   }
 
   Future<bool> login(String cvmToken) async {
-    Log.d('--- CvmBridge.login…');
+    Log.d('--- CvmBridge.login… ');
     final success = await MethodChannel(_cvmMethodChannel) //
             .invokeMethod<bool>('login', {'token': cvmToken, 'ex160': cvmEx160Url}) ??
         false;
