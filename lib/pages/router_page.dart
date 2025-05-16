@@ -58,14 +58,13 @@ class _RouterPageState extends State<RouterPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    _trackA11y();
-    final platform = PlatformUtils.getPlatform;
     return StoreConnector<AppState, RouterPageViewModel>(
       onInit: (store) {
         store.dispatch(BootstrapAction());
         store.dispatch(SubscribeToConnectivityUpdatesAction());
+        _trackA11y();
       },
-      converter: (store) => RouterPageViewModel.create(store, platform),
+      converter: (store) => RouterPageViewModel.create(store, PlatformUtils.getPlatform),
       builder: (context, viewModel) => _content(viewModel),
       ignoreChange: (state) => state.deepLinkState is UsedDeepLinkState,
       onWillChange: _onWillChange,
