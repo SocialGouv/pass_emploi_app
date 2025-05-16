@@ -239,7 +239,7 @@ class _PageContent extends StatelessWidget {
                 SizedBox(height: Margins.spacing_m),
                 Builder(
                   builder: (context) {
-                    final text = Text(key: globalKey, title, style: TextStyles.textBaseBold);
+                    final text = Text(key: globalKey, title, style: TextStyles.textMBold);
                     if (autoFocus) {
                       return AutoFocusA11y(child: text);
                     }

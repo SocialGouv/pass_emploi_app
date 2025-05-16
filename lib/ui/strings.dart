@@ -161,7 +161,9 @@ class Strings {
   static String start = "Démarrer";
 
   static String firstLaunchOnboardingCardTitle1 = "Echangez à tout moment avec votre conseiller dédié";
-  static String firstLaunchOnboardingCardTitle2 = "Créez et suivez vos actions dans le cadre des 15h d’activité";
+  static String firstLaunchOnboardingCardTitle2 = Brand.isCej()
+      ? "Créez et suivez vos actions dans le cadre des 15h d’activité"
+      : "Créez et suivez vos démarches dans le cadre des 15h d’activité";
   static String firstLaunchOnboardingCardTitle3 =
       "Trouvez les offres et les événements en lien avec votre projet professionnel";
 
