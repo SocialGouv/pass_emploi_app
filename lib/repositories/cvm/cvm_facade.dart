@@ -22,6 +22,7 @@ class CvmFacade {
     _assertInteractionsOnStreamBeforeTimeout();
 
     _subscribeToMessageStream()
+        .then((_) => _renewSession())
         .then((_) => _initCvm())
         .then((_) => _getToken(userId))
         .then((_) => _checkSession())
@@ -85,6 +86,10 @@ class CvmFacade {
 
   Future<void> _getToken(String userId) async {
     _state.token = await _tokenRepository.getToken(userId);
+  }
+
+  Future<void> _renewSession() async {
+    await _bridge.renewSession();
   }
 
   Future<bool> _login() async {
