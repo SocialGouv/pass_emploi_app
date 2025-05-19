@@ -112,7 +112,7 @@ class OnboardingPage extends StatelessWidget {
                               SizedBox(height: Margins.spacing_base),
                               if (viewModel.withActionStep) ...[
                                 _StepTile(
-                                  title: Strings.actionOnboardingSection,
+                                  title: viewModel.actionStepLabel,
                                   isCompleted: viewModel.actionCompleted,
                                   onTap: () {
                                     Navigator.of(context).pop();

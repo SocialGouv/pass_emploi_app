@@ -226,7 +226,8 @@ class Strings {
 
   static String installOnboardingSection = "Installez l’application";
   static String messageOnboardingSection = "Envoyez un message";
-  static String actionOnboardingSection = Brand.isCej() ? "Créez une action" : "Créez une démarche";
+  static String actionOnboardingSection = "Créez une action";
+  static String demarcheOnboardingSection = "Créez une démarche";
   static String offreOnboardingSection = "Recherchez une offre";
   static String evenementOnboardingSection = "Recherchez un événement";
   static String outilsOnboardingSection = "Consultez les outils";

@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/models/accompagnement.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
 class OnboardingViewModel extends Equatable {
@@ -17,6 +18,8 @@ class OnboardingViewModel extends Equatable {
   final bool offreCompleted;
   final bool evenementCompleted;
   final bool outilsCompleted;
+
+  final String actionStepLabel;
 
   final void Function() onMessageOnboarding;
   final void Function() onActionOnboarding;
@@ -34,6 +37,7 @@ class OnboardingViewModel extends Equatable {
     required this.offreCompleted,
     required this.evenementCompleted,
     required this.outilsCompleted,
+    required this.actionStepLabel,
     required this.onMessageOnboarding,
     required this.onActionOnboarding,
     required this.onOffreOnboarding,
@@ -51,6 +55,8 @@ class OnboardingViewModel extends Equatable {
 
     final onboarding = onboardingState.onboarding!;
 
+    final accompagnement = store.state.accompagnement();
+
     return OnboardingViewModel(
       completedSteps: onboarding.completedSteps(store.state.accompagnement()),
       totalSteps: onboarding.totalSteps(store.state.accompagnement()),
@@ -60,6 +66,7 @@ class OnboardingViewModel extends Equatable {
       offreCompleted: onboarding.offreCompleted,
       evenementCompleted: onboarding.evenementCompleted,
       outilsCompleted: onboarding.outilsCompleted,
+      actionStepLabel: _actionStepLabel(accompagnement),
       onMessageOnboarding: () {
         store.dispatch(HandleDeepLinkAction(NouveauMessageDeepLink(), DeepLinkOrigin.inAppNavigation));
         store.dispatch(MessageOnboardingStartedAction());
@@ -96,6 +103,7 @@ class OnboardingViewModel extends Equatable {
       offreCompleted: false,
       evenementCompleted: false,
       outilsCompleted: false,
+      actionStepLabel: Strings.actionOnboardingSection,
       onMessageOnboarding: () {},
       onActionOnboarding: () {},
       onOffreOnboarding: () {},
@@ -115,5 +123,13 @@ class OnboardingViewModel extends Equatable {
         offreCompleted,
         evenementCompleted,
         outilsCompleted,
+        actionStepLabel,
       ];
+}
+
+String _actionStepLabel(Accompagnement accompagnement) {
+  return switch (accompagnement) {
+    Accompagnement.cej => Strings.actionOnboardingSection,
+    _ => Strings.demarcheOnboardingSection,
+  };
 }
