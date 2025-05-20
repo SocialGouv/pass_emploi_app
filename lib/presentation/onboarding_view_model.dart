@@ -66,7 +66,7 @@ class OnboardingViewModel extends Equatable {
       offreCompleted: onboarding.offreCompleted,
       evenementCompleted: onboarding.evenementCompleted,
       outilsCompleted: onboarding.outilsCompleted,
-      actionStepLabel: _actionStepLabel(accompagnement),
+      actionStepLabel: _actionStepLabel(store),
       onMessageOnboarding: () {
         store.dispatch(HandleDeepLinkAction(NouveauMessageDeepLink(), DeepLinkOrigin.inAppNavigation));
         store.dispatch(MessageOnboardingStartedAction());
@@ -127,9 +127,6 @@ class OnboardingViewModel extends Equatable {
       ];
 }
 
-String _actionStepLabel(Accompagnement accompagnement) {
-  return switch (accompagnement) {
-    Accompagnement.cej => Strings.actionOnboardingSection,
-    _ => Strings.demarcheOnboardingSection,
-  };
+String _actionStepLabel(Store<AppState> store) {
+  return store.state.isMiloLoginMode() ? Strings.actionOnboardingSection : Strings.demarcheOnboardingSection;
 }
