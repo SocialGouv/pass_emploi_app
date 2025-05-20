@@ -55,8 +55,6 @@ class OnboardingViewModel extends Equatable {
 
     final onboarding = onboardingState.onboarding!;
 
-    final accompagnement = store.state.accompagnement();
-
     return OnboardingViewModel(
       completedSteps: onboarding.completedSteps(store.state.accompagnement()),
       totalSteps: onboarding.totalSteps(store.state.accompagnement()),
