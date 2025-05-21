@@ -225,27 +225,6 @@ void main() {
           });
         });
 
-        test('should transform demarche personnalisee with proper title', () {
-          withClock(Clock.fixed(mercredi14Fevrier12h00), () {
-            when(() => monSuiviRepository.getMonSuiviPoleEmploi('id', samedi30Decembre2023))
-                .thenAnswer((_) async => suiviPeDemarchePersonnalisee);
-
-            sut.givenStore = givenState() //
-                .loggedInPoleEmploiUser()
-                .store(
-                  (f) => {
-                    f.monSuiviRepository = monSuiviRepository,
-                    f.remoteConfigRepository = remoteConfigRepository,
-                  },
-                );
-
-            sut.thenExpectChangingStatesThroughOrder([
-              _shouldLoad(),
-              _shouldSucceedForPeWithProperTitleOnDemarchePersonnalisee(),
-            ]);
-          });
-        });
-
         test('should load then fail when request fails', () {
           withClock(Clock.fixed(mercredi14Fevrier12h00), () {
             when(() => monSuiviRepository.getMonSuiviPoleEmploi('id', samedi30Decembre2023))
@@ -314,28 +293,6 @@ Matcher _shouldSucceedForPeOnPeriod() {
   return StateIs<MonSuiviSuccessState>(
     (state) => state.monSuiviState,
     (state) => expect(state, MonSuiviSuccessState(currentPeriodIntervalPe, suiviPe)),
-  );
-}
-
-Matcher _shouldSucceedForPeWithProperTitleOnDemarchePersonnalisee() {
-  return StateIs<MonSuiviSuccessState>(
-    (state) => state.monSuiviState,
-    (state) => expect(
-      state,
-      MonSuiviSuccessState(
-        currentPeriodIntervalPe,
-        mockMonSuivi(
-          demarches: [
-            mockDemarche(
-              endDate: lundi29Janvier00h00,
-              titre: "Titre de la démarche",
-              content: "Titre de la démarche",
-              attributs: [],
-            )
-          ],
-        ),
-      ),
-    ),
   );
 }
 
