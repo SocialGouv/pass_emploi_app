@@ -27,7 +27,7 @@ class _OnboardingNotifierWrapperState extends State<OnboardingNotifierWrapper> {
       },
       distinct: true,
       onDidChange: (previousOnboarding, onboarding) {
-        if (previousOnboarding != null && onboarding != null) {
+        if (previousOnboarding != null && onboarding != null && onboarding.showOnboarding) {
           if (!previousOnboarding.messageCompleted && onboarding.messageCompleted) {
             _showOnboardingSnackbar(Strings.onboardingStepFinished);
           } else if (!previousOnboarding.actionCompleted && onboarding.actionCompleted) {
