@@ -108,7 +108,7 @@ DuplicateDemarcheSourceViewModel _sourceViewModel(Store<AppState> store, Demarch
       );
     }
 
-    final description = demarche.attributs.firstOrNull?.value;
+    final description = demarche.content;
     return DuplicateDemarchePersonnaliseeViewModel(
       description: description,
     );

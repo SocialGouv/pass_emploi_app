@@ -150,5 +150,19 @@ void main() {
             ));
       });
     });
+
+    test('when duplicating demarche personnalisee should copy description', () {
+      // Given
+      final store = givenState() //
+          .withDemarches([mockDemarche(id: 'id', content: 'description')])
+          .withMatchingDemarcheSuccessState(null)
+          .store();
+
+      // When
+      final viewModel = DuplicateDemarcheViewModel.create(store, 'id');
+
+      // Then
+      expect(viewModel.sourceViewModel, DuplicateDemarchePersonnaliseeViewModel(description: 'description'));
+    });
   });
 }
