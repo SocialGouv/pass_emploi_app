@@ -177,15 +177,15 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
-      - name: Check Codemagic CLI cache
-        uses: actions/cache@v4
-        id: codemagic-cache
-        with:
-          path: /Users/runner/hostedtoolcache/Python/${{ env.PYTHON_VERSION }}/x64
-          key: ${{ runner.os }}-codemagic
+      # removed 21 may 2025 - 4.1.1 check if CI is working without cache
+      # - name: Check Codemagic CLI cache
+      #   uses: actions/cache@v4
+      #   id: codemagic-cache
+      #   with:
+      #     path: /Users/runner/hostedtoolcache/Python/${{ env.PYTHON_VERSION }}/x64
+      #     key: ${{ runner.os }}-codemagic
 
       - name: Install Codemagic CLI tools
-        if: steps.codemagic-cache.outputs.cache-hit != 'true'
         shell: bash
         run: |
           pip3 install codemagic-cli-tools
