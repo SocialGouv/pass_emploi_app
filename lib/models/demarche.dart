@@ -86,7 +86,7 @@ class Demarche extends Equatable {
       modifiedByAdvisor: json['modifieParConseiller'] as bool,
       attributs: (json["attributs"] as List).map((attribut) => DemarcheAttribut.fromJson(attribut)).toList(),
       creationDate: (json['dateCreation'] as String?)?.toDateTimeUtcOnLocalTimeZone(),
-    );
+    ).transformDemarchePersonnalisee();
   }
 
   @override
