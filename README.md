@@ -16,7 +16,7 @@ trouvent dans les notes partagées Vaultwarden (`[APP MOBILE] .env.staging` ou `
 
 Le fichier `launch.json` est déjà bien configuré pour lancer l'application en mode `staging` sur les
 applications pass emploi et CEJ. Pour lancer l'application en mode `prod`, il faut modifier la valeur de
-`--flavor` dans le fichier `launch.json` par `prod`.
+`--flavor` dans le fichier `launch.json` par `prod`
 
 ### Dans Android Studio
 
