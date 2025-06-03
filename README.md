@@ -8,7 +8,7 @@ Celles-ci sont spécifiées dans le fichier [`CONTRIBUTING.md`](CONTRIBUTING.md)
 
 Créer un fichier dans le répertoire `env` intitulé `env.staging` en vous inspirant du
 fichier `env.template` situé à la racine du projet. Y insérer toutes les bonnes valeurs. Elles se
-trouvent dans les notes partagées Vaultwarden (`[APP MOBILE] .env.staging` ou `[APP MOBILE] .env.prod`).
+trouvent dans les notes partagées Vaultwarden (`[APP MOBILE] .env.staging` ou `[APP MOBILE] .env.prod`)
 
 ## Lancer l'application
 
