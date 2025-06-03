@@ -94,6 +94,11 @@ class CvmRepository {
         MatrixManager.sharedInstance.stopSession()
         self.room = nil
     }
+
+    func hasSession() -> Bool {
+        // this method is not implemented in the SDK
+        return false
+    }
 }
 
 private extension Event {

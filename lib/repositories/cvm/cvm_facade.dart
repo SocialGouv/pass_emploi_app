@@ -22,9 +22,10 @@ class CvmFacade {
     _assertInteractionsOnStreamBeforeTimeout();
 
     _subscribeToMessageStream()
+        .then((_) => _renewSession())
         .then((_) => _initCvm())
         .then((_) => _getToken(userId))
-        .then((_) => _login())
+        .then((_) => _checkSession())
         .then((_) => _joinRoom())
         .then((isRoomJoined) => isRoomJoined ? _startListenMessages() : _getRoomsAndJoin())
         .catchError((Object error) => _addErrorToStream(error));
@@ -69,6 +70,14 @@ class CvmFacade {
     }
   }
 
+  Future<void> _checkSession() async {
+    if (await _bridge.hasSession()) {
+      _state.isLoggedIn = true;
+      return;
+    }
+    await _login();
+  }
+
   Future<void> _initCvm() async {
     if (_state.isInit) return;
     await _bridge.initializeCvm();
@@ -77,6 +86,10 @@ class CvmFacade {
 
   Future<void> _getToken(String userId) async {
     _state.token = await _tokenRepository.getToken(userId);
+  }
+
+  Future<void> _renewSession() async {
+    await _bridge.renewSession();
   }
 
   Future<bool> _login() async {
