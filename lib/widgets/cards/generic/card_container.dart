@@ -41,7 +41,7 @@ class CardContainer extends StatelessWidget {
     return Container(
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
-        color: backgroundColor,
+        color: gradient != null ? null : backgroundColor,
         borderRadius: cardBorderRadius,
         boxShadow: withShadow ? [Shadows.radius_base] : [],
         image: image,
@@ -51,7 +51,7 @@ class CardContainer extends StatelessWidget {
           ? childWithPadding
           : Material(
               clipBehavior: Clip.hardEdge,
-              color: backgroundColor,
+              color: gradient != null ? Colors.transparent : backgroundColor,
               borderRadius: cardBorderRadius,
               child: InkWell(
                 borderRadius: cardBorderRadius,

@@ -151,7 +151,9 @@ class _Success extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _IaFtFeatureFlipConnector(
-          builder: (context, useIaFt) => IaFtCard(),
+          builder: (context, useIaFt) => IaFtCard(
+            onPressed: () => formViewModel.navigateToCreateDemarcheIaFtStep2(),
+          ),
         ),
         const SizedBox(height: Margins.spacing_base),
         Text(Strings.thematiquesDemarcheDescriptionShort, style: TextStyles.textMBold),

@@ -11,11 +11,13 @@ import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/pressed_tip.dart';
 
 class IaFtCard extends StatelessWidget {
-  const IaFtCard({super.key});
+  const IaFtCard({super.key, required this.onPressed});
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
     return CardContainer(
+      onTap: onPressed,
       gradient: LinearGradient(
         colors: AppColors.gradientSecondary,
         begin: Alignment.topCenter,
