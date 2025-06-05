@@ -50,8 +50,10 @@ class CreateDemarcheFormViewModel extends ChangeNotifier {
       CreateDemarcheStep1() => displayState,
       CreateDemarcheFromThematiqueStep2() => CreateDemarcheStep1(),
       CreateDemarchePersonnaliseeStep2() => CreateDemarcheStep1(),
+      CreateDemarcheIaFtStep2() => CreateDemarcheStep1(),
       CreateDemarcheFromThematiqueStep3() => CreateDemarcheFromThematiqueStep2(),
       CreateDemarchePersonnaliseeStep3() => CreateDemarchePersonnaliseeStep2(),
+      CreateDemarcheIaFtStep3() => CreateDemarcheIaFtStep2(),
       CreateDemarcheFromThematiqueSubmitted() => CreateDemarcheFromThematiqueStep2(),
       CreateDemarchePersonnaliseeSubmitted() => CreateDemarchePersonnaliseeStep2(),
     };
@@ -73,6 +75,11 @@ class CreateDemarcheFormViewModel extends ChangeNotifier {
 
   void navigateToCreateCustomDemarche() {
     displayState = CreateDemarchePersonnaliseeStep2();
+    notifyListeners();
+  }
+
+  void navigateToCreateDemarcheIaFtStep2() {
+    displayState = CreateDemarcheIaFtStep2();
     notifyListeners();
   }
 

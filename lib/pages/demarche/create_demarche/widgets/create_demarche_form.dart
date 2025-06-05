@@ -3,6 +3,8 @@ import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions
 import 'package:pass_emploi_app/pages/demarche/create_demarche/create_demarche_app_bar_back_button.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche/pages/create_demarche_from_thematique_step_2_page.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche/pages/create_demarche_from_thematique_step_3_page.dart';
+import 'package:pass_emploi_app/pages/demarche/create_demarche/pages/create_demarche_ia_ft_step_2_page.dart';
+import 'package:pass_emploi_app/pages/demarche/create_demarche/pages/create_demarche_ia_ft_step_3_page.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche/pages/create_demarche_personnalisee_step_2_page.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche/pages/create_demarche_personnalisee_step_3_page.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche/pages/create_demarche_step_1_page.dart';
@@ -98,12 +100,14 @@ class _Body extends StatelessWidget {
                     CreateDemarcheStep1() => CreateDemarcheStep1Page(viewModel),
                     CreateDemarcheFromThematiqueStep2() => CreateDemarcheFromThematiqueStep2Page(viewModel),
                     CreateDemarchePersonnaliseeStep2() => CreateDemarchePersonnaliseeStep2Page(viewModel),
+                    CreateDemarcheIaFtStep2() => CreateDemarcheIaFtStep2Page(viewModel),
                     CreateDemarcheFromThematiqueStep3() ||
                     CreateDemarcheFromThematiqueSubmitted() =>
                       CreateDemarcheFromThematiqueStep3Page(viewModel),
                     CreateDemarchePersonnaliseeStep3() ||
                     CreateDemarchePersonnaliseeSubmitted() =>
                       CreateDemarchePersonnaliseeStep3Page(viewModel),
+                    CreateDemarcheIaFtStep3() => CreateDemarcheIaFtStep3Page(viewModel),
                   },
                 ),
               ],
