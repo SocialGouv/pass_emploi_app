@@ -3,6 +3,9 @@
 rm ci/env.ci
 cp scripts/build.env ci/env.ci
 
+echo -e "\APPLE_P12_PRIVATE_KEY=" >> ci/env.ci
+cat Certificats.p12 | base64 >> ci/env.ci
+
 echo -e "\nSTAGING_GOOGLE_SERVICE_B64=" >> ci/env.ci
 cat android/app/google-services.json | base64 >> ci/env.ci
 
