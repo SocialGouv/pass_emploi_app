@@ -70,6 +70,7 @@ class Strings {
   static String stepCounter(int current, int total) => "Étape $current sur $total";
   static String selectDateTooltip = "Sélectionner une date";
   static String removeDateTooltip = "Supprimer la date";
+  static String newFeature = "Nouveauté";
 
   // Login mode
   static const String milo = "Mission Locale";
@@ -830,10 +831,15 @@ class Strings {
   static String thematiquesErrorSubtitle =
       "Nous sommes en train de régler le problème. Réessayez plus tard ou créez une démarche personnalisée.";
 
+  // IA FT
+  static String iaFtCardTitle = "Vos démarches en un instant";
+  static String iaFtCardSubtitle = "Dictez ou écrivez en une seule fois vos démarches, elles sont triées en un clic";
+
   // Top démarches
-  static String topDemarchesTitle = "Top démarches";
-  static String topDemarchesSubtitle = "Inspirez-vous des démarches les plus utilisées";
-  static String topDemarchesPressedTip = "Découvrir la liste";
+  static String topDemarchesTitle = "Vos démarches en un instant";
+  static String topDemarchesSubtitle =
+      "Dictez ou écrivez en une seule fois vos démarches, elles sont triées en un clic";
+  static String topDemarchesPressedTip = "Créez vos démarches";
 
   // Recherche
   static String derniereRecherche = "Dernière recherche";
