@@ -9,3 +9,9 @@ class FeatureFlipCampagneRecrutementAction {
 
   FeatureFlipCampagneRecrutementAction(this.withCampagneRecrutement);
 }
+
+class FeatureFlipUseIaFtAction {
+  final bool useIaFt;
+
+  FeatureFlipUseIaFtAction(this.useIaFt);
+}

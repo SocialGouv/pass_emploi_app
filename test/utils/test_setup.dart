@@ -81,6 +81,7 @@ import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/usecases/piece_jointe/piece_jointe_use_case.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
+import 'package:pass_emploi_app/repositories/ia_ft_suggestions_repository.dart';
 /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-IMPORT*/
 import 'package:redux/redux.dart';
 
@@ -171,6 +172,7 @@ class TestStoreFactory {
   RemoteCampagneAccueilRepository remoteCampagneAccueilRepository = MockRemoteCampagneAccueilRepository();
   AutoInscriptionRepository autoInscriptionRepository = MockAutoInscriptionRepository();
   OffresSuiviesRepository offresSuiviesRepository = MockOffresSuiviesRepository();
+  IaFtSuggestionsRepository iaFtSuggestionsRepository = MockIaFtSuggestionsRepository();
   /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-PROPERTY*/
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -256,6 +258,7 @@ class TestStoreFactory {
       remoteCampagneAccueilRepository,
       autoInscriptionRepository,
       offresSuiviesRepository,
+      iaFtSuggestionsRepository,
       /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-CONSTRUCTOR*/
     ).initializeReduxStore(initialState: initialState);
   }

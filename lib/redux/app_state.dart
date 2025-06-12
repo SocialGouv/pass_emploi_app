@@ -80,6 +80,7 @@ import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/user.dart';
+import 'package:pass_emploi_app/features/ia_ft_suggestions/ia_ft_suggestions_state.dart';
 /*AUTOGENERATE-REDUX-APP-STATE-IMPORT*/
 
 class AppState extends Equatable {
@@ -161,6 +162,7 @@ class AppState extends Equatable {
   final RemoteCampagneAccueilState remoteCampagneAccueilState;
   final AutoInscriptionState autoInscriptionState;
   final OffresSuiviesState offresSuiviesState;
+  final IaFtSuggestionsState iaFtSuggestionsState;
   /*AUTOGENERATE-REDUX-APP-STATE-PROPERTY*/
 
   AppState({
@@ -242,6 +244,7 @@ class AppState extends Equatable {
     required this.remoteCampagneAccueilState,
     required this.autoInscriptionState,
     required this.offresSuiviesState,
+    required this.iaFtSuggestionsState,
     /*AUTOGENERATE-REDUX-APP-STATE-CONSTRUCTOR*/
   });
 
@@ -324,6 +327,7 @@ class AppState extends Equatable {
     final RemoteCampagneAccueilState? remoteCampagneAccueilState,
     final AutoInscriptionState? autoInscriptionState,
     final OffresSuiviesState? offresSuiviesState,
+    final IaFtSuggestionsState? iaFtSuggestionsState,
     /*AUTOGENERATE-REDUX-APP-STATE-COPYPARAM*/
   }) {
     return AppState(
@@ -405,6 +409,7 @@ class AppState extends Equatable {
       remoteCampagneAccueilState: remoteCampagneAccueilState ?? this.remoteCampagneAccueilState,
       autoInscriptionState: autoInscriptionState ?? this.autoInscriptionState,
       offresSuiviesState: offresSuiviesState ?? this.offresSuiviesState,
+      iaFtSuggestionsState: iaFtSuggestionsState ?? this.iaFtSuggestionsState,
       /*AUTOGENERATE-REDUX-APP-STATE-COPYBODY*/
     );
   }
@@ -489,6 +494,7 @@ class AppState extends Equatable {
       remoteCampagneAccueilState: RemoteCampagneAccueilState(),
       autoInscriptionState: AutoInscriptionNotInitializedState(),
       offresSuiviesState: OffresSuiviesState(),
+      iaFtSuggestionsState: IaFtSuggestionsNotInitializedState(),
       /*AUTOGENERATE-REDUX-APP-STATE-FACTORY*/
     );
   }
@@ -566,6 +572,7 @@ class AppState extends Equatable {
         remoteCampagneAccueilState,
         autoInscriptionState,
         offresSuiviesState,
+        iaFtSuggestionsState,
         /*AUTOGENERATE-REDUX-APP-STATE-EQUATABLE*/
       ];
 

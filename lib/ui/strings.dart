@@ -66,10 +66,12 @@ class Strings {
   static const String allMandatoryFields = "Tous les champs sont obligatoires.";
   static String duplicate = "Dupliquer";
   static String clear = "Effacer le texte";
+  static const String back = 'Retour';
 
   static String stepCounter(int current, int total) => "Étape $current sur $total";
   static String selectDateTooltip = "Sélectionner une date";
   static String removeDateTooltip = "Supprimer la date";
+  static String newFeature = "Nouveauté";
 
   // Login mode
   static const String milo = "Mission Locale";
@@ -448,7 +450,6 @@ class Strings {
 
   // User action form
   static const String createActionAppBarTitle = 'Créer une action';
-  static const String userActionBackButton = 'Retour';
   static const String userActionNextButton = 'Continuer';
   static const String userActionFinishButton = 'Terminer';
 
@@ -830,10 +831,28 @@ class Strings {
   static String thematiquesErrorSubtitle =
       "Nous sommes en train de régler le problème. Réessayez plus tard ou créez une démarche personnalisée.";
 
+  // IA FT
+  static String iaFtCardTitle = "Vos démarches en un instant";
+  static String iaFtCardSubtitle = "Dictez ou écrivez en une seule fois vos démarches, elles sont triées en un clic";
+
+  static String iaFtStep2Title = "Dictez ou saisissez vos démarches effectuées";
+  static String iaFtStep2Warning = "Attention à ne pas partager vos données personnelles ou d’informations sensibles.";
+  static String iaFtStep2FieldTitle = "Résumé de vos démarches (obligatoire)";
+  static String iaFtStep2FieldHint =
+      "Exemple : Cette semaine, j’ai déposé mon CV à la librairie pour un emploi saisonnier, etc.";
+  static String iaFtStep2ButtonDicter = "Dicter";
+  static String iaFtStep2ButtonStop = "Arrêter";
+  static String iaFtStep2Button = "Créer les démarches";
+
+  static String iaFtSuggestionsLoading = "Nous générons vos démarches, cela peut prendre quelques instants";
+  static String iaFtSuggestionsFailure = "Oups, quelque chose s’est mal passé lors de la création des démarches.";
+  static String iaFtSuggestionsEmpty = "Aucune démarche n’a pu être créée automatiquement.";
+
   // Top démarches
-  static String topDemarchesTitle = "Top démarches";
-  static String topDemarchesSubtitle = "Inspirez-vous des démarches les plus utilisées";
-  static String topDemarchesPressedTip = "Découvrir la liste";
+  static String topDemarchesTitle = "Vos démarches en un instant";
+  static String topDemarchesSubtitle =
+      "Dictez ou écrivez en une seule fois vos démarches, elles sont triées en un clic";
+  static String topDemarchesPressedTip = "Créez vos démarches";
 
   // Recherche
   static String derniereRecherche = "Dernière recherche";

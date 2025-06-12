@@ -66,6 +66,7 @@ dependencies:
   encrypt: "5.0.1" # Version 5.0.3 makes 1 test crash
   logger: "2.2.0"
   matomo_tracker: "4.1.1"
+  speech_to_text: "6.0.0"
 
 dev_dependencies:
   flutter_test:

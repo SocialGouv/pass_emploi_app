@@ -14,6 +14,7 @@ class CardContainer extends StatelessWidget {
   final EdgeInsets padding;
   final bool withShadow;
   final DecorationImage? image;
+  final Gradient? gradient;
 
   CardContainer({
     super.key,
@@ -25,6 +26,7 @@ class CardContainer extends StatelessWidget {
     this.padding = const EdgeInsets.all(Margins.spacing_base),
     this.withShadow = true,
     this.image,
+    this.gradient,
   }) : splashColor = splashColor ?? AppColors.primary.withOpacity(0.2);
 
   @override
@@ -39,16 +41,17 @@ class CardContainer extends StatelessWidget {
     return Container(
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
-        color: backgroundColor,
+        color: gradient != null ? null : backgroundColor,
         borderRadius: cardBorderRadius,
         boxShadow: withShadow ? [Shadows.radius_base] : [],
         image: image,
+        gradient: gradient,
       ),
       child: (onTap == null && onLongPress == null)
           ? childWithPadding
           : Material(
               clipBehavior: Clip.hardEdge,
-              color: backgroundColor,
+              color: gradient != null ? Colors.transparent : backgroundColor,
               borderRadius: cardBorderRadius,
               child: InkWell(
                 borderRadius: cardBorderRadius,
