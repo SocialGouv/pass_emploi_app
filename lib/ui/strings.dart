@@ -841,6 +841,7 @@ class Strings {
   static String iaFtStep2FieldHint =
       "Exemple : Cette semaine, j’ai déposé mon CV à la librairie pour un emploi saisonnier, etc.";
   static String iaFtStep2ButtonDicter = "Dicter";
+  static String iaFtStep2ButtonStop = "Arrêter";
   static String iaFtStep2Button = "Créer les démarches";
 
   // Top démarches
