@@ -66,6 +66,7 @@ class Strings {
   static const String allMandatoryFields = "Tous les champs sont obligatoires.";
   static String duplicate = "Dupliquer";
   static String clear = "Effacer le texte";
+  static const String back = 'Retour';
 
   static String stepCounter(int current, int total) => "Étape $current sur $total";
   static String selectDateTooltip = "Sélectionner une date";
@@ -449,7 +450,6 @@ class Strings {
 
   // User action form
   static const String createActionAppBarTitle = 'Créer une action';
-  static const String userActionBackButton = 'Retour';
   static const String userActionNextButton = 'Continuer';
   static const String userActionFinishButton = 'Terminer';
 
@@ -843,6 +843,10 @@ class Strings {
   static String iaFtStep2ButtonDicter = "Dicter";
   static String iaFtStep2ButtonStop = "Arrêter";
   static String iaFtStep2Button = "Créer les démarches";
+
+  static String iaFtSuggestionsLoading = "Nous générons vos démarches, cela peut prendre quelques instants";
+  static String iaFtSuggestionsFailure = "Oups, quelque chose s’est mal passé lors de la création des démarches.";
+  static String iaFtSuggestionsEmpty = "Aucune démarche n’a pu être créée automatiquement.";
 
   // Top démarches
   static String topDemarchesTitle = "Vos démarches en un instant";

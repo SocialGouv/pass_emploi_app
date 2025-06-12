@@ -83,6 +83,11 @@ class CreateDemarcheFormViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void navigateToCreateDemarcheIaFtStep3() {
+    displayState = CreateDemarcheIaFtStep3();
+    notifyListeners();
+  }
+
   void navigateToCreateDemarchePersonnaliseeStep3() {
     displayState = CreateDemarchePersonnaliseeStep3();
     notifyListeners();

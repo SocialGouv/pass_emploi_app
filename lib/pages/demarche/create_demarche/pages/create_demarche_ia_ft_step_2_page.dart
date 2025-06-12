@@ -23,17 +23,23 @@ class _CreateDemarcheIaFtStep2PageState extends State<CreateDemarcheIaFtStep2Pag
   final SpeechToText _speechToText = SpeechToText();
   final TextEditingController _textEditingController = TextEditingController();
   bool _isListening = false;
+  String? _errorText;
+
+  static const int maxLength = 255;
 
   Future<void> _startListening() async {
     final bool available = await _speechToText.initialize(
-      onStatus: (status) => print('onStatus: $status'),
-      onError: (error) => print('onError: $error'),
+      onError: (error) => setState(() => _errorText = Strings.genericError),
     );
     if (available) {
       setState(() => _isListening = true);
       _speechToText.listen(onResult: (result) {
         setState(() {
-          _textEditingController.text = result.recognizedWords;
+          if (result.recognizedWords.length >= maxLength) {
+            _stopListening();
+          } else {
+            _textEditingController.text = result.recognizedWords;
+          }
         });
       });
     }
@@ -68,10 +74,37 @@ class _CreateDemarcheIaFtStep2PageState extends State<CreateDemarcheIaFtStep2Pag
           const SizedBox(height: Margins.spacing_base),
           Text(Strings.iaFtStep2FieldTitle, style: TextStyles.textBaseBold),
           const SizedBox(height: Margins.spacing_s),
-          BaseTextField(
-            controller: _textEditingController,
-            hintText: Strings.iaFtStep2FieldHint,
-            minLines: 6,
+          Stack(
+            children: [
+              BaseTextField(
+                controller: _textEditingController,
+                hintText: Strings.iaFtStep2FieldHint,
+                minLines: 6,
+                maxLines: null,
+                maxLength: maxLength,
+                errorText: _errorText,
+                onChanged: (value) => setState(() => _errorText = null),
+                suffixIcon: Opacity(
+                  opacity: 0,
+                  child: IconButton(
+                    onPressed: null,
+                    icon: Icon(Icons.close),
+                    color: AppColors.primary,
+                  ),
+                ),
+              ),
+              Positioned(
+                right: 0,
+                child: IconButton(
+                  onPressed: () {
+                    _textEditingController.clear();
+                    setState(() => _errorText = null);
+                  },
+                  icon: Icon(Icons.close),
+                  color: AppColors.contentColor,
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: Margins.spacing_base),
           PrimaryActionButton(
@@ -98,7 +131,9 @@ class _CreateDemarcheIaFtStep2PageState extends State<CreateDemarcheIaFtStep2Pag
           const SizedBox(height: Margins.spacing_base),
           PrimaryActionButton(
             label: Strings.iaFtStep2Button,
-            onPressed: () {},
+            onPressed: _textEditingController.text.isNotEmpty
+                ? () => widget.viewModel.navigateToCreateDemarcheIaFtStep3()
+                : null,
           ),
           const SizedBox(height: Margins.spacing_base),
           SizedBox(height: Margins.spacing_xl),
