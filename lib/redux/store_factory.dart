@@ -114,7 +114,6 @@ import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
 import 'package:pass_emploi_app/repositories/contact_immersion_repository.dart';
-import 'package:pass_emploi_app/repositories/create_demarche_batch_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_encryption_local_storage.dart';
 import 'package:pass_emploi_app/repositories/cv_repository.dart';
@@ -260,7 +259,6 @@ class StoreFactory {
   final AutoInscriptionRepository autoInscriptionRepository;
   final OffresSuiviesRepository offresSuiviesRepository;
   final IaFtSuggestionsRepository iaFtSuggestionsRepository;
-  final CreateDemarcheBatchRepository createDemarcheBatchRepository;
   /*AUTOGENERATE-REDUX-STOREFACTORY-PROPERTY-REPOSITORY*/
 
   StoreFactory(
@@ -346,7 +344,6 @@ class StoreFactory {
     this.autoInscriptionRepository,
     this.offresSuiviesRepository,
     this.iaFtSuggestionsRepository,
-    this.createDemarcheBatchRepository,
     /*AUTOGENERATE-REDUX-STOREFACTORY-CONSTRUCTOR-REPOSITORY*/
   );
 
