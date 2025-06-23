@@ -113,6 +113,18 @@ class CvmRepository(
         MatrixManager.getInstance().stopSession()
         this.room = null
     }
+
+    fun hasSession(): Boolean {
+        return MatrixManager.getInstance().hasSession()
+    }
+
+    fun renewSession() {
+        var hasToken = MatrixManager.getInstance().hasToken()
+        if (hasToken) {
+            MatrixManager.getInstance().matrixToken = ""
+            MatrixManager.getInstance().matrixUserId = ""
+        }
+    }
 }
 
 private fun stringify(eventType: EventType): String {

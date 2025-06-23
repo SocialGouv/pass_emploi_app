@@ -4,7 +4,7 @@ import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
-import io.flutter.plugin.common.MethodChannel.Result
+import io.flutter.plugin.common.Method  Channel.Result
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -35,6 +35,8 @@ class MethodChannelHandler(
             "loadMore" -> loadMore(call, result)
             "markAsRead" -> markAsRead(call, result)
             "logout" -> logout(result)
+            "hasSession" -> hasSession(result)
+            "renewSession" -> renewSession(result)
             else -> result.notImplemented()
         }
     }
@@ -123,5 +125,9 @@ class MethodChannelHandler(
     private fun logout(result: Result) {
         cvmRepository.logout()
         result.success(true)
+    }
+
+    private fun hasSession(result: Result) {
+        result.success(cvmRepository.hasSession())
     }
 }

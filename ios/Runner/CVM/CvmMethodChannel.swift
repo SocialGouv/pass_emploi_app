@@ -43,6 +43,8 @@ class CvmMethodChannel {
             markAsRead(args: args, result: result)
         case "logout":
             logout(result: result)
+        case "hasSession":
+            hasSession(result: result)
         default:
             result(FlutterMethodNotImplemented)
         }
@@ -127,5 +129,9 @@ class CvmMethodChannel {
     private func logout(result: FlutterResult) {
         repository.logout()
         result(true)
+    }
+
+    private func hasSession(result: FlutterResult) {
+        result(repository.hasSession())
     }
 }
