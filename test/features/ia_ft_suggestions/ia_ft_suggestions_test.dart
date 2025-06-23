@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/features/ia_ft_suggestions/ia_ft_suggestions_actions.dart';
 import 'package:pass_emploi_app/features/ia_ft_suggestions/ia_ft_suggestions_state.dart';
+import 'package:pass_emploi_app/models/demarche_ia_suggestion.dart';
 
 import '../../doubles/mocks.dart';
 import '../../dsl/app_state_dsl.dart';
@@ -17,7 +17,7 @@ void main() {
       sut.whenDispatchingAction(() => IaFtSuggestionsRequestAction());
 
       test('should load then succeed when request succeeds', () {
-        when(() => repository.get()).thenAnswer((_) async => true);
+        repository.withGetAndReturnSuccess();
 
         sut.givenStore = givenState() //
             .loggedInUser()
@@ -27,7 +27,7 @@ void main() {
       });
 
       test('should load then fail when request fails', () {
-        when(() => repository.get()).thenAnswer((_) async => null);
+        repository.withGetAndReturnFailure();
 
         sut.givenStore = givenState() //
             .loggedInUser()
@@ -47,7 +47,11 @@ Matcher _shouldSucceed() {
   return StateIs<IaFtSuggestionsSuccessState>(
     (state) => state.iaFtSuggestionsState,
     (state) {
-      expect(state.result, true);
+      expect(
+          state.suggestions,
+          isA<List<DemarcheIaSuggestion>>()
+              .having((list) => list.length, "length", 1)
+              .having((list) => list.first, "type", isA<DemarcheIaSuggestion>()));
     },
   );
 }

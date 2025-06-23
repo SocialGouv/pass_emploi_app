@@ -3,6 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
+import 'package:pass_emploi_app/models/demarche_ia_suggestion.dart';
 import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/offre_dto.dart';
 import 'package:pass_emploi_app/models/onboarding.dart';
@@ -23,6 +24,7 @@ import 'package:pass_emploi_app/repositories/evenement_emploi/evenement_emploi_r
 import 'package:pass_emploi_app/repositories/evenement_engagement/evenement_engagement_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/get_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/first_launch_onboarding_repository.dart';
+import 'package:pass_emploi_app/repositories/ia_ft_suggestions_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/in_app_feedback_repository.dart';
 import 'package:pass_emploi_app/repositories/in_app_notifications_repository.dart';
@@ -48,7 +50,6 @@ import 'package:pass_emploi_app/utils/compress_image.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
 
-import 'package:pass_emploi_app/repositories/ia_ft_suggestions_repository.dart';
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-IMPORT*/
 
 import 'dio_mock.dart';
@@ -307,5 +308,15 @@ class MockOffresSuiviesRepository extends Mock implements OffresSuiviesRepositor
   }
 }
 
-class MockIaFtSuggestionsRepository extends Mock implements IaFtSuggestionsRepository {}
+class FakeIaFtSuggestion extends Fake implements DemarcheIaSuggestion {}
+
+class MockIaFtSuggestionsRepository extends Mock implements IaFtSuggestionsRepository {
+  void withGetAndReturnSuccess() {
+    when(() => get(any())).thenAnswer((_) async => [FakeIaFtSuggestion()]);
+  }
+
+  void withGetAndReturnFailure() {
+    when(() => get(any())).thenAnswer((_) async => null);
+  }
+}
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-DECLARATION*/
