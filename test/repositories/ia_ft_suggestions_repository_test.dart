@@ -9,6 +9,7 @@ void main() {
     sut.givenRepository((client) => IaFtSuggestionsRepository(client));
 
     group('get', () {
+      // TODO: à tester quand l'API sera livrée
       sut.when((repository) => repository.get());
 
       group('when response is valid', () {
