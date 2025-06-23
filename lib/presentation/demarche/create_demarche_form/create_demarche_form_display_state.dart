@@ -1,3 +1,5 @@
+import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
+
 sealed class CreateDemarcheDisplayState {
   static int get stepsTotalCount => 3;
 
@@ -43,3 +45,9 @@ sealed class CreateDemarcheSubmitted extends CreateDemarcheDisplayState {
 class CreateDemarcheFromThematiqueSubmitted extends CreateDemarcheSubmitted {}
 
 class CreateDemarchePersonnaliseeSubmitted extends CreateDemarcheSubmitted {}
+
+class CreateDemarcheIaFtSubmitted extends CreateDemarcheSubmitted {
+  final List<CreateDemarcheRequestAction> createRequests;
+
+  CreateDemarcheIaFtSubmitted({required this.createRequests});
+}

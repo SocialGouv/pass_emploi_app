@@ -752,7 +752,7 @@ class Strings {
   static const String caracteres255 = "255 caractères maximum";
   static const String quand = "Quand";
   static const String selectEcheance = "Sélectionner une date d'échéance";
-  static const String addADemarche = "Créer une démarche";
+  static const String addADemarche = "Créer vos démarches";
   static const String createDemarcheTitle = "Création d'une démarche";
   static const String createDemarcheStep2EmptyTitle = "Aucune démarche ne correspond à votre recherche";
 
@@ -799,6 +799,9 @@ class Strings {
 
   static String demarcheBottomSheetTitle = "Éditer la démarche";
 
+  static String demarcheSuccessTitlePlural = 'Démarches enregistrées ! Retrouvez-les dans "Mon suivi"';
+  static String demarcheSuccessSubtitlePlural =
+      "Vos démarches sont en route vers votre conseiller. Vous pourrez en discuter ensemble lors de votre prochain rendez-vous ! ";
   static String demarcheSuccessTitle = "Démarche enregistrée";
   static String demarcheSuccessSubtitle =
       "La démarche est en route vers votre conseiller. Vous pourrez en discuter ensemble lors de votre prochain rendez-vous ! ";
@@ -847,6 +850,10 @@ class Strings {
   static String iaFtSuggestionsLoading = "Nous générons vos démarches, cela peut prendre quelques instants";
   static String iaFtSuggestionsFailure = "Oups, quelque chose s’est mal passé lors de la création des démarches.";
   static String iaFtSuggestionsEmpty = "Aucune démarche n’a pu être créée automatiquement.";
+  static String iaFtSuggestionsContent(int count) => "$count démarches créées à valider cette semaine";
+  static String iaFtSuggestionsSubmit = "Valider mes démarches";
+  static String iaFtSuggestionsError(int count) =>
+      "$count démarche${count > 1 ? 's' : ''} n’ont pas leurs dates renseignées. Merci de les compléter pour valider";
 
   // Top démarches
   static String topDemarchesTitle = "Vos démarches en un instant";

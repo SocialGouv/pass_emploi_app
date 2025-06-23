@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_form/create_demarche_form_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
@@ -21,11 +23,9 @@ class CreateDemarcheIaFtStep2Page extends StatefulWidget {
 
 class _CreateDemarcheIaFtStep2PageState extends State<CreateDemarcheIaFtStep2Page> {
   final SpeechToText _speechToText = SpeechToText();
-  final TextEditingController _textEditingController = TextEditingController();
+  late final TextEditingController _textEditingController;
   bool _isListening = false;
   String? _errorText;
-
-  static const int maxLength = 255;
 
   Future<void> _startListening() async {
     final bool available = await _speechToText.initialize(
@@ -35,7 +35,7 @@ class _CreateDemarcheIaFtStep2PageState extends State<CreateDemarcheIaFtStep2Pag
       setState(() => _isListening = true);
       _speechToText.listen(onResult: (result) {
         setState(() {
-          if (result.recognizedWords.length >= maxLength) {
+          if (result.recognizedWords.length >= CreateDemarcheIaFtStep2ViewModel.maxLength) {
             _stopListening();
           } else {
             _textEditingController.text = result.recognizedWords;
@@ -51,93 +51,105 @@ class _CreateDemarcheIaFtStep2PageState extends State<CreateDemarcheIaFtStep2Pag
   }
 
   @override
+  void initState() {
+    super.initState();
+    _textEditingController = TextEditingController(text: widget.viewModel.iaFtStep2ViewModel.description);
+    _textEditingController.addListener(() {
+      widget.viewModel.iaFtDescriptionChanged(_textEditingController.text);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          SizedBox(height: Margins.spacing_base),
-          Text(Strings.iaFtStep2Title, style: TextStyles.textMBold),
-          const SizedBox(height: Margins.spacing_base),
-          InformationBandeau(
-            text: Strings.iaFtStep2Warning,
-            icon: AppIcons.info_rounded,
-            backgroundColor: AppColors.primaryLighten,
-            textColor: AppColors.primary,
-            borderRadius: Dimens.radius_base,
-            padding: EdgeInsets.symmetric(
-              vertical: Margins.spacing_s,
-              horizontal: Margins.spacing_base,
+    return Tracker(
+      tracking: AnalyticsScreenNames.createDemarcheIaFtStep2,
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            SizedBox(height: Margins.spacing_base),
+            Text(Strings.iaFtStep2Title, style: TextStyles.textMBold),
+            const SizedBox(height: Margins.spacing_base),
+            InformationBandeau(
+              text: Strings.iaFtStep2Warning,
+              icon: AppIcons.info_rounded,
+              backgroundColor: AppColors.primaryLighten,
+              textColor: AppColors.primary,
+              borderRadius: Dimens.radius_base,
+              padding: EdgeInsets.symmetric(
+                vertical: Margins.spacing_s,
+                horizontal: Margins.spacing_base,
+              ),
             ),
-          ),
-          const SizedBox(height: Margins.spacing_base),
-          Text(Strings.iaFtStep2FieldTitle, style: TextStyles.textBaseBold),
-          const SizedBox(height: Margins.spacing_s),
-          Stack(
-            children: [
-              BaseTextField(
-                controller: _textEditingController,
-                hintText: Strings.iaFtStep2FieldHint,
-                minLines: 6,
-                maxLines: null,
-                maxLength: maxLength,
-                errorText: _errorText,
-                onChanged: (value) => setState(() => _errorText = null),
-                suffixIcon: Opacity(
-                  opacity: 0,
-                  child: IconButton(
-                    onPressed: null,
-                    icon: Icon(Icons.close),
-                    color: AppColors.primary,
+            const SizedBox(height: Margins.spacing_base),
+            Text(Strings.iaFtStep2FieldTitle, style: TextStyles.textBaseBold),
+            const SizedBox(height: Margins.spacing_s),
+            Stack(
+              children: [
+                BaseTextField(
+                  controller: _textEditingController,
+                  hintText: Strings.iaFtStep2FieldHint,
+                  minLines: 6,
+                  maxLines: null,
+                  maxLength: CreateDemarcheIaFtStep2ViewModel.maxLength,
+                  errorText: _errorText,
+                  onChanged: (value) => setState(() => _errorText = null),
+                  suffixIcon: Opacity(
+                    opacity: 0,
+                    child: IconButton(
+                      onPressed: null,
+                      icon: Icon(Icons.close),
+                      color: AppColors.primary,
+                    ),
                   ),
                 ),
-              ),
-              Positioned(
-                right: 0,
-                child: IconButton(
-                  onPressed: () {
-                    _textEditingController.clear();
-                    setState(() => _errorText = null);
-                  },
-                  icon: Icon(Icons.close),
-                  color: AppColors.contentColor,
+                Positioned(
+                  right: 0,
+                  child: IconButton(
+                    onPressed: () {
+                      _textEditingController.clear();
+                      setState(() => _errorText = null);
+                    },
+                    icon: Icon(Icons.close),
+                    color: AppColors.contentColor,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: Margins.spacing_base),
-          PrimaryActionButton(
-            label: _isListening ? Strings.iaFtStep2ButtonStop : Strings.iaFtStep2ButtonDicter,
-            onPressed: () {
-              if (_isListening) {
-                _stopListening();
-              } else {
-                _startListening();
-              }
-            },
-            suffix: _isListening
-                ? SizedBox(
-                    height: 24,
-                    child: SoundWaveformWidget(),
-                  )
-                : null,
-            backgroundColor: AppColors.primaryLighten,
-            textColor: AppColors.primary,
-            iconColor: AppColors.primary,
-            icon: _isListening ? Icons.stop_circle_rounded : Icons.mic,
-            rippleColor: AppColors.primary.withOpacity(0.3),
-          ),
-          const SizedBox(height: Margins.spacing_base),
-          PrimaryActionButton(
-            label: Strings.iaFtStep2Button,
-            onPressed: _textEditingController.text.isNotEmpty
-                ? () => widget.viewModel.navigateToCreateDemarcheIaFtStep3()
-                : null,
-          ),
-          const SizedBox(height: Margins.spacing_base),
-          SizedBox(height: Margins.spacing_xl),
-        ],
+              ],
+            ),
+            const SizedBox(height: Margins.spacing_base),
+            PrimaryActionButton(
+              label: _isListening ? Strings.iaFtStep2ButtonStop : Strings.iaFtStep2ButtonDicter,
+              onPressed: () {
+                if (_isListening) {
+                  _stopListening();
+                } else {
+                  _startListening();
+                }
+              },
+              suffix: _isListening
+                  ? SizedBox(
+                      height: 24,
+                      child: SoundWaveformWidget(),
+                    )
+                  : null,
+              backgroundColor: AppColors.primaryLighten,
+              textColor: AppColors.primary,
+              iconColor: AppColors.primary,
+              icon: _isListening ? Icons.stop_circle_rounded : Icons.mic,
+              rippleColor: AppColors.primary.withOpacity(0.3),
+            ),
+            const SizedBox(height: Margins.spacing_base),
+            PrimaryActionButton(
+              label: Strings.iaFtStep2Button,
+              onPressed: _textEditingController.text.isNotEmpty
+                  ? () => widget.viewModel.navigateToCreateDemarcheIaFtStep3()
+                  : null,
+            ),
+            const SizedBox(height: Margins.spacing_base),
+            SizedBox(height: Margins.spacing_xl),
+          ],
+        ),
       ),
     );
   }

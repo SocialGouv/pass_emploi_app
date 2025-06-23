@@ -6,27 +6,27 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 class CreateDemarcheIaFtStep3ViewModel extends Equatable {
-  final DisplayState displayState;
+  final DisplayState loadDisplayState;
   final List<DemarcheIaSuggestion> suggestions;
 
   CreateDemarcheIaFtStep3ViewModel({
-    required this.displayState,
+    required this.loadDisplayState,
     required this.suggestions,
   });
 
   factory CreateDemarcheIaFtStep3ViewModel.create(Store<AppState> store) {
     final iaFtSuggestionsState = store.state.iaFtSuggestionsState;
     return CreateDemarcheIaFtStep3ViewModel(
-      displayState: _viewModel(iaFtSuggestionsState),
+      loadDisplayState: _loadDisplayState(iaFtSuggestionsState),
       suggestions: _suggestions(iaFtSuggestionsState),
     );
   }
 
   @override
-  List<Object?> get props => [displayState, suggestions];
+  List<Object?> get props => [loadDisplayState, suggestions];
 }
 
-DisplayState _viewModel(IaFtSuggestionsState iaFtSuggestionsState) {
+DisplayState _loadDisplayState(IaFtSuggestionsState iaFtSuggestionsState) {
   return switch (iaFtSuggestionsState) {
     IaFtSuggestionsNotInitializedState() => DisplayState.LOADING,
     IaFtSuggestionsLoadingState() => DisplayState.LOADING,

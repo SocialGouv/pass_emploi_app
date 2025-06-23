@@ -21,10 +21,12 @@ class CreateDemarcheForm extends StatefulWidget {
     super.key,
     required this.onCreateDemarchePersonnalisee,
     required this.onCreateDemarcheFromReferentiel,
+    required this.onCreateDemarcheIaFt,
   });
 
   final void Function(CreateDemarchePersonnaliseeRequestAction) onCreateDemarchePersonnalisee;
   final void Function(CreateDemarcheRequestAction) onCreateDemarcheFromReferentiel;
+  final void Function(List<CreateDemarcheRequestAction>) onCreateDemarcheIaFt;
 
   @override
   State<CreateDemarcheForm> createState() => _CreateDemarcheFormState();
@@ -41,13 +43,19 @@ class _CreateDemarcheFormState extends State<CreateDemarcheForm> {
   }
 
   void _onFormStateChanged() {
-    if (_viewModel.displayState is CreateDemarcheFromThematiqueSubmitted) {
+    final displayState = _viewModel.displayState;
+    if (displayState is CreateDemarcheFromThematiqueSubmitted) {
       widget.onCreateDemarcheFromReferentiel(_viewModel.createDemarcheRequestAction());
     }
 
-    if (_viewModel.displayState is CreateDemarchePersonnaliseeSubmitted) {
+    if (displayState is CreateDemarchePersonnaliseeSubmitted) {
       widget.onCreateDemarchePersonnalisee(_viewModel.createDemarchePersonnaliseeRequestAction());
     }
+
+    if (displayState is CreateDemarcheIaFtSubmitted) {
+      widget.onCreateDemarcheIaFt(displayState.createRequests);
+    }
+
     setState(() {});
   }
 
@@ -108,6 +116,7 @@ class _Body extends StatelessWidget {
                     CreateDemarchePersonnaliseeSubmitted() =>
                       CreateDemarchePersonnaliseeStep3Page(viewModel),
                     CreateDemarcheIaFtStep3() => CreateDemarcheIaFtStep3Page(viewModel),
+                    CreateDemarcheIaFtSubmitted() => CreateDemarcheIaFtStep3Page(viewModel),
                   },
                 ),
               ],

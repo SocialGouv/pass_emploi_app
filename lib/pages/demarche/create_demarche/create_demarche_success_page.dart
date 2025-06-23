@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_form_page.dart';
 import 'package:pass_emploi_app/pages/demarche/demarche_detail_page.dart';
@@ -17,7 +19,7 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 import 'package:pass_emploi_app/widgets/in_app_feedback.dart';
 
-enum CreateDemarcheSource { personnalisee, fromReferentiel }
+enum CreateDemarcheSource { personnalisee, fromReferentiel, iaFt }
 
 class CreateDemarcheSuccessPage extends StatelessWidget {
   const CreateDemarcheSuccessPage({super.key, required this.source});
@@ -35,7 +37,7 @@ class CreateDemarcheSuccessPage extends StatelessWidget {
     return ConfettiWrapper(builder: (context, confettiController) {
       return StoreConnector<AppState, CreateDemarcheSuccessViewModel>(
         builder: (context, viewModel) => _Body(viewModel, source),
-        converter: (store) => CreateDemarcheSuccessViewModel.create(store),
+        converter: (store) => CreateDemarcheSuccessViewModel.create(store, source),
         distinct: true,
         onDispose: (store) => store.dispatch(CreateDemarcheResetAction()),
         onInit: (_) => confettiController.play(),
@@ -51,56 +53,66 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      floatingActionButton: _Buttons(
-        onGoActionDetail: () {
-          Navigator.pop(context);
-          Navigator.of(context).push(DemarcheDetailPage.materialPageRoute(viewModel.demarcheId));
-        },
-        onCreateMore: () {
-          Navigator.pop(context);
-          Navigator.of(context).push(CreateDemarcheFormPage.route());
-        },
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      appBar: SecondaryAppBar(title: Strings.createDemarcheAppBarTitle, backgroundColor: Colors.white),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                InAppFeedback(
-                  feature: switch (source) {
-                    CreateDemarcheSource.personnalisee => "create-demarche-personnalisee",
-                    CreateDemarcheSource.fromReferentiel => "create-demarche-referentiel",
-                  },
-                  label: Strings.feedbackCreateDemarche,
-                ),
-                SizedBox(height: Margins.spacing_m),
-                Center(
-                  child: SizedBox(
-                    height: 130,
-                    width: 130,
-                    child: Illustration.green(AppIcons.check_rounded),
+    return Tracker(
+      tracking: switch (source) {
+        CreateDemarcheSource.personnalisee => AnalyticsScreenNames.createDemarchePersonnaliseeSuccess,
+        CreateDemarcheSource.fromReferentiel => AnalyticsScreenNames.createDemarcheFromReferentielSuccess,
+        CreateDemarcheSource.iaFt => AnalyticsScreenNames.createDemarcheIaFtSuccess,
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        floatingActionButton: _Buttons(
+          onGoActionDetail: viewModel.demarcheId != null
+              ? () {
+                  Navigator.pop(context);
+                  Navigator.of(context).push(DemarcheDetailPage.materialPageRoute(viewModel.demarcheId!));
+                }
+              : null,
+          onCreateMore: () {
+            Navigator.pop(context);
+            Navigator.of(context).push(CreateDemarcheFormPage.route());
+          },
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        appBar: SecondaryAppBar(title: Strings.createDemarcheAppBarTitle, backgroundColor: Colors.white),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+          child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  InAppFeedback(
+                    feature: switch (source) {
+                      CreateDemarcheSource.personnalisee => "create-demarche-personnalisee",
+                      CreateDemarcheSource.fromReferentiel => "create-demarche-referentiel",
+                      CreateDemarcheSource.iaFt => "create-demarche-ia-ft",
+                    },
+                    label: Strings.feedbackCreateDemarche,
                   ),
-                ),
-                SizedBox(height: Margins.spacing_xl),
-                Text(
-                  Strings.demarcheSuccessTitle,
-                  textAlign: TextAlign.center,
-                  style: TextStyles.textMBold,
-                ),
-                SizedBox(height: Margins.spacing_m),
-                Text(
-                  Strings.demarcheSuccessSubtitle,
-                  textAlign: TextAlign.center,
-                  style: TextStyles.textSRegular(),
-                ),
-                SizedBox(height: Margins.spacing_xx_huge),
-              ],
+                  SizedBox(height: Margins.spacing_m),
+                  Center(
+                    child: SizedBox(
+                      height: 130,
+                      width: 130,
+                      child: Illustration.green(AppIcons.check_rounded),
+                    ),
+                  ),
+                  SizedBox(height: Margins.spacing_xl),
+                  Text(
+                    viewModel.demarcheSuccessTitle,
+                    textAlign: TextAlign.center,
+                    style: TextStyles.textMBold,
+                  ),
+                  SizedBox(height: Margins.spacing_m),
+                  Text(
+                    viewModel.demarcheSuccessSubtitle,
+                    textAlign: TextAlign.center,
+                    style: TextStyles.textSRegular(),
+                  ),
+                  SizedBox(height: Margins.spacing_xx_huge),
+                ],
+              ),
             ),
           ),
         ),
@@ -112,7 +124,7 @@ class _Body extends StatelessWidget {
 class _Buttons extends StatelessWidget {
   const _Buttons({required this.onGoActionDetail, required this.onCreateMore});
 
-  final void Function() onGoActionDetail;
+  final void Function()? onGoActionDetail;
   final void Function() onCreateMore;
 
   @override
@@ -123,12 +135,14 @@ class _Buttons extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          AutoFocusA11y(
-            child: PrimaryActionButton(
-              label: Strings.demarcheSuccessConsulter,
-              onPressed: onGoActionDetail,
+          if (onGoActionDetail != null) ...[
+            AutoFocusA11y(
+              child: PrimaryActionButton(
+                label: Strings.demarcheSuccessConsulter,
+                onPressed: onGoActionDetail,
+              ),
             ),
-          ),
+          ],
           const SizedBox(height: Margins.spacing_base),
           SecondaryButton(
             label: Strings.demarcheSuccessCreerUneAutre,

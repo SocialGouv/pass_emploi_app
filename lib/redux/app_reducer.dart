@@ -19,6 +19,7 @@ import 'package:pass_emploi_app/features/date_consultation_notification/date_con
 import 'package:pass_emploi_app/features/date_consultation_offre/date_consultation_offre_reducer.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_reducer.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_reducer.dart';
+import 'package:pass_emploi_app/features/demarche/create_demarche_batch/create_demarche_batch_reducer.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_reducer.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_reducer.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_reducer.dart';
@@ -32,6 +33,7 @@ import 'package:pass_emploi_app/features/favori/list/favori_list_reducer.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_reducer.dart';
 import 'package:pass_emploi_app/features/feature_flip/feature_flip_reducer.dart';
 import 'package:pass_emploi_app/features/first_launch_onboarding/first_launch_onboarding_reducer.dart';
+import 'package:pass_emploi_app/features/ia_ft_suggestions/ia_ft_suggestions_reducer.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_reducer.dart';
 import 'package:pass_emploi_app/features/in_app_feedback/in_app_feedback_reducer.dart';
 import 'package:pass_emploi_app/features/in_app_notifications/in_app_notifications_reducer.dart';
@@ -85,7 +87,6 @@ import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/features/ia_ft_suggestions/ia_ft_suggestions_reducer.dart';
 /*AUTOGENERATE-REDUX-APP-REDUCER-IMPORT*/
 
 AppState reducer(AppState current, dynamic action) {
@@ -204,6 +205,7 @@ AppState reducer(AppState current, dynamic action) {
     autoInscriptionState: autoInscriptionReducer(current.autoInscriptionState, action),
     offresSuiviesState: offresSuiviesReducer(current.offresSuiviesState, action),
     iaFtSuggestionsState: iaFtSuggestionsReducer(current.iaFtSuggestionsState, action),
+    createDemarcheBatchState: createDemarcheBatchReducer(current.createDemarcheBatchState, action),
     /*AUTOGENERATE-REDUX-APP-REDUCER-STATE*/
   );
 }

@@ -17,16 +17,16 @@ class IaFtSuggestionsRepository {
         DemarcheIaSuggestion(
           id: "1",
           content: "content",
-          label: "label",
-          titre: "titre",
-          sousTitre: "sousTitre",
+          label: "Q03",
+          titre: "P01",
+          sousTitre: "test",
         ),
         DemarcheIaSuggestion(
           id: "2",
           content: "content",
-          label: "label",
-          titre: "titre",
-          sousTitre: "sousTitre",
+          label: "Q03",
+          titre: "P01",
+          sousTitre: "test",
         ),
       ];
     } catch (e, stack) {

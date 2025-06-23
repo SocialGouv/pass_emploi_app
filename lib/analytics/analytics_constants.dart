@@ -31,11 +31,13 @@ class AnalyticsScreenNames {
   static const createUserActionStep1 = "actions/create/v2/step1";
   static const createUserActionStep2 = "actions/create/v2/step2";
   static const createUserActionStep3 = "actions/create/v2/step3";
-  static const searchDemarcheStep1 = "/demarches/search";
-  static const searchDemarcheStep2 = "/demarches/search-results";
-  static const searchDemarcheStep3 = "/demarches/demarche-renferentiel-create";
-  static const searchDemarcheStep3Success = "/demarches/createSuccess";
   static const createDemarchePersonnalisee = "demarches/creer_demarche_personalisee";
+  static const createDemarcheHome = "demarches/creer_demarche";
+  static const createDemarcheIaFtStep2 = "demarches/creer_demarche/ia-ft/step2";
+  static const createDemarcheIaFtStep3 = "demarches/creer_demarche/ia-ft/step3";
+  static const createDemarcheIaFtSuccess = "demarches/creer_demarche/ia-ft/success";
+  static const createDemarchePersonnaliseeSuccess = "demarches/creer_demarche/personnalisee/success";
+  static const createDemarcheFromReferentielSuccess = "demarches/creer_demarche/referentiel/success";
   static const thematiquesDemarche = "demarches/thematiques";
 
   static String thematiquesDemarcheDetails(String thematique) => "demarches/thematiques/$thematique";
@@ -218,6 +220,10 @@ class AnalyticsEventNames {
   static const createActionStep2TitleCategory = "Création action v2 étape 2 - Titre";
   static const createActionStep3StatusCategory = "Création action v2 étape 3 - Statut";
   static const createActionStep3RappelCategory = "Création action v2 étape 3 - Rappel";
+
+  static const createDemarcheEventCategory = "Création démarche";
+  static const createDemarcheIaSuggestionsListCount = "Nombre de suggestions";
+  static const createDemarcheIaSuggestionsListDeleted = "Nombre de suggestions supprimées";
 
   static String createActionStep1Action(String category) => "Catégorie : $category";
 
