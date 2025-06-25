@@ -36,6 +36,32 @@ void main() {
           },
         );
       });
+
+      test('request should be valid enven if firebase instance ID throw an error', () async {
+        when(() => mockFirebase.getFirebaseInstanceId()).thenThrow(Exception("error"));
+        await sut.expectRequestBody(
+          method: HttpMethod.put,
+          url: "/jeunes/userId/configuration-application",
+          options: Options(headers: {}),
+          jsonBody: {
+            'registration_token': 'token',
+            'fuseauHoraire': 'fuseauHoraire',
+          },
+        );
+      });
+
+      test('request should be valid enven if firebase messaging throw an error', () async {
+        when(() => mockNotification.getToken()).thenThrow(Exception("error"));
+        await sut.expectRequestBody(
+          method: HttpMethod.put,
+          url: "/jeunes/userId/configuration-application",
+          options: Options(headers: {'X-InstanceId': "firebaseId"}),
+          jsonBody: {
+            'registration_token': '',
+            'fuseauHoraire': 'fuseauHoraire',
+          },
+        );
+      });
     });
   });
 }

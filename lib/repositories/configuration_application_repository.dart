@@ -22,21 +22,42 @@ class ConfigurationApplicationRepository {
     final url = "/jeunes/$userId/configuration-application";
 
     try {
-      final token = await _pushNotificationManager.getToken();
-      if (token == null) return;
-
-      final firebaseInstanceId = await _firebaseInstanceIdGetter.getFirebaseInstanceId();
+      final configurationData = await _buildConfigurationData(fuseauHoraire);
+      final headers = await _buildHeaders();
 
       await _httpClient.put(
         url,
-        options: Options(headers: {'X-InstanceId': firebaseInstanceId}),
-        data: customJsonEncode(PutConfigurationApplication(
-          token: token,
-          fuseauHoraire: fuseauHoraire,
-        )),
+        options: Options(headers: headers),
+        data: customJsonEncode(configurationData),
       );
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);
+    }
+  }
+
+  Future<PutConfigurationApplication> _buildConfigurationData(String fuseauHoraire) async {
+    try {
+      final token = await _pushNotificationManager.getToken();
+      return PutConfigurationApplication(
+        token: token ?? '',
+        fuseauHoraire: fuseauHoraire,
+      );
+    } catch (e, stack) {
+      _crashlytics?.recordNonNetworkExceptionUrl(e, stack, 'getToken');
+      return PutConfigurationApplication(
+        token: '',
+        fuseauHoraire: fuseauHoraire,
+      );
+    }
+  }
+
+  Future<Map<String, String>> _buildHeaders() async {
+    try {
+      final firebaseInstanceId = await _firebaseInstanceIdGetter.getFirebaseInstanceId();
+      return {'X-InstanceId': firebaseInstanceId};
+    } catch (e, stack) {
+      _crashlytics?.recordNonNetworkExceptionUrl(e, stack, 'getFirebaseInstanceId');
+      return {};
     }
   }
 }
