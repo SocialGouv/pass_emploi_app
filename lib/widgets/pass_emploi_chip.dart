@@ -84,10 +84,7 @@ class _CustomChip extends StatelessWidget {
               children: [
                 ExcludeSemantics(
                   excluding: a11yLabel != null,
-                  child: Text(
-                    label,
-                    style: textstyle,
-                  ),
+                  child: Text(label, style: textstyle),
                 ),
                 if (isSelected) ...[
                   SizedBox(width: Margins.spacing_s),
