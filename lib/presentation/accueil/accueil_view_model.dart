@@ -202,13 +202,6 @@ AccueilItem? _errorDegradeeItem(AccueilSuccessState accueilState) {
 }
 
 AccueilItem? _onboardingItem(AppState state) {
-  // TODO: remove me
-  if (1 == 1) {
-    return OnboardingItem(
-      completedSteps: 1,
-      totalSteps: 1,
-    );
-  }
   final onboarding = state.onboardingState.onboarding;
   if (onboarding != null && onboarding.showOnboarding) {
     return OnboardingItem(
