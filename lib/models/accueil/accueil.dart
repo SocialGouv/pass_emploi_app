@@ -60,7 +60,11 @@ class Accueil extends Equatable {
       favoris: favoris,
       campagne: campagne,
       accueilErreur: accueilErreur,
-      peutVoirLeComptageDesHeures: json["peutVoirLeComptageDesHeures"] as bool?,
+      peutVoirLeComptageDesHeures: 1 == 1
+          ? true
+          : // TODO: Remove test
+
+          json["peutVoirLeComptageDesHeures"] as bool?,
     );
   }
 

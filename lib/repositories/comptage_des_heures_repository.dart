@@ -13,7 +13,15 @@ class ComptageDesHeuresRepository {
   }) async {
     final url = "/jeunes/$userId/comptage";
     try {
+      if (1 == 1) {
+        return ComptageDesHeures(
+          nbHeuresValidees: 3,
+          nbHeuresDeclarees: 3,
+          dateDerniereMiseAJour: DateTime.now().subtract(Duration(days: 1)),
+        );
+      }
       final response = await _httpClient.get(url);
+      // TODO: Remove test
       return ComptageDesHeures.fromJson(response.data);
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkExceptionUrl(e, stack, url);

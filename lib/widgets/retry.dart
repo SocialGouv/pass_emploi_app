@@ -12,8 +12,9 @@ class Retry extends StatelessWidget {
   final String text;
   final VoidCallback onRetry;
   final String? buttonLabel;
+  final bool small;
 
-  const Retry(this.text, this.onRetry, {this.buttonLabel});
+  const Retry(this.text, this.onRetry, {this.buttonLabel, this.small = false});
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +25,15 @@ class Retry extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox.square(
-              dimension: height < MediaSizes.height_xs ? 60 : 180,
-              child: Illustration.grey(
-                AppIcons.warning_rounded,
-                withWhiteBackground: true,
+            if (!small)
+              SizedBox.square(
+                dimension: height < MediaSizes.height_xs ? 60 : 180,
+                child: Illustration.grey(
+                  AppIcons.warning_rounded,
+                  withWhiteBackground: true,
+                ),
               ),
-            ),
-            SizedBox(height: height < MediaSizes.height_xs ? Margins.spacing_base : Margins.spacing_l),
+            if (!small) SizedBox(height: height < MediaSizes.height_xs ? Margins.spacing_base : Margins.spacing_l),
             Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
