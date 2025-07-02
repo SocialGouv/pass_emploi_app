@@ -342,7 +342,7 @@ class Strings {
   static String notificationsBottomSheetButton = "Activer les notifications";
 
   // Accueil
-  static String accueilAppBarTitle = "Bienvenue";
+  static String accueilAppBarTitle = "Bonjour";
   static String onboardingAccueilTitle = "Découvrez l’application en quelques étapes";
   static String onboardingAccueilTitleCompleted = "🎉 Vous avez terminé le tutoriel !";
   static String accueilCetteSemaineSection = "Cette semaine";
