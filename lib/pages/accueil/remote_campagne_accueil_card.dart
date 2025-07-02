@@ -19,8 +19,6 @@ class RemoteCampagneAccueilCard extends StatelessWidget {
     return Semantics(
       button: true,
       child: CardContainer(
-        backgroundColor: AppColors.primary,
-        splashColor: AppColors.primaryDarken.withOpacity(0.5),
         padding: EdgeInsets.zero,
         onTap: () {
           PassEmploiMatomoTracker.instance.trackOutlink(item.url);
@@ -37,7 +35,7 @@ class RemoteCampagneAccueilCard extends StatelessWidget {
                       Expanded(
                         child: Text(
                           item.title,
-                          style: TextStyles.textMBold.copyWith(color: Colors.white),
+                          style: TextStyles.textMBold.copyWith(color: AppColors.contentColor),
                         ),
                       ),
                       SizedBox(width: Margins.spacing_m),
@@ -46,7 +44,7 @@ class RemoteCampagneAccueilCard extends StatelessWidget {
                   SizedBox(height: Margins.spacing_s),
                   PressedTip.externalLink(
                     item.cta,
-                    textColor: Colors.white,
+                    textColor: AppColors.contentColor,
                   )
                 ],
               ),
@@ -57,7 +55,7 @@ class RemoteCampagneAccueilCard extends StatelessWidget {
               child: IconButton(
                 tooltip: "${Strings.closeDialog} ${item.title}",
                 onPressed: item.onDismissed,
-                icon: Icon(AppIcons.close_rounded, color: Colors.white),
+                icon: Icon(AppIcons.close_rounded, color: AppColors.contentColor),
               ),
             ),
           ],

@@ -182,20 +182,82 @@ class _Blocs extends StatelessWidget {
   Widget build(BuildContext context) {
     return RefreshIndicator.adaptive(
       onRefresh: () async => viewModel.retry(),
-      child: ListView.separated(
-        shrinkWrap: true,
+      child: SingleChildScrollView(
         physics: NeverScrollableScrollPhysics(),
-        padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base, vertical: Margins.spacing_base),
-        itemCount: viewModel.items.length,
-        addSemanticIndexes: false,
-        itemBuilder: _itemBuilder,
-        separatorBuilder: (_, index) => SizedBox(height: Margins.spacing_m),
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(Margins.spacing_base),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: AppColors.gradientPrimary,
+                ),
+              ),
+              child: Column(
+                children: _buildItemsWithGradient(),
+              ),
+            ),
+            SizedBox(height: Margins.spacing_m),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+              child: Column(
+                children: _buildItemsWithoutGradient(),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _itemBuilder(BuildContext context, int index) {
-    return switch (viewModel.items[index]) {
+  List<Widget> _buildItemsWithGradient() {
+    final items = <Widget>[];
+
+    for (int i = 0; i < viewModel.items.length; i++) {
+      final item = viewModel.items[i];
+
+      if (item is AccueilCetteSemaineItem) {
+        items.add(_buildItem(item));
+        items.add(SizedBox(height: Margins.spacing_m));
+        break;
+      }
+
+      items.add(_buildItem(item));
+      if (i < viewModel.items.length - 1) {
+        items.add(SizedBox(height: Margins.spacing_m));
+      }
+    }
+
+    return items;
+  }
+
+  List<Widget> _buildItemsWithoutGradient() {
+    final items = <Widget>[];
+    bool foundCetteSemaine = false;
+
+    for (int i = 0; i < viewModel.items.length; i++) {
+      final item = viewModel.items[i];
+
+      if (item is AccueilCetteSemaineItem) {
+        foundCetteSemaine = true;
+        continue;
+      }
+
+      if (foundCetteSemaine) {
+        items.add(_buildItem(item));
+        if (i < viewModel.items.length - 1) {
+          items.add(SizedBox(height: Margins.spacing_m));
+        }
+      }
+    }
+
+    return items;
+  }
+
+  Widget _buildItem(AccueilItem item) {
+    return switch (item) {
       final ErrorDegradeeItem item => InformationBandeau(icon: AppIcons.error_rounded, text: item.message),
       final OnboardingItem item => AccueilOnboardingTile(item),
       final OffreSuivieAccueilItem item => OffreSuivieForm(
@@ -207,7 +269,6 @@ class _Blocs extends StatelessWidget {
       final CampagneRecrutementItem item => CampagneRecrutementCard(item),
       final CampagneEvaluationItem item => _CampagneCard(title: item.titre, description: item.description),
       final AccueilCetteSemaineItem item => AccueilCetteSemaine(item),
-      // TODO: Séparer ici
       final AccueilProchainRendezvousItem item => AccueilProchainRendezVous.fromRendezVous(item.rendezvousId),
       final AccueilProchaineSessionMiloItem item => AccueilProchainRendezVous.fromSession(item.sessionId),
       final AccueilEvenementsItem item => AccueilEvenements(item),

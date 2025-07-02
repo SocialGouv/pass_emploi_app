@@ -12,7 +12,6 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
-import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/textes.dart';
 
 class AccueilCetteSemaine extends StatelessWidget {
@@ -26,57 +25,53 @@ class AccueilCetteSemaine extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        LargeSectionTitle(Strings.accueilCetteSemaineSection),
+        LargeSectionTitle(Strings.accueilCetteSemaineSection, color: Colors.white),
         SizedBox(height: Margins.spacing_base),
         if (item.withComptageDesHeures) ...[
           AccueilComptageDesHeures(),
           SizedBox(height: Margins.spacing_base),
         ],
-        CardContainer(
-          padding: EdgeInsets.zero,
-          child: Padding(
-            padding: const EdgeInsets.all(Margins.spacing_base),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
               children: [
-                Row(
-                  children: [
-                    if (rendezvousCount != null) ...[
-                      Expanded(
-                        child: _BlocInfo(
-                          icon: AppIcons.event,
-                          label: Strings.accueilRendezvous,
-                          count: rendezvousCount,
-                          backgroundColor: AppColors.accent1Lighten,
-                          contentColor: AppColors.additional3,
-                        ),
-                      ),
-                      SizedBox(width: Margins.spacing_base),
-                    ],
-                    Expanded(
-                      child: _BlocInfo(
-                        icon: AppIcons.bolt_outlined,
-                        label: item.actionsOuDemarchesLabel,
-                        count: item.actionsOuDemarchesCount,
-                        backgroundColor: AppColors.primaryLighten,
-                        contentColor: AppColors.primary,
-                      ),
+                if (rendezvousCount != null) ...[
+                  Expanded(
+                    child: _BlocInfo(
+                      icon: AppIcons.event,
+                      label: Strings.accueilRendezvous,
+                      count: rendezvousCount,
+                      backgroundColor: AppColors.accent1Lighten,
+                      contentColor: AppColors.contentColor,
                     ),
-                  ],
-                ),
-                SizedBox(height: Margins.spacing_base),
-                SecondaryButton(
-                  label: Strings.accueilVoirDetailsCetteSemaine,
-                  onPressed: () => StoreProvider.of<AppState>(context).dispatch(
-                    HandleDeepLinkAction(
-                      MonSuiviDeepLink(),
-                      DeepLinkOrigin.inAppNavigation,
-                    ),
+                  ),
+                  SizedBox(width: Margins.spacing_base),
+                ],
+                Expanded(
+                  child: _BlocInfo(
+                    icon: AppIcons.bolt_outlined,
+                    label: item.actionsOuDemarchesLabel,
+                    count: item.actionsOuDemarchesCount,
+                    backgroundColor: AppColors.primaryLighten,
+                    contentColor: AppColors.contentColor,
                   ),
                 ),
               ],
             ),
-          ),
+            SizedBox(height: Margins.spacing_base),
+            SecondaryButton(
+              backgroundColor: Colors.transparent,
+              foregroundColor: Colors.white,
+              label: Strings.accueilVoirDetailsCetteSemaine,
+              onPressed: () => StoreProvider.of<AppState>(context).dispatch(
+                HandleDeepLinkAction(
+                  MonSuiviDeepLink(),
+                  DeepLinkOrigin.inAppNavigation,
+                ),
+              ),
+            ),
+          ],
         ),
       ],
     );
