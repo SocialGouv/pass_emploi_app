@@ -15,22 +15,26 @@ class AccueilCetteSemaineItem extends AccueilItem {
   final String? rendezvousCount;
   final String actionsOuDemarchesCount;
   final String actionsOuDemarchesLabel;
+  final bool withComptageDesHeures;
 
   AccueilCetteSemaineItem({
     required this.rendezvousCount,
     required this.actionsOuDemarchesCount,
     required this.actionsOuDemarchesLabel,
+    required this.withComptageDesHeures,
   });
 
   factory AccueilCetteSemaineItem.from({
     required LoginMode loginMode,
     required int? rendezvousCount,
     required int actionsOuDemarchesCount,
+    required bool withComptageDesHeures,
   }) {
     return AccueilCetteSemaineItem(
       rendezvousCount: rendezvousCount?.toString(),
       actionsOuDemarchesCount: actionsOuDemarchesCount.toString(),
       actionsOuDemarchesLabel: _actionsOuDemarchesLabel(loginMode, actionsOuDemarchesCount),
+      withComptageDesHeures: withComptageDesHeures,
     );
   }
 

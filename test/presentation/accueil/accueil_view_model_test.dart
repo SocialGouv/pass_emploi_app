@@ -83,6 +83,7 @@ void main() {
             rendezvousCount: "3",
             actionsOuDemarchesCount: "1",
             actionsOuDemarchesLabel: "Action",
+            withComptageDesHeures: true,
           ),
           AccueilProchainRendezvousItem(mockRendezvousMiloCV().id),
           AccueilSuiviDesOffresItem(),
@@ -110,6 +111,7 @@ void main() {
             mockAccueilMilo().copyWith(
               prochainRendezVous: rdv,
               prochaineSessionMilo: sessionMilo,
+              peutVoirLeComptageDesHeures: false,
               cetteSemaine: AccueilCetteSemaine(
                 nombreRendezVous: 3,
                 nombreActionsDemarchesARealiser: 2,
@@ -131,6 +133,7 @@ void main() {
             rendezvousCount: "3",
             actionsOuDemarchesCount: "2",
             actionsOuDemarchesLabel: "Actions",
+            withComptageDesHeures: false,
           ),
           AccueilProchaineSessionMiloItem(sessionMilo.id),
           AccueilSuiviDesOffresItem(),
@@ -172,6 +175,7 @@ void main() {
             rendezvousCount: "3",
             actionsOuDemarchesCount: "1",
             actionsOuDemarchesLabel: "Démarche",
+            withComptageDesHeures: true,
           ),
           AccueilProchainRendezvousItem(mockRendezvousPoleEmploi().id),
           AccueilSuiviDesOffresItem(),
@@ -208,6 +212,7 @@ void main() {
             rendezvousCount: "3",
             actionsOuDemarchesCount: "1",
             actionsOuDemarchesLabel: "Démarche",
+            withComptageDesHeures: true,
           ),
           AccueilProchainRendezvousItem(mockRendezvousPoleEmploi().id),
           AccueilSuiviDesOffresItem(),
@@ -238,6 +243,7 @@ void main() {
           rendezvousCount: null,
           actionsOuDemarchesCount: "1",
           actionsOuDemarchesLabel: "Démarche",
+          withComptageDesHeures: true,
         ),
       );
     });

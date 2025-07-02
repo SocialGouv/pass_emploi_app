@@ -1128,6 +1128,7 @@ Accueil mockAccueilMilo({List<Rendezvous>? evenements}) {
     alertes: getMockedAlerte(),
     favoris: mock3Favoris(),
     campagne: mockCampagne(),
+    peutVoirLeComptageDesHeures: true,
   );
 }
 

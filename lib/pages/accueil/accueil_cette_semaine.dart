@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
+import 'package:pass_emploi_app/pages/accueil/accueil_comptage_des_heures.dart';
 import 'package:pass_emploi_app/presentation/accueil/accueil_item.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -27,6 +28,10 @@ class AccueilCetteSemaine extends StatelessWidget {
       children: [
         LargeSectionTitle(Strings.accueilCetteSemaineSection),
         SizedBox(height: Margins.spacing_base),
+        if (item.withComptageDesHeures) ...[
+          AccueilComptageDesHeures(),
+          SizedBox(height: Margins.spacing_base),
+        ],
         CardContainer(
           padding: EdgeInsets.zero,
           child: Padding(
