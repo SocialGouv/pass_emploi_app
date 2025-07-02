@@ -35,8 +35,6 @@ class _Body extends StatelessWidget {
     return Semantics(
       button: true,
       child: CardContainer(
-        backgroundColor: AppColors.primary,
-        splashColor: AppColors.primaryDarken.withOpacity(0.5),
         padding: EdgeInsets.zero,
         onTap: () => Navigator.push(context, RatingPage.materialPageRoute()),
         child: Stack(
@@ -48,7 +46,7 @@ class _Body extends StatelessWidget {
                 children: [
                   Icon(
                     AppIcons.hotel_class,
-                    color: Colors.white,
+                    color: AppColors.contentColor,
                     size: Dimens.icon_size_l,
                   ),
                   SizedBox(width: Margins.spacing_m),
@@ -59,12 +57,12 @@ class _Body extends StatelessWidget {
                       children: [
                         Text(
                           Strings.ratingAppLabel,
-                          style: TextStyles.textMBold.copyWith(color: Colors.white),
+                          style: TextStyles.textMBold.copyWith(color: AppColors.contentColor),
                         ),
                         SizedBox(height: Margins.spacing_base),
                         PressedTip(
                           Strings.ratingButton,
-                          textColor: Colors.white,
+                          textColor: AppColors.contentColor,
                           icon: AppIcons.chevron_right_rounded,
                         )
                       ],
@@ -82,7 +80,7 @@ class _Body extends StatelessWidget {
                   viewModel.onDone();
                   PassEmploiMatomoTracker.instance.trackScreen(AnalyticsActionNames.skipRating);
                 },
-                icon: Icon(AppIcons.close_rounded, color: Colors.white),
+                icon: Icon(AppIcons.close_rounded, color: AppColors.contentColor),
               ),
             ),
           ],

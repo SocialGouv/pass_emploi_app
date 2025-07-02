@@ -1,6 +1,3 @@
-import 'dart:math';
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/pages/notifications_center/notifications_center_page.dart';
@@ -27,50 +24,42 @@ class PrimarySliverAppbar extends StatelessWidget {
     return SliverLayoutBuilder(builder: (context, constraints) {
       return SliverAppBar(
         surfaceTintColor: Colors.transparent,
-        bottom: _BottomBorder(),
         expandedHeight: expandedHeight,
         floating: false,
         pinned: true,
         automaticallyImplyLeading: false,
         elevation: 0.2,
-        backgroundColor: Brand.isCej() ? _expandedCejColor(constraints.scrollOffset) : AppColors.primary,
+        backgroundColor: AppColors.primary,
         flexibleSpace: AutoFocusA11y(
           child: ClipRRect(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(
-                sigmaX: Brand.isCej() ? 8 : 0,
-                sigmaY: Brand.isCej() ? 8 : 0,
+            child: FlexibleSpaceBar(
+              titlePadding: EdgeInsetsDirectional.only(
+                start: 0,
+                bottom: Margins.spacing_base,
               ),
-              child: FlexibleSpaceBar(
-                titlePadding: EdgeInsetsDirectional.only(
-                  start: 0,
-                  bottom: Margins.spacing_base,
-                ),
-                expandedTitleScale: FontSizes.xl / FontSizes.huge,
-                title: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Tooltip(
-                          message: title,
-                          excludeFromSemantics: true,
-                          child: AutoFocusA11y(
-                            child: Text(
-                              title,
-                              style: TextStyles.primaryAppBar
-                                  .copyWith(
-                                      fontSize: A11yUtils.withTextScale(context) ? FontSizes.semi : FontSizes.huge)
-                                  .copyWith(color: Brand.isCej() ? AppColors.primary : AppColors.grey100),
-                            ),
+              expandedTitleScale: FontSizes.xl / FontSizes.huge,
+              title: Padding(
+                padding: EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Tooltip(
+                        message: title,
+                        excludeFromSemantics: true,
+                        child: AutoFocusA11y(
+                          child: Text(
+                            title,
+                            style: TextStyles.primaryAppBar
+                                .copyWith(fontSize: A11yUtils.withTextScale(context) ? FontSizes.semi : FontSizes.huge)
+                                .copyWith(color: AppColors.grey100),
                           ),
                         ),
                       ),
-                      _CentreNotif(withNewNotifications),
-                      SizedBox(width: Margins.spacing_s),
-                      ProfileButton(isDarkColor: Brand.isCej()),
-                    ],
-                  ),
+                    ),
+                    _CentreNotif(withNewNotifications),
+                    SizedBox(width: Margins.spacing_s),
+                    ProfileButton(isDarkColor: Brand.isCej()),
+                  ],
                 ),
               ),
             ),
@@ -78,13 +67,6 @@ class PrimarySliverAppbar extends StatelessWidget {
         ),
       );
     });
-  }
-
-  Color _expandedCejColor(double scrollOffset) {
-    final scrollTotalDepth = expandedHeight - kToolbarHeight;
-    final expandProgress = min(scrollOffset, scrollTotalDepth);
-    const maxOpacity = 0.90;
-    return Colors.white.withOpacity((expandProgress / scrollTotalDepth) * maxOpacity);
   }
 }
 
@@ -102,7 +84,7 @@ class _CentreNotif extends StatelessWidget {
         TertiaryIconButton(
           icon: AppIcons.notifications_outlined,
           tooltip: Strings.notificationsCenterTooltip,
-          iconColor: Brand.isCej() ? AppColors.primary : Colors.white,
+          iconColor: Colors.white,
           onTap: () => Navigator.of(context).push(NotificationCenter.route()),
         ),
         if (withNewNotifications)
@@ -121,20 +103,6 @@ class _CentreNotif extends StatelessWidget {
       ],
     );
   }
-}
-
-class _BottomBorder extends StatelessWidget implements PreferredSizeWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 1,
-      color: AppColors.grey100.withOpacity(0.6),
-    );
-  }
-
-  @override
-  Size get preferredSize => Size.fromHeight(1.0);
 }
 
 class PrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -160,7 +128,7 @@ class PrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
       toolbarHeight: toolBarHeight,
       leading: canPop ? BackButton(color: iconColor) : null,
       scrolledUnderElevation: 0,
-      backgroundColor: Brand.isCej() ? AppColors.grey100 : AppColors.primary,
+      backgroundColor: AppColors.grey100,
       title: Semantics(
         header: true,
         focusable: withAutofocusA11y,
@@ -171,7 +139,7 @@ class PrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
             enabled: withAutofocusA11y,
             child: Text(
               title,
-              style: TextStyles.primaryAppBar.copyWith(color: Brand.isCej() ? AppColors.primary : AppColors.grey100),
+              style: TextStyles.primaryAppBar.copyWith(color: AppColors.grey100),
               overflow: TextOverflow.fade,
             ),
           ),

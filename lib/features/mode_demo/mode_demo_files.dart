@@ -41,6 +41,7 @@ String? getDemoFileName(String url, String query) {
   if (url.contains('/catalogue')) return 'thematiques_demarche';
   if (url.contains('/sessions/')) return 'session_milo_details';
   if (url.endsWith('/notifications')) return 'notifications';
+  if (url.endsWith('/comptage')) return 'comptage';
 
   return null;
 }

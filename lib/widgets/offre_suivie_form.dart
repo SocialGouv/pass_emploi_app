@@ -38,7 +38,6 @@ class OffreSuivieForm extends StatelessWidget {
         distinct: true,
         builder: (context, viewModel) {
           return CardContainer(
-            backgroundColor: AppColors.primary,
             child: AnimatedSwitcher(
               duration: AnimationDurations.fast,
               child:
@@ -58,26 +57,24 @@ class _Confirmation extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Icon(AppIcons.check_circle_outline_rounded, color: Colors.white),
+        Icon(AppIcons.check_circle_outline_rounded, color: AppColors.contentColor),
         SizedBox(height: Margins.spacing_s),
         Text(
           Strings.merciPourVotreReponse,
           textAlign: TextAlign.center,
-          style: TextStyles.textBaseRegular.copyWith(color: Colors.white),
+          style: TextStyles.textBaseRegular.copyWith(color: AppColors.contentColor),
         ),
         if (viewModel.confirmationMessage != null) ...[
           SizedBox(height: Margins.spacing_s),
           Text(
             viewModel.confirmationMessage!,
             textAlign: TextAlign.center,
-            style: TextStyles.textSRegular().copyWith(color: Colors.white),
+            style: TextStyles.textSRegular().copyWith(color: AppColors.contentColor),
           ),
         ],
         SizedBox(height: Margins.spacing_s),
         SizedBox(height: Margins.spacing_s),
         SecondaryButton(
-          backgroundColor: AppColors.primary,
-          foregroundColor: Colors.white,
           label: viewModel.confirmationButton,
           onPressed: () => viewModel.onHideForever(),
         ),
@@ -102,7 +99,7 @@ class _Content extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ...[
-          Text(viewModel.dateConsultation, style: TextStyles.textSRegular().copyWith(color: Colors.white)),
+          Text(viewModel.dateConsultation, style: TextStyles.textSRegular().copyWith(color: AppColors.contentColor)),
           SizedBox(height: Margins.spacing_s),
         ],
         if (viewModel.offreLien != null) ...[
@@ -113,7 +110,7 @@ class _Content extends StatelessWidget {
           ),
           SizedBox(height: Margins.spacing_s),
         ],
-        Text(Strings.ouEnEtesVous, style: TextStyles.textBaseBold.copyWith(color: Colors.white)),
+        Text(Strings.ouEnEtesVous, style: TextStyles.textBaseBold.copyWith(color: AppColors.contentColor)),
         SizedBox(height: Margins.spacing_s),
         _Options(viewModel, trackingSource),
       ],
@@ -138,9 +135,9 @@ class _OffreLien extends StatelessWidget {
       child: Text(
         offreLien,
         style: TextStyles.textBaseMedium.copyWith(
-          color: Colors.white,
+          color: AppColors.contentColor,
           decoration: TextDecoration.underline,
-          decorationColor: Colors.white,
+          decorationColor: AppColors.contentColor,
         ),
       ),
     );
@@ -170,7 +167,7 @@ class _OptionsState extends State<_Options> {
     return Container(
       padding: EdgeInsets.all(Margins.spacing_s),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.primaryLighten,
         borderRadius: BorderRadius.circular(Dimens.radius_base),
       ),
       child: Column(

@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_state.dar
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_state.dart';
 import 'package:pass_emploi_app/features/chat/preview_file/preview_file_state.dart';
+import 'package:pass_emploi_app/features/comptage_des_heures/comptage_des_heures_state.dart';
 import 'package:pass_emploi_app/features/connectivity/connectivity_state.dart';
 import 'package:pass_emploi_app/features/cv/cv_state.dart';
 import 'package:pass_emploi_app/features/cvm/cvm_state.dart';
@@ -59,6 +60,7 @@ import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/cgu.dart';
 import 'package:pass_emploi_app/models/chat/cvm_message.dart';
 import 'package:pass_emploi_app/models/chat/message.dart';
+import 'package:pass_emploi_app/models/comptage_des_heures.dart';
 import 'package:pass_emploi_app/models/date/interval.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
@@ -858,5 +860,22 @@ extension AppStateDSL on AppState {
 
   AppState withInAppNotificationsFailure() {
     return copyWith(inAppNotificationsState: InAppNotificationsFailureState());
+  }
+
+  AppState withComptageDesHeuresNotInitialized() {
+    return copyWith(comptageDesHeuresState: ComptageDesHeuresNotInitializedState());
+  }
+
+  AppState withComptageDesHeuresLoading() {
+    return copyWith(comptageDesHeuresState: ComptageDesHeuresLoadingState());
+  }
+
+  AppState withComptageDesHeuresFailure() {
+    return copyWith(comptageDesHeuresState: ComptageDesHeuresFailureState());
+  }
+
+  AppState withComptageDesHeuresSuccess({ComptageDesHeures? comptageDesHeures}) {
+    return copyWith(
+        comptageDesHeuresState: ComptageDesHeuresSuccessState(comptageDesHeures ?? mockComptageDesHeures()));
   }
 }

@@ -116,6 +116,7 @@ AccueilItem? _cetteSemaineItem(User user, AccueilSuccessState successState) {
     loginMode: user.loginMode,
     rendezvousCount: withRendezvousCount ? cetteSemaine.nombreRendezVous : null,
     actionsOuDemarchesCount: cetteSemaine.nombreActionsDemarchesARealiser,
+    withComptageDesHeures: successState.accueil.peutVoirLeComptageDesHeures ?? false,
   );
 }
 

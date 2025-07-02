@@ -25,6 +25,7 @@ import 'package:pass_emploi_app/models/chat/message_important.dart';
 import 'package:pass_emploi_app/models/chat/offre_partagee.dart';
 import 'package:pass_emploi_app/models/chat/sender.dart';
 import 'package:pass_emploi_app/models/commentaire.dart';
+import 'package:pass_emploi_app/models/comptage_des_heures.dart';
 import 'package:pass_emploi_app/models/conseiller.dart';
 import 'package:pass_emploi_app/models/cv_pole_emploi.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
@@ -1128,6 +1129,7 @@ Accueil mockAccueilMilo({List<Rendezvous>? evenements}) {
     alertes: getMockedAlerte(),
     favoris: mock3Favoris(),
     campagne: mockCampagne(),
+    peutVoirLeComptageDesHeures: true,
   );
 }
 
@@ -1444,5 +1446,17 @@ Onboarding mockOnboarding({
     showAccueilOnboardingLegacy: showAccueilOnboarding ?? true,
     showNotificationsOnboarding: showNotificationsOnboarding ?? true,
     showOnboarding: showOnboarding ?? true,
+  );
+}
+
+ComptageDesHeures mockComptageDesHeures({
+  double? nbHeuresValidees,
+  double? nbHeuresDeclarees,
+  DateTime? dateDerniereMiseAJour,
+}) {
+  return ComptageDesHeures(
+    nbHeuresValidees: nbHeuresValidees ?? 10,
+    nbHeuresDeclarees: nbHeuresDeclarees ?? 5,
+    dateDerniereMiseAJour: dateDerniereMiseAJour ?? DateTime(2025),
   );
 }
