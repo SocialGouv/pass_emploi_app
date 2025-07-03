@@ -128,7 +128,7 @@ class PrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
       toolbarHeight: toolBarHeight,
       leading: canPop ? BackButton(color: iconColor) : null,
       scrolledUnderElevation: 0,
-      backgroundColor: AppColors.grey100,
+      backgroundColor: Brand.isCej() ? AppColors.grey100 : AppColors.primary,
       title: Semantics(
         header: true,
         focusable: withAutofocusA11y,
@@ -139,7 +139,7 @@ class PrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
             enabled: withAutofocusA11y,
             child: Text(
               title,
-              style: TextStyles.primaryAppBar.copyWith(color: AppColors.grey100),
+              style: TextStyles.primaryAppBar.copyWith(color: Brand.isCej() ? AppColors.primary : AppColors.grey100),
               overflow: TextOverflow.fade,
             ),
           ),

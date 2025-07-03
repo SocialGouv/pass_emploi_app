@@ -125,7 +125,7 @@ class _StepperPainter extends CustomPainter {
     final radius = (size.width - strokeWidth) / 2;
 
     final backgroundPaint = Paint()
-      ..color = backgroundColor ?? Colors.white
+      ..color = backgroundColor ?? AppColors.grey100
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.round;
