@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/models/comptage_des_heures.dart';
 import 'package:pass_emploi_app/repositories/comptage_des_heures_repository.dart';
 
 import '../dsl/sut_dio_repository.dart';
+import '../utils/test_datetime.dart';
 
 void main() {
   group('ComptageDesHeuresRepository', () {
@@ -29,7 +30,7 @@ void main() {
                 ComptageDesHeures(
                   nbHeuresDeclarees: 10,
                   nbHeuresValidees: 8,
-                  dateDerniereMiseAJour: DateTime(2021, 7, 19, 15, 10, 0),
+                  dateDerniereMiseAJour: parseDateTimeUtcWithCurrentTimeZone("2021-07-19T13:10:00.000Z"),
                 ));
           });
         });
