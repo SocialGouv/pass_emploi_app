@@ -50,8 +50,13 @@ class AppColors {
   static const Color additional6 = Color(0xFFBC7CEB);
 
   // Gradients
-  static const List<Color> gradientPrimary = [
-    Color(0xFF3B69D1),
-    Color(0xFF1E366B),
-  ];
+  static List<Color> gradientPrimary = Brand.isPassEmploi()
+      ? [
+          Color(0xFF274996),
+          Color(0xFF1E366B),
+        ]
+      : [
+          Color(0xFF3B69D1),
+          Color(0xFF1E366B),
+        ];
 }

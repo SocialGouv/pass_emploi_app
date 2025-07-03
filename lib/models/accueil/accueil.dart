@@ -48,6 +48,7 @@ class Accueil extends Equatable {
     final favoris = _favoris(json);
     final campagne = json["campagne"] != null ? Campagne.fromJson(json["campagne"]) : null;
     final accueilErreur = json["messageDonneesManquantes"] as String?;
+    final peutVoirLeComptageDesHeures = json["peutVoirLeComptageDesHeures"] as bool?;
 
     return Accueil(
       dateDerniereMiseAJour: dateDerniereMiseAjour,
@@ -60,7 +61,7 @@ class Accueil extends Equatable {
       favoris: favoris,
       campagne: campagne,
       accueilErreur: accueilErreur,
-      peutVoirLeComptageDesHeures: json["peutVoirLeComptageDesHeures"] as bool?,
+      peutVoirLeComptageDesHeures: peutVoirLeComptageDesHeures,
     );
   }
 
