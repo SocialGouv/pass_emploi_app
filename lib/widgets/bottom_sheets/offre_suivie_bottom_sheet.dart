@@ -93,12 +93,15 @@ class _Option extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const color = AppColors.contentColor;
-    return ListTile(
-      contentPadding: EdgeInsets.zero,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimens.radius_base)),
-      leading: Icon(icon, color: color),
-      title: Text(label, style: TextStyles.textBaseBold.copyWith(color: color)),
-      onTap: onPressed,
+    return Semantics(
+      button: true,
+      child: ListTile(
+        contentPadding: EdgeInsets.zero,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimens.radius_base)),
+        leading: Icon(icon, color: color),
+        title: Text(label, style: TextStyles.textBaseBold.copyWith(color: color)),
+        onTap: onPressed,
+      ),
     );
   }
 }

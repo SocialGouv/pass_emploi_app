@@ -126,18 +126,21 @@ class _OffreLien extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      style: TextButton.styleFrom(
-        padding: EdgeInsets.zero,
-      ),
-      onPressed: () =>
-          Navigator.of(context).push(OffreEmploiDetailsPage.materialPageRoute(offreId, fromAlternance: fromAlternance)),
-      child: Text(
-        offreLien,
-        style: TextStyles.textBaseMedium.copyWith(
-          color: AppColors.contentColor,
-          decoration: TextDecoration.underline,
-          decorationColor: AppColors.contentColor,
+    return Semantics(
+      link: true,
+      child: TextButton(
+        style: TextButton.styleFrom(
+          padding: EdgeInsets.zero,
+        ),
+        onPressed: () => Navigator.of(context)
+            .push(OffreEmploiDetailsPage.materialPageRoute(offreId, fromAlternance: fromAlternance)),
+        child: Text(
+          offreLien,
+          style: TextStyles.textBaseMedium.copyWith(
+            color: AppColors.contentColor,
+            decoration: TextDecoration.underline,
+            decorationColor: AppColors.contentColor,
+          ),
         ),
       ),
     );
