@@ -46,7 +46,6 @@ class OnboardingPage extends StatelessWidget {
                       OnboardingStepper(
                         completedSteps: viewModel.completedSteps,
                         totalSteps: viewModel.totalSteps,
-                        backgroundColor: AppColors.primaryLighten,
                         textColor: AppColors.contentColor,
                       ),
                       const SizedBox(width: Margins.spacing_base),

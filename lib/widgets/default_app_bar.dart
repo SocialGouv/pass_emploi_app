@@ -29,7 +29,7 @@ class PrimarySliverAppbar extends StatelessWidget {
         pinned: true,
         automaticallyImplyLeading: false,
         elevation: 0.2,
-        backgroundColor: AppColors.primary,
+        backgroundColor: Brand.isCej() ? AppColors.primary : AppColors.primaryDarkenStrong,
         flexibleSpace: AutoFocusA11y(
           child: ClipRRect(
             child: FlexibleSpaceBar(

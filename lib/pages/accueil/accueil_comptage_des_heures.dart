@@ -47,7 +47,11 @@ class _Content extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(viewModel.title, style: TextStyles.textSBold),
+        Text(
+          viewModel.title,
+          style: TextStyles.textSBold,
+          textAlign: TextAlign.center,
+        ),
         SizedBox(height: Margins.spacing_s),
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -119,14 +123,14 @@ class _CompteurIllustration extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 120,
-      height: 90,
+      width: 140,
+      height: 80,
       child: Stack(
         alignment: Alignment.center,
         children: [
           // Arcs
           CustomPaint(
-            size: const Size(120, 60),
+            size: const Size(140, 90),
             painter: _CompteurArcsPainter(
               purpleCurve: pourcentageHeuresDeclarees,
               greenCurve: pourcentageHeuresValidees,
@@ -134,7 +138,7 @@ class _CompteurIllustration extends StatelessWidget {
           ),
           // Emoji
           Positioned(
-            bottom: 0,
+            bottom: -5,
             child: Text(
               emoji,
               style: const TextStyle(fontSize: 32),

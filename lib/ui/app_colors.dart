@@ -52,8 +52,8 @@ class AppColors {
   // Gradients
   static List<Color> gradientPrimary = Brand.isPassEmploi()
       ? [
-          Color(0xFF274996),
-          Color(0xFF1E366B),
+          primaryDarkenStrong,
+          primaryDarken,
         ]
       : [
           Color(0xFF3B69D1),

@@ -75,13 +75,11 @@ class AccueilOnboardingTile extends StatelessWidget {
 class OnboardingStepper extends StatelessWidget {
   final int completedSteps;
   final int totalSteps;
-  final Color? backgroundColor;
   final Color? textColor;
 
   const OnboardingStepper({
     required this.completedSteps,
     required this.totalSteps,
-    this.backgroundColor,
     this.textColor,
   });
 
@@ -97,7 +95,7 @@ class OnboardingStepper extends StatelessWidget {
         children: [
           CustomPaint(
             size: const Size(60, 60),
-            painter: _StepperPainter(progress, backgroundColor),
+            painter: _StepperPainter(progress),
           ),
           Text(
             '$completedSteps/$totalSteps',
@@ -111,9 +109,8 @@ class OnboardingStepper extends StatelessWidget {
 
 class _StepperPainter extends CustomPainter {
   final double progress;
-  final Color? backgroundColor;
 
-  _StepperPainter(this.progress, this.backgroundColor);
+  _StepperPainter(this.progress);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -125,13 +122,13 @@ class _StepperPainter extends CustomPainter {
     final radius = (size.width - strokeWidth) / 2;
 
     final backgroundPaint = Paint()
-      ..color = backgroundColor ?? AppColors.grey100
+      ..color = AppColors.accent1Lighten
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.round;
 
     final progressPaint = Paint()
-      ..color = AppColors.additional6
+      ..color = AppColors.accent1
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.round;

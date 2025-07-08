@@ -372,16 +372,17 @@ class Strings {
   static String accueilCampagneRecrutementPressedTip = "Participer";
 
   // Comptage des heures
-  static String comptageDesHeures0To5 = "C’est le moment de compléter vos actions ! 🚀";
-  static String comptageDesHeures5To10 = "Bon début, continuez comme ça ! 💪";
-  static String comptageDesHeures10To15 = "Vous vous rapprochez de votre objectif : encore un petit effort ! 🌟";
-  static String comptageDesHeures15 = "🎉 Félicitations pour vos 15h d’activités validées !";
-  static String comptageDesHeures15Plus = "Objectif dépassé ! Bravo 👏";
+  static String comptageDesHeures0To5 = "C’est le moment de compléter vos actions\u{00A0}!\u{00A0}🚀";
+  static String comptageDesHeures5To10 = "Bon début, continuez comme ça\u{00A0}!\u{00A0}💪";
+  static String comptageDesHeures10To15 =
+      "Vous vous rapprochez de votre objectif : encore un petit effort\u{00A0}!\u{00A0}🌟";
+  static String comptageDesHeures15 = "🎉 Félicitations pour vos 15h d’activités validées\u{00A0}!";
+  static String comptageDesHeures15Plus = "Objectif dépassé ! Bravo\u{00A0}👏";
   static String updatedAgo(String timeAgo) => "Actualisé $timeAgo";
   static String realizedHours = "validées";
   static String declaredHours = "déclarées";
 
-  static String comptageDesHeuresError = "Il y a eu une erreur lors de la récupération de vos heures 😕";
+  static String comptageDesHeuresError = "Il y a eu une erreur lors de la récupération de vos heures\u{00A0}😕";
 
   // Mon Suivi
   static String monSuiviTitle = "Mon suivi";
