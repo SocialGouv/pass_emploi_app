@@ -24,8 +24,8 @@ class DeepLinkFactory {
       _DeepLink.outils => OutilsDeepLink(),
       _DeepLink.benevolat => BenevolatDeepLink(),
       _DeepLink.laBonneAlternance => LaBonneAlternanceDeepLink(),
-      _DeepLink.rappelCreationDemarche => RappelCreationDemarcheDeepLink(),
-      _DeepLink.rappelCreationAction => RappelCreationActionDeepLink(),
+      _DeepLink.rappelCreationDemarche => CreationDemarcheDeepLink(),
+      _DeepLink.rappelCreationAction => CreationActionDeepLink(),
       _DeepLink.campagne => CampagneDeepLink(),
       null => null,
     };

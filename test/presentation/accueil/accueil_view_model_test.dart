@@ -426,7 +426,7 @@ void main() {
 
       test('RappelCreationDemarcheDeepLink > double opening of pages required', () {
         // Given
-        final store = givenState().withHandleDeepLink(RappelCreationDemarcheDeepLink()).store();
+        final store = givenState().withHandleDeepLink(CreationDemarcheDeepLink()).store();
 
         // When
         final viewModel = AccueilViewModel.create(store);
@@ -437,7 +437,7 @@ void main() {
 
       test('RappelCreationActionDeepLink > double opening of pages required', () {
         // Given
-        final store = givenState().withHandleDeepLink(RappelCreationActionDeepLink()).store();
+        final store = givenState().withHandleDeepLink(CreationActionDeepLink()).store();
 
         // When
         final viewModel = AccueilViewModel.create(store);

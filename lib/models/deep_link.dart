@@ -70,8 +70,8 @@ class BenevolatDeepLink extends DeepLink {}
 
 class LaBonneAlternanceDeepLink extends DeepLink {}
 
-class RappelCreationDemarcheDeepLink extends DeepLink {}
+class CreationDemarcheDeepLink extends DeepLink {}
 
-class RappelCreationActionDeepLink extends DeepLink {}
+class CreationActionDeepLink extends DeepLink {}
 
 class CampagneDeepLink extends DeepLink {}

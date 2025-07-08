@@ -85,9 +85,9 @@ class _AccueilPageState extends State<AccueilPage> {
   }
 
   Future<void> _handleDeeplink(AccueilViewModel? oldViewModel, AccueilViewModel newViewModel) async {
-    if (newViewModel.deepLink is RappelCreationDemarcheDeepLink) {
+    if (newViewModel.deepLink is CreationDemarcheDeepLink) {
       await _handleRappelCreationDemarcheDeeplink();
-    } else if (newViewModel.deepLink is RappelCreationActionDeepLink) {
+    } else if (newViewModel.deepLink is CreationActionDeepLink) {
       await _handleRappelCreationActionDeeplink();
     } else {
       final route = switch (newViewModel.deepLink) {

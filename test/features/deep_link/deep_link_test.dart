@@ -100,12 +100,12 @@ void main() {
         );
         assertStateWithJson(
           {"type": "RAPPEL_CREATION_DEMARCHE"},
-          RappelCreationDemarcheDeepLink(),
+          CreationDemarcheDeepLink(),
           DeepLinkOrigin.pushNotification,
         );
         assertStateWithJson(
           {"type": "RAPPEL_CREATION_ACTION"},
-          RappelCreationActionDeepLink(),
+          CreationActionDeepLink(),
           DeepLinkOrigin.pushNotification,
         );
         assertStateWithJson(
