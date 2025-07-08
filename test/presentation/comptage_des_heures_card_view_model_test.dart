@@ -68,7 +68,7 @@ void main() {
     final viewModel = ComptageDesHeuresCardViewModel.create(store);
 
     // Then
-    expect(viewModel.title, "C’est le moment de compléter vos actions ! 🚀");
+    expect(viewModel.title, "C’est le moment de compléter vos actions\u{00A0}!\u{00A0}🚀");
     expect(viewModel.pourcentageHeuresValidees, 0.26666666666666666);
     expect(viewModel.pourcentageHeuresDeclarees, 0.26666666666666666);
     expect(viewModel.heuresDeclarees, "4");
@@ -92,7 +92,7 @@ void main() {
     final viewModel = ComptageDesHeuresCardViewModel.create(store);
 
     // Then
-    expect(viewModel.title, "Bon début, continuez comme ça ! 💪");
+    expect(viewModel.title, "Bon début, continuez comme ça\u{00A0}!\u{00A0}💪");
     expect(viewModel.pourcentageHeuresValidees, 0.6);
     expect(viewModel.pourcentageHeuresDeclarees, 0.6);
     expect(viewModel.heuresDeclarees, "9");
@@ -116,7 +116,7 @@ void main() {
     final viewModel = ComptageDesHeuresCardViewModel.create(store);
 
     // Then
-    expect(viewModel.title, "Vous vous rapprochez de votre objectif : encore un petit effort ! 🌟");
+    expect(viewModel.title, "Vous vous rapprochez de votre objectif : encore un petit effort\u{00A0}!\u{00A0}🌟");
     expect(viewModel.pourcentageHeuresValidees, 0.9333333333333333);
     expect(viewModel.pourcentageHeuresDeclarees, 0.9333333333333333);
     expect(viewModel.heuresDeclarees, "14");
@@ -140,7 +140,7 @@ void main() {
     final viewModel = ComptageDesHeuresCardViewModel.create(store);
 
     // Then
-    expect(viewModel.title, "🎉 Félicitations pour vos 15h d’activités validées !");
+    expect(viewModel.title, "🎉 Félicitations pour vos 15h d’activités validées\u{00A0}!");
     expect(viewModel.pourcentageHeuresValidees, 1);
     expect(viewModel.pourcentageHeuresDeclarees, 1);
     expect(viewModel.heuresDeclarees, "15");
@@ -164,7 +164,7 @@ void main() {
     final viewModel = ComptageDesHeuresCardViewModel.create(store);
 
     // Then
-    expect(viewModel.title, "Objectif dépassé ! Bravo 👏");
+    expect(viewModel.title, "Objectif dépassé ! Bravo\u{00A0}👏");
     expect(viewModel.pourcentageHeuresValidees, 1);
     expect(viewModel.pourcentageHeuresDeclarees, 1);
     expect(viewModel.heuresDeclarees, "16");
