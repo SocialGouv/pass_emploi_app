@@ -50,7 +50,7 @@ android {
     defaultConfig {
         applicationId "fr.fabrique.social.gouv.passemploi"
         minSdkVersion 21
-        targetSdkVersion 34
+        targetSdkVersion 35
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         manifestPlaceholders = [
