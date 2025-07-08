@@ -11,6 +11,13 @@ class ComptageDesHeuresRepository {
   Future<ComptageDesHeures?> get({
     required String userId,
   }) async {
+    if (1 == 1) {
+      return ComptageDesHeures(
+        nbHeuresDeclarees: 10,
+        nbHeuresValidees: 8,
+        dateDerniereMiseAJour: DateTime.now(),
+      );
+    }
     final url = "/jeunes/$userId/comptage";
     try {
       final response = await _httpClient.get(url);

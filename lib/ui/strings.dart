@@ -378,7 +378,7 @@ class Strings {
   static String comptageDesHeures15 = "🎉 Félicitations pour vos 15h d’activités validées !";
   static String comptageDesHeures15Plus = "Objectif dépassé ! Bravo 👏";
   static String updatedAgo(String timeAgo) => "Actualisé $timeAgo";
-  static String realizedHours = "réalisées";
+  static String realizedHours = "validées";
   static String declaredHours = "déclarées";
 
   static String comptageDesHeuresError = "Il y a eu une erreur lors de la récupération de vos heures 😕";

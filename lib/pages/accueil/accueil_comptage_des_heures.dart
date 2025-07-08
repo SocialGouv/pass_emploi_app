@@ -64,8 +64,8 @@ class _Content extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildCompteurText(viewModel.heuresValidees, Strings.realizedHours, AppColors.additional6),
-                    _buildCompteurText(viewModel.heuresDeclarees, Strings.declaredHours, AppColors.additional5),
+                    _buildCompteurText(viewModel.heuresDeclarees, Strings.declaredHours, AppColors.additional6),
+                    _buildCompteurText(viewModel.heuresValidees, Strings.realizedHours, AppColors.additional5),
                     SizedBox(height: Margins.spacing_s),
                     Text(viewModel.dateDerniereMiseAJour, style: TextStyles.textXsRegular()),
                   ],
@@ -128,8 +128,8 @@ class _CompteurIllustration extends StatelessWidget {
           CustomPaint(
             size: const Size(120, 60),
             painter: _CompteurArcsPainter(
-              pourcentageHeuresValidees: pourcentageHeuresValidees,
-              pourcentageHeuresDeclarees: pourcentageHeuresDeclarees,
+              purpleCurve: pourcentageHeuresDeclarees,
+              greenCurve: pourcentageHeuresValidees,
             ),
           ),
           // Emoji
@@ -147,12 +147,12 @@ class _CompteurIllustration extends StatelessWidget {
 }
 
 class _CompteurArcsPainter extends CustomPainter {
-  final double pourcentageHeuresValidees;
-  final double pourcentageHeuresDeclarees;
+  final double purpleCurve;
+  final double greenCurve;
 
   _CompteurArcsPainter({
-    required this.pourcentageHeuresValidees,
-    required this.pourcentageHeuresDeclarees,
+    required this.purpleCurve,
+    required this.greenCurve,
   });
 
   @override
@@ -204,14 +204,14 @@ class _CompteurArcsPainter extends CustomPainter {
     canvas.drawArc(
       Rect.fromCircle(center: center, radius: outerRadius),
       startAngle,
-      sweepAngle * pourcentageHeuresValidees,
+      sweepAngle * purpleCurve,
       false,
       arcPaintOuter,
     );
     canvas.drawArc(
       Rect.fromCircle(center: center, radius: innerRadius),
       startAngle,
-      sweepAngle * pourcentageHeuresDeclarees,
+      sweepAngle * greenCurve,
       false,
       arcPaintInner,
     );
