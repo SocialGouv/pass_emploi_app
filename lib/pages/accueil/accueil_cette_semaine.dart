@@ -27,8 +27,7 @@ class AccueilCetteSemaine extends StatelessWidget {
       children: [
         LargeSectionTitle(Strings.accueilCetteSemaineSection, color: Colors.white),
         SizedBox(height: Margins.spacing_base),
-        if (item.withComptageDesHeures || 1 == 1) ...[
-          // TODO: REMOVE THIS
+        if (item.withComptageDesHeures) ...[
           AccueilComptageDesHeures(),
           SizedBox(height: Margins.spacing_base),
         ],
