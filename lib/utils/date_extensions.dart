@@ -25,7 +25,6 @@ extension DateExtensions on DateTime {
     final now = clock.now();
     final difference = now.difference(this);
 
-    if (isToday()) return "aujourd'hui";
     if (isYesterday()) return "hier";
 
     final days = difference.inDays;
