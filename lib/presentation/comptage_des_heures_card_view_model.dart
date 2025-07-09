@@ -58,13 +58,13 @@ class ComptageDesHeuresCardViewModel extends Equatable {
 
     return ComptageDesHeuresCardViewModel._(
       displayState: displayState,
-      title: _title(state),
+      title: _title(state.comptageDesHeures.nbHeuresDeclarees),
       pourcentageHeuresValidees: min(state.comptageDesHeures.nbHeuresValidees / nombreDheuresParSemaine, 1),
       pourcentageHeuresDeclarees: min(state.comptageDesHeures.nbHeuresDeclarees / nombreDheuresParSemaine, 1),
       heuresDeclarees: state.comptageDesHeures.nbHeuresDeclarees.toInt().toString(),
       heuresValidees: state.comptageDesHeures.nbHeuresValidees.toInt().toString(),
       dateDerniereMiseAJour: Strings.updatedAgo(state.comptageDesHeures.dateDerniereMiseAJour.timeAgo()),
-      emoji: _emoji(state.comptageDesHeures.nbHeuresValidees),
+      emoji: _emoji(state.comptageDesHeures.nbHeuresDeclarees),
       retry: () => store.dispatch(ComptageDesHeuresRequestAction()),
     );
   }
@@ -90,22 +90,20 @@ DisplayState _displayState(ComptageDesHeuresState comptageDesHeuresState) {
   };
 }
 
-String _title(ComptageDesHeuresSuccessState comptageDesHeuresState) {
-  final int heuresValidees = comptageDesHeuresState.comptageDesHeures.nbHeuresValidees.toInt();
-
-  if (heuresValidees < 5) {
+String _title(double heuresDeclarees) {
+  if (heuresDeclarees < 5) {
     return Strings.comptageDesHeures0To5;
   }
 
-  if (heuresValidees < 10) {
+  if (heuresDeclarees < 10) {
     return Strings.comptageDesHeures5To10;
   }
 
-  if (heuresValidees < 15) {
+  if (heuresDeclarees < 15) {
     return Strings.comptageDesHeures10To15;
   }
 
-  if (heuresValidees == 15) {
+  if (heuresDeclarees == 15) {
     return Strings.comptageDesHeures15;
   }
 
