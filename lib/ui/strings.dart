@@ -384,6 +384,10 @@ class Strings {
 
   static String comptageDesHeuresError = "Il y a eu une erreur lors de la récupération de vos heures\u{00A0}😕";
 
+  static String comptageDesHeuresEnCoursDeCalcul(int heuresEnCoursDeCalcul) => heuresEnCoursDeCalcul == 1
+      ? "1 activité en cours de calcul.\nProchaine actualisation dans moins d’une heure"
+      : "$heuresEnCoursDeCalcul activités en cours de calcul.\nProchaine actualisation dans moins d’une heure";
+
   // Mon Suivi
   static String monSuiviTitle = "Mon suivi";
   static String monSuiviCetteSemaine = "Cette semaine";

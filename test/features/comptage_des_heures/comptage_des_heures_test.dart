@@ -1,9 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:pass_emploi_app/features/auto_inscription/auto_inscription_actions.dart';
 import 'package:pass_emploi_app/features/comptage_des_heures/comptage_des_heures_actions.dart';
 import 'package:pass_emploi_app/features/comptage_des_heures/comptage_des_heures_state.dart';
-import 'package:pass_emploi_app/models/comptage_des_heures.dart';
+import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 
+import '../../doubles/fixtures.dart';
 import '../../doubles/mocks.dart';
 import '../../dsl/app_state_dsl.dart';
 import '../../dsl/matchers.dart';
@@ -18,17 +20,13 @@ void main() {
       sut.whenDispatchingAction(() => ComptageDesHeuresRequestAction());
 
       test('should load then succeed when request succeeds', () {
-        when(() => repository.get(userId: any(named: "userId"))).thenAnswer((_) async => ComptageDesHeures(
-              nbHeuresDeclarees: 10,
-              nbHeuresValidees: 8,
-              dateDerniereMiseAJour: DateTime(2021, 7, 19, 15, 10, 0),
-            ));
+        when(() => repository.get(userId: any(named: "userId"))).thenAnswer((_) async => mockComptageDesHeures());
 
         sut.givenStore = givenState() //
             .loggedInUser()
             .store((f) => {f.comptageDesHeuresRepository = repository});
 
-        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed()]);
+        sut.thenExpectChangingStatesThroughOrder([_shouldSucceed()]);
       });
 
       test('should load then fail when request fails', () {
@@ -38,13 +36,48 @@ void main() {
             .loggedInUser()
             .store((f) => {f.comptageDesHeuresRepository = repository});
 
-        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
+        sut.thenExpectChangingStatesThroughOrder([_shouldFail()]);
+      });
+
+      test('should not emit new state if comptage des heures is the same', () {
+        when(() => repository.get(userId: any(named: "userId"))).thenAnswer((_) async => mockComptageDesHeures());
+
+        sut.givenStore = givenState() //
+            .loggedInUser()
+            .withComptageDesHeuresSuccess(comptageDesHeures: mockComptageDesHeures())
+            .store((f) => {f.comptageDesHeuresRepository = repository});
+
+        sut.thenExpectChangingStatesThroughOrder([]);
+      });
+    });
+
+    group("when creating action", () {
+      sut.whenDispatchingAction(() => UserActionCreateSuccessAction('any'));
+
+      test('should increment heures en cours de calcul when user action create success', () {
+        sut.givenStore = givenState() //
+            .loggedInUser()
+            .withComptageDesHeuresSuccess(comptageDesHeures: mockComptageDesHeures())
+            .store((f) => {f.comptageDesHeuresRepository = repository});
+
+        sut.thenExpectChangingStatesThroughOrder([_shouldIncrementHeuresEnCoursDeCalcul()]);
+      });
+    });
+
+    group("when auto-inscription success", () {
+      sut.whenDispatchingAction(() => AutoInscriptionSuccessAction());
+
+      test('should increment heures en cours de calcul when user action create success', () {
+        sut.givenStore = givenState() //
+            .loggedInUser()
+            .withComptageDesHeuresSuccess(comptageDesHeures: mockComptageDesHeures())
+            .store((f) => {f.comptageDesHeuresRepository = repository});
+
+        sut.thenExpectChangingStatesThroughOrder([_shouldIncrementHeuresEnCoursDeCalcul()]);
       });
     });
   });
 }
-
-Matcher _shouldLoad() => StateIs<ComptageDesHeuresLoadingState>((state) => state.comptageDesHeuresState);
 
 Matcher _shouldFail() => StateIs<ComptageDesHeuresFailureState>((state) => state.comptageDesHeuresState);
 
@@ -53,12 +86,18 @@ Matcher _shouldSucceed() {
     (state) => state.comptageDesHeuresState,
     (state) {
       expect(
-          state.comptageDesHeures,
-          ComptageDesHeures(
-            nbHeuresDeclarees: 10,
-            nbHeuresValidees: 8,
-            dateDerniereMiseAJour: DateTime(2021, 7, 19, 15, 10, 0),
-          ));
+        state.comptageDesHeures,
+        mockComptageDesHeures(),
+      );
+    },
+  );
+}
+
+Matcher _shouldIncrementHeuresEnCoursDeCalcul() {
+  return StateIs<ComptageDesHeuresSuccessState>(
+    (state) => state.comptageDesHeuresState,
+    (state) {
+      expect(state.heuresEnCoursDeCalcul, 1);
     },
   );
 }

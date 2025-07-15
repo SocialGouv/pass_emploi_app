@@ -18,6 +18,7 @@ class ComptageDesHeuresCardViewModel extends Equatable {
   final String heuresValidees;
   final String dateDerniereMiseAJour;
   final String emoji;
+  final String? heuresEnCoursDeCalcul;
   final void Function() retry;
 
   ComptageDesHeuresCardViewModel._({
@@ -29,6 +30,7 @@ class ComptageDesHeuresCardViewModel extends Equatable {
     required this.heuresValidees,
     required this.dateDerniereMiseAJour,
     required this.emoji,
+    required this.heuresEnCoursDeCalcul,
     required this.retry,
   });
 
@@ -42,6 +44,7 @@ class ComptageDesHeuresCardViewModel extends Equatable {
       heuresValidees: "",
       dateDerniereMiseAJour: "",
       emoji: "",
+      heuresEnCoursDeCalcul: null,
       retry: () {},
     );
   }
@@ -65,6 +68,7 @@ class ComptageDesHeuresCardViewModel extends Equatable {
       heuresValidees: state.comptageDesHeures.nbHeuresValidees.toInt().toString(),
       dateDerniereMiseAJour: Strings.updatedAgo(state.comptageDesHeures.dateDerniereMiseAJour.timeAgo()),
       emoji: _emoji(state.comptageDesHeures.nbHeuresDeclarees),
+      heuresEnCoursDeCalcul: _heuresEnCoursDeCalcul(state),
       retry: () => store.dispatch(ComptageDesHeuresRequestAction()),
     );
   }
@@ -78,13 +82,13 @@ class ComptageDesHeuresCardViewModel extends Equatable {
         heuresValidees,
         dateDerniereMiseAJour,
         emoji,
+        heuresEnCoursDeCalcul,
       ];
 }
 
 DisplayState _displayState(ComptageDesHeuresState comptageDesHeuresState) {
   return switch (comptageDesHeuresState) {
     ComptageDesHeuresNotInitializedState() => DisplayState.LOADING,
-    ComptageDesHeuresLoadingState() => DisplayState.LOADING,
     ComptageDesHeuresFailureState() => DisplayState.FAILURE,
     ComptageDesHeuresSuccessState() => DisplayState.CONTENT,
   };
@@ -128,4 +132,15 @@ String _emoji(double heuresValidees) {
   }
 
   return "🤩";
+}
+
+String? _heuresEnCoursDeCalcul(ComptageDesHeuresState comptageDesHeuresState) {
+  if (comptageDesHeuresState is! ComptageDesHeuresSuccessState) {
+    return null;
+  }
+  final heuresEnCoursDeCalcul = comptageDesHeuresState.heuresEnCoursDeCalcul;
+  if (heuresEnCoursDeCalcul == 0) {
+    return null;
+  }
+  return Strings.comptageDesHeuresEnCoursDeCalcul(heuresEnCoursDeCalcul);
 }

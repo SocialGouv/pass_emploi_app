@@ -10,4 +10,6 @@ class ComptageDesHeuresSuccessAction {
   ComptageDesHeuresSuccessAction(this.comptageDesHeures);
 }
 
+class ComptageDesHeuresProgressAction {}
+
 class ComptageDesHeuresFailureAction {}

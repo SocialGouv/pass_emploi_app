@@ -866,16 +866,15 @@ extension AppStateDSL on AppState {
     return copyWith(comptageDesHeuresState: ComptageDesHeuresNotInitializedState());
   }
 
-  AppState withComptageDesHeuresLoading() {
-    return copyWith(comptageDesHeuresState: ComptageDesHeuresLoadingState());
-  }
-
   AppState withComptageDesHeuresFailure() {
     return copyWith(comptageDesHeuresState: ComptageDesHeuresFailureState());
   }
 
-  AppState withComptageDesHeuresSuccess({ComptageDesHeures? comptageDesHeures}) {
+  AppState withComptageDesHeuresSuccess({ComptageDesHeures? comptageDesHeures, int? heuresEnCoursDeCalcul}) {
     return copyWith(
-        comptageDesHeuresState: ComptageDesHeuresSuccessState(comptageDesHeures ?? mockComptageDesHeures()));
+        comptageDesHeuresState: ComptageDesHeuresSuccessState(
+      comptageDesHeures: comptageDesHeures ?? mockComptageDesHeures(),
+      heuresEnCoursDeCalcul: heuresEnCoursDeCalcul ?? 0,
+    ));
   }
 }

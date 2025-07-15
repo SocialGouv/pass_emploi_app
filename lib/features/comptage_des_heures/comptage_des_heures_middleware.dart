@@ -14,7 +14,6 @@ class ComptageDesHeuresMiddleware extends MiddlewareClass<AppState> {
     final userId = store.state.userId();
     if (userId == null) return;
     if (action is ComptageDesHeuresRequestAction) {
-      store.dispatch(ComptageDesHeuresLoadingAction());
       final result = await _repository.get(userId: userId);
       if (result != null) {
         store.dispatch(ComptageDesHeuresSuccessAction(result));

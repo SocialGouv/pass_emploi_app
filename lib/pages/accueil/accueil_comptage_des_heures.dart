@@ -5,10 +5,12 @@ import 'package:pass_emploi_app/presentation/comptage_des_heures_card_view_model
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
+import 'package:pass_emploi_app/widgets/information_bandeau.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
 class AccueilComptageDesHeures extends StatelessWidget {
@@ -45,41 +47,51 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          viewModel.title,
-          style: TextStyles.textSBold,
-          textAlign: TextAlign.center,
-        ),
-        SizedBox(height: Margins.spacing_s),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
-              child: _CompteurIllustration(
-                pourcentageHeuresValidees: viewModel.pourcentageHeuresValidees,
-                pourcentageHeuresDeclarees: viewModel.pourcentageHeuresDeclarees,
-                emoji: viewModel.emoji,
-              ),
+    return Padding(
+      padding: const EdgeInsets.all(Margins.spacing_s),
+      child: Column(
+        children: [
+          if (viewModel.heuresEnCoursDeCalcul != null) ...[
+            InformationBandeau.lighten(
+              icon: AppIcons.schedule_rounded,
+              text: viewModel.heuresEnCoursDeCalcul!,
             ),
-            Expanded(
-              child: Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildCompteurText(viewModel.heuresDeclarees, Strings.declaredHours, AppColors.additional6),
-                    _buildCompteurText(viewModel.heuresValidees, Strings.realizedHours, AppColors.additional5),
-                    SizedBox(height: Margins.spacing_s),
-                    Text(viewModel.dateDerniereMiseAJour, style: TextStyles.textXsRegular()),
-                  ],
+            SizedBox(height: Margins.spacing_s),
+          ],
+          Text(
+            viewModel.title,
+            style: TextStyles.textSBold,
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: Margins.spacing_s),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: _CompteurIllustration(
+                  pourcentageHeuresValidees: viewModel.pourcentageHeuresValidees,
+                  pourcentageHeuresDeclarees: viewModel.pourcentageHeuresDeclarees,
+                  emoji: viewModel.emoji,
                 ),
               ),
-            ),
-          ],
-        ),
-        SizedBox(height: Margins.spacing_s),
-      ],
+              Expanded(
+                child: Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildCompteurText(viewModel.heuresDeclarees, Strings.declaredHours, AppColors.additional6),
+                      _buildCompteurText(viewModel.heuresValidees, Strings.realizedHours, AppColors.additional5),
+                      SizedBox(height: Margins.spacing_s),
+                      Text(viewModel.dateDerniereMiseAJour, style: TextStyles.textXsRegular()),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: Margins.spacing_s),
+        ],
+      ),
     );
   }
 

@@ -18,17 +18,6 @@ void main() {
       expect(viewModel.displayState, DisplayState.LOADING);
     });
 
-    test('should be loading when comptage des heures is loading', () {
-      // Given
-      final store = givenState().loggedInMiloUser().withComptageDesHeuresLoading().store();
-
-      // When
-      final viewModel = ComptageDesHeuresCardViewModel.create(store);
-
-      // Then
-      expect(viewModel.displayState, DisplayState.LOADING);
-    });
-
     test('should be failure when comptage des heures is failure', () {
       // Given
       final store = givenState().loggedInMiloUser().withComptageDesHeuresFailure().store();
@@ -170,5 +159,42 @@ void main() {
     expect(viewModel.heuresDeclarees, "16");
     expect(viewModel.heuresValidees, "16");
     expect(viewModel.emoji, "🤩");
+  });
+
+  test('heures en cours de calcul should be null when comptage des heures is not success', () {
+    // Given
+    final store = givenState().loggedInMiloUser().withComptageDesHeuresNotInitialized().store();
+
+    // When
+    final viewModel = ComptageDesHeuresCardViewModel.create(store);
+
+    // Then
+    expect(viewModel.heuresEnCoursDeCalcul, null);
+  });
+
+  test('heures en cours de calcul should be 1 when comptage des heures is success and heures en cours de calcul is 1',
+      () {
+    // Given
+    final store = givenState().loggedInMiloUser().withComptageDesHeuresSuccess(heuresEnCoursDeCalcul: 1).store();
+
+    // When
+    final viewModel = ComptageDesHeuresCardViewModel.create(store);
+
+    // Then
+    expect(viewModel.heuresEnCoursDeCalcul,
+        "1 activité en cours de calcul.\nProchaine actualisation dans moins d’une heure");
+  });
+
+  test('heures en cours de calcul should be 2 when comptage des heures is success and heures en cours de calcul is 2',
+      () {
+    // Given
+    final store = givenState().loggedInMiloUser().withComptageDesHeuresSuccess(heuresEnCoursDeCalcul: 2).store();
+
+    // When
+    final viewModel = ComptageDesHeuresCardViewModel.create(store);
+
+    // Then
+    expect(viewModel.heuresEnCoursDeCalcul,
+        "2 activités en cours de calcul.\nProchaine actualisation dans moins d’une heure");
   });
 }

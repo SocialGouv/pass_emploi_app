@@ -8,15 +8,21 @@ sealed class ComptageDesHeuresState extends Equatable {
 
 class ComptageDesHeuresNotInitializedState extends ComptageDesHeuresState {}
 
-class ComptageDesHeuresLoadingState extends ComptageDesHeuresState {}
-
 class ComptageDesHeuresFailureState extends ComptageDesHeuresState {}
 
 class ComptageDesHeuresSuccessState extends ComptageDesHeuresState {
   final ComptageDesHeures comptageDesHeures;
+  final int heuresEnCoursDeCalcul;
 
-  ComptageDesHeuresSuccessState(this.comptageDesHeures);
+  ComptageDesHeuresSuccessState({required this.comptageDesHeures, this.heuresEnCoursDeCalcul = 0});
+
+  ComptageDesHeuresSuccessState copyWith({ComptageDesHeures? comptageDesHeures, int? heuresEnCoursDeCalcul}) {
+    return ComptageDesHeuresSuccessState(
+      comptageDesHeures: comptageDesHeures ?? this.comptageDesHeures,
+      heuresEnCoursDeCalcul: heuresEnCoursDeCalcul ?? this.heuresEnCoursDeCalcul,
+    );
+  }
 
   @override
-  List<Object?> get props => [comptageDesHeures];
+  List<Object?> get props => [comptageDesHeures, heuresEnCoursDeCalcul];
 }
