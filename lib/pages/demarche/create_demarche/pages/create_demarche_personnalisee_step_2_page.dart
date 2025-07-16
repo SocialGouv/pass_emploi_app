@@ -48,7 +48,8 @@ class _CreateDemarchePersonnaliseeStep2PageState extends State<CreateDemarchePer
                 ? widget.viewModel.navigateToCreateDemarchePersonnaliseeStep3
                 : null,
           ),
-          SizedBox(height: Margins.spacing_xl),
+          // To ensure scrolling is available, and hence closing of keyboard
+          SizedBox(height: 600),
         ],
       ),
     );
