@@ -17,26 +17,28 @@ class PostulerOffreBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomSheetWrapper(
       title: Strings.postulerOffreTitle,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            children: [
-              Icon(AppIcons.description_rounded, color: AppColors.primary),
-              SizedBox(width: Margins.spacing_base),
-              Expanded(child: Text(Strings.postulerTitle, style: TextStyles.textMBold))
-            ],
-          ),
-          SizedBox(height: Margins.spacing_base),
-          Expanded(child: CvList(insideBottomSheet: true)),
-          SizedBox(height: Margins.spacing_base),
-          PrimaryActionButton(
-            label: Strings.postulerContinueButton,
-            icon: AppIcons.open_in_new_rounded,
-            semanticsRoleLink: true,
-            onPressed: onPostuler,
-          ),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              children: [
+                Icon(AppIcons.description_rounded, color: AppColors.primary),
+                SizedBox(width: Margins.spacing_base),
+                Expanded(child: Text(Strings.postulerTitle, style: TextStyles.textMBold))
+              ],
+            ),
+            SizedBox(height: Margins.spacing_base),
+            CvList(insideBottomSheet: true),
+            SizedBox(height: Margins.spacing_base),
+            PrimaryActionButton(
+              label: Strings.postulerContinueButton,
+              icon: AppIcons.open_in_new_rounded,
+              semanticsRoleLink: true,
+              onPressed: onPostuler,
+            ),
+          ],
+        ),
       ),
     );
   }
