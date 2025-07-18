@@ -97,6 +97,7 @@ List<AccueilItem> _items(Store<AppState> store) {
     _campagneEvaluationItem(store.state),
     _offreSuivies(store),
     _cetteSemaineItem(user, accueilState),
+    ...[AccueilColorSeparatorItem()], // divide home colors from gradient and gray
     _prochainRendezvousItem(user, accueilState),
     _suiviDesOffresItem(),
     _evenementsItem(accueilState),

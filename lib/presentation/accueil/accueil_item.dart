@@ -42,6 +42,8 @@ class AccueilCetteSemaineItem extends AccueilItem {
   List<Object?> get props => [rendezvousCount, actionsOuDemarchesCount, actionsOuDemarchesLabel];
 }
 
+class AccueilColorSeparatorItem extends AccueilItem {}
+
 class AccueilProchainRendezvousItem extends AccueilItem {
   final String rendezvousId;
 

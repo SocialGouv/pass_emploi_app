@@ -222,9 +222,8 @@ class _Blocs extends StatelessWidget {
     for (int i = 0; i < viewModel.items.length; i++) {
       final item = viewModel.items[i];
 
-      if (item is AccueilCetteSemaineItem) {
+      if (item is AccueilColorSeparatorItem) {
         items.add(_buildItem(item));
-        items.add(SizedBox(height: Margins.spacing_m));
         break;
       }
 
@@ -239,17 +238,17 @@ class _Blocs extends StatelessWidget {
 
   List<Widget> _buildItemsWithoutGradient() {
     final items = <Widget>[];
-    bool foundCetteSemaine = false;
+    bool foundSeparator = false;
 
     for (int i = 0; i < viewModel.items.length; i++) {
       final item = viewModel.items[i];
 
-      if (item is AccueilCetteSemaineItem) {
-        foundCetteSemaine = true;
+      if (item is AccueilColorSeparatorItem) {
+        foundSeparator = true;
         continue;
       }
 
-      if (foundCetteSemaine) {
+      if (foundSeparator) {
         items.add(_buildItem(item));
         if (i < viewModel.items.length - 1) {
           items.add(SizedBox(height: Margins.spacing_m));
@@ -279,6 +278,7 @@ class _Blocs extends StatelessWidget {
       final AccueilAlertesItem item => AccueilAlertes(item),
       final AccueilSuiviDesOffresItem item => AccueilSuiviDesOffres(item),
       final AccueilOutilsItem item => AccueilOutils(item),
+      AccueilColorSeparatorItem() => SizedBox.shrink(),
       RatingAppItem() => AccueilRatingAppCard(),
     };
   }
