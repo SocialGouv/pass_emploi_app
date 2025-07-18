@@ -85,6 +85,7 @@ void main() {
             actionsOuDemarchesLabel: "Action",
             withComptageDesHeures: true,
           ),
+          AccueilColorSeparatorItem(),
           AccueilProchainRendezvousItem(mockRendezvousMiloCV().id),
           AccueilSuiviDesOffresItem(),
           AccueilEvenementsItem([
@@ -135,6 +136,7 @@ void main() {
             actionsOuDemarchesLabel: "Actions",
             withComptageDesHeures: false,
           ),
+          AccueilColorSeparatorItem(),
           AccueilProchaineSessionMiloItem(sessionMilo.id),
           AccueilSuiviDesOffresItem(),
           AccueilEvenementsItem([
@@ -177,6 +179,7 @@ void main() {
             actionsOuDemarchesLabel: "Démarche",
             withComptageDesHeures: true,
           ),
+          AccueilColorSeparatorItem(),
           AccueilProchainRendezvousItem(mockRendezvousPoleEmploi().id),
           AccueilSuiviDesOffresItem(),
           AccueilAlertesItem(getMockedAlerte()),
@@ -214,6 +217,7 @@ void main() {
             actionsOuDemarchesLabel: "Démarche",
             withComptageDesHeures: true,
           ),
+          AccueilColorSeparatorItem(),
           AccueilProchainRendezvousItem(mockRendezvousPoleEmploi().id),
           AccueilSuiviDesOffresItem(),
           AccueilAlertesItem(getMockedAlerte()),
