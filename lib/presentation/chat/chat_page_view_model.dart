@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
 import 'package:pass_emploi_app/features/message_important/message_important_state.dart';
 import 'package:pass_emploi_app/features/tracking/tracking_evenement_engagement_action.dart';
+import 'package:pass_emploi_app/models/accompagnement.dart';
 import 'package:pass_emploi_app/models/chat/message.dart';
 import 'package:pass_emploi_app/models/chat/sender.dart';
 import 'package:pass_emploi_app/network/post_evenement_engagement.dart';
@@ -50,7 +51,7 @@ class ChatPageViewModel extends Equatable {
       brouillon: store.state.chatBrouillonState.brouillon,
       items: chatState is ChatSuccessState ? _messagesToChatItems(chatState.messages, lastReading) : [],
       messageImportant: _messageImportant(store),
-      jeunePjEnabled: store.state.isMiloLoginMode(),
+      jeunePjEnabled: _jeunePjEnabled(store),
       onSendMessage: (String message) => store.dispatch(SendMessageAction(message)),
       onSendImage: (String imagePath) => _sendImage(store, imagePath),
       onSendFile: (String filePath) => _sendFile(store, filePath),
@@ -61,6 +62,9 @@ class ChatPageViewModel extends Equatable {
   @override
   List<Object?> get props => [displayState, brouillon, items, messageImportant, jeunePjEnabled];
 }
+
+bool _jeunePjEnabled(Store<AppState> store) =>
+    store.state.isMiloLoginMode() || store.state.user()?.accompagnement == Accompagnement.avenirPro;
 
 void _sendImage(Store<AppState> store, String imagePath) {
   store.dispatch(TrackingEvenementEngagementAction(EvenementEngagement.MESSAGE_ENVOYE_PJ));

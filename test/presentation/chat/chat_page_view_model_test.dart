@@ -2,9 +2,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
 import 'package:pass_emploi_app/features/message_important/message_important_state.dart';
+import 'package:pass_emploi_app/models/accompagnement.dart';
 import 'package:pass_emploi_app/models/chat/message.dart';
 import 'package:pass_emploi_app/models/chat/message_important.dart';
 import 'package:pass_emploi_app/models/chat/sender.dart';
+import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/chat/chat_item.dart';
 import 'package:pass_emploi_app/presentation/chat/chat_page_view_model.dart';
@@ -839,6 +841,22 @@ void main() {
     test('should display pj picker when user is milo', () {
       // Given
       final store = givenState().loggedInMiloUser().store();
+
+      // When
+      final viewModel = ChatPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.jeunePjEnabled, isTrue);
+    });
+
+    test('should display pj picker when user is from Avenir Pro', () {
+      // Given
+      final store = givenState()
+          .loggedInUser(
+            loginMode: LoginMode.POLE_EMPLOI,
+            accompagnement: Accompagnement.avenirPro,
+          )
+          .store();
 
       // When
       final viewModel = ChatPageViewModel.create(store);
