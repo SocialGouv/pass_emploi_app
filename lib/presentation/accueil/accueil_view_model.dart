@@ -166,9 +166,9 @@ AccueilItem? _suiviDesOffresItem() {
 AccueilItem? _outilsItem(AccueilSuccessState successState, Accompagnement accompagnement) {
   return switch (accompagnement) {
     Accompagnement.cej => AccueilOutilsItem([
-        Outil.mesAidesFt.withoutImage(),
+        Outil.immersionBoulanger.withoutImage(),
         Outil.benevolatCej.withoutImage(),
-        Outil.formation.withoutImage(),
+        Outil.mesAidesFt.withoutImage(),
       ]),
     Accompagnement.rsaFranceTravail ||
     Accompagnement.rsaConseilsDepartementaux ||
@@ -180,11 +180,16 @@ AccueilItem? _outilsItem(AccueilSuccessState successState, Accompagnement accomp
         Outil.emploiSolidaire.withoutImage(),
         Outil.emploiStore.withoutImage(),
       ]),
-    Accompagnement.avenirPro || Accompagnement.aij => AccueilOutilsItem([
-        Outil.mesAidesFt.withoutImage(),
+    Accompagnement.avenirPro => AccueilOutilsItem([
         Outil.benevolatPassEmploi.withoutImage(),
+        Outil.mesAidesFt.withoutImage(),
         Outil.formation.withoutImage(),
       ]),
+    Accompagnement.aij => AccueilOutilsItem([
+        Outil.immersionBoulanger.withoutImage(),
+        Outil.benevolatPassEmploi.withoutImage(),
+        Outil.mesAidesFt.withoutImage(),
+      ])
   };
 }
 

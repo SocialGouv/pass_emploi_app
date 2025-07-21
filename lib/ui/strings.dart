@@ -376,7 +376,7 @@ class Strings {
   static String comptageDesHeures5To10 = "Bon début, continuez comme ça\u{00A0}!\u{00A0}💪";
   static String comptageDesHeures10To15 =
       "Vous vous rapprochez de votre objectif : encore un petit effort\u{00A0}!\u{00A0}🌟";
-  static String comptageDesHeures15 = "🎉 Félicitations pour vos 15h d’activités validées\u{00A0}!";
+  static String comptageDesHeures15 = "🎉 Félicitations pour vos 15h d’activités \u{00A0}!";
   static String comptageDesHeures15Plus = "Objectif dépassé ! Bravo\u{00A0}👏";
   static String updatedAgo(String timeAgo) => "Actualisé $timeAgo";
   static String realizedHours = "validées";

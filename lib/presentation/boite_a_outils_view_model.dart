@@ -24,6 +24,7 @@ class BoiteAOutilsViewModel extends Equatable {
 List<Outil> _getOutils(Accompagnement accompagnement) {
   return switch (accompagnement) {
     Accompagnement.cej => [
+        Outil.immersionBoulanger,
         Outil.ressourceFormation,
         Outil.laBonneAlternance,
         Outil.mesAidesFt,
@@ -37,7 +38,21 @@ List<Outil> _getOutils(Accompagnement accompagnement) {
         Outil.diagoriente,
         Outil.mesAides1J1S,
       ],
-    Accompagnement.aij || Accompagnement.avenirPro => [
+    Accompagnement.aij => [
+        Outil.immersionBoulanger,
+        Outil.laBonneAlternance,
+        Outil.mesAidesFt,
+        Outil.benevolatPassEmploi,
+        Outil.formation,
+        Outil.mentor,
+        Outil.evenement,
+        Outil.emploiStore,
+        Outil.emploiSolidaire,
+        Outil.laBonneBoite,
+        Outil.diagoriente,
+        Outil.mesAides1J1S,
+      ],
+    Accompagnement.avenirPro => [
         Outil.laBonneAlternance,
         Outil.mesAidesFt,
         Outil.benevolatPassEmploi,

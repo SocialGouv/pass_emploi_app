@@ -25,4 +25,6 @@ class ExternalLinks {
   static const String boiteAOutilsAlternance = "https://www.1jeune1solution.gouv.fr/apprentissage";
   static const String ressourceFormationLink =
       "https://candidat.francetravail.fr/portail-simulateurs/accueil-formation?at_medium=CMP&at_campaign=MVP_Estime_Formation&at_cmp_indicateur1=DDCT-Incubateur&at_cmp_indicateur2=Appli_CEJ";
+  static const String immersionBoulangerLink =
+      "https://immersion-facile.beta.gouv.fr/groupe/boulanger?mtm_campaign=AppliCEJ-jeunes-stages-Boulanger&mtm_kwd=notif%20appli%20CEJ";
 }

@@ -91,6 +91,7 @@ class AnalyticsScreenNames {
   static const benevolat = "benevolat";
   static const laBonneAlternance = "la_bonne_alternance";
   static const ressourceFormation = "mes_ressources_formation";
+  static const immersionBoulanger = "immersion_boulanger";
 
   static const eventList = "events/list";
 

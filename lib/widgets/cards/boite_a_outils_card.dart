@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/outil.dart';
 import 'package:pass_emploi_app/pages/benevolat_page.dart';
+import 'package:pass_emploi_app/pages/immersion_boulanger_page.dart';
 import 'package:pass_emploi_app/pages/la_bonne_alternance_page.dart';
 import 'package:pass_emploi_app/pages/ressource_formation_page.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
@@ -41,6 +42,7 @@ class BoiteAOutilsCard extends StatelessWidget {
       OutilInternalLink.benevolat => Navigator.of(context).push(BenevolatPage.materialPageRoute()),
       OutilInternalLink.laBonneAlternance => Navigator.of(context).push(LaBonneAlternancePage.materialPageRoute()),
       OutilInternalLink.ressourceFormation => Navigator.of(context).push(RessourceFormationPage.materialPageRoute()),
+      OutilInternalLink.immersionBoulanger => Navigator.of(context).push(ImmersionBoulangerPage.materialPageRoute()),
     };
   }
 }

@@ -94,9 +94,9 @@ void main() {
           ]),
           AccueilAlertesItem(getMockedAlerte()),
           AccueilOutilsItem([
-            Outil.mesAidesFt.withoutImage(),
+            Outil.immersionBoulanger.withoutImage(),
             Outil.benevolatCej.withoutImage(),
-            Outil.formation.withoutImage(),
+            Outil.mesAidesFt.withoutImage(),
           ]),
         ],
       );
@@ -145,9 +145,9 @@ void main() {
           ]),
           AccueilAlertesItem(getMockedAlerte()),
           AccueilOutilsItem([
-            Outil.mesAidesFt.withoutImage(),
+            Outil.immersionBoulanger.withoutImage(),
             Outil.benevolatCej.withoutImage(),
-            Outil.formation.withoutImage(),
+            Outil.mesAidesFt.withoutImage(),
           ]),
         ],
       );
@@ -184,9 +184,9 @@ void main() {
           AccueilSuiviDesOffresItem(),
           AccueilAlertesItem(getMockedAlerte()),
           AccueilOutilsItem([
-            Outil.mesAidesFt.withoutImage(),
+            Outil.immersionBoulanger.withoutImage(),
             Outil.benevolatCej.withoutImage(),
-            Outil.formation.withoutImage(),
+            Outil.mesAidesFt.withoutImage(),
           ]),
         ],
       );
@@ -222,9 +222,9 @@ void main() {
           AccueilSuiviDesOffresItem(),
           AccueilAlertesItem(getMockedAlerte()),
           AccueilOutilsItem([
-            Outil.mesAidesFt.withoutImage(),
+            Outil.immersionBoulanger.withoutImage(),
             Outil.benevolatCej.withoutImage(),
-            Outil.formation.withoutImage(),
+            Outil.mesAidesFt.withoutImage(),
           ]),
         ],
       );
@@ -270,9 +270,9 @@ void main() {
       expect(
         (outilsItem as AccueilOutilsItem).outils,
         [
-          Outil.mesAidesFt.withoutImage(),
+          Outil.immersionBoulanger.withoutImage(),
           Outil.benevolatCej.withoutImage(),
-          Outil.formation.withoutImage(),
+          Outil.mesAidesFt.withoutImage(),
         ],
       );
     });
@@ -293,9 +293,9 @@ void main() {
       expect(
         (outilsItem as AccueilOutilsItem).outils,
         [
-          Outil.mesAidesFt.withoutImage(),
+          Outil.immersionBoulanger.withoutImage(),
           Outil.benevolatPassEmploi.withoutImage(),
-          Outil.formation.withoutImage(),
+          Outil.mesAidesFt.withoutImage(),
         ],
       );
     });
@@ -316,8 +316,8 @@ void main() {
       expect(
         (outilsItem as AccueilOutilsItem).outils,
         [
-          Outil.mesAidesFt.withoutImage(),
           Outil.benevolatPassEmploi.withoutImage(),
+          Outil.mesAidesFt.withoutImage(),
           Outil.formation.withoutImage(),
         ],
       );

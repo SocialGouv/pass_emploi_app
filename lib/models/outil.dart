@@ -128,6 +128,14 @@ class Outil extends Equatable {
     imagePath: "boite_a_outils/ressource_formation.webp",
   );
 
+  static Outil immersionBoulanger = Outil(
+    title: "Faites une immersion chez Boulanger !",
+    description:
+        "Avec Boulanger, trouve une immersion près de chez toi pour découvrir les métiers de la vente, de la réparation ou de la logistique.",
+    redirectMode: OutilInternalRedirectMode(OutilInternalLink.immersionBoulanger),
+    imagePath: "boite_a_outils/immersion_boulanger.webp",
+  );
+
   Outil withoutImage() {
     return Outil(
       title: title,
@@ -142,7 +150,7 @@ class Outil extends Equatable {
   List<Object?> get props => [title, description, actionLabel, redirectMode, imagePath];
 }
 
-enum OutilInternalLink { benevolat, laBonneAlternance, ressourceFormation }
+enum OutilInternalLink { benevolat, laBonneAlternance, ressourceFormation, immersionBoulanger }
 
 sealed class OutilRedirectMode extends Equatable {}
 

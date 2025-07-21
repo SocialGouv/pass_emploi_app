@@ -129,7 +129,7 @@ void main() {
     final viewModel = ComptageDesHeuresCardViewModel.create(store);
 
     // Then
-    expect(viewModel.title, "🎉 Félicitations pour vos 15h d’activités validées\u{00A0}!");
+    expect(viewModel.title, "🎉 Félicitations pour vos 15h d’activités \u{00A0}!");
     expect(viewModel.pourcentageHeuresValidees, 1);
     expect(viewModel.pourcentageHeuresDeclarees, 1);
     expect(viewModel.heuresDeclarees, "15");
