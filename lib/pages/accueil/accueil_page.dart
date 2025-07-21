@@ -232,7 +232,6 @@ class _Blocs extends StatelessWidget {
         items.add(SizedBox(height: Margins.spacing_m));
       }
     }
-
     return items;
   }
 
