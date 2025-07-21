@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/pages/accueil/accueil_comptage_des_heures.dart';
@@ -11,6 +12,7 @@ import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/textes.dart';
 
@@ -64,12 +66,18 @@ class AccueilCetteSemaine extends StatelessWidget {
               backgroundColor: Colors.transparent,
               foregroundColor: Colors.white,
               label: Strings.accueilVoirDetailsCetteSemaine,
-              onPressed: () => StoreProvider.of<AppState>(context).dispatch(
-                HandleDeepLinkAction(
-                  MonSuiviDeepLink(),
-                  DeepLinkOrigin.inAppNavigation,
-                ),
-              ),
+              onPressed: () {
+                PassEmploiMatomoTracker.instance.trackEvent(
+                  eventCategory: AnalyticsEventNames.accueilCategory,
+                  action: AnalyticsEventNames.accueilDetailSemainePressed,
+                );
+                StoreProvider.of<AppState>(context).dispatch(
+                  HandleDeepLinkAction(
+                    MonSuiviDeepLink(),
+                    DeepLinkOrigin.inAppNavigation,
+                  ),
+                );
+              },
             ),
           ],
         ),

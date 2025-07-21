@@ -320,6 +320,9 @@ class AnalyticsEventNames {
   static const feedback3Action = "Note 3/5";
   static const feedback4Action = "Note 4/5";
   static const feedback5Action = "Note 5/5";
+
+  static const accueilCategory = "Accueil";
+  static const accueilDetailSemainePressed = "Clic sur le détail de la semaine";
 }
 
 class AnalyticsCustomDimensions {
