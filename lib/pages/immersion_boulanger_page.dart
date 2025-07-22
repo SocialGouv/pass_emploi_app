@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
-import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/external_links.dart';
 import 'package:pass_emploi_app/ui/immersion_boulanger_assets.dart';
@@ -158,7 +157,7 @@ class _VerbatimCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CardContainer(
-      backgroundColor: AppColors.primaryDarken,
+      backgroundColor: Color(0xFF0A0E93),
       child: Column(
         children: [
           SizedBox(height: Margins.spacing_s),
