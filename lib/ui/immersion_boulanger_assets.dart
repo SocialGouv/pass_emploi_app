@@ -17,13 +17,13 @@ class ImmersionBoulangerAssets {
   static String text_6_3 = "\nBOULANGER en quelques chiffres c’est :";
 
   static String text_6_4 = "\n• 210 magasins";
-  static String text_6_5 = " partout en France que tu pourras peut-être intégrer";
+  static String text_6_5 = " partout en France que vous pourrez peut-être intégrer";
 
   static String text_6_6 = "\n\n• plus de 150 métiers";
-  static String text_6_7 = " que tu pourras découvrir";
+  static String text_6_7 = " que vous pourrez découvrir";
 
   static String text_6_8 = "\n\n• près de 10 000 collaborateurs";
-  static String text_6_9 = " passionnés prêts à t’accueillir";
+  static String text_6_9 = " passionnés prêts à vous accueillir";
 
   static String text_6_10 = "\n\n• 70 ans d’expertise";
   static String text_6_11 = " en électroménager et multimédia...";
