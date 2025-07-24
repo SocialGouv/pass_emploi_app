@@ -116,6 +116,12 @@ class CampagneRecrutementItem extends AccueilItem {
 
 class RatingAppItem extends AccueilItem {}
 
+class BoulangerCampagneItem extends AccueilItem {
+  final void Function() onDismiss;
+
+  BoulangerCampagneItem({required this.onDismiss});
+}
+
 class RemoteCampagneAccueilItem extends AccueilItem {
   final String title;
   final String cta;

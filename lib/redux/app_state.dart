@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/features/alerte/create/alerte_create_state.dart'
 import 'package:pass_emploi_app/features/alerte/delete/alerte_delete_state.dart';
 import 'package:pass_emploi_app/features/alerte/list/alerte_list_state.dart';
 import 'package:pass_emploi_app/features/auto_inscription/auto_inscription_state.dart';
+import 'package:pass_emploi_app/features/boulanger_campagne/boulanger_campagne_state.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
 import 'package:pass_emploi_app/features/cgu/cgu_state.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_state.dart';
@@ -13,6 +14,7 @@ import 'package:pass_emploi_app/features/chat/partage/chat_partage_state.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_state.dart';
 import 'package:pass_emploi_app/features/chat/preview_file/preview_file_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
+import 'package:pass_emploi_app/features/comptage_des_heures/comptage_des_heures_state.dart';
 import 'package:pass_emploi_app/features/configuration/configuration_state.dart';
 import 'package:pass_emploi_app/features/connectivity/connectivity_state.dart';
 import 'package:pass_emploi_app/features/contact_immersion/contact_immersion_state.dart';
@@ -80,7 +82,6 @@ import 'package:pass_emploi_app/models/login_mode.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/user.dart';
-import 'package:pass_emploi_app/features/comptage_des_heures/comptage_des_heures_state.dart';
 /*AUTOGENERATE-REDUX-APP-STATE-IMPORT*/
 
 class AppState extends Equatable {
@@ -163,6 +164,7 @@ class AppState extends Equatable {
   final AutoInscriptionState autoInscriptionState;
   final OffresSuiviesState offresSuiviesState;
   final ComptageDesHeuresState comptageDesHeuresState;
+  final BoulangerCampagneState boulangerCampagneState;
   /*AUTOGENERATE-REDUX-APP-STATE-PROPERTY*/
 
   AppState({
@@ -245,6 +247,7 @@ class AppState extends Equatable {
     required this.autoInscriptionState,
     required this.offresSuiviesState,
     required this.comptageDesHeuresState,
+    required this.boulangerCampagneState,
     /*AUTOGENERATE-REDUX-APP-STATE-CONSTRUCTOR*/
   });
 
@@ -328,6 +331,7 @@ class AppState extends Equatable {
     final AutoInscriptionState? autoInscriptionState,
     final OffresSuiviesState? offresSuiviesState,
     final ComptageDesHeuresState? comptageDesHeuresState,
+    final BoulangerCampagneState? boulangerCampagneState,
     /*AUTOGENERATE-REDUX-APP-STATE-COPYPARAM*/
   }) {
     return AppState(
@@ -410,6 +414,7 @@ class AppState extends Equatable {
       autoInscriptionState: autoInscriptionState ?? this.autoInscriptionState,
       offresSuiviesState: offresSuiviesState ?? this.offresSuiviesState,
       comptageDesHeuresState: comptageDesHeuresState ?? this.comptageDesHeuresState,
+      boulangerCampagneState: boulangerCampagneState ?? this.boulangerCampagneState,
       /*AUTOGENERATE-REDUX-APP-STATE-COPYBODY*/
     );
   }
@@ -495,6 +500,7 @@ class AppState extends Equatable {
       autoInscriptionState: AutoInscriptionNotInitializedState(),
       offresSuiviesState: OffresSuiviesState(),
       comptageDesHeuresState: ComptageDesHeuresNotInitializedState(),
+      boulangerCampagneState: BoulangerCampagneState(),
       /*AUTOGENERATE-REDUX-APP-STATE-FACTORY*/
     );
   }
@@ -573,6 +579,7 @@ class AppState extends Equatable {
         autoInscriptionState,
         offresSuiviesState,
         comptageDesHeuresState,
+        boulangerCampagneState,
         /*AUTOGENERATE-REDUX-APP-STATE-EQUATABLE*/
       ];
 

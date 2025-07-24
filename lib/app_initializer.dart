@@ -41,9 +41,11 @@ import 'package:pass_emploi_app/repositories/auth/chat_security_repository.dart'
 import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
 import 'package:pass_emploi_app/repositories/auto_inscription_repository.dart';
 import 'package:pass_emploi_app/repositories/backend_config_repository.dart';
+import 'package:pass_emploi_app/repositories/boulanger_campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_recrutement_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
+import 'package:pass_emploi_app/repositories/comptage_des_heures_repository.dart';
 import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
 import 'package:pass_emploi_app/repositories/contact_immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
@@ -106,7 +108,6 @@ import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/usecases/piece_jointe/piece_jointe_use_case.dart';
 import 'package:pass_emploi_app/utils/compress_image.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
-import 'package:pass_emploi_app/repositories/comptage_des_heures_repository.dart';
 /*AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-IMPORT*/
 import 'package:pass_emploi_app/utils/secure_storage_exception_handler_decorator.dart';
 import 'package:pass_emploi_app/utils/secure_storage_in_memory_decorator.dart';
@@ -310,6 +311,7 @@ class AppInitializer {
       AutoInscriptionRepository(dioClient, crashlytics),
       OffresSuiviesRepository(securedPreferences),
       ComptageDesHeuresRepository(dioClient, crashlytics),
+      BoulangerCampagneRepository(securedPreferences),
       /*AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-CONSTRUCTOR*/
     ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);

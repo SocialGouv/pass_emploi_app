@@ -9,7 +9,9 @@ import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/repositories/auto_inscription_repository.dart';
 import 'package:pass_emploi_app/repositories/backend_config_repository.dart';
+import 'package:pass_emploi_app/repositories/boulanger_campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_recrutement_repository.dart';
+import 'package:pass_emploi_app/repositories/comptage_des_heures_repository.dart';
 import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_alerting_repository.dart';
 import 'package:pass_emploi_app/repositories/cvm/cvm_bridge.dart';
@@ -48,7 +50,6 @@ import 'package:pass_emploi_app/utils/compress_image.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
 
-import 'package:pass_emploi_app/repositories/comptage_des_heures_repository.dart';
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-IMPORT*/
 
 import 'dio_mock.dart';
@@ -307,4 +308,10 @@ class MockOffresSuiviesRepository extends Mock implements OffresSuiviesRepositor
 }
 
 class MockComptageDesHeuresRepository extends Mock implements ComptageDesHeuresRepository {}
+
+class MockBoulangerCampagneRepository extends Mock implements BoulangerCampagneRepository {
+  MockBoulangerCampagneRepository() {
+    when(() => get()).thenAnswer((_) async => false);
+  }
+}
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-DECLARATION*/

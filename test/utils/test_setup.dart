@@ -82,6 +82,7 @@ import 'package:pass_emploi_app/usecases/piece_jointe/piece_jointe_use_case.dart
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
 import 'package:pass_emploi_app/repositories/comptage_des_heures_repository.dart';
+import 'package:pass_emploi_app/repositories/boulanger_campagne_repository.dart';
 /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-IMPORT*/
 import 'package:redux/redux.dart';
 
@@ -173,6 +174,7 @@ class TestStoreFactory {
   AutoInscriptionRepository autoInscriptionRepository = MockAutoInscriptionRepository();
   OffresSuiviesRepository offresSuiviesRepository = MockOffresSuiviesRepository();
   ComptageDesHeuresRepository comptageDesHeuresRepository = MockComptageDesHeuresRepository();
+  BoulangerCampagneRepository boulangerCampagneRepository = MockBoulangerCampagneRepository();
   /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-PROPERTY*/
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -259,6 +261,7 @@ class TestStoreFactory {
       autoInscriptionRepository,
       offresSuiviesRepository,
       comptageDesHeuresRepository,
+      boulangerCampagneRepository,
       /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-CONSTRUCTOR*/
     ).initializeReduxStore(initialState: initialState);
   }

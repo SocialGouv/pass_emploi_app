@@ -1610,4 +1610,8 @@ class Strings {
   static String merciPourVotreReponse = "Merci pour votre réponse";
   static String suivezVosOffres = "Suivez vos offres";
   static String suivezVosOffresDescription = "Retrouvez ici les offres auxquelles vous avez postulé";
+
+  // TODO: Remove after 15 sept 2025
+  static String boulangerCampagneTitle = "1000 immersions dans les métiers de la vente et de la logistique";
+  static String boulangerCampagneDescription = "Découvrez les métiers de la vente et de la logistique.";
 }

@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_actions.dart';
 import 'package:pass_emploi_app/features/accueil/accueil_state.dart';
+import 'package:pass_emploi_app/features/boulanger_campagne/boulanger_campagne_actions.dart';
 import 'package:pass_emploi_app/features/campagne_recrutement/campagne_recrutement_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
@@ -92,6 +93,7 @@ List<AccueilItem> _items(Store<AppState> store) {
     _errorDegradeeItem(accueilState),
     _onboardingItem(store.state),
     ..._remoteCampagneAccueilItems(store, store.state),
+    _boulangerCampagneItem(store, store.state),
     _ratingAppItem(store.state),
     _campagneRecrutementItem(store, store.state),
     _campagneEvaluationItem(store.state),
@@ -237,6 +239,13 @@ List<AccueilItem?> _remoteCampagneAccueilItems(Store<AppState> store, AppState s
 
 AccueilItem? _ratingAppItem(AppState state) {
   return state.ratingState is ShowRatingState ? RatingAppItem() : null;
+}
+
+AccueilItem? _boulangerCampagneItem(Store<AppState> store, AppState state) {
+  if (state.boulangerCampagneState.result) {
+    return BoulangerCampagneItem(onDismiss: () => store.dispatch(BoulangerCampagneHideAction()));
+  }
+  return null;
 }
 
 AccueilItem? _campagneEvaluationItem(AppState state) {
