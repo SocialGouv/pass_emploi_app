@@ -242,6 +242,10 @@ AccueilItem? _ratingAppItem(AppState state) {
 }
 
 AccueilItem? _boulangerCampagneItem(Store<AppState> store, AppState state) {
+  final accompagnement = state.user()?.accompagnement;
+  final forAccompagnements = [Accompagnement.cej, Accompagnement.aij];
+  if (!forAccompagnements.contains(accompagnement)) return null;
+
   if (state.boulangerCampagneState.result) {
     return BoulangerCampagneItem(onDismiss: () => store.dispatch(BoulangerCampagneHideAction()));
   }
