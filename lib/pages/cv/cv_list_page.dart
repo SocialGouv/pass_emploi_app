@@ -43,7 +43,9 @@ class CvListPage extends StatelessWidget {
         appBar: SecondaryAppBar(title: Strings.cvListPageTitle),
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-          child: CvList(insideBottomSheet: insideBottomSheet),
+          child: SingleChildScrollView(
+            child: CvList(insideBottomSheet: insideBottomSheet),
+          ),
         ),
       ),
     );
@@ -96,7 +98,7 @@ class _Content extends StatelessWidget {
       children: [
         Text(Strings.cvListPageSubtitle, style: TextStyles.textBaseRegular),
         SizedBox(height: Margins.spacing_m),
-        Expanded(child: _CvListView(viewModel)),
+        _CvListView(viewModel),
         PreviewFileInvisibleHandler(),
       ],
     );
@@ -113,6 +115,8 @@ class _CvListView extends StatelessWidget {
     final List<CvPoleEmploi> cvList = viewModel.cvList;
     return ListView.builder(
       itemCount: cvList.length,
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         final cv = cvList[index];
         return Padding(
