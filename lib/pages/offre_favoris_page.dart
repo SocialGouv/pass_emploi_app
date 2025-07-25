@@ -86,7 +86,7 @@ class OffreFavorisPage extends StatelessWidget {
         OffreEmploiDetailsPage.materialPageRoute(
           favori.id,
           fromAlternance: favori.type == OffreType.alternance,
-          popPageWhenFavoriIsRemoved: true,
+          // popPageWhenFavoriIsRemoved: true,
         ),
       ),
     );
@@ -99,7 +99,10 @@ class OffreFavorisPage extends StatelessWidget {
       selectState: (store) => store.state.immersionFavorisIdsState,
       onTap: () => Navigator.push(
         context,
-        ImmersionDetailsPage.materialPageRoute(favori.id, popPageWhenFavoriIsRemoved: true),
+        ImmersionDetailsPage.materialPageRoute(
+          favori.id,
+          popPageWhenFavoriIsRemoved: true,
+        ),
       ),
     );
   }
