@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/pages/demarche/create_demarche/create_demarche_success_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi/offre_emploi_details_page.dart';
 import 'package:pass_emploi_app/presentation/offre_suivie_form_viewmodel.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -54,29 +55,48 @@ class _Confirmation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+    return Stack(
       children: [
-        Icon(AppIcons.check_circle_outline_rounded, color: AppColors.contentColor),
-        SizedBox(height: Margins.spacing_s),
-        Text(
-          Strings.merciPourVotreReponse,
-          textAlign: TextAlign.center,
-          style: TextStyles.textBaseRegular.copyWith(color: AppColors.contentColor),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Icon(AppIcons.check_circle_outline_rounded, color: AppColors.contentColor),
+            SizedBox(height: Margins.spacing_s),
+            Text(
+              Strings.merciPourVotreReponse,
+              textAlign: TextAlign.center,
+              style: TextStyles.textBaseRegular.copyWith(color: AppColors.contentColor),
+            ),
+            if (viewModel.confirmationMessage != null) ...[
+              SizedBox(height: Margins.spacing_s),
+              Text(
+                viewModel.confirmationMessage!,
+                textAlign: TextAlign.center,
+                style: TextStyles.textSRegular().copyWith(color: AppColors.contentColor),
+              ),
+            ],
+            SizedBox(height: Margins.spacing_base),
+            SecondaryButton(
+              label: viewModel.onCreateActionOrDemarcheLabel,
+              onPressed: () {
+                viewModel.onCreateActionOrDemarche();
+                viewModel.onHideForever();
+                if (viewModel.useDemarche) {
+                  Navigator.of(context).push(CreateDemarcheSuccessPage.route(CreateDemarcheSource.fromReferentiel));
+                } else {
+                  Navigator.of(context).push(CreateDemarcheSuccessPage.route(CreateDemarcheSource.fromReferentiel));
+                }
+              },
+            ),
+          ],
         ),
-        if (viewModel.confirmationMessage != null) ...[
-          SizedBox(height: Margins.spacing_s),
-          Text(
-            viewModel.confirmationMessage!,
-            textAlign: TextAlign.center,
-            style: TextStyles.textSRegular().copyWith(color: AppColors.contentColor),
+        Positioned(
+          top: -Margins.spacing_base,
+          right: -Margins.spacing_base,
+          child: IconButton(
+            onPressed: () => viewModel.onHideForever(),
+            icon: Icon(AppIcons.close_rounded),
           ),
-        ],
-        SizedBox(height: Margins.spacing_s),
-        SizedBox(height: Margins.spacing_s),
-        SecondaryButton(
-          label: viewModel.confirmationButton,
-          onPressed: () => viewModel.onHideForever(),
         ),
       ],
     );

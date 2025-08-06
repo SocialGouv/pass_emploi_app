@@ -1605,11 +1605,15 @@ class Strings {
   static String jaiPostule = "J’ai postulé";
   static String caMinteresse = "Ça m’intéresse";
   static String caNeMinteressePas = "Ça ne m’intéresse plus";
-  static String retrouvezCetteOffreDansVosOffres = "Retrouvez cette offre dans le suivi des offres";
   static String seeNextOffer = "Voir l’offre suivante";
   static String merciPourVotreReponse = "Merci pour votre réponse";
   static String suivezVosOffres = "Suivez vos offres";
   static String suivezVosOffresDescription = "Retrouvez ici les offres auxquelles vous avez postulé";
+  static String addAction = "Créer l'action";
+  static String addDemarche = "Créer la démarche";
+  static String wishToCreateAction = "Souhaitez-vous créer l’action ? ";
+  static String wishToCreateDemarche = "Souhaitez-vous créer la démarche ? ";
+  static String jaiPostuleA(String offre, String societe) => "J’ai postulé à l’offre $offre de la société $societe";
 
   // TODO: Remove after 15 sept 2025
   static String boulangerCampagneTitle = "1000 immersions dans les métiers de la vente et de la logistique";

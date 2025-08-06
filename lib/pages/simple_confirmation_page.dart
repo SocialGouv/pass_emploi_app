@@ -10,13 +10,6 @@ import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 class SimpleConfirmationPage extends StatelessWidget {
   const SimpleConfirmationPage._(this.title);
 
-  static Route<void> postuler() {
-    return MaterialPageRoute<void>(
-      fullscreenDialog: true,
-      builder: (_) => SimpleConfirmationPage._(Strings.offrePostuleeConfirmationAppBar),
-    );
-  }
-
   static Route<void> favoris() {
     return MaterialPageRoute<void>(
       fullscreenDialog: true,

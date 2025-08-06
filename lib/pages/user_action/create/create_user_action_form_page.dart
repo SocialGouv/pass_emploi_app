@@ -95,10 +95,7 @@ class CreateUserActionFormPage extends StatelessWidget {
     } else if (displayState is ShowConfirmationPage) {
       Navigator.push(
         context,
-        CreateUserActionConfirmationPage.route(
-          displayState.userActionCreatedId,
-          source,
-        ),
+        CreateUserActionConfirmationPage.route(source),
       ).then((result) {
         if (context.mounted) Navigator.pop(context, result);
       });

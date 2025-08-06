@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_page.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
+import 'package:pass_emploi_app/presentation/user_action/create_user_action_confirmation_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -9,23 +13,21 @@ import 'package:pass_emploi_app/widgets/a11y/auto_focus.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 
 class CreateUserActionConfirmationPage extends StatelessWidget {
-  final String userActionId;
   final UserActionStateSource source;
 
   const CreateUserActionConfirmationPage({
     super.key,
-    required this.userActionId,
     required this.source,
   });
 
-  static Route<CreateActionFormResult> route(String userActionId, UserActionStateSource source) {
+  static Route<CreateActionFormResult> route(UserActionStateSource source) {
     return MaterialPageRoute<CreateActionFormResult>(
       fullscreenDialog: true,
       builder: (_) => CreateUserActionConfirmationPage(
-        userActionId: userActionId,
         source: source,
       ),
     );
@@ -33,16 +35,37 @@ class CreateUserActionConfirmationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: SecondaryAppBar(title: Strings.createActionAppBarTitle, backgroundColor: Colors.white),
-      floatingActionButton: _Buttons(
-        onGoActionDetail: () => Navigator.pop(context, NavigateToUserActionDetails(userActionId, source)),
-        onCreateMore: () => Navigator.pop(context, CreateNewUserAction()),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: _Body(),
-    );
+    return StoreConnector<AppState, CreateActionSuccessViewModel>(
+        converter: (store) => CreateActionSuccessViewModel.create(store),
+        builder: (context, viewModel) {
+          return Scaffold(
+            backgroundColor: Colors.white,
+            appBar: SecondaryAppBar(title: Strings.createActionAppBarTitle, backgroundColor: Colors.white),
+            floatingActionButton: viewModel.displayState == DisplayState.CONTENT
+                ? _Buttons(
+                    onGoActionDetail: () =>
+                        Navigator.pop(context, NavigateToUserActionDetails(viewModel.actionId, source)),
+                    onCreateMore: () => Navigator.pop(context, CreateNewUserAction()),
+                  )
+                : null,
+            floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+            body: _Content(viewModel: viewModel),
+          );
+        });
+  }
+}
+
+class _Content extends StatelessWidget {
+  const _Content({required this.viewModel});
+  final CreateActionSuccessViewModel viewModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return switch (viewModel.displayState) {
+      DisplayState.CONTENT => _Body(),
+      DisplayState.FAILURE => Center(child: ErrorText(Strings.genericCreationError)),
+      _ => const Center(child: CircularProgressIndicator()),
+    };
   }
 }
 

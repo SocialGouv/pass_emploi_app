@@ -1,4 +1,4 @@
-abstract class CreateDemarcheState {}
+sealed class CreateDemarcheState {}
 
 class CreateDemarcheNotInitializedState extends CreateDemarcheState {}
 

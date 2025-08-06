@@ -46,6 +46,12 @@ sealed class OffreDto extends Equatable {
         OffreImmersionDto() => false,
         OffreServiceCiviqueDto() => false,
       };
+
+  String get companyName => switch (this) {
+        final OffreEmploiDto offre => offre.offreEmploi.companyName ?? "",
+        final OffreImmersionDto offre => offre.immersion.nomEtablissement,
+        final OffreServiceCiviqueDto offre => offre.serviceCivique.location ?? "",
+      };
 }
 
 class OffreEmploiDto extends OffreDto {

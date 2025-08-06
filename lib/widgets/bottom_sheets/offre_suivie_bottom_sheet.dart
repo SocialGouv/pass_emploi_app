@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/pages/postuler_confirmation_page.dart';
 import 'package:pass_emploi_app/pages/simple_confirmation_page.dart';
 import 'package:pass_emploi_app/presentation/offre_suivie_bottom_sheet_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -51,7 +52,7 @@ class OffreSuivieBottomSheet extends StatelessWidget {
                       trackEvent(OffreSuiviTrackingOption.postule);
                       viewModel.onPostule();
                       Navigator.of(context).pop();
-                      Navigator.of(context).push(SimpleConfirmationPage.postuler());
+                      Navigator.of(context).push(PostulerConfirmationPage.route(offreId));
                     },
                   ),
                   _Option(

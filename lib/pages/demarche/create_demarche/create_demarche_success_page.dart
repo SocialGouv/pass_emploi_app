@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions
 import 'package:pass_emploi_app/pages/demarche/create_demarche_form_page.dart';
 import 'package:pass_emploi_app/pages/demarche/demarche_detail_page.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_success_view_model.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -14,6 +15,7 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/confetti_wrapper.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 import 'package:pass_emploi_app/widgets/in_app_feedback.dart';
 
@@ -34,13 +36,28 @@ class CreateDemarcheSuccessPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConfettiWrapper(builder: (context, confettiController) {
       return StoreConnector<AppState, CreateDemarcheSuccessViewModel>(
-        builder: (context, viewModel) => _Body(viewModel, source),
+        builder: (context, viewModel) => _Content(viewModel, source),
         converter: (store) => CreateDemarcheSuccessViewModel.create(store),
         distinct: true,
         onDispose: (store) => store.dispatch(CreateDemarcheResetAction()),
         onInit: (_) => confettiController.play(),
       );
     });
+  }
+}
+
+class _Content extends StatelessWidget {
+  const _Content(this.viewModel, this.source);
+  final CreateDemarcheSuccessViewModel viewModel;
+  final CreateDemarcheSource source;
+
+  @override
+  Widget build(BuildContext context) {
+    return switch (viewModel.displayState) {
+      DisplayState.CONTENT => _Body(viewModel, source),
+      DisplayState.FAILURE => _Scaffold(body: Center(child: ErrorText(Strings.genericCreationError))),
+      _ => _Scaffold(body: const Center(child: CircularProgressIndicator())),
+    };
   }
 }
 
@@ -51,8 +68,7 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
+    return _Scaffold(
       floatingActionButton: _Buttons(
         onGoActionDetail: () {
           Navigator.pop(context);
@@ -64,7 +80,6 @@ class _Body extends StatelessWidget {
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      appBar: SecondaryAppBar(title: Strings.createDemarcheAppBarTitle, backgroundColor: Colors.white),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
         child: Center(
@@ -136,6 +151,28 @@ class _Buttons extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _Scaffold extends StatelessWidget {
+  const _Scaffold({
+    this.floatingActionButtonLocation,
+    this.floatingActionButton,
+    required this.body,
+  });
+  final FloatingActionButtonLocation? floatingActionButtonLocation;
+  final Widget? floatingActionButton;
+  final Widget body;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      floatingActionButton: floatingActionButton,
+      floatingActionButtonLocation: floatingActionButtonLocation,
+      appBar: SecondaryAppBar(title: Strings.createDemarcheAppBarTitle, backgroundColor: Colors.white),
+      body: body,
     );
   }
 }
