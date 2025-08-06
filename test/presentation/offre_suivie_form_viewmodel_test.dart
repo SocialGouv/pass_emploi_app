@@ -116,7 +116,7 @@ void main() {
           expect(viewModel.dateConsultation, "Vous avez consulté cette offre il y a 409 jours");
           expect(viewModel.offreLien, "Technicien / Technicienne d'installation de réseaux câblés  (H/F)");
           expect(viewModel.showConfirmation, true);
-          expect(viewModel.confirmationMessage, 'Retrouvez cette offre dans le suivi des offres');
+          expect(viewModel.confirmationMessage, 'Souhaitez-vous créer la démarche ? ');
           expect(viewModel.confirmationButton, 'Voir l’offre suivante');
         });
       });
