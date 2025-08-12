@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
+import 'package:pass_emploi_app/widgets/create_user_action_confirmation_offre_suivi_page.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 
@@ -78,8 +79,7 @@ class PostulerConfirmationPage extends StatelessWidget {
                           Navigator.of(context)
                               .push(CreateDemarcheSuccessPage.route(CreateDemarcheSource.fromReferentiel));
                         } else {
-                          Navigator.of(context)
-                              .push(CreateDemarcheSuccessPage.route(CreateDemarcheSource.fromReferentiel));
+                          Navigator.of(context).push(CreateUserActionConfirmationOffreSuiviPage.route());
                         }
                       },
                     ),

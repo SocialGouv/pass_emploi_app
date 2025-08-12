@@ -4,6 +4,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
+import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_actions.dart';
+import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
 import 'package:pass_emploi_app/pages/demarche/demarche_detail_bottom_sheet.dart';
 import 'package:pass_emploi_app/pages/demarche/demarche_done_bottom_sheet.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_detail_view_model.dart';
@@ -40,6 +42,12 @@ class DemarcheDetailPage extends StatelessWidget {
       tracking: AnalyticsScreenNames.userActionDetails,
       child: ConfettiWrapper(builder: (context, conffetiController) {
         return StoreConnector<AppState, DemarcheDetailViewModel>(
+          onInit: (store) {
+            final monSuiviState = store.state.monSuiviState;
+            if (monSuiviState is! MonSuiviSuccessState) {
+              store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.current));
+            }
+          },
           converter: (store) => DemarcheDetailViewModel.create(store, id),
           onDidChange: (oldViewModel, newViewModel) async {
             if (newViewModel.updateDisplayState == DisplayState.FAILURE) {

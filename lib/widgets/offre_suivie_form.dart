@@ -14,6 +14,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
+import 'package:pass_emploi_app/widgets/create_user_action_confirmation_offre_suivi_page.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_radio_buttons.dart';
 
 class OffreSuivieForm extends StatelessWidget {
@@ -84,7 +85,7 @@ class _Confirmation extends StatelessWidget {
                 if (viewModel.useDemarche) {
                   Navigator.of(context).push(CreateDemarcheSuccessPage.route(CreateDemarcheSource.fromReferentiel));
                 } else {
-                  Navigator.of(context).push(CreateDemarcheSuccessPage.route(CreateDemarcheSource.fromReferentiel));
+                  Navigator.of(context).push(CreateUserActionConfirmationOffreSuiviPage.route());
                 }
               },
             ),

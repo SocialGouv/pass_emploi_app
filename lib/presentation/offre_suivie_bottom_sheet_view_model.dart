@@ -23,7 +23,9 @@ class OffreSuivieBottomSheetViewModel extends Equatable {
     if (offreSuivie == null) OffreSuivieBottomSheetViewModel.empty();
     return OffreSuivieBottomSheetViewModel(
       onNotInterested: () async {
-        store.dispatch(OffresSuiviesDeleteAction(offreSuivie!));
+        if (offreSuivie != null) {
+          store.dispatch(OffresSuiviesDeleteAction(offreSuivie));
+        }
         // delayed to avoir redux state update before closing the bottom sheet
         await Future.delayed(Duration(milliseconds: 100));
         store.dispatch(OffresSuiviesConfirmationResetAction());

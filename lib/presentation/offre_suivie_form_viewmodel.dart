@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
+import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_actions.dart';
 import 'package:pass_emploi_app/features/offres_suivies/offres_suivies_actions.dart';
 import 'package:pass_emploi_app/features/offres_suivies/offres_suivies_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
@@ -140,5 +141,6 @@ void _onCreateActionOrDemarche(Store<AppState> store, OffreSuivie? offreSuivie) 
         estDuplicata: false,
       ),
     );
+    store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.current));
   }
 }
