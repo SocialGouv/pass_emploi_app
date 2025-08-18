@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_step1.dart';
+import 'package:pass_emploi_app/models/user_action_type.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_store_extension.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_view_model_helper.dart';

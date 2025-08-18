@@ -56,6 +56,18 @@ class CreateUserActionStep2ViewModel extends CreateUserActionPageViewModel {
   final CreateActionTitleSource titleSource;
   final String? description;
 
+  bool get showDescriptionField {
+    if (titleSource.isNone) {
+      return false;
+    }
+
+    return switch (titleSource) {
+      final CreateActionTitleFromSuggestions titleSource => !titleSource.suggestion.allowBatchCreate,
+      CreateActionTitleFromUserInput() => false,
+      CreateActionTitleNotInitialized() => false,
+    };
+  }
+
   final GlobalKey titleInputKey = GlobalKey();
   final GlobalKey descriptionKey = GlobalKey();
 

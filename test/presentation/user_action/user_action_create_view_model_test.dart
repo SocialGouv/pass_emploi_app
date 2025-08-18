@@ -68,7 +68,7 @@ void main() {
 
     // When
     final request = mockUserActionCreateRequest();
-    viewModel.createUserAction(request);
+    viewModel.createUserActions([request]);
 
     // Then
     expect(store.dispatchedAction, isA<UserActionCreateRequestAction>());

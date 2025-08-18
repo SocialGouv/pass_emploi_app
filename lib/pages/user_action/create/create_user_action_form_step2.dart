@@ -10,7 +10,6 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/accessibility_utils.dart';
-import 'package:pass_emploi_app/widgets/a11y/mandatory_fields_label.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_chip.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
 
@@ -63,14 +62,12 @@ class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
                     UserActionStepperTexts(index: 2),
                     const SizedBox(height: Margins.spacing_s),
                     Text(
-                      Strings.userActionTitleStep2,
+                      widget.actionType.label,
                       style: TextStyles.textMBold.copyWith(color: AppColors.contentColor),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: Margins.spacing_m),
-              MandatoryFieldsLabel.some(),
               const SizedBox(height: Margins.spacing_m),
               Semantics(
                 label: Strings.mandatoryField,
@@ -79,7 +76,7 @@ class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
                   style: TextStyles.textBaseBold,
                 ),
               ),
-              const SizedBox(height: Margins.spacing_m),
+              const SizedBox(height: Margins.spacing_base),
               _SuggestionTagWrap(
                 titleSource: widget.viewModel.titleSource,
                 onSelected: (value) {
@@ -122,53 +119,21 @@ class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
               const SizedBox(height: Margins.spacing_m),
               AnimatedSwitcher(
                 duration: AnimationDurations.fast,
-                child: widget.viewModel.titleSource.isNone
+                child: !widget.viewModel.showDescriptionField
                     ? SizedBox.shrink()
-                    : Semantics(
-                        container: true,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              Strings.userActionDescriptionTextfieldStep2,
-                              key: widget.viewModel.descriptionKey,
-                              style: TextStyles.textBaseBold,
-                            ),
-                            const SizedBox(height: Margins.spacing_s),
-                            Text(
-                              Strings.userActionDescriptionDescriptionfieldStep2,
-                              style: TextStyles.textSRegular(),
-                            ),
-                            const SizedBox(height: Margins.spacing_base),
-                            Stack(
-                              children: [
-                                BaseTextField(
-                                  focusNode: descriptionFocusNode,
-                                  controller: descriptionController,
-                                  hintText: Strings.exampleHint + widget.viewModel.titleSource.descriptionHint,
-                                  maxLines: 5,
-                                  maxLength: 1024,
-                                  onChanged: (value) {
-                                    widget.onDescriptionChanged(value);
-                                    _scrollToDescription(context);
-                                  },
-                                ),
-                                if (descriptionController.text.isNotEmpty)
-                                  Align(
-                                    alignment: Alignment.topRight,
-                                    child: IconButton(
-                                      tooltip: Strings.clear,
-                                      icon: Icon(Icons.clear),
-                                      onPressed: () {
-                                        widget.onDescriptionChanged("");
-                                        descriptionController.clear();
-                                      },
-                                    ),
-                                  )
-                              ],
-                            ),
-                          ],
-                        ),
+                    : UserActionDescriptionField(
+                        descriptionKey: widget.viewModel.descriptionKey,
+                        descriptionController: descriptionController,
+                        descriptionFocusNode: descriptionFocusNode,
+                        hintText: Strings.exampleHint + widget.viewModel.titleSource.descriptionHint,
+                        onDescriptionChanged: (value) {
+                          widget.onDescriptionChanged(value);
+                          _scrollToDescription(context);
+                        },
+                        onClear: () {
+                          widget.onDescriptionChanged("");
+                          descriptionController.clear();
+                        },
                       ),
               ),
               // To ensure scrolling is available, and hence closing of keyboard
@@ -240,6 +205,69 @@ class _SuggestionTagWrap extends StatelessWidget {
                 onTagDeleted: () => onSelected(CreateActionTitleNotInitialized()))
           ],
       },
+    );
+  }
+}
+
+class UserActionDescriptionField extends StatelessWidget {
+  const UserActionDescriptionField({
+    super.key,
+    this.descriptionKey,
+    required this.descriptionController,
+    required this.onDescriptionChanged,
+    required this.onClear,
+    required this.hintText,
+    this.descriptionFocusNode,
+  });
+
+  final Key? descriptionKey;
+  final FocusNode? descriptionFocusNode;
+  final TextEditingController descriptionController;
+  final void Function(String) onDescriptionChanged;
+  final void Function() onClear;
+  final String? hintText;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      container: true,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            Strings.userActionDescriptionTextfieldStep2,
+            key: descriptionKey,
+            style: TextStyles.textBaseBold,
+          ),
+          const SizedBox(height: Margins.spacing_s),
+          Text(
+            Strings.userActionDescriptionDescriptionfieldStep2,
+            style: TextStyles.textSRegular(),
+          ),
+          const SizedBox(height: Margins.spacing_base),
+          Stack(
+            children: [
+              BaseTextField(
+                focusNode: descriptionFocusNode,
+                controller: descriptionController,
+                hintText: hintText,
+                maxLines: 5,
+                maxLength: 1024,
+                onChanged: onDescriptionChanged,
+              ),
+              if (descriptionController.text.isNotEmpty)
+                Align(
+                  alignment: Alignment.topRight,
+                  child: IconButton(
+                    tooltip: Strings.clear,
+                    icon: Icon(Icons.clear),
+                    onPressed: onClear,
+                  ),
+                )
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

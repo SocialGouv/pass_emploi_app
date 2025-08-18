@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
+import 'package:pass_emploi_app/models/deep_link.dart';
 import 'package:pass_emploi_app/models/user_action_type.dart';
 import 'package:pass_emploi_app/pages/user_action/create/create_user_action_confirmation_page.dart';
 import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form.dart';
-import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_step1.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
 import 'package:pass_emploi_app/presentation/user_action/creation_form/create_user_action_form_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_create_view_model.dart';
@@ -25,16 +26,21 @@ class NavigateToUserActionDetails extends CreateActionFormResult {
   NavigateToUserActionDetails(this.userActionId, this.source);
 }
 
-class CreateUserActionFormPage extends StatelessWidget {
+class NavigateToMonSuivi extends CreateActionFormResult {}
+
+class CreateUserActionFormPage extends StatefulWidget {
   const CreateUserActionFormPage(this.source);
 
   final UserActionStateSource source;
 
   // NavigatorState is used rather than context, as it may not be available anymore in callbacks.
-  static void pushUserActionCreationTunnel(NavigatorState navigator, UserActionStateSource source) {
+  static void pushUserActionCreationTunnel(
+      BuildContext context, NavigatorState navigator, UserActionStateSource source) {
     navigator
         .push(_route(source)) //
-        .then((result) => _handleResult(navigator, result, source));
+        .then((result) {
+      if (context.mounted) _handleResult(context, navigator, result, source);
+    });
   }
 
   static Route<CreateActionFormResult> _route(UserActionStateSource source) {
@@ -44,19 +50,27 @@ class CreateUserActionFormPage extends StatelessWidget {
     );
   }
 
-  static void _handleResult(NavigatorState navigator, CreateActionFormResult? result, UserActionStateSource source) {
+  static void _handleResult(
+      BuildContext context, NavigatorState navigator, CreateActionFormResult? result, UserActionStateSource source) {
     if (result is CreateNewUserAction) {
       PassEmploiMatomoTracker.instance.trackEvent(
         eventCategory: AnalyticsEventNames.createActionv2EventCategory,
         action: AnalyticsEventNames.createActionResultAnotherAction,
       );
-      pushUserActionCreationTunnel(navigator, source);
+      pushUserActionCreationTunnel(context, navigator, source);
     } else if (result is NavigateToUserActionDetails) {
       PassEmploiMatomoTracker.instance.trackEvent(
         eventCategory: AnalyticsEventNames.createActionv2EventCategory,
         action: AnalyticsEventNames.createActionResultDetailsAction,
       );
       _openDetails(navigator, result.userActionId, result.source);
+    } else if (result is NavigateToMonSuivi) {
+      StoreProvider.of<AppState>(context).dispatch(
+        HandleDeepLinkAction(
+          MonSuiviDeepLink(),
+          DeepLinkOrigin.inAppNavigation,
+        ),
+      );
     } else {
       PassEmploiMatomoTracker.instance.trackEvent(
         eventCategory: AnalyticsEventNames.createActionv2EventCategory,
@@ -78,10 +92,22 @@ class CreateUserActionFormPage extends StatelessWidget {
   }
 
   @override
+  State<CreateUserActionFormPage> createState() => _CreateUserActionFormPageState();
+}
+
+class _CreateUserActionFormPageState extends State<CreateUserActionFormPage> {
+  bool multipleActions = false;
+  bool successShown = false;
+
+  @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, UserActionCreateViewModel>(
       converter: (state) => UserActionCreateViewModel.create(state),
-      builder: (context, viewModel) => _Body(viewModel),
+      builder: (context, viewModel) => _Body(viewModel, (numberOfActions) {
+        if (numberOfActions > 1) {
+          multipleActions = true;
+        }
+      }),
       onWillChange: (previousVm, newVm) => _handleDisplayState(context, newVm),
       distinct: true,
     );
@@ -90,23 +116,26 @@ class CreateUserActionFormPage extends StatelessWidget {
   Future<void> _handleDisplayState(BuildContext context, UserActionCreateViewModel viewModel) async {
     final displayState = viewModel.displayState;
     if (displayState is DismissWithFailure) {
-      showSnackBarForOfflineCreation(context);
+      CreateUserActionFormPage.showSnackBarForOfflineCreation(context);
       Navigator.pop(context);
     } else if (displayState is ShowConfirmationPage) {
+      if (successShown) return;
       Navigator.push(
         context,
-        CreateUserActionConfirmationPage.route(source),
+        CreateUserActionConfirmationPage.route(widget.source, multipleActions: multipleActions),
       ).then((result) {
         if (context.mounted) Navigator.pop(context, result);
       });
+      successShown = true;
     }
   }
 }
 
 class _Body extends StatelessWidget {
   final UserActionCreateViewModel _viewModel;
+  final void Function(int numberOfActions) _onSubmit;
 
-  const _Body(this._viewModel);
+  const _Body(this._viewModel, this._onSubmit);
 
   @override
   Widget build(BuildContext context) {
@@ -114,8 +143,10 @@ class _Body extends StatelessWidget {
       children: [
         CreateUserActionForm(
           onSubmit: (viewModel) {
-            _viewModel.createUserAction(viewModel.toRequest);
-            _trackActionSubmitted(viewModel);
+            final requests = viewModel.toRequests;
+            _viewModel.createUserActions(requests);
+            _trackActionSubmitted(viewModel, requests.length);
+            _onSubmit(requests.length);
           },
           onAbort: () => Navigator.pop(context),
         ),
@@ -128,12 +159,12 @@ class _Body extends StatelessWidget {
   }
 }
 
-void _trackActionSubmitted(CreateUserActionFormViewModel viewModel) {
-  final category = viewModel.step1.actionCategory;
-  if (category != null) _trackCategorySelected(category);
-  _trackTitleSelected(viewModel.step2.titleSource);
-  _trackStatusSelected(viewModel.step3.estTerminee);
-  _trackRappelSelected(viewModel.step3.withRappel);
+void _trackActionSubmitted(CreateUserActionFormViewModel viewModel, int numberOfActions) {
+  for (var i = 0; i < numberOfActions; i++) {
+    final category = viewModel.step1.actionCategory;
+    if (category != null) _trackCategorySelected(category);
+    _trackTitleSelected(viewModel.step2.titleSource);
+  }
 }
 
 void _trackCategorySelected(UserActionReferentielType type) {
@@ -149,23 +180,5 @@ void _trackTitleSelected(CreateActionTitleSource titleSource) {
     action: titleSource.isFromSuggestions
         ? AnalyticsEventNames.createActionStep2TitleFromSuggestionAction
         : AnalyticsEventNames.createActionStep2TitleNotFromSuggestionAction,
-  );
-}
-
-void _trackStatusSelected(bool estTerminee) {
-  PassEmploiMatomoTracker.instance.trackEvent(
-    eventCategory: AnalyticsEventNames.createActionStep3StatusCategory,
-    action: estTerminee
-        ? AnalyticsEventNames.createActionStep3TermineAction
-        : AnalyticsEventNames.createActionStep3EnCoursAction,
-  );
-}
-
-void _trackRappelSelected(bool withRappel) {
-  PassEmploiMatomoTracker.instance.trackEvent(
-    eventCategory: AnalyticsEventNames.createActionStep3RappelCategory,
-    action: withRappel
-        ? AnalyticsEventNames.createActionStep3AvecRappelAction
-        : AnalyticsEventNames.createActionStep3SansRappelAction,
   );
 }

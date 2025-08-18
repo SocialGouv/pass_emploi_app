@@ -326,7 +326,7 @@ class Strings {
   static const String serviceCiviqueTag = "Service civique";
 
   static const String todoPillule = "À réaliser";
-  static const String doingPillule = "En cours";
+  static const String doingPillule = "À faire";
   static const String donePillule = "Terminée";
   static const String latePillule = "En retard";
   static const String canceledPillule = "Annulée";
@@ -470,19 +470,17 @@ class Strings {
   static const String userActionFinishButton = 'Terminer';
 
   static const String userActionTitleStep1 = 'Catégorie';
-  static const String userActionTitleStep2 = 'Mon action';
   static const String userActionTitleStep3 = 'Statut et date';
 
   static const String userActionSubtitleStep1 = 'Choisissez une catégorie';
 
-  static const String userActionSubtitleStep2 = '*Pouvez-vous nous en dire plus ?';
+  static const String userActionSubtitleStep2 = 'Sélectionnez une action (obligatoire)';
   static const String userActionTitleTextfieldStep2 = '*Nommer mon action';
   static const String userActionDescriptionTextfieldStep2 = 'Décrire mon action';
   static const String userActionDescriptionDescriptionfieldStep2 =
       'Ajouter des détails pour que votre conseiller puisse valider votre action.';
 
   static const String userActionStatusRadioStep3 = 'L’action est :';
-  static const String userActionRadioGroup = "L'action est";
   static const String userActionStatusRadioCompletedStep3 = 'Terminée';
   static const String userActionStatusRadioTodoStep3 = 'En cours';
   static const String datePickerTitle = 'Date';
@@ -509,9 +507,13 @@ class Strings {
   static const String userActionLogementDescription = 'Recherches de logement';
   static const String userActionSanteDescription = 'Rendez-vous médicaux';
 
-  static const String userActionConfirmationTitle = "Action créée";
+  static const String userActionConfirmationTitleSingular = "Action créée";
+  static const String userActionConfirmationTitlePlural = "Action(s) créée(s)";
   static const String userActionConfirmationSubtitle =
       "L’action est en route vers votre conseiller. Vous pourrez en discuter ensemble lors de votre prochain rendez-vous\u{00A0}!";
+  static const String userActionConfirmationSubtitlePlural =
+      "La ou les actions sont en route vers votre conseiller. Vous pourrez en discuter ensemble lors de votre prochain rendez-vous\u{00A0}!";
+  static const String goToMonSuivi = "Consuter Mon suivi";
 
   static const String userActionConfirmationSeeDetailButton = "Consulter mon action";
   static const String userActionConfirmationCreateMoreButton = "Créer une autre action";
@@ -686,6 +688,10 @@ class Strings {
   static String mandatoryDateEcheanceError = "La date d'échéance doit être renseignée";
   static String defineActionStatus = "Définir le statut";
   static String actionCreatedBy = "Créée par";
+  static String duplicateAction = "Dupliquer l'action";
+  static String fillAllFields = "Veuillez remplir tous les champs";
+  static String dateMandatory = "La date est obligatoire";
+  static String descriptionMandatory = "La description est obligatoire";
 
   static String actionCreationInfos(String creator, String date) => "Ajouté par $creator le $date";
   static String youLowercase = "vous";
