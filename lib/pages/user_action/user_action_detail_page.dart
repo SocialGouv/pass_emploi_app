@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
+import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_actions.dart';
+import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_actions.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/details/user_action_details_actions.dart';
@@ -61,9 +63,14 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
         builder: (context, confettiController) {
           return StoreConnector<AppState, UserActionDetailsViewModel>(
             onInit: (store) {
+              final monSuiviState = store.state.monSuiviState;
+              if (monSuiviState is! MonSuiviSuccessState) {
+                store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.current));
+              }
               if (widget.source == UserActionStateSource.noSource) {
                 store.dispatch(UserActionDetailsRequestAction(widget.userActionId));
               }
+
               store.dispatch(UserActionUpdateResetAction());
               store.dispatch(UserActionDeleteResetAction());
             },
