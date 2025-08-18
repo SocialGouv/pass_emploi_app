@@ -1619,7 +1619,12 @@ class Strings {
   static String addDemarche = "Créer la démarche";
   static String wishToCreateAction = "Souhaitez-vous créer l’action ? ";
   static String wishToCreateDemarche = "Souhaitez-vous créer la démarche ? ";
-  static String jaiPostuleA(String offre, String societe) => "J’ai postulé à l’offre $offre de la société $societe";
+  static String jaiPostuleA(String? offre, String? societe) {
+    if (offre == null || societe == null) {
+      return "J’ai postulé à une offre";
+    }
+    return "J’ai postulé à l’offre $offre de la société $societe";
+  }
 
   // TODO: Remove after 15 sept 2025
   static String boulangerCampagneTitle = "1000 immersions dans les métiers de la vente et de la logistique";

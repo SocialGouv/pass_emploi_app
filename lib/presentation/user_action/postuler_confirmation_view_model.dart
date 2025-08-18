@@ -50,7 +50,7 @@ void _onCreateActionOrDemarche(Store<AppState> store, OffreSuivie? offreSuivie) 
       UserActionCreateRequestAction(
         UserActionCreateRequest(
           Strings.candidature,
-          Strings.jaiPostuleA(offreSuivie?.offreDto.title ?? "", offreSuivie?.offreDto.companyName ?? ""),
+          Strings.jaiPostuleA(offreSuivie?.offreDto.title, offreSuivie?.offreDto.companyName),
           DateTime.now(),
           false,
           UserActionStatus.DONE,
