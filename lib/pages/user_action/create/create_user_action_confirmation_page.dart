@@ -18,17 +18,20 @@ import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 
 class CreateUserActionConfirmationPage extends StatelessWidget {
   final UserActionStateSource source;
+  final bool multipleActions;
 
   const CreateUserActionConfirmationPage({
     super.key,
     required this.source,
+    required this.multipleActions,
   });
 
-  static Route<CreateActionFormResult> route(UserActionStateSource source) {
+  static Route<CreateActionFormResult> route(UserActionStateSource source, {required bool multipleActions}) {
     return MaterialPageRoute<CreateActionFormResult>(
       fullscreenDialog: true,
       builder: (_) => CreateUserActionConfirmationPage(
         source: source,
+        multipleActions: multipleActions,
       ),
     );
   }
@@ -46,23 +49,26 @@ class CreateUserActionConfirmationPage extends StatelessWidget {
                     onGoActionDetail: () =>
                         Navigator.pop(context, NavigateToUserActionDetails(viewModel.actionId, source)),
                     onCreateMore: () => Navigator.pop(context, CreateNewUserAction()),
+                    multipleActions: multipleActions,
+                    onGoToMonSuivi: () => Navigator.pop(context, NavigateToMonSuivi()),
                   )
                 : null,
             floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-            body: _Content(viewModel: viewModel),
+            body: _Content(viewModel: viewModel, multipleActions: multipleActions),
           );
         });
   }
 }
 
 class _Content extends StatelessWidget {
-  const _Content({required this.viewModel});
+  const _Content({required this.viewModel, required this.multipleActions});
   final CreateActionSuccessViewModel viewModel;
+  final bool multipleActions;
 
   @override
   Widget build(BuildContext context) {
     return switch (viewModel.displayState) {
-      DisplayState.CONTENT => _Body(),
+      DisplayState.CONTENT => _Body(multipleActions: multipleActions),
       DisplayState.FAILURE => Center(child: ErrorText(Strings.genericCreationError)),
       _ => const Center(child: CircularProgressIndicator()),
     };
@@ -70,34 +76,41 @@ class _Content extends StatelessWidget {
 }
 
 class _Body extends StatelessWidget {
+  const _Body({required this.multipleActions});
+  final bool multipleActions;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(height: Margins.spacing_xl),
-            Center(
-              child: SizedBox(
-                height: 130,
-                width: 130,
-                child: Illustration.green(AppIcons.check_rounded),
+      child: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(height: Margins.spacing_xl),
+              Center(
+                child: SizedBox(
+                  height: 130,
+                  width: 130,
+                  child: Illustration.green(AppIcons.check_rounded),
+                ),
               ),
-            ),
-            SizedBox(height: Margins.spacing_xl),
-            Text(
-              Strings.userActionConfirmationTitle,
-              style: TextStyles.textMBold,
-            ),
-            SizedBox(height: Margins.spacing_s),
-            Text(
-              Strings.userActionConfirmationSubtitle,
-              style: TextStyles.textSRegular(),
-            ),
-            SizedBox(height: Margins.spacing_xx_huge),
-          ],
+              SizedBox(height: Margins.spacing_xl),
+              Text(
+                multipleActions
+                    ? Strings.userActionConfirmationTitlePlural
+                    : Strings.userActionConfirmationTitleSingular,
+                style: TextStyles.textMBold,
+              ),
+              SizedBox(height: Margins.spacing_s),
+              Text(
+                multipleActions ? Strings.userActionConfirmationSubtitlePlural : Strings.userActionConfirmationSubtitle,
+                style: TextStyles.textSRegular(),
+              ),
+              SizedBox(height: Margins.spacing_xx_huge),
+            ],
+          ),
         ),
       ),
     );
@@ -105,10 +118,16 @@ class _Body extends StatelessWidget {
 }
 
 class _Buttons extends StatelessWidget {
-  const _Buttons({required this.onGoActionDetail, required this.onCreateMore});
+  const _Buttons(
+      {required this.onGoActionDetail,
+      required this.onCreateMore,
+      required this.multipleActions,
+      required this.onGoToMonSuivi});
 
   final void Function() onGoActionDetail;
   final void Function() onCreateMore;
+  final void Function() onGoToMonSuivi;
+  final bool multipleActions;
 
   @override
   Widget build(BuildContext context) {
@@ -118,12 +137,20 @@ class _Buttons extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          AutoFocusA11y(
-            child: PrimaryActionButton(
-              label: Strings.userActionConfirmationSeeDetailButton,
-              onPressed: onGoActionDetail,
+          if (multipleActions)
+            AutoFocusA11y(
+              child: PrimaryActionButton(
+                label: Strings.goToMonSuivi,
+                onPressed: onGoToMonSuivi,
+              ),
+            )
+          else
+            AutoFocusA11y(
+              child: PrimaryActionButton(
+                label: Strings.userActionConfirmationSeeDetailButton,
+                onPressed: onGoActionDetail,
+              ),
             ),
-          ),
           const SizedBox(height: Margins.spacing_base),
           SecondaryButton(
             label: Strings.userActionConfirmationCreateMoreButton,

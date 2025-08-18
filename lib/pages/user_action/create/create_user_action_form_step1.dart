@@ -9,7 +9,6 @@ import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/models/user_action_type.dart';
 import 'package:pass_emploi_app/pages/user_action/create/widgets/user_action_stepper.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/media_sizes.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -146,46 +145,4 @@ class ActionCategoryCard extends StatelessWidget {
       ),
     );
   }
-}
-
-extension UserActionReferentielTypePresentation on UserActionReferentielType {
-  static List<UserActionReferentielType> get all => [
-        UserActionReferentielType.emploi,
-        UserActionReferentielType.projetProfessionnel,
-        UserActionReferentielType.cultureSportLoisirs,
-        UserActionReferentielType.citoyennete,
-        UserActionReferentielType.formation,
-        UserActionReferentielType.logement,
-        UserActionReferentielType.sante,
-      ];
-
-  String get label => switch (this) {
-        UserActionReferentielType.emploi => Strings.userActionEmploiLabel,
-        UserActionReferentielType.projetProfessionnel => Strings.userActionProjetProfessionnelLabel,
-        UserActionReferentielType.cultureSportLoisirs => Strings.userActionCultureSportLoisirsLabel,
-        UserActionReferentielType.citoyennete => Strings.userActionCitoyenneteLabel,
-        UserActionReferentielType.formation => Strings.userActionFormationLabel,
-        UserActionReferentielType.logement => Strings.userActionLogementLabel,
-        UserActionReferentielType.sante => Strings.userActionSanteLabel,
-      };
-
-  String get description => switch (this) {
-        UserActionReferentielType.emploi => Strings.userActionEmploiDescription,
-        UserActionReferentielType.projetProfessionnel => Strings.userActionProjetProfessionnelDescription,
-        UserActionReferentielType.cultureSportLoisirs => Strings.userActionCultureSportLoisirsDescription,
-        UserActionReferentielType.citoyennete => Strings.userActionCitoyenneteDescription,
-        UserActionReferentielType.formation => Strings.userActionFormationDescription,
-        UserActionReferentielType.logement => Strings.userActionLogementDescription,
-        UserActionReferentielType.sante => Strings.userActionSanteDescription,
-      };
-
-  IconData get icon => switch (this) {
-        UserActionReferentielType.emploi => AppIcons.work_outline_rounded,
-        UserActionReferentielType.projetProfessionnel => AppIcons.ads_click_rounded,
-        UserActionReferentielType.cultureSportLoisirs => AppIcons.sports_football_outlined,
-        UserActionReferentielType.citoyennete => AppIcons.attach_file,
-        UserActionReferentielType.formation => AppIcons.school_outlined,
-        UserActionReferentielType.logement => AppIcons.door_front_door_outlined,
-        UserActionReferentielType.sante => AppIcons.local_hospital_outlined,
-      };
 }

@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/models/user_action_type.dart';
 import 'package:pass_emploi_app/presentation/model/date_input_source.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/a11y/auto_focus.dart';
+import 'package:uuid/uuid.dart';
 
 part 'create_user_action_step1_view_model.dart';
 part 'create_user_action_step2_view_model.dart';
@@ -41,6 +42,7 @@ class CreateUserActionFormViewModel extends ChangeNotifier {
     CreateUserActionStep2ViewModel? initialStep2,
     CreateUserActionStep3ViewModel? initialStep3,
     CreateUserActionDisplayState? initialDisplayState,
+    bool? initialShowErrors,
   })  : step1 = initialStep1 ?? CreateUserActionStep1ViewModel(),
         step2 = initialStep2 ?? CreateUserActionStep2ViewModel(),
         step3 = initialStep3 ?? CreateUserActionStep3ViewModel(),
@@ -67,10 +69,15 @@ class CreateUserActionFormViewModel extends ChangeNotifier {
   }
 
   CreateUserActionDisplayState _displayStateOnStep3() {
-    if ((step2.description ?? "").isEmpty && step3.estTerminee) {
-      return CreateUserActionDisplayState.descriptionConfimation;
+    if (step3.isValid) {
+      if ((step2.description ?? "").isEmpty && step2.showDescriptionField) {
+        return CreateUserActionDisplayState.descriptionConfimation;
+      }
+      return CreateUserActionDisplayState.submitted;
+    } else {
+      step3 = step3.copyWith(errorsVisible: true);
+      return displayState;
     }
-    return CreateUserActionDisplayState.submitted;
   }
 
   void viewChangedBackward() {
@@ -87,7 +94,7 @@ class CreateUserActionFormViewModel extends ChangeNotifier {
   bool get canGoForward => switch (displayState) {
         CreateUserActionDisplayState.step1 => step1.isValid,
         CreateUserActionDisplayState.step2 => step2.isValid,
-        CreateUserActionDisplayState.step3 => step3.isValid,
+        CreateUserActionDisplayState.step3 => true,
         CreateUserActionDisplayState.descriptionConfimation => step3.isValid,
         _ => false,
       };
@@ -112,11 +119,15 @@ class CreateUserActionFormViewModel extends ChangeNotifier {
     step2 = step2.copyWith(titleSource: titleSource);
     notifyListeners();
 
-    (switch (titleSource) {
-      CreateActionTitleFromUserInput() => step2.titleInputKey.requestFocusDelayed(),
-      CreateActionTitleFromSuggestions() => step2.descriptionKey.requestFocusDelayed(),
-      _ => null,
-    });
+    if (step2.showDescriptionField) {
+      (switch (titleSource) {
+        CreateActionTitleFromUserInput() => step2.titleInputKey.requestFocusDelayed(),
+        CreateActionTitleFromSuggestions() => step2.descriptionKey.requestFocusDelayed(),
+        _ => null,
+      });
+    } else if (titleSource is CreateActionTitleFromSuggestions) {
+      viewChangedForward();
+    }
   }
 
   void descriptionChanged(String description) {
@@ -125,21 +136,27 @@ class CreateUserActionFormViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void statusChanged(bool estTerminee) {
+  void duplicateUserActionDateChanged(String id, DateInputSource dateSource) {
     displayState = CreateUserActionDisplayState.step3;
-    step3 = step3.copyWith(estTerminee: estTerminee);
+    step3.updateDuplicatedUserAction(id, dateSource: dateSource);
     notifyListeners();
   }
 
-  void dateChanged(DateInputSource dateSource) {
+  void duplicateUserActionDescriptionChanged(String id, String description) {
     displayState = CreateUserActionDisplayState.step3;
-    step3 = step3.copyWith(dateSource: dateSource);
+    step3.updateDuplicatedUserAction(id, description: description);
     notifyListeners();
   }
 
-  void withRappelChanged(bool withRappel) {
+  void deleteDuplicatedUserAction(String id) {
     displayState = CreateUserActionDisplayState.step3;
-    step3 = step3.copyWith(withRappel: withRappel);
+    step3.deleteDuplicatedUserAction(id);
+    notifyListeners();
+  }
+
+  void addDuplicatedUserAction() {
+    displayState = CreateUserActionDisplayState.step3;
+    step3.addDuplicatedUserAction();
     notifyListeners();
   }
 }
@@ -158,13 +175,17 @@ extension CreateUserActionFormStateExt on CreateUserActionFormViewModel {
   bool get isSubmitted => displayState == CreateUserActionDisplayState.submitted;
   bool get isDescriptionConfirmation => displayState == CreateUserActionDisplayState.descriptionConfimation;
 
-  UserActionCreateRequest get toRequest => UserActionCreateRequest(
-        step2.titleSource.title,
-        step2.description,
-        step3.dateSource.selectedDate,
-        step3.withRappel,
-        step3.estTerminee ? UserActionStatus.DONE : UserActionStatus.IN_PROGRESS,
-        step1.actionCategory ?? UserActionReferentielType.emploi,
-        false,
-      );
+  List<UserActionCreateRequest> get toRequests => step3.duplicatedUserActions
+      .map((action) => UserActionCreateRequest(
+            step2.titleSource.title,
+            action.description,
+            action.dateSource.selectedDate,
+            false,
+            action.dateSource.selectedDate.isBefore(DateTime.now())
+                ? UserActionStatus.DONE
+                : UserActionStatus.IN_PROGRESS,
+            step1.actionCategory ?? UserActionReferentielType.emploi,
+            false,
+          ))
+      .toList();
 }

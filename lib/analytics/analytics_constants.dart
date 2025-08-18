@@ -28,9 +28,9 @@ class AnalyticsScreenNames {
   static const userActionUpdate = "actions/update";
   static const userActionDuplicate = "actions/duplicate";
   static const updateUserAction = "actions/detail?modifySuccess=true";
-  static const createUserActionStep1 = "actions/create/v2/step1";
-  static const createUserActionStep2 = "actions/create/v2/step2";
-  static const createUserActionStep3 = "actions/create/v2/step3";
+  static const createUserActionStep1 = "actions/create/v3/step1";
+  static const createUserActionStep2 = "actions/create/v3/step2";
+  static const createUserActionStep3 = "actions/create/v3/step3";
   static const searchDemarcheStep1 = "/demarches/search";
   static const searchDemarcheStep2 = "/demarches/search-results";
   static const searchDemarcheStep3 = "/demarches/demarche-renferentiel-create";
@@ -210,10 +210,11 @@ class AnalyticsEventNames {
   static const monSuiviNextPeriodAction = "Affichage semaines suivantes";
   static const monSuiviPeriodName = "Période";
 
-  static const createActionv2EventCategory = "Création action v2";
+  static const createActionv2EventCategory = "Création action v3";
   static const createActionResultDetailsAction = "Ouvrir le détail d'une action créée";
   static const createActionResultAnotherAction = "Créer une autre action";
   static const createActionResultDismissAction = "Fermer la page de confirmation d'une action créée";
+  static const createActionResultMultipleAction = "Créer plusieurs actions";
 
   static const createActionStep1CategoryCategory = "Création action v2 étape 1 - Catégorie";
   static const createActionStep2TitleCategory = "Création action v2 étape 2 - Titre";

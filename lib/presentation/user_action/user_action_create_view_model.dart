@@ -29,14 +29,18 @@ class DismissWithFailure extends UserActionCreateDisplayState {}
 
 class UserActionCreateViewModel extends Equatable {
   final UserActionCreateDisplayState displayState;
-  final Function(UserActionCreateRequest request) createUserAction;
+  final Function(List<UserActionCreateRequest> request) createUserActions;
 
-  UserActionCreateViewModel({required this.displayState, required this.createUserAction});
+  UserActionCreateViewModel({required this.displayState, required this.createUserActions});
 
   factory UserActionCreateViewModel.create(Store<AppState> store) {
     return UserActionCreateViewModel(
       displayState: _displayState(store.state.userActionCreateState),
-      createUserAction: (request) => store.dispatch(UserActionCreateRequestAction(request)),
+      createUserActions: (requests) {
+        for (var request in requests) {
+          store.dispatch(UserActionCreateRequestAction(request));
+        }
+      },
     );
   }
 

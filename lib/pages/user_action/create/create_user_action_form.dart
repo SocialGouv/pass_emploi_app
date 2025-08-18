@@ -175,26 +175,33 @@ class _CreateUserActionForm extends StatelessWidget {
               Expanded(
                 child: AnimatedSwitcher(
                   duration: AnimationDurations.fast,
-                  child: switch (formState.displayState) {
-                    CreateUserActionDisplayState.step1 => CreateUserActionFormStep1(
-                        onActionTypeSelected: (type) => formState.userActionTypeSelected(type),
-                      ),
-                    CreateUserActionDisplayState.step2 => CreateUserActionFormStep2(
-                        actionType: formState.step1.actionCategory!,
-                        viewModel: formState.step2,
-                        onTitleChanged: (titleSource) => formState.titleChanged(titleSource),
-                        onDescriptionChanged: (description) => formState.descriptionChanged(description),
-                      ),
-                    CreateUserActionDisplayState.step3 ||
-                    CreateUserActionDisplayState.descriptionConfimation =>
-                      CreateUserActionFormStep3(
-                        viewModel: formState.step3,
-                        onStatusChanged: (estTerminee) => formState.statusChanged(estTerminee),
-                        onDateChanged: (dateSource) => formState.dateChanged(dateSource),
-                        withRappelChanged: (withRappel) => formState.withRappelChanged(withRappel),
-                      ),
-                    _ => const SizedBox.shrink(),
-                  },
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: switch (formState.displayState) {
+                      CreateUserActionDisplayState.step1 => CreateUserActionFormStep1(
+                          onActionTypeSelected: (type) => formState.userActionTypeSelected(type),
+                        ),
+                      CreateUserActionDisplayState.step2 => CreateUserActionFormStep2(
+                          actionType: formState.step1.actionCategory!,
+                          viewModel: formState.step2,
+                          onTitleChanged: (titleSource) => formState.titleChanged(titleSource),
+                          onDescriptionChanged: (description) => formState.descriptionChanged(description),
+                        ),
+                      CreateUserActionDisplayState.step3 ||
+                      CreateUserActionDisplayState.descriptionConfimation =>
+                        CreateUserActionFormStep3(
+                          actionType: formState.step1.actionCategory!,
+                          viewModel: formState.step3,
+                          onDateChanged: (id, dateSource) => formState.duplicateUserActionDateChanged(id, dateSource),
+                          onDescriptionChanged: (id, description) =>
+                              formState.duplicateUserActionDescriptionChanged(id, description),
+                          onDelete: (id) => formState.deleteDuplicatedUserAction(id),
+                          onAddDuplicatedUserAction: () => formState.addDuplicatedUserAction(),
+                          titleSource: formState.step2.titleSource,
+                        ),
+                      _ => const SizedBox.shrink(),
+                    },
+                  ),
                 ),
               ),
             ],

@@ -129,7 +129,9 @@ class _AccueilPageState extends State<AccueilPage> {
     final navigator = Navigator.of(context);
     // Displaying of MonSuivi page is required if user wants to display details of created action.
     await _displayMonSuiviPage();
-    CreateUserActionFormPage.pushUserActionCreationTunnel(navigator, UserActionStateSource.monSuivi);
+    if (mounted) {
+      CreateUserActionFormPage.pushUserActionCreationTunnel(context, navigator, UserActionStateSource.monSuivi);
+    }
   }
 
   dynamic _displayMonSuiviPage() {

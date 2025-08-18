@@ -12,6 +12,7 @@ class SecondaryButton extends StatefulWidget {
   final Color? foregroundColor;
   final double? fontSize;
   final String? iconLabel;
+  final bool isEnabled;
 
   const SecondaryButton({
     super.key,
@@ -22,6 +23,7 @@ class SecondaryButton extends StatefulWidget {
     this.foregroundColor,
     this.fontSize,
     this.iconLabel,
+    this.isEnabled = true,
   });
 
   @override
@@ -33,7 +35,7 @@ class _SecondaryButtonState extends State<SecondaryButton> {
   @override
   Widget build(BuildContext context) {
     final baseTextStyle = TextStyles.textSecondaryButton;
-    final textColor = widget.foregroundColor ?? AppColors.primary;
+    final textColor = (widget.foregroundColor ?? AppColors.primary).withOpacity(widget.isEnabled ? 1 : 0.5);
     final usedTextStyle = widget.fontSize != null ? baseTextStyle.copyWith(fontSize: widget.fontSize) : baseTextStyle;
     return FocusedBorderBuilder(builder: (focusNode) {
       return OutlinedButton(
