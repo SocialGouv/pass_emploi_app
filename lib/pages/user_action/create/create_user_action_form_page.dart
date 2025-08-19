@@ -14,6 +14,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
+import 'package:redux/redux.dart';
 
 sealed class CreateActionFormResult {}
 
@@ -35,11 +36,14 @@ class CreateUserActionFormPage extends StatefulWidget {
 
   // NavigatorState is used rather than context, as it may not be available anymore in callbacks.
   static void pushUserActionCreationTunnel(
-      BuildContext context, NavigatorState navigator, UserActionStateSource source) {
+    Store<AppState> store,
+    NavigatorState navigator,
+    UserActionStateSource source,
+  ) {
     navigator
         .push(_route(source)) //
         .then((result) {
-      if (context.mounted) _handleResult(context, navigator, result, source);
+      _handleResult(store, navigator, result, source);
     });
   }
 
@@ -51,13 +55,17 @@ class CreateUserActionFormPage extends StatefulWidget {
   }
 
   static void _handleResult(
-      BuildContext context, NavigatorState navigator, CreateActionFormResult? result, UserActionStateSource source) {
+    Store<AppState> store,
+    NavigatorState navigator,
+    CreateActionFormResult? result,
+    UserActionStateSource source,
+  ) {
     if (result is CreateNewUserAction) {
       PassEmploiMatomoTracker.instance.trackEvent(
         eventCategory: AnalyticsEventNames.createActionv2EventCategory,
         action: AnalyticsEventNames.createActionResultAnotherAction,
       );
-      pushUserActionCreationTunnel(context, navigator, source);
+      pushUserActionCreationTunnel(store, navigator, source);
     } else if (result is NavigateToUserActionDetails) {
       PassEmploiMatomoTracker.instance.trackEvent(
         eventCategory: AnalyticsEventNames.createActionv2EventCategory,
@@ -65,7 +73,7 @@ class CreateUserActionFormPage extends StatefulWidget {
       );
       _openDetails(navigator, result.userActionId, result.source);
     } else if (result is NavigateToMonSuivi) {
-      StoreProvider.of<AppState>(context).dispatch(
+      store.dispatch(
         HandleDeepLinkAction(
           MonSuiviDeepLink(),
           DeepLinkOrigin.inAppNavigation,

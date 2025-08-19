@@ -692,6 +692,8 @@ class Strings {
   static String fillAllFields = "Veuillez remplir tous les champs";
   static String dateMandatory = "La date est obligatoire";
   static String descriptionMandatory = "La description est obligatoire";
+  static String selectMultipleActions = "Sélectionnez une ou plusieurs dates et renseignez la description";
+  static String selectOneAction = "Sélectionnez une date et renseignez la description";
 
   static String actionCreationInfos(String creator, String date) => "Ajouté par $creator le $date";
   static String youLowercase = "vous";

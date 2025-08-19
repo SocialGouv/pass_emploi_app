@@ -17,7 +17,6 @@ enum CreateUserActionDisplayState {
   step1(0),
   step2(1),
   step3(2),
-  descriptionConfimation(2),
   submitted(2);
 
   final int stepIndex;
@@ -26,9 +25,7 @@ enum CreateUserActionDisplayState {
 
   static int get stepCount => 3;
   String get nextLabel =>
-      this == CreateUserActionDisplayState.step3 || this == CreateUserActionDisplayState.descriptionConfimation
-          ? Strings.userActionFinishButton
-          : Strings.userActionNextButton;
+      this == CreateUserActionDisplayState.step3 ? Strings.userActionFinishButton : Strings.userActionNextButton;
 }
 
 class CreateUserActionFormViewModel extends ChangeNotifier {
@@ -70,9 +67,6 @@ class CreateUserActionFormViewModel extends ChangeNotifier {
 
   CreateUserActionDisplayState _displayStateOnStep3() {
     if (step3.isValid) {
-      if ((step2.description ?? "").isEmpty && step2.showDescriptionField) {
-        return CreateUserActionDisplayState.descriptionConfimation;
-      }
       return CreateUserActionDisplayState.submitted;
     } else {
       step3 = step3.copyWith(errorsVisible: true);
@@ -85,7 +79,6 @@ class CreateUserActionFormViewModel extends ChangeNotifier {
       CreateUserActionDisplayState.step1 => CreateUserActionDisplayState.aborted,
       CreateUserActionDisplayState.step2 => CreateUserActionDisplayState.step1,
       CreateUserActionDisplayState.step3 => CreateUserActionDisplayState.step2,
-      CreateUserActionDisplayState.descriptionConfimation => CreateUserActionDisplayState.step2,
       _ => displayState,
     };
     notifyListeners();
@@ -95,7 +88,6 @@ class CreateUserActionFormViewModel extends ChangeNotifier {
         CreateUserActionDisplayState.step1 => step1.isValid,
         CreateUserActionDisplayState.step2 => step2.isValid,
         CreateUserActionDisplayState.step3 => true,
-        CreateUserActionDisplayState.descriptionConfimation => step3.isValid,
         _ => false,
       };
 
@@ -104,7 +96,6 @@ class CreateUserActionFormViewModel extends ChangeNotifier {
         CreateUserActionDisplayState.step1 => step1,
         CreateUserActionDisplayState.step2 => step2,
         CreateUserActionDisplayState.step3 => step3,
-        CreateUserActionDisplayState.descriptionConfimation => step3,
         CreateUserActionDisplayState.submitted => step3,
       };
 
@@ -119,13 +110,12 @@ class CreateUserActionFormViewModel extends ChangeNotifier {
     step2 = step2.copyWith(titleSource: titleSource);
     notifyListeners();
 
-    if (step2.showDescriptionField) {
-      (switch (titleSource) {
-        CreateActionTitleFromUserInput() => step2.titleInputKey.requestFocusDelayed(),
-        CreateActionTitleFromSuggestions() => step2.descriptionKey.requestFocusDelayed(),
-        _ => null,
-      });
-    } else if (titleSource is CreateActionTitleFromSuggestions) {
+    (switch (titleSource) {
+      CreateActionTitleFromUserInput() => step2.titleInputKey.requestFocusDelayed(),
+      _ => null,
+    });
+
+    if (titleSource is CreateActionTitleFromSuggestions) {
       viewChangedForward();
     }
   }
@@ -166,14 +156,13 @@ sealed class CreateUserActionPageViewModel extends Equatable {
 }
 
 extension CreateUserActionFormStateExt on CreateUserActionFormViewModel {
-  bool get shouldDisplayNavigationButtons => isStep2 || isStep3 || isDescriptionConfirmation;
+  bool get shouldDisplayNavigationButtons => isStep2 || isStep3;
 
   bool get isAborted => displayState == CreateUserActionDisplayState.aborted;
   bool get isStep1 => displayState == CreateUserActionDisplayState.step1;
   bool get isStep2 => displayState == CreateUserActionDisplayState.step2;
   bool get isStep3 => displayState == CreateUserActionDisplayState.step3;
   bool get isSubmitted => displayState == CreateUserActionDisplayState.submitted;
-  bool get isDescriptionConfirmation => displayState == CreateUserActionDisplayState.descriptionConfimation;
 
   List<UserActionCreateRequest> get toRequests => step3.duplicatedUserActions
       .map((action) => UserActionCreateRequest(

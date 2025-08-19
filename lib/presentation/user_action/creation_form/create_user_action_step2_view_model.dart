@@ -9,6 +9,18 @@ sealed class CreateActionTitleSource {
   bool get isFromUserInput => this is CreateActionTitleFromUserInput;
   bool get isNone => this is CreateActionTitleNotInitialized;
   bool get isNotNone => this is! CreateActionTitleNotInitialized;
+
+  bool get allowBatchCreate {
+    if (isNone) {
+      return false;
+    }
+
+    return switch (this) {
+      final CreateActionTitleFromSuggestions titleSource => titleSource.suggestion.allowBatchCreate,
+      CreateActionTitleFromUserInput() => false,
+      CreateActionTitleNotInitialized() => false,
+    };
+  }
 }
 
 class CreateActionTitleNotInitialized extends CreateActionTitleSource {
@@ -56,20 +68,7 @@ class CreateUserActionStep2ViewModel extends CreateUserActionPageViewModel {
   final CreateActionTitleSource titleSource;
   final String? description;
 
-  bool get showDescriptionField {
-    if (titleSource.isNone) {
-      return false;
-    }
-
-    return switch (titleSource) {
-      final CreateActionTitleFromSuggestions titleSource => !titleSource.suggestion.allowBatchCreate,
-      CreateActionTitleFromUserInput() => false,
-      CreateActionTitleNotInitialized() => false,
-    };
-  }
-
   final GlobalKey titleInputKey = GlobalKey();
-  final GlobalKey descriptionKey = GlobalKey();
 
   CreateUserActionStep2ViewModel({this.description, CreateActionTitleSource? titleSource})
       : titleSource = titleSource ?? CreateActionTitleNotInitialized();

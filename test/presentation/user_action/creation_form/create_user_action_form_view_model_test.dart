@@ -96,20 +96,6 @@ void main() {
           expect(viewModel.displayState, CreateUserActionDisplayState.step2);
           expect(hasBeenNotified, true);
         });
-
-        test('should display step 3 when current step is descriptionConfimation', () {
-          // Given
-          final viewModel =
-              CreateUserActionFormViewModel(initialDisplayState: CreateUserActionDisplayState.descriptionConfimation)
-                ..addListener(notify);
-
-          // When
-          viewModel.viewChangedBackward();
-
-          // Then
-          expect(viewModel.displayState, CreateUserActionDisplayState.step2);
-          expect(hasBeenNotified, true);
-        });
       });
 
       group('goBackToStep2', () {

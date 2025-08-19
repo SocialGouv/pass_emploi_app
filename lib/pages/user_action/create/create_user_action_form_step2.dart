@@ -4,12 +4,10 @@ import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/models/user_action_type.dart';
 import 'package:pass_emploi_app/pages/user_action/create/widgets/user_action_stepper.dart';
 import 'package:pass_emploi_app/presentation/user_action/creation_form/create_user_action_form_view_model.dart';
-import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/utils/accessibility_utils.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_chip.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
 
@@ -31,14 +29,11 @@ class CreateUserActionFormStep2 extends StatefulWidget {
 }
 
 class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
-  final descriptionFocusNode = FocusNode();
   late final TextEditingController titleController;
-  late final TextEditingController descriptionController;
 
   @override
   void initState() {
     titleController = TextEditingController(text: widget.viewModel.titleSource.title);
-    descriptionController = TextEditingController(text: widget.viewModel.description);
     super.initState();
   }
 
@@ -79,19 +74,7 @@ class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
               const SizedBox(height: Margins.spacing_base),
               _SuggestionTagWrap(
                 titleSource: widget.viewModel.titleSource,
-                onSelected: (value) {
-                  widget.onTitleChanged(value);
-                  // ensure the description field is visible
-                  if (!value.isFromUserInput && !A11yUtils.withScreenReader(context)) {
-                    Future.delayed(
-                      AnimationDurations.fast,
-                      () {
-                        descriptionFocusNode.requestFocus();
-                        if (context.mounted) _scrollToDescription(context);
-                      },
-                    );
-                  }
-                },
+                onSelected: (value) => widget.onTitleChanged(value),
                 actionType: widget.actionType,
               ),
               if (widget.viewModel.titleSource.isFromUserInput) ...[
@@ -116,39 +99,10 @@ class _CreateUserActionFormStep2State extends State<CreateUserActionFormStep2> {
                   ),
                 ),
               ],
-              const SizedBox(height: Margins.spacing_m),
-              AnimatedSwitcher(
-                duration: AnimationDurations.fast,
-                child: !widget.viewModel.showDescriptionField
-                    ? SizedBox.shrink()
-                    : UserActionDescriptionField(
-                        descriptionKey: widget.viewModel.descriptionKey,
-                        descriptionController: descriptionController,
-                        descriptionFocusNode: descriptionFocusNode,
-                        hintText: Strings.exampleHint + widget.viewModel.titleSource.descriptionHint,
-                        onDescriptionChanged: (value) {
-                          widget.onDescriptionChanged(value);
-                          _scrollToDescription(context);
-                        },
-                        onClear: () {
-                          widget.onDescriptionChanged("");
-                          descriptionController.clear();
-                        },
-                      ),
-              ),
-              // To ensure scrolling is available, and hence closing of keyboard
-              SizedBox(height: 600),
             ],
           ),
         ),
       ),
-    );
-  }
-
-  Future<void> _scrollToDescription(BuildContext context) {
-    return Scrollable.ensureVisible(
-      widget.viewModel.descriptionKey.currentContext ?? context,
-      duration: AnimationDurations.fast,
     );
   }
 }

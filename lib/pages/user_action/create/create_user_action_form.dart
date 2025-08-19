@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_step1.dart';
 import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_step2.dart';
 import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_step3.dart';
 import 'package:pass_emploi_app/presentation/user_action/creation_form/create_user_action_form_view_model.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';
-import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
-import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_stepper.dart';
 
 class CreateUserActionForm extends StatefulWidget {
@@ -41,8 +36,6 @@ class _CreateUserActionFormState extends State<CreateUserActionForm> {
       widget.onAbort();
     } else if (_viewModel.isSubmitted) {
       widget.onSubmit(_viewModel);
-    } else if (_viewModel.isDescriptionConfirmation) {
-      showDialog(context: context, builder: (_) => _PopUpConfirmationDescription(viewModel: _viewModel));
     }
     setState(() {});
   }
@@ -187,9 +180,7 @@ class _CreateUserActionForm extends StatelessWidget {
                           onTitleChanged: (titleSource) => formState.titleChanged(titleSource),
                           onDescriptionChanged: (description) => formState.descriptionChanged(description),
                         ),
-                      CreateUserActionDisplayState.step3 ||
-                      CreateUserActionDisplayState.descriptionConfimation =>
-                        CreateUserActionFormStep3(
+                      CreateUserActionDisplayState.step3 => CreateUserActionFormStep3(
                           actionType: formState.step1.actionCategory!,
                           viewModel: formState.step3,
                           onDateChanged: (id, dateSource) => formState.duplicateUserActionDateChanged(id, dateSource),
@@ -208,77 +199,6 @@ class _CreateUserActionForm extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _PopUpConfirmationDescription extends StatelessWidget {
-  final CreateUserActionFormViewModel viewModel;
-
-  const _PopUpConfirmationDescription({required this.viewModel});
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      scrollable: true,
-      titlePadding: EdgeInsets.all(Margins.spacing_m),
-      surfaceTintColor: Colors.white,
-      backgroundColor: Colors.white,
-      title: SingleChildScrollView(
-        child: Column(
-          children: [
-            Align(
-              alignment: Alignment.centerRight,
-              child: IconButton(
-                icon: Icon(Icons.close_rounded),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ),
-            SizedBox.square(
-              dimension: 100,
-              child: Illustration.grey(AppIcons.checklist_rounded),
-            ),
-            SizedBox(height: Margins.spacing_m),
-            Text(Strings.userActionDescriptionConfirmationTitle,
-                style: TextStyles.textBaseBold, textAlign: TextAlign.center),
-            SizedBox(height: Margins.spacing_m),
-            Text(Strings.userActionDescriptionConfirmationSubtitle,
-                style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
-            SizedBox(height: Margins.spacing_m),
-            SizedBox(
-              width: double.infinity,
-              child: PrimaryActionButton(
-                label: Strings.userActionDescriptionConfirmationConfirmButton,
-                onPressed: () {
-                  _trackActionDescriptionConfirmation(AnalyticsEventNames.createActionWithoutDescriptionAddDescription);
-                  Navigator.pop(context);
-                  viewModel.goBackToStep2();
-                },
-              ),
-            ),
-            const SizedBox(height: Margins.spacing_s),
-            SizedBox(
-              width: double.infinity,
-              child: SecondaryButton(
-                label: Strings.userActionDescriptionConfirmationGoToDescriptionButton,
-                onPressed: () {
-                  _trackActionDescriptionConfirmation(AnalyticsEventNames.createActionWithoutDescription);
-                  Navigator.pop(context);
-                  viewModel.confirmDescription();
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-      actions: [],
-    );
-  }
-
-  void _trackActionDescriptionConfirmation(String action) {
-    PassEmploiMatomoTracker.instance.trackEvent(
-      eventCategory: AnalyticsEventNames.actionWithoutDescriptionCategory,
-      action: action,
     );
   }
 }

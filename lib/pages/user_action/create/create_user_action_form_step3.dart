@@ -60,11 +60,20 @@ class CreateUserActionFormStep3 extends StatelessWidget {
                       actionType.label,
                       style: TextStyles.textMBold.copyWith(color: AppColors.contentColor),
                     ),
+                    Text(
+                      titleSource.title,
+                      style: TextStyles.textBaseMedium.copyWith(color: AppColors.contentColor),
+                    ),
                   ],
                 ),
               ),
               const SizedBox(height: Margins.spacing_m),
               MandatoryFieldsLabel.all(),
+              const SizedBox(height: Margins.spacing_m),
+              Text(
+                titleSource.allowBatchCreate ? Strings.selectMultipleActions : Strings.selectOneAction,
+                style: TextStyles.textBaseBold.copyWith(color: AppColors.contentColor),
+              ),
               if (viewModel.errorsVisible && !viewModel.isValid) ...[
                 const SizedBox(height: Margins.spacing_base),
                 _ErrorItem(
@@ -80,18 +89,19 @@ class CreateUserActionFormStep3 extends StatelessWidget {
                 onDelete: onDelete,
                 titleSource: titleSource,
               ),
-              SecondaryButton(
-                icon: AppIcons.add,
-                label: Strings.duplicateAction,
-                onPressed: () {
-                  viewModel.canCreateMoreDuplicatedUserActions ? onAddDuplicatedUserAction : null;
-                  PassEmploiMatomoTracker.instance.trackEvent(
-                    eventCategory: AnalyticsEventNames.createActionv2EventCategory,
-                    action: AnalyticsEventNames.createActionResultMultipleAction,
-                  );
-                },
-                isEnabled: viewModel.canCreateMoreDuplicatedUserActions,
-              ),
+              if (titleSource.allowBatchCreate)
+                SecondaryButton(
+                  icon: AppIcons.add,
+                  label: Strings.duplicateAction,
+                  onPressed: () {
+                    viewModel.canCreateMoreDuplicatedUserActions ? onAddDuplicatedUserAction.call() : null;
+                    PassEmploiMatomoTracker.instance.trackEvent(
+                      eventCategory: AnalyticsEventNames.createActionv2EventCategory,
+                      action: AnalyticsEventNames.createActionResultMultipleAction,
+                    );
+                  },
+                  isEnabled: viewModel.canCreateMoreDuplicatedUserActions,
+                ),
               const SizedBox(height: Margins.spacing_xx_huge),
             ],
           ),
@@ -127,6 +137,7 @@ class _DuplicateUserActionList extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.only(bottom: Margins.spacing_m),
           child: _DuplicateUserActionItem(
+            key: ValueKey(viewModel.duplicatedUserActions[index].id),
             duplicatedUserAction: viewModel.duplicatedUserActions[index],
             onDateChanged: (dateSource) => onDateChanged(viewModel.duplicatedUserActions[index].id, dateSource),
             onDescriptionChanged: (description) =>
@@ -144,6 +155,7 @@ class _DuplicateUserActionList extends StatelessWidget {
 
 class _DuplicateUserActionItem extends StatefulWidget {
   const _DuplicateUserActionItem({
+    super.key,
     required this.duplicatedUserAction,
     required this.onDateChanged,
     required this.onDescriptionChanged,
