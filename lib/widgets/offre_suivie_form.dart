@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche/create_demarche_success_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi/offre_emploi_details_page.dart';
 import 'package:pass_emploi_app/presentation/offre_suivie_form_viewmodel.dart';
@@ -83,8 +84,16 @@ class _Confirmation extends StatelessWidget {
                 viewModel.onCreateActionOrDemarche();
                 viewModel.onHideForever();
                 if (viewModel.useDemarche) {
+                  PassEmploiMatomoTracker.instance.trackEvent(
+                    eventCategory: AnalyticsEventNames.createDemarcheEventCategory,
+                    action: AnalyticsEventNames.createDemarcheFromOffreSuiviAction,
+                  );
                   Navigator.of(context).push(CreateDemarcheSuccessPage.route(CreateDemarcheSource.fromReferentiel));
                 } else {
+                  PassEmploiMatomoTracker.instance.trackEvent(
+                    eventCategory: AnalyticsEventNames.createActionEventCategory,
+                    action: AnalyticsEventNames.createActionResultFromOffreSuiviAction,
+                  );
                   Navigator.of(context).push(CreateUserActionConfirmationOffreSuiviPage.route());
                 }
               },

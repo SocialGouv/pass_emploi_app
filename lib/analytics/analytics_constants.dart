@@ -217,16 +217,18 @@ class AnalyticsEventNames {
   static const createActionResultAnotherAction = "Créer une autre action";
   static const createActionResultDismissAction = "Fermer la page de confirmation d'une action créée";
   static const createActionResultMultipleAction = "Créer plusieurs actions";
+  static const createActionResultFromOffreSuiviAction = "Créer une action à partir du suivi des offres";
 
 // TODO: remplacer par v3 après le merge ft IA
-  static const createActionStep1CategoryCategory = "Création action v2 étape 1 - Catégorie";
-  static const createActionStep2TitleCategory = "Création action v2 étape 2 - Titre";
-  static const createActionStep3StatusCategory = "Création action v2 étape 3 - Statut";
-  static const createActionStep3RappelCategory = "Création action v2 étape 3 - Rappel";
+  static const createActionStep1CategoryCategory = "Création action v3 étape 1 - Catégorie";
+  static const createActionStep2TitleCategory = "Création action v3 étape 2 - Titre";
+  static const createActionStep3StatusCategory = "Création action v3 étape 3 - Statut";
+  static const createActionStep3RappelCategory = "Création action v3 étape 3 - Rappel";
 
   static const createDemarcheEventCategory = "Création démarche";
   static const createDemarcheIaSuggestionsListCount = "Nombre de suggestions";
   static const createDemarcheIaSuggestionsListDeleted = "Nombre de suggestions supprimées";
+  static const createDemarcheFromOffreSuiviAction = "Créer une démarche à partir du suivi des offres";
 
   static String createActionStep1Action(String category) => "Catégorie : $category";
 

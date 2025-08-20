@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche/create_demarche_success_page.dart';
 import 'package:pass_emploi_app/presentation/user_action/postuler_confirmation_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -7,6 +8,7 @@ import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/create_user_action_confirmation_offre_suivi_page.dart';
@@ -76,9 +78,17 @@ class PostulerConfirmationPage extends StatelessWidget {
                         Navigator.of(context).pop();
                         viewModel.onCreateActionOrDemarche();
                         if (viewModel.useDemarche) {
+                          PassEmploiMatomoTracker.instance.trackEvent(
+                            eventCategory: AnalyticsEventNames.createDemarcheEventCategory,
+                            action: AnalyticsEventNames.createDemarcheFromOffreSuiviAction,
+                          );
                           Navigator.of(context)
                               .push(CreateDemarcheSuccessPage.route(CreateDemarcheSource.fromReferentiel));
                         } else {
+                          PassEmploiMatomoTracker.instance.trackEvent(
+                            eventCategory: AnalyticsEventNames.createActionEventCategory,
+                            action: AnalyticsEventNames.createActionResultFromOffreSuiviAction,
+                          );
                           Navigator.of(context).push(CreateUserActionConfirmationOffreSuiviPage.route());
                         }
                       },
