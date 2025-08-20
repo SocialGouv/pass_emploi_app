@@ -18,9 +18,11 @@ import 'package:pass_emploi_app/repositories/animations_collectives_repository.d
 import 'package:pass_emploi_app/repositories/auth/chat_security_repository.dart';
 import 'package:pass_emploi_app/repositories/auto_inscription_repository.dart';
 import 'package:pass_emploi_app/repositories/backend_config_repository.dart';
+import 'package:pass_emploi_app/repositories/boulanger_campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_recrutement_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
+import 'package:pass_emploi_app/repositories/comptage_des_heures_repository.dart';
 import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
 import 'package:pass_emploi_app/repositories/contact_immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
@@ -47,6 +49,7 @@ import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repositor
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/first_launch_onboarding_repository.dart';
+import 'package:pass_emploi_app/repositories/ia_ft_suggestions_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/in_app_feedback_repository.dart';
@@ -81,8 +84,6 @@ import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/usecases/piece_jointe/piece_jointe_use_case.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
-import 'package:pass_emploi_app/repositories/comptage_des_heures_repository.dart';
-import 'package:pass_emploi_app/repositories/boulanger_campagne_repository.dart';
 /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-IMPORT*/
 import 'package:redux/redux.dart';
 
@@ -175,6 +176,7 @@ class TestStoreFactory {
   OffresSuiviesRepository offresSuiviesRepository = MockOffresSuiviesRepository();
   ComptageDesHeuresRepository comptageDesHeuresRepository = MockComptageDesHeuresRepository();
   BoulangerCampagneRepository boulangerCampagneRepository = MockBoulangerCampagneRepository();
+  IaFtSuggestionsRepository iaFtSuggestionsRepository = MockIaFtSuggestionsRepository();
   /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-PROPERTY*/
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -262,6 +264,7 @@ class TestStoreFactory {
       offresSuiviesRepository,
       comptageDesHeuresRepository,
       boulangerCampagneRepository,
+      iaFtSuggestionsRepository,
       /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-CONSTRUCTOR*/
     ).initializeReduxStore(initialState: initialState);
   }

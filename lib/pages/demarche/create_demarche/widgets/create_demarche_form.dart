@@ -3,6 +3,8 @@ import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions
 import 'package:pass_emploi_app/pages/demarche/create_demarche/create_demarche_app_bar_back_button.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche/pages/create_demarche_from_thematique_step_2_page.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche/pages/create_demarche_from_thematique_step_3_page.dart';
+import 'package:pass_emploi_app/pages/demarche/create_demarche/pages/create_demarche_ia_ft_step_2_page.dart';
+import 'package:pass_emploi_app/pages/demarche/create_demarche/pages/create_demarche_ia_ft_step_3_page.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche/pages/create_demarche_personnalisee_step_2_page.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche/pages/create_demarche_personnalisee_step_3_page.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche/pages/create_demarche_step_1_page.dart';
@@ -19,10 +21,12 @@ class CreateDemarcheForm extends StatefulWidget {
     super.key,
     required this.onCreateDemarchePersonnalisee,
     required this.onCreateDemarcheFromReferentiel,
+    required this.onCreateDemarcheIaFt,
   });
 
   final void Function(CreateDemarchePersonnaliseeRequestAction) onCreateDemarchePersonnalisee;
   final void Function(CreateDemarcheRequestAction) onCreateDemarcheFromReferentiel;
+  final void Function(List<CreateDemarcheRequestAction>) onCreateDemarcheIaFt;
 
   @override
   State<CreateDemarcheForm> createState() => _CreateDemarcheFormState();
@@ -39,13 +43,19 @@ class _CreateDemarcheFormState extends State<CreateDemarcheForm> {
   }
 
   void _onFormStateChanged() {
-    if (_viewModel.displayState is CreateDemarcheFromThematiqueSubmitted) {
+    final displayState = _viewModel.displayState;
+    if (displayState is CreateDemarcheFromThematiqueSubmitted) {
       widget.onCreateDemarcheFromReferentiel(_viewModel.createDemarcheRequestAction());
     }
 
-    if (_viewModel.displayState is CreateDemarchePersonnaliseeSubmitted) {
+    if (displayState is CreateDemarchePersonnaliseeSubmitted) {
       widget.onCreateDemarchePersonnalisee(_viewModel.createDemarchePersonnaliseeRequestAction());
     }
+
+    if (displayState is CreateDemarcheIaFtSubmitted) {
+      widget.onCreateDemarcheIaFt(displayState.createRequests);
+    }
+
     setState(() {});
   }
 
@@ -98,12 +108,15 @@ class _Body extends StatelessWidget {
                     CreateDemarcheStep1() => CreateDemarcheStep1Page(viewModel),
                     CreateDemarcheFromThematiqueStep2() => CreateDemarcheFromThematiqueStep2Page(viewModel),
                     CreateDemarchePersonnaliseeStep2() => CreateDemarchePersonnaliseeStep2Page(viewModel),
+                    CreateDemarcheIaFtStep2() => CreateDemarcheIaFtStep2Page(viewModel),
                     CreateDemarcheFromThematiqueStep3() ||
                     CreateDemarcheFromThematiqueSubmitted() =>
                       CreateDemarcheFromThematiqueStep3Page(viewModel),
                     CreateDemarchePersonnaliseeStep3() ||
                     CreateDemarchePersonnaliseeSubmitted() =>
                       CreateDemarchePersonnaliseeStep3Page(viewModel),
+                    CreateDemarcheIaFtStep3() => CreateDemarcheIaFtStep3Page(viewModel),
+                    CreateDemarcheIaFtSubmitted() => CreateDemarcheIaFtStep3Page(viewModel),
                   },
                 ),
               ],

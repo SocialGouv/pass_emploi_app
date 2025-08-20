@@ -38,6 +38,7 @@ class AppIcons {
   static const IconData schedule_rounded = AppIconsAdditional.schedule;
   static const IconData error_rounded = Icons.error_rounded;
   static const IconData info_rounded = Icons.info_rounded;
+  static const IconData info = Icons.info_outline_rounded;
   static const IconData cancel_rounded = Icons.cancel_rounded;
   static const IconData euro_rounded = Icons.euro_rounded;
   static const IconData event = Icons.event_outlined;

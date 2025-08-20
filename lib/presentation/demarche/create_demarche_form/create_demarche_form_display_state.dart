@@ -1,3 +1,5 @@
+import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
+
 sealed class CreateDemarcheDisplayState {
   static int get stepsTotalCount => 3;
 
@@ -11,17 +13,16 @@ class CreateDemarcheStep1 extends CreateDemarcheDisplayState {
 }
 
 // step 2
-sealed class CreateDemarcheStep2 extends CreateDemarcheDisplayState {}
-
-class CreateDemarcheFromThematiqueStep2 extends CreateDemarcheStep2 {
+sealed class CreateDemarcheStep2 extends CreateDemarcheDisplayState {
   @override
   int index() => 1;
 }
 
-class CreateDemarchePersonnaliseeStep2 extends CreateDemarcheStep2 {
-  @override
-  int index() => 1;
-}
+class CreateDemarcheFromThematiqueStep2 extends CreateDemarcheStep2 {}
+
+class CreateDemarchePersonnaliseeStep2 extends CreateDemarcheStep2 {}
+
+class CreateDemarcheIaFtStep2 extends CreateDemarcheStep2 {}
 
 // step 3
 sealed class CreateDemarcheStep3 extends CreateDemarcheDisplayState {
@@ -33,6 +34,8 @@ class CreateDemarcheFromThematiqueStep3 extends CreateDemarcheStep3 {}
 
 class CreateDemarchePersonnaliseeStep3 extends CreateDemarcheStep3 {}
 
+class CreateDemarcheIaFtStep3 extends CreateDemarcheStep3 {}
+
 // confirmation
 sealed class CreateDemarcheSubmitted extends CreateDemarcheDisplayState {
   @override
@@ -42,3 +45,9 @@ sealed class CreateDemarcheSubmitted extends CreateDemarcheDisplayState {
 class CreateDemarcheFromThematiqueSubmitted extends CreateDemarcheSubmitted {}
 
 class CreateDemarchePersonnaliseeSubmitted extends CreateDemarcheSubmitted {}
+
+class CreateDemarcheIaFtSubmitted extends CreateDemarcheSubmitted {
+  final List<CreateDemarcheRequestAction> createRequests;
+
+  CreateDemarcheIaFtSubmitted({required this.createRequests});
+}

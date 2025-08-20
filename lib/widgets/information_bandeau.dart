@@ -8,14 +8,18 @@ class InformationBandeau extends StatelessWidget {
   final IconData icon;
   final String text;
   final Color? backgroundColor;
-  final Color? foregroundColor;
+  final Color? textColor;
+  final double? borderRadius;
+  final EdgeInsets? padding;
 
   const InformationBandeau({
     super.key,
     required this.text,
     required this.icon,
     this.backgroundColor,
-    this.foregroundColor,
+    this.textColor,
+    this.borderRadius,
+    this.padding,
   });
 
   const InformationBandeau.lighten({
@@ -23,23 +27,25 @@ class InformationBandeau extends StatelessWidget {
     required this.text,
     required this.icon,
   })  : backgroundColor = AppColors.primaryLighten,
-        foregroundColor = AppColors.primaryCej;
+        textColor = AppColors.primaryCej,
+        borderRadius = null,
+        padding = null;
 
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: backgroundColor ?? AppColors.disabled,
-        borderRadius: BorderRadius.circular(Margins.spacing_s),
+        borderRadius: borderRadius != null ? BorderRadius.circular(borderRadius!) : null,
       ),
       child: Padding(
-        padding: EdgeInsets.all(Margins.spacing_s),
+        padding: padding ?? EdgeInsets.all(Margins.spacing_xs),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, color: foregroundColor ?? Colors.white, size: Dimens.icon_size_base),
+            Icon(icon, color: textColor ?? Colors.white, size: Dimens.icon_size_m),
             SizedBox(width: Margins.spacing_s),
-            Expanded(child: Text(text, style: TextStyles.textXsRegular(color: foregroundColor ?? Colors.white))),
+            Expanded(child: Text(text, style: TextStyles.textSRegular(color: textColor ?? Colors.white))),
           ],
         ),
       ),

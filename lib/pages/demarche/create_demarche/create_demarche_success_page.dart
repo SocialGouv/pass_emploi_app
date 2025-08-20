@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_form_page.dart';
 import 'package:pass_emploi_app/pages/demarche/demarche_detail_page.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_success_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/ui/app_icons.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -16,10 +17,9 @@ import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/confetti_wrapper.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
-import 'package:pass_emploi_app/widgets/illustration/illustration.dart';
 import 'package:pass_emploi_app/widgets/in_app_feedback.dart';
 
-enum CreateDemarcheSource { personnalisee, fromReferentiel }
+enum CreateDemarcheSource { personnalisee, fromReferentiel, iaFt }
 
 class CreateDemarcheSuccessPage extends StatelessWidget {
   const CreateDemarcheSuccessPage({super.key, required this.source});
@@ -36,8 +36,15 @@ class CreateDemarcheSuccessPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConfettiWrapper(builder: (context, confettiController) {
       return StoreConnector<AppState, CreateDemarcheSuccessViewModel>(
-        builder: (context, viewModel) => _Content(viewModel, source),
-        converter: (store) => CreateDemarcheSuccessViewModel.create(store),
+        builder: (context, viewModel) => Tracker(
+          tracking: switch (source) {
+            CreateDemarcheSource.personnalisee => AnalyticsScreenNames.createDemarchePersonnaliseeSuccess,
+            CreateDemarcheSource.fromReferentiel => AnalyticsScreenNames.createDemarcheFromReferentielSuccess,
+            CreateDemarcheSource.iaFt => AnalyticsScreenNames.createDemarcheIaFtSuccess,
+          },
+          child: _Content(viewModel, source),
+        ),
+        converter: (store) => CreateDemarcheSuccessViewModel.create(store, source),
         distinct: true,
         onDispose: (store) => store.dispatch(CreateDemarcheResetAction()),
         onInit: (_) => confettiController.play(),
@@ -56,7 +63,10 @@ class _Content extends StatelessWidget {
     return switch (viewModel.displayState) {
       DisplayState.CONTENT => _Body(viewModel, source),
       DisplayState.FAILURE => _Scaffold(body: Center(child: ErrorText(Strings.genericCreationError))),
-      _ => _Scaffold(body: const Center(child: CircularProgressIndicator())),
+      _ => _Scaffold(
+            body: const Center(
+          child: CircularProgressIndicator(),
+        )),
     };
   }
 }
@@ -70,14 +80,17 @@ class _Body extends StatelessWidget {
   Widget build(BuildContext context) {
     return _Scaffold(
       floatingActionButton: _Buttons(
-        onGoActionDetail: () {
-          Navigator.pop(context);
-          Navigator.of(context).push(DemarcheDetailPage.materialPageRoute(viewModel.demarcheId));
-        },
+        onGoActionDetail: viewModel.demarcheId != null
+            ? () {
+                Navigator.pop(context);
+                Navigator.of(context).push(DemarcheDetailPage.materialPageRoute(viewModel.demarcheId!));
+              }
+            : null,
         onCreateMore: () {
           Navigator.pop(context);
           Navigator.of(context).push(CreateDemarcheFormPage.route());
         },
+        source: source,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Padding(
@@ -91,6 +104,7 @@ class _Body extends StatelessWidget {
                   feature: switch (source) {
                     CreateDemarcheSource.personnalisee => "create-demarche-personnalisee",
                     CreateDemarcheSource.fromReferentiel => "create-demarche-referentiel",
+                    CreateDemarcheSource.iaFt => "create-demarche-ia-ft",
                   },
                   label: Strings.feedbackCreateDemarche,
                 ),
@@ -99,18 +113,24 @@ class _Body extends StatelessWidget {
                   child: SizedBox(
                     height: 130,
                     width: 130,
-                    child: Illustration.green(AppIcons.check_rounded),
+                    child: Image.asset("assets/create_success.webp"),
                   ),
                 ),
                 SizedBox(height: Margins.spacing_xl),
                 Text(
-                  Strings.demarcheSuccessTitle,
+                  switch (source) {
+                    CreateDemarcheSource.iaFt => Strings.demarcheSuccessTitlePlural,
+                    _ => Strings.demarcheSuccessTitle,
+                  },
                   textAlign: TextAlign.center,
                   style: TextStyles.textMBold,
                 ),
                 SizedBox(height: Margins.spacing_m),
                 Text(
-                  Strings.demarcheSuccessSubtitle,
+                  switch (source) {
+                    CreateDemarcheSource.iaFt => Strings.demarcheSuccessSubtitlePlural,
+                    _ => Strings.demarcheSuccessSubtitle,
+                  },
                   textAlign: TextAlign.center,
                   style: TextStyles.textSRegular(),
                 ),
@@ -125,10 +145,11 @@ class _Body extends StatelessWidget {
 }
 
 class _Buttons extends StatelessWidget {
-  const _Buttons({required this.onGoActionDetail, required this.onCreateMore});
+  const _Buttons({required this.onGoActionDetail, required this.onCreateMore, required this.source});
 
-  final void Function() onGoActionDetail;
+  final void Function()? onGoActionDetail;
   final void Function() onCreateMore;
+  final CreateDemarcheSource source;
 
   @override
   Widget build(BuildContext context) {
@@ -138,17 +159,29 @@ class _Buttons extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          AutoFocusA11y(
-            child: PrimaryActionButton(
-              label: Strings.demarcheSuccessConsulter,
-              onPressed: onGoActionDetail,
+          if (source == CreateDemarcheSource.iaFt) ...[
+            const SizedBox(height: Margins.spacing_base),
+            PrimaryActionButton(
+              label: Strings.consulterMesDemarches,
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
-          ),
-          const SizedBox(height: Margins.spacing_base),
-          SecondaryButton(
-            label: Strings.demarcheSuccessCreerUneAutre,
-            onPressed: onCreateMore,
-          ),
+          ] else ...[
+            if (onGoActionDetail != null) ...[
+              AutoFocusA11y(
+                child: PrimaryActionButton(
+                  label: Strings.demarcheSuccessConsulter,
+                  onPressed: onGoActionDetail,
+                ),
+              ),
+            ],
+            const SizedBox(height: Margins.spacing_base),
+            SecondaryButton(
+              label: Strings.demarcheSuccessCreerUneAutre,
+              onPressed: onCreateMore,
+            ),
+          ]
         ],
       ),
     );

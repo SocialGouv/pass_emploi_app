@@ -24,7 +24,7 @@ class PressedTip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         if (iconLeading) ...[
           Icon(icon, color: textColor, size: Dimens.icon_size_base),
@@ -33,7 +33,7 @@ class PressedTip extends StatelessWidget {
         Flexible(
           child: Text(
             tip,
-            style: TextStyles.textSRegular(color: textColor),
+            style: TextStyles.textSBold.copyWith(color: textColor),
             textAlign: TextAlign.start,
           ),
         ),

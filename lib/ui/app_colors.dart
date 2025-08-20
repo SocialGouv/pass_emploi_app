@@ -60,4 +60,9 @@ class AppColors {
           Color(0xFF3B69D1),
           Color(0xFF1E366B),
         ];
+
+  static List<Color> gradientSecondary = [
+    primary,
+    accent1,
+  ];
 }
