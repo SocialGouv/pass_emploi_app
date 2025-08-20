@@ -44,4 +44,10 @@ class Drawables {
   static String welcomeIllustration3 = "${_assets}onboarding/welcome_illustration_3.webp";
 
   static String notificationsIllustration = "${_assets}onboarding/notfications_illustration.webp";
+
+  static String iaFtIllustration = "${_assets}IA.svg";
+
+  static String iaFtSuggestionsLoading = "${_assets}ia_ft_suggestions_loading.webp";
+  static String iaFtSuggestionsEmpty = "${_assets}ia_ft_suggestions_empty.webp";
+  static String iaFtSuggestionsFailure = "${_assets}ia_ft_suggestions_failure.webp";
 }

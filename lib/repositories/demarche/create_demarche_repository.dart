@@ -18,19 +18,22 @@ class CreateDemarcheRepository {
     required String? codeComment,
     required DateTime dateEcheance,
     required bool estDuplicata,
+    required bool genereParIA,
   }) async {
     final url = "/jeunes/$userId/demarches";
     try {
+      final postCreateDemarche = PostCreateDemarche(
+        codeQuoi: codeQuoi,
+        codePourquoi: codePourquoi,
+        codeComment: codeComment,
+        dateEcheance: dateEcheance,
+        estDuplicata: estDuplicata,
+        genereParIA: genereParIA,
+      );
       final response = await _httpClient.post(
         url,
         data: customJsonEncode(
-          PostCreateDemarche(
-            codeQuoi: codeQuoi,
-            codePourquoi: codePourquoi,
-            codeComment: codeComment,
-            dateEcheance: dateEcheance,
-            estDuplicata: estDuplicata,
-          ),
+          postCreateDemarche,
         ),
       );
       return response.data['id'] as String;

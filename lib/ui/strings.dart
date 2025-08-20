@@ -66,10 +66,12 @@ class Strings {
   static const String allMandatoryFields = "Tous les champs sont obligatoires.";
   static String duplicate = "Dupliquer";
   static String clear = "Effacer le texte";
+  static const String back = 'Retour';
 
   static String stepCounter(int current, int total) => "Étape $current sur $total";
   static String selectDateTooltip = "Sélectionner une date";
   static String removeDateTooltip = "Supprimer la date";
+  static String newFeature = "Nouveauté";
 
   // Login mode
   static const String milo = "Mission Locale";
@@ -770,13 +772,13 @@ class Strings {
   static String par = " par ";
   static String votreConseiller = "votre conseiller";
   static const String late = "En retard : ";
-  static const String createDemarcheAppBarTitle = "Créer une démarche";
+  static const String createDemarcheAppBarTitle = "Créer vos démarches";
   static const String commentaire = "Commentaire";
   static const String descriptionDemarche = "Décrire la démarche";
   static const String caracteres255 = "255 caractères maximum";
   static const String quand = "Quand";
   static const String selectEcheance = "Sélectionner une date d'échéance";
-  static const String addADemarche = "Créer une démarche";
+  static const String addADemarche = "Créer vos démarches";
   static const String createDemarcheTitle = "Création d'une démarche";
   static const String createDemarcheStep2EmptyTitle = "Aucune démarche ne correspond à votre recherche";
 
@@ -798,6 +800,9 @@ class Strings {
   static const String comment = "Comment";
   static const String selectComment = "Sélectionner un des moyens";
   static const String selectQuand = "Sélectionner une date d’échéance";
+  static String demarcheSuccessTitlePlural = 'Démarches enregistrées ! Retrouvez-les dans "Mon suivi"';
+  static String demarcheSuccessSubtitlePlural =
+      "Vos démarches sont en route vers votre conseiller. Vous pourrez en discuter ensemble lors de votre prochain rendez-vous ! ";
 
   static String demarcheActiveLabel = "À réaliser pour le ";
 
@@ -855,10 +860,33 @@ class Strings {
   static String thematiquesErrorSubtitle =
       "Nous sommes en train de régler le problème. Réessayez plus tard ou créez une démarche personnalisée.";
 
+  // IA FT
+  static String iaFtCardTitle = "Vos démarches en un instant";
+  static String iaFtCardSubtitle = "Dictez ou écrivez en une seule fois vos démarches, elles sont triées en un clic";
+
+  static String iaFtStep2Title = "Dictez ou saisissez vos démarches effectuées";
+  static String iaFtStep2Warning = "Attention à ne pas partager vos données personnelles ou d’informations sensibles.";
+  static String iaFtStep2FieldTitle = "Résumé de vos démarches (obligatoire)";
+  static String iaFtStep2FieldHint =
+      "Exemple : Cette semaine, j’ai déposé mon CV à la librairie pour un emploi saisonnier, etc.";
+  static String iaFtStep2ButtonDicter = "Dicter";
+  static String iaFtStep2ButtonStop = "Arrêter";
+  static String iaFtStep2Button = "Créer les démarches";
+
+  static String iaFtSuggestionsLoading = "Nous générons vos démarches, cela peut prendre quelques instants";
+  static String iaFtSuggestionsFailure = "Oups, quelque chose s’est mal passé lors de la création des démarches.";
+  static String iaFtSuggestionsEmpty = "Aucune démarche n’a pu être créée automatiquement.";
+  static String iaFtSuggestionsContent(int count) => "$count démarches créées à valider cette semaine";
+  static String iaFtSuggestionsSubmit = "Valider mes démarches";
+  static String iaFtSuggestionsError(int count) =>
+      "$count démarche${count > 1 ? 's' : ''} n’ont pas leurs dates renseignées. Merci de les compléter pour valider";
+  static String consulterMesDemarches = "Consulter mes démarches";
+
   // Top démarche
-  static String topDemarchesTitle = "Top démarches";
-  static String topDemarchesSubtitle = "Inspirez-vous des démarches les plus utilisées";
-  static String topDemarchesPressedTip = "Découvrir la liste";
+  static String topDemarchesTitle = "Vos démarches en un instant";
+  static String topDemarchesSubtitle =
+      "Dictez ou écrivez en une seule fois vos démarches, elles sont triées en un clic";
+  static String topDemarchesPressedTip = "Créez vos démarches";
 
   // Recherche
   static String derniereRecherche = "Dernière recherche";

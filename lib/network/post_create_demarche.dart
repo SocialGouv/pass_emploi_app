@@ -21,6 +21,7 @@ class PostCreateDemarche implements JsonSerializable {
   final String? codeComment;
   final DateTime dateEcheance;
   final bool estDuplicata;
+  final bool genereParIA;
 
   PostCreateDemarche({
     required this.codeQuoi,
@@ -28,6 +29,7 @@ class PostCreateDemarche implements JsonSerializable {
     required this.codeComment,
     required this.dateEcheance,
     required this.estDuplicata,
+    required this.genereParIA,
   });
 
   @override
@@ -37,5 +39,6 @@ class PostCreateDemarche implements JsonSerializable {
         if (codeComment != null) "codeComment": codeComment,
         "dateFin": dateEcheance.toIso8601String(),
         "estDuplicata": estDuplicata,
+        if (genereParIA) "genereParIA": genereParIA,
       };
 }

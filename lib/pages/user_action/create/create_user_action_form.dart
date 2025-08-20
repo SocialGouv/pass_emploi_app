@@ -111,7 +111,7 @@ class _BackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SecondaryButton(
-      label: Strings.userActionBackButton,
+      label: Strings.back,
       backgroundColor: Colors.white,
       onPressed: onPressed,
     );

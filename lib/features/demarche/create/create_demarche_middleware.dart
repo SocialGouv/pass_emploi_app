@@ -22,6 +22,7 @@ class CreateDemarcheMiddleware extends MiddlewareClass<AppState> {
         codeComment: action.codeComment,
         dateEcheance: action.dateEcheance,
         estDuplicata: action.estDuplicata,
+        genereParIA: false,
       );
       _dispatchCreateDemarche(demarcheId, store);
     }

@@ -13,6 +13,7 @@ import 'package:pass_emploi_app/features/alerte/init/alerte_initialize_middlewar
 import 'package:pass_emploi_app/features/alerte/list/alerte_list_middleware.dart';
 import 'package:pass_emploi_app/features/auto_inscription/auto_inscription_middleware.dart';
 import 'package:pass_emploi_app/features/bootstrap/bootstrap_middleware.dart';
+import 'package:pass_emploi_app/features/boulanger_campagne/boulanger_campagne_middleware.dart';
 import 'package:pass_emploi_app/features/cache/cache_invalidator_middleware.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_middleware.dart';
 import 'package:pass_emploi_app/features/campagne_recrutement/campagne_recrutement_middleware.dart';
@@ -22,6 +23,7 @@ import 'package:pass_emploi_app/features/chat/messages/chat_middleware.dart';
 import 'package:pass_emploi_app/features/chat/partage/chat_partage_middleware.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_middleware.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_middleware.dart';
+import 'package:pass_emploi_app/features/comptage_des_heures/comptage_des_heures_middleware.dart';
 import 'package:pass_emploi_app/features/connectivity/connectivity_middleware.dart';
 import 'package:pass_emploi_app/features/contact_immersion/contact_immersion_middleware.dart';
 import 'package:pass_emploi_app/features/cv/cv_middleware.dart';
@@ -29,6 +31,7 @@ import 'package:pass_emploi_app/features/cvm/cvm_middleware.dart';
 import 'package:pass_emploi_app/features/date_consultation_notification/date_consultation_notification_middleware.dart';
 import 'package:pass_emploi_app/features/date_consultation_offre/date_consultation_offre_middleware.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_middleware.dart';
+import 'package:pass_emploi_app/features/demarche/create_demarche_batch/create_demarche_batch_middleware.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_middleware.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_middleware.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_middleware.dart';
@@ -43,6 +46,7 @@ import 'package:pass_emploi_app/features/favori/update/data_from_id_extractor.da
 import 'package:pass_emploi_app/features/favori/update/favori_update_middleware.dart';
 import 'package:pass_emploi_app/features/feature_flip/feature_flip_middleware.dart';
 import 'package:pass_emploi_app/features/first_launch_onboarding/first_launch_onboarding_middleware.dart';
+import 'package:pass_emploi_app/features/ia_ft_suggestions/ia_ft_suggestions_middleware.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_middleware.dart';
 import 'package:pass_emploi_app/features/in_app_feedback/in_app_feedback_middleware.dart';
 import 'package:pass_emploi_app/features/in_app_notifications/in_app_notifications_middleware.dart';
@@ -88,8 +92,6 @@ import 'package:pass_emploi_app/features/user_action/create/user_action_create_m
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/details/user_action_details_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_middleware.dart';
-import 'package:pass_emploi_app/features/comptage_des_heures/comptage_des_heures_middleware.dart';
-import 'package:pass_emploi_app/features/boulanger_campagne/boulanger_campagne_middleware.dart';
 /*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-MIDDLEWARE*/
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -109,9 +111,11 @@ import 'package:pass_emploi_app/repositories/animations_collectives_repository.d
 import 'package:pass_emploi_app/repositories/auth/chat_security_repository.dart';
 import 'package:pass_emploi_app/repositories/auto_inscription_repository.dart';
 import 'package:pass_emploi_app/repositories/backend_config_repository.dart';
+import 'package:pass_emploi_app/repositories/boulanger_campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_recrutement_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
+import 'package:pass_emploi_app/repositories/comptage_des_heures_repository.dart';
 import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
 import 'package:pass_emploi_app/repositories/contact_immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
@@ -138,6 +142,7 @@ import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repositor
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/first_launch_onboarding_repository.dart';
+import 'package:pass_emploi_app/repositories/ia_ft_suggestions_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/in_app_feedback_repository.dart';
@@ -172,8 +177,6 @@ import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/usecases/piece_jointe/piece_jointe_use_case.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
-import 'package:pass_emploi_app/repositories/comptage_des_heures_repository.dart';
-import 'package:pass_emploi_app/repositories/boulanger_campagne_repository.dart';
 /*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-REPOSITORY*/
 import 'package:redux/redux.dart' as redux;
 
@@ -261,6 +264,7 @@ class StoreFactory {
   final OffresSuiviesRepository offresSuiviesRepository;
   final ComptageDesHeuresRepository comptageDesHeuresRepository;
   final BoulangerCampagneRepository boulangerCampagneRepository;
+  final IaFtSuggestionsRepository iaFtSuggestionsRepository;
   /*AUTOGENERATE-REDUX-STOREFACTORY-PROPERTY-REPOSITORY*/
 
   StoreFactory(
@@ -347,6 +351,7 @@ class StoreFactory {
     this.offresSuiviesRepository,
     this.comptageDesHeuresRepository,
     this.boulangerCampagneRepository,
+    this.iaFtSuggestionsRepository,
     /*AUTOGENERATE-REDUX-STOREFACTORY-CONSTRUCTOR-REPOSITORY*/
   );
 
@@ -450,6 +455,8 @@ class StoreFactory {
         OffresSuiviesMiddleware(offresSuiviesRepository).call,
         ComptageDesHeuresMiddleware(comptageDesHeuresRepository).call,
         BoulangerCampagneMiddleware(boulangerCampagneRepository).call,
+        IaFtSuggestionsMiddleware(iaFtSuggestionsRepository, matchingDemarcheRepository).call,
+        CreateDemarcheBatchMiddleware(createDemarcheRepository).call,
         /*AUTOGENERATE-REDUX-STOREFACTORY-ADD-MIDDLEWARE*/
         ..._debugMiddlewares(),
         ..._stagingMiddlewares(initialState.configurationState.getFlavor()),

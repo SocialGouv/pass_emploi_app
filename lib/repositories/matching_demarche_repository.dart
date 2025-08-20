@@ -25,4 +25,21 @@ class MatchingDemarcheRepository {
     }
     return null;
   }
+
+  Future<MatchingDemarcheDuReferentiel?> getMatchingDemarcheDuReferentielFromCode({required String? codeQuoi}) async {
+    final thematiques = await thematiquesRepository.getThematique();
+    if (thematiques == null) return null;
+
+    for (final thematique in thematiques) {
+      final matchingDemarche =
+          thematique.demarches.firstWhereOrNull((demarcheDuReferentiel) => demarcheDuReferentiel.codeQuoi == codeQuoi);
+      if (matchingDemarche == null) continue;
+
+      return MatchingDemarcheDuReferentiel(
+        thematique: thematique,
+        demarcheDuReferentiel: matchingDemarche,
+      );
+    }
+    return null;
+  }
 }
