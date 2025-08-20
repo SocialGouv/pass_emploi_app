@@ -18,6 +18,7 @@ class MockCreateDemarcheRepository extends Mock implements CreateDemarcheReposit
           codeComment: any(named: "codeComment"),
           dateEcheance: any(named: "dateEcheance"),
           estDuplicata: any(named: "estDuplicata"),
+          genereParIA: any(named: "genereParIA"),
         )).thenAnswer((_) async => "demarcheId");
   }
 
@@ -29,6 +30,7 @@ class MockCreateDemarcheRepository extends Mock implements CreateDemarcheReposit
           codeComment: any(named: "codeComment"),
           dateEcheance: any(named: "dateEcheance"),
           estDuplicata: any(named: "estDuplicata"),
+          genereParIA: any(named: "genereParIA"),
         )).thenAnswer((_) async => null);
   }
 }
@@ -39,15 +41,17 @@ void main() {
     final repository = MockCreateDemarcheRepository();
 
     group("when requesting", () {
-      sut.whenDispatchingAction(() => CreateDemarcheBatchRequestAction([
-            CreateDemarcheRequestAction(
-              codeQuoi: "codeQuoi",
-              codePourquoi: "codePourquoi",
-              codeComment: "codeComment",
-              dateEcheance: DateTime.now(),
-              estDuplicata: false,
-            ),
-          ]));
+      sut.whenDispatchingAction(
+        () => CreateDemarcheBatchRequestAction([
+          CreateDemarcheRequestAction(
+            codeQuoi: "codeQuoi",
+            codePourquoi: "codePourquoi",
+            codeComment: "codeComment",
+            dateEcheance: DateTime.now(),
+            estDuplicata: false,
+          ),
+        ], genereParIA: true),
+      );
 
       test('should load then succeed when request succeeds', () {
         repository.withCreateAndReturnSuccess();

@@ -3,8 +3,9 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
-import 'package:pass_emploi_app/models/demarche_ia_suggestion.dart';
+import 'package:pass_emploi_app/models/demarche_ia_dto.dart';
 import 'package:pass_emploi_app/models/login_mode.dart';
+import 'package:pass_emploi_app/models/matching_demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/offre_dto.dart';
 import 'package:pass_emploi_app/models/onboarding.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
@@ -241,6 +242,7 @@ class MockRemoteConfigRepository extends Mock implements RemoteConfigRepository 
     when(() => cvmActivationByAccompagnement()).thenReturn({});
     when(() => monSuiviPoleEmploiStartDateInMonths()).thenReturn(1);
     when(() => campagnesAccueil()).thenReturn([]);
+    when(() => withIaFt()).thenReturn(true);
   }
 }
 
@@ -262,7 +264,14 @@ class MockImageCompressor extends Mock implements ImageCompressor {}
 
 class MockPieceJointeUseCase extends Mock implements PieceJointeUseCase {}
 
-class MockMatchingDemarcheRepository extends Mock implements MatchingDemarcheRepository {}
+class FakeMatchingDemarcheDuReferentiel extends Fake implements MatchingDemarcheDuReferentiel {}
+
+class MockMatchingDemarcheRepository extends Mock implements MatchingDemarcheRepository {
+  void withGetMatchingDemarcheDuReferentielFromCode(MatchingDemarcheDuReferentiel? matchingDemarche) {
+    when(() => getMatchingDemarcheDuReferentielFromCode(codeQuoi: any(named: "codeQuoi")))
+        .thenAnswer((_) async => matchingDemarche);
+  }
+}
 
 class MockPreferencesRepository extends Mock implements PreferencesRepository {}
 
@@ -317,15 +326,19 @@ class MockBoulangerCampagneRepository extends Mock implements BoulangerCampagneR
   }
 }
 
-class FakeIaFtSuggestion extends Fake implements DemarcheIaSuggestion {}
-
 class MockIaFtSuggestionsRepository extends Mock implements IaFtSuggestionsRepository {
   void withGetAndReturnSuccess() {
-    when(() => get(any())).thenAnswer((_) async => [FakeIaFtSuggestion()]);
+    when(() => get(any(), any())).thenAnswer((_) async => [
+          DemarcheIaDto(
+            codeQuoi: "codeQuoi",
+            codePourquoi: "codePourquoi",
+            description: "description",
+          )
+        ]);
   }
 
   void withGetAndReturnFailure() {
-    when(() => get(any())).thenAnswer((_) async => null);
+    when(() => get(any(), any())).thenAnswer((_) async => null);
   }
 }
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-DECLARATION*/

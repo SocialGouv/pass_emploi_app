@@ -2,7 +2,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/ia_ft_suggestions/ia_ft_suggestions_actions.dart';
 import 'package:pass_emploi_app/features/ia_ft_suggestions/ia_ft_suggestions_state.dart';
 import 'package:pass_emploi_app/models/demarche_ia_suggestion.dart';
+import 'package:pass_emploi_app/models/matching_demarche_du_referentiel.dart';
 
+import '../../doubles/fixtures.dart';
 import '../../doubles/mocks.dart';
 import '../../dsl/app_state_dsl.dart';
 import '../../dsl/matchers.dart';
@@ -12,16 +14,26 @@ void main() {
   group('IaFtSuggestions', () {
     final sut = StoreSut();
     final repository = MockIaFtSuggestionsRepository();
+    final matchingDemarcheRepository = MockMatchingDemarcheRepository();
 
     group("when requesting", () {
-      sut.whenDispatchingAction(() => IaFtSuggestionsRequestAction());
+      sut.whenDispatchingAction(() => IaFtSuggestionsRequestAction(query: "query"));
 
       test('should load then succeed when request succeeds', () {
         repository.withGetAndReturnSuccess();
+        matchingDemarcheRepository.withGetMatchingDemarcheDuReferentielFromCode(
+          MatchingDemarcheDuReferentiel(
+            demarcheDuReferentiel: mockDemarcheDuReferentiel(),
+            thematique: dummyThematiqueDeDemarche(),
+          ),
+        );
 
         sut.givenStore = givenState() //
             .loggedInUser()
-            .store((f) => {f.iaFtSuggestionsRepository = repository});
+            .store((f) => {
+                  f.iaFtSuggestionsRepository = repository,
+                  f.matchingDemarcheRepository = matchingDemarcheRepository,
+                });
 
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed()]);
       });

@@ -17,6 +17,7 @@ void main() {
           codeComment: 'codeComment',
           dateEcheance: DateTime(2021, 12, 23, 12, 8, 10),
           estDuplicata: false,
+          genereParIA: false,
         ),
       );
 
