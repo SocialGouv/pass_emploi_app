@@ -98,6 +98,7 @@ class CreateDemarcheRepositorySuccessStub extends CreateDemarcheRepository {
     required DateTime dateEcheance,
     required bool estDuplicata,
     required bool genereParIA,
+    String? description,
   }) async {
     final success = userId == 'id' &&
         codeQuoi == 'codeQuoi' &&
@@ -131,6 +132,7 @@ class CreateDemarcheRepositoryFailureStub extends CreateDemarcheRepository {
     required DateTime dateEcheance,
     required bool estDuplicata,
     required bool genereParIA,
+    String? description,
   }) async {
     return null;
   }

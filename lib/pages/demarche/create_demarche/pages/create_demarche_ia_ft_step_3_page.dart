@@ -363,7 +363,7 @@ class DemarcheIaSuggestionsChangeNotifier extends ChangeNotifier {
         CreateDemarcheRequestAction(
           codeQuoi: suggestion.codeQuoi,
           codePourquoi: suggestion.codePourquoi,
-          // description: suggestion.sousTitre,
+          description: suggestion.sousTitre,
           codeComment: null,
           dateEcheance: getDate(suggestion.id)!,
           estDuplicata: false,

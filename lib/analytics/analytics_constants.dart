@@ -219,7 +219,6 @@ class AnalyticsEventNames {
   static const createActionResultMultipleAction = "Créer plusieurs actions";
   static const createActionResultFromOffreSuiviAction = "Créer une action à partir du suivi des offres";
 
-// TODO: remplacer par v3 après le merge ft IA
   static const createActionStep1CategoryCategory = "Création action v3 étape 1 - Catégorie";
   static const createActionStep2TitleCategory = "Création action v3 étape 2 - Titre";
   static const createActionStep3StatusCategory = "Création action v3 étape 3 - Statut";

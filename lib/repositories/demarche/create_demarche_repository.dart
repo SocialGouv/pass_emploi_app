@@ -19,6 +19,7 @@ class CreateDemarcheRepository {
     required DateTime dateEcheance,
     required bool estDuplicata,
     required bool genereParIA,
+    String? description,
   }) async {
     final url = "/jeunes/$userId/demarches";
     try {
@@ -29,6 +30,7 @@ class CreateDemarcheRepository {
         dateEcheance: dateEcheance,
         estDuplicata: estDuplicata,
         genereParIA: genereParIA,
+        description: description,
       );
       final response = await _httpClient.post(
         url,

@@ -25,6 +25,7 @@ class CreateDemarcheBatchMiddleware extends MiddlewareClass<AppState> {
           dateEcheance: createAction.dateEcheance,
           estDuplicata: createAction.estDuplicata,
           genereParIA: action.genereParIA,
+          description: createAction.description,
         );
         if (result == null) {
           success = false;

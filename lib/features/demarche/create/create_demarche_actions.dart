@@ -4,6 +4,7 @@ class CreateDemarcheRequestAction {
   final String? codeComment;
   final DateTime dateEcheance;
   final bool estDuplicata;
+  final String? description;
 
   CreateDemarcheRequestAction({
     required this.codeQuoi,
@@ -11,6 +12,7 @@ class CreateDemarcheRequestAction {
     required this.codeComment,
     required this.dateEcheance,
     required this.estDuplicata,
+    this.description,
   });
 }
 
