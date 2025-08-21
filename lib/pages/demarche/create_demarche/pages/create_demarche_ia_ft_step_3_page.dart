@@ -128,26 +128,29 @@ class _Empty extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Image.asset(
-          Drawables.iaFtSuggestionsEmpty,
-          width: 200,
-          height: 200,
-        ),
-        const SizedBox(height: Margins.spacing_m),
-        Text(
-          Strings.iaFtSuggestionsEmpty,
-          style: TextStyles.textMBold,
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: Margins.spacing_m),
-        PrimaryActionButton(
-          onPressed: () => viewModel.navigateToCreateDemarcheIaFtStep2(),
-          label: Strings.back,
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(Margins.spacing_base),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Image.asset(
+            Drawables.iaFtSuggestionsEmpty,
+            width: 200,
+            height: 200,
+          ),
+          const SizedBox(height: Margins.spacing_m),
+          Text(
+            Strings.iaFtSuggestionsEmpty,
+            style: TextStyles.textMBold,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: Margins.spacing_m),
+          PrimaryActionButton(
+            onPressed: () => viewModel.navigateToCreateDemarcheIaFtStep2(),
+            label: Strings.back,
+          ),
+        ],
+      ),
     );
   }
 }
