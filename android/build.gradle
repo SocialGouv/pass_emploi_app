@@ -6,6 +6,16 @@ allprojects {
     }
 }
 
+// Define Flutter properties globally for plugins
+ext {
+    flutter = [
+        compileSdkVersion: 35,
+        minSdkVersion: 23,
+        targetSdkVersion: 35,
+        ndkVersion: '25.1.8937393'
+    ]
+}
+
 rootProject.buildDir = '../build'
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"

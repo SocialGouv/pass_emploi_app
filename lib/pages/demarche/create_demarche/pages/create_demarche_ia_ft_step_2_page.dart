@@ -29,7 +29,9 @@ class _CreateDemarcheIaFtStep2PageState extends State<CreateDemarcheIaFtStep2Pag
 
   Future<void> _startListening() async {
     final bool available = await _speechToText.initialize(
-      onError: (error) => setState(() => _errorText = Strings.genericError),
+      onError: (error) {
+        setState(() => _errorText = Strings.genericError);
+      },
     );
     if (available) {
       setState(() => _isListening = true);
@@ -147,7 +149,9 @@ class _CreateDemarcheIaFtStep2PageState extends State<CreateDemarcheIaFtStep2Pag
                   : null,
             ),
             const SizedBox(height: Margins.spacing_base),
-            SizedBox(height: Margins.spacing_xl),
+            SizedBox(height: Margins.spacing_huge),
+            SizedBox(height: Margins.spacing_huge),
+            SizedBox(height: Margins.spacing_huge),
           ],
         ),
       ),

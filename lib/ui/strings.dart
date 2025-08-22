@@ -1072,7 +1072,7 @@ class Strings {
   static String noContentErrorTitle = "Pour le moment, aucune offre ne correspond à vos critères.";
   static String noContentErrorSubtitle =
       "Essayez d’élargir votre recherche en modifiant vos critères ou créez une alerte.";
-  static String genericError = "Erreur lors de la recherche. Veuillez réessayer";
+  static String genericError = "Une erreur est survenue. Veuillez réessayer";
   static String genericCreationError = "Erreur lors de la création. Veuillez réessayer";
 
   // Offre emploi filtres
