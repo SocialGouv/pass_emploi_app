@@ -177,7 +177,7 @@ class AppInitializer {
     final pushNotificationManager = PushNotificationManager();
     final securedPreferences = SecureStorageInMemoryDecorator(
       SecureStorageExceptionHandlerDecorator(
-        FlutterSecureStorage(aOptions: AndroidOptions(encryptedSharedPreferences: true)),
+        FlutterSecureStorage(aOptions: AndroidOptions()),
       ),
     );
     final remoteConfigRepository = RemoteConfigRepository(firebaseRemoteConfig);

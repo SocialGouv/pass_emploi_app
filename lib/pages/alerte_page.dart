@@ -66,7 +66,7 @@ class _AlertePageState extends State<AlertePage> {
             store.dispatch(FetchAlerteResultsFromIdAction(deepLink.idAlerte));
           }
         },
-        onWillChange: (_, newVM) => _onWillChange(_, newVM),
+        onWillChange: (oldVM, newVM) => _onWillChange(oldVM, newVM),
         builder: (context, viewModel) => _body(viewModel),
         converter: (store) => AlerteListViewModel.createFromStore(store),
         distinct: true,

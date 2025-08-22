@@ -17,7 +17,7 @@ class PassEmploiMatomoTracker {
 
   Future<void> initialize({required int siteId, required String url}) {
     return _decorated.initialize(
-      siteId: siteId,
+      siteId: siteId.toString(),
       url: url,
       dispatchSettings: DispatchSettings.persistent(onLoad: DispatchSettings.takeAll),
     );

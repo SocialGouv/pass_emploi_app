@@ -14,7 +14,7 @@ class PassEmploiCacheManager {
 
   /// Required to encode resource to be compatible with file path (i.e. no special characters ":", "/", etc.)
   static String getCacheKey(String resource) {
-    return Uuid().v5(Uuid.NAMESPACE_URL, CachedResource.fromUrl(resource)?.toString() ?? resource);
+    return Uuid().v5(Namespace.url.value, CachedResource.fromUrl(resource)?.toString() ?? resource);
   }
 
   Future<void> removeResource(CachedResource resourceToRemove, String userId) async {

@@ -12,11 +12,11 @@ class SecureStorageInMemoryDecorator extends FlutterSecureStorage {
   Future<void> write({
     required String key,
     required String? value,
-    IOSOptions? iOptions,
+    AppleOptions? iOptions,
     AndroidOptions? aOptions,
     LinuxOptions? lOptions,
     WebOptions? webOptions,
-    MacOsOptions? mOptions,
+    AppleOptions? mOptions,
     WindowsOptions? wOptions,
   }) async {
     return _lock.synchronized(() async {
@@ -42,11 +42,11 @@ class SecureStorageInMemoryDecorator extends FlutterSecureStorage {
   @override
   Future<String?> read({
     required String key,
-    IOSOptions? iOptions,
+    AppleOptions? iOptions,
     AndroidOptions? aOptions,
     LinuxOptions? lOptions,
     WebOptions? webOptions,
-    MacOsOptions? mOptions,
+    AppleOptions? mOptions,
     WindowsOptions? wOptions,
   }) async {
     return _lock.synchronized(() async {
@@ -58,11 +58,11 @@ class SecureStorageInMemoryDecorator extends FlutterSecureStorage {
   @override
   Future<bool> containsKey(
       {required String key,
-      IOSOptions? iOptions,
+      AppleOptions? iOptions,
       AndroidOptions? aOptions,
       LinuxOptions? lOptions,
       WebOptions? webOptions,
-      MacOsOptions? mOptions,
+      AppleOptions? mOptions,
       WindowsOptions? wOptions}) async {
     return _lock.synchronized(() async {
       await _initInMemoryStorageIfRequired(iOptions, aOptions, lOptions, webOptions, mOptions, wOptions);
@@ -72,11 +72,11 @@ class SecureStorageInMemoryDecorator extends FlutterSecureStorage {
 
   @override
   Future<Map<String, String>> readAll({
-    IOSOptions? iOptions,
+    AppleOptions? iOptions,
     AndroidOptions? aOptions,
     LinuxOptions? lOptions,
     WebOptions? webOptions,
-    MacOsOptions? mOptions,
+    AppleOptions? mOptions,
     WindowsOptions? wOptions,
   }) async {
     return _lock.synchronized(() async {
@@ -88,11 +88,11 @@ class SecureStorageInMemoryDecorator extends FlutterSecureStorage {
   @override
   Future<void> delete({
     required String key,
-    IOSOptions? iOptions,
+    AppleOptions? iOptions,
     AndroidOptions? aOptions,
     LinuxOptions? lOptions,
     WebOptions? webOptions,
-    MacOsOptions? mOptions,
+    AppleOptions? mOptions,
     WindowsOptions? wOptions,
   }) async {
     return _lock.synchronized(() async {
@@ -112,11 +112,11 @@ class SecureStorageInMemoryDecorator extends FlutterSecureStorage {
 
   @override
   Future<void> deleteAll({
-    IOSOptions? iOptions,
+    AppleOptions? iOptions,
     AndroidOptions? aOptions,
     LinuxOptions? lOptions,
     WebOptions? webOptions,
-    MacOsOptions? mOptions,
+    AppleOptions? mOptions,
     WindowsOptions? wOptions,
   }) async {
     return _lock.synchronized(() async {
@@ -133,11 +133,11 @@ class SecureStorageInMemoryDecorator extends FlutterSecureStorage {
   }
 
   Future<void> _initInMemoryStorageIfRequired(
-    IOSOptions? iOptions,
+    AppleOptions? iOptions,
     AndroidOptions? aOptions,
     LinuxOptions? lOptions,
     WebOptions? webOptions,
-    MacOsOptions? mOptions,
+    AppleOptions? mOptions,
     WindowsOptions? wOptions,
   ) async {
     if (_inMemoryStorage.isEmpty) {

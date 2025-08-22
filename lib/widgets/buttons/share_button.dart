@@ -25,7 +25,12 @@ class ShareButton extends StatelessWidget {
       tooltip: semanticsLabel,
       onTap: () {
         if (onPressed != null) onPressed!();
-        Share.share(textToShare, subject: subjectForEmail);
+        SharePlus.instance.share(
+          ShareParams(
+            text: textToShare,
+            subject: subjectForEmail,
+          ),
+        );
       },
     );
   }

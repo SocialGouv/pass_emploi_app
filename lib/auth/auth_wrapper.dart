@@ -29,10 +29,7 @@ class AuthWrapper {
         clientSecret: request.clientSecret,
         additionalParameters: request.additionalParameters,
       ));
-      if (response != null &&
-          response.idToken != null &&
-          response.accessToken != null &&
-          response.refreshToken != null) {
+      if (response.idToken != null && response.accessToken != null && response.refreshToken != null) {
         return AuthTokenResponse(
           idToken: response.idToken!,
           accessToken: response.accessToken!,
@@ -69,10 +66,7 @@ class AuthWrapper {
         clientSecret: request.clientSecret,
         refreshToken: request.refreshToken,
       ));
-      if (response != null &&
-          response.idToken != null &&
-          response.accessToken != null &&
-          response.refreshToken != null) {
+      if (response.idToken != null && response.accessToken != null && response.refreshToken != null) {
         return AuthTokenResponse(
           idToken: response.idToken!,
           accessToken: response.accessToken!,
