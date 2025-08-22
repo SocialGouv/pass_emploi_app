@@ -304,8 +304,7 @@ jobs:
           --release \
           --build-number=${{ needs.pre-build.outputs.date }} \
           --export-options-plist=ios/staging_export_options.plist \
-          --no-pub \
-          --verbose
+          --no-pub
 
       - name: CEJ - Deploy IPA to Firebase App Distribution
         run: |
