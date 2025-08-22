@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_criteres_recherche.dart';
-import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/features/recherche/immersion/immersion_filtres_recherche.dart';
+import 'package:pass_emploi_app/features/recherche/recherche_actions.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/immersion/immersion_filtres_view_model.dart';
 
@@ -42,7 +42,7 @@ void main() {
 
       // Then
       expect(viewModel.displayState, DisplayState.FAILURE);
-      expect(viewModel.errorMessage, "Erreur lors de la recherche. Veuillez réessayer");
+      expect(viewModel.errorMessage, "Une erreur est survenue. Veuillez réessayer");
     });
   });
 
