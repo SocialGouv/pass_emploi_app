@@ -154,7 +154,7 @@ jobs:
 
   build-ios-staging:
     if: ${{ github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch' }}
-    runs-on: macos-13
+    runs-on: macos-15
     needs: pre-build
     steps:
       - uses: actions/checkout@v4
