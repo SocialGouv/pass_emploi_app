@@ -1,5 +1,6 @@
 import 'package:clock/clock.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:pass_emploi_app/models/feedback_activation.dart';
 import 'package:pass_emploi_app/repositories/remote_config_repository.dart';
 
 class InAppFeedbackRepository {
@@ -8,12 +9,18 @@ class InAppFeedbackRepository {
 
   InAppFeedbackRepository(this._secureStorage, this._remoteConfigRepository);
 
-  Future<bool> isFeedbackActivated(String feature) async {
+  Future<FeedbackActivation> getFeedbackActivation(String feature) async {
     final inAppFeedbackForFeature = _remoteConfigRepository.inAppFeedbackForFeature(feature);
-    if (inAppFeedbackForFeature == null) return false;
-    if (clock.now().isAfter(inAppFeedbackForFeature.until)) return false;
+    if (inAppFeedbackForFeature == null) return FeedbackActivation(isActivated: false, commentaireEnabled: false);
+    if (clock.now().isAfter(inAppFeedbackForFeature.until)) {
+      return FeedbackActivation(isActivated: false, commentaireEnabled: false);
+    }
     final displayCount = await _incrementDisplayCount(feature);
-    return displayCount >= inAppFeedbackForFeature.displayAfter;
+    final isActivated = displayCount >= inAppFeedbackForFeature.displayAfter;
+    return FeedbackActivation(
+      isActivated: isActivated,
+      commentaireEnabled: inAppFeedbackForFeature.commentaireEnabled,
+    );
   }
 
   Future<void> dismissFeedback(String feature) async {

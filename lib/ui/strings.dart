@@ -1604,6 +1604,8 @@ class Strings {
   static const String sentimentSatisfied = "Emoticone plutôt d’accord";
   static const String mood = "Emoticone d’accord";
   static const String emptyDate = "Aucune date sélectionnée";
+  static const String feedbackCommentaire = "Dites nous pourquoi vous avez attribué cette note\u{00A0}?";
+  static const String submitFeedback = "Soumettre votre réponse";
 
   static String removeDistance(int value) => 'Diminuer la distance de $value km';
 

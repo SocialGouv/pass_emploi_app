@@ -1,4 +1,5 @@
 import 'package:pass_emploi_app/features/in_app_feedback/in_app_feedback_actions.dart';
+import 'package:pass_emploi_app/models/feedback_activation.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/in_app_feedback_repository.dart';
 import 'package:redux/redux.dart';
@@ -12,13 +13,14 @@ class InAppFeedbackMiddleware extends MiddlewareClass<AppState> {
   void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     if (action is InAppFeedbackRequestAction) {
-      final activation = await _repository.isFeedbackActivated(action.feature);
+      final activation = await _repository.getFeedbackActivation(action.feature);
       store.dispatch(InAppFeedbackSuccessAction(MapEntry(action.feature, activation)));
     }
 
     if (action is InAppFeedbackDismissAction) {
       await _repository.dismissFeedback(action.feature);
-      store.dispatch(InAppFeedbackSuccessAction(MapEntry(action.feature, false)));
+      store.dispatch(InAppFeedbackSuccessAction(
+          MapEntry(action.feature, FeedbackActivation(isActivated: false, commentaireEnabled: false))));
     }
   }
 }

@@ -53,6 +53,7 @@ import 'package:pass_emploi_app/utils/compress_image.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
 
+import 'package:pass_emploi_app/repositories/module_feedback_repository.dart';
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-IMPORT*/
 
 import 'dio_mock.dart';
@@ -341,4 +342,6 @@ class MockIaFtSuggestionsRepository extends Mock implements IaFtSuggestionsRepos
     when(() => get(any(), any())).thenAnswer((_) async => null);
   }
 }
+
+class MockModuleFeedbackRepository extends Mock implements ModuleFeedbackRepository {}
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-DECLARATION*/

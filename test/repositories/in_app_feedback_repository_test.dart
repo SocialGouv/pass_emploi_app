@@ -22,63 +22,69 @@ void main() {
   });
 
   group('InAppFeedbackRepository', () {
-    group('isFeedbackActivated', () {
-      test('if absent from remote configuration should return false', () async {
+    group('getFeedbackActivation', () {
+      test('if absent from remote configuration should return not activated', () async {
         // Given
         when(() => remoteConfigRepository.inAppFeedbackForFeature('feature-1')).thenReturn(null);
 
         // When
-        final result = await repository.isFeedbackActivated('feature-1');
+        final result = await repository.getFeedbackActivation('feature-1');
 
         // Then
-        expect(result, isFalse);
+        expect(result.isActivated, isFalse);
+        expect(result.commentaireEnabled, isFalse);
       });
 
-      test('if present from remote configuration but campaign is past should return false', () {
+      test('if present from remote configuration but campaign is past should return not activated', () {
         final now = DateTime(2024, 1, 3);
         withClock(Clock.fixed(now), () async {
           // Given
           when(() => remoteConfigRepository.inAppFeedbackForFeature('feature-1'))
-              .thenReturn(FeedbackForFeature(0, DateTime(2024, 1, 1)));
+              .thenReturn(FeedbackForFeature(0, DateTime(2024, 1, 1), false));
 
           // When
-          final result = await repository.isFeedbackActivated('feature-1');
+          final result = await repository.getFeedbackActivation('feature-1');
 
           // Then
-          expect(result, isFalse);
+          expect(result.isActivated, isFalse);
+          expect(result.commentaireEnabled, isFalse);
         });
       });
 
-      test('if present from remote configuration, campaign is in progress, but not enough display should return false',
+      test(
+          'if present from remote configuration, campaign is in progress, but not enough display should return not activated',
           () {
         final now = DateTime(2024, 1, 3);
         withClock(Clock.fixed(now), () async {
           // Given
           await _givenFeatureDisplayed(secureStorage, 'feature-1', 1);
           when(() => remoteConfigRepository.inAppFeedbackForFeature('feature-1'))
-              .thenReturn(FeedbackForFeature(3, DateTime(2024, 1, 4)));
+              .thenReturn(FeedbackForFeature(3, DateTime(2024, 1, 4), true));
 
           // When
-          final result = await repository.isFeedbackActivated('feature-1');
+          final result = await repository.getFeedbackActivation('feature-1');
 
           // Then
-          expect(result, isFalse);
+          expect(result.isActivated, isFalse);
+          expect(result.commentaireEnabled, isTrue);
         });
       });
 
-      test('if present from remote configuration, campaign is in progress, and enough display should return true', () {
+      test('if present from remote configuration, campaign is in progress, and enough display should return activated',
+          () {
         final now = DateTime(2024, 1, 3);
         withClock(Clock.fixed(now), () async {
           // Given
           await _givenFeatureDisplayed(secureStorage, 'feature-1', 3);
           when(() => remoteConfigRepository.inAppFeedbackForFeature('feature-1'))
-              .thenReturn(FeedbackForFeature(2, DateTime(2024, 1, 4)));
+              .thenReturn(FeedbackForFeature(2, DateTime(2024, 1, 4), false));
 
           // When
-          final result = await repository.isFeedbackActivated('feature-1');
+          final result = await repository.getFeedbackActivation('feature-1');
 
           // Then
-          expect(result, isTrue);
+          expect(result.isActivated, isTrue);
+          expect(result.commentaireEnabled, isFalse);
         });
       });
     });
