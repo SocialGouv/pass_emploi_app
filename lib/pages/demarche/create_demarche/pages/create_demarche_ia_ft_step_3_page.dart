@@ -231,6 +231,8 @@ class _ContentState extends State<_Content> {
                   },
                 ),
               ),
+              const SizedBox(height: Margins.spacing_huge),
+              const SizedBox(height: Margins.spacing_huge),
             ],
           ),
         ),

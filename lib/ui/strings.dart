@@ -876,10 +876,12 @@ class Strings {
   static String iaFtSuggestionsLoading = "Nous générons vos démarches, cela peut prendre quelques instants";
   static String iaFtSuggestionsFailure = "Oups, quelque chose s’est mal passé lors de la création des démarches.";
   static String iaFtSuggestionsEmpty = "Aucune démarche n’a pu être créée automatiquement.";
-  static String iaFtSuggestionsContent(int count) => "$count démarches créées à valider cette semaine";
+  static String iaFtSuggestionsContent(int count) =>
+      count == 1 ? "$count démarche créée à valider cette semaine" : "$count démarches créées à valider cette semaine";
   static String iaFtSuggestionsSubmit = "Valider mes démarches";
-  static String iaFtSuggestionsError(int count) =>
-      "$count démarche${count > 1 ? 's' : ''} n’ont pas leurs dates renseignées. Merci de les compléter pour valider";
+  static String iaFtSuggestionsError(int count) => count == 1
+      ? "$count démarche n’a pas de date renseignée. Merci de la compléter pour valider"
+      : "$count démarches n’ont pas de dates renseignées. Merci de les compléter pour valider";
   static String consulterMesDemarches = "Consulter mes démarches";
 
   // Top démarche
