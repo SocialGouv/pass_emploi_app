@@ -179,6 +179,17 @@ jobs:
           ssh-add ~/.ssh/id_ed25519
           ssh-keyscan -t rsa gitlab.com >> ~/.ssh/known_hosts
 
+      - name: Select Xcode 16.2
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '16.2'
+
+      - name: Ensure iOS platform is installed
+        run: |
+          sudo xcodebuild -downloadPlatform iOS
+          xcodebuild -version -sdk iphoneos
+          xcodebuild -showsdks
+
       - uses: subosito/flutter-action@v2
         with:
           cache: true
