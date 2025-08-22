@@ -187,54 +187,51 @@ class _ContentState extends State<_Content> {
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        Padding(
+        SingleChildScrollView(
+          // clipBehavior: Clip.none,
           padding: const EdgeInsets.all(Margins.spacing_base),
-          child: SingleChildScrollView(
-            clipBehavior: Clip.none,
-            padding: const EdgeInsets.only(bottom: Margins.spacing_huge),
-            child: Column(
-              children: [
-                if (notifier.error != null) ...[
-                  CardContainer(
-                    backgroundColor: AppColors.warningLighten,
-                    child: Row(
-                      children: [
-                        Icon(AppIcons.error_rounded, color: AppColors.warning),
-                        SizedBox(width: Margins.spacing_s),
-                        Expanded(
-                          child: Text(notifier.error!, style: TextStyles.textSBold.copyWith(color: AppColors.warning)),
-                        ),
-                      ],
-                    ),
+          child: Column(
+            children: [
+              if (notifier.error != null) ...[
+                CardContainer(
+                  backgroundColor: AppColors.warningLighten,
+                  child: Row(
+                    children: [
+                      Icon(AppIcons.error_rounded, color: AppColors.warning),
+                      SizedBox(width: Margins.spacing_s),
+                      Expanded(
+                        child: Text(notifier.error!, style: TextStyles.textSBold.copyWith(color: AppColors.warning)),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: Margins.spacing_base),
-                ],
-                Text(
-                  Strings.iaFtSuggestionsContent(suggestions.length),
-                  style: TextStyles.textMBold,
                 ),
                 const SizedBox(height: Margins.spacing_base),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: suggestions.length,
-                  itemBuilder: (context, index) => _DemarcheIaCard(
-                    showError: notifier.error != null && notifier.getDate(suggestions[index].id) == null,
-                    suggestion: suggestions[index],
-                    date: notifier.getDate(suggestions[index].id),
-                    onDateChanged: (id, date) => notifier.updateDate(id, date),
-                    onDelete: (id) {
-                      notifier.deleteSuggestion(id);
-                      PassEmploiMatomoTracker.instance.trackEvent(
-                        eventCategory: AnalyticsEventNames.createDemarcheEventCategory,
-                        action: AnalyticsEventNames.createDemarcheIaSuggestionsListDeleted,
-                        eventValue: 1,
-                      );
-                    },
-                  ),
-                ),
               ],
-            ),
+              Text(
+                Strings.iaFtSuggestionsContent(suggestions.length),
+                style: TextStyles.textMBold,
+              ),
+              const SizedBox(height: Margins.spacing_base),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: suggestions.length,
+                itemBuilder: (context, index) => _DemarcheIaCard(
+                  showError: notifier.error != null && notifier.getDate(suggestions[index].id) == null,
+                  suggestion: suggestions[index],
+                  date: notifier.getDate(suggestions[index].id),
+                  onDateChanged: (id, date) => notifier.updateDate(id, date),
+                  onDelete: (id) {
+                    notifier.deleteSuggestion(id);
+                    PassEmploiMatomoTracker.instance.trackEvent(
+                      eventCategory: AnalyticsEventNames.createDemarcheEventCategory,
+                      action: AnalyticsEventNames.createDemarcheIaSuggestionsListDeleted,
+                      eventValue: 1,
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
         ),
         Positioned(
