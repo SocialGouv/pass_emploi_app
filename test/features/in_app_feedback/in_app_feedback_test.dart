@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/features/in_app_feedback/in_app_feedback_actions.dart';
 import 'package:pass_emploi_app/features/in_app_feedback/in_app_feedback_state.dart';
+import 'package:pass_emploi_app/models/feedback_activation.dart';
 
 import '../../doubles/mocks.dart';
 import '../../dsl/app_state_dsl.dart';
@@ -17,24 +18,26 @@ void main() {
       sut.whenDispatchingAction(() => InAppFeedbackRequestAction('feature-1'));
 
       test('and feedback activated', () {
-        when(() => repository.isFeedbackActivated('feature-1')).thenAnswer((_) async => true);
+        when(() => repository.getFeedbackActivation('feature-1'))
+            .thenAnswer((_) async => FeedbackActivation(isActivated: true, commentaireEnabled: false));
 
         sut.givenStore = givenState().store((f) => {f.inAppFeedbackRepository = repository});
 
         sut.thenExpectChangingStatesThroughOrder([
           _expectedResult('feature-1', null),
-          _expectedResult('feature-1', true),
+          _expectedResult('feature-1', FeedbackActivation(isActivated: true, commentaireEnabled: false)),
         ]);
       });
 
       test('and feedback not activated', () {
-        when(() => repository.isFeedbackActivated('feature-1')).thenAnswer((_) async => false);
+        when(() => repository.getFeedbackActivation('feature-1'))
+            .thenAnswer((_) async => FeedbackActivation(isActivated: false, commentaireEnabled: false));
 
         sut.givenStore = givenState().store((f) => {f.inAppFeedbackRepository = repository});
 
         sut.thenExpectChangingStatesThroughOrder([
           _expectedResult('feature-1', null),
-          _expectedResult('feature-1', false),
+          _expectedResult('feature-1', FeedbackActivation(isActivated: false, commentaireEnabled: false)),
         ]);
       });
     });
@@ -46,17 +49,21 @@ void main() {
         when(() => repository.dismissFeedback('feature-1')).thenAnswer((_) async {});
 
         sut.givenStore = givenState()
-            .copyWith(inAppFeedbackState: InAppFeedbackState(feedbackActivationForFeatures: {'feature-1': true}))
+            .copyWith(
+                inAppFeedbackState: InAppFeedbackState(feedbackActivationForFeatures: {
+              'feature-1': FeedbackActivation(isActivated: true, commentaireEnabled: false)
+            }))
             .store((f) => {f.inAppFeedbackRepository = repository});
 
-        sut.thenExpectChangingStatesThroughOrder([_expectedResult('feature-1', false)]);
+        sut.thenExpectChangingStatesThroughOrder(
+            [_expectedResult('feature-1', FeedbackActivation(isActivated: false, commentaireEnabled: false))]);
         verify(() => repository.dismissFeedback('feature-1')).called(1);
       });
     });
   });
 }
 
-Matcher _expectedResult(String feature, bool? expected) {
+Matcher _expectedResult(String feature, FeedbackActivation? expected) {
   return StateIs<InAppFeedbackState>(
     (state) => state.inAppFeedbackState,
     (state) => expect(state.feedbackActivationForFeatures[feature], expected),

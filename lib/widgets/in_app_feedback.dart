@@ -3,6 +3,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/in_app_feedback/in_app_feedback_actions.dart';
+import 'package:pass_emploi_app/features/module_feedback/module_feedback_actions.dart';
+import 'package:pass_emploi_app/models/feedback_activation.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -13,6 +15,8 @@ import 'package:pass_emploi_app/ui/media_sizes.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
 
 enum _Feedback {
   feedback1(
@@ -50,6 +54,7 @@ enum _Feedback {
 
 enum _WidgetState {
   feedback,
+  commentaire,
   thanks,
   closed,
 }
@@ -94,9 +99,9 @@ class _InAppFeedbackState extends State<InAppFeedback> with TickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, bool>(
+    return StoreConnector<AppState, FeedbackActivation?>(
       onInit: (store) => store.dispatch(InAppFeedbackRequestAction(widget.feature)),
-      converter: (store) => store.state.inAppFeedbackState.feedbackActivationForFeatures[widget.feature] ?? false,
+      converter: (store) => store.state.inAppFeedbackState.feedbackActivationForFeatures[widget.feature],
       builder: _builder,
       onDispose: (store) {
         if (_shouldDismiss) store.dispatch(InAppFeedbackDismissAction(widget.feature));
@@ -104,7 +109,8 @@ class _InAppFeedbackState extends State<InAppFeedback> with TickerProviderStateM
     );
   }
 
-  Widget _builder(BuildContext context, bool display) {
+  Widget _builder(BuildContext context, FeedbackActivation? activation) {
+    final display = activation?.isActivated ?? false;
     return switch (display) {
       true => AnimatedBuilder(
           animation: _animation,
@@ -113,6 +119,7 @@ class _InAppFeedbackState extends State<InAppFeedback> with TickerProviderStateM
             label: widget.label,
             padding: widget.padding,
             backgroundColor: widget.backgroundColor,
+            commentaireEnabled: activation?.commentaireEnabled ?? false,
             onDismiss: () => _shouldDismiss = true,
           ),
           builder: (context, child) => Transform.scale(scale: _animation.value, child: child)),
@@ -126,6 +133,7 @@ class _InAppFeedbackWidget extends StatefulWidget {
   final String label;
   final EdgeInsetsGeometry padding;
   final Color backgroundColor;
+  final bool commentaireEnabled;
   final VoidCallback onDismiss;
 
   const _InAppFeedbackWidget({
@@ -133,6 +141,7 @@ class _InAppFeedbackWidget extends StatefulWidget {
     required this.label,
     required this.padding,
     required this.backgroundColor,
+    required this.commentaireEnabled,
     required this.onDismiss,
   });
 
@@ -142,6 +151,30 @@ class _InAppFeedbackWidget extends StatefulWidget {
 
 class _InAppFeedbackWidgetState extends State<_InAppFeedbackWidget> {
   _WidgetState state = _WidgetState.feedback;
+  _Feedback? selectedFeedback;
+  final TextEditingController _commentaireController = TextEditingController();
+
+  @override
+  void dispose() {
+    _commentaireController.dispose();
+    super.dispose();
+  }
+
+  void _submitFeedback() {
+    if (selectedFeedback == null) return;
+
+    final note = selectedFeedback!.index + 1;
+    final commentaire = _commentaireController.text.trim();
+
+    StoreProvider.of<AppState>(context).dispatch(ModuleFeedbackRequestAction(
+      tag: widget.feature,
+      note: note,
+      commentaire: commentaire,
+    ));
+
+    setState(() => state = _WidgetState.thanks);
+    widget.onDismiss();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -166,8 +199,12 @@ class _InAppFeedbackWidgetState extends State<_InAppFeedbackWidget> {
                         backgroundColor: widget.backgroundColor,
                         tracking: widget.feature,
                         onOptionTap: (feedback) {
-                          widget.onDismiss();
-                          setState(() => state = _WidgetState.thanks);
+                          selectedFeedback = feedback;
+                          if (widget.commentaireEnabled) {
+                            setState(() => state = _WidgetState.commentaire);
+                          } else {
+                            _submitFeedback();
+                          }
                           PassEmploiMatomoTracker.instance.trackEvent(
                             eventCategory: AnalyticsEventNames.feedbackCategory(widget.feature),
                             action: feedback.analyticsEvent,
@@ -189,8 +226,39 @@ class _InAppFeedbackWidgetState extends State<_InAppFeedbackWidget> {
               ],
             ),
           ),
-        _WidgetState.thanks => Padding(
+        _WidgetState.commentaire => Padding(
             key: ValueKey<String>('${widget.feature}-1'),
+            padding: widget.padding,
+            child: Stack(
+              children: [
+                _BorderedContainer(
+                  backgroundColor: widget.backgroundColor,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      _Description(label: Strings.feedbackCommentaire),
+                      SizedBox(height: Margins.spacing_m),
+                      BaseTextField(
+                        controller: _commentaireController,
+                        maxLength: 255,
+                        maxLines: 3,
+                      ),
+                      SizedBox(height: Margins.spacing_base),
+                      PrimaryActionButton(
+                        onPressed: _submitFeedback,
+                        label: Strings.submitFeedback,
+                      ),
+                    ],
+                  ),
+                ),
+                _CloseButton(onPressed: () {
+                  _submitFeedback();
+                })
+              ],
+            ),
+          ),
+        _WidgetState.thanks => Padding(
+            key: ValueKey<String>('${widget.feature}-2'),
             padding: widget.padding,
             child: _Thanks(
               backgroundColor: widget.backgroundColor,
@@ -204,18 +272,17 @@ class _InAppFeedbackWidgetState extends State<_InAppFeedbackWidget> {
 }
 
 class _Description extends StatelessWidget {
-  final IconData icon;
+  final IconData? icon;
   final String label;
 
-  const _Description({required this.icon, required this.label});
+  const _Description({this.icon, required this.label});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(icon, color: AppColors.primary),
-        SizedBox(width: Margins.spacing_s),
+        if (icon != null) ...[Icon(icon, color: AppColors.primary), SizedBox(width: Margins.spacing_s)],
         Flexible(child: Text(label, style: TextStyles.textSBold)),
         // Extra margin is added to avoid the close button to be too close to the text
         SizedBox(width: 30),

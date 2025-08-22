@@ -1,3 +1,5 @@
+import 'package:pass_emploi_app/models/feedback_activation.dart';
+
 class InAppFeedbackRequestAction {
   final String feature;
 
@@ -11,7 +13,7 @@ class InAppFeedbackDismissAction {
 }
 
 class InAppFeedbackSuccessAction {
-  final MapEntry<String, bool> feedbackActivationForFeature;
+  final MapEntry<String, FeedbackActivation> feedbackActivationForFeature;
 
   InAppFeedbackSuccessAction(this.feedbackActivationForFeature);
 }
