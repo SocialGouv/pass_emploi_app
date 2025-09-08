@@ -20,7 +20,7 @@ class DetailsJeune extends Equatable {
       dateSignatureCgu: (json["dateSignatureCGU"] as String?)?.toDateTimeUtcOnLocalTimeZone(),
       structure: structure != null ? StructureMilo.fromJson(structure) : null,
       conseiller: DetailsJeuneConseiller.fromJson(json['conseiller']),
-      eligibleDemarchesIA: json['eligibleDemarchesIA'] as bool?,
+      eligibleDemarchesIA: true, // TODO: REMETTRE ça json['eligibleDemarchesIA'] as bool?,
     );
   }
 

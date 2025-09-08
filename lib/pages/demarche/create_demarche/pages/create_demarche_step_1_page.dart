@@ -269,7 +269,11 @@ class _IaFtFeatureFlipConnector extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, bool>(
       builder: builder,
-      converter: (store) => store.state.detailsJeuneState.detailsJeuneOrNull?.eligibleDemarchesIA ?? false,
+      converter: (store) {
+        // TODO: FT IA REMETTRE ça
+        if (1 == 1) return true;
+        return store.state.detailsJeuneState.detailsJeuneOrNull?.eligibleDemarchesIA ?? false;
+      },
       distinct: true,
     );
   }

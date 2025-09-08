@@ -11,6 +11,20 @@ import '../../doubles/fixtures.dart';
 import '../../utils/test_setup.dart';
 
 void main() {
+  test("should fetch details jeune with eligibleDemarchesIA", () async {
+    // Given
+    final store = _storeWithSuccessFetchingRepositories();
+    final newState = store.onChange.firstWhere((element) => element.detailsJeuneState is DetailsJeuneSuccessState);
+    final loadingDisplayed = store.onChange.any((element) => element.detailsJeuneState is DetailsJeuneLoadingState);
+
+    // When
+    store.dispatch(DetailsJeuneRequestAction());
+
+    // Then
+    // TODO: Résoudre l'activation FT IA
+    expect(true, false);
+  });
+
   test("should fetch details jeune", () async {
     // Given
     final store = _storeWithSuccessFetchingRepositories();

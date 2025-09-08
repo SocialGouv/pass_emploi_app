@@ -859,6 +859,7 @@ class Strings {
   static String thematiquesErrorTitle = "Il y a un problème de notre côté\u{00A0}!";
   static String thematiquesErrorSubtitle =
       "Nous sommes en train de régler le problème. Réessayez plus tard ou créez une démarche personnalisée.";
+  static String otherDemarche = "Autre démarche";
 
   // IA FT
   static String iaFtCardTitle = "Vos démarches en un instant";
