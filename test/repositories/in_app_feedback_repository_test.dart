@@ -40,7 +40,7 @@ void main() {
         withClock(Clock.fixed(now), () async {
           // Given
           when(() => remoteConfigRepository.inAppFeedbackForFeature('feature-1'))
-              .thenReturn(FeedbackForFeature(0, DateTime(2024, 1, 1), false));
+              .thenReturn(FeedbackForFeature(0, DateTime(2024, 1, 1), false, true));
 
           // When
           final result = await repository.getFeedbackActivation('feature-1');
@@ -59,7 +59,7 @@ void main() {
           // Given
           await _givenFeatureDisplayed(secureStorage, 'feature-1', 1);
           when(() => remoteConfigRepository.inAppFeedbackForFeature('feature-1'))
-              .thenReturn(FeedbackForFeature(3, DateTime(2024, 1, 4), true));
+              .thenReturn(FeedbackForFeature(3, DateTime(2024, 1, 4), true, true));
 
           // When
           final result = await repository.getFeedbackActivation('feature-1');
@@ -77,7 +77,7 @@ void main() {
           // Given
           await _givenFeatureDisplayed(secureStorage, 'feature-1', 3);
           when(() => remoteConfigRepository.inAppFeedbackForFeature('feature-1'))
-              .thenReturn(FeedbackForFeature(2, DateTime(2024, 1, 4), false));
+              .thenReturn(FeedbackForFeature(2, DateTime(2024, 1, 4), false, true));
 
           // When
           final result = await repository.getFeedbackActivation('feature-1');

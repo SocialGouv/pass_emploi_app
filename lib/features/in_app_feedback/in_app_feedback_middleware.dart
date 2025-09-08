@@ -19,8 +19,18 @@ class InAppFeedbackMiddleware extends MiddlewareClass<AppState> {
 
     if (action is InAppFeedbackDismissAction) {
       await _repository.dismissFeedback(action.feature);
-      store.dispatch(InAppFeedbackSuccessAction(
-          MapEntry(action.feature, FeedbackActivation(isActivated: false, commentaireEnabled: false))));
+      store.dispatch(
+        InAppFeedbackSuccessAction(
+          MapEntry(
+            action.feature,
+            FeedbackActivation(
+              isActivated: false,
+              commentaireEnabled: false,
+              dismissable: true,
+            ),
+          ),
+        ),
+      );
     }
   }
 }
