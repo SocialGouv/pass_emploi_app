@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
 import 'package:pass_emploi_app/features/thematiques_demarche/thematiques_demarche_actions.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche/widgets/ia_ft_card.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_form/create_demarche_form_view_model.dart';
@@ -150,7 +151,7 @@ class _Success extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _IaFtFeatureFlipConnector(
+        IaFtFeatureFlipConnector(
           builder: (context, useIaFt) => useIaFt
               ? IaFtCard(
                   onPressed: () => formViewModel.navigateToCreateDemarcheIaFtStep2(),
@@ -261,8 +262,8 @@ class _CreateCustomDemarche extends StatelessWidget {
   }
 }
 
-class _IaFtFeatureFlipConnector extends StatelessWidget {
-  const _IaFtFeatureFlipConnector({required this.builder});
+class IaFtFeatureFlipConnector extends StatelessWidget {
+  const IaFtFeatureFlipConnector({required this.builder});
   final Widget Function(BuildContext, bool) builder;
 
   @override
@@ -270,9 +271,9 @@ class _IaFtFeatureFlipConnector extends StatelessWidget {
     return StoreConnector<AppState, bool>(
       builder: builder,
       converter: (store) {
-        // TODO: FT IA REMETTRE ça
-        if (1 == 1) return true;
-        return store.state.detailsJeuneState.detailsJeuneOrNull?.eligibleDemarchesIA ?? false;
+        final monsuiviState = store.state.monSuiviState;
+        if (monsuiviState is! MonSuiviSuccessState) return false;
+        return monsuiviState.monSuivi.eligibleDemarchesIA;
       },
       distinct: true,
     );

@@ -13,6 +13,7 @@ class MonSuivi extends Equatable {
   final List<SessionMilo> sessionsMilo;
   final bool errorOnSessionMiloRetrieval;
   final DateTime? dateDerniereMiseAJourPoleEmploi;
+  final bool eligibleDemarchesIA;
 
   MonSuivi({
     required this.actions,
@@ -21,6 +22,7 @@ class MonSuivi extends Equatable {
     required this.sessionsMilo,
     required this.errorOnSessionMiloRetrieval,
     required this.dateDerniereMiseAJourPoleEmploi,
+    this.eligibleDemarchesIA = false,
   });
 
   factory MonSuivi.fromMiloJson(dynamic json) {
@@ -46,6 +48,7 @@ class MonSuivi extends Equatable {
       sessionsMilo: [],
       errorOnSessionMiloRetrieval: false,
       dateDerniereMiseAJourPoleEmploi: (json["dateDerniereMiseAJour"] as String?)?.toDateTimeUtcOnLocalTimeZone(),
+      eligibleDemarchesIA: json['eligibleDemarchesIA'] as bool? ?? false,
     );
   }
 
@@ -57,6 +60,7 @@ class MonSuivi extends Equatable {
       sessionsMilo: [...sessionsMilo, ...monSuivi.sessionsMilo],
       errorOnSessionMiloRetrieval: errorOnSessionMiloRetrieval || monSuivi.errorOnSessionMiloRetrieval,
       dateDerniereMiseAJourPoleEmploi: monSuivi.dateDerniereMiseAJourPoleEmploi,
+      eligibleDemarchesIA: eligibleDemarchesIA,
     );
   }
 
@@ -67,6 +71,7 @@ class MonSuivi extends Equatable {
     List<SessionMilo>? sessionsMilo,
     bool? errorOnSessionMiloRetrieval,
     DateTime? dateDerniereMiseAJourPoleEmploi,
+    bool? eligibleDemarchesIA,
   }) {
     return MonSuivi(
       actions: actions ?? this.actions,
@@ -75,6 +80,7 @@ class MonSuivi extends Equatable {
       sessionsMilo: sessionsMilo ?? this.sessionsMilo,
       errorOnSessionMiloRetrieval: errorOnSessionMiloRetrieval ?? this.errorOnSessionMiloRetrieval,
       dateDerniereMiseAJourPoleEmploi: dateDerniereMiseAJourPoleEmploi ?? this.dateDerniereMiseAJourPoleEmploi,
+      eligibleDemarchesIA: eligibleDemarchesIA ?? this.eligibleDemarchesIA,
     );
   }
 
@@ -86,5 +92,6 @@ class MonSuivi extends Equatable {
         sessionsMilo,
         errorOnSessionMiloRetrieval,
         dateDerniereMiseAJourPoleEmploi,
+        eligibleDemarchesIA,
       ];
 }
