@@ -672,7 +672,7 @@ class Strings {
   static const String exampleHint = "Exemple : ";
   static String aboutThisAction = "À propos de cette action";
   static String actionDetails = "Mon action";
-  static String demarcheDetails = "Détail de la démarche";
+  static String demarcheDetails = "Détail";
   static String completeAction = "Terminer mon action";
   static String unCompleteAction = "Je n’ai pas terminé mon action";
   static String userActionDetailsSection = "Détails";
@@ -878,7 +878,7 @@ class Strings {
   static String iaFtSuggestionsFailure = "Oups, quelque chose s’est mal passé lors de la création des démarches.";
   static String iaFtSuggestionsEmpty = "Aucune démarche n’a pu être créée automatiquement.";
   static String iaFtSuggestionsContent(int count) =>
-      count == 1 ? "$count démarche créée à valider cette semaine" : "$count démarches créées à valider cette semaine";
+      count == 1 ? "$count démarche créée à valider" : "$count démarches créées à valider";
   static String iaFtSuggestionsSubmit = "Valider mes démarches";
   static String iaFtSuggestionsError(int count) => count == 1
       ? "$count démarche n’a pas de date renseignée. Merci de la compléter pour valider"

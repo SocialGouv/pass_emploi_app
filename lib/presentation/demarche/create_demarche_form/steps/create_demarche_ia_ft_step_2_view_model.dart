@@ -4,7 +4,7 @@ class CreateDemarcheIaFtStep2ViewModel extends CreateDemarcheViewModel {
   CreateDemarcheIaFtStep2ViewModel({this.description = ''});
   final String description;
 
-  static int maxLength = 255;
+  static int maxLength = 1000;
 
   @override
   List<Object?> get props => [description];
