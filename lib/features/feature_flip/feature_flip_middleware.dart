@@ -21,10 +21,11 @@ class FeatureFlipMiddleware extends MiddlewareClass<AppState> {
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
+    final userId = store.state.userId();
+    if (userId == null) return;
     if (action is LoginSuccessAction) {
       if (action.user.loginMode.isPe()) {
         _handleCvmFeatureFlip(store, action.user.id);
-        _handleIaFtFeatureFlip(store, action.user.id);
       }
     }
   }
@@ -41,13 +42,6 @@ class FeatureFlipMiddleware extends MiddlewareClass<AppState> {
       if (idsConseiller.contains(jeune?.conseiller.id)) {
         store.dispatch(FeatureFlipUseCvmAction(true));
       }
-    }
-  }
-
-  Future<void> _handleIaFtFeatureFlip(Store<AppState> store, String userId) async {
-    final withIaFt = _remoteConfigRepository.withIaFt();
-    if (withIaFt == true) {
-      store.dispatch(FeatureFlipUseIaFtAction(true));
     }
   }
 }

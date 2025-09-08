@@ -151,9 +151,11 @@ class _Success extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _IaFtFeatureFlipConnector(
-          builder: (context, useIaFt) => IaFtCard(
-            onPressed: () => formViewModel.navigateToCreateDemarcheIaFtStep2(),
-          ),
+          builder: (context, useIaFt) => useIaFt
+              ? IaFtCard(
+                  onPressed: () => formViewModel.navigateToCreateDemarcheIaFtStep2(),
+                )
+              : SizedBox.shrink(),
         ),
         const SizedBox(height: Margins.spacing_base),
         Text(Strings.thematiquesDemarcheDescriptionShort, style: TextStyles.textMBold),
@@ -267,7 +269,7 @@ class _IaFtFeatureFlipConnector extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, bool>(
       builder: builder,
-      converter: (store) => store.state.featureFlipState.featureFlip.useIaFt,
+      converter: (store) => store.state.detailsJeuneState.detailsJeuneOrNull?.eligibleDemarchesIA ?? false,
       distinct: true,
     );
   }

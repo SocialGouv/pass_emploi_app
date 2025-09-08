@@ -6,8 +6,5 @@ FeatureFlipState featureFlipReducer(FeatureFlipState current, dynamic action) {
   if (action is FeatureFlipCampagneRecrutementAction) {
     return FeatureFlipState(current.featureFlip.copyWith(withCampagneRecrutement: action.withCampagneRecrutement));
   }
-  if (action is FeatureFlipUseIaFtAction) {
-    return FeatureFlipState(current.featureFlip.copyWith(useIaFt: action.useIaFt));
-  }
   return current;
 }

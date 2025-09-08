@@ -5,11 +5,13 @@ class DetailsJeune extends Equatable {
   final DateTime? dateSignatureCgu;
   final DetailsJeuneConseiller conseiller;
   final StructureMilo? structure;
+  final bool? eligibleDemarchesIA;
 
   DetailsJeune({
     required this.dateSignatureCgu,
     required this.conseiller,
     required this.structure,
+    this.eligibleDemarchesIA,
   });
 
   factory DetailsJeune.fromJson(dynamic json) {
@@ -18,11 +20,12 @@ class DetailsJeune extends Equatable {
       dateSignatureCgu: (json["dateSignatureCGU"] as String?)?.toDateTimeUtcOnLocalTimeZone(),
       structure: structure != null ? StructureMilo.fromJson(structure) : null,
       conseiller: DetailsJeuneConseiller.fromJson(json['conseiller']),
+      eligibleDemarchesIA: json['eligibleDemarchesIA'] as bool?,
     );
   }
 
   @override
-  List<Object?> get props => [dateSignatureCgu, conseiller, structure];
+  List<Object?> get props => [dateSignatureCgu, conseiller, structure, eligibleDemarchesIA];
 }
 
 class DetailsJeuneConseiller extends Equatable {
