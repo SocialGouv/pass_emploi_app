@@ -144,12 +144,12 @@ class _Body extends StatelessWidget {
                         SizedBox(height: Margins.spacing_base),
                         _Titre(viewModel.titreDetail!),
                       ],
-                      if (viewModel.sousTitre != null) ...[
-                        SizedBox(height: Margins.spacing_base),
-                        _SousTitre(viewModel.sousTitre!),
-                      ],
                       SizedBox(height: Margins.spacing_base),
                       _DetailDemarcheTitle(),
+                      if (viewModel.promptIa != null) ...[
+                        SizedBox(height: Margins.spacing_base),
+                        _SousTitre(viewModel.promptIa!),
+                      ],
                       if (viewModel.attributs.isNotEmpty) ...[
                         SizedBox(height: Margins.spacing_base),
                         _Attributs(viewModel.attributs),

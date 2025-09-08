@@ -64,12 +64,14 @@ class InAppFeedback extends StatefulWidget {
   final String label;
   final EdgeInsetsGeometry padding;
   final Color backgroundColor;
+  final Widget? disabledPlaceholder;
 
   const InAppFeedback({
     required this.feature,
     required this.label,
     this.padding = EdgeInsets.zero,
     this.backgroundColor = AppColors.primaryLighten,
+    this.disabledPlaceholder,
   });
 
   @override
@@ -110,8 +112,8 @@ class _InAppFeedbackState extends State<InAppFeedback> with TickerProviderStateM
   }
 
   Widget _builder(BuildContext context, FeedbackActivation? activation) {
-    final display = activation?.isActivated ?? false;
-    return switch (display) {
+    final isActivated = activation?.isActivated ?? false;
+    return switch (isActivated) {
       true => AnimatedBuilder(
           animation: _animation,
           child: _InAppFeedbackWidget(
@@ -120,10 +122,11 @@ class _InAppFeedbackState extends State<InAppFeedback> with TickerProviderStateM
             padding: widget.padding,
             backgroundColor: widget.backgroundColor,
             commentaireEnabled: activation?.commentaireEnabled ?? false,
-            onDismiss: () => _shouldDismiss = true,
+            dismissable: activation?.dismissable ?? true,
+            onDismiss: activation?.dismissable ?? true ? () => _shouldDismiss = true : () {},
           ),
           builder: (context, child) => Transform.scale(scale: _animation.value, child: child)),
-      false => SizedBox.shrink(),
+      false => widget.disabledPlaceholder ?? SizedBox.shrink(),
     };
   }
 }
@@ -134,6 +137,7 @@ class _InAppFeedbackWidget extends StatefulWidget {
   final EdgeInsetsGeometry padding;
   final Color backgroundColor;
   final bool commentaireEnabled;
+  final bool dismissable;
   final VoidCallback onDismiss;
 
   const _InAppFeedbackWidget({
@@ -142,6 +146,7 @@ class _InAppFeedbackWidget extends StatefulWidget {
     required this.padding,
     required this.backgroundColor,
     required this.commentaireEnabled,
+    required this.dismissable,
     required this.onDismiss,
   });
 
@@ -217,12 +222,14 @@ class _InAppFeedbackWidgetState extends State<_InAppFeedbackWidget> {
                     ],
                   ),
                 ),
-                _CloseButton(onPressed: () {
-                  setState(() => state = _WidgetState.closed);
-                  PassEmploiMatomoTracker.instance
-                      .trackScreen(AnalyticsScreenNames.inAppFeedbackFeatureFermeture(widget.feature));
-                  widget.onDismiss();
-                })
+                if (widget.dismissable) ...[
+                  _CloseButton(onPressed: () {
+                    setState(() => state = _WidgetState.closed);
+                    PassEmploiMatomoTracker.instance
+                        .trackScreen(AnalyticsScreenNames.inAppFeedbackFeatureFermeture(widget.feature));
+                    widget.onDismiss();
+                  })
+                ],
               ],
             ),
           ),

@@ -18,26 +18,28 @@ void main() {
       sut.whenDispatchingAction(() => InAppFeedbackRequestAction('feature-1'));
 
       test('and feedback activated', () {
-        when(() => repository.getFeedbackActivation('feature-1'))
-            .thenAnswer((_) async => FeedbackActivation(isActivated: true, commentaireEnabled: false));
+        when(() => repository.getFeedbackActivation('feature-1')).thenAnswer(
+            (_) async => FeedbackActivation(isActivated: true, commentaireEnabled: false, dismissable: true));
 
         sut.givenStore = givenState().store((f) => {f.inAppFeedbackRepository = repository});
 
         sut.thenExpectChangingStatesThroughOrder([
           _expectedResult('feature-1', null),
-          _expectedResult('feature-1', FeedbackActivation(isActivated: true, commentaireEnabled: false)),
+          _expectedResult(
+              'feature-1', FeedbackActivation(isActivated: true, commentaireEnabled: false, dismissable: true)),
         ]);
       });
 
       test('and feedback not activated', () {
-        when(() => repository.getFeedbackActivation('feature-1'))
-            .thenAnswer((_) async => FeedbackActivation(isActivated: false, commentaireEnabled: false));
+        when(() => repository.getFeedbackActivation('feature-1')).thenAnswer(
+            (_) async => FeedbackActivation(isActivated: false, commentaireEnabled: false, dismissable: true));
 
         sut.givenStore = givenState().store((f) => {f.inAppFeedbackRepository = repository});
 
         sut.thenExpectChangingStatesThroughOrder([
           _expectedResult('feature-1', null),
-          _expectedResult('feature-1', FeedbackActivation(isActivated: false, commentaireEnabled: false)),
+          _expectedResult(
+              'feature-1', FeedbackActivation(isActivated: false, commentaireEnabled: false, dismissable: true)),
         ]);
       });
     });
@@ -51,12 +53,14 @@ void main() {
         sut.givenStore = givenState()
             .copyWith(
                 inAppFeedbackState: InAppFeedbackState(feedbackActivationForFeatures: {
-              'feature-1': FeedbackActivation(isActivated: true, commentaireEnabled: false)
+              'feature-1': FeedbackActivation(isActivated: true, commentaireEnabled: false, dismissable: true)
             }))
             .store((f) => {f.inAppFeedbackRepository = repository});
 
-        sut.thenExpectChangingStatesThroughOrder(
-            [_expectedResult('feature-1', FeedbackActivation(isActivated: false, commentaireEnabled: false))]);
+        sut.thenExpectChangingStatesThroughOrder([
+          _expectedResult(
+              'feature-1', FeedbackActivation(isActivated: false, commentaireEnabled: false, dismissable: true))
+        ]);
         verify(() => repository.dismissFeedback('feature-1')).called(1);
       });
     });

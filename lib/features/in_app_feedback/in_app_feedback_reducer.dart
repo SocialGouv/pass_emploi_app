@@ -10,7 +10,11 @@ InAppFeedbackState inAppFeedbackReducer(InAppFeedbackState current, dynamic acti
   }
   if (action is InAppFeedbackDismissAction) {
     final copy = Map<String, FeedbackActivation>.from(current.feedbackActivationForFeatures);
-    copy[action.feature] = FeedbackActivation(isActivated: false, commentaireEnabled: false);
+    copy[action.feature] = FeedbackActivation(
+      isActivated: false,
+      commentaireEnabled: false,
+      dismissable: true,
+    );
     return InAppFeedbackState(feedbackActivationForFeatures: copy);
   }
   return current;

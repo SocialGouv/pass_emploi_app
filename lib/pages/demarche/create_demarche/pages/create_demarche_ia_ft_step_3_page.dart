@@ -270,7 +270,7 @@ class _DemarcheIaCard extends StatelessWidget {
         child: BaseCard(
           tag: CardTag(
             icon: AppIcons.work_outline_rounded,
-            text: suggestion.label ?? '',
+            text: suggestion.label ?? Strings.otherDemarche,
             contentColor: AppColors.primary,
             backgroundColor: AppColors.primaryLighten,
           ),

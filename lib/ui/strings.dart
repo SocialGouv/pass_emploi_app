@@ -672,7 +672,7 @@ class Strings {
   static const String exampleHint = "Exemple : ";
   static String aboutThisAction = "À propos de cette action";
   static String actionDetails = "Mon action";
-  static String demarcheDetails = "Détail de la démarche";
+  static String demarcheDetails = "Détail";
   static String completeAction = "Terminer mon action";
   static String unCompleteAction = "Je n’ai pas terminé mon action";
   static String userActionDetailsSection = "Détails";
@@ -859,6 +859,7 @@ class Strings {
   static String thematiquesErrorTitle = "Il y a un problème de notre côté\u{00A0}!";
   static String thematiquesErrorSubtitle =
       "Nous sommes en train de régler le problème. Réessayez plus tard ou créez une démarche personnalisée.";
+  static String otherDemarche = "Autre démarche";
 
   // IA FT
   static String iaFtCardTitle = "Vos démarches en un instant";
@@ -877,7 +878,7 @@ class Strings {
   static String iaFtSuggestionsFailure = "Oups, quelque chose s’est mal passé lors de la création des démarches.";
   static String iaFtSuggestionsEmpty = "Aucune démarche n’a pu être créée automatiquement.";
   static String iaFtSuggestionsContent(int count) =>
-      count == 1 ? "$count démarche créée à valider cette semaine" : "$count démarches créées à valider cette semaine";
+      count == 1 ? "$count démarche créée à valider" : "$count démarches créées à valider";
   static String iaFtSuggestionsSubmit = "Valider mes démarches";
   static String iaFtSuggestionsError(int count) => count == 1
       ? "$count démarche n’a pas de date renseignée. Merci de la compléter pour valider"
@@ -1538,7 +1539,8 @@ class Strings {
   static String feedbackProvenanceOffre(String provenance) =>
       "Connaître la source d’une offre ($provenance, etc) m’intéresse.";
   static String feedbackCentreNotification = "Retrouver mes notifications dans l'app m'intéresse.";
-  static String feedbackCreateDemarche = "Êtes vous satisfait de la nouvelle saisie des démarches ?";
+  static String feedbackCreateDemarche = "Qu’avez-vous pensé de la nouvelle saisie des démarches ?";
+  static String feedbackCreateDemarcheSuggestions = "Qu’avez-vous pensé des démarches suggérées ?";
 
   // centre de notifications
   static String notificationsCenterTooltip = "Centre de notifications";

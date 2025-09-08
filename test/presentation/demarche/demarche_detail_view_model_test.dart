@@ -57,7 +57,6 @@ void main() {
       expect(viewModel.dateIcons, [AppIcons.schedule_rounded]);
       expect(viewModel.label, "label");
       expect(viewModel.titreDetail, "titre");
-      expect(viewModel.sousTitre, "sous titre");
       expect(viewModel.creationDate, "23/12/2022");
       expect(viewModel.modificationDate, "23/12/2022");
     });

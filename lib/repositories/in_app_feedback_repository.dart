@@ -11,15 +11,26 @@ class InAppFeedbackRepository {
 
   Future<FeedbackActivation> getFeedbackActivation(String feature) async {
     final inAppFeedbackForFeature = _remoteConfigRepository.inAppFeedbackForFeature(feature);
-    if (inAppFeedbackForFeature == null) return FeedbackActivation(isActivated: false, commentaireEnabled: false);
+    if (inAppFeedbackForFeature == null) {
+      return FeedbackActivation(
+        isActivated: false,
+        commentaireEnabled: false,
+        dismissable: true,
+      );
+    }
     if (clock.now().isAfter(inAppFeedbackForFeature.until)) {
-      return FeedbackActivation(isActivated: false, commentaireEnabled: false);
+      return FeedbackActivation(
+        isActivated: false,
+        commentaireEnabled: false,
+        dismissable: true,
+      );
     }
     final displayCount = await _incrementDisplayCount(feature);
     final isActivated = displayCount >= inAppFeedbackForFeature.displayAfter;
     return FeedbackActivation(
       isActivated: isActivated,
       commentaireEnabled: inAppFeedbackForFeature.commentaireEnabled,
+      dismissable: inAppFeedbackForFeature.dismissable,
     );
   }
 

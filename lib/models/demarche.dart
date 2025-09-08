@@ -27,6 +27,7 @@ class Demarche extends Equatable {
   final bool createdByAdvisor;
   final bool modifiedByAdvisor;
   final List<DemarcheAttribut> attributs;
+  final String? promptIa;
 
   Demarche({
     required this.id,
@@ -44,6 +45,7 @@ class Demarche extends Equatable {
     required this.sousTitre,
     required this.attributs,
     required this.creationDate,
+    this.promptIa,
   });
 
   Demarche copyWithStatus(DemarcheStatus status) {
@@ -63,6 +65,7 @@ class Demarche extends Equatable {
       sousTitre: sousTitre,
       attributs: attributs,
       creationDate: creationDate,
+      promptIa: promptIa,
     );
   }
 
@@ -86,6 +89,7 @@ class Demarche extends Equatable {
       modifiedByAdvisor: json['modifieParConseiller'] as bool,
       attributs: (json["attributs"] as List).map((attribut) => DemarcheAttribut.fromJson(attribut)).toList(),
       creationDate: (json['dateCreation'] as String?)?.toDateTimeUtcOnLocalTimeZone(),
+      promptIa: json['promptIa'] as String?,
     ).transformDemarchePersonnalisee();
   }
 
@@ -106,6 +110,7 @@ class Demarche extends Equatable {
         modifiedByAdvisor,
         attributs,
         creationDate,
+        promptIa,
       ];
 }
 
@@ -174,6 +179,7 @@ extension DemarcheExt on Demarche {
         sousTitre: sousTitre,
         attributs: [],
         creationDate: creationDate,
+        // promptIa: promptIa,
       );
     }
 

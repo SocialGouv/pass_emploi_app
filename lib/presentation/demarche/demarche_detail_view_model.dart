@@ -26,7 +26,6 @@ class DemarcheDetailViewModel extends Equatable {
   final List<IconData> dateIcons;
   final String? label;
   final String? titreDetail;
-  final String? sousTitre;
   final String? modificationDate;
   final String? creationDate;
   final String? withDateDerniereMiseAJour;
@@ -35,6 +34,7 @@ class DemarcheDetailViewModel extends Equatable {
   final Function() resetUpdateStatus;
   final DisplayState updateDisplayState;
   final CardPilluleType? pillule;
+  final String? promptIa;
 
   DemarcheDetailViewModel({
     required this.createdByAdvisor,
@@ -46,7 +46,6 @@ class DemarcheDetailViewModel extends Equatable {
     required this.dateIcons,
     required this.label,
     required this.titreDetail,
-    required this.sousTitre,
     required this.attributs,
     required this.modificationDate,
     required this.creationDate,
@@ -55,6 +54,7 @@ class DemarcheDetailViewModel extends Equatable {
     required this.resetUpdateStatus,
     required this.updateDisplayState,
     required this.pillule,
+    required this.promptIa,
   });
 
   factory DemarcheDetailViewModel.create(Store<AppState> store, String demarcheId) {
@@ -78,7 +78,6 @@ class DemarcheDetailViewModel extends Equatable {
       dateIcons: [AppIcons.schedule_rounded],
       label: demarche.label,
       titreDetail: demarche.titre,
-      sousTitre: demarche.sousTitre,
       attributs: demarche.attributs.map((e) => e.value).toList(),
       modificationDate: demarche.modificationDate?.toDay(),
       creationDate: demarche.creationDate?.toDay(),
@@ -87,6 +86,7 @@ class DemarcheDetailViewModel extends Equatable {
       resetUpdateStatus: () => store.dispatch(UpdateDemarcheResetAction()),
       updateDisplayState: _updateStateDisplayState(updateState),
       pillule: demarche.pillule(),
+      promptIa: demarche.promptIa,
     );
   }
 
@@ -101,7 +101,6 @@ class DemarcheDetailViewModel extends Equatable {
       dateIcons: [],
       label: null,
       titreDetail: null,
-      sousTitre: null,
       attributs: [],
       modificationDate: null,
       creationDate: null,
@@ -110,6 +109,7 @@ class DemarcheDetailViewModel extends Equatable {
       resetUpdateStatus: () {},
       updateDisplayState: DisplayState.EMPTY,
       pillule: null,
+      promptIa: null,
     );
   }
 
@@ -124,7 +124,6 @@ class DemarcheDetailViewModel extends Equatable {
         dateTextColor,
         label,
         titreDetail,
-        sousTitre,
         modificationDate,
         creationDate,
         withDateDerniereMiseAJour,
@@ -132,6 +131,7 @@ class DemarcheDetailViewModel extends Equatable {
         withDemarcheDoneButton,
         updateDisplayState,
         pillule,
+        promptIa,
       ];
 }
 

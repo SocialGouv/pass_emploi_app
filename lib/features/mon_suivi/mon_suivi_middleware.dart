@@ -1,5 +1,6 @@
 import 'package:clock/clock.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
+import 'package:pass_emploi_app/features/demarche/create_demarche_batch/create_demarche_batch_actions.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_actions.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
@@ -96,6 +97,7 @@ class MonSuiviMiddleware extends MiddlewareClass<AppState> {
     return switch (action) {
       UserActionCreateSuccessAction _ => true,
       CreateDemarcheSuccessAction _ => true,
+      CreateDemarcheBatchSuccessAction _ => true,
       _ => false,
     };
   }

@@ -23,7 +23,9 @@ void main() {
       "statutsPossibles": ["ANNULEE", "REALISEE", "A_FAIRE", "EN_COURS"],
       "modifieParConseiller": false,
       "creeeParConseiller": true,
+      "promptIa": "Je suis un prompt IA",
     });
     expect(demarche.titre, "J'adore les cornichons");
+    expect(demarche.promptIa, null);
   });
 }

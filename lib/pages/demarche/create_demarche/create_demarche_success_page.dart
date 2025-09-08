@@ -107,6 +107,13 @@ class _Body extends StatelessWidget {
                     CreateDemarcheSource.iaFt => "create-demarche-ia-ft",
                   },
                   label: Strings.feedbackCreateDemarche,
+                  disabledPlaceholder: switch (source) {
+                    CreateDemarcheSource.iaFt => InAppFeedback(
+                        feature: "create-demarche-ia-ft-suggestions",
+                        label: Strings.feedbackCreateDemarcheSuggestions,
+                      ),
+                    _ => null,
+                  },
                 ),
                 SizedBox(height: Margins.spacing_m),
                 Center(
