@@ -862,9 +862,6 @@ class Strings {
   static String otherDemarche = "Autre démarche";
 
   // IA FT
-  static String iaFtCardTitle = "Vos démarches en un instant";
-  static String iaFtCardSubtitle = "Dictez ou écrivez en une seule fois vos démarches, elles sont triées en un clic";
-
   static String iaFtStep2Title = "Dictez ou saisissez vos démarches effectuées";
   static String iaFtStep2Warning = "Attention à ne pas partager vos données personnelles ou d’informations sensibles.";
   static String iaFtStep2FieldTitle = "Résumé de vos démarches (obligatoire)";
@@ -886,7 +883,6 @@ class Strings {
   static String consulterMesDemarches = "Consulter mes démarches";
   static String iaFtShowcaseTitle = "Nouveau ! Créez vos démarches avec l'IA";
 
-  // Top démarche
   static String topDemarchesTitle = "Vos démarches en un instant";
   static String topDemarchesSubtitle =
       "Dictez ou écrivez en une seule fois vos démarches, elles sont triées en un clic";

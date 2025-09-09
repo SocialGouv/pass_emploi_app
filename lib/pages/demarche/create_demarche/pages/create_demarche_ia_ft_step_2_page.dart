@@ -104,10 +104,12 @@ class _CreateDemarcheIaFtStep2PageState extends State<CreateDemarcheIaFtStep2Pag
                   onChanged: (value) => setState(() => _errorText = null),
                   suffixIcon: Opacity(
                     opacity: 0,
-                    child: IconButton(
-                      onPressed: null,
-                      icon: Icon(Icons.close),
-                      color: AppColors.primary,
+                    child: ExcludeSemantics(
+                      child: IconButton(
+                        onPressed: null,
+                        icon: Icon(Icons.close),
+                        color: AppColors.primary,
+                      ),
                     ),
                   ),
                 ),
@@ -118,6 +120,7 @@ class _CreateDemarcheIaFtStep2PageState extends State<CreateDemarcheIaFtStep2Pag
                       _textEditingController.clear();
                       setState(() => _errorText = null);
                     },
+                    tooltip: Strings.clear,
                     icon: Icon(Icons.close),
                     color: AppColors.contentColor,
                   ),

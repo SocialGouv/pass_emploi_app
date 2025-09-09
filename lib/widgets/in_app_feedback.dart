@@ -395,36 +395,38 @@ class _FeedbackCaption extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final maxWidthForLargeTextScale = MediaQuery.of(context).size.width < MediaSizes.width_s ? 60.0 : 100.0;
-    return Stack(
-      children: [
-        Align(
-          alignment: Alignment.topLeft,
-          child: SizedBox(
-            width: maxWidthForLargeTextScale,
-            child: Text(Strings.feedbackBad, style: TextStyles.textSMedium(color: AppColors.grey800)),
-          ),
-        ),
-        Align(
-          alignment: Alignment.topCenter,
-          child: SizedBox(
-            width: maxWidthForLargeTextScale,
-            child: Align(
-              alignment: Alignment.topCenter,
-              child: Text(Strings.feedbackNeutral, style: TextStyles.textSMedium(color: AppColors.grey800)),
+    return ExcludeSemantics(
+      child: Stack(
+        children: [
+          Align(
+            alignment: Alignment.topLeft,
+            child: SizedBox(
+              width: maxWidthForLargeTextScale,
+              child: Text(Strings.feedbackBad, style: TextStyles.textSMedium(color: AppColors.grey800)),
             ),
           ),
-        ),
-        Align(
-          alignment: Alignment.topRight,
-          child: SizedBox(
-            width: maxWidthForLargeTextScale,
-            child: Align(
-              alignment: Alignment.topRight,
-              child: Text(Strings.feedbackGood, style: TextStyles.textSMedium(color: AppColors.grey800)),
+          Align(
+            alignment: Alignment.topCenter,
+            child: SizedBox(
+              width: maxWidthForLargeTextScale,
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: Text(Strings.feedbackNeutral, style: TextStyles.textSMedium(color: AppColors.grey800)),
+              ),
             ),
           ),
-        ),
-      ],
+          Align(
+            alignment: Alignment.topRight,
+            child: SizedBox(
+              width: maxWidthForLargeTextScale,
+              child: Align(
+                alignment: Alignment.topRight,
+                child: Text(Strings.feedbackGood, style: TextStyles.textSMedium(color: AppColors.grey800)),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

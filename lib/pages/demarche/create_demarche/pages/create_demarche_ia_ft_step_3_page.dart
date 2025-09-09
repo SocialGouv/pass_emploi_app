@@ -128,28 +128,30 @@ class _Empty extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(Margins.spacing_base),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Image.asset(
-            Drawables.iaFtSuggestionsEmpty,
-            width: 200,
-            height: 200,
-          ),
-          const SizedBox(height: Margins.spacing_m),
-          Text(
-            Strings.iaFtSuggestionsEmpty,
-            style: TextStyles.textMBold,
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: Margins.spacing_m),
-          PrimaryActionButton(
-            onPressed: () => viewModel.navigateToCreateDemarcheIaFtStep2(),
-            label: Strings.back,
-          ),
-        ],
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(Margins.spacing_base),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Image.asset(
+              Drawables.iaFtSuggestionsEmpty,
+              width: 200,
+              height: 200,
+            ),
+            const SizedBox(height: Margins.spacing_m),
+            Text(
+              Strings.iaFtSuggestionsEmpty,
+              style: TextStyles.textMBold,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: Margins.spacing_m),
+            PrimaryActionButton(
+              onPressed: () => viewModel.navigateToCreateDemarcheIaFtStep2(),
+              label: Strings.back,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -191,6 +193,7 @@ class _ContentState extends State<_Content> {
           // clipBehavior: Clip.none,
           padding: const EdgeInsets.all(Margins.spacing_base),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               if (notifier.error != null) ...[
                 CardContainer(
@@ -276,7 +279,11 @@ class _DemarcheIaCard extends StatelessWidget {
           ),
           iconButton: IconButton(
             onPressed: () => onDelete(suggestion.id),
-            icon: Icon(AppIcons.close_rounded, color: AppColors.primary),
+            icon: Icon(
+              AppIcons.close_rounded,
+              color: AppColors.primary,
+              semanticLabel: "${Strings.suppressionLabel} ${suggestion.sousTitre ?? ""}",
+            ),
           ),
           title: suggestion.titre ?? '',
           body: suggestion.sousTitre ?? '',

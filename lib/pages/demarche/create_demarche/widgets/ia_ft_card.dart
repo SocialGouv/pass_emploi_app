@@ -16,41 +16,46 @@ class IaFtCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CardContainer(
-      onTap: onPressed,
-      gradient: LinearGradient(
-        colors: AppColors.gradientSecondary,
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-      ),
-      child: Stack(
-        children: [
-          Positioned(
-            top: 0,
-            right: 0,
-            child: SvgPicture.asset(Drawables.iaFtIllustration),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CardTag(
-                backgroundColor: Colors.white,
-                text: Strings.newFeature,
-                contentColor: AppColors.primaryDarken,
-                icon: AppIcons.bolt_outlined,
+    return Semantics(
+      button: true,
+      child: CardContainer(
+        onTap: onPressed,
+        gradient: LinearGradient(
+          colors: AppColors.gradientSecondary,
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
+        child: Stack(
+          children: [
+            Positioned(
+              top: 0,
+              right: 0,
+              child: ExcludeSemantics(
+                child: SvgPicture.asset(Drawables.iaFtIllustration),
               ),
-              SizedBox(height: Margins.spacing_s),
-              Text(Strings.topDemarchesTitle, style: TextStyles.textBaseBold.copyWith(color: Colors.white)),
-              SizedBox(height: Margins.spacing_xs),
-              Text(Strings.topDemarchesSubtitle, style: TextStyles.textSRegular().copyWith(color: Colors.white)),
-              SizedBox(height: Margins.spacing_xs),
-              PressedTip(
-                Strings.topDemarchesPressedTip,
-                textColor: Colors.white,
-              )
-            ],
-          )
-        ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CardTag(
+                  backgroundColor: Colors.white,
+                  text: Strings.newFeature,
+                  contentColor: AppColors.primaryDarken,
+                  icon: AppIcons.bolt_outlined,
+                ),
+                SizedBox(height: Margins.spacing_s),
+                Text(Strings.topDemarchesTitle, style: TextStyles.textBaseBold.copyWith(color: Colors.white)),
+                SizedBox(height: Margins.spacing_xs),
+                Text(Strings.topDemarchesSubtitle, style: TextStyles.textSRegular().copyWith(color: Colors.white)),
+                SizedBox(height: Margins.spacing_xs),
+                PressedTip(
+                  Strings.topDemarchesPressedTip,
+                  textColor: Colors.white,
+                )
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
