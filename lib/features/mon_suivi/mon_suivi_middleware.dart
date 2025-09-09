@@ -51,16 +51,11 @@ class MonSuiviMiddleware extends MiddlewareClass<AppState> {
   Future<MonSuivi?> _getMonSuivi(Store<AppState> store, String userId, Interval interval) async {
     if (store.state.isPeLoginMode()) {
       final monSuivi = await _monSuiviRepository.getMonSuiviPoleEmploi(userId, interval.debut);
-      return monSuivi != null
-          ? MonSuivi(
-              actions: [],
-              sessionsMilo: [],
-              errorOnSessionMiloRetrieval: false,
-              demarches: monSuivi.demarches,
-              rendezvous: monSuivi.rendezvous,
-              dateDerniereMiseAJourPoleEmploi: monSuivi.dateDerniereMiseAJourPoleEmploi,
-            )
-          : null;
+      return monSuivi?.copyWith(
+        actions: [],
+        sessionsMilo: [],
+        errorOnSessionMiloRetrieval: false,
+      );
     }
     return _monSuiviRepository.getMonSuiviMilo(userId, interval);
   }

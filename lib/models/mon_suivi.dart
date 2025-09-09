@@ -38,6 +38,7 @@ class MonSuivi extends Equatable {
   }
 
   factory MonSuivi.fromPoleEmploiJson(dynamic json) {
+    final eligibleDemarchesIA = json["resultat"]['eligibleDemarchesIA'] as bool? ?? false;
     return MonSuivi(
       demarches: (json["resultat"]["demarches"] as List).map(Demarche.fromJson).toList(),
       rendezvous: (json["resultat"]["rendezVous"] as List) //
@@ -48,7 +49,7 @@ class MonSuivi extends Equatable {
       sessionsMilo: [],
       errorOnSessionMiloRetrieval: false,
       dateDerniereMiseAJourPoleEmploi: (json["dateDerniereMiseAJour"] as String?)?.toDateTimeUtcOnLocalTimeZone(),
-      eligibleDemarchesIA: json['eligibleDemarchesIA'] as bool? ?? false,
+      eligibleDemarchesIA: eligibleDemarchesIA,
     );
   }
 
