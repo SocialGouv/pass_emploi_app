@@ -68,7 +68,6 @@ class _OnboardingShowcaseState extends State<OnboardingShowcase> {
           }
         });
         return Showcase(
-          targetPadding: EdgeInsets.all(Margins.spacing_s),
           targetBorderRadius: BorderRadius.circular(Dimens.radius_base),
           tooltipPosition: widget.bottom ? TooltipPosition.bottom : TooltipPosition.top,
           title: switch (widget.source) {

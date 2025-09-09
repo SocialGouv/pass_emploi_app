@@ -53,14 +53,13 @@ class _FtIaShowcaseState extends State<FtIaShowcase> {
           }
         });
         return Showcase(
-          targetPadding: EdgeInsets.all(Margins.spacing_s),
           targetBorderRadius: BorderRadius.circular(Dimens.radius_base),
           tooltipPosition: TooltipPosition.top,
           title: Strings.iaFtShowcaseTitle,
           description: null,
-          tooltipBackgroundColor: AppColors.primary,
-          titleTextStyle: TextStyles.textMBold.copyWith(color: Colors.white),
-          descTextStyle: TextStyles.textBaseRegular.copyWith(color: Colors.white),
+          tooltipBackgroundColor: Colors.white,
+          titleTextStyle: TextStyles.textMBold.copyWith(color: AppColors.primary),
+          descTextStyle: TextStyles.textBaseRegular.copyWith(color: AppColors.primary),
           key: key,
           titleAlignment: Alignment.centerLeft,
           descriptionAlignment: Alignment.centerLeft,
