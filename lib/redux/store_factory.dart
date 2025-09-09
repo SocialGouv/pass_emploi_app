@@ -46,6 +46,7 @@ import 'package:pass_emploi_app/features/favori/update/data_from_id_extractor.da
 import 'package:pass_emploi_app/features/favori/update/favori_update_middleware.dart';
 import 'package:pass_emploi_app/features/feature_flip/feature_flip_middleware.dart';
 import 'package:pass_emploi_app/features/first_launch_onboarding/first_launch_onboarding_middleware.dart';
+import 'package:pass_emploi_app/features/ft_ia_tutorial/ft_ia_tutorial_middleware.dart';
 import 'package:pass_emploi_app/features/ia_ft_suggestions/ia_ft_suggestions_middleware.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_middleware.dart';
 import 'package:pass_emploi_app/features/in_app_feedback/in_app_feedback_middleware.dart';
@@ -57,6 +58,7 @@ import 'package:pass_emploi_app/features/matching_demarche/matching_demarche_mid
 import 'package:pass_emploi_app/features/message_important/message_important_middleware.dart';
 import 'package:pass_emploi_app/features/metier/search_metier_middleware.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
+import 'package:pass_emploi_app/features/module_feedback/module_feedback_middleware.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_middleware.dart';
 import 'package:pass_emploi_app/features/notifications_settings/notifications_settings_middleware.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_middleware.dart';
@@ -92,7 +94,6 @@ import 'package:pass_emploi_app/features/user_action/create/user_action_create_m
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/details/user_action_details_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_middleware.dart';
-import 'package:pass_emploi_app/features/module_feedback/module_feedback_middleware.dart';
 /*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-MIDDLEWARE*/
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -151,6 +152,7 @@ import 'package:pass_emploi_app/repositories/in_app_notifications_repository.dar
 import 'package:pass_emploi_app/repositories/localisation_persist_repository.dart';
 import 'package:pass_emploi_app/repositories/matching_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
+import 'package:pass_emploi_app/repositories/module_feedback_repository.dart';
 import 'package:pass_emploi_app/repositories/mon_suivi_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_repository.dart';
@@ -178,7 +180,6 @@ import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/usecases/piece_jointe/piece_jointe_use_case.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
-import 'package:pass_emploi_app/repositories/module_feedback_repository.dart';
 /*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-REPOSITORY*/
 import 'package:redux/redux.dart' as redux;
 
@@ -462,6 +463,7 @@ class StoreFactory {
         IaFtSuggestionsMiddleware(iaFtSuggestionsRepository, matchingDemarcheRepository).call,
         CreateDemarcheBatchMiddleware(createDemarcheRepository).call,
         ModuleFeedbackMiddleware(moduleFeedbackRepository).call,
+        FtIaTutorialMiddleware(tutorialRepository).call,
         /*AUTOGENERATE-REDUX-STOREFACTORY-ADD-MIDDLEWARE*/
         ..._debugMiddlewares(),
         ..._stagingMiddlewares(initialState.configurationState.getFlavor()),

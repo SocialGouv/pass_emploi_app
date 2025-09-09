@@ -35,6 +35,7 @@ import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
 import 'package:pass_emploi_app/widgets/connectivity_widgets.dart';
 import 'package:pass_emploi_app/widgets/dashed_box.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/onboarding/ft_ia_showcase.dart';
 import 'package:pass_emploi_app/widgets/onboarding/onboarding_showcase.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:shimmer/shimmer.dart';
@@ -941,7 +942,9 @@ class _CreateDemarcheButtonState extends State<CreateDemarcheButton> with Single
             ),
             OnboardingShowcase(
               source: ShowcaseSource.action,
-              child: button,
+              child: FtIaShowcase(
+                child: button,
+              ),
             )
           ],
         );

@@ -38,6 +38,7 @@ import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_state.dart';
 import 'package:pass_emploi_app/features/feature_flip/feature_flip_state.dart';
 import 'package:pass_emploi_app/features/first_launch_onboarding/first_launch_onboarding_state.dart';
+import 'package:pass_emploi_app/features/ft_ia_tutorial/ft_ia_tutorial_state.dart';
 import 'package:pass_emploi_app/features/ia_ft_suggestions/ia_ft_suggestions_state.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_state.dart';
 import 'package:pass_emploi_app/features/in_app_feedback/in_app_feedback_state.dart';
@@ -169,6 +170,7 @@ class AppState extends Equatable {
   final BoulangerCampagneState boulangerCampagneState;
   final IaFtSuggestionsState iaFtSuggestionsState;
   final CreateDemarcheBatchState createDemarcheBatchState;
+  final FtIaTutorialState ftIaTutorialState;
   /*AUTOGENERATE-REDUX-APP-STATE-PROPERTY*/
 
   AppState({
@@ -254,6 +256,7 @@ class AppState extends Equatable {
     required this.boulangerCampagneState,
     required this.iaFtSuggestionsState,
     required this.createDemarcheBatchState,
+    required this.ftIaTutorialState,
     /*AUTOGENERATE-REDUX-APP-STATE-CONSTRUCTOR*/
   });
 
@@ -340,6 +343,7 @@ class AppState extends Equatable {
     final BoulangerCampagneState? boulangerCampagneState,
     final IaFtSuggestionsState? iaFtSuggestionsState,
     final CreateDemarcheBatchState? createDemarcheBatchState,
+    final FtIaTutorialState? ftIaTutorialState,
     /*AUTOGENERATE-REDUX-APP-STATE-COPYPARAM*/
   }) {
     return AppState(
@@ -425,6 +429,7 @@ class AppState extends Equatable {
       boulangerCampagneState: boulangerCampagneState ?? this.boulangerCampagneState,
       iaFtSuggestionsState: iaFtSuggestionsState ?? this.iaFtSuggestionsState,
       createDemarcheBatchState: createDemarcheBatchState ?? this.createDemarcheBatchState,
+      ftIaTutorialState: ftIaTutorialState ?? this.ftIaTutorialState,
       /*AUTOGENERATE-REDUX-APP-STATE-COPYBODY*/
     );
   }
@@ -513,6 +518,7 @@ class AppState extends Equatable {
       boulangerCampagneState: BoulangerCampagneState(),
       iaFtSuggestionsState: IaFtSuggestionsNotInitializedState(),
       createDemarcheBatchState: CreateDemarcheBatchNotInitializedState(),
+      ftIaTutorialState: FtIaTutorialState(false),
       /*AUTOGENERATE-REDUX-APP-STATE-FACTORY*/
     );
   }
@@ -594,6 +600,7 @@ class AppState extends Equatable {
         boulangerCampagneState,
         iaFtSuggestionsState,
         createDemarcheBatchState,
+        ftIaTutorialState,
         /*AUTOGENERATE-REDUX-APP-STATE-EQUATABLE*/
       ];
 

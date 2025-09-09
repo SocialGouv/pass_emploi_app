@@ -884,6 +884,7 @@ class Strings {
       ? "$count démarche n’a pas de date renseignée. Merci de la compléter pour valider"
       : "$count démarches n’ont pas de dates renseignées. Merci de les compléter pour valider";
   static String consulterMesDemarches = "Consulter mes démarches";
+  static String iaFtShowcaseTitle = "Nouveau ! Créez vos démarches avec l'IA";
 
   // Top démarche
   static String topDemarchesTitle = "Vos démarches en un instant";

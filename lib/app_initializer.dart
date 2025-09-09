@@ -82,6 +82,7 @@ import 'package:pass_emploi_app/repositories/installation_id_repository.dart';
 import 'package:pass_emploi_app/repositories/localisation_persist_repository.dart';
 import 'package:pass_emploi_app/repositories/matching_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
+import 'package:pass_emploi_app/repositories/module_feedback_repository.dart';
 import 'package:pass_emploi_app/repositories/mon_suivi_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_repository.dart';
@@ -109,7 +110,6 @@ import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/usecases/piece_jointe/piece_jointe_use_case.dart';
 import 'package:pass_emploi_app/utils/compress_image.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
-import 'package:pass_emploi_app/repositories/module_feedback_repository.dart';
 /*AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-IMPORT*/
 import 'package:pass_emploi_app/utils/secure_storage_exception_handler_decorator.dart';
 import 'package:pass_emploi_app/utils/secure_storage_in_memory_decorator.dart';

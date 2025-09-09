@@ -19,14 +19,34 @@ class TutorialRepository {
   }
 
   Future<bool> shouldShowTutorial() async {
-    final keys = (await _preferences.readAll()).keys;
-    final firstInstall = keys.firstWhereOrNull((key) => key.startsWith(_keyPrefix)) == null;
-    if (firstInstall) {
+    if (await _isFirstInstall()) {
       await setTutorialRead();
       return false;
     }
 
-    final String? tutorialRead = await _preferences.read(key: '$_keyPrefix${Tutorial.versionTimestamp}');
+    return await _isTutorialNotRead(Tutorial.versionTimestamp);
+  }
+
+  Future<bool> _isFirstInstall() async {
+    final keys = (await _preferences.readAll()).keys;
+    return keys.firstWhereOrNull((key) => key.startsWith(_keyPrefix)) == null;
+  }
+
+  Future<bool> _isTutorialNotRead(String version) async {
+    final String? tutorialRead = await _preferences.read(key: '$_keyPrefix$version');
     return tutorialRead == null;
+  }
+
+  Future<bool> shouldShowFtIaTutorial() async {
+    if (await _isFirstInstall()) {
+      await setTutorialRead();
+      return false;
+    }
+
+    return await _isTutorialNotRead(Tutorial.ftIaTutorialVersionTimestamp);
+  }
+
+  Future<void> setFtIaTutorialSeen() async {
+    await _preferences.write(key: '$_keyPrefix${Tutorial.ftIaTutorialVersionTimestamp}', value: 'read');
   }
 }

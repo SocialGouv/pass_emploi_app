@@ -89,6 +89,7 @@ import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/features/ft_ia_tutorial/ft_ia_tutorial_reducer.dart';
 /*AUTOGENERATE-REDUX-APP-REDUCER-IMPORT*/
 
 AppState reducer(AppState current, dynamic action) {
@@ -210,6 +211,7 @@ AppState reducer(AppState current, dynamic action) {
     boulangerCampagneState: boulangerCampagneReducer(current.boulangerCampagneState, action),
     iaFtSuggestionsState: iaFtSuggestionsReducer(current.iaFtSuggestionsState, action),
     createDemarcheBatchState: createDemarcheBatchReducer(current.createDemarcheBatchState, action),
+    ftIaTutorialState: ftIaTutorialReducer(current.ftIaTutorialState, action),
     /*AUTOGENERATE-REDUX-APP-REDUCER-STATE*/
   );
 }

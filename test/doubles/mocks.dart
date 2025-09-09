@@ -343,4 +343,5 @@ class MockIaFtSuggestionsRepository extends Mock implements IaFtSuggestionsRepos
 }
 
 class MockModuleFeedbackRepository extends Mock implements ModuleFeedbackRepository {}
+
 /*AUTOGENERATE-REDUX-TEST-MOCKS-REPOSITORY-DECLARATION*/

@@ -2,6 +2,8 @@ import 'package:pass_emploi_app/models/tutorial/tutorial_page.dart';
 
 class Tutorial {
   static const String versionTimestamp = '1718704184';
+  static const String ftIaTutorialVersionTimestamp = 'ia_1';
+
   static List<TutorialPage> milo = [
     TutorialPage(
       title: "Suivez facilement vos candidatures\u{00A0}!",

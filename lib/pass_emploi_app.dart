@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/analytics/ignore_tracking_context_provider.dart'
 import 'package:pass_emploi_app/pages/router_page.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/widgets/onboarding/ft_ia_showcase.dart';
 import 'package:pass_emploi_app/widgets/onboarding/onboarding_showcase.dart';
 import 'package:pass_emploi_app/widgets/onboarding_notifier_wrapper.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_material_app.dart';
@@ -28,7 +29,9 @@ class PassEmploiApp extends StatelessWidget {
           home: Scaffold(
             body: OnboardingNotifierWrapper(
               child: ShowcaseWrapper(
-                child: RouterPage(),
+                child: FtIaShowcaseWrapper(
+                  child: RouterPage(),
+                ),
               ),
             ),
           ),

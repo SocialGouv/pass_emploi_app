@@ -1329,6 +1329,7 @@ MonSuivi mockMonSuivi({
   List<SessionMilo>? sessionsMilo,
   bool errorOnSessionMiloRetrieval = false,
   DateTime? dateDerniereMiseAJourPoleEmploi,
+  bool eligibleDemarchesIA = false,
 }) {
   return MonSuivi(
     actions: actions ?? [],
@@ -1337,6 +1338,7 @@ MonSuivi mockMonSuivi({
     sessionsMilo: sessionsMilo ?? [],
     errorOnSessionMiloRetrieval: errorOnSessionMiloRetrieval,
     dateDerniereMiseAJourPoleEmploi: dateDerniereMiseAJourPoleEmploi,
+    eligibleDemarchesIA: eligibleDemarchesIA,
   );
 }
 
