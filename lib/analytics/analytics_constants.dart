@@ -225,6 +225,7 @@ class AnalyticsEventNames {
   static const createActionStep3RappelCategory = "Création action v3 étape 3 - Rappel";
 
   static const createDemarcheEventCategory = "Création démarche";
+  static const createDemarcheIaDicterPressed = "Dicter le prompt";
   static const createDemarcheIaSuggestionsListCount = "Nombre de suggestions";
   static const createDemarcheIaSuggestionsListDeleted = "Nombre de suggestions supprimées";
   static const createDemarcheFromOffreSuiviAction = "Créer une démarche à partir du suivi des offres";

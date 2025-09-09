@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/information_bandeau.dart';
 import 'package:pass_emploi_app/widgets/text_form_fields/base_text_form_field.dart';
@@ -28,6 +29,10 @@ class _CreateDemarcheIaFtStep2PageState extends State<CreateDemarcheIaFtStep2Pag
   String? _errorText;
 
   Future<void> _startListening() async {
+    PassEmploiMatomoTracker.instance.trackEvent(
+      eventCategory: AnalyticsEventNames.createDemarcheEventCategory,
+      action: AnalyticsEventNames.createDemarcheIaDicterPressed,
+    );
     final bool available = await _speechToText.initialize(
       onError: (error) {
         setState(() => _errorText = Strings.genericError);
