@@ -5,17 +5,17 @@ void main() {
   group('DateSuggestionListViewModel', () {
     test('should create suggestions with today, tomorrow and next monday', () {
       // Given
-      final now = DateTime(2021, 1, 1);
+      final now = DateTime(2021, 1, 4);
       final suggestions = DateSuggestionListViewModel.createFuture(now);
 
       // When & Then
       expect(suggestions.suggestions.length, 3);
-      expect(suggestions.suggestions[0].label, "Aujourd’hui (vendredi 1)");
-      expect(suggestions.suggestions[0].date, DateTime(2021, 1, 1));
-      expect(suggestions.suggestions[1].label, "Demain (samedi 2)");
-      expect(suggestions.suggestions[1].date, DateTime(2021, 1, 2));
-      expect(suggestions.suggestions[2].label, "Semaine prochaine (lundi 4)");
-      expect(suggestions.suggestions[2].date, DateTime(2021, 1, 4));
+      expect(suggestions.suggestions[0].label, "Hier (dimanche 3)");
+      expect(suggestions.suggestions[0].date, DateTime(2021, 1, 3));
+      expect(suggestions.suggestions[1].label, "Aujourd’hui (lundi 4)");
+      expect(suggestions.suggestions[1].date, DateTime(2021, 1, 4));
+      expect(suggestions.suggestions[2].label, "Demain (mardi 5)");
+      expect(suggestions.suggestions[2].date, DateTime(2021, 1, 5));
     });
   });
 }
