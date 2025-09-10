@@ -490,7 +490,6 @@ class Strings {
 
   static const String dateSuggestionAujourdhui = 'Aujourd’hui';
   static const String dateSuggestionDemain = 'Demain';
-  static const String dateSuggestionSemainePro = 'Semaine prochaine';
   static const String dateSuggestionHier = 'Hier';
 
   static const String userActionEmploiLabel = 'Emploi';
@@ -690,7 +689,7 @@ class Strings {
   static String mandatoryDateEcheanceError = "La date d'échéance doit être renseignée";
   static String defineActionStatus = "Définir le statut";
   static String actionCreatedBy = "Créée par";
-  static String duplicateAction = "Dupliquer l'action";
+  static String duplicateAction = "Ajouter une date";
   static String fillAllFields = "Veuillez remplir tous les champs";
   static String dateMandatory = "La date est obligatoire";
   static String descriptionMandatory = "La description est obligatoire";

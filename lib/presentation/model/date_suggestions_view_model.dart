@@ -7,6 +7,11 @@ class DateSuggestionListViewModel {
   factory DateSuggestionListViewModel.createFuture(DateTime now) {
     return DateSuggestionListViewModel(suggestions: [
       DateSuggestionViewModel(
+        "${Strings.dateSuggestionHier} (${now.subtract(Duration(days: 1)).toDayOfWeek()})",
+        "${Strings.dateSuggestionHier} (${now.subtract(Duration(days: 1)).toDayWithFullMonth()})",
+        now.subtract(Duration(days: 1)),
+      ),
+      DateSuggestionViewModel(
         "${Strings.dateSuggestionAujourdhui} (${now.toDayOfWeek()})",
         "${Strings.dateSuggestionAujourdhui} (${now.toDayWithFullMonth()})",
         now,
@@ -15,11 +20,6 @@ class DateSuggestionListViewModel {
         "${Strings.dateSuggestionDemain} (${now.add(Duration(days: 1)).toDayOfWeek()})",
         "${Strings.dateSuggestionDemain} (${now.add(Duration(days: 1)).toDayWithFullMonth()})",
         now.add(Duration(days: 1)),
-      ),
-      DateSuggestionViewModel(
-        "${Strings.dateSuggestionSemainePro} (${now.toMondayOnNextWeek().toDayOfWeek()})",
-        "${Strings.dateSuggestionSemainePro} (${now.toMondayOnNextWeek().toDayWithFullMonth()})",
-        now.toMondayOnNextWeek(),
       ),
     ]);
   }

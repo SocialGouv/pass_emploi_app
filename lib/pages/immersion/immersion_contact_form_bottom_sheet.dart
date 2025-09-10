@@ -106,6 +106,7 @@ class _ContentState extends State<_Content> {
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
             SingleChildScrollView(
