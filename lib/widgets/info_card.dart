@@ -7,21 +7,23 @@ import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 
 class InfoCard extends StatelessWidget {
   final String message;
+  final Color? backgroundColor;
+  final Color? textColor;
 
-  const InfoCard({required this.message});
+  const InfoCard({required this.message, this.backgroundColor, this.textColor});
 
   @override
   Widget build(BuildContext context) {
     return CardContainer(
-      backgroundColor: AppColors.primaryLighten,
+      backgroundColor: backgroundColor ?? AppColors.primaryLighten,
       withShadow: false,
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(AppIcons.info_rounded, color: AppColors.primary),
+          Icon(AppIcons.info_rounded, color: textColor ?? AppColors.primary),
           SizedBox(width: Margins.spacing_s),
           Flexible(
-            child: Text(message, style: TextStyles.textSMedium(color: AppColors.primary)),
+            child: Text(message, style: TextStyles.textSMedium(color: textColor ?? AppColors.primary)),
           ),
         ],
       ),

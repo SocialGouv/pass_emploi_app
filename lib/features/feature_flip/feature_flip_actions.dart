@@ -9,3 +9,9 @@ class FeatureFlipCampagneRecrutementAction {
 
   FeatureFlipCampagneRecrutementAction(this.withCampagneRecrutement);
 }
+
+class FeatureFlipMonSuiviDemarchesKoMessageAction {
+  final String? withMonSuiviDemarchesKoMessage;
+
+  FeatureFlipMonSuiviDemarchesKoMessageAction(this.withMonSuiviDemarchesKoMessage);
+}

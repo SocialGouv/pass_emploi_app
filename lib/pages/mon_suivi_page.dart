@@ -35,6 +35,7 @@ import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
 import 'package:pass_emploi_app/widgets/connectivity_widgets.dart';
 import 'package:pass_emploi_app/widgets/dashed_box.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/info_card.dart';
 import 'package:pass_emploi_app/widgets/onboarding/ft_ia_showcase.dart';
 import 'package:pass_emploi_app/widgets/onboarding/onboarding_showcase.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
@@ -194,6 +195,17 @@ class _Content extends StatelessWidget {
           _WarningCard(
             label: Strings.monSuiviPoleEmploiDataError,
             onPressed: () => viewModel.onRetry(),
+          ),
+        ],
+        if (viewModel.monSuiviDemarchesKoMessage != null) ...[
+          SizedBox(height: Margins.spacing_s),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+            child: InfoCard(
+              message: viewModel.monSuiviDemarchesKoMessage!,
+              backgroundColor: AppColors.disabled,
+              textColor: Colors.white,
+            ),
           ),
         ],
         if (viewModel.withWarningOnWrongSessionMiloRetrieval) ...[

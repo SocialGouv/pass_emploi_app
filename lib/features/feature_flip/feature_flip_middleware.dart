@@ -26,6 +26,7 @@ class FeatureFlipMiddleware extends MiddlewareClass<AppState> {
     if (action is LoginSuccessAction) {
       if (action.user.loginMode.isPe()) {
         _handleCvmFeatureFlip(store, action.user.id);
+        _handleMonSuiviDemarchesKoMessageFeatureFlip(store, action.user.id);
       }
     }
   }
@@ -42,6 +43,13 @@ class FeatureFlipMiddleware extends MiddlewareClass<AppState> {
       if (idsConseiller.contains(jeune?.conseiller.id)) {
         store.dispatch(FeatureFlipUseCvmAction(true));
       }
+    }
+  }
+
+  Future<void> _handleMonSuiviDemarchesKoMessageFeatureFlip(Store<AppState> store, String userId) async {
+    final monSuiviDemarchesKoMessage = _remoteConfigRepository.monSuiviDemarchesKoMessage();
+    if (monSuiviDemarchesKoMessage != null) {
+      store.dispatch(FeatureFlipMonSuiviDemarchesKoMessageAction(monSuiviDemarchesKoMessage));
     }
   }
 }

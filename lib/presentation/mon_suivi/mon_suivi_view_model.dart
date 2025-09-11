@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_actions.dart';
 import 'package:pass_emploi_app/features/mon_suivi/mon_suivi_state.dart';
+import 'package:pass_emploi_app/models/feature_flip.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -19,6 +20,7 @@ class MonSuiviViewModel extends Equatable {
   final MonSuiviCtaType ctaType;
   final bool withWarningOnWrongSessionMiloRetrieval;
   final bool withWarningOnWrongPoleEmploiDataRetrieval;
+  final String? monSuiviDemarchesKoMessage;
   final int pendingActionCreations;
   final bool withPagination;
   final Function() onLoadPreviousPeriod;
@@ -33,6 +35,7 @@ class MonSuiviViewModel extends Equatable {
     required this.ctaType,
     required this.withWarningOnWrongSessionMiloRetrieval,
     required this.withWarningOnWrongPoleEmploiDataRetrieval,
+    required this.monSuiviDemarchesKoMessage,
     required this.pendingActionCreations,
     required this.withPagination,
     required this.onLoadPreviousPeriod,
@@ -42,6 +45,7 @@ class MonSuiviViewModel extends Equatable {
 
   factory MonSuiviViewModel.create(Store<AppState> store) {
     final state = store.state.monSuiviState;
+    final featureFlip = store.state.featureFlipState.featureFlip;
     final items = _items(store);
     return MonSuiviViewModel._(
       displayState: _displayState(state),
@@ -50,7 +54,8 @@ class MonSuiviViewModel extends Equatable {
       withCreateButton: state is MonSuiviSuccessState,
       ctaType: store.state.isMiloLoginMode() ? MonSuiviCtaType.createAction : MonSuiviCtaType.createDemarche,
       withWarningOnWrongSessionMiloRetrieval: _withWarningOnWrongSessionMiloRetrieval(state),
-      withWarningOnWrongPoleEmploiDataRetrieval: _withWarningOnWrongPoleEmploiDataRetrieval(state),
+      withWarningOnWrongPoleEmploiDataRetrieval: _withWarningOnWrongPoleEmploiDataRetrieval(state, featureFlip),
+      monSuiviDemarchesKoMessage: featureFlip.withMonSuiviDemarchesKoMessage,
       pendingActionCreations: store.state.userActionCreatePendingState.getPendingCreationsCount(),
       withPagination: store.state.isMiloLoginMode(),
       onLoadPreviousPeriod: () => store.dispatch(MonSuiviRequestAction(MonSuiviPeriod.previous)),
@@ -89,7 +94,8 @@ bool _withWarningOnWrongSessionMiloRetrieval(MonSuiviState state) {
   return state is MonSuiviSuccessState && state.monSuivi.errorOnSessionMiloRetrieval;
 }
 
-bool _withWarningOnWrongPoleEmploiDataRetrieval(MonSuiviState state) {
+bool _withWarningOnWrongPoleEmploiDataRetrieval(MonSuiviState state, FeatureFlip featureFlip) {
+  if (featureFlip.withMonSuiviDemarchesKoMessage != null) return false;
   return state is MonSuiviSuccessState && state.monSuivi.dateDerniereMiseAJourPoleEmploi != null;
 }
 

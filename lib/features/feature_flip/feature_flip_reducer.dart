@@ -6,5 +6,9 @@ FeatureFlipState featureFlipReducer(FeatureFlipState current, dynamic action) {
   if (action is FeatureFlipCampagneRecrutementAction) {
     return FeatureFlipState(current.featureFlip.copyWith(withCampagneRecrutement: action.withCampagneRecrutement));
   }
+  if (action is FeatureFlipMonSuiviDemarchesKoMessageAction) {
+    return FeatureFlipState(
+        current.featureFlip.copyWith(withMonSuiviDemarchesKoMessage: action.withMonSuiviDemarchesKoMessage));
+  }
   return current;
 }
