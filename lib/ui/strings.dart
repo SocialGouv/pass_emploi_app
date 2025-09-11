@@ -529,143 +529,129 @@ class Strings {
 
   // Emploi
   static const String faireMonCV = "Faire mon CV";
-  static const String hintFaireMonCV = "J'ai mis à jour mon CV avec mon dernier stage, etc.";
+  static const String hintFaireMonCV = "J'ai mis à jour mon CV...";
 
   static const String rechercheEmploi = "Recherche d'emploi";
-  static const String hintRechercheEmploi =
-      "J'ai cherché des offres sur l'application Mes Offres, j'ai identifié 3 offres dans le secteur de l'automobile, etc.";
+  static const String hintRechercheEmploi = "J'ai cherché des offres...";
 
   static const String candidature = "Candidature";
-  static const String hintCandidature = "J'ai déposé mon CV à la boulangerie rue de Sèvres, etc.";
+  static const String hintCandidature = "J'ai déposé mon CV...";
 
   static const String entretienEmbauche = "Entretien d'embauche";
-  static const String hintEntretienEmbauche =
-      "J'ai eu un entretien avec le responsable du magasin d'informatique, etc.";
+  static const String hintEntretienEmbauche = "J'ai eu un entretien...";
 
   static const String lettreMotivationEmploi = "Lettre de motivation";
-  static const String hintLettreMotivationEmploi =
-      "J'ai rédigé ma lettre de motivation pour postuler à un poste de serveur à Saint Raphaël, etc.";
+  static const String hintLettreMotivationEmploi = "J'ai rédigé ma lettre de motivation...";
 
   static const String rechercheStageEmploi = "Recherche de stage";
-  static const String hintRechercheStageEmploi =
-      "J'ai cherché des stages sur 1jeune1solution, j'ai identifié 2 offres dans le secteur du tourisme, etc.";
+  static const String hintRechercheStageEmploi = "J'ai cherché des stages...";
 
   // Projet Professionnel
   static const String rechercheStageProjetPro = "Recherche de stage";
-  static const String hintRechercheStageProjetPro =
-      "J'ai cherché des stages sur 1jeune1solution, j'ai identifié 2 offres dans le secteur du tourisme, etc.";
+  static const String hintRechercheStageProjetPro = "J'ai cherché des stages...";
 
   static const String formationProjetPro = "Formation";
-  static const String hintFormationProjetPro =
-      "J'ai fait une formation en ligne sur les nouveaux outils marketing, etc.";
+  static const String hintFormationProjetPro = "J'ai fait une formation...";
 
   static const String revisions = "Révisions";
-  static const String hintRevisions = "J'ai révisé mes motivations pour mon oral de la semaine prochaine, etc.";
+  static const String hintRevisions = "J'ai révisé...";
 
   static const String rechercheAlternance = "Recherche d'alternance";
-  static const String hintRechercheAlternance =
-      "J'ai cherché des alternances sur La Bonne Alternance, j'ai identifié 2 offres dans le secteur du tourisme, etc.";
+  static const String hintRechercheAlternance = "J'ai cherché des alternances...";
 
   static const String enqueteMetier = "Enquête métier";
-  static const String hintEnqueteMetier =
-      "J'ai été poser des questions aux vendeurs des magasins de sport à côté de chez moi, etc.";
+  static const String hintEnqueteMetier = "J'ai été poser des questions...";
 
   static const String lettreMotivationProjetPro = "Lettre de motivation";
-  static const String hintLettreMotivationProjetPro =
-      "J'ai mis à jour ma lettre de motivation pour postuler à des emplois saisonniers, etc.";
+  static const String hintLettreMotivationProjetPro = "J'ai mis à jour ma lettre de motivation...";
 
   // Citoyenneté
   static const String examenPermis = "Examen permis, code";
-  static const String hintExamenPermis = "J'ai passé mon permis, j'ai passé mon code, etc.";
+  static const String hintExamenPermis = "J'ai passé mon permis...";
 
   static const String codeRoute = "Code de la route";
-  static const String hintCodeRoute = "J'ai été à une séance de code, etc.";
+  static const String hintCodeRoute = "J'ai été à une séance de code...";
 
   static const String conduite = "Conduite";
-  static const String hintConduite = "J'ai fait une séance de conduite en ville, etc.";
+  static const String hintConduite = "J'ai fait une séance de conduite...";
 
   static const String demarchesAdministratives = "Démarches administratives";
-  static const String hintDemarchesAdministratives =
-      "J'ai été à la mairie récupérer mon passeport, j'ai rempli les documents demandés par la CAF, etc.";
+  static const String hintDemarchesAdministratives = "J'ai été à la mairie...";
 
   static const String demandeAllocations = "Demande d'allocations";
-  static const String hintDemandeAllocations =
-      "J'ai déposé mon dossier pour MobiliJeune, j'ai récupéré les documents pour ma demande d'APL, etc.";
+  static const String hintDemandeAllocations = "J'ai déposé mon dossier...";
 
   static const String benevolat = "Bénévolat";
-  static const String hintBenevolat = "J'ai fait 2h de bénévolat à la SPA, etc.";
+  static const String hintBenevolat = "J'ai fait 2h de bénévolat...";
 
   // Santé
   static const String rendezVousMedical = "Rendez-vous médical";
-  static const String hintRendezVousMedical = "J'ai été à un rendez-vous médical, etc.";
+  static const String hintRendezVousMedical = "J'ai été à un rendez-vous médical...";
 
   static const String bilanSante = "Bilan de santé";
-  static const String hintBilanSante = "J'ai effectué un bilan au centre de santé CPAM, etc.";
+  static const String hintBilanSante = "J'ai effectué un bilan...";
 
   static const String carteVitale = "Carte vitale";
-  static const String hintCarteVitale = "J'ai fait les démarches pour faire renouveler ma carte vitale, etc.";
+  static const String hintCarteVitale = "J'ai fait les démarches pour...";
 
   static const String demarchesSante = "Démarches de santé";
-  static const String hintDemarchesSante = "J'ai déposé ma demande de dossier RQTH, etc.";
+  static const String hintDemarchesSante = "J'ai déposé ma demande...";
 
   static const String hospitalisation = "Hospitalisation";
-  static const String hintHospitalisation = "J'ai été hospitalisé pendant 3 jours, etc.";
+  static const String hintHospitalisation = "J'ai été...";
 
   static const String reeducation = "Rééducation";
-  static const String hintReeducation = "J'ai été à ma séance de kiné, etc.";
+  static const String hintReeducation = "J'ai été à ma séance de kiné...";
 
   // Logement
   static const String rechercheLogement = "Recherche de logement";
-  static const String hintRechercheLogement =
-      "J'ai cherché un appartement à Pantin sur SeLoger, j'ai regardé les offres de logement sociaux dans ma commune, etc.";
+  static const String hintRechercheLogement = "J'ai cherché un appartement...";
 
   static const String constitutionDossier = "Constitution d'un dossier";
-  static const String hintConstitutionDossier = "J'ai rédigé avec mes parents une attestation d'hébergement, etc.";
+  static const String hintConstitutionDossier = "J'ai rédigé une attestation...";
 
   static const String visiteLogement = "Visite de logement";
-  static const String hintVisiteLogement = "J'ai visité l'appartement rue de Lille, etc.";
+  static const String hintVisiteLogement = "J'ai visité un appartement...";
 
   static const String achatImmobilier = "Achat immobilier";
-  static const String hintAchatImmobilier = "J'ai été chez le courtier pour faire évaluer ma capacité d'emprunt, etc.";
+  static const String hintAchatImmobilier = "J'ai été faire évaluer ma capacité d'emprunt...";
 
   static const String demandeAideLogement = "Demande d'aide logement";
-  static const String hintDemandeAideLogement = "J'ai récupéré les documents pour ma demande d'APL, etc.";
+  static const String hintDemandeAideLogement = "J'ai envoyé des documents...";
 
   // Formation
   static const String rechercheFormation = "Recherche de formation";
-  static const String hintRechercheFormation = "J'ai fait des recherches sur les BTS en diététique à Amiens, etc.";
+  static const String hintRechercheFormation = "J'ai fait des recherches...";
 
   static const String rechercheApprentissage = "Recherche d'apprentissage";
-  static const String hintRechercheApprentissage =
-      "J'ai identifié des offres d'apprentissage en boulangerie sur le site l'Apprenti, etc.";
+  static const String hintRechercheApprentissage = "J'ai identifié des offres...";
 
   static const String atelier = "Atelier";
-  static const String hintAtelier = "J'ai participé à l'atelier CV, etc.";
+  static const String hintAtelier = "J'ai participé à l'atelier CV...";
 
   static const String rechercheSubvention = "Recherche de subvention";
-  static const String hintRechercheSubvention =
-      "J'ai identifié les subventions de la région pour ma formation d'artisan, etc.";
+  static const String hintRechercheSubvention = "J'ai identifié les subventions...";
 
   // Loisirs, Sport, Culture
   static const String sport = "Sport";
-  static const String hintSport = "J'ai fait 2h de football avec mon club, etc.";
+  static const String hintSport = "J'ai fait 2h de football...";
 
   static const String cinema = "Cinéma";
-  static const String hintCinema = "J'ai été voir \"Horizon\" au cinéma, etc.";
+  static const String hintCinema = "J'ai été voir \"Horizon\" au cinéma...";
 
   static const String expositionMusee = "Exposition, musée";
-  static const String hintExpositionMusee = "J'ai été voir les expositions du \"Voyage à Nantes\", etc.";
+  static const String hintExpositionMusee = "J'ai été voir les expositions du \"Voyage à Nantes\"...";
 
   static const String spectacleConcert = "Spectacle, concert";
-  static const String hintSpectacleConcert = "J'ai été voir la comédie musicale \"le Roi Lion\" au théâtre, etc.";
+  static const String hintSpectacleConcert = "J'ai été voir la comédie musicale \"le Roi Lion\" au théâtre...";
 
   static const String dessinMusiqueLecture = "Dessin, musique, lecture";
   static const String hintDessinMusiqueLecture =
-      "J'ai été à mon cours de piano, j'ai lu le roman l'Alchimiste de Paulo Coelho, etc.";
+      "J'ai été à mon cours de piano, j'ai lu le roman l'Alchimiste de Paulo Coelho...";
 
   // Autre
   static const String userActionOther = "Autre";
-  static const String hintUserActionOther = "Je précise l'activité réalisée, son objectif, etc.";
+  static const String hintUserActionOther = "Je précise l'activité réalisée, son objectif...";
 
   // User Action
   static const String exampleHint = "Exemple : ";

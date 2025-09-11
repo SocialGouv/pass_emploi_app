@@ -18,7 +18,7 @@ import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/generic/card_container.dart';
 import 'package:pass_emploi_app/widgets/date_pickers/date_picker_suggestions.dart';
 
-class CreateUserActionFormStep3 extends StatelessWidget {
+class CreateUserActionFormStep3 extends StatefulWidget {
   const CreateUserActionFormStep3({
     required this.actionType,
     required this.titleSource,
@@ -38,8 +38,28 @@ class CreateUserActionFormStep3 extends StatelessWidget {
   final void Function() onAddDuplicatedUserAction;
 
   @override
+  State<CreateUserActionFormStep3> createState() => _CreateUserActionFormStep3State();
+}
+
+class _CreateUserActionFormStep3State extends State<CreateUserActionFormStep3> {
+  late final ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      controller: _scrollController,
       child: Tracker(
         tracking: AnalyticsScreenNames.createUserActionStep3,
         child: Padding(
@@ -57,11 +77,11 @@ class CreateUserActionFormStep3 extends StatelessWidget {
                     UserActionStepperTexts(index: 3),
                     const SizedBox(height: Margins.spacing_s),
                     Text(
-                      actionType.label,
+                      widget.actionType.label,
                       style: TextStyles.textMBold.copyWith(color: AppColors.contentColor),
                     ),
                     Text(
-                      titleSource.title,
+                      widget.titleSource.title,
                       style: TextStyles.textBaseMedium.copyWith(color: AppColors.contentColor),
                     ),
                   ],
@@ -71,10 +91,10 @@ class CreateUserActionFormStep3 extends StatelessWidget {
               MandatoryFieldsLabel.all(),
               const SizedBox(height: Margins.spacing_m),
               Text(
-                titleSource.allowBatchCreate ? Strings.selectMultipleActions : Strings.selectOneAction,
+                widget.titleSource.allowBatchCreate ? Strings.selectMultipleActions : Strings.selectOneAction,
                 style: TextStyles.textBaseBold.copyWith(color: AppColors.contentColor),
               ),
-              if (viewModel.errorsVisible && !viewModel.isValid) ...[
+              if (widget.viewModel.errorsVisible && !widget.viewModel.isValid) ...[
                 const SizedBox(height: Margins.spacing_base),
                 _ErrorItem(
                   icon: AppIcons.error_rounded,
@@ -83,26 +103,29 @@ class CreateUserActionFormStep3 extends StatelessWidget {
               ],
               const SizedBox(height: Margins.spacing_m),
               _DuplicateUserActionList(
-                viewModel: viewModel,
-                onDateChanged: onDateChanged,
-                onDescriptionChanged: onDescriptionChanged,
-                onDelete: onDelete,
-                titleSource: titleSource,
+                viewModel: widget.viewModel,
+                onDateChanged: widget.onDateChanged,
+                onDescriptionChanged: widget.onDescriptionChanged,
+                onDelete: widget.onDelete,
+                titleSource: widget.titleSource,
+                scrollController: _scrollController,
               ),
-              if (titleSource.allowBatchCreate)
+              if (widget.titleSource.allowBatchCreate)
                 SecondaryButton(
                   icon: AppIcons.add,
                   label: Strings.duplicateAction,
                   onPressed: () {
-                    viewModel.canCreateMoreDuplicatedUserActions ? onAddDuplicatedUserAction.call() : null;
+                    widget.viewModel.canCreateMoreDuplicatedUserActions
+                        ? widget.onAddDuplicatedUserAction.call()
+                        : null;
                     PassEmploiMatomoTracker.instance.trackEvent(
                       eventCategory: AnalyticsEventNames.createActionv2EventCategory,
                       action: AnalyticsEventNames.createActionResultMultipleAction,
                     );
                   },
-                  isEnabled: viewModel.canCreateMoreDuplicatedUserActions,
+                  isEnabled: widget.viewModel.canCreateMoreDuplicatedUserActions,
                 ),
-              const SizedBox(height: Margins.spacing_xx_huge),
+              const SizedBox(height: Margins.spacing_xx_huge * 2),
             ],
           ),
         ),
@@ -118,6 +141,7 @@ class _DuplicateUserActionList extends StatelessWidget {
     required this.onDescriptionChanged,
     required this.onDelete,
     required this.titleSource,
+    required this.scrollController,
   });
 
   final CreateUserActionStep3ViewModel viewModel;
@@ -125,6 +149,7 @@ class _DuplicateUserActionList extends StatelessWidget {
   final void Function(String id, String description) onDescriptionChanged;
   final void Function(String id) onDelete;
   final CreateActionTitleSource titleSource;
+  final ScrollController scrollController;
 
   @override
   Widget build(BuildContext context) {
@@ -146,6 +171,7 @@ class _DuplicateUserActionList extends StatelessWidget {
             index: index,
             titleSource: titleSource,
             errorsVisible: viewModel.errorsVisible,
+            scrollController: scrollController,
           ),
         );
       },
@@ -163,6 +189,7 @@ class _DuplicateUserActionItem extends StatefulWidget {
     required this.index,
     required this.titleSource,
     required this.errorsVisible,
+    required this.scrollController,
   });
 
   final DuplicatedUserAction duplicatedUserAction;
@@ -172,6 +199,7 @@ class _DuplicateUserActionItem extends StatefulWidget {
   final int index;
   final CreateActionTitleSource titleSource;
   final bool errorsVisible;
+  final ScrollController scrollController;
 
   @override
   State<_DuplicateUserActionItem> createState() => _DuplicateUserActionItemState();
@@ -180,12 +208,49 @@ class _DuplicateUserActionItem extends StatefulWidget {
 class _DuplicateUserActionItemState extends State<_DuplicateUserActionItem> {
   late final TextEditingController descriptionController;
   late final FocusNode descriptionFocusNode;
+  final GlobalKey _descriptionFieldKey = GlobalKey();
 
   @override
   void initState() {
     super.initState();
     descriptionController = TextEditingController(text: widget.duplicatedUserAction.description);
     descriptionFocusNode = FocusNode();
+    descriptionFocusNode.addListener(_onFocusChange);
+  }
+
+  @override
+  void dispose() {
+    descriptionFocusNode.removeListener(_onFocusChange);
+    descriptionController.dispose();
+    descriptionFocusNode.dispose();
+    super.dispose();
+  }
+
+  void _onFocusChange() {
+    if (descriptionFocusNode.hasFocus) {
+      _scrollToDescriptionField();
+    }
+  }
+
+  void _scrollToDescriptionField() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final context = _descriptionFieldKey.currentContext;
+      if (context != null && widget.scrollController.hasClients) {
+        final RenderBox renderBox = context.findRenderObject() as RenderBox;
+        final position = renderBox.localToGlobal(Offset.zero);
+        final scrollOffset = widget.scrollController.offset;
+        final screenHeight = MediaQuery.of(context).size.height;
+
+        // Calculer la position cible pour centrer le champ à l'écran
+        final targetOffset = position.dy + scrollOffset - (screenHeight / 2) + (renderBox.size.height / 2);
+
+        widget.scrollController.animateTo(
+          targetOffset.clamp(0.0, widget.scrollController.position.maxScrollExtent),
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      }
+    });
   }
 
   @override
@@ -220,6 +285,7 @@ class _DuplicateUserActionItemState extends State<_DuplicateUserActionItem> {
                   children: [
                     const SizedBox(height: Margins.spacing_base),
                     UserActionDescriptionField(
+                      key: _descriptionFieldKey,
                       descriptionController: descriptionController,
                       onDescriptionChanged: (value) => widget.onDescriptionChanged(value),
                       onClear: () {

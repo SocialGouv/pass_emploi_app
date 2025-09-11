@@ -208,6 +208,7 @@ class UserActionDescriptionField extends StatelessWidget {
                 controller: descriptionController,
                 hintText: hintText,
                 maxLines: 5,
+                minLines: 1,
                 maxLength: 1024,
                 onChanged: onDescriptionChanged,
                 isInvalid: isInvalid,
