@@ -99,6 +99,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
         focusedBorder: widget.isInvalid ? _errorBorder() : _focusedBorder(),
         errorBorder: _errorBorder(),
         focusedErrorBorder: _errorBorder(),
+        enabledBorder: widget.isInvalid ? _errorBorder() : _idleBorder(),
       ),
       keyboardType: widget.keyboardType,
       textCapitalization: widget.textCapitalization,

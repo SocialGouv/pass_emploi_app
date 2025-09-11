@@ -190,6 +190,8 @@ class _DuplicateUserActionItemState extends State<_DuplicateUserActionItem> {
 
   @override
   Widget build(BuildContext context) {
+    final showDescriptionError = widget.errorsVisible && !widget.duplicatedUserAction.isDescriptionValid;
+    final showDateError = widget.errorsVisible && !widget.duplicatedUserAction.isDateValid;
     return Stack(
       children: [
         CardContainer(
@@ -199,8 +201,9 @@ class _DuplicateUserActionItemState extends State<_DuplicateUserActionItem> {
                 title: Strings.datePickerTitle,
                 dateSource: widget.duplicatedUserAction.dateSource,
                 onDateChanged: widget.onDateChanged,
+                isInvalid: showDateError,
               ),
-              if (widget.errorsVisible && !widget.duplicatedUserAction.isDateValid) ...[
+              if (showDateError) ...[
                 const SizedBox(height: Margins.spacing_s),
                 _ErrorItem(
                   icon: AppIcons.error_rounded,
@@ -225,8 +228,9 @@ class _DuplicateUserActionItemState extends State<_DuplicateUserActionItem> {
                       },
                       hintText: Strings.exampleHint + widget.titleSource.descriptionHint,
                       descriptionFocusNode: descriptionFocusNode,
+                      isInvalid: showDescriptionError,
                     ),
-                    if (widget.errorsVisible && !widget.duplicatedUserAction.isDescriptionValid) ...[
+                    if (showDescriptionError) ...[
                       const SizedBox(height: Margins.spacing_s),
                       _ErrorItem(
                         icon: AppIcons.error_rounded,

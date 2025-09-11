@@ -16,6 +16,7 @@ class DatePicker extends StatefulWidget {
   final DateTime? lastDate;
   final bool showInitialDate;
   final String? errorText;
+  final bool isInvalid;
 
   DatePicker({
     required this.onDateSelected,
@@ -26,6 +27,7 @@ class DatePicker extends StatefulWidget {
     this.lastDate,
     this.showInitialDate = true,
     this.errorText,
+    this.isInvalid = false,
   });
 
   @override
@@ -63,6 +65,7 @@ class _DatePickerState extends State<DatePicker> {
             : null,
         hintText: _hintText(context),
         errorText: widget.errorText,
+        isInvalid: widget.isInvalid,
       ),
     );
   }

@@ -172,6 +172,7 @@ class UserActionDescriptionField extends StatelessWidget {
     required this.onClear,
     required this.hintText,
     this.descriptionFocusNode,
+    required this.isInvalid,
   });
 
   final Key? descriptionKey;
@@ -180,6 +181,7 @@ class UserActionDescriptionField extends StatelessWidget {
   final void Function(String) onDescriptionChanged;
   final void Function() onClear;
   final String? hintText;
+  final bool isInvalid;
 
   @override
   Widget build(BuildContext context) {
@@ -208,6 +210,7 @@ class UserActionDescriptionField extends StatelessWidget {
                 maxLines: 5,
                 maxLength: 1024,
                 onChanged: onDescriptionChanged,
+                isInvalid: isInvalid,
               ),
               if (descriptionController.text.isNotEmpty)
                 Align(

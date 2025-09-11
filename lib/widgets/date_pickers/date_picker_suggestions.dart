@@ -12,6 +12,7 @@ class DatePickerSuggestions extends StatelessWidget {
   final bool isForPastSuggestions;
   final DateTime? firstDate;
   final void Function(DateInputSource) onDateChanged;
+  final bool isInvalid;
 
   const DatePickerSuggestions({
     super.key,
@@ -20,6 +21,7 @@ class DatePickerSuggestions extends StatelessWidget {
     required this.dateSource,
     this.firstDate,
     this.isForPastSuggestions = false,
+    this.isInvalid = false,
   });
 
   @override
@@ -41,6 +43,7 @@ class DatePickerSuggestions extends StatelessWidget {
           },
           isActiveDate: true,
           lastDate: isForPastSuggestions ? DateTime.now() : null,
+          isInvalid: isInvalid,
         ),
         const SizedBox(height: Margins.spacing_s),
         _DateSuggestions(
