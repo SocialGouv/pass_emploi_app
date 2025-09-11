@@ -146,8 +146,7 @@ jobs:
 
       - uses: maxim-lobanov/setup-xcode@v1
         with:
-          # xcode-version: latest-stable
-          xcode-version: '15.4'
+          xcode-version: latest-stable
 
       - name: Set Environment Variables
         uses: ./.github/actions/setvars
@@ -251,6 +250,18 @@ jobs:
         shell: bash
         run: |
           xcode-project use-profiles --export-options-plist ios/prod_export_options.plist
+
+      - name: Update CocoaPods repos
+        shell: bash
+        run: |
+          cd ios
+          pod repo update
+        
+      - name: Update OLMKit (best effort)
+        shell: bash
+        run: |
+          cd ios
+          pod update OLMKit --no-repo-update || true
 
       - name: CEJ - Build IPA with generated prod_export_options.plist
         shell: bash
