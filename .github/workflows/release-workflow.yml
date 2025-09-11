@@ -251,18 +251,6 @@ jobs:
         run: |
           xcode-project use-profiles --export-options-plist ios/prod_export_options.plist
 
-      - name: Update CocoaPods repos
-        shell: bash
-        run: |
-          cd ios
-          pod repo update
-        
-      - name: Update OLMKit (best effort)
-        shell: bash
-        run: |
-          cd ios
-          pod update OLMKit --no-repo-update || true
-
       - name: CEJ - Build IPA with generated prod_export_options.plist
         shell: bash
         run: |
