@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form
 import 'package:pass_emploi_app/pages/user_action/create/create_user_action_form_step3.dart';
 import 'package:pass_emploi_app/presentation/user_action/creation_form/create_user_action_form_view_model.dart';
 import 'package:pass_emploi_app/ui/animation_durations.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
@@ -53,16 +54,22 @@ class _CreateUserActionFormState extends State<CreateUserActionForm> {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Visibility(
-        visible: _viewModel.shouldDisplayNavigationButtons,
-        child: _NavButtons(
-          displayState: _viewModel.displayState,
-          onGoBackPressed: () => _viewModel.viewChangedBackward(),
-          onGoForwardPressed: _viewModel.canGoForward ? () => _viewModel.viewChangedForward() : null,
-        ),
+      body: Stack(
+        children: [
+          _CreateUserActionForm(_viewModel),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Visibility(
+              visible: _viewModel.shouldDisplayNavigationButtons,
+              child: _NavButtons(
+                displayState: _viewModel.displayState,
+                onGoBackPressed: () => _viewModel.viewChangedBackward(),
+                onGoForwardPressed: _viewModel.canGoForward ? () => _viewModel.viewChangedForward() : null,
+              ),
+            ),
+          ),
+        ],
       ),
-      body: _CreateUserActionForm(_viewModel),
     );
   }
 }
@@ -80,24 +87,35 @@ class _NavButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            flex: 1,
-            child: _BackButton(onPressed: onGoBackPressed),
-          ),
-          const SizedBox(width: Margins.spacing_base),
-          Expanded(
-            flex: 2,
-            child: _NextButton(
-              label: displayState.nextLabel,
-              onPressed: onGoForwardPressed,
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border(top: BorderSide(color: AppColors.primaryLighten, width: 1)),
+      ),
+      child: Padding(
+        padding: EdgeInsets.only(
+          top: Margins.spacing_base,
+          left: Margins.spacing_base,
+          right: Margins.spacing_base,
+          bottom: MediaQuery.of(context).padding.bottom,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              flex: 1,
+              child: _BackButton(onPressed: onGoBackPressed),
             ),
-          ),
-        ],
+            const SizedBox(width: Margins.spacing_base),
+            Expanded(
+              flex: 2,
+              child: _NextButton(
+                label: displayState.nextLabel,
+                onPressed: onGoForwardPressed,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
