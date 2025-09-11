@@ -53,7 +53,7 @@ post_install do |installer|
     end
   end
 
-  # --- Patch OLMKit pour Xcode 16/Clang 19 ---
+  # --- Patch OLMKit pour Xcode 16/Clang 19 --- TODO: Remove this when CVM is removed
   list_hh = 'Pods/OLMKit/include/olm/list.hh'
   if File.exist?(list_hh)
     contents = File.read(list_hh)
