@@ -146,7 +146,8 @@ jobs:
 
       - uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: latest-stable
+          # xcode-version: latest-stable
+          xcode-version: '15.4'
 
       - name: Set Environment Variables
         uses: ./.github/actions/setvars
