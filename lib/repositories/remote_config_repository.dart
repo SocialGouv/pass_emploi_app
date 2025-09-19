@@ -55,7 +55,9 @@ class RemoteConfigRepository {
 
   String? monSuiviDemarchesKoMessage() {
     if (_firebaseRemoteConfig == null) return null;
-    return _firebaseRemoteConfig.getString("mon_suivi_demarches_ko_message");
+    final key = _firebaseRemoteConfig.getString("mon_suivi_demarches_ko_message");
+    if (key.isEmpty || key == "null") return null;
+    return key;
   }
 
   Map<Accompagnement, bool> cvmActivationByAccompagnement() {
