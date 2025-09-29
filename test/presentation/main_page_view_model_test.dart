@@ -112,30 +112,6 @@ void main() {
     ]);
   });
 
-  group('useCvm', () {
-    test('when feature flip state is set to false', () {
-      // Given
-      final store = givenState().store();
-
-      // When
-      final viewModel = MainPageViewModel.create(store);
-
-      // Then
-      expect(viewModel.useCvm, isFalse);
-    });
-
-    test('when feature flip state is set to true', () {
-      // Given
-      final store = givenState().withFeatureFlip(useCvm: true).store();
-
-      // When
-      final viewModel = MainPageViewModel.create(store);
-
-      // Then
-      expect(viewModel.useCvm, isTrue);
-    });
-  });
-
   test('resetDeeplink should trigger ResetDeeplinkAction', () {
     // Given
     final store = StoreSpy();

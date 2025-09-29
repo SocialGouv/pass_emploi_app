@@ -29,8 +29,9 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    compileSdkVersion 35
+    compileSdkVersion 36
     namespace "fr.fabrique.social.gouv.pass_emploi_app"
+    ndkVersion "27.0.12077973"
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -49,8 +50,8 @@ android {
 
     defaultConfig {
         applicationId "fr.fabrique.social.gouv.passemploi"
-        minSdkVersion 23
-        targetSdkVersion 35
+        minSdkVersion flutter.minSdkVersion
+        targetSdkVersion 36
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         manifestPlaceholders = [
@@ -125,18 +126,18 @@ flutter {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.20"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:2.1.0"
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
 
-    // Required for CVM
-    implementation fileTree(include: ['matrixlib-1.2.107.aar'], dir: 'libs')
-    implementation 'org.matrix.android:matrix-android-sdk2:1.5.4'
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-    implementation 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
-    implementation "io.reactivex.rxjava3:rxjava:3.0.1"
-    implementation "io.reactivex.rxjava3:rxkotlin:3.0.0"
-    implementation "io.reactivex.rxjava3:rxandroid:3.0.0"
+    // // Required for CVM
+    // implementation fileTree(include: ['matrixlib-1.2.107.aar'], dir: 'libs')
+    // implementation 'org.matrix.android:matrix-android-sdk2:1.5.4'
+    // implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    // implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    // implementation 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
+    // implementation "io.reactivex.rxjava3:rxjava:3.0.1"
+    // implementation "io.reactivex.rxjava3:rxkotlin:3.0.0"
+    // implementation "io.reactivex.rxjava3:rxandroid:3.0.0"
 }
 
 

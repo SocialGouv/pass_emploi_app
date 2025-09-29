@@ -179,7 +179,7 @@ class _Comments extends StatelessWidget {
       if (comment is CommentTextItem) {
         return Text(comment.label, style: TextStyles.textBaseBold);
       }
-      return RadioGroup<String>(
+      return CustomRadioGroup<String>(
         title: comment.label,
         value: comment.code,
         groupValue: codeComment,

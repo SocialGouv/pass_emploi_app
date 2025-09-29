@@ -100,7 +100,7 @@ class _Body extends StatelessWidget {
   }
 
   Widget _buildRadioGroup(OffreFilter value, String title) {
-    return RadioGroup<OffreFilter>(
+    return CustomRadioGroup<OffreFilter>(
       title: title,
       value: value,
       groupValue: offreFilter,

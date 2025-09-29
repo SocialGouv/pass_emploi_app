@@ -1,7 +1,6 @@
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/bootstrap/bootstrap_action.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
-import 'package:pass_emploi_app/features/cvm/cvm_actions.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/features/onboarding/onboarding_actions.dart';
 import 'package:pass_emploi_app/features/recherche/evenement_emploi/evenement_emploi_criteres_recherche.dart';
@@ -29,7 +28,7 @@ class OnboardingMiddleware extends MiddlewareClass<AppState> {
       store.dispatch(OnboardingSuccessAction(result));
     } else if (action is OnboardingPushNotificationPermissionRequestAction) {
       await _handleNotificationsPermissions(store);
-    } else if (action is SendMessageAction || action is CvmSendMessageAction) {
+    } else if (action is SendMessageAction) {
       _updateOnboarding(store, (onboarding) => onboarding?.copyWith(messageCompleted: true));
     } else if (action is UserActionCreateSuccessAction || action is CreateDemarcheSuccessAction) {
       _updateOnboarding(store, (onboarding) => onboarding?.copyWith(actionCompleted: true));
