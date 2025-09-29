@@ -5,8 +5,8 @@ publish_to: "none"
 version: 4.5.5
 
 environment:
-  sdk: 3.5.3 # Dart version
-  flutter: 3.24.3
+  sdk: 3.9.2 # Dart version
+  flutter: 3.35.3
 
 dependencies:
   flutter:
