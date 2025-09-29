@@ -11,12 +11,8 @@
 		1A56D41B46A6A24484EAF21A /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2665B04E6E19F0B38771144C /* Pods_Runner.framework */; };
 		2204B8132BD933CA00CC96F4 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 2204B8122BD933CA00CC96F4 /* PrivacyInfo.xcprivacy */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
-		40AB66762B5ECA5E00FAF16D /* CvmRoomChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AB66752B5ECA5E00FAF16D /* CvmRoomChannel.swift */; };
 		40CD36D529E5B3C70083A77A /* LaunchScreenCej.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 40CD36D129E5B3C70083A77A /* LaunchScreenCej.storyboard */; };
 		40CD36D629E5B3C70083A77A /* LaunchScreenBrsa.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 40CD36D329E5B3C70083A77A /* LaunchScreenBrsa.storyboard */; };
-		70EA0AD92B5689A10031870C /* CvmRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70EA0AD82B5689A10031870C /* CvmRepository.swift */; };
-		70EA0ADB2B5689C00031870C /* CvmEventChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70EA0ADA2B5689C00031870C /* CvmEventChannel.swift */; };
-		70EA0ADD2B5689D50031870C /* CvmMethodChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70EA0ADC2B5689D50031870C /* CvmMethodChannel.swift */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
@@ -51,7 +47,6 @@
 		299976232791E3EF003EFDD2 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = fr; path = fr.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		299976242791E3F0003EFDD2 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = fr; path = fr.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
-		40AB66752B5ECA5E00FAF16D /* CvmRoomChannel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CvmRoomChannel.swift; sourceTree = "<group>"; };
 		40BDA906FEE679C30EAE51C7 /* Pods-Runner.debug-cejstaging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-cejstaging.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-cejstaging.xcconfig"; sourceTree = "<group>"; };
 		40CD36D229E5B3C70083A77A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenCej.storyboard; sourceTree = "<group>"; };
 		40CD36D429E5B3C70083A77A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenBrsa.storyboard; sourceTree = "<group>"; };
@@ -60,9 +55,6 @@
 		630CFE70002C7D15FA7B3D81 /* Pods-Runner.release-brsastaging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-brsastaging.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-brsastaging.xcconfig"; sourceTree = "<group>"; };
 		6A6B1AD36D5851F00151F64F /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		6B1B27F394FDD7175B8628D7 /* Pods-Runner.debug-staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-staging.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-staging.xcconfig"; sourceTree = "<group>"; };
-		70EA0AD82B5689A10031870C /* CvmRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CvmRepository.swift; sourceTree = "<group>"; };
-		70EA0ADA2B5689C00031870C /* CvmEventChannel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CvmEventChannel.swift; sourceTree = "<group>"; };
-		70EA0ADC2B5689D50031870C /* CvmMethodChannel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CvmMethodChannel.swift; sourceTree = "<group>"; };
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
 		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7727A4E8DB91543935321148 /* Pods-Runner.release-cejstaging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-cejstaging.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-cejstaging.xcconfig"; sourceTree = "<group>"; };
@@ -98,17 +90,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		70EA0AD72B56898F0031870C /* CVM */ = {
-			isa = PBXGroup;
-			children = (
-				70EA0AD82B5689A10031870C /* CvmRepository.swift */,
-				70EA0ADA2B5689C00031870C /* CvmEventChannel.swift */,
-				70EA0ADC2B5689D50031870C /* CvmMethodChannel.swift */,
-				40AB66752B5ECA5E00FAF16D /* CvmRoomChannel.swift */,
-			);
-			path = CVM;
-			sourceTree = "<group>";
-		};
 		9740EEB11CF90186004384FC /* Flutter */ = {
 			isa = PBXGroup;
 			children = (
@@ -143,7 +124,6 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
-				70EA0AD72B56898F0031870C /* CVM */,
 				22B5A51A270CB8940024B9D7 /* Runner.entitlements */,
 				97C146FA1CF9000F007C117D /* Main.storyboard */,
 				97C146FD1CF9000F007C117D /* Assets.xcassets */,
@@ -410,11 +390,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
-				40AB66762B5ECA5E00FAF16D /* CvmRoomChannel.swift in Sources */,
-				70EA0ADD2B5689D50031870C /* CvmMethodChannel.swift in Sources */,
-				70EA0ADB2B5689C00031870C /* CvmEventChannel.swift in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
-				70EA0AD92B5689A10031870C /* CvmRepository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
