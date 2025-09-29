@@ -19,7 +19,6 @@ import 'package:pass_emploi_app/models/alerte/offre_emploi_alerte.dart';
 import 'package:pass_emploi_app/models/alerte/service_civique_alerte.dart';
 import 'package:pass_emploi_app/models/brand.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
-import 'package:pass_emploi_app/models/chat/cvm_message.dart';
 import 'package:pass_emploi_app/models/chat/message.dart' as message;
 import 'package:pass_emploi_app/models/chat/message_important.dart';
 import 'package:pass_emploi_app/models/chat/offre_partagee.dart';
@@ -231,8 +230,6 @@ Configuration configuration(
     'someKey',
     'actualisationPoleEmploiUrl',
     'Europe/Paris',
-    'cvmEx160Url',
-    'cvmAttachmentUrl',
   );
 }
 
@@ -1339,56 +1336,6 @@ MonSuivi mockMonSuivi({
     errorOnSessionMiloRetrieval: errorOnSessionMiloRetrieval,
     dateDerniereMiseAJourPoleEmploi: dateDerniereMiseAJourPoleEmploi,
     eligibleDemarchesIA: eligibleDemarchesIA,
-  );
-}
-
-CvmMessage mockCvmTextMessage({
-  String? id,
-  String? content,
-  DateTime? date,
-  Sender? sentBy,
-  bool? readByJeune,
-  bool? readByConseiller,
-}) {
-  return CvmTextMessage(
-    id: id ?? "id",
-    date: date ?? DateTime(2032),
-    readByJeune: readByJeune ?? false,
-    content: content ?? "content",
-    sentBy: sentBy ?? Sender.jeune,
-    readByConseiller: readByConseiller ?? false,
-  );
-}
-
-CvmMessage mockCvmFileMessage({
-  String? id,
-  DateTime? date,
-  bool? readByJeune,
-  Sender? sentBy,
-  String? url,
-  String? fileName,
-  String? fileId,
-}) {
-  return CvmFileMessage(
-    id: id ?? "id",
-    date: date ?? DateTime(2032),
-    readByJeune: readByJeune ?? false,
-    sentBy: sentBy ?? Sender.conseiller,
-    url: url ?? 'url',
-    fileName: fileName ?? 'fileName',
-    fileId: fileId ?? 'fileId',
-  );
-}
-
-CvmMessage mockCvmUnknownMessage({
-  String? id,
-  DateTime? date,
-  bool? readByJeune,
-}) {
-  return CvmUnknownMessage(
-    id: id ?? "id",
-    date: date ?? DateTime(2032),
-    readByJeune: readByJeune ?? false,
   );
 }
 

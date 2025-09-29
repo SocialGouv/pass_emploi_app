@@ -128,15 +128,15 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.20"
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
 
-    // Required for CVM
-    implementation fileTree(include: ['matrixlib-1.2.107.aar'], dir: 'libs')
-    implementation 'org.matrix.android:matrix-android-sdk2:1.5.4'
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-    implementation 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
-    implementation "io.reactivex.rxjava3:rxjava:3.0.1"
-    implementation "io.reactivex.rxjava3:rxkotlin:3.0.0"
-    implementation "io.reactivex.rxjava3:rxandroid:3.0.0"
+    // // Required for CVM
+    // implementation fileTree(include: ['matrixlib-1.2.107.aar'], dir: 'libs')
+    // implementation 'org.matrix.android:matrix-android-sdk2:1.5.4'
+    // implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    // implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    // implementation 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
+    // implementation "io.reactivex.rxjava3:rxjava:3.0.1"
+    // implementation "io.reactivex.rxjava3:rxkotlin:3.0.0"
+    // implementation "io.reactivex.rxjava3:rxandroid:3.0.0"
 }
 
 

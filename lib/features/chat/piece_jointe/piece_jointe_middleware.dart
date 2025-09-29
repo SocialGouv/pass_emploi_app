@@ -1,9 +1,7 @@
-import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_actions.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:redux/redux.dart';
 
 class PieceJointeMiddleware extends MiddlewareClass<AppState> {
@@ -23,18 +21,10 @@ class PieceJointeMiddleware extends MiddlewareClass<AppState> {
     }
 
     if (action is PieceJointeFromUrlRequestAction) {
-      final begin = DateTime.now();
       final String? path = await _repository.downloadFromUrl(
         url: action.url,
         fileId: action.fileId,
         fileName: action.fileName,
-      );
-      final duration = DateTime.now().difference(begin).inMilliseconds;
-      PassEmploiMatomoTracker.instance.trackEvent(
-        eventCategory: AnalyticsEventNames.cvmDownloadPieceJointeCategory,
-        action: AnalyticsEventNames.cvmDownloadPieceJointedAction,
-        eventName: AnalyticsEventNames.cvmDownloadPieceJointeEventName,
-        eventValue: duration,
       );
       _handleDownload(store, action.fileId, path);
     }
