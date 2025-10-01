@@ -13,6 +13,7 @@ class RadioGroup<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RadioListTile<T>(
+      visualDensity: VisualDensity.compact,
       contentPadding: EdgeInsets.zero,
       activeColor: AppColors.primary,
       title: Text(title, style: TextStyles.textBaseMedium),

@@ -455,15 +455,17 @@ class Strings {
   static String phone(String phone) => "Téléphone : $phone";
 
   // App evaluation
+  static String evalAppbarTitle = "Votre avis nous intéresse";
   static String evalTitle = "Votre expérience sur l’application";
   static String evalDescription = "Aidez-nous à améliorer l’application en répondant à quelques questions.";
-  static String evalButton = "Donner son avis";
+  static String evalButton = "Je donne mon avis";
 
   static String nextButtonTitle = "Suivant";
   static String validateButtonTitle = "Valider";
   static String mandatory = "Les questions marquées d'une * sont obligatoires";
-  static String pourquoiTitle = "Pourquoi ?";
-  static String evaluationSuccessfullySent = "Vous avez répondu aux questions, merci\u{00A0}!";
+  static String pourquoiTitle = "Pouvez-vous nous en dire plus ?";
+  static String evaluationSuccessfullySent = "Merci pour vos précieux retours\u{00A0}!";
+  static String pourquoiHintText = "Dites-nous pourquoi...";
 
   // User action form
   static const String createActionAppBarTitle = 'Créer une action';

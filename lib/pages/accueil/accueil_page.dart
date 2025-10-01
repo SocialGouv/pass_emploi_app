@@ -22,7 +22,7 @@ import 'package:pass_emploi_app/pages/accueil/accueil_suivi_des_offres.dart';
 import 'package:pass_emploi_app/pages/accueil/remote_campagne_accueil_card.dart';
 import 'package:pass_emploi_app/pages/alerte_page.dart';
 import 'package:pass_emploi_app/pages/benevolat_page.dart';
-import 'package:pass_emploi_app/pages/campagne/campagne_details_page.dart';
+import 'package:pass_emploi_app/pages/campagne/campagne_question_page.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_form_page.dart';
 import 'package:pass_emploi_app/pages/la_bonne_alternance_page.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_details_page.dart';
@@ -109,7 +109,7 @@ class _AccueilPageState extends State<AccueilPage> {
         AlertesDeepLink() => AlertePage.materialPageRoute(),
         BenevolatDeepLink() => BenevolatPage.materialPageRoute(),
         LaBonneAlternanceDeepLink() => LaBonneAlternancePage.materialPageRoute(),
-        CampagneDeepLink() => CampagneDetailsPage.materialPageRoute(),
+        CampagneDeepLink() => CampagneQuestionPage.materialPageRoute(0),
         _ => null,
       };
 
@@ -297,9 +297,7 @@ class _CampagneCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CampagneCard(
-      onTap: () {
-        Navigator.push(context, CampagneDetailsPage.materialPageRoute());
-      },
+      onTap: () => Navigator.push(context, CampagneQuestionPage.materialPageRoute(0)),
       titre: title,
       description: description,
     );

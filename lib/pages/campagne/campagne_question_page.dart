@@ -32,6 +32,7 @@ class CampagneQuestionPage extends StatefulWidget {
 class _CampagneQuestionPageState extends State<CampagneQuestionPage> {
   int? _answerId;
   String? _pourquoi;
+  final GlobalKey _textFieldKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -48,52 +49,56 @@ class _CampagneQuestionPageState extends State<CampagneQuestionPage> {
       backgroundColor: backgroundColor,
       appBar: SecondaryAppBar(title: viewModel.titre, backgroundColor: backgroundColor),
       body: _content(viewModel),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
+        child: SizedBox(
+          width: double.infinity,
+          child: PrimaryActionButton(
+            onPressed: _answerId != null ? () => onButtonPressed(viewModel) : null,
+            label: viewModel.bottomButton == QuestionBottomButton.next
+                ? Strings.nextButtonTitle
+                : Strings.validateButtonTitle,
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
   Widget _content(QuestionPageViewModel viewModel) {
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(24.0),
+        padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(Strings.mandatory, style: TextStyles.textSRegular(color: AppColors.contentColor)),
-            SizedBox(height: Margins.spacing_m),
-            Text(viewModel.question, style: TextStyles.textBaseRegular),
-            SizedBox(height: Margins.spacing_m),
+            SizedBox(height: Margins.spacing_base),
+            Text(viewModel.question, style: TextStyles.textBaseBold),
+            SizedBox(height: Margins.spacing_base),
             _answerOptions(viewModel.options),
             SizedBox(height: Margins.spacing_xl),
-            Text(Strings.pourquoiTitle, style: TextStyles.textBaseBold),
-            Container(
-              margin: EdgeInsets.all(10),
-              padding: EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color: AppColors.grey700, width: 1.0),
-                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-              ),
-              child: BaseTextField(
-                onChanged: (value) => setState(() => _pourquoi = value),
-                textInputAction: TextInputAction.newline,
-                keyboardType: TextInputType.multiline,
-                maxLines: null,
-                maxLength: maxAnswerLength,
-              ),
+            Text(Strings.pourquoiTitle, style: TextStyles.textBaseRegular),
+            SizedBox(height: Margins.spacing_base),
+            BaseTextField(
+              key: _textFieldKey,
+              onTap: () {
+                Future.delayed(const Duration(milliseconds: 300), () {
+                  Scrollable.ensureVisible(_textFieldKey.currentContext!);
+                });
+              },
+              onChanged: (value) {
+                Scrollable.ensureVisible(_textFieldKey.currentContext!);
+
+                setState(() => _pourquoi = value);
+              },
+              textInputAction: TextInputAction.newline,
+              keyboardType: TextInputType.multiline,
+              maxLines: null,
+              maxLength: maxAnswerLength,
+              hintText: Strings.pourquoiHintText,
             ),
-            Padding(
-              padding: EdgeInsets.all(Margins.spacing_m),
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(minWidth: double.infinity),
-                child: PrimaryActionButton(
-                  onPressed: _answerId != null ? () => onButtonPressed(viewModel) : null,
-                  label: viewModel.bottomButton == QuestionBottomButton.next
-                      ? Strings.nextButtonTitle
-                      : Strings.validateButtonTitle,
-                  iconSize: 14,
-                ),
-              ),
-            ),
+            SizedBox(height: Margins.spacing_x_huge * 2),
           ],
         ),
       ),
