@@ -1,3 +1,4 @@
+// TODO: à retirer après avoir informé les utilisateurs de la suppression de CVM
 class FeatureFlipUseCvmAction {
   final bool useCvm;
 

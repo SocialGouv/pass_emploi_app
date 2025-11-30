@@ -2,7 +2,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pass_emploi_app/features/bootstrap/bootstrap_action.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
-import 'package:pass_emploi_app/features/cvm/cvm_actions.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/features/onboarding/onboarding_actions.dart';
 import 'package:pass_emploi_app/features/onboarding/onboarding_state.dart';
@@ -71,23 +70,6 @@ void main() {
     group('on completed', () {
       group('when sending a message', () {
         sut.whenDispatchingAction(() => SendMessageAction('any'));
-
-        test('should update onboarding state', () {
-          final givenOnboarding = Onboarding();
-
-          when(() => repository.get()).thenAnswer((_) async => givenOnboarding);
-          when(() => repository.save(any())).thenAnswer((_) async {});
-
-          sut.givenStore = givenState() //
-              .copyWith(onboardingState: OnboardingState(onboarding: givenOnboarding))
-              .store((f) => {f.onboardingRepository = repository});
-
-          sut.thenExpectAtSomePoint(_shouldSucceed(givenOnboarding.copyWith(messageCompleted: true)));
-        });
-      });
-
-      group('when sending a CVM message', () {
-        sut.whenDispatchingAction(() => CvmSendMessageAction('any'));
 
         test('should update onboarding state', () {
           final givenOnboarding = Onboarding();

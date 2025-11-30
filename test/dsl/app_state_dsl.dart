@@ -11,7 +11,6 @@ import 'package:pass_emploi_app/features/chat/preview_file/preview_file_state.da
 import 'package:pass_emploi_app/features/comptage_des_heures/comptage_des_heures_state.dart';
 import 'package:pass_emploi_app/features/connectivity/connectivity_state.dart';
 import 'package:pass_emploi_app/features/cv/cv_state.dart';
-import 'package:pass_emploi_app/features/cvm/cvm_state.dart';
 import 'package:pass_emploi_app/features/date_consultation_offre/date_consultation_offre_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
@@ -59,7 +58,6 @@ import 'package:pass_emploi_app/models/accueil/accueil.dart';
 import 'package:pass_emploi_app/models/alerte/alerte.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/cgu.dart';
-import 'package:pass_emploi_app/models/chat/cvm_message.dart';
 import 'package:pass_emploi_app/models/chat/message.dart';
 import 'package:pass_emploi_app/models/comptage_des_heures.dart';
 import 'package:pass_emploi_app/models/date/interval.dart';
@@ -827,10 +825,6 @@ extension AppStateDSL on AppState {
 
   AppState withFirstLaunchNotInitializedState() {
     return copyWith(firstLaunchOnboardingState: FirstLaunchOnboardingNotInitializedState());
-  }
-
-  AppState withCvmMessage({List<CvmMessage>? messages}) {
-    return copyWith(cvmState: CvmSuccessState(messages ?? [mockCvmTextMessage()]));
   }
 
   AppState withCguNeverAccepted() {

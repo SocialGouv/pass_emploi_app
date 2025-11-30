@@ -28,8 +28,6 @@ class Configuration extends Equatable {
   final String iSRGX1CertificateForOldDevices;
   final String actualisationPoleEmploiUrl;
   final String fuseauHoraire;
-  final String cvmEx160Url;
-  final String cvmAttachmentUrl;
 
   Configuration(
     this.version,
@@ -49,8 +47,6 @@ class Configuration extends Equatable {
     this.iSRGX1CertificateForOldDevices,
     this.actualisationPoleEmploiUrl,
     this.fuseauHoraire,
-    this.cvmEx160Url,
-    this.cvmAttachmentUrl,
   );
 
   static Future<Configuration> build() async {
@@ -74,8 +70,6 @@ class Configuration extends Equatable {
     final iSRGX1CertificateForOldDevices = utf8.decode(base64Decode(getOrThrow('ISRGX1_CERT_FOR_OLD_DEVICES')));
     final actualisationPoleEmploiUrl = getOrThrow('ACTUALISATION_PE_URL');
     final fuseauHoraire = await FlutterTimezone.getLocalTimezone();
-    final cvmEx160Url = getCvmEx160Url(getOrThrow('CVM_PATH'));
-    final cvmAttachmentUrl = getCvmAttachmentUrl(getOrThrow('CVM_PATH'));
     return Configuration(
       currentVersion,
       flavor,
@@ -94,8 +88,6 @@ class Configuration extends Equatable {
       iSRGX1CertificateForOldDevices,
       actualisationPoleEmploiUrl,
       fuseauHoraire,
-      cvmEx160Url,
-      cvmAttachmentUrl,
     );
   }
 
@@ -119,14 +111,6 @@ class Configuration extends Equatable {
     return value.split(' ');
   }
 
-  static String getCvmEx160Url(String cvmPath) {
-    return 'https://$cvmPath/identification/v1/authentification/CEJ';
-  }
-
-  static String getCvmAttachmentUrl(String cvmPath) {
-    return 'https://$cvmPath/_matrix/media/v3/download/';
-  }
-
   @override
   List<Object?> get props => [
         version,
@@ -145,8 +129,6 @@ class Configuration extends Equatable {
         iSRGX1CertificateForOldDevices,
         actualisationPoleEmploiUrl,
         fuseauHoraire,
-        cvmEx160Url,
-        cvmAttachmentUrl,
       ];
 
   Configuration copyWith({
@@ -167,8 +149,6 @@ class Configuration extends Equatable {
     String? iSRGX1CertificateForOldDevices,
     String? actualisationPoleEmploiUrl,
     String? fuseauHoraire,
-    String? cvmEx160Url,
-    String? cvmAttachmentUrl,
   }) {
     return Configuration(
       version ?? this.version,
@@ -188,8 +168,6 @@ class Configuration extends Equatable {
       iSRGX1CertificateForOldDevices ?? this.iSRGX1CertificateForOldDevices,
       actualisationPoleEmploiUrl ?? this.actualisationPoleEmploiUrl,
       fuseauHoraire ?? this.fuseauHoraire,
-      cvmEx160Url ?? this.cvmEx160Url,
-      cvmAttachmentUrl ?? this.cvmAttachmentUrl,
     );
   }
 }

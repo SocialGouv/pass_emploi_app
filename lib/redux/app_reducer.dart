@@ -16,7 +16,6 @@ import 'package:pass_emploi_app/features/comptage_des_heures/comptage_des_heures
 import 'package:pass_emploi_app/features/connectivity/connectivity_reducer.dart';
 import 'package:pass_emploi_app/features/contact_immersion/contact_immersion_reducer.dart';
 import 'package:pass_emploi_app/features/cv/cv_reducer.dart';
-import 'package:pass_emploi_app/features/cvm/cvm_reducer.dart';
 import 'package:pass_emploi_app/features/date_consultation_notification/date_consultation_notification_reducer.dart';
 import 'package:pass_emploi_app/features/date_consultation_offre/date_consultation_offre_reducer.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_reducer.dart';
@@ -35,6 +34,7 @@ import 'package:pass_emploi_app/features/favori/list/favori_list_reducer.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_reducer.dart';
 import 'package:pass_emploi_app/features/feature_flip/feature_flip_reducer.dart';
 import 'package:pass_emploi_app/features/first_launch_onboarding/first_launch_onboarding_reducer.dart';
+import 'package:pass_emploi_app/features/ft_ia_tutorial/ft_ia_tutorial_reducer.dart';
 import 'package:pass_emploi_app/features/ia_ft_suggestions/ia_ft_suggestions_reducer.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_reducer.dart';
 import 'package:pass_emploi_app/features/in_app_feedback/in_app_feedback_reducer.dart';
@@ -89,7 +89,6 @@ import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/features/ft_ia_tutorial/ft_ia_tutorial_reducer.dart';
 /*AUTOGENERATE-REDUX-APP-REDUCER-IMPORT*/
 
 AppState reducer(AppState current, dynamic action) {
@@ -191,7 +190,6 @@ AppState reducer(AppState current, dynamic action) {
     sessionMiloDetailsState: sessionMiloDetailsReducer(current.sessionMiloDetailsState, action),
     connectivityState: connectivityReducer(current.connectivityState, action),
     monSuiviState: monSuiviReducer(current.monSuiviState, action),
-    cvmState: cvmReducer(current.cvmState, action),
     preferredLoginModeState: preferredLoginModeReducer(current.preferredLoginModeState, action),
     onboardingState: onboardingReducer(current.onboardingState, action),
     firstLaunchOnboardingState: firstLaunchOnboardingReducer(current.firstLaunchOnboardingState, action),

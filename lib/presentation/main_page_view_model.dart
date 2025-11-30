@@ -22,14 +22,12 @@ enum MainPageDisplayState {
 class MainPageViewModel extends Equatable {
   final List<MainTab> tabs;
   final bool withChatBadge;
-  final bool useCvm;
   final Function resetDeeplink;
   final String actualisationPoleEmploiUrl;
 
   MainPageViewModel({
     required this.tabs,
     required this.withChatBadge,
-    required this.useCvm,
     required this.resetDeeplink,
     required this.actualisationPoleEmploiUrl,
   });
@@ -47,12 +45,11 @@ class MainPageViewModel extends Equatable {
         MainTab.evenements,
       ],
       withChatBadge: (chatStatusState is ChatStatusSuccessState) && (chatStatusState.hasUnreadMessages),
-      useCvm: store.state.featureFlipState.featureFlip.useCvm,
       resetDeeplink: () => store.dispatch(ResetDeeplinkAction()),
       actualisationPoleEmploiUrl: store.state.configurationState.configuration?.actualisationPoleEmploiUrl ?? "",
     );
   }
 
   @override
-  List<Object?> get props => [tabs, withChatBadge, useCvm];
+  List<Object?> get props => [tabs, withChatBadge];
 }

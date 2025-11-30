@@ -19,7 +19,6 @@ class AnalyticsScreenNames {
   static const accueil = "accueil";
   static const monSuivi = "mon_suivi/v2";
   static const chat = "chat";
-  static const cvmChat = "chat_cvm";
   static const profil = "profil";
 
   static const contactProfil = "profil/contact";
@@ -279,30 +278,6 @@ class AnalyticsEventNames {
 
   static const evenementEmploiDetailsCategory = "Détails événement emploi";
   static const evenementEmploiDetailsInscriptionAction = "Clic inscription événement emploi";
-
-  static const cvmLoadingCategory = "CVM - temps de chargement";
-  static const cvmLoadingAndroidAction = "Chargement Android";
-  static const cvmLoadingIosAction = "Chargement iOS";
-  static const cvmLoadingEventName = "Durée";
-
-  static const cvmSendMessageCategory = "CVM - temps d'envoi de message";
-  static const cvmSendMessageAndroidAction = "Envoi de message Android";
-  static const cvmSendMessageIosAction = "Envoi de message iOS";
-  static const cvmSendMessageEventName = "Durée en ms";
-
-  static const cvmDownloadPieceJointeCategory = "CVM - temps de download d'une pièce jointe";
-  static const cvmDownloadPieceJointedAction = "Temps de download d'une pièce jointe";
-  static const cvmDownloadPieceJointeEventName = "Durée en ms";
-
-  static const cvmResultCategory = "CVM - état de la page";
-  static const cvmResultAndroidSuccessAction = "Chargement Android réussi";
-  static const cvmResultAndroidFailureAction = "Chargement Android échoué";
-  static const cvmResultIosSuccessAction = "Chargement iOS réussi";
-  static const cvmResultIosFailureAction = "Chargement iOS échoué";
-
-  static const cvmMessageCategory = "CVM - messages envoyés";
-  static const cvmMessageAndroidAction = "Envoi message Android";
-  static const cvmMessageIosAction = "Envoi message iOS";
 
   static const rendezvousVisioCategory = "Rendez-vous bénéficiaire - visio";
   static const rendezvousVisioDisplayAction = "Affichage";

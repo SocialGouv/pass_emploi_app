@@ -13,8 +13,6 @@ abstract class Crashlytics {
 
   void recordNonNetworkExceptionUrl(dynamic exception, [StackTrace stack, String? failingEndpoint]);
 
-  void recordCvmException(dynamic exception, [StackTrace? stack]);
-
   void log(String message);
 }
 
@@ -46,17 +44,6 @@ class CrashlyticsWithFirebase extends Crashlytics {
   @override
   void recordNonNetworkException(dynamic exception, [StackTrace? stack, Uri? failingEndpoint]) {
     recordNonNetworkExceptionUrl(exception, stack, failingEndpoint?.toString());
-  }
-
-  @override
-  void recordCvmException(dynamic exception, [StackTrace? stack]) {
-    Log.e('CVM Exception', exception, stack);
-    FirebaseCrashlytics.instance.recordError(
-      exception,
-      stack,
-      reason: 'CVM Exception',
-      printDetails: false,
-    );
   }
 
   @override

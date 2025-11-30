@@ -33,10 +33,6 @@ flutter_ios_podfile_setup
 target 'Runner' do
   use_frameworks!
   use_modular_headers!
-
-  pod 'MatrixSDK', :git => 'https://github.com/matrix-org/matrix-ios-sdk.git', :tag => 'v0.23.19'
-  pod 'BenedicteSDK', :git => 'git@gitlab.com:nicolasbrouillet/BenedicteSDK.git', :tag => '1.0.45'
-
   # Required to fix extremely long iOS build time issues [https://github.com/invertase/firestore-ios-sdk-frameworks]
   pod 'FirebaseFirestore', :git => 'https://github.com/invertase/firestore-ios-sdk-frameworks.git', :tag => '11.15.0'
   
@@ -51,20 +47,5 @@ post_install do |installer|
       config.build_settings['CODE_SIGNING_REQUIRED'] = "NO"
       config.build_settings['CODE_SIGNING_ALLOWED'] = "NO"
     end
-  end
-
-  # --- Patch OLMKit pour Xcode 16/Clang 19 --- TODO: Remove this when CVM is removed
-  list_hh = 'Pods/OLMKit/include/olm/list.hh'
-  if File.exist?(list_hh)
-    contents = File.read(list_hh)
-    patched = contents.gsub(/T\s*\*\s*const\s+other_pos\s*=\s*other\._data;/, 'T * other_pos = other._data;')
-    if patched != contents
-      File.write(list_hh, patched)
-      puts '✅ Patched OLMKit list.hh for Xcode 16/Clang 19 (removed const on pointer variable)'
-    else
-      puts 'ℹ️ OLMKit list.hh already patched or pattern not found (maybe upstream fixed).'
-    end
-  else
-    puts 'ℹ️ OLMKit list.hh not found — OLMKit may not be installed or the path changed.'
   end
 end

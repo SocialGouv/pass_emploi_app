@@ -19,7 +19,6 @@ import 'package:pass_emploi_app/features/configuration/configuration_state.dart'
 import 'package:pass_emploi_app/features/connectivity/connectivity_state.dart';
 import 'package:pass_emploi_app/features/contact_immersion/contact_immersion_state.dart';
 import 'package:pass_emploi_app/features/cv/cv_state.dart';
-import 'package:pass_emploi_app/features/cvm/cvm_state.dart';
 import 'package:pass_emploi_app/features/date_consultation_notification/date_consultation_notification_state.dart';
 import 'package:pass_emploi_app/features/date_consultation_offre/date_consultation_offre_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
@@ -151,7 +150,6 @@ class AppState extends Equatable {
   final SessionMiloDetailsState sessionMiloDetailsState;
   final ConnectivityState connectivityState;
   final MonSuiviState monSuiviState;
-  final CvmState cvmState;
   final PreferredLoginModeState preferredLoginModeState;
   final OnboardingState onboardingState;
   final FirstLaunchOnboardingState firstLaunchOnboardingState;
@@ -237,7 +235,6 @@ class AppState extends Equatable {
     required this.sessionMiloDetailsState,
     required this.connectivityState,
     required this.monSuiviState,
-    required this.cvmState,
     required this.preferredLoginModeState,
     required this.onboardingState,
     required this.firstLaunchOnboardingState,
@@ -324,7 +321,6 @@ class AppState extends Equatable {
     final SessionMiloDetailsState? sessionMiloDetailsState,
     final ConnectivityState? connectivityState,
     final MonSuiviState? monSuiviState,
-    final CvmState? cvmState,
     final PreferredLoginModeState? preferredLoginModeState,
     final OnboardingState? onboardingState,
     final FirstLaunchOnboardingState? firstLaunchOnboardingState,
@@ -410,7 +406,6 @@ class AppState extends Equatable {
       sessionMiloDetailsState: sessionMiloDetailsState ?? this.sessionMiloDetailsState,
       connectivityState: connectivityState ?? this.connectivityState,
       monSuiviState: monSuiviState ?? this.monSuiviState,
-      cvmState: cvmState ?? this.cvmState,
       preferredLoginModeState: preferredLoginModeState ?? this.preferredLoginModeState,
       onboardingState: onboardingState ?? this.onboardingState,
       firstLaunchOnboardingState: firstLaunchOnboardingState ?? this.firstLaunchOnboardingState,
@@ -499,7 +494,6 @@ class AppState extends Equatable {
       sessionMiloDetailsState: SessionMiloDetailsNotInitializedState(),
       connectivityState: ConnectivityState.notInitialized(),
       monSuiviState: MonSuiviNotInitializedState(),
-      cvmState: CvmNotInitializedState(),
       preferredLoginModeState: PreferredLoginModeNotInitializedState(),
       onboardingState: OnboardingState(),
       firstLaunchOnboardingState: FirstLaunchOnboardingNotInitializedState(),
@@ -581,7 +575,6 @@ class AppState extends Equatable {
         sessionMiloDetailsState,
         connectivityState,
         monSuiviState,
-        cvmState,
         preferredLoginModeState,
         onboardingState,
         firstLaunchOnboardingState,

@@ -15,9 +15,6 @@ import 'package:pass_emploi_app/repositories/boulanger_campagne_repository.dart'
 import 'package:pass_emploi_app/repositories/campagne_recrutement_repository.dart';
 import 'package:pass_emploi_app/repositories/comptage_des_heures_repository.dart';
 import 'package:pass_emploi_app/repositories/configuration_application_repository.dart';
-import 'package:pass_emploi_app/repositories/cvm/cvm_alerting_repository.dart';
-import 'package:pass_emploi_app/repositories/cvm/cvm_bridge.dart';
-import 'package:pass_emploi_app/repositories/cvm/cvm_token_repository.dart';
 import 'package:pass_emploi_app/repositories/date_consultation_notification_repository.dart';
 import 'package:pass_emploi_app/repositories/date_consultation_offre_repository.dart';
 import 'package:pass_emploi_app/repositories/derniere_offre_consultee_repository.dart';
@@ -188,16 +185,6 @@ class MockRendezvousRepository extends Mock implements RendezvousRepository {}
 class MockUserActionRepository extends Mock implements UserActionRepository {}
 
 class MockEvenementEngagementRepository extends Mock implements EvenementEngagementRepository {}
-
-class MockCvmBridge extends Mock implements CvmBridge {}
-
-class MockCvmTokenRepository extends Mock implements CvmTokenRepository {}
-
-class MockCvmAlertingRepository extends Mock implements CvmAlertingRepository {
-  MockCvmAlertingRepository() {
-    when(() => traceFailure()).thenAnswer((_) async {});
-  }
-}
 
 class MockCampagneRecrutementRepository extends Mock implements CampagneRecrutementRepository {
   MockCampagneRecrutementRepository() {

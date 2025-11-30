@@ -28,9 +28,6 @@ import 'package:pass_emploi_app/repositories/contact_immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_encryption_local_storage.dart';
 import 'package:pass_emploi_app/repositories/cv_repository.dart';
-import 'package:pass_emploi_app/repositories/cvm/cvm_alerting_repository.dart';
-import 'package:pass_emploi_app/repositories/cvm/cvm_bridge.dart';
-import 'package:pass_emploi_app/repositories/cvm/cvm_token_repository.dart';
 import 'package:pass_emploi_app/repositories/date_consultation_notification_repository.dart';
 import 'package:pass_emploi_app/repositories/date_consultation_offre_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
@@ -57,6 +54,7 @@ import 'package:pass_emploi_app/repositories/in_app_notifications_repository.dar
 import 'package:pass_emploi_app/repositories/localisation_persist_repository.dart';
 import 'package:pass_emploi_app/repositories/matching_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
+import 'package:pass_emploi_app/repositories/module_feedback_repository.dart';
 import 'package:pass_emploi_app/repositories/mon_suivi_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi/offre_emploi_repository.dart';
@@ -84,7 +82,6 @@ import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/usecases/piece_jointe/piece_jointe_use_case.dart';
 import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/wrappers/connectivity_wrapper.dart';
-import 'package:pass_emploi_app/repositories/module_feedback_repository.dart';
 /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-IMPORT*/
 import 'package:redux/redux.dart';
 
@@ -156,9 +153,6 @@ class TestStoreFactory {
   ThematiqueDemarcheRepository thematiquesDemarcheRepository = DummyThematiqueDemarcheRepository();
   TopDemarcheRepository topDemarcheRepository = DummyTopDemarcheRepository();
   MonSuiviRepository monSuiviRepository = DummyMonSuiviRepository();
-  CvmBridge cvmBridge = MockCvmBridge();
-  CvmTokenRepository cvmTokenRepository = MockCvmTokenRepository();
-  CvmAlertingRepository cvmAlertingRepository = MockCvmAlertingRepository();
   CampagneRecrutementRepository campagneRecrutementRepository = MockCampagneRecrutementRepository();
   PreferredLoginModeRepository preferredLoginModeRepository = MockPreferredLoginModeRepository();
   OnboardingRepository onboardingRepository = MockOnboardingRepository();
@@ -246,9 +240,6 @@ class TestStoreFactory {
       thematiquesDemarcheRepository,
       topDemarcheRepository,
       monSuiviRepository,
-      cvmBridge,
-      cvmTokenRepository,
-      cvmAlertingRepository,
       campagneRecrutementRepository,
       preferredLoginModeRepository,
       onboardingRepository,

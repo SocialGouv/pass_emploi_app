@@ -216,7 +216,7 @@ class _TypeFiltreState extends State<_TypeFiltre> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [null, ...EvenementEmploiType.values]
-                  .map((type) => RadioGroup<EvenementEmploiType?>(
+                  .map((type) => CustomRadioGroup<EvenementEmploiType?>(
                       title: type?.label ?? Strings.evenementEmploiTypeAll,
                       value: type,
                       groupValue: _currentValue,

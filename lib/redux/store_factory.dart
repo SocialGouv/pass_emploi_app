@@ -27,7 +27,6 @@ import 'package:pass_emploi_app/features/comptage_des_heures/comptage_des_heures
 import 'package:pass_emploi_app/features/connectivity/connectivity_middleware.dart';
 import 'package:pass_emploi_app/features/contact_immersion/contact_immersion_middleware.dart';
 import 'package:pass_emploi_app/features/cv/cv_middleware.dart';
-import 'package:pass_emploi_app/features/cvm/cvm_middleware.dart';
 import 'package:pass_emploi_app/features/date_consultation_notification/date_consultation_notification_middleware.dart';
 import 'package:pass_emploi_app/features/date_consultation_offre/date_consultation_offre_middleware.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_middleware.dart';
@@ -123,9 +122,6 @@ import 'package:pass_emploi_app/repositories/contact_immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_encryption_local_storage.dart';
 import 'package:pass_emploi_app/repositories/cv_repository.dart';
-import 'package:pass_emploi_app/repositories/cvm/cvm_alerting_repository.dart';
-import 'package:pass_emploi_app/repositories/cvm/cvm_bridge.dart';
-import 'package:pass_emploi_app/repositories/cvm/cvm_token_repository.dart';
 import 'package:pass_emploi_app/repositories/date_consultation_notification_repository.dart';
 import 'package:pass_emploi_app/repositories/date_consultation_offre_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
@@ -247,9 +243,6 @@ class StoreFactory {
   final ThematiqueDemarcheRepository thematiquesDemarcheRepository;
   final TopDemarcheRepository topDemarcheRepository;
   final MonSuiviRepository monSuiviRepository;
-  final CvmBridge cvmBridge;
-  final CvmTokenRepository cvmTokenRepository;
-  final CvmAlertingRepository cvmAlertingRepository;
   final CampagneRecrutementRepository campagneRecrutementRepository;
   final PreferredLoginModeRepository preferredLoginModeRepository;
   final OnboardingRepository onboardingRepository;
@@ -335,9 +328,6 @@ class StoreFactory {
     this.thematiquesDemarcheRepository,
     this.topDemarcheRepository,
     this.monSuiviRepository,
-    this.cvmBridge,
-    this.cvmTokenRepository,
-    this.cvmAlertingRepository,
     this.campagneRecrutementRepository,
     this.preferredLoginModeRepository,
     this.onboardingRepository,
@@ -387,7 +377,7 @@ class StoreFactory {
           cryptoStorage,
         ).call,
         ChatMiddleware(chatRepository, pieceJointeUseCase).call,
-        ChatPartageMiddleware(chatRepository, cvmBridge, crashlytics).call,
+        ChatPartageMiddleware(chatRepository).call,
         ChatStatusMiddleware(chatRepository).call,
         RendezvousDetailsMiddleware(rendezvousRepository).call,
         PushNotificationRegisterTokenMiddleware(registerTokenRepository, configuration).call,
@@ -441,7 +431,6 @@ class StoreFactory {
         SessionMiloDetailsMiddleware(sessionMiloRepository).call,
         ConnectivityMiddleware(connectivityWrapper).call,
         MonSuiviMiddleware(monSuiviRepository, remoteConfigRepository).call,
-        CvmMiddleware(cvmBridge, cvmTokenRepository, cvmAlertingRepository, crashlytics).call,
         CampagneRecrutementMiddleware(campagneRecrutementRepository).call,
         PreferredLoginModeMiddleware(preferredLoginModeRepository).call,
         OnboardingMiddleware(onboardingRepository, pushNotificationManager).call,

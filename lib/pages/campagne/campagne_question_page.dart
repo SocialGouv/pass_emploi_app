@@ -123,7 +123,7 @@ class _CampagneQuestionPageState extends State<CampagneQuestionPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: options
-          .map((option) => RadioGroup<int>(
+          .map((option) => CustomRadioGroup<int>(
               title: option.libelle,
               value: option.id,
               groupValue: _answerId,

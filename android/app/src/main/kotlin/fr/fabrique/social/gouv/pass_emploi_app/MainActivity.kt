@@ -8,12 +8,5 @@ import io.flutter.plugins.GeneratedPluginRegistrant
 class MainActivity: FlutterActivity() {
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
         GeneratedPluginRegistrant.registerWith(flutterEngine)
-        val cvmRepository = CvmRepository(this, this)
-        val eventChannelHandler = EventChannelHandler(flutterEngine, cvmRepository)
-        val roomsChannelHandler = RoomsChannelHandler(flutterEngine, cvmRepository)
-        eventChannelHandler.initialize()
-        roomsChannelHandler.initialize()
-        MethodChannelHandler(flutterEngine, cvmRepository)
-
     }
 }

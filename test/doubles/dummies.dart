@@ -114,9 +114,6 @@ class DummyCrashlytics extends Crashlytics {
   void recordNonNetworkExceptionUrl(dynamic exception, [StackTrace? stack, String? failingEndpoint]) {}
 
   @override
-  void recordCvmException(dynamic exception, [StackTrace? stack]) {}
-
-  @override
   void log(String message) {}
 }
 

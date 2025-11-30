@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
-class RadioGroup<T> extends StatelessWidget {
-  const RadioGroup(
+class CustomRadioGroup<T> extends StatelessWidget {
+  const CustomRadioGroup(
       {super.key, required this.title, required this.value, required this.groupValue, required this.onChanged});
   final String title;
   final T value;

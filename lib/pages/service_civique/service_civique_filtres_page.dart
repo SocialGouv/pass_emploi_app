@@ -278,7 +278,7 @@ class _DomainListState extends State<_DomainList> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: Domaine.values
-          .map((domain) => RadioGroup<Domaine>(
+          .map((domain) => CustomRadioGroup<Domaine>(
               title: domain.titre,
               value: domain,
               groupValue: _currentValue,

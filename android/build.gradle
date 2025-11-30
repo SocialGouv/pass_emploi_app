@@ -9,10 +9,10 @@ allprojects {
 // Define Flutter properties globally for plugins
 ext {
     flutter = [
-        compileSdkVersion: 35,
+        compileSdkVersion: 36,
         minSdkVersion: 23,
-        targetSdkVersion: 35,
-        ndkVersion: '25.1.8937393'
+        targetSdkVersion: 36,
+        ndkVersion: '27.0.12077973'
     ]
 }
 

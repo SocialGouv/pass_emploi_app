@@ -89,7 +89,7 @@ class _SecteurActiviteListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-      child: RadioGroup<SecteurActivite?>(
+      child: CustomRadioGroup<SecteurActivite?>(
         title: secteurActivite?.label ?? Strings.secteurActiviteAll,
         value: secteurActivite,
         groupValue: selectedValue,

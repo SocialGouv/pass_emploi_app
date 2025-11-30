@@ -4,11 +4,6 @@ import Flutter
 @main
 @objc class AppDelegate: FlutterAppDelegate {
     
-    private var repository: CvmRepository!
-    private var eventChannel: CvmEventChannel!
-    private var roomChannel: CvmRoomChannel!
-    private var methodChannel: CvmMethodChannel!
-    
     private var eventSink: FlutterEventSink?
     private var apnsToken: String?
 
@@ -17,24 +12,10 @@ import Flutter
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
         GeneratedPluginRegistrant.register(with: self)
-        setupCvm()
         setupApnsTokenChannel()
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
     
-    private func setupCvm() {
-        let controller: FlutterViewController = window?.rootViewController as! FlutterViewController
-        
-        repository = CvmRepository()
-        
-        eventChannel = CvmEventChannel(repository: repository)
-        eventChannel.setupChannel(messenger: controller.binaryMessenger)
-        roomChannel = CvmRoomChannel(repository: repository)
-        roomChannel.setupChannel(messenger: controller.binaryMessenger)
-        
-        methodChannel = CvmMethodChannel(repository: repository, messenger: controller.binaryMessenger)
-    }
-
     private func setupApnsTokenChannel() {
         guard let controller = window?.rootViewController as? FlutterViewController else { return }
         let tokenChannel = FlutterMethodChannel(name: "apns_token_channel", binaryMessenger: controller.binaryMessenger)
